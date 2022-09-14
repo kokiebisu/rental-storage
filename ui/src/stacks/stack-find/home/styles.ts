@@ -9,6 +9,8 @@ const styles = StyleSheet.create({
   textInput: {
     fontSize: 20,
     marginBottom: 20,
+    backgroundColor: "white",
+    padding: 15,
   },
   row: {
     flexDirection: "row",

@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Text, Pressable, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DropDownPicker from "react-native-dropdown-picker";
 
 import { Secrets } from "../../../config/secrets";
 import styles from "./styles";
@@ -13,21 +14,29 @@ export const FindHomeScreen = () => {
   const navigation = useNavigation();
   const [viewport, setViewport] = useState(null);
 
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Suitcase", value: "suitcase" },
+    { label: "Bag", value: "bag" },
+  ]);
+
   const onPressSearch = () => {
     navigation.navigate("Map", {
-      viewport,
+      payload: {
+        viewport,
+        category: value,
+      },
     });
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flexGrow: 1 }}>
-        <View>
+        <View style={{ paddingHorizontal: 10 }}>
           <GooglePlacesAutocomplete
-            placeholder="Find loacation"
+            placeholder="Find location"
             onPress={(data, details = null) => {
-              console.log(data, details);
-
               setViewport(details.geometry.viewport);
             }}
             fetchDetails
@@ -43,8 +52,18 @@ export const FindHomeScreen = () => {
             renderRow={(item) => <SuggestionRow item={item} />}
           />
         </View>
-        <View style={{ backgroundColor: "red" }}></View>
+        <View style={{ paddingHorizontal: 10 }}>
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            setValue={setValue}
+            setItems={setItems}
+          />
+        </View>
       </View>
+
       <View style={{ padding: 10 }}>
         <Pressable
           style={{ padding: 10, backgroundColor: "black" }}
