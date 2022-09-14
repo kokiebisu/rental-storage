@@ -31,7 +31,7 @@ export const FindHomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: 10, paddingTop: 30 }}>
       <View style={{ flexGrow: 1 }}>
         <View style={{ paddingHorizontal: 10 }}>
           <GooglePlacesAutocomplete
@@ -66,10 +66,19 @@ export const FindHomeScreen = () => {
 
       <View style={{ padding: 10 }}>
         <Pressable
-          style={{ padding: 10, backgroundColor: "black" }}
+          style={{ padding: 16, backgroundColor: "black" }}
           onPress={onPressSearch}
         >
-          <Text style={{ color: "white", textAlign: "center" }}>Search</Text>
+          <Text
+            style={{
+              color: "white",
+              textAlign: "center",
+              fontWeight: "bold",
+              fontSize: 20,
+            }}
+          >
+            Search
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>

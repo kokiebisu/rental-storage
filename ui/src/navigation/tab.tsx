@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { tabsConfig } from "../config";
-import { FindStackScreen, MyStorageStackScreen } from "../stacks";
+import { FindStackScreen, PostStackScreen } from "../stacks";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,9 +19,9 @@ export const MyTabs = () => {
         component={FindStackScreen}
       />
       <Tab.Screen
-        options={generateTabConfig("Storage")}
-        name="MyStorageStack"
-        component={MyStorageStackScreen}
+        options={generateTabConfig("Post")}
+        name="PostStock"
+        component={PostStackScreen}
       />
     </Tab.Navigator>
   );
