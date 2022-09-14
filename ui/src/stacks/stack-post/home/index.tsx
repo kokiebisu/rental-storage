@@ -22,6 +22,19 @@ export const PostHomeScreen = () => {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [latLng, setLatLng] = useState(null);
+
+  const postListing = () => {
+    alert(
+      JSON.stringify({
+        image,
+        title,
+        price,
+        latLng,
+      })
+    );
+    alert("Thank you for posting!");
+  };
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -74,6 +87,7 @@ export const PostHomeScreen = () => {
           onChangeText={(e) => setTitle(e)}
           value={title}
           placeholder="Clean garage"
+          autoFocus
         />
       </View>
       <View style={{ marginTop: 20 }}>
@@ -82,6 +96,9 @@ export const PostHomeScreen = () => {
           <GooglePlacesAutocomplete
             placeholder="Find location"
             fetchDetails
+            onPress={(data, details = null) => {
+              setLatLng(details.geometry.viewport);
+            }}
             query={{
               key: Secrets.GOOGLE_PLACES_API_KEY,
               language: "en",
@@ -96,6 +113,7 @@ export const PostHomeScreen = () => {
         <Text>Price</Text>
         <View style={{ marginTop: 5 }}>
           <TextInput
+            autoFocus
             style={{ backgroundColor: "white", padding: 10, marginTop: 5 }}
             onChangeText={(e) => setPrice(e)}
             value={price}
@@ -105,6 +123,7 @@ export const PostHomeScreen = () => {
       </View>
       <View style={{ marginTop: 20 }}>
         <Pressable
+          onPress={postListing}
           style={{ backgroundColor: "black", width: "100%", padding: 16 }}
         >
           <Text
