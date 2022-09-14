@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import styles from "./styles";
 
-const Post = ({ item }) => {
+const Post = ({ item, category }) => {
   const width = useWindowDimensions().width;
 
   const openEmailComposer = async () => {
     await Linking.openURL(
-      `mailto:${item.emailAddress}?subject=RentStorage&body=I want to book your place!`
+      `mailto:${item.emailAddress}?subject=RentStorage&body=I want to store my ${category} at your place!`
     );
   };
 

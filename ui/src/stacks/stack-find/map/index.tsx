@@ -20,6 +20,7 @@ const places = [
     longitude: -16.4,
     price: 25,
     emailAddress: "host1@gmail.com",
+    available: "suitcase",
   },
   {
     id: "asdfsdavsd",
@@ -28,6 +29,7 @@ const places = [
     longitude: -16.5124847,
     price: 35,
     emailAddress: "host2@gmail.com",
+    available: "bag",
   },
   {
     id: "hhetrhe",
@@ -36,6 +38,7 @@ const places = [
     longitude: -16.5124847,
     price: 50,
     emailAddress: "host3@gmail.com",
+    available: "suitcase",
   },
 ];
 
@@ -92,6 +95,48 @@ export const FindMapScreen = () => {
 
   return (
     <View style={{ width: "100%", height: "100%" }}>
+      <Pressable
+        style={{
+          position: "absolute",
+          top: 50,
+          width: "100%",
+          paddingHorizontal: 10,
+          paddingVertical: 5,
+          zIndex: 5,
+        }}
+        onPress={() => navigation.goBack()}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            paddingHorizontal: 10,
+          }}
+        >
+          <View
+            style={{
+              marginRight: 20,
+              padding: 10,
+              borderRadius: 5,
+              backgroundColor: "white",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Back</Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: "white",
+              flexGrow: 1,
+              flexDirection: "row",
+              borderRadius: 5,
+              padding: 10,
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+              {payload.category}
+            </Text>
+          </View>
+        </View>
+      </Pressable>
       <MapView
         ref={mapViewRef}
         style={{ width: "100%", height: "100%", zIndex: 1 }}
@@ -105,60 +150,20 @@ export const FindMapScreen = () => {
         }}
         provider={PROVIDER_GOOGLE}
       >
-        <Pressable
-          style={{
-            position: "absolute",
-            top: 50,
-            width: "100%",
-            paddingHorizontal: 10,
-            paddingVertical: 5,
-          }}
-          onPress={() => navigation.goBack()}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              paddingHorizontal: 10,
-            }}
-          >
-            <View
-              style={{
-                marginRight: 20,
-                padding: 10,
-                borderRadius: 5,
-                backgroundColor: "white",
+        {places
+          .filter((place) => place.available == payload.category)
+          .map((place, index) => (
+            <CustomMarker
+              onPress={() => {
+                setSelectedPlace(place);
               }}
-            >
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Back</Text>
-            </View>
-            <View
-              style={{
-                backgroundColor: "white",
-                flexGrow: 1,
-                flexDirection: "row",
-                borderRadius: 5,
-                padding: 10,
-              }}
-            >
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                Small Item
-              </Text>
-            </View>
-          </View>
-        </Pressable>
-
-        {places.map((place, index) => (
-          <CustomMarker
-            onPress={() => {
-              setSelectedPlace(place);
-            }}
-            key={index}
-            isSelected={selectedPlace && place.id === selectedPlace.id}
-            latitude={place.latitude}
-            longitude={place.longitude}
-            price={place.price}
-          />
-        ))}
+              key={index}
+              isSelected={selectedPlace && place.id === selectedPlace.id}
+              latitude={place.latitude}
+              longitude={place.longitude}
+              price={place.price}
+            />
+          ))}
       </MapView>
       <View
         style={{
@@ -177,7 +182,9 @@ export const FindMapScreen = () => {
           snapToInterval={useWindowDimensions().width - 30}
           snapToAlignment={"center"}
           decelerationRate={"fast"}
-          renderItem={({ item }) => <Post item={item} />}
+          renderItem={({ item }) => (
+            <Post item={item} category={payload.category} />
+          )}
           ListFooterComponent={() => (
             <View
               style={{ width: 15, height: 50, backgroundColor: "transparent" }}
