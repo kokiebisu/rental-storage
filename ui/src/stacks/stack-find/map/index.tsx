@@ -1,8 +1,15 @@
-import { useRoute } from "@react-navigation/native";
 import * as React from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useRef, useState } from "react";
-import { FlatList, Text, useWindowDimensions, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+
 import Post from "../card-carousel";
 
 const places = [
@@ -59,6 +66,7 @@ export const FindMapScreen = () => {
   const mapViewRef = useRef();
   const flatListRef = useRef();
   const route = useRoute();
+  const navigation = useNavigation();
 
   const {
     params: { payload },
@@ -86,7 +94,7 @@ export const FindMapScreen = () => {
     <View style={{ width: "100%", height: "100%" }}>
       <MapView
         ref={mapViewRef}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", height: "100%", zIndex: 1 }}
         initialRegion={{
           // latitude: payload.latLng.lat,
           // longitude: payload.latLng.lng,
@@ -97,6 +105,27 @@ export const FindMapScreen = () => {
         }}
         provider={PROVIDER_GOOGLE}
       >
+        <Pressable
+          style={{
+            position: "absolute",
+            top: 50,
+            left: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+          }}
+          onPress={() => navigation.goBack()}
+        >
+          <View
+            style={{
+              padding: 10,
+              borderRadius: 5,
+              backgroundColor: "white",
+            }}
+          >
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Back</Text>
+          </View>
+        </Pressable>
+
         {places.map((place, index) => (
           <CustomMarker
             onPress={() => {
@@ -113,6 +142,7 @@ export const FindMapScreen = () => {
       <View
         style={{
           position: "absolute",
+          zIndex: 5,
           bottom: 10,
           left: 0,
           right: 0,
