@@ -22,9 +22,9 @@ export const FindHomeScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flexGrow: 1 }}>
-        <View>
+        <View style={{ padding: 10 }}>
           <GooglePlacesAutocomplete
-            placeholder="Find loacation"
+            placeholder="Find location"
             onPress={(data, details = null) => {
               console.log(data, details);
 
