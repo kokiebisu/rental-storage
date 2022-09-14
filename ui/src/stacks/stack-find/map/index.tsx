@@ -109,7 +109,7 @@ export const FindMapScreen = () => {
           style={{
             position: "absolute",
             top: 50,
-            left: 10,
+            width: "100%",
             paddingHorizontal: 10,
             paddingVertical: 5,
           }}
@@ -117,12 +117,33 @@ export const FindMapScreen = () => {
         >
           <View
             style={{
-              padding: 10,
-              borderRadius: 5,
-              backgroundColor: "white",
+              flexDirection: "row",
+              paddingHorizontal: 10,
             }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Back</Text>
+            <View
+              style={{
+                marginRight: 20,
+                padding: 10,
+                borderRadius: 5,
+                backgroundColor: "white",
+              }}
+            >
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Back</Text>
+            </View>
+            <View
+              style={{
+                backgroundColor: "white",
+                flexGrow: 1,
+                flexDirection: "row",
+                borderRadius: 5,
+                padding: 10,
+              }}
+            >
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                Small Item
+              </Text>
+            </View>
           </View>
         </Pressable>
 
