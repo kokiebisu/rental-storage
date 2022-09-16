@@ -9,23 +9,32 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@apollo/client": "3.6.9",
+    "@react-native-async-storage/async-storage": "1.17.10",
+    "@react-native-community/netinfo": "9.3.0",
     "@react-navigation/bottom-tabs": "6.3.3",
     "@react-navigation/native": "6.0.12",
     "@react-navigation/native-stack": "6.8.0",
     "@types/react": "~18.0.0",
     "@types/react-native": "~0.69.1",
+    "aws-appsync": "4.1.7",
+    "aws-appsync-auth-link": "3.0.7",
+    "aws-appsync-react": "4.0.13",
+    "aws-appsync-subscription-link": "3.1.0",
     "axios": "0.27.2",
     "expo": "~46.0.9",
+    "expo-image-picker": "~13.3.1",
     "expo-status-bar": "~1.4.0",
+    "graphql-tag": "2.12.6",
     "react": "18.0.0",
+    "react-apollo": "3.1.5",
     "react-native": "0.69.5",
     "react-native-dropdown-picker": "5.4.2",
     "react-native-google-places-autocomplete": "2.4.1",
     "react-native-maps": "0.31.1",
     "react-native-safe-area-context": "4.3.1",
     "react-native-screens": "~3.15.0",
-    "typescript": "^4.6.3",
-    "expo-image-picker": "~13.3.1"
+    "typescript": "^4.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
