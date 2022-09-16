@@ -6,9 +6,11 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { Secrets } from "../../../config/secrets";
+import { googleConfig } from "../../../env";
 import styles from "./styles";
 import { SuggestionRow } from "./suggestion-row";
+import { GET_TODOS } from "../../../graphql/all-todo";
+import { useQuery } from "@apollo/client";
 
 export const FindHomeScreen = () => {
   const navigation = useNavigation();
@@ -20,6 +22,14 @@ export const FindHomeScreen = () => {
     { label: "Suitcase", value: "suitcase" },
     { label: "Bag", value: "bag" },
   ]);
+
+  const {
+    loading: listLoading,
+    data: listData,
+    error: listError,
+  } = useQuery(GET_TODOS);
+
+  console.log("DATA: ");
 
   const onPressSearch = () => {
     navigation.navigate("Map", {
@@ -44,7 +54,7 @@ export const FindHomeScreen = () => {
               textInput: styles.textInput,
             }}
             query={{
-              key: Secrets.GOOGLE_PLACES_API_KEY,
+              key: googleConfig.API_KEY,
               language: "en",
               types: "(cities)",
             }}
@@ -62,6 +72,15 @@ export const FindHomeScreen = () => {
             setItems={setItems}
           />
         </View>
+      </View>
+      <View>
+        {listData.getTodos.map((item) => {
+          return (
+            <View>
+              <Text>{item.description}</Text>
+            </View>
+          );
+        })}
       </View>
 
       <View style={{ padding: 10 }}>

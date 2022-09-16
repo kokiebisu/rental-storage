@@ -13,7 +13,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 
-import { Secrets } from "../../../config/secrets";
+import { googleConfig } from "../../../env/google";
 import { SuggestionRow } from "../../stack-find/home/suggestion-row";
 
 import "./styles";
@@ -100,7 +100,7 @@ export const PostHomeScreen = () => {
               setLatLng(details.geometry.viewport);
             }}
             query={{
-              key: Secrets.GOOGLE_PLACES_API_KEY,
+              key: googleConfig.API_KEY,
               language: "en",
               types: "address",
             }}
