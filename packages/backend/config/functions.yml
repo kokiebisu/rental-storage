@@ -1,35 +1,35 @@
 getTodos:
-  handler: functions/getTodos.handler
+  handler: dist/todo/getTodos.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
 
 createTodo:
-  handler: functions/createTodo.handler
+  handler: dist/todo/createTodo.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
 
 updateTodo:
-  handler: functions/updateTodo.handler
+  handler: dist/todo/updateTodo.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
 
 deleteTodo:
-  handler: functions/deleteTodo.handler
+  handler: dist/todo/deleteTodo.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
 
 getUser:
-  handler: functions/getUser.handler
+  handler: dist/user/getUser.handler
   environment:
-    MYSQL_HOST: rental-storage-dev-aurorardscluster-yol3zzosiggj.cluster-clpv3k28jr2b.us-east-1.rds.amazonaws.com
-    DB_NAME: users
-    USERNAME: master
-    PASSWORD: password
+    MYSQL_HOST: ${custom.AURORA.HOST}
+    DB_NAME: ${custom.DB_NAME}
+    USERNAME: ${custom.USERNAME}
+    PASSWORD: ${custom.PASSWORD}
 
 createUser:
-  handler: functions/createUser.handler
+  handler: dist/user/createUser.handler
   environment:
-    MYSQL_HOST: rental-storage-dev-aurorardscluster-yol3zzosiggj.cluster-clpv3k28jr2b.us-east-1.rds.amazonaws.com
-    DB_NAME: users
-    USERNAME: master
-    PASSWORD: password
+    MYSQL_HOST: ${custom.AURORA_HOST}
+    DB_NAME: ${custom.DB_NAME}
+    USERNAME: ${custom.USERNAME}
+    PASSWORD: ${custom.PASSWORD}

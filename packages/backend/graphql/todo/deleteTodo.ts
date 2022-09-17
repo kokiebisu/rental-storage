@@ -1,7 +1,8 @@
-const AWS = require("aws-sdk");
+// const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
 const dynamodb = new AWS.DynamoDB();
 
-module.exports.handler = async (event) => {
+export const handler = async (event: any) => {
   const id = event.arguments.id;
 
   const params = {
@@ -14,7 +15,7 @@ module.exports.handler = async (event) => {
   };
 
   return dynamodb
-    .deleteItem(params)
+    .deleteItem(params as any)
     .promise()
     .then((data) => {
       return {

@@ -1,6 +1,6 @@
 const Client = require("serverless-mysql");
 
-exports.handler = async (event) => {
+export const handler = async (event: any) => {
   const uuid = event.arguments.uuid;
   var client = Client({
     config: {
@@ -16,7 +16,7 @@ exports.handler = async (event) => {
   return resp;
 };
 
-const init = async (client) => {
+const init = async (client: any) => {
   await client.query(`
       CREATE TABLE IF NOT EXISTS users
       (
@@ -40,8 +40,8 @@ const init = async (client) => {
       `);
 };
 
-const fetchUser = async (client, uuid) => {
-  var user = {};
+const fetchUser = async (client: any, uuid: any) => {
+  var user: any = {};
   var userFromDb = await client.query(
     `
           select id, uuid, name from users where uuid = ? 
@@ -62,7 +62,7 @@ const fetchUser = async (client, uuid) => {
   user.Name = userFromDb[0].name;
 
   if (postsFromDb.length > 0) {
-    user.Posts = postsFromDb.map(function (x) {
+    user.Posts = postsFromDb.map(function (x: any) {
       return { UUID: x.uuid, Text: x.text };
     });
   }
