@@ -14,17 +14,17 @@ exports.handler = async (event) => {
   });
   await init(client);
   var userUUID = uuidv4();
-  let user = await client.query("INSERT INTO users (uuid, name) VALUES(?,?)", [
+  await client.query("INSERT INTO users (uuid, name) VALUES(?,?)", [
     userUUID,
     name,
   ]);
-  for (let index = 0; index < obj.input.Posts.length; index++) {
-    const element = obj.input.Posts[index];
-    await client.query(
-      "INSERT INTO posts (uuid, text, user_id) VALUES(?, ?, ?)",
-      [uuidv4(), element.Text, user.insertId]
-    );
-  }
+  // for (let index = 0; index < obj.input.Posts.length; index++) {
+  //   const element = obj.input.Posts[index];
+  //   await client.query(
+  //     "INSERT INTO posts (uuid, text, user_id) VALUES(?, ?, ?)",
+  //     [uuidv4(), element.Text, user.insertId]
+  //   );
+  // }
   var resp = await fetchUser(client, userUUID);
   client.quit();
   return resp;
