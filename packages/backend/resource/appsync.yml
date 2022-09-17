@@ -1,6 +1,0 @@
-name: rental-storage-appsync
-authenticationType: API_KEY
-mappingTemplates:
-  - ${file(./resource/mapping-templates.yml)}
-dataSources:
-  - ${file(./resource/data-sources.yml)}

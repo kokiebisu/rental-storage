@@ -1,7 +1,9 @@
 const uuidv4 = require("uuid/v4");
 const Client = require("serverless-mysql");
 
-exports.handler = async (_, obj) => {
+exports.handler = async (event) => {
+  console.log("EVENT: ", event);
+  const { name } = event.arguments;
   var client = Client({
     config: {
       host: process.env.MYSQL_HOST,
@@ -14,7 +16,7 @@ exports.handler = async (_, obj) => {
   var userUUID = uuidv4();
   let user = await client.query("INSERT INTO users (uuid, name) VALUES(?,?)", [
     userUUID,
-    obj.input.Name,
+    name,
   ]);
   for (let index = 0; index < obj.input.Posts.length; index++) {
     const element = obj.input.Posts[index];

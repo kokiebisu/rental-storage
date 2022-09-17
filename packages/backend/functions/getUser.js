@@ -1,6 +1,7 @@
 const Client = require("serverless-mysql");
 
-exports.handler = async (_, { uuid }) => {
+exports.handler = async (event) => {
+  const uuid = event.arguments.uuid;
   var client = Client({
     config: {
       host: process.env.MYSQL_HOST,

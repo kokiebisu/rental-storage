@@ -20,6 +20,16 @@ deleteTodo:
 
 getUser:
   handler: functions/getUser.handler
+  environment:
+    MYSQL_HOST: rental-storage-dev-aurorardscluster-yol3zzosiggj.cluster-clpv3k28jr2b.us-east-1.rds.amazonaws.com
+    DB_NAME: users
+    USERNAME: master
+    PASSWORD: password
 
 createUser:
   handler: functions/createUser.handler
+  environment:
+    MYSQL_HOST: rental-storage-dev-aurorardscluster-yol3zzosiggj.cluster-clpv3k28jr2b.us-east-1.rds.amazonaws.com
+    DB_NAME: users
+    USERNAME: master
+    PASSWORD: password

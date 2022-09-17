@@ -2,45 +2,15 @@ service: rental-storage
 frameworkVersion: "3"
 
 plugins:
+  - serverless-plugin-common-excludes # this should go before serverless-plugin-include-dependencies
+  - serverless-plugin-include-dependencies
   - serverless-appsync-plugin
   - serverless-pseudo-parameters
 
-provider: ${file(./resource/provider.yml)}
+provider: ${file(./config/provider.yml)}
 
-custom:
-  TODO_TABLE: todo-table
-  appSync: ${file(./resource/appsync.yml)}
-  DB_NAME: users
-  USERNAME: master
-  PASSWORD: password
-  AURORA:
-    HOST:
-      Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
-    PORT:
-      Fn::GetAtt: [AuroraRDSCluster, Endpoint.Port]
-    VPC_CIDR: 10
+custom: ${file(./config/custom.yml)}
 
-functions: ${file(./resource/functions.yml)}
+functions: ${file(./config/functions.yml)}
 
-resources:
-  Resources:
-    IAMRole: ${file(./resource/iam-role.yml)}
-    TodoTable: ${file(./resource/dynamodb-table.yml)}
-    ServerlessInternetGateway: ${file(./resource/ServerlessInternetGateway.yml)}
-    ServerlessVPC: ${file(./resource/ServerlessVPC.yml)}
-    ServerlessVPCGA: ${file(./resource/ServerlessVPCGA.yml)}
-    ServerlessSubnetA: ${file(./resource/ServerlessSubnetA.yml)}
-    ServerlessSubnetB: ${file(./resource/ServerlessSubnetB.yml)}
-    ServerlessSubnetC: ${file(./resource/ServerlessSubnetC.yml)}
-    ServerlessSubnetGroup: ${file(./resource/ServerlessSubnetGroup.yml)}
-    ServerlessSecurityGroup: ${file(./resource/ServerlessSecurityGroup.yml)}
-    RouteTablePublic: ${file(./resource/RouteTablePublic.yml)}
-    RoutePublic: ${file(./resource/RoutePublic.yml)}
-    RouteTableAssociationSubnetA: ${file(./resource/RouteTableAssociationSubnetA.yml)}
-    RouteTableAssociationSubnetB: ${file(./resource/RouteTableAssociationSubnetB.yml)}
-    RouteTableAssociationSubnetC: ${file(./resource/RouteTableAssociationSubnetC.yml)}
-
-    AuroraRDSClusterParameter: ${file(./resource/AuroraRDSClusterParameter.yml)}
-    AuroraRDSInstanceParameter: ${file(./resource/AuroraRDSInstanceParameter.yml)}
-    AuroraRDSCluster: ${file(./resource/AuroraRDSCluster.yml)}
-    AuroraRDSInstance: ${file(./resource/AuroraRDSInstance.yml)}
+resources: ${file(./config/resources/entry.yml)}

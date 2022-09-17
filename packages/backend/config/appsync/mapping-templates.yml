@@ -18,7 +18,6 @@
   dataSource: getTodosFunction
   request: false
   response: false
-
 - type: Query
   field: getUser
   dataSource: getUserFunction

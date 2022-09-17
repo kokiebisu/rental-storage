@@ -19,11 +19,11 @@
     functionName: getTodos
 
 - type: AWS_LAMBDA
-  name: getUser
+  name: getUserFunction
   config:
     functionName: getUser
 
 - type: AWS_LAMBDA
-  name: createUser
+  name: createUserFunction
   config:
     functionName: createUser
