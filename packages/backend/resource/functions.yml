@@ -1,0 +1,25 @@
+getTodos:
+  handler: functions/getTodos.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable
+
+createTodo:
+  handler: functions/createTodo.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable
+
+updateTodo:
+  handler: functions/updateTodo.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable
+
+deleteTodo:
+  handler: functions/deleteTodo.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable
+
+getUser:
+  handler: functions/getUser.handler
+
+createUser:
+  handler: functions/createUser.handler

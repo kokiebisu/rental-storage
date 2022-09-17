@@ -5,84 +5,42 @@ plugins:
   - serverless-appsync-plugin
   - serverless-pseudo-parameters
 
-provider:
-  name: aws
-  runtime: nodejs14.x
-  stage: dev
-  region: us-east-1
-  lambdaHashingVersion: 20201221
-  iam:
-    role:
-      statements:
-        - Effect: "Allow"
-          Action:
-            - "dynamodb:PutItem"
-            - "dynamodb:UpdateItem"
-            - "dynamodb:DeleteItem"
-            - "dynamodb:GetItem"
-            - "dynamodb:Scan"
-          Resource: "arn:aws:dynamodb:#{AWS::Region}:*:table/${self:custom.TODO_TABLE}"
+provider: ${file(./resource/provider.yml)}
 
 custom:
   TODO_TABLE: todo-table
+  appSync: ${file(./resource/appsync.yml)}
+  DB_NAME: users
+  USERNAME: master
+  PASSWORD: password
+  AURORA:
+    HOST:
+      Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
+    PORT:
+      Fn::GetAtt: [AuroraRDSCluster, Endpoint.Port]
+    VPC_CIDR: 10
 
-  appSync:
-    name: rental-storage-appsync
-    authenticationType: API_KEY
-    mappingTemplates:
-      - ${file(mapping-templates.yml)}
-    dataSources:
-      - type: AWS_LAMBDA
-        name: createTodoFunction
-        config:
-          functionName: createTodo
-
-      - type: AWS_LAMBDA
-        name: updateTodoFunction
-        config:
-          functionName: updateTodo
-
-      - type: AWS_LAMBDA
-        name: deleteTodoFunction
-        config:
-          functionName: deleteTodo
-
-      - type: AWS_LAMBDA
-        name: getTodosFunction
-        config:
-          functionName: getTodos
-
-functions:
-  getTodos:
-    handler: functions/getTodos.handler
-    environment:
-      TODO_TABLE_NAME: !Ref TodoTable
-
-  createTodo:
-    handler: functions/createTodo.handler
-    environment:
-      TODO_TABLE_NAME: !Ref TodoTable
-
-  updateTodo:
-    handler: functions/updateTodo.handler
-    environment:
-      TODO_TABLE_NAME: !Ref TodoTable
-
-  deleteTodo:
-    handler: functions/deleteTodo.handler
-    environment:
-      TODO_TABLE_NAME: !Ref TodoTable
+functions: ${file(./resource/functions.yml)}
 
 resources:
   Resources:
-    TodoTable:
-      Type: "AWS::DynamoDB::Table"
-      Properties:
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.TODO_TABLE}
+    IAMRole: ${file(./resource/iam-role.yml)}
+    TodoTable: ${file(./resource/dynamodb-table.yml)}
+    ServerlessInternetGateway: ${file(./resource/ServerlessInternetGateway.yml)}
+    ServerlessVPC: ${file(./resource/ServerlessVPC.yml)}
+    ServerlessVPCGA: ${file(./resource/ServerlessVPCGA.yml)}
+    ServerlessSubnetA: ${file(./resource/ServerlessSubnetA.yml)}
+    ServerlessSubnetB: ${file(./resource/ServerlessSubnetB.yml)}
+    ServerlessSubnetC: ${file(./resource/ServerlessSubnetC.yml)}
+    ServerlessSubnetGroup: ${file(./resource/ServerlessSubnetGroup.yml)}
+    ServerlessSecurityGroup: ${file(./resource/ServerlessSecurityGroup.yml)}
+    RouteTablePublic: ${file(./resource/RouteTablePublic.yml)}
+    RoutePublic: ${file(./resource/RoutePublic.yml)}
+    RouteTableAssociationSubnetA: ${file(./resource/RouteTableAssociationSubnetA.yml)}
+    RouteTableAssociationSubnetB: ${file(./resource/RouteTableAssociationSubnetB.yml)}
+    RouteTableAssociationSubnetC: ${file(./resource/RouteTableAssociationSubnetC.yml)}
+
+    AuroraRDSClusterParameter: ${file(./resource/AuroraRDSClusterParameter.yml)}
+    AuroraRDSInstanceParameter: ${file(./resource/AuroraRDSInstanceParameter.yml)}
+    AuroraRDSCluster: ${file(./resource/AuroraRDSCluster.yml)}
+    AuroraRDSInstance: ${file(./resource/AuroraRDSInstance.yml)}

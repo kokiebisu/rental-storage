@@ -3,5 +3,9 @@
   "dependencies": {
     "serverless-appsync-plugin": "1.14.0",
     "serverless-pseudo-parameters": "2.6.1"
+  },
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove"
   }
 }

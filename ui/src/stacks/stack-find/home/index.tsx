@@ -29,8 +29,6 @@ export const FindHomeScreen = () => {
     error: listError,
   } = useQuery(GET_TODOS);
 
-  console.log("DATA: ");
-
   const onPressSearch = () => {
     navigation.navigate("Map", {
       payload: {
