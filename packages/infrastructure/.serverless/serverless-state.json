@@ -1,8 +1,8 @@
 {
   "service": {
-    "service": "rental-storage",
+    "service": "rental-storage-infrastructure",
     "serviceObject": {
-      "name": "rental-storage"
+      "name": "rental-storage-infrastructure"
     },
     "provider": {
       "name": "aws",
@@ -374,7 +374,7 @@
                 ]
               },
               "Description": "Auto-generated api key",
-              "Expires": 1695002400
+              "Expires": 1695049200
             }
           },
           "GraphQlSchema": {
@@ -396,7 +396,7 @@
               "Ref": "ServerlessDeploymentBucket"
             },
             "Export": {
-              "Name": "sls-rental-storage-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-rental-storage-infrastructure-dev-ServerlessDeploymentBucketName"
             }
           },
           "GraphQlApiKeyDefault": {
@@ -823,7 +823,7 @@
     "configValidationMode": "warn",
     "serviceFilename": "serverless.yml",
     "initialServerlessConfig": {
-      "service": "rental-storage",
+      "service": "rental-storage-infrastructure",
       "frameworkVersion": "3",
       "plugins": {
         "$ref": "$[\"service\"][\"plugins\"]"
@@ -842,7 +842,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/rental-storage/dev/1663468900047-2022-09-18T02:41:40.047Z",
+    "artifactDirectoryName": "serverless/rental-storage-infrastructure/dev/1663514506723-2022-09-18T15:21:46.723Z",
     "artifact": ""
   }
 }

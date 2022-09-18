@@ -1,6 +1,5 @@
 appSync:
-  name: rental-storage-appsync
-  authenticationType: API_KEY
+  apiId: ${env:APPSYNC_API_ID}
   mappingTemplates: ${file(./config/appsync/mapping-templates.yml)}
   dataSources: ${file(./config/appsync/data-sources.yml)}
 AURORA_HOST: ${env:AURORA_HOST}

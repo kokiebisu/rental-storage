@@ -1,15 +1,15 @@
-getUser:
-  handler: dist/getUser.handler
+getUserById:
+  handler: dist/graphql/query.getUserById
   environment:
-    MYSQL_HOST: ${custom.AURORA.HOST}
-    DB_NAME: ${custom.DB_NAME}
-    USERNAME: ${custom.USERNAME}
-    PASSWORD: ${custom.PASSWORD}
+    MYSQL_HOST: ${env:AURORA_HOST}
+    DB_NAME: ${env:DB_NAME}
+    USERNAME: ${env:USERNAME}
+    PASSWORD: ${env:PASSWORD}
 
-createUser:
-  handler: dist/createUser.handler
+registerGuest:
+  handler: dist/graphql/mutation.registerGuest
   environment:
-    MYSQL_HOST: ${custom.AURORA_HOST}
-    DB_NAME: ${custom.DB_NAME}
-    USERNAME: ${custom.USERNAME}
-    PASSWORD: ${custom.PASSWORD}
+    MYSQL_HOST: ${env:AURORA_HOST}
+    DB_NAME: ${env:DB_NAME}
+    USERNAME: ${env:USERNAME}
+    PASSWORD: ${env:PASSWORD}

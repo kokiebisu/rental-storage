@@ -358,7 +358,7 @@
           ]
         },
         "Description": "Auto-generated api key",
-        "Expires": 1695002400
+        "Expires": 1695049200
       }
     },
     "GraphQlSchema": {
@@ -380,7 +380,7 @@
         "Ref": "ServerlessDeploymentBucket"
       },
       "Export": {
-        "Name": "sls-rental-storage-dev-ServerlessDeploymentBucketName"
+        "Name": "sls-rental-storage-infrastructure-dev-ServerlessDeploymentBucketName"
       }
     },
     "GraphQlApiKeyDefault": {

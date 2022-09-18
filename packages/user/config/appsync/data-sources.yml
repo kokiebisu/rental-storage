@@ -1,9 +1,11 @@
+# Query
 - type: AWS_LAMBDA
-  name: getUserFunction
+  name: getUserByIdFunction
   config:
-    functionName: getUser
+    functionName: getUserById
 
+# Mutation
 - type: AWS_LAMBDA
-  name: createUserFunction
+  name: registerGuestFunction
   config:
-    functionName: createUser
+    functionName: registerGuest

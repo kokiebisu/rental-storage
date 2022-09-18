@@ -1,6 +1,6 @@
-USER_DB_DB_NAME: users
-USER_DB_USERNAME: master
-USER_DB_PASSWORD: password
+USER_DB_DB_NAME: ${env:USER_DB_DB_NAME}
+USER_DB_USERNAME: ${env:USER_DB_USERNAME}
+USER_DB_PASSWORD: ${env:USER_DB_PASSWORD}
 USER_DB_AURORA:
   HOST:
     Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]

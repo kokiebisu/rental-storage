@@ -1,4 +1,4 @@
-service: rental-storage
+service: rental-storage-infrastructure
 frameworkVersion: "3"
 
 plugins:
