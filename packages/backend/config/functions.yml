@@ -1,35 +1,19 @@
 getTodos:
-  handler: dist/todo/getTodos.handler
+  handler: dist/getTodos.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
 
 createTodo:
-  handler: dist/todo/createTodo.handler
+  handler: dist/createTodo.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
 
 updateTodo:
-  handler: dist/todo/updateTodo.handler
+  handler: dist/updateTodo.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
 
 deleteTodo:
-  handler: dist/todo/deleteTodo.handler
+  handler: dist/deleteTodo.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
-
-getUser:
-  handler: dist/user/getUser.handler
-  environment:
-    MYSQL_HOST: ${custom.AURORA.HOST}
-    DB_NAME: ${custom.DB_NAME}
-    USERNAME: ${custom.USERNAME}
-    PASSWORD: ${custom.PASSWORD}
-
-createUser:
-  handler: dist/user/createUser.handler
-  environment:
-    MYSQL_HOST: ${custom.AURORA_HOST}
-    DB_NAME: ${custom.DB_NAME}
-    USERNAME: ${custom.USERNAME}
-    PASSWORD: ${custom.PASSWORD}

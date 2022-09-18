@@ -1,0 +1,15 @@
+getUser:
+  handler: dist/getUser.handler
+  environment:
+    MYSQL_HOST: ${custom.AURORA.HOST}
+    DB_NAME: ${custom.DB_NAME}
+    USERNAME: ${custom.USERNAME}
+    PASSWORD: ${custom.PASSWORD}
+
+createUser:
+  handler: dist/createUser.handler
+  environment:
+    MYSQL_HOST: ${custom.AURORA_HOST}
+    DB_NAME: ${custom.DB_NAME}
+    USERNAME: ${custom.USERNAME}
+    PASSWORD: ${custom.PASSWORD}

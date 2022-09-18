@@ -1,21 +1,3 @@
 Resources:
   IAMRole: ${file(./config/resources/IAMRole.yml)}
   TodoTable: ${file(./config/resources/TodoTable.yml)}
-  ServerlessInternetGateway: ${file(./config/resources/ServerlessInternetGateway.yml)}
-  ServerlessVPC: ${file(./config/resources/ServerlessVPC.yml)}
-  ServerlessVPCGA: ${file(./config/resources/ServerlessVPCGA.yml)}
-  ServerlessSubnetA: ${file(./config/resources/ServerlessSubnetA.yml)}
-  ServerlessSubnetB: ${file(./config/resources/ServerlessSubnetB.yml)}
-  ServerlessSubnetC: ${file(./config/resources/ServerlessSubnetC.yml)}
-  ServerlessSubnetGroup: ${file(./config/resources/ServerlessSubnetGroup.yml)}
-  ServerlessSecurityGroup: ${file(./config/resources/ServerlessSecurityGroup.yml)}
-  RouteTablePublic: ${file(./config/resources/RouteTablePublic.yml)}
-  RoutePublic: ${file(./config/resources/RoutePublic.yml)}
-  RouteTableAssociationSubnetA: ${file(./config/resources/RouteTableAssociationSubnetA.yml)}
-  RouteTableAssociationSubnetB: ${file(./config/resources/RouteTableAssociationSubnetB.yml)}
-  RouteTableAssociationSubnetC: ${file(./config/resources/RouteTableAssociationSubnetC.yml)}
-
-  AuroraRDSClusterParameter: ${file(./config/resources/AuroraRDSClusterParameter.yml)}
-  AuroraRDSInstanceParameter: ${file(./config/resources/AuroraRDSInstanceParameter.yml)}
-  AuroraRDSCluster: ${file(./config/resources/AuroraRDSCluster.yml)}
-  AuroraRDSInstance: ${file(./config/resources/AuroraRDSInstance.yml)}

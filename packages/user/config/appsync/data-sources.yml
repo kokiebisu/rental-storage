@@ -1,0 +1,9 @@
+- type: AWS_LAMBDA
+  name: getUserFunction
+  config:
+    functionName: getUser
+
+- type: AWS_LAMBDA
+  name: createUserFunction
+  config:
+    functionName: createUser

@@ -18,13 +18,3 @@
   dataSource: getTodosFunction
   request: false
   response: false
-- type: Query
-  field: getUser
-  dataSource: getUserFunction
-  request: false
-  response: false
-- type: Mutation
-  field: createUser
-  dataSource: createUserFunction
-  request: false
-  response: false

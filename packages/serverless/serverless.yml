@@ -1,0 +1,11 @@
+service: rental-storage
+frameworkVersion: "3"
+
+plugins:
+  - serverless-appsync-plugin
+
+provider: ${file(./config/provider.yml)}
+
+custom: ${file(./config/custom.yml)}
+
+resources: ${file(./config/resources/entry.yml)}
