@@ -1,0 +1,10 @@
+{
+  "name": "infrastructure",
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove"
+  },
+  "devDependencies": {
+    "serverless-appsync-plugin": "1.14.0"
+  }
+}
