@@ -1,13 +1,10 @@
 import Client from "serverless-mysql";
 import { GuestInterface } from "../entity";
+import { GuestMapper } from "../mapper";
 import { RDSRepository } from "./rds";
 
 export class GuestRepository extends RDSRepository {
   public static async create(): Promise<GuestRepository> {
-    console.log("HOST: ", process.env.MYSQL_HOST);
-    console.log("Database: ", process.env.DB_NAME);
-    console.log("User: ", process.env.USERNAME);
-    console.log("Password: ", process.env.PASSWORD);
     var client = Client({
       config: {
         host: process.env.MYSQL_HOST,
@@ -19,6 +16,12 @@ export class GuestRepository extends RDSRepository {
     return new GuestRepository(client, "guest");
   }
 
+  public async setup(): Promise<void> {
+    await this._client.query(
+      "CREATE TABLE IF NOT EXISTS host (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', PRIMARY KEY (id))"
+    );
+  }
+
   public async save(data: GuestInterface): Promise<GuestInterface> {
     const result = await this._client.query(
       `INSERT INTO ${this.tableName} (first_name, last_name) VALUES(?,?)`,
@@ -26,5 +29,23 @@ export class GuestRepository extends RDSRepository {
     );
     console.log("SAVE RESULT: ", result);
     return result;
+  }
+
+  public async delete(id: string): Promise<GuestInterface> {
+    const result = await this._client.query(
+      `DELETE FROM ${this.tableName} WHERE id = ?`,
+      [id]
+    );
+    console.log("DELETE RESULT: ", result);
+    return result;
+  }
+
+  public async findOneById(id: string): Promise<GuestInterface> {
+    const result = await this._client.query(
+      `SELECT * FROM ${this.tableName} WHERE id = ?`,
+      [id]
+    );
+    console.log("GETBYID RESULT: ", result);
+    return GuestMapper.toDTOFromRaw(result[0]);
   }
 }

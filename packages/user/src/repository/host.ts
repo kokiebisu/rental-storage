@@ -1,5 +1,6 @@
 import Client from "serverless-mysql";
 import { HostInterface } from "../entity";
+import { HostMapper } from "../mapper";
 import { RDSRepository } from "./rds";
 
 export class HostRepository extends RDSRepository {
@@ -12,14 +13,36 @@ export class HostRepository extends RDSRepository {
         password: process.env.PASSWORD,
       },
     });
-    return new HostRepository(client, "Host");
+    return new HostRepository(client, "host");
+  }
+
+  public async setup(): Promise<void> {
+    await this._client.query(
+      "CREATE TABLE IF NOT EXISTS host (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', PRIMARY KEY (id))"
+    );
   }
 
   public async save(data: HostInterface): Promise<HostInterface> {
     const result = await this._client.query(
-      "INSERT INTO users (firstName, lastName) VALUES(?,?)",
+      `INSERT INTO ${this.tableName} (first_name, last_name) VALUES(?,?)`,
       [data.firstName, data.lastName]
     );
     return result;
+  }
+
+  public async delete(id: string): Promise<HostInterface> {
+    const result = await this._client.query(
+      `DELETE FROM ${this.tableName} WHERE id = ?`,
+      [id]
+    );
+    return result;
+  }
+
+  public async findOneById(id: string): Promise<HostInterface> {
+    const result = await this._client.query(
+      `SELECT * FROM ${this.tableName} WHERE id = ?`,
+      [id]
+    );
+    return HostMapper.toDTOFromRaw(result[0]);
   }
 }

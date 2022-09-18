@@ -4,15 +4,25 @@ schema {
 }
 
 type Query {
-  getUserById(id: ID!): User
+  findGuestById(id: ID!): Guest
+  findHostById(id: ID!): Host
 }
 
 type Mutation {
-  registerGuest(firstName: String, lastName: String): Boolean
+  registerGuest(firstName: String!, lastName: String!): Boolean
+  removeGuestById(id: ID!): Boolean
+  registerHost(firstName: String!, lastName: String!): Boolean
+  removeHostById(id: ID!): Boolean
 }
 
-type User {
-  id: ID!
+type Guest {
+  id: ID
+  firstName: String
+  lastName: String
+}
+
+type Host {
+  id: ID
   firstName: String
   lastName: String
 }
