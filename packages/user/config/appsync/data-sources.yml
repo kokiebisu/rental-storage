@@ -1,11 +1,31 @@
 # Query
 - type: AWS_LAMBDA
-  name: getUserByIdFunction
+  name: findGuestByIdFunction
   config:
-    functionName: getUserById
+    functionName: findGuestById
+
+- type: AWS_LAMBDA
+  name: findHostByIdFunction
+  config:
+    functionName: findHostById
 
 # Mutation
 - type: AWS_LAMBDA
   name: registerGuestFunction
   config:
     functionName: registerGuest
+
+- type: AWS_LAMBDA
+  name: removeGuestByIdFunction
+  config:
+    functionName: removeGuestById
+
+- type: AWS_LAMBDA
+  name: registerHostFunction
+  config:
+    functionName: registerHost
+
+- type: AWS_LAMBDA
+  name: removeHostByIdFunction
+  config:
+    functionName: removeHostById

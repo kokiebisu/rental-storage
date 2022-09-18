@@ -32,6 +32,50 @@ export const registerGuest = async (event: any) => {
   // return resp;
 };
 
+export const removeGuestById = async (event: any) => {
+  const { id } = event.arguments;
+  const service = await UserServiceImpl.create();
+  return await service.removeGuestById(id);
+};
+
+export const registerHost = async (event: any) => {
+  const { firstName, lastName } = event.arguments;
+  const service = await UserServiceImpl.create();
+  return await service.registerHost({ firstName, lastName });
+  // console.log("EVENT: ", event);
+  // const { name } = event.arguments;
+  // var client = Client({
+  //   config: {
+  //     host: process.env.MYSQL_HOST,
+  //     database: process.env.DB_NAME,
+  //     user: process.env.USERNAME,
+  //     password: process.env.PASSWORD,
+  //   },
+  // });
+  // await init(client);
+  // var userUUID = uuidv4();
+  // await client.query("INSERT INTO users (uuid, name) VALUES(?,?)", [
+  //   userUUID,
+  //   name,
+  // ]);
+  // // for (let index = 0; index < obj.input.Posts.length; index++) {
+  // //   const element = obj.input.Posts[index];
+  // //   await client.query(
+  // //     "INSERT INTO posts (uuid, text, user_id) VALUES(?, ?, ?)",
+  // //     [uuidv4(), element.Text, user.insertId]
+  // //   );
+  // // }
+  // var resp = await fetchUser(client, userUUID);
+  // client.quit();
+  // return resp;
+};
+
+export const removeHostById = async (event: any) => {
+  const { id } = event.arguments;
+  const service = await UserServiceImpl.create();
+  return await service.removeHostById(id);
+};
+
 // const init = async (client: any) => {
 //   await client.query(`
 //         CREATE TABLE IF NOT EXISTS users
