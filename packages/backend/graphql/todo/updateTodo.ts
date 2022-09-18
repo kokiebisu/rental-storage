@@ -1,7 +1,9 @@
-const AWS = require("aws-sdk");
+// const AWS = require("aws-sdk");
+import AWS from "aws-sdk";
+
 const dynamodb = new AWS.DynamoDB();
 
-module.exports.handler = async (event) => {
+export const handler = async (event: any) => {
   const id = event.arguments.id;
   const name = event.arguments.name;
   const description = event.arguments.description;
@@ -30,9 +32,9 @@ module.exports.handler = async (event) => {
   };
 
   return dynamodb
-    .updateItem(params)
+    .updateItem(params as any)
     .promise()
-    .then((data) => {
+    .then((data: any) => {
       const body = data.Attributes;
       return {
         id: body.id.S,

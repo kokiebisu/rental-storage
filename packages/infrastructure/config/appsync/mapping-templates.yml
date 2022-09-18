@@ -1,0 +1,5 @@
+- type: Query
+  field: hello
+  dataSource: helloFunction
+  request: false
+  response: false

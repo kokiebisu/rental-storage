@@ -1,0 +1,19 @@
+getTodos:
+  handler: dist/getTodos.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable
+
+createTodo:
+  handler: dist/createTodo.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable
+
+updateTodo:
+  handler: dist/updateTodo.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable
+
+deleteTodo:
+  handler: dist/deleteTodo.handler
+  environment:
+    TODO_TABLE_NAME: !Ref TodoTable

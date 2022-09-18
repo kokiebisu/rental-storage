@@ -1,0 +1,18 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  getUserById(id: ID!): User
+}
+
+type Mutation {
+  registerGuest(firstName: String, lastName: String): Boolean
+}
+
+type User {
+  id: ID!
+  firstName: String
+  lastName: String
+}

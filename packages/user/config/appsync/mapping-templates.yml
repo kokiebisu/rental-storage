@@ -1,0 +1,13 @@
+# Query
+- type: Query
+  field: getUserById
+  dataSource: getUserByIdFunction
+  request: false
+  response: false
+
+# Mutation
+- type: Mutation
+  field: registerGuest
+  dataSource: registerGuestFunction
+  request: false
+  response: false
