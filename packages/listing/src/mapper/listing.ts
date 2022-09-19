@@ -18,14 +18,23 @@ export class ListingMapper {
     return {
       id: data.id,
       host,
-      emailAddress: data.email_address,
       streetAddress: data.street_address,
       latitude: data.latitude,
       longitude: data.longitude,
     };
   }
 
-  public static toAggregatedDTO(
+  public static toDTOFromRaw(data: ListingRawInterface): ListingInterface {
+    return {
+      id: data.id,
+      hostId: data.host_id,
+      streetAddress: data.street_address,
+      latitude: data.latitude,
+      longitude: data.longitude,
+    };
+  }
+
+  public static toAggregated(
     data: ListingInterface
   ): AggregatedListingInterface {
     // aggregate host data by the host data
@@ -38,7 +47,6 @@ export class ListingMapper {
     return {
       id: data.id,
       host,
-      emailAddress: data.emailAddress,
       streetAddress: data.streetAddress,
       latitude: data.latitude,
       longitude: data.longitude,
@@ -50,7 +58,6 @@ export class ListingMapper {
       ...(data.id && { id: data.id }),
       hostId: data.hostId,
       streetAddress: data.streetAddress,
-      emailAddress: data.emailAddress,
       latitude: data.latitude,
       longitude: data.longitude,
     };

@@ -6,6 +6,12 @@ export const findListingById = async (event: any) => {
   return service.findListingById(id);
 };
 
+export const findListingsWithinLatLng = async (event: any) => {
+  const { latitude, longitude, range } = event.arguments;
+  const service = await ListingServiceImpl.create();
+  return service.findListingsWithinLatLng(latitude, longitude, range);
+};
+
 // export const getUserById = async (event: any) => {
 //   const uuid = event.arguments.uuid;
 //   var client = Client({

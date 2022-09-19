@@ -2,3 +2,5 @@
 **/env/**
 **/dist
 **/.env
+
+**/tsconfig.tsbuildinfo
