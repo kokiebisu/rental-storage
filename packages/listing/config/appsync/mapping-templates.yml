@@ -1,0 +1,19 @@
+# Query
+- type: Query
+  field: findListingById
+  dataSource: findListingByIdFunction
+  request: false
+  response: false
+
+# Mutation
+- type: Mutation
+  field: addListing
+  dataSource: addListingFunction
+  request: false
+  response: false
+
+- type: Mutation
+  field: removeListingById
+  dataSource: removeListingByIdFunction
+  request: false
+  response: false

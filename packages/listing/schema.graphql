@@ -1,0 +1,19 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  findListingById(id: ID!): Guest
+}
+
+type Mutation {
+  addListing(
+    hostId: ID!
+    emailAddress: String!
+    streetAddress: String!
+    latitude: Int!
+    longitude: Int!
+  ): Boolean
+  removeListingById(id: ID!): Boolean
+}
