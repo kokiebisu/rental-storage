@@ -1,12 +1,12 @@
 Type: AWS::RDS::DBCluster
 Properties:
-  MasterUsername: ${self:custom.USER_DB_USERNAME}
-  MasterUserPassword: ${self:custom.USER_DB_PASSWORD}
+  MasterUsername: ${self:custom.LISTING_DB_USERNAME}
+  MasterUserPassword: ${self:custom.LISTING_DB_PASSWORD}
   DBSubnetGroupName:
     Ref: ServerlessSubnetGroup
   Engine: aurora
   EngineVersion: "5.6"
-  DatabaseName: ${self:custom.USER_DB_NAME}
+  DatabaseName: ${self:custom.LISTING_DB_NAME}
   BackupRetentionPeriod: 3
   DBClusterParameterGroupName:
     Ref: AuroraRDSClusterParameter

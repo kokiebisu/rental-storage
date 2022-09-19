@@ -1,0 +1,16 @@
+# Query
+- type: AWS_LAMBDA
+  name: findListingByIdFunction
+  config:
+    functionName: findListingById
+
+# Mutation
+- type: AWS_LAMBDA
+  name: addListingFunction
+  config:
+    functionName: addListing
+
+- type: AWS_LAMBDA
+  name: removeListingByIdFunction
+  config:
+    functionName: removeListingById

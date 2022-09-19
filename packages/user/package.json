@@ -1,5 +1,6 @@
 {
-  "name": "backend",
+  "name": "@rental-storage-project/user",
+  "private": true,
   "dependencies": {
     "common": "../common",
     "esbuild": "0.15.7",

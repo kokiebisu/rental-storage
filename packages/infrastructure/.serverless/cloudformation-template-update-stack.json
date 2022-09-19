@@ -273,7 +273,30 @@
         }
       }
     },
-    "AuroraRDSCluster": {
+    "AuroraRDSClusterParameter": {
+      "Type": "AWS::RDS::DBClusterParameterGroup",
+      "Properties": {
+        "Description": "Parameter group for the Serverless Aurora RDS DB.",
+        "Family": "aurora5.6",
+        "Parameters": {
+          "character_set_database": "utf32"
+        }
+      }
+    },
+    "AuroraRDSInstanceParameter": {
+      "Type": "AWS::RDS::DBParameterGroup",
+      "Properties": {
+        "Description": "Parameter group for the Serverless Aurora RDS DB.",
+        "Family": "aurora5.6",
+        "Parameters": {
+          "sql_mode": "IGNORE_SPACE",
+          "max_connections": 100,
+          "wait_timeout": 900,
+          "interactive_timeout": 900
+        }
+      }
+    },
+    "UserDBAuroraRDSCluster": {
       "Type": "AWS::RDS::DBCluster",
       "Properties": {
         "MasterUsername": "master",
@@ -283,7 +306,7 @@
         },
         "Engine": "aurora",
         "EngineVersion": "5.6",
-        "DatabaseName": "users",
+        "DatabaseName": "user",
         "BackupRetentionPeriod": 3,
         "DBClusterParameterGroupName": {
           "Ref": "AuroraRDSClusterParameter"
@@ -295,17 +318,7 @@
         ]
       }
     },
-    "AuroraRDSClusterParameter": {
-      "Type": "AWS::RDS::DBClusterParameterGroup",
-      "Properties": {
-        "Description": "Parameter group for the Serverless Aurora RDS DB.",
-        "Family": "aurora5.6",
-        "Parameters": {
-          "character_set_database": "utf32"
-        }
-      }
-    },
-    "AuroraRDSInstance": {
+    "UserDBAuroraRDSInstance": {
       "DependsOn": [
         "ServerlessVPCGA"
       ],
@@ -322,20 +335,50 @@
           "Ref": "AuroraRDSInstanceParameter"
         },
         "DBClusterIdentifier": {
-          "Ref": "AuroraRDSCluster"
+          "Ref": "UserDBAuroraRDSCluster"
         }
       }
     },
-    "AuroraRDSInstanceParameter": {
-      "Type": "AWS::RDS::DBParameterGroup",
+    "ListingDBAuroraRDSCluster": {
+      "Type": "AWS::RDS::DBCluster",
       "Properties": {
-        "Description": "Parameter group for the Serverless Aurora RDS DB.",
-        "Family": "aurora5.6",
-        "Parameters": {
-          "sql_mode": "IGNORE_SPACE",
-          "max_connections": 100,
-          "wait_timeout": 900,
-          "interactive_timeout": 900
+        "MasterUsername": "master",
+        "MasterUserPassword": "password",
+        "DBSubnetGroupName": {
+          "Ref": "ServerlessSubnetGroup"
+        },
+        "Engine": "aurora",
+        "EngineVersion": "5.6",
+        "DatabaseName": "listing",
+        "BackupRetentionPeriod": 3,
+        "DBClusterParameterGroupName": {
+          "Ref": "AuroraRDSClusterParameter"
+        },
+        "VpcSecurityGroupIds": [
+          {
+            "Ref": "ServerlessSecurityGroup"
+          }
+        ]
+      }
+    },
+    "ListingDBAuroraRDSInstance": {
+      "DependsOn": [
+        "ServerlessVPCGA"
+      ],
+      "Type": "AWS::RDS::DBInstance",
+      "Properties": {
+        "DBInstanceClass": "db.t2.small",
+        "DBSubnetGroupName": {
+          "Ref": "ServerlessSubnetGroup"
+        },
+        "Engine": "aurora",
+        "EngineVersion": "5.6",
+        "PubliclyAccessible": true,
+        "DBParameterGroupName": {
+          "Ref": "AuroraRDSInstanceParameter"
+        },
+        "DBClusterIdentifier": {
+          "Ref": "ListingDBAuroraRDSCluster"
         }
       }
     },
@@ -358,7 +401,7 @@
           ]
         },
         "Description": "Auto-generated api key",
-        "Expires": 1695049200
+        "Expires": 1695078000
       }
     },
     "GraphQlSchema": {

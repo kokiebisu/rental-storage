@@ -1,0 +1,25 @@
+# Query
+findListingById:
+  handler: dist/graphql/query.findListingById
+  environment:
+    MYSQL_HOST: ${env:AURORA_HOST}
+    DB_NAME: ${env:DB_NAME}
+    USERNAME: ${env:USERNAME}
+    PASSWORD: ${env:PASSWORD}
+
+# Mutation
+addListing:
+  handler: dist/graphql/mutation.addListing
+  environment:
+    MYSQL_HOST: ${env:AURORA_HOST}
+    DB_NAME: ${env:DB_NAME}
+    USERNAME: ${env:USERNAME}
+    PASSWORD: ${env:PASSWORD}
+
+removeListingById:
+  handler: dist/graphql/mutation.removeListingById
+  environment:
+    MYSQL_HOST: ${env:AURORA_HOST}
+    DB_NAME: ${env:DB_NAME}
+    USERNAME: ${env:USERNAME}
+    PASSWORD: ${env:PASSWORD}
