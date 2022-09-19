@@ -1,0 +1,11 @@
+{
+  "name": "@rental-storage-project/common",
+  "private": true,
+  "main": "./dist",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b .",
+    "deploy": "npm run-script build && sls deploy",
+    "remove": "sls remove"
+  }
+}
