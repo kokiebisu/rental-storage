@@ -2,6 +2,7 @@ import Client from "serverless-mysql";
 import { ListingInterface } from "@rental-storage-project/common";
 import { RDSRepository } from "./rds";
 import { ListingMapper } from "../mapper";
+import { ListingRawInterface } from "../entity";
 
 export class ListingRepository extends RDSRepository {
   public static async create(): Promise<ListingRepository> {
@@ -43,5 +44,20 @@ export class ListingRepository extends RDSRepository {
       [id]
     );
     return ListingMapper.toDTOFromRaw(result[0]);
+  }
+
+  public async findManyByLatLng(
+    latitude: number,
+    longitude: number,
+    range: number = 100
+  ): Promise<ListingInterface[]> {
+    const result: ListingRawInterface[] = await this._client.query(
+      `
+      SELECT id, ( 3959 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance, latitude, longitude FROM listing HAVING distance < ? ORDER BY distance LIMIT 0 , 20
+    `,
+      [latitude, longitude, latitude, range]
+    );
+    console.log("RESULT: ", result);
+    return result.map((item) => ListingMapper.toDTOFromRaw(item));
   }
 }

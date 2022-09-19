@@ -4,6 +4,11 @@
   config:
     functionName: findListingById
 
+- type: AWS_LAMBDA
+  name: findListingsWithinLatLngFunction
+  config:
+    functionName: findListingsWithinLatLng
+
 # Mutation
 - type: AWS_LAMBDA
   name: addListingFunction

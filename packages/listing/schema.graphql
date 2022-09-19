@@ -5,14 +5,19 @@ schema {
 
 type Query {
   findListingById(id: ID!): Listing
+  findListingsWithinLatLng(
+    latitude: Float!
+    longitude: Float!
+    range: Int
+  ): [Listing]
 }
 
 type Mutation {
   addListing(
     hostId: ID!
     streetAddress: String!
-    latitude: Int!
-    longitude: Int!
+    latitude: Float!
+    longitude: Float!
   ): Boolean
   removeListingById(id: ID!): Boolean
 }
