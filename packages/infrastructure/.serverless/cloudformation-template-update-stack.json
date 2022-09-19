@@ -401,7 +401,7 @@
           ]
         },
         "Description": "Auto-generated api key",
-        "Expires": 1695078000
+        "Expires": 1695092400
       }
     },
     "GraphQlSchema": {

@@ -417,7 +417,7 @@
                 ]
               },
               "Description": "Auto-generated api key",
-              "Expires": 1695078000
+              "Expires": 1695092400
             }
           },
           "GraphQlSchema": {
@@ -946,7 +946,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/rental-storage-infrastructure/dev/1663543945044-2022-09-18T23:32:25.044Z",
+    "artifactDirectoryName": "serverless/rental-storage-infrastructure/dev/1663557479496-2022-09-19T03:17:59.496Z",
     "artifact": ""
   }
 }
