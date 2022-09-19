@@ -1,5 +1,5 @@
 import Client from "serverless-mysql";
-import { HostInterface } from "../entity";
+import { HostInterface } from "@rental-storage-project/common";
 import { HostMapper } from "../mapper";
 import { RDSRepository } from "./rds";
 

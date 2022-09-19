@@ -1,4 +1,5 @@
-import { Guest, GuestInterface, Host, HostInterface } from "./entity";
+import { GuestInterface, HostInterface } from "@rental-storage-project/common";
+import { Guest, Host } from "./entity";
 import { HostRepository } from "./repository";
 import { GuestRepository } from "./repository/guest";
 import { isGuest, isHost } from "./utils";
