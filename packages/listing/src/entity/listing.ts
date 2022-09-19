@@ -1,24 +1,5 @@
-import { HostInterface } from "../../../user/src/entity/host";
 import { StreetAddress } from "./street-address";
 import { EmailAddress } from "./email-address";
-
-export interface AggregatedListingInterface {
-  id: string;
-  host: HostInterface;
-  emailAddress: string;
-  streetAddress: string;
-  latitude: number;
-  longitude: number;
-}
-
-export interface ListingInterface {
-  id?: string;
-  hostId: string;
-  emailAddress: string;
-  streetAddress: string;
-  latitude: number;
-  longitude: number;
-}
 
 export interface ListingRawInterface {
   id: string;

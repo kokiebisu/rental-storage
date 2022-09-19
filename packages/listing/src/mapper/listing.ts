@@ -1,19 +1,22 @@
-import { HostInterface } from "../../../user/src/entity/host";
 import {
   AggregatedListingInterface,
-  Listing,
+  HostInterface,
   ListingInterface,
-  ListingRawInterface,
-} from "../entity";
+} from "@rental-storage-project/common";
+import { Listing, ListingRawInterface } from "../entity";
 
 export class ListingMapper {
   public static toAggregatedDTOFromRaw(
     data: ListingRawInterface
-  ): ListingInterface {
+  ): AggregatedListingInterface {
     // aggregate host data by the host data
-    const host: HostInterface = data.host_id;
+    const host: HostInterface = {
+      id: data.host_id,
+      firstName: "mock host firstName",
+      lastName: "mock host lastName",
+    };
     return {
-      ...(data.id && { id: data.id }),
+      id: data.id,
       host,
       emailAddress: data.email_address,
       streetAddress: data.street_address,
@@ -26,10 +29,14 @@ export class ListingMapper {
     data: ListingInterface
   ): AggregatedListingInterface {
     // aggregate host data by the host data
-    const host = data.hostId;
+    const host: HostInterface = {
+      id: data.hostId,
+      firstName: "mock host firstName",
+      lastName: "mock host lastName",
+    };
 
     return {
-      ...(data.id && { id: data.id }),
+      id: data.id,
       host,
       emailAddress: data.emailAddress,
       streetAddress: data.streetAddress,

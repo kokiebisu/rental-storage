@@ -1,15 +1,9 @@
-import { UserServiceImpl } from "../src/service";
+import { ListingServiceImpl } from "../src/service";
 
-export const findGuestById = async (event: any) => {
+export const findListingById = async (event: any) => {
   const { id } = event.arguments;
-  const service = await UserServiceImpl.create();
-  return service.findGuestById(id);
-};
-
-export const findHostById = async (event: any) => {
-  const { id } = event.arguments;
-  const service = await UserServiceImpl.create();
-  return service.findHostById(id);
+  const service = await ListingServiceImpl.create();
+  return service.findListingById(id);
 };
 
 // export const getUserById = async (event: any) => {

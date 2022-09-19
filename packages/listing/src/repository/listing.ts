@@ -1,6 +1,5 @@
 import Client from "serverless-mysql";
-import { ListingInterface } from "../entity";
-import { ListingMapper } from "../mapper";
+import { ListingInterface } from "@rental-storage-project/common";
 import { RDSRepository } from "./rds";
 
 export class ListingRepository extends RDSRepository {
@@ -48,6 +47,6 @@ export class ListingRepository extends RDSRepository {
       `SELECT * FROM ${this.tableName} WHERE id = ?`,
       [id]
     );
-    return ListingMapper.toAggregatedDTOFromRaw(result[0]);
+    return result[0];
   }
 }

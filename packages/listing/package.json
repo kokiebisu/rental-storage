@@ -1,20 +1,19 @@
 {
-  "name": "backend",
+  "name": "@rental-storage-project/listing",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -b ."
+  },
   "dependencies": {
     "glob": "8.0.3",
-    "serverless-mysql": "^1.4.0"
+    "serverless-mysql": "^1.4.0",
+    "@rental-storage-project/common": "file:../common"
   },
-  "scripts": {
-    "build": "tsc -b .",
-    "deploy": "npm run build && sls deploy",
-    "remove": "sls remove",
-    "test": "jest"
-  },
-  "devDependencies": {
-    "@types/node": "18.7.18",
-    "serverless-appsync-plugin": "1.14.0",
-    "serverless-plugin-common-excludes": "4.0.0",
-    "serverless-plugin-include-dependencies": "5.0.0",
-    "serverless-pseudo-parameters": "2.6.1"
-  }
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
