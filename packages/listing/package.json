@@ -1,0 +1,19 @@
+{
+  "name": "@rental-storage-project/listing",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -b ."
+  },
+  "dependencies": {
+    "glob": "8.0.3",
+    "serverless-mysql": "^1.4.0",
+    "@rental-storage-project/common": "file:../common"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,11 +1,21 @@
-USER_DB_DB_NAME: ${env:USER_DB_DB_NAME}
-USER_DB_USERNAME: ${env:USER_DB_USERNAME}
-USER_DB_PASSWORD: ${env:USER_DB_PASSWORD}
+USER_DB_NAME: user
+USER_DB_USERNAME: master
+USER_DB_PASSWORD: password
 USER_DB_AURORA:
   HOST:
-    Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
+    Fn::GetAtt: [UserDBAuroraRDSCluster, Endpoint.Address]
   PORT:
-    Fn::GetAtt: [AuroraRDSCluster, Endpoint.Port]
+    Fn::GetAtt: [UserDBAuroraRDSCluster, Endpoint.Port]
+  VPC_CIDR: 10
+
+LISTING_DB_NAME: listing
+LISTING_DB_USERNAME: master
+LISTING_DB_PASSWORD: password
+LISTING_DB_AURORA:
+  HOST:
+    Fn::GetAtt: [ListingDBAuroraRDSCluster, Endpoint.Address]
+  PORT:
+    Fn::GetAtt: [ListingDBAuroraRDSCluster, Endpoint.Port]
   VPC_CIDR: 10
 appSync:
   name: rental-storage-appsync

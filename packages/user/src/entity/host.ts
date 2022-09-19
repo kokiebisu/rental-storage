@@ -1,10 +1,5 @@
 import { User } from "./user";
-
-export interface HostInterface {
-  id?: string;
-  firstName: string;
-  lastName: string;
-}
+import { HostInterface } from "@rental-storage-project/common";
 
 export interface HostRawInterface {
   id?: string;

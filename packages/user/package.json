@@ -1,17 +1,16 @@
 {
-  "name": "backend",
-  "dependencies": {
-    "common": "../common",
-    "esbuild": "0.15.7",
-    "glob": "8.0.3",
-    "serverless-mysql": "^1.4.0",
-    "uuid": "^3.3.2"
-  },
+  "name": "@rental-storage-project/user",
+  "private": true,
   "scripts": {
-    "deploy:createUser": "tsc -b . && sls deploy function --function createUser",
-    "deploy": "tsc -b . && sls deploy",
+    "build": "tsc -b .",
+    "deploy": "npm run build && sls deploy",
     "remove": "sls remove",
     "test": "jest"
+  },
+  "dependencies": {
+    "glob": "8.0.3",
+    "serverless-mysql": "^1.4.0",
+    "@rental-storage-project/common": "file:../common"
   },
   "devDependencies": {
     "@types/node": "18.7.18",

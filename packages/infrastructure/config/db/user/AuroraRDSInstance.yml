@@ -10,4 +10,4 @@ Properties:
   DBParameterGroupName:
     Ref: AuroraRDSInstanceParameter
   DBClusterIdentifier:
-    Ref: AuroraRDSCluster
+    Ref: UserDBAuroraRDSCluster

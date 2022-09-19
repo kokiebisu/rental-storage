@@ -13,8 +13,14 @@ Resources:
   RouteTableAssociationSubnetB: ${file(./config/resources/RouteTableAssociationSubnetB.yml)}
   RouteTableAssociationSubnetC: ${file(./config/resources/RouteTableAssociationSubnetC.yml)}
 
-  # User DB
-  AuroraRDSCluster: ${file(./config/db/user/AuroraRDSCluster.yml)}
-  AuroraRDSClusterParameter: ${file(./config/db/user/AuroraRDSClusterParameter.yml)}
-  AuroraRDSInstance: ${file(./config/db/user/AuroraRDSInstance.yml)}
-  AuroraRDSInstanceParameter: ${file(./config/db/user/AuroraRDSInstanceParameter.yml)}
+  # DB
+  AuroraRDSClusterParameter: ${file(./config/db/AuroraRDSClusterParameter.yml)}
+  AuroraRDSInstanceParameter: ${file(./config/db/AuroraRDSInstanceParameter.yml)}
+
+  # UserDB
+  UserDBAuroraRDSCluster: ${file(./config/db/user/AuroraRDSCluster.yml)}
+  UserDBAuroraRDSInstance: ${file(./config/db/user/AuroraRDSInstance.yml)}
+
+  # ListingDB
+  ListingDBAuroraRDSCluster: ${file(./config/db/listing/AuroraRDSCluster.yml)}
+  ListingDBAuroraRDSInstance: ${file(./config/db/listing/AuroraRDSInstance.yml)}

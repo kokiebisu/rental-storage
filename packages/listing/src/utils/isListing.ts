@@ -1,10 +1,11 @@
-import { Listing, ListingInterface } from "../entity";
+import { ListingInterface } from "@rental-storage-project/common";
 
-export const isListing = (data: any): data is Listing => {
+export const isListing = (data: any): data is ListingInterface => {
   return (
-    (data as ListingInterface).id !== undefined &&
+    (data as ListingInterface).hostId !== undefined &&
     (data as ListingInterface).emailAddress !== undefined &&
-    (data as ListingInterface).host !== undefined &&
     (data as ListingInterface).streetAddress !== undefined &&
+    (data as ListingInterface).latitude !== undefined &&
+    (data as ListingInterface).longitude !== undefined
   );
 };
