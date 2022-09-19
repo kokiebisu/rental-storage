@@ -1,9 +1,8 @@
 import {
   AggregatedListingInterface,
-  Listing,
   ListingInterface,
-  StreetAddress,
-} from "./entity";
+} from "@rental-storage-project/common";
+import { Listing, StreetAddress } from "./entity";
 import { EmailAddress } from "./entity/email-address";
 import { ListingMapper } from "./mapper";
 import { ListingRepository } from "./repository";

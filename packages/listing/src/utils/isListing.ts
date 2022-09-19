@@ -1,4 +1,4 @@
-import { ListingInterface } from "../entity";
+import { ListingInterface } from "@rental-storage-project/common";
 
 export const isListing = (data: any): data is ListingInterface => {
   return (

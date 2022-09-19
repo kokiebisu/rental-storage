@@ -1,2 +1,1 @@
-export * from "./isGuest";
-export * from "./isHost";
+export * from "./isListing";
