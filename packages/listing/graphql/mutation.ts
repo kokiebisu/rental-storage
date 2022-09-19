@@ -1,12 +1,10 @@
 import { ListingServiceImpl } from "../src/service";
 
 export const addListing = async (event: any) => {
-  const { hostId, emailAddress, streetAddress, latitude, longitude } =
-    event.arguments;
+  const { hostId, streetAddress, latitude, longitude } = event.arguments;
   const service = await ListingServiceImpl.create();
   return await service.addListing({
     hostId,
-    emailAddress,
     streetAddress,
     latitude,
     longitude,

@@ -4,16 +4,29 @@ schema {
 }
 
 type Query {
-  findListingById(id: ID!): Guest
+  findListingById(id: ID!): Listing
 }
 
 type Mutation {
   addListing(
     hostId: ID!
-    emailAddress: String!
     streetAddress: String!
     latitude: Int!
     longitude: Int!
   ): Boolean
   removeListingById(id: ID!): Boolean
+}
+
+type Listing {
+  id: ID
+  host: Host
+  streetAddress: String
+  latitude: Float
+  longitude: Float
+}
+
+type Host {
+  id: ID
+  firstName: String
+  lastName: String
 }

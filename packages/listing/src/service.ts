@@ -32,7 +32,7 @@ export class ListingServiceImpl implements ListingService {
   ): Promise<AggregatedListingInterface | null> {
     try {
       const listing = await this._listingRepository.findOneById(id);
-      const aggregatedListing = ListingMapper.toAggregatedDTO(listing);
+      const aggregatedListing = ListingMapper.toAggregated(listing);
       return aggregatedListing;
     } catch (err) {
       console.error(err);
@@ -43,18 +43,16 @@ export class ListingServiceImpl implements ListingService {
   public async addListing(
     args: Omit<ListingInterface, "id">
   ): Promise<boolean> {
-    const { hostId, emailAddress, streetAddress, latitude, longitude } = args;
+    const { hostId, streetAddress, latitude, longitude } = args;
     const listing = new Listing(
       hostId,
-      new EmailAddress(emailAddress),
       new StreetAddress(streetAddress),
       latitude,
       longitude
     );
     try {
-      await this._listingRepository.save(
-        ListingMapper.toDTOFromEntity(listing)
-      );
+      const listingDTO = ListingMapper.toDTOFromEntity(listing);
+      await this._listingRepository.save(listingDTO);
       return true;
     } catch (err) {
       console.error(err);
