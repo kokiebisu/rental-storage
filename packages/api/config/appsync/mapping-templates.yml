@@ -1,0 +1,65 @@
+# User
+## Query
+- type: Query
+  field: findGuestById
+  dataSource: findGuestByIdFunction
+  request: false
+  response: false
+
+- type: Query
+  field: findHostById
+  dataSource: findHostByIdFunction
+  request: false
+  response: false
+
+## Mutation
+- type: Mutation
+  field: registerGuest
+  dataSource: registerGuestFunction
+  request: false
+  response: false
+
+- type: Mutation
+  field: removeGuestById
+  dataSource: removeGuestByIdFunction
+  request: false
+  response: false
+
+- type: Mutation
+  field: registerHost
+  dataSource: registerHostFunction
+  request: false
+  response: false
+
+- type: Mutation
+  field: removeHostById
+  dataSource: removeHostByIdFunction
+  request: false
+  response: false
+
+# Listing
+## Query
+- type: Query
+  field: findListingById
+  dataSource: findListingByIdFunction
+  request: false
+  response: false
+
+- type: Query
+  field: findListingsWithinLatLng
+  dataSource: findListingsWithinLatLngFunction
+  request: false
+  response: false
+
+## Mutation
+- type: Mutation
+  field: addListing
+  dataSource: addListingFunction
+  request: false
+  response: false
+
+- type: Mutation
+  field: removeListingById
+  dataSource: removeListingByIdFunction
+  request: false
+  response: false

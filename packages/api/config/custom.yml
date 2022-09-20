@@ -1,0 +1,5 @@
+service: rental-storage
+appSync:
+  apiId: ${env:APPSYNC_API_ID}
+  mappingTemplates: ${file(./config/appsync/mapping-templates.yml)}
+  dataSources: ${file(./config/appsync/data-sources.yml)}

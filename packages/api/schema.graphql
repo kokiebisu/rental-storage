@@ -1,0 +1,51 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  findGuestById(id: ID!): Guest
+  findHostById(id: ID!): Host
+
+  findListingById(id: ID!): Listing
+  findListingsWithinLatLng(
+    latitude: Float!
+    longitude: Float!
+    range: Int
+  ): [Listing]
+}
+
+type Mutation {
+  registerGuest(firstName: String!, lastName: String!): Boolean
+  removeGuestById(id: ID!): Boolean
+  registerHost(firstName: String!, lastName: String!): Boolean
+  removeHostById(id: ID!): Boolean
+
+  addListing(
+    hostId: ID!
+    streetAddress: String!
+    latitude: Float!
+    longitude: Float!
+  ): Boolean
+  removeListingById(id: ID!): Boolean
+}
+
+type Guest {
+  id: ID
+  firstName: String
+  lastName: String
+}
+
+type Host {
+  id: ID
+  firstName: String
+  lastName: String
+}
+
+type Listing {
+  id: ID
+  host: Host
+  streetAddress: String
+  latitude: Float
+  longitude: Float
+}
