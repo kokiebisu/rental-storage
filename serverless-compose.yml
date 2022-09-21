@@ -1,0 +1,18 @@
+services:
+  infrastructure:
+    path: infrastructure
+
+  user:
+    path: packages/user
+    dependsOn: infrastructure
+
+  listing:
+    path: packages/listing
+    dependsOn: infrastructure
+
+  api:
+    path: api
+    dependsOn:
+      - infrastructure
+      - user
+      - listing

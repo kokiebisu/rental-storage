@@ -5,6 +5,7 @@
     "remove": "sls remove"
   },
   "devDependencies": {
-    "serverless-appsync-plugin": "1.14.0"
+    "serverless-appsync-plugin": "1.14.0",
+    "serverless-export-outputs": "1.0.2"
   }
 }

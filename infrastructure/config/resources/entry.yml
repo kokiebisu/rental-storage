@@ -1,4 +1,5 @@
 Resources:
+  # Infrastructure
   ServerlessInternetGateway: ${file(./config/resources/ServerlessInternetGateway.yml)}
   ServerlessVPC: ${file(./config/resources/ServerlessVPC.yml)}
   ServerlessVPCGA: ${file(./config/resources/ServerlessVPCGA.yml)}
@@ -13,14 +14,33 @@ Resources:
   RouteTableAssociationSubnetB: ${file(./config/resources/RouteTableAssociationSubnetB.yml)}
   RouteTableAssociationSubnetC: ${file(./config/resources/RouteTableAssociationSubnetC.yml)}
 
-  # DB
+  # RDS
   AuroraRDSClusterParameter: ${file(./config/db/AuroraRDSClusterParameter.yml)}
   AuroraRDSInstanceParameter: ${file(./config/db/AuroraRDSInstanceParameter.yml)}
 
-  # UserDB
-  UserDBAuroraRDSCluster: ${file(./config/db/user/AuroraRDSCluster.yml)}
-  UserDBAuroraRDSInstance: ${file(./config/db/user/AuroraRDSInstance.yml)}
-
-  # ListingDB
-  ListingDBAuroraRDSCluster: ${file(./config/db/listing/AuroraRDSCluster.yml)}
-  ListingDBAuroraRDSInstance: ${file(./config/db/listing/AuroraRDSInstance.yml)}
+Outputs:
+  ServerlessSecurityGroup:
+    Description: "Serverless Security Group"
+    Value: !Ref ServerlessSecurityGroup
+    Export:
+      Name: ExportedServerlessSecurityGroup
+  ServerlessSubnetGroup:
+    Description: "Serverless Subnet Group"
+    Value: !Ref ServerlessSubnetGroup
+    Export:
+      Name: ExportedServerlessSubnetGroup
+  ServerlessVPCGA:
+    Description: "Serverless VPCGA"
+    Value: !Ref ServerlessVPCGA
+    Export:
+      Name: ExportedServerlessVPCGA
+  AuroraRDSInstanceParameter:
+    Description: "Aurora RDS Instance Parameter"
+    Value: !Ref AuroraRDSInstanceParameter
+    Export:
+      Name: ExportedAuroraRDSInstanceParameter
+  AuroraRDSClusterParameter:
+    Description: "Aurora RDS Cluster Parameter"
+    Value: !Ref AuroraRDSClusterParameter
+    Export:
+      Name: ExportedAuroraRDSClusterParameter

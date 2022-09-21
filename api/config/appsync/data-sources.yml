@@ -1,0 +1,55 @@
+# User
+## Query
+- type: AWS_LAMBDA
+  name: findGuestByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-user-${self:provider.stage}-findGuestById
+
+- type: AWS_LAMBDA
+  name: findHostByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-user-${self:provider.stage}-findHostById
+
+## Mutation
+- type: AWS_LAMBDA
+  name: registerGuestFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:us-east-1:474489807730:function:rental-storage-user-dev-registerGuest
+
+- type: AWS_LAMBDA
+  name: removeGuestByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-user-${self:provider.stage}-removeGuestById
+
+- type: AWS_LAMBDA
+  name: registerHostFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-user-${self:provider.stage}-registerHost
+
+- type: AWS_LAMBDA
+  name: removeHostByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-user-${self:provider.stage}-removeHostById
+
+# Listing
+## Query
+- type: AWS_LAMBDA
+  name: findListingByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-listing-${self:provider.stage}-findListingById
+
+- type: AWS_LAMBDA
+  name: findListingsWithinLatLngFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-listing-${self:provider.stage}-findListingsWithinLatLng
+
+## Mutation
+- type: AWS_LAMBDA
+  name: addListingFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-listing-${self:provider.stage}-addListing
+
+- type: AWS_LAMBDA
+  name: removeListingByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-listing-${self:provider.stage}-removeListingById

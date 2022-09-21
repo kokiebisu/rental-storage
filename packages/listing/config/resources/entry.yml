@@ -1,0 +1,3 @@
+Resources:
+  AuroraRDSCluster: ${file(./config/resources/db/AuroraRDSCluster.yml)}
+  AuroraRDSInstance: ${file(./config/resources/db/AuroraRDSInstance.yml)}

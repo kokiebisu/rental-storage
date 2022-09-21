@@ -2,32 +2,32 @@
 findListingById:
   handler: dist/graphql/query.findListingById
   environment:
-    MYSQL_HOST: ${env:AURORA_HOST}
+    MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:USERNAME}
-    PASSWORD: ${env:PASSWORD}
+    USERNAME: ${env:DB_USERNAME}
+    PASSWORD: ${env:DB_PASSWORD}
 
 findListingsWithinLatLng:
   handler: dist/graphql/query.findListingsWithinLatLng
   environment:
-    MYSQL_HOST: ${env:AURORA_HOST}
+    MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:USERNAME}
-    PASSWORD: ${env:PASSWORD}
+    USERNAME: ${env:DB_USERNAME}
+    PASSWORD: ${env:DB_PASSWORD}
 
 # Mutation
 addListing:
   handler: dist/graphql/mutation.addListing
   environment:
-    MYSQL_HOST: ${env:AURORA_HOST}
+    MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:USERNAME}
-    PASSWORD: ${env:PASSWORD}
+    USERNAME: ${env:DB_USERNAME}
+    PASSWORD: ${env:DB_PASSWORD}
 
 removeListingById:
   handler: dist/graphql/mutation.removeListingById
   environment:
-    MYSQL_HOST: ${env:AURORA_HOST}
+    MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:USERNAME}
-    PASSWORD: ${env:PASSWORD}
+    USERNAME: ${env:DB_USERNAME}
+    PASSWORD: ${env:DB_PASSWORD}
