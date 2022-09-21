@@ -4,3 +4,4 @@
 **/.env
 
 **/tsconfig.tsbuildinfo
+**/.serverless
