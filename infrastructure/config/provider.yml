@@ -3,5 +3,3 @@ runtime: nodejs14.x
 stage: dev
 region: us-east-1
 lambdaHashingVersion: 20201221
-iam:
-  role: IAMRole

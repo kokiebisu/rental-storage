@@ -1,0 +1,9 @@
+
+Removing stage dev
+infrastructure › waiting
+user › waiting
+listing › waiting
+api › waiting
+api › removing
+api › Running "serverless remove --stage dev"
+api › Removing rental-storage-api from stage dev (us-east-1)

@@ -14,3 +14,5 @@ provider: ${file(./config/provider.yml)}
 custom: ${file(./config/custom.yml)}
 
 functions: ${file(./config/functions.yml)}
+
+resources: ${file(./config/resources/entry.yml)}

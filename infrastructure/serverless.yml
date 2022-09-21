@@ -2,7 +2,7 @@ service: rental-storage-infrastructure
 frameworkVersion: "3"
 
 plugins:
-  - serverless-appsync-plugin
+  - serverless-export-outputs
 
 provider: ${file(./config/provider.yml)}
 

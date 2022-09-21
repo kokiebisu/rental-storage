@@ -6,11 +6,12 @@ useDotenv: true
 plugins:
   - serverless-plugin-common-excludes # this should go before serverless-plugin-include-dependencies
   - serverless-plugin-include-dependencies
-  - serverless-appsync-plugin
   - serverless-pseudo-parameters
 
 provider: ${file(./config/provider.yml)}
 
+functions: ${file(./config/functions.yml)}
+
 custom: ${file(./config/custom.yml)}
 
-functions: ${file(./config/functions.yml)}
+resources: ${file(./config/resources/entry.yml)}

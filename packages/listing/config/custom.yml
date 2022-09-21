@@ -1,8 +1,2 @@
-appSync:
-  apiId: ${env:APPSYNC_API_ID}
-  mappingTemplates: ${file(./config/appsync/mapping-templates.yml)}
-  dataSources: ${file(./config/appsync/data-sources.yml)}
-AURORA_HOST: ${env:AURORA_HOST}
-DB_NAME: ${env:DB_NAME}
-USERNAME: ${env:USERNAME}
-PASSWORD: ${env:PASSWORD}
+AURORA_HOST:
+  Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
