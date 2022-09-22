@@ -1,43 +1,73 @@
-import { DynamoDBRepository } from "@rental-storage-project/common";
+import {
+  AWSRegion,
+  BookingInterface,
+  DynamoDBRepository,
+} from "@rental-storage-project/common";
+import { BookingMapper } from "../mapper";
 
 export class BookingRepository extends DynamoDBRepository {
-  public static async create(): Promise<BookingRepository> {
-    return new BookingRepository();
+  public static async create(region: AWSRegion): Promise<BookingRepository> {
+    return new BookingRepository(region);
   }
 
-  public async save(
-    id: string,
-    name: string,
-    description: string
-  ): Promise<any> {
+  public async save(booking: BookingInterface): Promise<void> {
+    console.debug("SAVE: ", booking);
+    const { id, status, amount, userId, listingId, createdAt, updatedAt } =
+      booking;
+
     const params = {
       Item: {
         id: {
           S: id,
         },
-        name: {
-          S: name,
+        status: {
+          S: status,
         },
-        description: {
-          S: description,
+        user_id: {
+          S: userId,
         },
+        listing_id: {
+          S: listingId,
+        },
+        amount: {
+          M: {
+            value: {
+              N: amount.value.toString(),
+            },
+            currency: {
+              S: amount.currency,
+            },
+          },
+        },
+        created_at: {
+          S: createdAt,
+        },
+        ...(updatedAt && {
+          updated_at: {
+            S: updatedAt,
+          },
+        }),
       },
       ReturnConsumedCapacity: "TOTAL",
-      TableName: process.env.TODO_TABLE_NAME,
+      TableName: process.env.TABLE_NAME,
     };
 
-    return this._client
+    await this._client
       .putItem(params as any)
       .promise()
-      .then((data) => {
-        return {
-          id,
-          name,
-          description,
-        };
-      })
+      // .then((_data) => {
+      //   return {
+      //     id,
+      //     status,
+      //     userId,
+      //     listingId,
+      //     amount,
+      //     createdAt,
+      //     updatedAt,
+      //   };
+      // })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -48,19 +78,38 @@ export class BookingRepository extends DynamoDBRepository {
           S: id,
         },
       },
-      TableName: process.env.TODO_TABLE_NAME,
+      TableName: process.env.TABLE_NAME,
     };
-    return this._client
+    return await this._client
       .deleteItem(params as any)
       .promise()
-      .then((data) => {
+      .then((_data) => {
         return {
           id,
         };
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
+  }
+
+  public async findById(id: string): Promise<any> {
+    var params = {
+      Key: {
+        id: { S: id },
+      },
+      TableName: process.env.TABLE_NAME,
+    };
+
+    const data = await this._client
+      .getItem(params as any)
+      .promise()
+      .then((data: any) => data)
+      .catch((err) => {
+        console.error(err);
+      });
+
+    return BookingMapper.toDTOFromRaw(data);
   }
 
   public async findAll(): Promise<any> {
@@ -82,7 +131,7 @@ export class BookingRepository extends DynamoDBRepository {
         return todoList;
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 
@@ -125,7 +174,7 @@ export class BookingRepository extends DynamoDBRepository {
         };
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }
 }

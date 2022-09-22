@@ -2,7 +2,6 @@ const uuidv4 = require("uuid/v4");
 const Client = require("serverless-mysql");
 
 export const handler = async (event: any) => {
-  console.log("EVENT: ", event);
   const { name } = event.arguments;
   var client = Client({
     config: {

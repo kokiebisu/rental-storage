@@ -64,24 +64,31 @@
   request: false
   response: false
 
+# Booking
+## Mutation
+- type: Mutation
+  field: makeBooking
+  dataSource: makeBookingFunction
+  request: false
+  response: false
 ## TODOS (TEMP)
-- type: Mutation
-  field: createTodo
-  dataSource: createTodoFunction
-  request: false
-  response: false
-- type: Mutation
-  field: updateTodo
-  dataSource: updateTodoFunction
-  request: false
-  response: false
-- type: Mutation
-  field: deleteTodo
-  dataSource: deleteTodoFunction
-  request: false
-  response: false
-- type: Query
-  field: getTodos
-  dataSource: getTodosFunction
-  request: false
-  response: false
+# - type: Mutation
+#   field: createTodo
+#   dataSource: createTodoFunction
+#   request: false
+#   response: false
+# - type: Mutation
+#   field: updateTodo
+#   dataSource: updateTodoFunction
+#   request: false
+#   response: false
+# - type: Mutation
+#   field: deleteTodo
+#   dataSource: deleteTodoFunction
+#   request: false
+#   response: false
+# - type: Query
+#   field: getTodos
+#   dataSource: getTodosFunction
+#   request: false
+#   response: false

@@ -1,29 +1,26 @@
-getTodos:
-  handler: dist/getTodos.handler
-  environment:
-    TODO_TABLE_NAME: !Ref TodoTable
+# getTodos:
+#   handler: dist/getTodos.handler
+#   environment:
+#     TODO_TABLE_NAME: !Ref TodoTable
+# createTodo:
+#   handler: dist/createTodo.handler
+#   environment:
+#     TODO_TABLE_NAME: !Ref TodoTable
 
-createTodo:
-  handler: dist/createTodo.handler
-  environment:
-    TODO_TABLE_NAME: !Ref TodoTable
+# updateTodo:
+#   handler: dist/updateTodo.handler
+#   environment:
+#     TODO_TABLE_NAME: !Ref TodoTable
 
-updateTodo:
-  handler: dist/updateTodo.handler
-  environment:
-    TODO_TABLE_NAME: !Ref TodoTable
-
-deleteTodo:
-  handler: dist/deleteTodo.handler
-  environment:
-    TODO_TABLE_NAME: !Ref TodoTable
-
+# deleteTodo:
+#   handler: dist/deleteTodo.handler
+#   environment:
+#     TODO_TABLE_NAME: !Ref TodoTable
 makeBooking:
   handler: dist/graphql/mutation.makeBooking
   environment:
     TABLE_NAME: !Ref BookingTable
-
-findAllCreatedBookings():
-  handler: dist/graphql/mutation
-  environment:
-    TABLE_NAME: !Ref BookingTable
+# findAllCreatedBookings:
+#   handler: dist/graphql/query.findAllCreatedBookings
+#   environment:
+#     TABLE_NAME: !Ref BookingTable

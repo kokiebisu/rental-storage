@@ -1,7 +1,7 @@
 import { BookingServiceImpl } from "../service";
 
 export const makeBooking = async (event: any) => {
-  const {} = event.arguments;
+  const { amount, currency, userId, listingId } = event.arguments;
   const service = await BookingServiceImpl.create();
-  return await service.makeBooking();
+  return await service.makeBooking(amount, currency, userId, listingId);
 };

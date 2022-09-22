@@ -1,10 +1,10 @@
-import { UserServiceImpl } from "../src/service";
+import { UserServiceImpl } from "../service";
 
 export const registerGuest = async (event: any) => {
   const { firstName, lastName } = event.arguments;
   const service = await UserServiceImpl.create();
   return await service.registerGuest({ firstName, lastName });
-  // console.log("EVENT: ", event);
+
   // const { name } = event.arguments;
   // var client = Client({
   //   config: {
@@ -42,7 +42,7 @@ export const registerHost = async (event: any) => {
   const { firstName, lastName } = event.arguments;
   const service = await UserServiceImpl.create();
   return await service.registerHost({ firstName, lastName });
-  // console.log("EVENT: ", event);
+
   // const { name } = event.arguments;
   // var client = Client({
   //   config: {

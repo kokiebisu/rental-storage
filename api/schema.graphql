@@ -17,7 +17,7 @@ type Query {
   ): [Listing]
 
   # booking
-  findAllCreatedBookings(): [Booking]
+  # findAllCreatedBookings(): [Booking]
 }
 
 type Mutation {
@@ -37,7 +37,12 @@ type Mutation {
   removeListingById(id: ID!): Boolean
 
   # booking
-  makeBooking(): Boolean
+  makeBooking(
+    amount: Int!
+    currency: String!
+    userId: ID!
+    listingId: ID!
+  ): Boolean
 }
 
 type Guest {
@@ -58,8 +63,4 @@ type Listing {
   streetAddress: String
   latitude: Float
   longitude: Float
-}
-
-type Booking {
-  
 }

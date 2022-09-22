@@ -1,4 +1,4 @@
-import { ListingServiceImpl } from "../src/service";
+import { ListingServiceImpl } from "../service";
 
 export const addListing = async (event: any) => {
   const { hostId, streetAddress, latitude, longitude } = event.arguments;

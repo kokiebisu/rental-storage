@@ -26,7 +26,6 @@ export class GuestRepository extends RDSRepository {
       `INSERT INTO ${this.tableName} (first_name, last_name) VALUES(?,?)`,
       [data.firstName, data.lastName]
     );
-    console.log("SAVE RESULT: ", result);
     return result;
   }
 
@@ -35,7 +34,6 @@ export class GuestRepository extends RDSRepository {
       `DELETE FROM ${this.tableName} WHERE id = ?`,
       [id]
     );
-    console.log("DELETE RESULT: ", result);
     return result;
   }
 
@@ -44,7 +42,6 @@ export class GuestRepository extends RDSRepository {
       `SELECT * FROM ${this.tableName} WHERE id = ?`,
       [id]
     );
-    console.log("GETBYID RESULT: ", result);
     return GuestMapper.toDTOFromRaw(result[0]);
   }
 }

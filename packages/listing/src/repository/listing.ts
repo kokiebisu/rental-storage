@@ -59,7 +59,7 @@ export class ListingRepository extends RDSRepository {
     `,
       [latitude, longitude, latitude, range]
     );
-    console.log("RESULT: ", result);
+
     return result.map((item) => ListingMapper.toDTOFromRaw(item));
   }
 }
