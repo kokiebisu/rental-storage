@@ -1,0 +1,13 @@
+Type: "AWS::SQS::Queue"
+Properties:
+  QueueName: "${self:custom.stage}-${self:service}"
+  VisibilityTimeout: 930
+  RedrivePolicy:
+    deadLetterTargetArn:
+      Fn::Join:
+        - ":"
+        - - "arn:aws:sqs"
+          - Ref: "AWS::Region"
+          - Ref: "AWS::AccountId"
+          - "${self:custom.stage}-dead-letter-queue"
+    maxReceiveCount: 3

@@ -1,4 +1,4 @@
-import { UserServiceImpl } from "../service";
+import { UserServiceImpl } from "../../service";
 
 export const registerGuest = async (event: any) => {
   const { firstName, lastName } = event.arguments;

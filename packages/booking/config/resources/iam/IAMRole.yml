@@ -1,0 +1,65 @@
+Type: AWS::IAM::Role
+Properties:
+  AssumeRolePolicyDocument:
+    Statement:
+      - Effect: Allow
+        Action: sts:AssumeRole
+        Principal:
+          Service: lambda.amazonaws.com
+    Version: "2012-10-17"
+  Policies:
+    - PolicyName: EnableLog
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - logs:CreateLogStream
+              - logs:CreateLogGroup
+              - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+    - PolicyName: EnableDynamoDB
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+              - dynamodb:GetItem
+              - dynamodb:Scan
+            Resource: "arn:aws:dynamodb:#{AWS::Region}:*:table/${self:custom.TABLE_NAME}"
+    - PolicyName: EnableSSM
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - ssm:GetParameter
+              - ssm:GetParameters
+              - ssm:GetParametersByPath
+              - ssm:DescribeParameters
+              - ssm:PutParameter
+            Resource:
+              - "Fn::Join":
+                  - ":"
+                  - - "arn:aws:ssm"
+                    - Ref: "AWS::Region"
+                    - "*"
+                    - "*"
+    - PolicyName: EnableSNS
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - sns:CreateTopic
+              - sns:Publish
+            Resource:
+              - "Fn::Join":
+                  - ":"
+                  - - "arn:aws:sns"
+                    - Ref: "AWS::Region"
+                    - "*"
+                    - "*"

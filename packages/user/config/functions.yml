@@ -1,6 +1,7 @@
-# Query
+# Graphql
+## Query
 findGuestById:
-  handler: dist/graphql/query.findGuestById
+  handler: dist/adapter/graphql/query.findGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -8,16 +9,16 @@ findGuestById:
     PASSWORD: ${env:DB_PASSWORD}
 
 findHostById:
-  handler: dist/graphql/query.findHostById
+  handler: dist/adapter/graphql/query.findHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
 
-# Mutation
+## Mutation
 registerGuest:
-  handler: dist/graphql/mutation.registerGuest
+  handler: dist/adapter/graphql/mutation.registerGuest
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -25,7 +26,7 @@ registerGuest:
     PASSWORD: ${env:DB_PASSWORD}
 
 registerHost:
-  handler: dist/graphql/mutation.registerHost
+  handler: dist/adapter/graphql/mutation.registerHost
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -33,7 +34,7 @@ registerHost:
     PASSWORD: ${env:DB_PASSWORD}
 
 removeGuestById:
-  handler: dist/graphql/mutation.removeGuestById
+  handler: dist/adapter/graphql/mutation.removeGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -41,9 +42,21 @@ removeGuestById:
     PASSWORD: ${env:DB_PASSWORD}
 
 removeHostById:
-  handler: dist/graphql/mutation.removeHostById
+  handler: dist/adapter/graphql/mutation.removeHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
+
+# Consumer
+## SQS
+event-consumer:
+  handler: dist/adapter/consumer/sqs.consumeEvent
+  events:
+    - sqs:
+        enabled: true
+        arn:
+          Fn::GetAtt:
+            - SQSQueue
+            - Arn

@@ -1,3 +1,5 @@
 Resources:
   AuroraRDSCluster: ${file(./config/resources/db/AuroraRDSCluster.yml)}
   AuroraRDSInstance: ${file(./config/resources/db/AuroraRDSInstance.yml)}
+  SQSQueue: ${file(./config/resources/sqs/SQSQueue.yml)}
+  SNSSubscriptionBooking: ${file(./config/resources/sqs/SNSSubscriptionUser.yml)}

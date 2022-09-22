@@ -1,4 +1,5 @@
 Resources:
-  IAMRole: ${file(./config/resources/IAMRole.yml)}
+  IAMRole: ${file(./config/resources/iam/IAMRole.yml)}
   # TodoTable: ${file(./config/resources/TodoTable.yml)}
-  BookingTable: ${file(./config/resources/BookingTable.yml)}
+  BookingTable: ${file(./config/resources/dynamodb/BookingTable.yml)}
+  SNSTopicEventEntities: ${file(./config/resources/sns/SNSTopic.yml)}

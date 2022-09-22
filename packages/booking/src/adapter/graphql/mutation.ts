@@ -1,4 +1,4 @@
-import { BookingServiceImpl } from "../service";
+import { BookingServiceImpl } from "../../service";
 
 export const makeBooking = async (event: any) => {
   const { amount, currency, userId, listingId } = event.arguments;

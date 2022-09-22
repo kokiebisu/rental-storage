@@ -1,0 +1,19 @@
+Type: "AWS::SNS::Subscription"
+DependsOn:
+  - SQSQueue
+Properties:
+  Protocol: sqs
+  Endpoint:
+    Fn::Join:
+      - ":"
+      - - "arn:aws:sqs"
+        - Ref: "AWS::Region"
+        - Ref: "AWS::AccountId"
+        - "${self:custom.stage}-${self:service}"
+  TopicArn:
+    Fn::Join:
+      - ":"
+      - - "arn:aws:sns"
+        - Ref: "AWS::Region"
+        - Ref: "AWS::AccountId"
+        - "${self:custom.stage}-users-service-User"

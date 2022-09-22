@@ -1,4 +1,4 @@
-import { UserServiceImpl } from "../service";
+import { UserServiceImpl } from "../../service";
 
 export const findGuestById = async (event: any) => {
   const { id } = event.arguments;
