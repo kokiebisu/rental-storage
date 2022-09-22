@@ -1,8 +1,13 @@
-import { Text, View, Linking, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useRoute } from "@react-navigation/native";
+import { Linking } from "react-native";
 
 export const useDetailsScreen = () => {
+  const { params } = useRoute();
+
+  console.log("PAYLOAD: ", params.payload.listingId);
+
   const listingData = {
+    id: "1",
     host: {
       emailAddress: "host@gmail.com",
     },

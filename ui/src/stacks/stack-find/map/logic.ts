@@ -4,7 +4,7 @@ export const useFindMapScreen = () => {
   const navigation = useNavigation();
   const places = [
     {
-      id: "sdfiojsdiojff2oij",
+      id: "1",
       title: "good garage 1",
       latitude: 28.32,
       longitude: -16.4,
@@ -13,7 +13,7 @@ export const useFindMapScreen = () => {
       available: "suitcase",
     },
     {
-      id: "asdfsdavsd",
+      id: "2",
       title: "good garage 2",
       latitude: 28.3279822,
       longitude: -16.5124847,
@@ -22,7 +22,7 @@ export const useFindMapScreen = () => {
       available: "bag",
     },
     {
-      id: "hhetrhe",
+      id: "3",
       title: "good garage 3",
       latitude: 28.2,
       longitude: -16.5124847,
@@ -32,13 +32,17 @@ export const useFindMapScreen = () => {
     },
   ];
 
-  const handleNavigationToHomeScreen = 
+  const handleNavigationToDetailsScreen = (item) => {
+    navigation.navigate("Details", {
+      payload: {
+        listingId: item.id,
+      },
+    });
+  };
 
   return {
     places,
     handleNavigationToHomeScreen: () => navigation.goBack(),
-    handleNavigationToDetailsScreen: () => navigation.navigate('Details', {
-      
-    })
+    handleNavigationToDetailsScreen,
   };
 };

@@ -141,7 +141,7 @@ export default ({
               item={item}
               category={payload.category}
               width={width}
-              onPress={handleNavigationToDetailsScreen}
+              onPress={() => handleNavigationToDetailsScreen(item)}
             />
           )}
           ListFooterComponent={() => (
