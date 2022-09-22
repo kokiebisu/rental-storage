@@ -4,9 +4,11 @@ schema {
 }
 
 type Query {
+  # user
   findGuestById(id: ID!): Guest
   findHostById(id: ID!): Host
 
+  # listing
   findListingById(id: ID!): Listing
   findListingsWithinLatLng(
     latitude: Float!
@@ -16,11 +18,13 @@ type Query {
 }
 
 type Mutation {
+  # user
   registerGuest(firstName: String!, lastName: String!): Boolean
   removeGuestById(id: ID!): Boolean
   registerHost(firstName: String!, lastName: String!): Boolean
   removeHostById(id: ID!): Boolean
 
+  # listing
   addListing(
     hostId: ID!
     streetAddress: String!
@@ -28,6 +32,8 @@ type Mutation {
     longitude: Float!
   ): Boolean
   removeListingById(id: ID!): Boolean
+
+  # booking
 }
 
 type Guest {

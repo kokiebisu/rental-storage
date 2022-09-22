@@ -1,18 +1,14 @@
 {
-  "name": "backend",
-  "dependencies": {
-    "esbuild": "0.15.7",
-    "glob": "8.0.3",
-    "serverless-mysql": "^1.4.0",
-    "uuid": "^3.3.2"
-  },
+  "name": "@rental-storage-project/booking",
   "scripts": {
     "deploy": "tsc -b . && sls deploy",
     "remove": "sls remove"
   },
+  "dependencies": {
+    "@rental-storage-project/common": "file:../common"
+  },
   "devDependencies": {
     "@types/node": "18.7.18",
-    "serverless-appsync-plugin": "1.14.0",
     "serverless-dotenv-plugin": "4.0.2",
     "serverless-plugin-common-excludes": "4.0.0",
     "serverless-plugin-include-dependencies": "5.0.0",
