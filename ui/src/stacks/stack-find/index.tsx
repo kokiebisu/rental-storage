@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { stacksConfig } from "../../config";
 import { FindMapScreen } from "./map";
 import { FindHomeScreen } from "./home";
+import { FindDetailsScreen } from "./details";
 
 const FindStack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ export const FindStackScreen = () => {
     <FindStack.Navigator screenOptions={stacksConfig}>
       <FindStack.Screen name="Home" component={FindHomeScreen} />
       <FindStack.Screen name="Map" component={FindMapScreen} />
+      <FindStack.Screen name="Details" component={FindDetailsScreen} />
     </FindStack.Navigator>
   );
 };
