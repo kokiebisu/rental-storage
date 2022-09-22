@@ -10,9 +10,14 @@ services:
     path: packages/listing
     dependsOn: infrastructure
 
+  booking:
+    path: packages/booking
+    dependsOn: infrastructure
+
   api:
     path: api
     dependsOn:
       - infrastructure
       - user
       - listing
+      - booking

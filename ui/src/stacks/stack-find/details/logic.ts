@@ -4,8 +4,6 @@ import { Linking } from "react-native";
 export const useDetailsScreen = () => {
   const { params } = useRoute();
 
-  console.log("PAYLOAD: ", params.payload.listingId);
-
   const listingData = {
     id: "1",
     host: {

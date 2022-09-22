@@ -1,0 +1,4 @@
+Resources:
+  IAMRole: ${file(./config/resources/IAMRole.yml)}
+  # TodoTable: ${file(./config/resources/TodoTable.yml)}
+  BookingTable: ${file(./config/resources/BookingTable.yml)}

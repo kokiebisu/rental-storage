@@ -18,7 +18,7 @@ export const TodoContextProvider = ({ children }) => {
     try {
       addTodoMutationFunction({ variables: { input: { todo } } });
     } catch (err) {
-      console.log("error creating todo: ", err);
+      console.error("error creating todo: ", err);
     }
   };
 
@@ -26,7 +26,7 @@ export const TodoContextProvider = ({ children }) => {
     try {
       deleteTodoMutateFunction({ variables: { input: { id } } });
     } catch (err) {
-      console.log("error deleting todo: ", err);
+      console.error("error deleting todo: ", err);
     }
   };
 

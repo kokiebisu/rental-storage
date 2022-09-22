@@ -1,0 +1,14 @@
+service: rental-storage-booking
+frameworkVersion: "3"
+
+plugins:
+  - serverless-plugin-common-excludes
+  - serverless-plugin-include-dependencies
+  - serverless-pseudo-parameters
+  - serverless-dotenv-plugin
+
+provider: ${file(./config/provider.yml)}
+
+custom: ${file(./config/custom.yml)}
+functions: ${file(./config/functions.yml)}
+resources: ${file(./config/resources/entry.yml)}
