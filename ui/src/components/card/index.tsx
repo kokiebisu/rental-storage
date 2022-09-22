@@ -1,26 +1,11 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  Image,
-  useWindowDimensions,
-  Pressable,
-  Linking,
-} from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import styles from "./styles";
 
-const Post = ({ item, category }) => {
-  const width = useWindowDimensions().width;
-
-  const openEmailComposer = async () => {
-    await Linking.openURL(
-      `mailto:${item.emailAddress}?subject=RentStorage&body=I want to store my ${category} at your place!`
-    );
-  };
-
+const Post = ({ item, onPress, width }) => {
   return (
     <Pressable
-      onPress={openEmailComposer}
+      onPress={onPress}
       style={[styles.container, { width: width - 30 }]}
     >
       <View style={styles.innerContainer}>
@@ -30,7 +15,6 @@ const Post = ({ item, category }) => {
             uri: "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Garage__wide_shot_2.max-1300x1300.png",
           }}
         />
-
         <View
           style={{ flex: 1, marginHorizontal: 10, justifyContent: "center" }}
         >
