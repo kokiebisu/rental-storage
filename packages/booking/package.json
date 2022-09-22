@@ -1,7 +1,8 @@
 {
   "name": "@rental-storage-project/booking",
   "scripts": {
-    "deploy": "tsc -b . && sls deploy",
+    "build": "tsc -b .",
+    "deploy": "npm run build && sls deploy",
     "remove": "sls remove"
   },
   "dependencies": {

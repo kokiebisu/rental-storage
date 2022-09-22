@@ -9,14 +9,13 @@ export interface BookingService {
 export class BookingServiceImpl {
   private _bookingRepository: BookingRepository;
 
-  private constructor(bookingRepository: Booking) {
+  private constructor(bookingRepository: BookingRepository) {
     this._bookingRepository = bookingRepository;
   }
 
   public static async create() {
     const bookingRepository = await BookingRepository.create();
 
-    await bookingRepository.setup();
     return new BookingServiceImpl(bookingRepository);
   }
 

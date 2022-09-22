@@ -17,3 +17,13 @@ deleteTodo:
   handler: dist/deleteTodo.handler
   environment:
     TODO_TABLE_NAME: !Ref TodoTable
+
+makeBooking:
+  handler: dist/graphql/mutation.makeBooking
+  environment:
+    TABLE_NAME: !Ref BookingTable
+
+findAllCreatedBookings():
+  handler: dist/graphql/mutation
+  environment:
+    TABLE_NAME: !Ref BookingTable

@@ -2,6 +2,7 @@ import { BookingStatus } from "../enum";
 import { Amount } from "@rental-storage-project/common";
 
 export class Booking {
+  private _id?: string;
   private _status: BookingStatus;
   private _amount: Amount;
   private _userId: string;

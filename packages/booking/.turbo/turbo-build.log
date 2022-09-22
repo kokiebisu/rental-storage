@@ -1,0 +1,5 @@
+[35m@rental-storage-project/booking:build[0m: cache hit, replaying output [2m2fefcdb479e05e20[0m
+[35m@rental-storage-project/booking:build: [0m
+[35m@rental-storage-project/booking:build: [0m> @rental-storage-project/booking@ build /Users/ken/Desktop/rent-storage-project/packages/booking
+[35m@rental-storage-project/booking:build: [0m> tsc -b .
+[35m@rental-storage-project/booking:build: [0m

@@ -1,6 +1,8 @@
 import Client from "serverless-mysql";
-import { ListingInterface } from "@rental-storage-project/common";
-import { RDSRepository } from "./rds";
+import {
+  ListingInterface,
+  RDSRepository,
+} from "@rental-storage-project/common";
 import { ListingMapper } from "../mapper";
 import { ListingRawInterface } from "../entity";
 

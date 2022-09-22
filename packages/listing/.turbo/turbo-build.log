@@ -1,6 +1,5 @@
-[33m@rental-storage-project/listing:build[0m: cache hit, replaying output [2m2fc261d4d19523f0[0m
+[33m@rental-storage-project/listing:build[0m: cache hit, replaying output [2m8d4acc3ab7f5f5b0[0m
 [33m@rental-storage-project/listing:build: [0m
 [33m@rental-storage-project/listing:build: [0m> @rental-storage-project/listing@1.0.0 build /Users/ken/Desktop/rent-storage-project/packages/listing
 [33m@rental-storage-project/listing:build: [0m> tsc -b .
 [33m@rental-storage-project/listing:build: [0m
-[33m@rental-storage-project/listing:build: [0mnpm WARN lifecycle The node binary used for scripts is /var/folders/v2/xc9m0x0x6mj9609cc5n_1gxw0000gn/T/yarn--1663810528194-0.8169465326168697/node but npm is using /Users/ken/.nvm/versions/node/v14.18.1/bin/node itself. Use the `--scripts-prepend-node-path` option to include the path for the node binary npm was executed with.

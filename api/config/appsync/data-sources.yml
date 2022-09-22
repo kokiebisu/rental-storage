@@ -53,3 +53,24 @@
   name: removeListingByIdFunction
   config:
     lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:474489807730:function:${self:custom.service}-listing-${self:provider.stage}-removeListingById
+
+## TODOS (TEMP)
+- type: AWS_LAMBDA
+  name: createTodoFunction
+  config:
+    functionName: createTodo
+
+- type: AWS_LAMBDA
+  name: updateTodoFunction
+  config:
+    functionName: updateTodo
+
+- type: AWS_LAMBDA
+  name: deleteTodoFunction
+  config:
+    functionName: deleteTodo
+
+- type: AWS_LAMBDA
+  name: getTodosFunction
+  config:
+    functionName: getTodos

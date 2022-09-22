@@ -1,7 +1,6 @@
 import Client from "serverless-mysql";
-import { HostInterface } from "@rental-storage-project/common";
+import { HostInterface, RDSRepository } from "@rental-storage-project/common";
 import { HostMapper } from "../mapper";
-import { RDSRepository } from "./rds";
 
 export class HostRepository extends RDSRepository {
   public static async create(): Promise<HostRepository> {
