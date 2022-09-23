@@ -2,13 +2,8 @@ export const consumeEvent = async (event: any) => {
   console.log("CONSUMER LOG EVENT: ", event);
   try {
     for (const record of event.Records) {
-      const messageAttributes = record.messageAttributes;
-      console.log(
-        "Message Attributtes -->  ",
-        messageAttributes.AttributeNameHere.stringValue
-      );
-      console.log("Message Body -->  ", record.body);
-      // Do something
+      const { Message: message } = JSON.parse(record.body);
+      console.log("message: ", message);
     }
   } catch (error) {
     console.log(error);

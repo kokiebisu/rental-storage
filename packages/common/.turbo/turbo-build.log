@@ -1,5 +1,0 @@
-[35m@rental-storage-project/common:build[0m: cache hit, replaying output [2ma11d746875d4e892[0m
-[35m@rental-storage-project/common:build: [0m
-[35m@rental-storage-project/common:build: [0m> @rental-storage-project/common@ build /Users/ken/Desktop/rent-storage-project/packages/common
-[35m@rental-storage-project/common:build: [0m> tsc -b .
-[35m@rental-storage-project/common:build: [0m

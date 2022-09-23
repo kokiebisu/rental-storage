@@ -4,46 +4,46 @@ findGuestById:
   handler: dist/adapter/graphql/query.findGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 
 findHostById:
   handler: dist/adapter/graphql/query.findHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 ## Mutation
 registerGuest:
   handler: dist/adapter/graphql/mutation.registerGuest
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 registerHost:
   handler: dist/adapter/graphql/mutation.registerHost
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 removeGuestById:
   handler: dist/adapter/graphql/mutation.removeGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 removeHostById:
   handler: dist/adapter/graphql/mutation.removeHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 # # Consumer
 # ## SQS
 userConsumer:

@@ -3,13 +3,6 @@ DependsOn:
   - SQSQueue
 Properties:
   Protocol: sqs
-  Endpoint:
-    Fn::Join:
-      - ":"
-      - - "arn:aws:sqs"
-        - Ref: "AWS::Region"
-        - Ref: "AWS::AccountId"
-        - "${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-queue"
   TopicArn:
     Fn::Join:
       - ":"
@@ -17,3 +10,10 @@ Properties:
         - Ref: "AWS::Region"
         - Ref: "AWS::AccountId"
         - ${self:custom.namespace}-booking-${self:provider.stage}-bookingCreated
+  Endpoint:
+    Fn::Join:
+      - ":"
+      - - "arn:aws:sqs"
+        - Ref: "AWS::Region"
+        - Ref: "AWS::AccountId"
+        - ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-queue
