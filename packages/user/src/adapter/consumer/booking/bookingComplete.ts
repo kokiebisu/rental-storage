@@ -1,4 +1,4 @@
-export const consumeEvent = async (event: any) => {
+export const handler = async (event: any) => {
   console.log("CONSUMER LOG EVENT: ", event);
   try {
     for (const record of event.Records) {

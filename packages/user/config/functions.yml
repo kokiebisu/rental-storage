@@ -1,7 +1,7 @@
 # Graphql
 ## Query
 findGuestById:
-  handler: dist/adapter/graphql/query.findGuestById
+  handler: dist/adapter/graphql/query/findGuestById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -9,7 +9,7 @@ findGuestById:
     PASSWORD: ${self:custom.DB_PASSWORD}
 
 findHostById:
-  handler: dist/adapter/graphql/query.findHostById
+  handler: dist/adapter/graphql/query/findHostById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -17,28 +17,28 @@ findHostById:
     PASSWORD: ${self:custom.DB_PASSWORD}
 ## Mutation
 registerGuest:
-  handler: dist/adapter/graphql/mutation.registerGuest
+  handler: dist/adapter/graphql/mutation/registerGuest.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
 registerHost:
-  handler: dist/adapter/graphql/mutation.registerHost
+  handler: dist/adapter/graphql/mutation/registerHost.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
 removeGuestById:
-  handler: dist/adapter/graphql/mutation.removeGuestById
+  handler: dist/adapter/graphql/mutation/removeGuestById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
 removeHostById:
-  handler: dist/adapter/graphql/mutation.removeHostById
+  handler: dist/adapter/graphql/mutation/removeHostById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -47,7 +47,7 @@ removeHostById:
 # # Consumer
 # ## SQS
 userConsumer:
-  handler: dist/adapter/consumer/sqs.consumeEvent
+  handler: dist/adapter/consumer/booking/bookingComplete.handler
   events:
     - sqs:
         enabled: true
