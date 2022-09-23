@@ -1,5 +1,5 @@
-[34m@rental-storage-project/booking:build[0m: cache hit, replaying output [2mfd69efb392fa972c[0m
-[34m@rental-storage-project/booking:build: [0m
-[34m@rental-storage-project/booking:build: [0m> @rental-storage-project/booking@ build /Users/ken/Desktop/rent-storage-project/packages/booking
-[34m@rental-storage-project/booking:build: [0m> tsc -b .
-[34m@rental-storage-project/booking:build: [0m
+[32m@rental-storage-project/booking:build[0m: cache hit, replaying output [2m013330a58b8e58f0[0m
+[32m@rental-storage-project/booking:build: [0m
+[32m@rental-storage-project/booking:build: [0m> @rental-storage-project/booking@ build /Users/ken/Desktop/rent-storage-project/packages/booking
+[32m@rental-storage-project/booking:build: [0m> tsc -b .
+[32m@rental-storage-project/booking:build: [0m

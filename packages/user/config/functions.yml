@@ -15,7 +15,6 @@ findHostById:
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
-
 ## Mutation
 registerGuest:
   handler: dist/adapter/graphql/mutation.registerGuest
@@ -24,7 +23,6 @@ registerGuest:
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
-
 registerHost:
   handler: dist/adapter/graphql/mutation.registerHost
   environment:
@@ -32,7 +30,6 @@ registerHost:
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
-
 removeGuestById:
   handler: dist/adapter/graphql/mutation.removeGuestById
   environment:
@@ -40,7 +37,6 @@ removeGuestById:
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
-
 removeHostById:
   handler: dist/adapter/graphql/mutation.removeHostById
   environment:
@@ -48,10 +44,9 @@ removeHostById:
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
-
-# Consumer
-## SQS
-event-consumer:
+# # Consumer
+# ## SQS
+userConsumer:
   handler: dist/adapter/consumer/sqs.consumeEvent
   events:
     - sqs:

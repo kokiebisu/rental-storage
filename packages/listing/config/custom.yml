@@ -1,2 +1,4 @@
+namespace: rental-storage
+service: listing
 AURORA_HOST:
   Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]

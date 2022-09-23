@@ -3,6 +3,6 @@
 **/dist
 **/.env
 
-**/tsconfig.tsbuildinfo
+packages/common/tsconfig.tsbuildinfo
 **/.serverless
 .serverless

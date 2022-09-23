@@ -9,11 +9,11 @@ Properties:
       - - "arn:aws:sqs"
         - Ref: "AWS::Region"
         - Ref: "AWS::AccountId"
-        - "${self:custom.stage}-${self:service}"
+        - "${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-queue"
   TopicArn:
     Fn::Join:
       - ":"
       - - "arn:aws:sns"
         - Ref: "AWS::Region"
         - Ref: "AWS::AccountId"
-        - "${self:custom.stage}-users-service-User"
+        - ${self:custom.namespace}-booking-${self:provider.stage}-bookingCreated
