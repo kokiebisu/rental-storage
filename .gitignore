@@ -6,3 +6,4 @@
 **/tsconfig.tsbuildinfo
 **/.serverless
 .serverless
+**/.turbo

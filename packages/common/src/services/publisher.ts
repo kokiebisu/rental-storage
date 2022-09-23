@@ -1,25 +1,26 @@
 import AWS from "aws-sdk";
-import { AWSRegion } from "aws-sdk/clients/cur";
+import { AWSRegion } from "../enum";
 
 export class PublisherService {
   protected _client: AWS.SNS;
+  protected _region: AWSRegion;
+  protected _accountId: string;
 
-  private constructor(region: AWSRegion) {
+  protected constructor(region: AWSRegion, accountId: string) {
     this._client = new AWS.SNS({ region });
+    this._region = region;
+    this._accountId = accountId;
   }
 
-  public static create(region: AWSRegion) {
-    return new PublisherService(region);
-  }
-
-  protected async publish(message: string, topicArn: string) {
+  protected async publish(message: string, topicName: string) {
     const params = {
       Message: message,
-      topicArn: topicArn,
+      TopicArn: `arn:aws:sns:${this._region}:${this._accountId}:${topicName}`,
     };
+    console.debug("PUBLISH PARAMS: ", params);
     try {
       await this._client.publish(params).promise();
-      console.debug(`Successfully published to topicArn: ${params.topicArn}`);
+      console.debug(`Successfully published to topicArn: ${params.TopicArn}`);
     } catch (err) {
       console.error(err);
     }

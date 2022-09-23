@@ -1,1 +1,2 @@
-service: rental-storage
+namespace: rental-storage
+service: booking

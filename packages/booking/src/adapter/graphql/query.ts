@@ -1,4 +1,4 @@
-import { BookingServiceImpl } from "../service";
+import { BookingServiceImpl } from "../../service";
 
 export const findAllCreatedBookings = async (event: any) => {
   const {} = event.arguments;

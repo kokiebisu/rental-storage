@@ -1,7 +1,7 @@
-service: rental-storage
-
+namespace: rental-storage
+service: api
 appSync:
-  name: ${self:custom.service}-appsync
+  name: ${self:custom.namespace}-${self:custom.service}
   authenticationType: API_KEY
   mappingTemplates: ${file(./config/appsync/mapping-templates.yml)}
   dataSources: ${file(./config/appsync/data-sources.yml)}

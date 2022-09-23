@@ -1,49 +1,57 @@
-# Query
+# Graphql
+## Query
 findGuestById:
-  handler: dist/graphql/query.findGuestById
+  handler: dist/adapter/graphql/query/findGuestById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 
 findHostById:
-  handler: dist/graphql/query.findHostById
+  handler: dist/adapter/graphql/query/findHostById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
-
-# Mutation
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
+## Mutation
 registerGuest:
-  handler: dist/graphql/mutation.registerGuest
+  handler: dist/adapter/graphql/mutation/registerGuest.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
-
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 registerHost:
-  handler: dist/graphql/mutation.registerHost
+  handler: dist/adapter/graphql/mutation/registerHost.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
-
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 removeGuestById:
-  handler: dist/graphql/mutation.removeGuestById
+  handler: dist/adapter/graphql/mutation/removeGuestById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
-
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
 removeHostById:
-  handler: dist/graphql/mutation.removeHostById
+  handler: dist/adapter/graphql/mutation/removeHostById.handler
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
+# # Consumer
+# ## SQS
+userConsumer:
+  handler: dist/adapter/consumer/booking/bookingComplete.handler
+  events:
+    - sqs:
+        enabled: true
+        arn:
+          Fn::GetAtt:
+            - SQSQueue
+            - Arn
