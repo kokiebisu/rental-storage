@@ -1,4 +1,0 @@
-Resources:
-  IAMRole: ${file(./config/resources/iam/IAMRole.yml)}
-  BookingTable: ${file(./config/resources/dynamodb/BookingTable.yml)}
-  # TodoTable: ${file(./config/resources/TodoTable.yml)}

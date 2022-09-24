@@ -1,0 +1,11 @@
+# ## SQS
+consumerBookingCreated:
+  handler: dist/adapter/consumer/booking/bookingCreated.handler
+  name: ${self:custom.namespace}-${self:custom.service}-consumer-bookingCreated
+  events:
+    - sqs:
+        enabled: true
+        arn:
+          Fn::GetAtt:
+            - SQSQueue
+            - Arn

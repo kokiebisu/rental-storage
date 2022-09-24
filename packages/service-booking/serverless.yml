@@ -1,0 +1,32 @@
+service: rental-storage-booking
+frameworkVersion: "3"
+
+plugins:
+  - serverless-plugin-common-excludes
+  - serverless-plugin-include-dependencies
+  - serverless-pseudo-parameters
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  iam:
+    role: IAMRole
+
+custom:
+  namespace: rental-storage
+  service: booking
+  TABLE_NAME: booking
+  TODO_TABLE: todo-table
+
+functions:
+  - ${file(./aws/functions/appsync.yml)}
+
+resources:
+  Resources:
+    IAMRole: ${file(./aws/resources/iam/IAMRole.yml)}
+    BookingTable: ${file(./aws/resources/dynamodb/BookingTable.yml)}
+    # TodoTable: ${file(./aws/resources/TodoTable.yml)}

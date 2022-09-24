@@ -1,0 +1,9 @@
+# Rest API
+restAPIFindGuestById:
+  handler: dist/adapter/rest/findGuestById.handler
+  name: {self:custom.service}-rest-findGuestById
+  events:
+    - http: "ANY {proxy+}"
+
+# restAPIFindHostById:
+#   handler: dist/adapter/rest/
