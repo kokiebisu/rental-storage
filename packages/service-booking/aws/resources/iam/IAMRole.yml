@@ -29,7 +29,7 @@ Properties:
               - dynamodb:DeleteItem
               - dynamodb:GetItem
               - dynamodb:Scan
-            Resource: "arn:aws:dynamodb:#{AWS::Region}:*:table/${self:custom.TABLE_NAME}"
+            Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:custom.TABLE_NAME}"
     - PolicyName: EnableSSM
       PolicyDocument:
         Version: "2012-10-17"
