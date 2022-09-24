@@ -46,7 +46,7 @@ removeHostById:
     PASSWORD: ${self:custom.DB_PASSWORD}
 # # Consumer
 # ## SQS
-userConsumer:
+consumeBookingComplete:
   handler: dist/adapter/consumer/booking/bookingComplete.handler
   events:
     - sqs:

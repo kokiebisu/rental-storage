@@ -1,4 +1,9 @@
-import { Amount, AWSRegion, Currency } from "@rental-storage-project/common";
+import {
+  Amount,
+  AWSRegion,
+  Currency,
+  LoggerService,
+} from "@rental-storage-project/common";
 
 import { Booking } from "./entity";
 import { BookingMapper } from "./mapper";
@@ -13,6 +18,7 @@ export interface BookingService {
 export class BookingServiceImpl {
   private _bookingRepository: BookingRepository;
   private _publisher: BookingPublisherService;
+  private _logger: LoggerService;
 
   private constructor(
     bookingRepository: BookingRepository,
@@ -20,6 +26,7 @@ export class BookingServiceImpl {
   ) {
     this._bookingRepository = bookingRepository;
     this._publisher = bookingPublisher;
+    this._logger = new LoggerService("BookingServiceImpl");
   }
 
   public static async create() {
@@ -48,12 +55,13 @@ export class BookingServiceImpl {
 
     try {
       const bookingDTO = BookingMapper.toDTOFromEntity(booking);
+      this._logger.debug(bookingDTO, "makeBooking()");
       await this._bookingRepository.save(bookingDTO);
       await this._publisher.bookingCreated(bookingDTO);
 
       return true;
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "makeBooking()");
       return false;
     }
   }

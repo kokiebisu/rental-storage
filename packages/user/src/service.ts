@@ -1,4 +1,8 @@
-import { GuestInterface, HostInterface } from "@rental-storage-project/common";
+import {
+  GuestInterface,
+  HostInterface,
+  LoggerService,
+} from "@rental-storage-project/common";
 import { Guest, Host } from "./entity";
 import { HostRepository } from "./repository";
 import { GuestRepository } from "./repository/guest";
@@ -12,6 +16,7 @@ interface UserService {
 export class UserServiceImpl implements UserService {
   private _guestRepository: GuestRepository;
   private _hostRepository: HostRepository;
+  private _logger: LoggerService;
 
   private constructor(
     guestRepository: GuestRepository,
@@ -19,6 +24,7 @@ export class UserServiceImpl implements UserService {
   ) {
     this._guestRepository = guestRepository;
     this._hostRepository = hostRepository;
+    this._logger = new LoggerService("UserServiceImpl");
   }
 
   public static async create() {
@@ -38,7 +44,10 @@ export class UserServiceImpl implements UserService {
       // send slack message (new user joined!)
       return true;
     } else {
-      console.error("Attributes provided didn't match the User interface");
+      this._logger.error(
+        "Attributes provided didn't match the User interface",
+        "registerGuest"
+      );
       // send error alert to slack
     }
 
@@ -50,7 +59,7 @@ export class UserServiceImpl implements UserService {
       await this._guestRepository.delete(id);
       return true;
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "removeGuestById");
       return false;
     }
   }
@@ -60,7 +69,7 @@ export class UserServiceImpl implements UserService {
       const guest = await this._guestRepository.findOneById(id);
       return guest;
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "findGuestById()");
       return null;
     }
   }
@@ -74,7 +83,10 @@ export class UserServiceImpl implements UserService {
       // send slack message (new user joined!)
       return true;
     } else {
-      console.error("Attributes provided didn't match the User interface");
+      this._logger.error(
+        "Attributes provided didn't match the User interface",
+        "registerHost()"
+      );
       // send error alert to slack
     }
 
@@ -86,7 +98,7 @@ export class UserServiceImpl implements UserService {
       await this._hostRepository.delete(id);
       return true;
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "removeHostById()");
       return false;
     }
   }
@@ -96,7 +108,7 @@ export class UserServiceImpl implements UserService {
       const host = await this._hostRepository.findOneById(id);
       return host;
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "findHostById()");
       return null;
     }
   }

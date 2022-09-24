@@ -16,13 +16,12 @@ export class BookingPublisherService extends PublisherService {
 
   public async bookingCreated(booking: BookingInterface) {
     const topicArn = `${process.env.namespace}-${process.env.service}-${process.env.stage}-bookingCreated`;
-    console.debug("TOPIC ARN: ", topicArn);
     const message = JSON.stringify(booking);
     try {
       await this.publish(message, topicArn);
-      console.log("Successfully published message");
+      this._logger.info(topicArn, "bookingCreated()");
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "bookingCreated()");
     }
   }
 }

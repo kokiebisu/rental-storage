@@ -1,6 +1,7 @@
 import {
   AggregatedListingInterface,
   ListingInterface,
+  LoggerService,
 } from "@rental-storage-project/common";
 import { Listing, StreetAddress } from "./entity";
 import { ListingMapper } from "./mapper";
@@ -19,9 +20,11 @@ interface ListingService {
 
 export class ListingServiceImpl implements ListingService {
   private _listingRepository: ListingRepository;
+  private _logger: LoggerService;
 
   private constructor(listingRepository: ListingRepository) {
     this._listingRepository = listingRepository;
+    this._logger = new LoggerService("ListingServiceImpl");
   }
 
   public static async create() {
@@ -44,7 +47,7 @@ export class ListingServiceImpl implements ListingService {
       );
       return listings.map((item) => ListingMapper.toAggregated(item));
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "findListingsWithinLatLng()");
       return null;
     }
   }
@@ -56,7 +59,7 @@ export class ListingServiceImpl implements ListingService {
       const listing = await this._listingRepository.findOneById(id);
       return ListingMapper.toAggregated(listing);
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "findListingById()");
       return null;
     }
   }
@@ -76,7 +79,7 @@ export class ListingServiceImpl implements ListingService {
       await this._listingRepository.save(listingDTO);
       return true;
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "addListing()");
       return false;
     }
   }
@@ -86,7 +89,7 @@ export class ListingServiceImpl implements ListingService {
       await this._listingRepository.delete(id);
       return true;
     } catch (err) {
-      console.error(err);
+      this._logger.error(err, "removeListingById()");
       return false;
     }
   }

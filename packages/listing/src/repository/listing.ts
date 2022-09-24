@@ -16,7 +16,7 @@ export class ListingRepository extends RDSRepository {
         password: process.env.PASSWORD,
       },
     });
-    return new ListingRepository(client, "listing");
+    return new ListingRepository(client, "listing", "ListingRepository");
   }
 
   public async setup(): Promise<void> {
