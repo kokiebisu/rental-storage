@@ -1,12 +1,6 @@
 service: rental-storage-booking
 frameworkVersion: "3"
 
-plugins:
-  - serverless-plugin-common-excludes
-  - serverless-plugin-include-dependencies
-  - serverless-pseudo-parameters
-  - serverless-dotenv-plugin
-
 provider:
   name: aws
   runtime: nodejs14.x

@@ -3,11 +3,6 @@ frameworkVersion: "3"
 
 useDotenv: true
 
-plugins:
-  - serverless-plugin-common-excludes # this should go before serverless-plugin-include-dependencies
-  - serverless-plugin-include-dependencies
-  - serverless-pseudo-parameters
-
 provider:
   name: aws
   runtime: nodejs14.x

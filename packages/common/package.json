@@ -13,7 +13,6 @@
   ],
   "dependencies": {
     "aws-sdk": "2.1221.0",
-    "tslog": "3.3.4",
     "winston": "3.8.2"
   },
   "devDependencies": {
