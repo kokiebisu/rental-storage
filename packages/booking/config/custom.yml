@@ -1,4 +1,0 @@
-namespace: rental-storage
-service: booking
-TABLE_NAME: booking
-TODO_TABLE: todo-table

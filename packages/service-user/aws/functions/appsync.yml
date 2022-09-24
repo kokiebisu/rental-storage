@@ -1,6 +1,6 @@
 # Graphql
 ## Query
-findGuestById:
+graphqlFindGuestById:
   handler: dist/adapter/graphql/query/findGuestById.handler
   name: ${self:custom.namespace}-${self:custom.service}-graphql-findGuestById
   environment:
@@ -9,7 +9,7 @@ findGuestById:
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
 
-findHostById:
+graphqlFindHostById:
   handler: dist/adapter/graphql/query/findHostById.handler
   name: ${self:custom.namespace}-${self:custom.service}-graphql-findHostById
   environment:
@@ -18,7 +18,7 @@ findHostById:
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
 ## Mutation
-registerGuest:
+graphqlRegisterGuest:
   handler: dist/adapter/graphql/mutation/registerGuest.handler
   name: ${self:custom.namespace}-${self:custom.service}-graphql-registerGuest
   environment:
@@ -26,7 +26,7 @@ registerGuest:
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
-registerHost:
+graphqlRegisterHost:
   handler: dist/adapter/graphql/mutation/registerHost.handler
   name: ${self:custom.namespace}-${self:custom.service}-graphql-registerHost
   environment:
@@ -34,7 +34,7 @@ registerHost:
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
-removeGuestById:
+graphqlRemoveGuestById:
   handler: dist/adapter/graphql/mutation/removeGuestById.handler
   name: ${self:custom.namespace}-${self:custom.service}-graphql-removeGuestById
   environment:
@@ -42,7 +42,7 @@ removeGuestById:
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
-removeHostById:
+graphqlRemoveHostById:
   handler: dist/adapter/graphql/mutation/removeHostById.handler
   name: ${self:custom.namespace}-${self:custom.service}-graphql-removeHostById
   environment:
@@ -50,15 +50,3 @@ removeHostById:
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
-# # Consumer
-# ## SQS
-consumeBookingCreated:
-  handler: dist/adapter/consumer/booking/bookingCreated.handler
-  name: ${self:custom.namespace}-${self:custom.service}-consumer-bookingCreated
-  events:
-    - sqs:
-        enabled: true
-        arn:
-          Fn::GetAtt:
-            - SQSQueue
-            - Arn
