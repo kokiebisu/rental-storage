@@ -12,6 +12,11 @@
     "tsconfig.json"
   ],
   "dependencies": {
-    "aws-sdk": "2.1221.0"
+    "aws-sdk": "2.1221.0",
+    "tslog": "3.3.4",
+    "winston": "3.8.2"
+  },
+  "devDependencies": {
+    "@types/winston": "2.4.4"
   }
 }

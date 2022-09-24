@@ -7,11 +7,11 @@ import { BookingMapper } from "../mapper";
 
 export class BookingRepository extends DynamoDBRepository {
   public static async create(region: AWSRegion): Promise<BookingRepository> {
-    return new BookingRepository(region);
+    return new BookingRepository(region, "BookingRepository");
   }
 
   public async save(booking: BookingInterface): Promise<void> {
-    console.debug("SAVE: ", booking);
+    this._logger.debug(booking, "save()");
     const { id, status, amount, userId, listingId, createdAt, updatedAt } =
       booking;
 
@@ -67,7 +67,7 @@ export class BookingRepository extends DynamoDBRepository {
       //   };
       // })
       .catch((err) => {
-        console.error(err);
+        this._logger.error(err, "save()");
       });
   }
 
@@ -89,7 +89,7 @@ export class BookingRepository extends DynamoDBRepository {
         };
       })
       .catch((err) => {
-        console.error(err);
+        this._logger.error(err, "delete()");
       });
   }
 
@@ -106,7 +106,7 @@ export class BookingRepository extends DynamoDBRepository {
       .promise()
       .then((data: any) => data)
       .catch((err) => {
-        console.error(err);
+        this._logger.error(err, "findById()");
       });
 
     return BookingMapper.toDTOFromRaw(data);
@@ -131,7 +131,7 @@ export class BookingRepository extends DynamoDBRepository {
         return todoList;
       })
       .catch((err) => {
-        console.error(err);
+        this._logger.error(err, "findAll()");
       });
   }
 
@@ -174,7 +174,7 @@ export class BookingRepository extends DynamoDBRepository {
         };
       })
       .catch((err) => {
-        console.error(err);
+        this._logger.error(err, "update()");
       });
   }
 }

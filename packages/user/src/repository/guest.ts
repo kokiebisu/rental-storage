@@ -12,7 +12,7 @@ export class GuestRepository extends RDSRepository {
         password: process.env.PASSWORD,
       },
     });
-    return new GuestRepository(client, "guest");
+    return new GuestRepository(client, "guest", "GuestRepository");
   }
 
   public async setup(): Promise<void> {
