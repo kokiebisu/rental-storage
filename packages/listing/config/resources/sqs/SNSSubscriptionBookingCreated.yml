@@ -1,0 +1,19 @@
+Type: "AWS::SNS::Subscription"
+DependsOn:
+  - SQSQueue
+Properties:
+  Protocol: sqs
+  TopicArn:
+    Fn::Join:
+      - ":"
+      - - "arn:aws:sns"
+        - Ref: "AWS::Region"
+        - Ref: "AWS::AccountId"
+        - ${self:custom.namespace}-booking-${self:provider.stage}-bookingCreated
+  Endpoint:
+    Fn::Join:
+      - ":"
+      - - "arn:aws:sqs"
+        - Ref: "AWS::Region"
+        - Ref: "AWS::AccountId"
+        - ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-queue

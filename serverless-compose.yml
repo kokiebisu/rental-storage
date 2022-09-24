@@ -7,9 +7,9 @@ services:
     dependsOn:
       - infrastructure
 
-  # listing:
-  #   path: packages/listing
-  #   dependsOn: infrastructure
+  listing:
+    path: packages/listing
+    dependsOn: infrastructure
 
   booking:
     path: packages/booking

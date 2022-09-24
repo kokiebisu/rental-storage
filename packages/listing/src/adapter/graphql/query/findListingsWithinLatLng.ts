@@ -1,12 +1,6 @@
-import { ListingServiceImpl } from "../service";
+import { ListingServiceImpl } from "../../../service";
 
-export const findListingById = async (event: any) => {
-  const { id } = event.arguments;
-  const service = await ListingServiceImpl.create();
-  return service.findListingById(id);
-};
-
-export const findListingsWithinLatLng = async (event: any) => {
+export const handler = async (event: any) => {
   const { latitude, longitude, range } = event.arguments;
   const service = await ListingServiceImpl.create();
   return service.findListingsWithinLatLng(latitude, longitude, range);
