@@ -1,7 +1,7 @@
 ## SQS
-consumerBookingCreated:
+SQSBookingCreated:
   handler: dist/adapter/consumer/booking/bookingCreated.handler
-  name: ${self:custom.namespace}-${self:custom.service}-consumer-bookingCreated
+  name: ${self:custom.namespace}-${self:custom.service}-sqs-bookingCreated
   events:
     - sqs:
         enabled: true

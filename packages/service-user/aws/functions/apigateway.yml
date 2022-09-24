@@ -1,9 +1,12 @@
-# Rest API
-restAPIFindGuestById:
+APIGatewayFindGuestById:
   handler: dist/adapter/rest/findGuestById.handler
-  name: {self:custom.service}-rest-findGuestById
+  name: ${self:custom.service}-apigateway-findGuestById
   events:
-    - http: "ANY {proxy+}"
-
-# restAPIFindHostById:
-#   handler: dist/adapter/rest/
+    - http: ANY /
+    - http: ANY {proxy+}
+APIGatewayFindHostById:
+  handler: dist/adapter/rest/
+  name: ${self:custom.service}-apigateway-findHostById
+  events:
+    - http: ANY /
+    - http: ANY {proxy+}

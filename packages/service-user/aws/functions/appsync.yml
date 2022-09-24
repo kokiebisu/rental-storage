@@ -1,50 +1,50 @@
 # Graphql
 ## Query
-graphqlFindGuestById:
+AppSyncFindGuestById:
   handler: dist/adapter/graphql/query/findGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-findGuestById
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-findGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
 
-graphqlFindHostById:
+AppSyncFindHostById:
   handler: dist/adapter/graphql/query/findHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-findHostById
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-findHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
 ## Mutation
-graphqlRegisterGuest:
+AppSyncRegisterGuest:
   handler: dist/adapter/graphql/mutation/registerGuest.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-registerGuest
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-registerGuest
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
-graphqlRegisterHost:
+AppSyncRegisterHost:
   handler: dist/adapter/graphql/mutation/registerHost.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-registerHost
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-registerHost
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
-graphqlRemoveGuestById:
+AppSyncRemoveGuestById:
   handler: dist/adapter/graphql/mutation/removeGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-removeGuestById
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-removeGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.DB_USERNAME}
     PASSWORD: ${self:custom.DB_PASSWORD}
-graphqlRemoveHostById:
+AppSyncRemoveHostById:
   handler: dist/adapter/graphql/mutation/removeHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-removeHostById
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-removeHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}

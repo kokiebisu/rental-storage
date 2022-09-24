@@ -1,16 +1,16 @@
 # Query
-findListingById:
+AppSyncFindListingById:
   handler: dist/adapter/graphql/query/findListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-findListingById
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-findListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
 
-findListingsWithinLatLng:
+AppSyncFindListingsWithinLatLng:
   handler: dist/adapter/graphql/query/findListingsWithinLatLng.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-findListingsWithinLatLng
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-findListingsWithinLatLng
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -18,18 +18,18 @@ findListingsWithinLatLng:
     PASSWORD: ${env:DB_PASSWORD}
 
 # Mutation
-addListing:
+AppSyncAddListing:
   handler: dist/adapter/graphql/mutation/addListing.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-addListing
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-addListing
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
 
-removeListingById:
+AppSyncRemoveListingById:
   handler: dist/adapter/graphql/mutation/removeListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-graphql-removeListingById
+  name: ${self:custom.namespace}-${self:custom.service}-appsync-removeListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
