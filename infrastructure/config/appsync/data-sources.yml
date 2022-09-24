@@ -1,4 +1,0 @@
-- type: AWS_LAMBDA
-  name: helloFunction
-  config:
-    functionName: hello
