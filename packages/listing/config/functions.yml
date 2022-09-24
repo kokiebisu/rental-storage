@@ -1,6 +1,7 @@
 # Query
 findListingById:
-  handler: dist/graphql/query.findListingById
+  handler: dist/adapter/graphql/query/findListingById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-findListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -8,7 +9,8 @@ findListingById:
     PASSWORD: ${env:DB_PASSWORD}
 
 findListingsWithinLatLng:
-  handler: dist/graphql/query.findListingsWithinLatLng
+  handler: dist/adapter/graphql/query/findListingsWithinLatLng.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-findListingsWithinLatLng
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -17,7 +19,8 @@ findListingsWithinLatLng:
 
 # Mutation
 addListing:
-  handler: dist/graphql/mutation.addListing
+  handler: dist/adapter/graphql/mutation/addListing.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-addListing
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -25,9 +28,23 @@ addListing:
     PASSWORD: ${env:DB_PASSWORD}
 
 removeListingById:
-  handler: dist/graphql/mutation.removeListingById
+  handler: dist/adapter/graphql/mutation/removeListingById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-removeListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
     USERNAME: ${env:DB_USERNAME}
     PASSWORD: ${env:DB_PASSWORD}
+
+# # Consumer
+# ## SQS
+consumeBookingCreated:
+  handler: dist/adapter/consumer/booking/bookingCreated.handler
+  name: ${self:custom.namespace}-${self:custom.service}-consumer-bookingCreated
+  events:
+    - sqs:
+        enabled: true
+        arn:
+          Fn::GetAtt:
+            - SQSQueue
+            - Arn

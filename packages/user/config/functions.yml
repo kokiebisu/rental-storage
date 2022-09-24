@@ -2,6 +2,7 @@
 ## Query
 findGuestById:
   handler: dist/adapter/graphql/query/findGuestById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-findGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -10,6 +11,7 @@ findGuestById:
 
 findHostById:
   handler: dist/adapter/graphql/query/findHostById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-findHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -18,6 +20,7 @@ findHostById:
 ## Mutation
 registerGuest:
   handler: dist/adapter/graphql/mutation/registerGuest.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-registerGuest
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -25,6 +28,7 @@ registerGuest:
     PASSWORD: ${self:custom.DB_PASSWORD}
 registerHost:
   handler: dist/adapter/graphql/mutation/registerHost.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-registerHost
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -32,6 +36,7 @@ registerHost:
     PASSWORD: ${self:custom.DB_PASSWORD}
 removeGuestById:
   handler: dist/adapter/graphql/mutation/removeGuestById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-removeGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -39,6 +44,7 @@ removeGuestById:
     PASSWORD: ${self:custom.DB_PASSWORD}
 removeHostById:
   handler: dist/adapter/graphql/mutation/removeHostById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-graphql-removeHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -46,8 +52,9 @@ removeHostById:
     PASSWORD: ${self:custom.DB_PASSWORD}
 # # Consumer
 # ## SQS
-consumeBookingComplete:
-  handler: dist/adapter/consumer/booking/bookingComplete.handler
+consumeBookingCreated:
+  handler: dist/adapter/consumer/booking/bookingCreated.handler
+  name: ${self:custom.namespace}-${self:custom.service}-consumer-bookingCreated
   events:
     - sqs:
         enabled: true

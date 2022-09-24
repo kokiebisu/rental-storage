@@ -1,0 +1,23 @@
+Type: AWS::SQS::QueuePolicy
+Properties:
+  Queues:
+    - Ref: SQSQueue
+  PolicyDocument:
+    Version: "2012-10-17"
+    Statement:
+      - Sid: "allow-sns-messages"
+        Effect: Allow
+        Principal: "*"
+        Resource: !GetAtt
+          - SQSQueue
+          - Arn
+        Action: "SQS:SendMessage"
+        Condition:
+          ArnEquals:
+            "aws:SourceArn":
+              - Fn::Join:
+                  - ":"
+                  - - "arn:aws:sns"
+                    - Ref: "AWS::Region"
+                    - Ref: "AWS::AccountId"
+                    - "${self:custom.namespace}-booking-${self:provider.stage}-bookingCreated"
