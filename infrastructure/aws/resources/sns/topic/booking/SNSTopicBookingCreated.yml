@@ -1,0 +1,3 @@
+Type: "AWS::SNS::Topic"
+Properties:
+  TopicName: ${self:custom.namespace}-booking-${self:provider.stage}-bookingCreated

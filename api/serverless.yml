@@ -9,6 +9,16 @@ plugins:
   - serverless-appsync-plugin
   - serverless-pseudo-parameters
 
-provider: ${file(./config/provider.yml)}
+provider:
+  name: aws
+  stage: dev
+  region: us-east-1
 
-custom: ${file(./config/custom.yml)}
+custom:
+  namespace: rental-storage
+  service: api
+  appSync:
+    name: ${self:custom.namespace}-${self:custom.service}
+    authenticationType: API_KEY
+    mappingTemplates: ${file(./aws/appsync/mapping-templates.yml)}
+    dataSources: ${file(./aws/appsync/data-sources.yml)}
