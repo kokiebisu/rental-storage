@@ -17,6 +17,7 @@ custom:
   TODO_TABLE: todo-table
 
 functions:
+  - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
 
 resources:

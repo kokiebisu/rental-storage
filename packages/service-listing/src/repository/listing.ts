@@ -12,8 +12,8 @@ export class ListingRepository extends RDSRepository {
       config: {
         host: process.env.MYSQL_HOST,
         database: process.env.DB_NAME,
-        user: process.env.USERNAME,
-        password: process.env.PASSWORD,
+        user: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
       },
     });
     return new ListingRepository(client, "listing", "ListingRepository");
