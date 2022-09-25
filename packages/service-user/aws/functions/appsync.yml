@@ -6,8 +6,11 @@ AppSyncFindGuestById:
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
-    USERNAME: ${self:custom.DB_USERNAME}
-    PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
 
 AppSyncFindHostById:
   handler: dist/adapter/graphql/query/findHostById.handler
@@ -15,8 +18,12 @@ AppSyncFindHostById:
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
-    USERNAME: ${self:custom.DB_USERNAME}
-    PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+
 ## Mutation
 AppSyncRegisterGuest:
   handler: dist/adapter/graphql/mutation/registerGuest.handler
@@ -24,29 +31,44 @@ AppSyncRegisterGuest:
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
-    USERNAME: ${self:custom.DB_USERNAME}
-    PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+
 AppSyncRegisterHost:
   handler: dist/adapter/graphql/mutation/registerHost.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-registerHost
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
-    USERNAME: ${self:custom.DB_USERNAME}
-    PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+
 AppSyncRemoveGuestById:
   handler: dist/adapter/graphql/mutation/removeGuestById.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
-    USERNAME: ${self:custom.DB_USERNAME}
-    PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+
 AppSyncRemoveHostById:
   handler: dist/adapter/graphql/mutation/removeHostById.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
-    USERNAME: ${self:custom.DB_USERNAME}
-    PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}

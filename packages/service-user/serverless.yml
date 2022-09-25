@@ -3,6 +3,9 @@ frameworkVersion: "3"
 
 useDotenv: true
 
+# plugins:
+#   - serverless-domain-manager
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -14,11 +17,19 @@ provider:
 custom:
   namespace: rental-storage
   service: user
+  # customDomain:
+  #   domainName: "api.mycompany.com"
+  #   basePath: "user"
+  #   stage: ${self:provider.stage}
+  #   createRoute53Record: true
   AURORA_HOST:
     Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
   DB_NAME: ${env:DB_NAME}
   DB_USERNAME: ${env:DB_USERNAME}
   DB_PASSWORD: ${env:DB_PASSWORD}
+  BOOKING_SERVICE_API_ENDPOINT: ${env:BOOKING_SERVICE_API_ENDPOINT}
+  LISTING_SERVICE_API_ENDPOINT: ${env:LISTING_SERVICE_API_ENDPOINT}
+  USER_SERVICE_API_ENDPOINT: ${env:USER_SERVICE_API_ENDPOINT}
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

@@ -15,8 +15,15 @@ custom:
   service: listing
   AURORA_HOST:
     Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
+  DB_NAME: listing
+  DB_USERNAME: master
+  DB_PASSWORD: password
+  BOOKING_SERVICE_API_ENDPOINT: ${env:BOOKING_SERVICE_API_ENDPOINT}
+  LISTING_SERVICE_API_ENDPOINT: ${env:LISTING_SERVICE_API_ENDPOINT}
+  USER_SERVICE_API_ENDPOINT: ${env:USER_SERVICE_API_ENDPOINT}
 
 functions:
+  - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
   - ${file(./aws/functions/sqs.yml)}
 

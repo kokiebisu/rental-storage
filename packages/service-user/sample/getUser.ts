@@ -6,8 +6,8 @@ export const handler = async (event: any) => {
     config: {
       host: process.env.MYSQL_HOST,
       database: process.env.DB_NAME,
-      user: process.env.USERNAME,
-      password: process.env.PASSWORD,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
     },
   });
   await init(client);

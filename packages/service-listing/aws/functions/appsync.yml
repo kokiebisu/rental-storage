@@ -5,8 +5,11 @@ AppSyncFindListingById:
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
 
 AppSyncFindListingsWithinLatLng:
   handler: dist/adapter/graphql/query/findListingsWithinLatLng.handler
@@ -14,8 +17,11 @@ AppSyncFindListingsWithinLatLng:
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
 
 # Mutation
 AppSyncAddListing:
@@ -24,8 +30,11 @@ AppSyncAddListing:
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
 
 AppSyncRemoveListingById:
   handler: dist/adapter/graphql/mutation/removeListingById.handler
@@ -33,5 +42,8 @@ AppSyncRemoveListingById:
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
-    USERNAME: ${env:DB_USERNAME}
-    PASSWORD: ${env:DB_PASSWORD}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
