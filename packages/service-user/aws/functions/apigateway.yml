@@ -1,12 +1,11 @@
-APIGatewayFindGuestById:
-  handler: dist/adapter/rest/findGuestById.handler
-  name: ${self:custom.service}-apigateway-findGuestById
-  events:
-    - http: ANY /
-    - http: ANY {proxy+}
-APIGatewayFindHostById:
-  handler: dist/adapter/rest/
-  name: ${self:custom.service}-apigateway-findHostById
+UserServiceController:
+  handler: dist/adapter/controller/index.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-controller
+  environment:
+    MYSQL_HOST: ${self:custom.AURORA_HOST}
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.DB_USERNAME}
+    PASSWORD: ${self:custom.DB_PASSWORD}
   events:
     - http: ANY /
     - http: ANY {proxy+}

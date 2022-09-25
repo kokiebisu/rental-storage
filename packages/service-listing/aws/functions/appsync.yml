@@ -1,7 +1,7 @@
 # Query
 AppSyncFindListingById:
   handler: dist/adapter/graphql/query/findListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-findListingById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -10,7 +10,7 @@ AppSyncFindListingById:
 
 AppSyncFindListingsWithinLatLng:
   handler: dist/adapter/graphql/query/findListingsWithinLatLng.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-findListingsWithinLatLng
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingsWithinLatLng
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -20,7 +20,7 @@ AppSyncFindListingsWithinLatLng:
 # Mutation
 AppSyncAddListing:
   handler: dist/adapter/graphql/mutation/addListing.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-addListing
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-addListing
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
@@ -29,7 +29,7 @@ AppSyncAddListing:
 
 AppSyncRemoveListingById:
   handler: dist/adapter/graphql/mutation/removeListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-removeListingById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${env:DB_NAME}
