@@ -3,11 +3,14 @@ frameworkVersion: "3"
 
 plugins:
   - serverless-export-outputs
+  - serverless-deployment-bucket
 
 provider:
   name: aws
   region: us-east-1
   stage: dev
+  deploymentBucket:
+    name: rental-storage-infrastructure-resources
 
 custom:
   namespace: rental-storage
@@ -28,6 +31,9 @@ resources:
     RouteTableAssociationSubnetA: ${file(./aws/resources/network/RouteTableAssociationSubnetA.yml)}
     RouteTableAssociationSubnetB: ${file(./aws/resources/network/RouteTableAssociationSubnetB.yml)}
     RouteTableAssociationSubnetC: ${file(./aws/resources/network/RouteTableAssociationSubnetC.yml)}
+
+    # S3
+    ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfileBucket.yml)}
 
     # RDS
     AuroraRDSClusterParameter: ${file(./aws/resources/rds/AuroraRDSClusterParameter.yml)}

@@ -3,8 +3,9 @@ frameworkVersion: "3"
 
 useDotenv: true
 
-# plugins:
-#   - serverless-domain-manager
+plugins:
+  - serverless-deployment-bucket
+  # - serverless-domain-manager
 
 provider:
   name: aws
@@ -13,6 +14,8 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   iamRoleStatements: ${file(./aws/IAMRole.yml)}
+  deploymentBucket:
+    name: rental-storage-user-resources
 
 custom:
   namespace: rental-storage

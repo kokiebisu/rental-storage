@@ -8,11 +8,14 @@ plugins:
   - serverless-plugin-include-dependencies
   - serverless-appsync-plugin
   - serverless-pseudo-parameters
+  - serverless-deployment-bucket
 
 provider:
   name: aws
   stage: dev
   region: us-east-1
+  deploymentBucket:
+    name: rental-storage-api-resources
 
 custom:
   namespace: rental-storage

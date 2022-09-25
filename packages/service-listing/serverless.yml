@@ -3,12 +3,17 @@ frameworkVersion: "3"
 
 useDotenv: true
 
+plugins:
+  - serverless-deployment-bucket
+
 provider:
   name: aws
   runtime: nodejs14.x
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: rental-storage-listing-resources
 
 custom:
   namespace: rental-storage
