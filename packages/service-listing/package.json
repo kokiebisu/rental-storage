@@ -11,9 +11,11 @@
     "test": "jest"
   },
   "dependencies": {
-    "glob": "8.0.3",
+    "@rental-storage-project/common": "file:../common",
+    "fastify": "4.6.0",
+    "@fastify/aws-lambda": "3.1.3",
     "serverless-mysql": "^1.4.0",
-    "@rental-storage-project/common": "file:../common"
+    "glob": "8.0.3"
   },
   "devDependencies": {
     "@types/node": "18.7.18"

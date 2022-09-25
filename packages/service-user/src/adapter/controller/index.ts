@@ -9,7 +9,7 @@ exports.handler = async (event: any, context: any) => {
   const proxy = awsLambdaFastify(app);
 
   app.get(
-    "/guest/:guestId",
+    "/users/guest/:guestId",
     async (
       request: FastifyRequest<{ Params: { guestId: string } }>,
       reply: FastifyReply
@@ -21,7 +21,7 @@ exports.handler = async (event: any, context: any) => {
   );
 
   app.get(
-    "/host/:hostId",
+    "/users/host/:hostId",
     async (
       request: FastifyRequest<{ Params: { hostId: string } }>,
       reply: FastifyReply
