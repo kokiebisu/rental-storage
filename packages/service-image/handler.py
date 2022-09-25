@@ -1,7 +1,7 @@
+import service
 
-def hello(event, context):
+def get_presigned_url(event, context):
     print("EVENT: ", event)
-    print("CONTEXT: ", context)
-    return {
-        'url': 'some random url'
-    }
+    print("Context: ", context)
+    response = service.create_presigned_post('rental-storage-listing-dev-profile', 'random')
+    return response
