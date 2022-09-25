@@ -2,7 +2,7 @@
 ## Query
 AppSyncFindGuestById:
   handler: dist/adapter/graphql/query/findGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-findGuestById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -11,7 +11,7 @@ AppSyncFindGuestById:
 
 AppSyncFindHostById:
   handler: dist/adapter/graphql/query/findHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-findHostById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -20,7 +20,7 @@ AppSyncFindHostById:
 ## Mutation
 AppSyncRegisterGuest:
   handler: dist/adapter/graphql/mutation/registerGuest.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-registerGuest
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-registerGuest
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -28,7 +28,7 @@ AppSyncRegisterGuest:
     PASSWORD: ${self:custom.DB_PASSWORD}
 AppSyncRegisterHost:
   handler: dist/adapter/graphql/mutation/registerHost.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-registerHost
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-registerHost
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -36,7 +36,7 @@ AppSyncRegisterHost:
     PASSWORD: ${self:custom.DB_PASSWORD}
 AppSyncRemoveGuestById:
   handler: dist/adapter/graphql/mutation/removeGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-removeGuestById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeGuestById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -44,7 +44,7 @@ AppSyncRemoveGuestById:
     PASSWORD: ${self:custom.DB_PASSWORD}
 AppSyncRemoveHostById:
   handler: dist/adapter/graphql/mutation/removeHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-removeHostById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeHostById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
     DB_NAME: ${self:custom.DB_NAME}

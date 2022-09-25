@@ -1,6 +1,6 @@
 makeBooking:
   handler: dist/adapter/graphql/mutation.makeBooking
-  name: ${self:custom.namespace}-${self:custom.service}-appsync-makeBooking
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-makeBooking
   environment:
     TABLE_NAME: !Ref BookingTable
     namespace: ${self:custom.namespace}
