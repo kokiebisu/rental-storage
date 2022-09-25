@@ -1,6 +1,9 @@
 service: rental-storage-booking
 frameworkVersion: "3"
 
+plugins:
+  - serverless-deployment-bucket
+
 provider:
   name: aws
   runtime: nodejs14.x
@@ -9,6 +12,8 @@ provider:
   lambdaHashingVersion: 20201221
   iam:
     role: IAMRole
+  deploymentBucket:
+    name: rental-storage-booking-resources
 
 custom:
   namespace: rental-storage
