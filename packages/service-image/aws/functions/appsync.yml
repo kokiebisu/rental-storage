@@ -1,3 +1,3 @@
 AppSyncGetPresignedURL:
-  handler: handler.get_presigned_url
+  handler: get_presigned_url.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-getPresignedURL

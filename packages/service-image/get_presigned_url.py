@@ -1,7 +1,7 @@
+import logging
 import service
 
-def get_presigned_url(event, context):
-    print("EVENT: ", event)
-    print("Context: ", context)
+def handler(event, _):
+    logging.info("EVENT: ", event)
     response = service.create_presigned_post('rental-storage-listing-dev-profile', 'random')
     return response

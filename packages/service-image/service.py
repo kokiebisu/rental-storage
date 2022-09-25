@@ -19,17 +19,14 @@ def create_presigned_post(bucket_name, object_name,
 
     # Generate a presigned S3 POST URL
     s3_client = boto3.client('s3')
-    logging.info('ENTERED1')
     try:
         response = s3_client.generate_presigned_post(bucket_name,
                                                     object_name,
                                                     Fields=fields,
                                                     Conditions=conditions,
                                                     ExpiresIn=expiration)
-        logging.info('ENTERED2')
     except ClientError as e:
         logging.error(e)
-        logging.info('ENTERED2')
         return None
 
     # The response contains the presigned URL and required fields
