@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@rental-storage-project/common": "file:../common",
+    "fastify": "4.6.0",
+    "@fastify/aws-lambda": "3.1.3",
     "uuid": "9.0.0"
   },
   "devDependencies": {
