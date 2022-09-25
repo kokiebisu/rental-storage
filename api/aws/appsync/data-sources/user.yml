@@ -1,4 +1,3 @@
-# User
 ## Query
 - type: AWS_LAMBDA
   name: findGuestByIdFunction
@@ -30,36 +29,6 @@
   name: removeHostByIdFunction
   config:
     lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-removeHostById
-
-# Listing
-## Query
-- type: AWS_LAMBDA
-  name: findListingByIdFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-findListingById
-
-- type: AWS_LAMBDA
-  name: findListingsWithinLatLngFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-findListingsWithinLatLng
-
-## Mutation
-- type: AWS_LAMBDA
-  name: addListingFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-addListing
-
-- type: AWS_LAMBDA
-  name: removeListingByIdFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-removeListingById
-
-# Booking
-## Mutation
-- type: AWS_LAMBDA
-  name: makeBookingFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-booking-${self:provider.stage}-appsync-makeBooking
 ## TODOS (TEMP)
 # - type: AWS_LAMBDA
 #   name: createTodoFunction
