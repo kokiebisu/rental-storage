@@ -6,7 +6,7 @@ makeBooking:
     namespace: ${self:custom.namespace}
     service: ${self:custom.service}
     stage: ${self:provider.stage}
-    account_id: 474489807730
+    accountId: ${aws:accountId}
 # getTodos:
 #   handler: dist/getTodos.handler
 #   environment:
