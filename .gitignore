@@ -7,3 +7,4 @@
 **/.serverless
 .serverless
 **/.turbo
+**/venv

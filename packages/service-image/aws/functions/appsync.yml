@@ -1,0 +1,3 @@
+AppSyncGetPresignedURL:
+  handler: handler.hello
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-getPresignedURL

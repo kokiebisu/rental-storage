@@ -1,0 +1,5 @@
+## Query
+- type: AWS_LAMBDA
+  name: getPresignedURLFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-image-${self:provider.stage}-appsync-getPresignedURL

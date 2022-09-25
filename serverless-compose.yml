@@ -12,6 +12,11 @@ services:
     dependsOn:
       - infrastructure
 
+  image:
+    path: packages/service-image
+    dependsOn:
+      - infrastructure
+
   booking:
     path: packages/service-booking
     dependsOn:
@@ -21,6 +26,7 @@ services:
     path: api
     dependsOn:
       - infrastructure
-      - user
       - booking
+      - image
       - listing
+      - user
