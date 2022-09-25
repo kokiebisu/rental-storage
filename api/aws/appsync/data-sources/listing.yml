@@ -1,0 +1,21 @@
+## Query
+- type: AWS_LAMBDA
+  name: findListingByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-findListingById
+
+- type: AWS_LAMBDA
+  name: findListingsWithinLatLngFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-findListingsWithinLatLng
+
+## Mutation
+- type: AWS_LAMBDA
+  name: addListingFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-addListing
+
+- type: AWS_LAMBDA
+  name: removeListingByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-removeListingById

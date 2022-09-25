@@ -1,0 +1,17 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+# type Query {
+#   # findAllCreatedBookings: [Booking]
+# }
+
+type Mutation {
+  makeBooking(
+    amount: Int!
+    currency: String!
+    userId: ID!
+    listingId: ID!
+  ): Boolean
+}

@@ -1,0 +1,28 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  findGuestById(id: ID!): Guest
+  findHostById(id: ID!): Host
+}
+
+type Mutation {
+  registerGuest(firstName: String!, lastName: String!): Boolean
+  removeGuestById(id: ID!): Boolean
+  registerHost(firstName: String!, lastName: String!): Boolean
+  removeHostById(id: ID!): Boolean
+}
+
+type Guest {
+  id: ID
+  firstName: String
+  lastName: String
+}
+
+type Host {
+  id: ID
+  firstName: String
+  lastName: String
+}

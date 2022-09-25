@@ -20,5 +20,18 @@ custom:
   appSync:
     name: ${self:custom.namespace}-${self:custom.service}
     authenticationType: API_KEY
-    mappingTemplates: ${file(./aws/appsync/mapping-templates.yml)}
-    dataSources: ${file(./aws/appsync/data-sources.yml)}
+    schema:
+      - schema/booking.graphql
+      - schema/image.graphql
+      - schema/listing.graphql
+      - schema/user.graphql
+    dataSources:
+      - ${file(./aws/appsync/data-sources/booking.yml)}
+      - ${file(./aws/appsync/data-sources/image.yml)}
+      - ${file(./aws/appsync/data-sources/listing.yml)}
+      - ${file(./aws/appsync/data-sources/user.yml)}
+    mappingTemplates:
+      - ${file(./aws/appsync/mapping-templates/booking.yml)}
+      - ${file(./aws/appsync/mapping-templates/image.yml)}
+      - ${file(./aws/appsync/mapping-templates/listing.yml)}
+      - ${file(./aws/appsync/mapping-templates/user.yml)}

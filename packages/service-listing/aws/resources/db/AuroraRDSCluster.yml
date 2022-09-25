@@ -1,11 +1,11 @@
 Type: AWS::RDS::DBCluster
 Properties:
-  MasterUsername: ${env:DB_USERNAME}
-  MasterUserPassword: ${env:DB_PASSWORD}
+  MasterUsername: ${self:custom.DB_USERNAME}
+  MasterUserPassword: ${self:custom.DB_PASSWORD}
   DBSubnetGroupName: !ImportValue ExportedServerlessSubnetGroup
   Engine: aurora
   EngineVersion: "5.6"
-  DatabaseName: ${env:DB_NAME}
+  DatabaseName: ${self:custom.DB_NAME}
   BackupRetentionPeriod: 3
   DBClusterParameterGroupName: !ImportValue ExportedAuroraRDSClusterParameter
   VpcSecurityGroupIds:

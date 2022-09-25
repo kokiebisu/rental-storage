@@ -1,0 +1,6 @@
+## Mutation
+- type: Mutation
+  field: makeBooking
+  dataSource: makeBookingFunction
+  request: false
+  response: false

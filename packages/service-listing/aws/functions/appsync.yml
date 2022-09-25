@@ -4,9 +4,9 @@ AppSyncFindListingById:
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    DB_USERNAME: ${env:DB_USERNAME}
-    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
     BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
     LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
     USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
@@ -16,9 +16,9 @@ AppSyncFindListingsWithinLatLng:
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingsWithinLatLng
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    DB_USERNAME: ${env:DB_USERNAME}
-    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
     BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
     LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
     USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
@@ -29,9 +29,9 @@ AppSyncAddListing:
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-addListing
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    DB_USERNAME: ${env:DB_USERNAME}
-    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
     BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
     LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
     USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
@@ -41,9 +41,9 @@ AppSyncRemoveListingById:
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeListingById
   environment:
     MYSQL_HOST: ${self:custom.AURORA_HOST}
-    DB_NAME: ${env:DB_NAME}
-    DB_USERNAME: ${env:DB_USERNAME}
-    DB_PASSWORD: ${env:DB_PASSWORD}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
     BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
     LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
     USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
