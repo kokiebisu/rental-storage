@@ -16,6 +16,7 @@
     "serverless-mysql": "^1.4.0"
   },
   "devDependencies": {
-    "@types/node": "18.7.18"
+    "@types/node": "18.7.18",
+    "serverless-deployment-bucket": "1.6.0"
   }
 }
