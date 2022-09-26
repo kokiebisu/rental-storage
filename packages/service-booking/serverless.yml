@@ -30,3 +30,11 @@ resources:
     IAMRole: ${file(./aws/resources/iam/IAMRole.yml)}
     BookingTable: ${file(./aws/resources/dynamodb/BookingTable.yml)}
     # TodoTable: ${file(./aws/resources/TodoTable.yml)}
+
+  Outputs:
+    DynamoDBBookingTableStreamArn:
+      Description: "DynamoDB Booking Table"
+      Value:
+        Fn::GetAtt: [BookingTable, StreamArn]
+      Export:
+        Name: ExportedDynamoDBBookingTableStreamArn

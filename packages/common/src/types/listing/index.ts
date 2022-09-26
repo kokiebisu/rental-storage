@@ -1,3 +1,4 @@
+import { StorageItemInterface } from "../item";
 import { HostInterface } from "../user";
 
 export interface AggregatedListingInterface {
@@ -6,6 +7,7 @@ export interface AggregatedListingInterface {
   streetAddress: string;
   latitude: number;
   longitude: number;
+  items: StorageItemInterface[];
 }
 
 export interface ListingInterface {
@@ -14,4 +16,5 @@ export interface ListingInterface {
   streetAddress: string;
   latitude: number;
   longitude: number;
+  items: string[];
 }
