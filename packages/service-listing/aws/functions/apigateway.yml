@@ -11,4 +11,4 @@ ListingServiceController:
     USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
   events:
     - http: ANY /
-    - http: ANY {proxy+}
+    - http: ANY /{proxy+}
