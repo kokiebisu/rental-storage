@@ -1,0 +1,46 @@
+service: rental-storage-item
+frameworkVersion: "3"
+
+useDotenv: true
+
+plugins:
+  - serverless-deployment-bucket
+  # - serverless-domain-manager
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  iamRoleStatements: ${file(./aws/IAMRole.yml)}
+  deploymentBucket:
+    name: rental-storage-item-resources
+
+custom:
+  namespace: rental-storage
+  service: item
+  # customDomain:
+  #   domainName: "api.mycompany.com"
+  #   basePath: "user"
+  #   stage: ${self:provider.stage}
+  #   createRoute53Record: true
+  AURORA_HOST:
+    Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
+  DB_NAME: ${env:DB_NAME}
+  DB_USERNAME: ${env:DB_USERNAME}
+  DB_PASSWORD: ${env:DB_PASSWORD}
+  BOOKING_SERVICE_API_ENDPOINT: ${env:BOOKING_SERVICE_API_ENDPOINT}
+  LISTING_SERVICE_API_ENDPOINT: ${env:LISTING_SERVICE_API_ENDPOINT}
+  USER_SERVICE_API_ENDPOINT: ${env:USER_SERVICE_API_ENDPOINT}
+
+functions:
+  # - ${file(./aws/functions/apigateway.yml)}
+  # - ${file(./aws/functions/appsync.yml)}
+  # - ${file(./aws/functions/sqs.yml)}
+  - ${file(./aws/functions/stream.yml)}
+
+resources:
+  Resources:
+    AuroraRDSCluster: ${file(./aws/resources/rds/AuroraRDSCluster.yml)}
+    AuroraRDSInstance: ${file(./aws/resources/rds/AuroraRDSInstance.yml)}
