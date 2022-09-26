@@ -7,5 +7,5 @@ SQSBookingCreated:
         enabled: true
         arn:
           Fn::GetAtt:
-            - SQSQueue
+            - UserSQSQueue
             - Arn

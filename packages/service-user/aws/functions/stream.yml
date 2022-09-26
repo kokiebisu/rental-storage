@@ -1,6 +1,14 @@
-StreamsBookingCreated:
+StreamBookingCreated:
   handler: dist/adapter/stream/booking/bookingCreated.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-stream-bookingCreated
+  environment:
+    MYSQL_HOST: ${self:custom.AURORA_HOST}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
+    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
+    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
   events:
     - stream:
         type: dynamodb

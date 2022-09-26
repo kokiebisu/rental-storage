@@ -13,7 +13,7 @@ type Mutation {
   ): Boolean
 }
 
-type StorageItem {
+input StorageItem {
   name: String
   imageUrls: String
   userId: String

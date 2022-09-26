@@ -30,7 +30,7 @@ export class StorageItemRepository extends RDSRepository {
 
   public async save(data: StorageItemInterface): Promise<StorageItemInterface> {
     const result = await this._client.query(
-      `INSERT INTO ${this.tableName} (name, user_id, listing_id, created_at) VALUES(?,?,?,?)`,
+      `INSERT INTO storage (name, user_id, listing_id, created_at) VALUES(?,?,?,?)`,
       [data.name, data.userId, data.listingId, data.createdAt]
     );
     return result;
@@ -38,7 +38,7 @@ export class StorageItemRepository extends RDSRepository {
 
   public async delete(id: string): Promise<StorageItemInterface> {
     const result = await this._client.query(
-      `DELETE FROM ${this.tableName} WHERE id = ?`,
+      `DELETE FROM storage WHERE id = ?`,
       [id]
     );
     return result;
@@ -46,7 +46,7 @@ export class StorageItemRepository extends RDSRepository {
 
   public async findOneById(id: string): Promise<StorageItemInterface> {
     const result = await this._client.query(
-      `SELECT * FROM ${this.tableName} WHERE id = ?`,
+      `SELECT * FROM storage WHERE id = ?`,
       [id]
     );
     return StorageItemMapper.toDTOFromRaw(result[0]);

@@ -1,6 +1,6 @@
 Type: "AWS::SNS::Subscription"
 DependsOn:
-  - SQSQueue
+  - ListingSQSQueue
 Properties:
   Protocol: sqs
   TopicArn:
@@ -16,4 +16,4 @@ Properties:
       - - "arn:aws:sqs"
         - Ref: "AWS::Region"
         - Ref: "AWS::AccountId"
-        - ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-queue
+        - ${self:custom.namespace}-listing-${self:provider.stage}-queue

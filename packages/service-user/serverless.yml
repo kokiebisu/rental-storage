@@ -44,5 +44,3 @@ resources:
   Resources:
     AuroraRDSCluster: ${file(./aws/resources/rds/AuroraRDSCluster.yml)}
     AuroraRDSInstance: ${file(./aws/resources/rds/AuroraRDSInstance.yml)}
-    # SQSQueue: ${file(./aws/resources/sqs/SQSQueue.yml)}
-    # SQSQueuePolicy: ${file(./aws/resources/sqs/SQSQueuePolicy.yml)}

@@ -1,6 +1,6 @@
 Type: "AWS::SQS::Queue"
 Properties:
-  QueueName: "${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-queue"
+  QueueName: "${self:custom.namespace}-user-${self:provider.stage}-queue"
   VisibilityTimeout: 930
   # RedrivePolicy:
   #   deadLetterTargetArn:

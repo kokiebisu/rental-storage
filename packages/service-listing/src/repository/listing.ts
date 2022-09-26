@@ -22,7 +22,7 @@ export class ListingRepository extends RDSRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS listing (id INT AUTO_INCREMENT,host_id INT,street_address VARCHAR(100) NOT NULL, latitude INT NOT NULL, longitude INT NOT NULL, suitcase_count INT NOT NULL, bag_count INT NOT NULL, PRIMARY KEY (id))"
+      "CREATE TABLE IF NOT EXISTS listing (id INT AUTO_INCREMENT NOT NULL, host_id INT, street_address VARCHAR(100) NOT NULL, latitude INT NOT NULL, longitude INT NOT NULL, PRIMARY KEY (id))"
     );
     await this._client.query(
       "CREATE TABLE IF NOT EXISTS listing_item (listing_id INT NOT NULL,item_id INT NOT NULL, PRIMARY KEY (id))"
@@ -50,16 +50,13 @@ export class ListingRepository extends RDSRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    return await this._client.query(
-      `DELETE FROM ${this.tableName} WHERE id = ?`,
-      [id]
-    );
+    return await this._client.query(`DELETE FROM listing WHERE id = ?`, [id]);
   }
 
-  public async findOneById(id: string): Promise<ListingInterface> {
+  public async findOneById(listingId: string): Promise<ListingInterface> {
     const result = await this._client.query(
-      `SELECT * FROM ${this.tableName} WHERE id = ?`,
-      [id]
+      `SELECT * FROM listing WHERE id = ?`,
+      [listingId]
     );
     return ListingMapper.toDTOFromRaw(result[0]);
   }

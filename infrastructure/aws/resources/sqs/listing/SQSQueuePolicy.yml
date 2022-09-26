@@ -1,7 +1,7 @@
 Type: AWS::SQS::QueuePolicy
 Properties:
   Queues:
-    - Ref: SQSQueue
+    - Ref: ListingSQSQueue
   PolicyDocument:
     Version: "2012-10-17"
     Statement:
@@ -9,7 +9,7 @@ Properties:
         Effect: Allow
         Principal: "*"
         Resource: !GetAtt
-          - SQSQueue
+          - ListingSQSQueue
           - Arn
         Action: "SQS:SendMessage"
         Condition:
