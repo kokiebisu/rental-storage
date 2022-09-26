@@ -37,12 +37,12 @@ custom:
 functions:
   - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
-  - ${file(./aws/functions/sqs.yml)}
+  # - ${file(./aws/functions/sqs.yml)}
+  - ${file(./aws/functions/stream.yml)}
 
 resources:
   Resources:
-    AuroraRDSCluster: ${file(./aws/resources/db/AuroraRDSCluster.yml)}
-    AuroraRDSInstance: ${file(./aws/resources/db/AuroraRDSInstance.yml)}
-    SQSQueue: ${file(./aws/resources/sqs/SQSQueue.yml)}
-    SNSSubscriptionBookingCreated: ${file(./aws/resources/sqs/SNSSubscriptionBookingCreated.yml)}
-    SQSQueuePolicy: ${file(./aws/resources/sqs/SQSQueuePolicy.yml)}
+    AuroraRDSCluster: ${file(./aws/resources/rds/AuroraRDSCluster.yml)}
+    AuroraRDSInstance: ${file(./aws/resources/rds/AuroraRDSInstance.yml)}
+    # SQSQueue: ${file(./aws/resources/sqs/SQSQueue.yml)}
+    # SQSQueuePolicy: ${file(./aws/resources/sqs/SQSQueuePolicy.yml)}
