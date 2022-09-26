@@ -1,5 +1,5 @@
 import { BookingStatus } from "../enum";
-import { Amount } from "@rental-storage-project/common";
+import { Amount, StorageItemInterface } from "@rental-storage-project/common";
 import { v4 as uuid } from "uuid";
 
 interface BookingConstructor {
@@ -10,22 +10,18 @@ interface BookingConstructor {
   listingId: string;
   createdAt?: Date;
   updatedAt?: Date;
+  items: StorageItemInterface[];
 }
 
 export class Booking {
   private _id: string;
-
   private _status: BookingStatus;
-
   private _amount: Amount;
-
   private _userId: string;
-
   private _listingId: string;
-
   private _createdAt: Date;
-
   private _updatedAt?: Date | undefined;
+  private _items: StorageItemInterface[];
 
   public constructor({
     id = uuid(),
@@ -35,6 +31,7 @@ export class Booking {
     listingId,
     createdAt = new Date(),
     updatedAt,
+    items,
   }: BookingConstructor) {
     this._id = id;
     this._status = status;
@@ -43,6 +40,7 @@ export class Booking {
     this._listingId = listingId;
     this._createdAt = createdAt;
     this._updatedAt = updatedAt;
+    this._items = items;
   }
 
   public get id(): string {
@@ -92,5 +90,11 @@ export class Booking {
   }
   public set updatedAt(value: Date | undefined) {
     this._updatedAt = value;
+  }
+  public get items(): StorageItemInterface[] {
+    return this._items;
+  }
+  public set items(value: StorageItemInterface[]) {
+    this._items = value;
   }
 }

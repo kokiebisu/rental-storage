@@ -9,4 +9,4 @@ BookingServiceController:
     accountId: ${aws:accountId}
   events:
     - http: ANY /
-    - http: ANY {proxy+}
+    - http: ANY /{proxy+}
