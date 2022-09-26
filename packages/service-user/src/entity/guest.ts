@@ -1,20 +1,30 @@
 import { User } from "./user";
-import { GuestInterface } from "@rental-storage-project/common";
+
 export interface GuestRawInterface {
   id: string;
   first_name: string;
   last_name: string;
+  items: string[];
+}
+
+interface GuestConstructor {
+  firstName: string;
+  lastName: string;
+  items?: string[];
 }
 
 export class Guest extends User {
-  public constructor(firstName: string, lastName: string) {
+  private _items: string[];
+
+  public constructor({ firstName, lastName, items = [] }: GuestConstructor) {
     super(firstName, lastName);
+    this._items = items;
   }
 
-  public toDTO(): GuestInterface {
-    return {
-      firstName: this.firstName,
-      lastName: this.lastName,
-    };
+  public get items(): string[] {
+    return this._items;
+  }
+  public set items(value: string[]) {
+    this._items = value;
   }
 }

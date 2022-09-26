@@ -35,9 +35,6 @@ custom:
   USER_SERVICE_API_ENDPOINT: ${env:USER_SERVICE_API_ENDPOINT}
 
 functions:
-  # - ${file(./aws/functions/apigateway.yml)}
-  # - ${file(./aws/functions/appsync.yml)}
-  # - ${file(./aws/functions/sqs.yml)}
   - ${file(./aws/functions/stream.yml)}
 
 resources:

@@ -12,8 +12,18 @@ export class BookingRepository extends DynamoDBRepository {
 
   public async save(booking: BookingInterface): Promise<void> {
     this._logger.debug(booking, "save()");
-    const { id, status, amount, userId, listingId, createdAt, updatedAt } =
-      booking;
+    const {
+      id,
+      status,
+      amount,
+      userId,
+      listingId,
+      createdAt,
+      updatedAt,
+      items,
+    } = booking;
+
+    const itemsStringified = items.map((item: any) => JSON.stringify(item));
 
     const params = {
       Item: {
@@ -38,6 +48,9 @@ export class BookingRepository extends DynamoDBRepository {
               S: amount.currency,
             },
           },
+        },
+        items: {
+          L: itemsStringified,
         },
         created_at: {
           S: createdAt,
