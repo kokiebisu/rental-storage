@@ -4,7 +4,7 @@ export const handler = async (event: any) => {
   const uuid = event.arguments.uuid;
   var client = Client({
     config: {
-      host: process.env.MYSQL_HOST,
+      host: process.env.DB_HOST,
       database: process.env.DB_NAME,
       user: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,

@@ -14,26 +14,29 @@ provider:
   lambdaHashingVersion: 20201221
   deploymentBucket:
     name: rental-storage-listing-resources
+  apiGateway:
+    restApiId: !ImportValue MyApiGateway-restApiId
+    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
 
 custom:
   namespace: rental-storage
   service: listing
-  AURORA_HOST:
-    Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
-  DB_NAME: listing
-  DB_USERNAME: master
-  DB_PASSWORD: password
-  BOOKING_SERVICE_API_ENDPOINT: ${env:BOOKING_SERVICE_API_ENDPOINT}
-  LISTING_SERVICE_API_ENDPOINT: ${env:LISTING_SERVICE_API_ENDPOINT}
-  USER_SERVICE_API_ENDPOINT: ${env:USER_SERVICE_API_ENDPOINT}
+  DB_NAME: !ImportValue ExportedListingRDSDBName
+  DB_USERNAME: !ImportValue ExportedListingRDSDBUsername
+  DB_PASSWORD: !ImportValue ExportedListingRDSDBPassword
+  DB_HOST: !ImportValue ExportedListingRDSDBHost
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${aws:accountId}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
   # - ${file(./aws/functions/sqs.yml)}
   - ${file(./aws/functions/stream.yml)}
-
-resources:
-  Resources:
-    AuroraRDSCluster: ${file(./aws/resources/db/AuroraRDSCluster.yml)}
-    AuroraRDSInstance: ${file(./aws/resources/db/AuroraRDSInstance.yml)}

@@ -4,4 +4,4 @@ StreamBookingCreated:
   events:
     - stream:
         type: dynamodb
-        arn: !ImportValue ExportedDynamoDBBookingTableStreamArn
+        arn: !ImportValue ExportedBookingDynamoDBTableStreamArn

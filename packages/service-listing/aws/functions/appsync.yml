@@ -3,47 +3,39 @@ AppSyncFindListingById:
   handler: dist/adapter/graphql/query/findListingById.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingById
   environment:
-    MYSQL_HOST: ${self:custom.AURORA_HOST}
+    DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
-    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
-    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
 AppSyncFindListingsWithinLatLng:
   handler: dist/adapter/graphql/query/findListingsWithinLatLng.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingsWithinLatLng
   environment:
-    MYSQL_HOST: ${self:custom.AURORA_HOST}
+    DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
-    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
-    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
 # Mutation
 AppSyncAddListing:
   handler: dist/adapter/graphql/mutation/addListing.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-addListing
   environment:
-    MYSQL_HOST: ${self:custom.AURORA_HOST}
+    DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
-    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
-    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
 AppSyncRemoveListingById:
   handler: dist/adapter/graphql/mutation/removeListingById.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeListingById
   environment:
-    MYSQL_HOST: ${self:custom.AURORA_HOST}
+    DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
-    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
-    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}

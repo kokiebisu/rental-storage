@@ -1,6 +1,8 @@
 service: rental-storage-infrastructure
 frameworkVersion: "3"
 
+useDotenv: true
+
 plugins:
   - serverless-export-outputs
   - serverless-deployment-bucket
@@ -14,9 +16,21 @@ provider:
 
 custom:
   namespace: rental-storage
+  USER_DB_NAME: user
+  USER_DB_USERNAME: master
+  USER_DB_PASSWORD: password
+  ITEM_DB_NAME: item
+  ITEM_DB_USERNAME: master
+  ITEM_DB_PASSWORD: password
+  LISTING_DB_NAME: listing
+  LISTING_DB_USERNAME: master
+  LISTING_DB_PASSWORD: password
+  BOOKING_TABLE_NAME: booking
 
 resources:
   Resources:
+    ApiGateway: ${file(./aws/resources/apigateway.yml)}
+
     # Infrastructure
     ServerlessInternetGateway: ${file(./aws/resources/network/ServerlessInternetGateway.yml)}
     ServerlessVPC: ${file(./aws/resources/network/ServerlessVPC.yml)}
@@ -36,8 +50,17 @@ resources:
     ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfileBucket.yml)}
 
     # RDS
-    AuroraRDSClusterParameter: ${file(./aws/resources/rds/AuroraRDSClusterParameter.yml)}
-    AuroraRDSInstanceParameter: ${file(./aws/resources/rds/AuroraRDSInstanceParameter.yml)}
+    RDSClusterParameter: ${file(./aws/resources/rds/RDSClusterParameter.yml)}
+    RDSInstanceParameter: ${file(./aws/resources/rds/RDSInstanceParameter.yml)}
+    UserRDSCluster: ${file(./aws/resources/rds/user/RDSCluster.yml)}
+    UserRDSInstance: ${file(./aws/resources/rds/user/RDSInstance.yml)}
+    ListingRDSCluster: ${file(./aws/resources/rds/listing/RDSCluster.yml)}
+    ListingRDSInstance: ${file(./aws/resources/rds/listing/RDSInstance.yml)}
+    ItemRDSCluster: ${file(./aws/resources/rds/item/RDSCluster.yml)}
+    ItemRDSInstance: ${file(./aws/resources/rds/item/RDSInstance.yml)}
+
+    # DynamoDBTable
+    BookingDynamoDBTable: ${file(./aws/resources/dynamodb/BookingTable.yml)}
 
     # SNS Topic
     SNSTopicBookingCreated: ${file(./aws/resources/sns/topic/booking/SNSTopicBookingCreated.yml)}
@@ -50,29 +73,4 @@ resources:
     ListingSQSQueue: ${file(./aws/resources/sqs/listing/SQSQueue.yml)}
     ListingSQSQueuePolicy: ${file(./aws/resources/sqs/listing/SQSQueuePolicy.yml)}
 
-  Outputs:
-    ServerlessSecurityGroup:
-      Description: "Serverless Security Group"
-      Value: !Ref ServerlessSecurityGroup
-      Export:
-        Name: ExportedServerlessSecurityGroup
-    ServerlessSubnetGroup:
-      Description: "Serverless Subnet Group"
-      Value: !Ref ServerlessSubnetGroup
-      Export:
-        Name: ExportedServerlessSubnetGroup
-    ServerlessVPCGA:
-      Description: "Serverless VPCGA"
-      Value: !Ref ServerlessVPCGA
-      Export:
-        Name: ExportedServerlessVPCGA
-    AuroraRDSInstanceParameter:
-      Description: "Aurora RDS Instance Parameter"
-      Value: !Ref AuroraRDSInstanceParameter
-      Export:
-        Name: ExportedAuroraRDSInstanceParameter
-    AuroraRDSClusterParameter:
-      Description: "Aurora RDS Cluster Parameter"
-      Value: !Ref AuroraRDSClusterParameter
-      Export:
-        Name: ExportedAuroraRDSClusterParameter
+  Outputs: ${file(./aws/outputs.yml)}

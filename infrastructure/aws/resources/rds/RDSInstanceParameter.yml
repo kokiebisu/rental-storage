@@ -1,6 +1,6 @@
 Type: AWS::RDS::DBParameterGroup
 Properties:
-  Description: Parameter group for the Serverless Aurora RDS DB.
+  Description: Parameter group for the Serverless RDS DB.
   Family: aurora5.6
   Parameters:
     sql_mode: IGNORE_SPACE

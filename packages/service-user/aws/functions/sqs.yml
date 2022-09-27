@@ -2,6 +2,12 @@
 SQSBookingCreated:
   handler: dist/adapter/consumer/booking/bookingCreated.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-sqs-bookingCreated
+  environment:
+    DB_HOST: ${self:custom.DB_HOST}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
   events:
     - sqs:
         enabled: true

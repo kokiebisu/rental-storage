@@ -2,11 +2,11 @@ BookingServiceController:
   handler: dist/adapter/controller/index.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-controller
   environment:
-    TABLE_NAME: !Ref BookingTable
+    TABLE_NAME: ${self:custom.TABLE_NAME}
     namespace: ${self:custom.namespace}
     service: ${self:custom.service}
     stage: ${self:provider.stage}
     accountId: ${aws:accountId}
   events:
-    - http: ANY /
-    - http: ANY /{proxy+}
+    - http: ANY /bookings
+    - http: ANY /bookings/{proxy+}

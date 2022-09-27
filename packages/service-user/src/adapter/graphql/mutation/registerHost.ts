@@ -8,7 +8,7 @@ export const handler = async (event: any) => {
   // const { name } = event.arguments;
   // var client = Client({
   //   config: {
-  //     host: process.env.MYSQL_HOST,
+  //     host: process.env.DB_HOST,
   //     database: process.env.DB_NAME,
   //     user: process.env.USERNAME,
   //     password: process.env.PASSWORD,

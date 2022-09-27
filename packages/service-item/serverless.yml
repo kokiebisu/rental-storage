@@ -16,6 +16,9 @@ provider:
   iamRoleStatements: ${file(./aws/IAMRole.yml)}
   deploymentBucket:
     name: rental-storage-item-resources
+  apiGateway:
+    restApiId: !ImportValue MyApiGateway-restApiId
+    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
 
 custom:
   namespace: rental-storage
@@ -25,19 +28,20 @@ custom:
   #   basePath: "user"
   #   stage: ${self:provider.stage}
   #   createRoute53Record: true
-  AURORA_HOST:
-    Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
-  DB_NAME: ${env:DB_NAME}
-  DB_USERNAME: ${env:DB_USERNAME}
-  DB_PASSWORD: ${env:DB_PASSWORD}
-  BOOKING_SERVICE_API_ENDPOINT: ${env:BOOKING_SERVICE_API_ENDPOINT}
-  LISTING_SERVICE_API_ENDPOINT: ${env:LISTING_SERVICE_API_ENDPOINT}
-  USER_SERVICE_API_ENDPOINT: ${env:USER_SERVICE_API_ENDPOINT}
+  DB_NAME: !ImportValue ExportedItemRDSDBName
+  DB_USERNAME: !ImportValue ExportedItemRDSDBUsername
+  DB_PASSWORD: !ImportValue ExportedItemRDSDBPassword
+  DB_HOST: !ImportValue ExportedItemRDSDBHost
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${aws:accountId}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
 
 functions:
   - ${file(./aws/functions/stream.yml)}
-
-resources:
-  Resources:
-    AuroraRDSCluster: ${file(./aws/resources/rds/AuroraRDSCluster.yml)}
-    AuroraRDSInstance: ${file(./aws/resources/rds/AuroraRDSInstance.yml)}
+  - ${file(./aws/functions/apigateway.yml)}

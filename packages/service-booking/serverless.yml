@@ -14,12 +14,14 @@ provider:
     role: IAMRole
   deploymentBucket:
     name: rental-storage-booking-resources
+  apiGateway:
+    restApiId: !ImportValue MyApiGateway-restApiId
+    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
 
 custom:
   namespace: rental-storage
   service: booking
-  TABLE_NAME: booking
-  TODO_TABLE: todo-table
+  TABLE_NAME: !ImportValue ExportedBookingDynamoDBTableName
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
@@ -28,13 +30,3 @@ functions:
 resources:
   Resources:
     IAMRole: ${file(./aws/resources/iam/IAMRole.yml)}
-    BookingTable: ${file(./aws/resources/dynamodb/BookingTable.yml)}
-    # TodoTable: ${file(./aws/resources/TodoTable.yml)}
-
-  Outputs:
-    DynamoDBBookingTableStreamArn:
-      Description: "DynamoDB Booking Table"
-      Value:
-        Fn::GetAtt: [BookingTable, StreamArn]
-      Export:
-        Name: ExportedDynamoDBBookingTableStreamArn
