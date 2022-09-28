@@ -1,0 +1,106 @@
+Type: AWS::IAM::Role
+Properties:
+  AssumeRolePolicyDocument:
+    Statement:
+      - Effect: Allow
+        Action: sts:AssumeRole
+        Principal:
+          Service: lambda.amazonaws.com
+    Version: "2012-10-17"
+  Policies:
+    - PolicyName: EnableLog
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - logs:CreateLogGroup
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+    - PolicyName: EnableDynamoDBStream
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:ListStreams
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - dynamodb:GetRecords
+              - dynamodb:DescribeStream
+              - dynamodb:GetShardIterator
+            Resource: "arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/*/stream/*"
+    - PolicyName: EnableDynamoDB
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+              - dynamodb:DeleteItem
+              - dynamodb:GetItem
+              - dynamodb:Scan
+            Resource: "arn:aws:dynamodb:${aws:region}:*:table/*"
+    - PolicyName: EnableSSM
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "ssm:GetParameter"
+              - "ssm:GetParameters"
+              - "ssm:GetParametersByPath"
+              - "ssm:DescribeParameters"
+              - "ssm:PutParameter"
+            Resource:
+              Fn::Join:
+                - ":"
+                - - "arn:aws:ssm"
+                  - ${aws:region}
+                  - ${aws:accountId}
+                  - "*"
+    - PolicyName: EnableSQS
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "sqs:ReceiveMessage"
+              - "sqs:DeleteMessage"
+              - "sqs:GetQueueAttributes"
+            Resource:
+              Fn::Join:
+                - ":"
+                - - "arn:aws:sqs"
+                  - ${aws:region}
+                  - ${aws:accountId}
+                  - "*"
+    - PolicyName: EnableSNS
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "sns:CreateTopic"
+              - "sns:Publish"
+            Resource:
+              Fn::Join:
+                - ":"
+                - - "arn:aws:sns"
+                  - ${aws:region}
+                  - ${aws:accountId}
+                  - "*"
+    - PolicyName: EnableS3
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "s3:*"
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:s3:::*"

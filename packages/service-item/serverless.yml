@@ -3,7 +3,6 @@ frameworkVersion: "3"
 
 plugins:
   - serverless-deployment-bucket
-  # - serverless-domain-manager
 
 provider:
   name: aws
@@ -11,21 +10,18 @@ provider:
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
-  iamRoleStatements: ${file(./aws/IAMRole.yml)}
+  # iamRoleStatements: ${file(./aws/IAMRole.yml)}
+  iam: # test
+    role: !ImportValue ExportedLambdaRoleArn
   deploymentBucket:
     name: rental-storage-item-resources
   apiGateway:
-    restApiId: !ImportValue MyApiGateway-restApiId
-    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
   namespace: rental-storage
   service: item
-  # customDomain:
-  #   domainName: "api.mycompany.com"
-  #   basePath: "user"
-  #   stage: ${self:provider.stage}
-  #   createRoute53Record: true
   DB_NAME: !ImportValue ExportedItemRDSDBName
   DB_USERNAME: !ImportValue ExportedItemRDSDBUsername
   DB_PASSWORD: !ImportValue ExportedItemRDSDBPassword
@@ -41,5 +37,5 @@ custom:
         - ${self:provider.stage}
 
 functions:
-  - ${file(./aws/functions/stream.yml)}
   - ${file(./aws/functions/apigateway.yml)}
+  - ${file(./aws/functions/stream.yml)}

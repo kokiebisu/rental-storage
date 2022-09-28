@@ -11,10 +11,12 @@ provider:
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
-  iamRoleStatements: ${file(./aws/IAMRole.yml)}
+  # iamRoleStatements: ${file(./aws/IAMRole.yml)}
+  iam:
+    role: !ImportValue ExportedLambdaRoleArn
   apiGateway:
-    restApiId: !ImportValue MyApiGateway-restApiId
-    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
   deploymentBucket:
     name: rental-storage-user-resources
 
@@ -43,5 +45,4 @@ custom:
 functions:
   - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
-  # - ${file(./aws/functions/sqs.yml)}
-  - ${file(./aws/functions/stream.yml)}
+  - ${file(./aws/functions/sqs.yml)}

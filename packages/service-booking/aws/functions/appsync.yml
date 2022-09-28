@@ -3,10 +3,10 @@ makeBooking:
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-makeBooking
   environment:
     TABLE_NAME: ${self:custom.TABLE_NAME}
+    ACCOUNT_ID: ${aws:accountId}
     namespace: ${self:custom.namespace}
     service: ${self:custom.service}
     stage: ${self:provider.stage}
-    accountId: ${aws:accountId}
 # getTodos:
 #   handler: dist/getTodos.handler
 #   environment:

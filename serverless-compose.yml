@@ -22,6 +22,11 @@ services:
     dependsOn:
       - infrastructure
 
+  item:
+    path: packages/service-item
+    dependsOn:
+      - infrastructure
+
   api:
     path: api
     dependsOn:
@@ -30,3 +35,4 @@ services:
       - image
       - listing
       - user
+      - item

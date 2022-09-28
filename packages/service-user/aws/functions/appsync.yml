@@ -9,6 +9,7 @@ AppSyncFindGuestById:
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 AppSyncFindHostById:
   handler: dist/adapter/graphql/query/findHostById.handler
@@ -19,6 +20,7 @@ AppSyncFindHostById:
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 ## Mutation
 AppSyncRegisterGuest:
@@ -30,6 +32,7 @@ AppSyncRegisterGuest:
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 AppSyncRegisterHost:
   handler: dist/adapter/graphql/mutation/registerHost.handler
@@ -40,6 +43,7 @@ AppSyncRegisterHost:
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 AppSyncRemoveGuestById:
   handler: dist/adapter/graphql/mutation/removeGuestById.handler
@@ -50,6 +54,7 @@ AppSyncRemoveGuestById:
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 AppSyncRemoveHostById:
   handler: dist/adapter/graphql/mutation/removeHostById.handler
@@ -60,3 +65,4 @@ AppSyncRemoveHostById:
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}

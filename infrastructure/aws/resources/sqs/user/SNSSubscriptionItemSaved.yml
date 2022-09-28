@@ -1,6 +1,7 @@
 Type: "AWS::SNS::Subscription"
 DependsOn:
   - UserSQSQueue
+  - SNSTopicItemSaved
 Properties:
   Protocol: sqs
   TopicArn:
@@ -9,7 +10,7 @@ Properties:
       - - "arn:aws:sns"
         - Ref: "AWS::Region"
         - Ref: "AWS::AccountId"
-        - ${self:custom.namespace}-booking-${self:provider.stage}-bookingCreated
+        - ${self:custom.namespace}-item-${self:provider.stage}-item-saved
   Endpoint:
     Fn::Join:
       - ":"

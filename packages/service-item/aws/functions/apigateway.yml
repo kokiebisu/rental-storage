@@ -7,6 +7,7 @@ ItemServiceController:
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
   events:
     - http: ANY /items
     - http: ANY /items/{proxy+}
