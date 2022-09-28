@@ -1,8 +1,6 @@
 service: rental-storage-item
 frameworkVersion: "3"
 
-useDotenv: true
-
 plugins:
   - serverless-deployment-bucket
   # - serverless-domain-manager
@@ -38,7 +36,7 @@ custom:
       - - "https://"
         - ${self:provider.apiGateway.restApiId}
         - ".execute-api."
-        - ${aws:accountId}
+        - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
 
