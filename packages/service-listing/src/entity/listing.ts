@@ -7,6 +7,7 @@ export interface ListingRawInterface {
   street_address: string;
   latitude: number;
   longitude: number;
+  items: string[];
 }
 
 export class Listing {
@@ -16,17 +17,20 @@ export class Listing {
 
   public readonly latitude: number;
   public readonly longitude: number;
+  public readonly items: string[];
 
   public constructor(
     hostId: string,
     streetAddress: StreetAddress,
     latitude: number,
-    longitude: number
+    longitude: number,
+    items: string[] = []
   ) {
     this.hostId = hostId;
     this._streetAddress = streetAddress;
     this.latitude = latitude;
     this.longitude = longitude;
+    this.items = items;
   }
 
   public get id(): string | undefined {

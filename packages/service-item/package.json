@@ -1,0 +1,22 @@
+{
+  "name": "@rental-storage-project/item",
+  "private": true,
+  "scripts": {
+    "build": "tsc -b .",
+    "deploy": "npm run build && sls deploy",
+    "remove": "sls remove",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@fastify/aws-lambda": "3.1.3",
+    "@rental-storage-project/common": "file:../common",
+    "fastify": "4.6.0",
+    "glob": "8.0.3",
+    "serverless-domain-manager": "6.1.0",
+    "serverless-mysql": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.18",
+    "serverless-deployment-bucket": "1.6.0"
+  }
+}

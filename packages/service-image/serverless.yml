@@ -1,8 +1,6 @@
 service: rental-storage-image
 frameworkVersion: "3"
 
-# useDotenv: true
-
 plugins:
   - serverless-deployment-bucket
 

@@ -2,6 +2,7 @@ import Client from "serverless-mysql";
 import {
   ListingInterface,
   RDSRepository,
+  StorageItemInterface,
 } from "@rental-storage-project/common";
 import { ListingMapper } from "../mapper";
 import { ListingRawInterface } from "../entity";
@@ -10,7 +11,7 @@ export class ListingRepository extends RDSRepository {
   public static async create(): Promise<ListingRepository> {
     var client = Client({
       config: {
-        host: process.env.MYSQL_HOST,
+        host: process.env.DB_HOST,
         database: process.env.DB_NAME,
         user: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
@@ -21,29 +22,41 @@ export class ListingRepository extends RDSRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS listing (id INT AUTO_INCREMENT,host_id INT,street_address VARCHAR(100) NOT NULL, latitude INT NOT NULL, longitude INT NOT NULL, PRIMARY KEY (id))"
+      "CREATE TABLE IF NOT EXISTS listing (id INT AUTO_INCREMENT NOT NULL, host_id INT, street_address VARCHAR(100) NOT NULL, latitude INT NOT NULL, longitude INT NOT NULL, PRIMARY KEY (id))"
+    );
+    await this._client.query(
+      "CREATE TABLE IF NOT EXISTS listing_item (listing_id INT NOT NULL,item_id INT NOT NULL, PRIMARY KEY (id))"
     );
   }
 
   public async save(data: Omit<ListingInterface, "id">): Promise<void> {
-    const result = await this._client.query(
-      `INSERT INTO ${this.tableName} (host_id, street_address, latitude, longitude) VALUES(?,?,?,?)`,
+    await this._client.query(
+      `INSERT INTO listing (host_id, street_address, latitude, longitude, suitcase_count, bag_count) VALUES(?,?,?,?,?,?)`,
       [data.hostId, data.streetAddress, data.latitude, data.longitude]
     );
-    return result;
+  }
+
+  public async addItemToListing(
+    listingId: string,
+    items: StorageItemInterface[]
+  ) {
+    for (const item of items) {
+      await this._client.query(
+        `INSERT INTO listing_item (listing_id, item_id) VALUES (?,?)`,
+        listingId,
+        item.id
+      );
+    }
   }
 
   public async delete(id: string): Promise<void> {
-    return await this._client.query(
-      `DELETE FROM ${this.tableName} WHERE id = ?`,
-      [id]
-    );
+    return await this._client.query(`DELETE FROM listing WHERE id = ?`, [id]);
   }
 
-  public async findOneById(id: string): Promise<ListingInterface> {
+  public async findOneById(listingId: string): Promise<ListingInterface> {
     const result = await this._client.query(
-      `SELECT * FROM ${this.tableName} WHERE id = ?`,
-      [id]
+      `SELECT * FROM listing WHERE id = ?`,
+      [listingId]
     );
     return ListingMapper.toDTOFromRaw(result[0]);
   }

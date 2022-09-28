@@ -1,8 +1,6 @@
 service: rental-storage-user
 frameworkVersion: "3"
 
-useDotenv: true
-
 plugins:
   - serverless-deployment-bucket
   # - serverless-domain-manager
@@ -14,6 +12,9 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   iamRoleStatements: ${file(./aws/IAMRole.yml)}
+  apiGateway:
+    restApiId: !ImportValue MyApiGateway-restApiId
+    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
   deploymentBucket:
     name: rental-storage-user-resources
 
@@ -25,24 +26,22 @@ custom:
   #   basePath: "user"
   #   stage: ${self:provider.stage}
   #   createRoute53Record: true
-  AURORA_HOST:
-    Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
-  DB_NAME: ${env:DB_NAME}
-  DB_USERNAME: ${env:DB_USERNAME}
-  DB_PASSWORD: ${env:DB_PASSWORD}
-  BOOKING_SERVICE_API_ENDPOINT: ${env:BOOKING_SERVICE_API_ENDPOINT}
-  LISTING_SERVICE_API_ENDPOINT: ${env:LISTING_SERVICE_API_ENDPOINT}
-  USER_SERVICE_API_ENDPOINT: ${env:USER_SERVICE_API_ENDPOINT}
+  DB_NAME: !ImportValue ExportedUserRDSDBName
+  DB_USERNAME: !ImportValue ExportedUserRDSDBUsername
+  DB_PASSWORD: !ImportValue ExportedUserRDSDBPassword
+  DB_HOST: !ImportValue ExportedUserRDSDBHost
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${self:provider.region}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
-  - ${file(./aws/functions/sqs.yml)}
-
-resources:
-  Resources:
-    AuroraRDSCluster: ${file(./aws/resources/db/AuroraRDSCluster.yml)}
-    AuroraRDSInstance: ${file(./aws/resources/db/AuroraRDSInstance.yml)}
-    SQSQueue: ${file(./aws/resources/sqs/SQSQueue.yml)}
-    SNSSubscriptionBookingCreated: ${file(./aws/resources/sqs/SNSSubscriptionBookingCreated.yml)}
-    SQSQueuePolicy: ${file(./aws/resources/sqs/SQSQueuePolicy.yml)}
+  # - ${file(./aws/functions/sqs.yml)}
+  - ${file(./aws/functions/stream.yml)}

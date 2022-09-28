@@ -11,23 +11,26 @@ export class BookingMapper {
       listingId: entity.listingId,
       createdAt: entity.createdAt.toLocaleString(),
       ...(entity.updatedAt && { updatedAt: entity.updatedAt.toLocaleString() }),
+      items: entity.items,
     };
   }
 
   public static toDTOFromRaw(raw: any): BookingInterface {
     const {
-      Item: { id, status, listing_id, user_id, created_at, amount, updated_at },
+      Item: {
+        id,
+        status,
+        listing_id,
+        user_id,
+        created_at,
+        items,
+        amount,
+        updated_at,
+      },
     } = raw;
-    // {
-    //   Item: {
-    //     listing_id: { S: '1' },
-    //     user_id: { S: '1' },
-    //     created_at: { S: '9/21/2022, 9:22:18 PM' },
-    //     status: { S: '0' },
-    //     amount: { M: [Object] },
-    //     id: { S: '8f712a7d-f3ee-4761-90b2-e663de4623a5' }
-    //   }
-    // }
+
+    const itemsParsed = items.L.map((item: any) => JSON.parse(item));
+
     return {
       id: id.S,
       status: status.S,
@@ -39,6 +42,7 @@ export class BookingMapper {
       listingId: listing_id.S,
       createdAt: created_at.S,
       ...(updated_at && { updatedAt: updated_at.S }),
+      items: itemsParsed,
     };
   }
 }

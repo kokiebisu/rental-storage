@@ -1,0 +1,14 @@
+Type: AWS::RDS::DBCluster
+Properties:
+  MasterUsername: ${self:custom.ITEM_DB_USERNAME}
+  MasterUserPassword: ${self:custom.ITEM_DB_PASSWORD}
+  DBSubnetGroupName:
+    Ref: ServerlessSubnetGroup
+  Engine: aurora
+  EngineVersion: "5.6"
+  DatabaseName: ${self:custom.ITEM_DB_NAME}
+  BackupRetentionPeriod: 3
+  DBClusterParameterGroupName:
+    Ref: RDSClusterParameter
+  VpcSecurityGroupIds:
+    - !Ref "ServerlessSecurityGroup"

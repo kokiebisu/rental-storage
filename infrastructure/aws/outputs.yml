@@ -1,0 +1,114 @@
+ApiGatewayRestApiId:
+  Value:
+    Ref: ApiGateway
+  Export:
+    Name: MyApiGateway-restApiId
+
+ApiGatewayRestApiRootResourceId:
+  Value:
+    Fn::GetAtt:
+      - ApiGateway
+      - RootResourceId
+  Export:
+    Name: MyApiGateway-rootResourceId
+
+ServerlessSecurityGroup:
+  Description: "Serverless Security Group"
+  Value: ServerlessSecurityGroup
+  Export:
+    Name: ExportedServerlessSecurityGroup
+ServerlessSubnetGroup:
+  Description: "Serverless Subnet Group"
+  Value: ServerlessSubnetGroup
+  Export:
+    Name: ExportedServerlessSubnetGroup
+ServerlessVPCGA:
+  Description: "Serverless VPCGA"
+  Value: ServerlessVPCGA
+  Export:
+    Name: ExportedServerlessVPCGA
+
+BookingDynamoDBTableStreamArn:
+  Description: "DynamoDB Booking Table"
+  Value:
+    Fn::GetAtt: [BookingDynamoDBTable, StreamArn]
+  Export:
+    Name: ExportedBookingDynamoDBTableStreamArn
+BookingDynamoDBTableName:
+  Description: "DynamoDB Booking Table Name"
+  Value: ${self:custom.BOOKING_TABLE_NAME}
+  Export:
+    Name: ExportedBookingDynamoDBTableName
+RDSInstanceParameter:
+  Description: "RDS Instance Parameter"
+  Value: RDSInstanceParameter
+  Export:
+    Name: ExportedRDSInstanceParameter
+RDSClusterParameter:
+  Description: "RDS Cluster Parameter"
+  Value: RDSClusterParameter
+  Export:
+    Name: ExportedRDSClusterParameter
+ListingRDSDBHost:
+  Description: "Host"
+  Value:
+    Fn::GetAtt: [ListingRDSCluster, Endpoint.Address]
+  Export:
+    Name: ExportedListingRDSDBHost
+ListingRDSDBName:
+  Description: "DynamoDB DB Name"
+  Value: ${self:custom.LISTING_DB_NAME}
+  Export:
+    Name: ExportedListingRDSDBName
+ListingRDSDBUsername:
+  Description: "DynamoDB DB Name"
+  Value: ${self:custom.LISTING_DB_USERNAME}
+  Export:
+    Name: ExportedListingRDSDBUsername
+ListingRDSDBPassword:
+  Description: "Dynamodb DB Password"
+  Value: ${self:custom.LISTING_DB_PASSWORD}
+  Export:
+    Name: ExportedListingRDSDBPassword
+UserRDSDBHost:
+  Description: "User DB Host"
+  Value:
+    Fn::GetAtt: [UserRDSCluster, Endpoint.Address]
+  Export:
+    Name: ExportedUserRDSDBHost
+UserRDSDBName:
+  Description: "DynamoDB DB Name"
+  Value: ${self:custom.USER_DB_NAME}
+  Export:
+    Name: ExportedUserRDSDBName
+UserRDSDBUsername:
+  Description: "DynamoDB DB Name"
+  Value: ${self:custom.USER_DB_USERNAME}
+  Export:
+    Name: ExportedUserRDSDBUsername
+UserRDSDBPassword:
+  Description: "Dynamodb DB Password"
+  Value: ${self:custom.USER_DB_PASSWORD}
+  Export:
+    Name: ExportedUserRDSDBPassword
+ItemRDSDBHost:
+  Description: "RDS Host"
+  Value:
+    Fn::GetAtt: [ItemRDSCluster, Endpoint.Address]
+  Export:
+    Name: ExportedItemRDSDBHost
+ItemRDSDBName:
+  Description: "DynamoDB DB Name"
+  Value: ${self:custom.ITEM_DB_NAME}
+  Export:
+    Name: ExportedItemRDSDBName
+ItemRDSDBUsername:
+  Description: "DynamoDB DB Name"
+  Value: ${self:custom.ITEM_DB_USERNAME}
+  Export:
+    Name: ExportedItemRDSDBUsername
+ItemRDSDBPassword:
+  Description: "Dynamodb DB Password"
+  Value: ${self:custom.ITEM_DB_PASSWORD}
+  Export:
+    Name: ExportedItemRDSDBPassword

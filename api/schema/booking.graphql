@@ -3,15 +3,19 @@ schema {
   mutation: Mutation
 }
 
-# type Query {
-#   # findAllCreatedBookings: [Booking]
-# }
-
 type Mutation {
   makeBooking(
     amount: Int!
     currency: String!
     userId: ID!
     listingId: ID!
+    items: [StorageItem]
   ): Boolean
+}
+
+input StorageItem {
+  name: String
+  imageUrls: String
+  userId: String
+  listingId: String
 }

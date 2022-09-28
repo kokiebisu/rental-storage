@@ -1,0 +1,7 @@
+StreamBookingCreated:
+  handler: dist/adapter/stream/booking/bookingCreated.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-stream-bookingCreated
+  events:
+    - stream:
+        type: dynamodb
+        arn: !ImportValue ExportedBookingDynamoDBTableStreamArn

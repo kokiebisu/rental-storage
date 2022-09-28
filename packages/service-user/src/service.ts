@@ -1,9 +1,11 @@
 import {
+  BookingInterface,
   GuestInterface,
   HostInterface,
   LoggerService,
 } from "@rental-storage-project/common";
 import { Guest, Host } from "./entity";
+import { GuestMapper } from "./mapper";
 import { HostRepository } from "./repository";
 import { GuestRepository } from "./repository/guest";
 import { isGuest, isHost } from "./utils";
@@ -38,9 +40,13 @@ export class UserServiceImpl implements UserService {
 
   public async registerGuest(data: any): Promise<boolean> {
     if (isGuest(data)) {
-      const guest = new Guest(data.firstName, data.lastName);
+      const guest = new Guest({
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
       // save to guest table
-      await this._guestRepository.save(guest.toDTO());
+
+      await this._guestRepository.save(GuestMapper.toDTOFromEntity(guest));
       // send slack message (new user joined!)
       return true;
     } else {
@@ -110,6 +116,19 @@ export class UserServiceImpl implements UserService {
     } catch (err) {
       this._logger.error(err, "findHostById()");
       return null;
+    }
+  }
+
+  public async updateStoredItems(booking: BookingInterface): Promise<boolean> {
+    try {
+      await this._guestRepository.updateStoringItem(
+        booking.userId,
+        booking.items
+      );
+      return true;
+    } catch (err) {
+      this._logger.error(err, "updateStoringItem");
+      return false;
     }
   }
 }

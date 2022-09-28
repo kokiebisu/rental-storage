@@ -1,5 +1,6 @@
 import {
   AggregatedListingInterface,
+  BookingInterface,
   ListingInterface,
   LoggerService,
 } from "@rental-storage-project/common";
@@ -67,12 +68,13 @@ export class ListingServiceImpl implements ListingService {
   public async addListing(
     args: Omit<ListingInterface, "id">
   ): Promise<boolean> {
-    const { hostId, streetAddress, latitude, longitude } = args;
+    const { hostId, streetAddress, latitude, longitude, items } = args;
     const listing = new Listing(
       hostId,
       new StreetAddress(streetAddress),
       latitude,
-      longitude
+      longitude,
+      items
     );
     try {
       const listingDTO = ListingMapper.toDTOFromEntity(listing);
@@ -92,5 +94,9 @@ export class ListingServiceImpl implements ListingService {
       this._logger.error(err, "removeListingById()");
       return false;
     }
+  }
+
+  public async occupyStorageItem(booking: BookingInterface) {
+    await this._listingRepository.addItemToListing(booking.id, booking.items);
   }
 }

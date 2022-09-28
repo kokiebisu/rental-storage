@@ -2,6 +2,7 @@ import {
   AggregatedListingInterface,
   HostInterface,
   ListingInterface,
+  StorageItemInterface,
 } from "@rental-storage-project/common";
 import { Listing, ListingRawInterface } from "../entity";
 
@@ -15,12 +16,21 @@ export class ListingMapper {
       firstName: "mock host firstName",
       lastName: "mock host lastName",
     };
+    const items: StorageItemInterface[] = [
+      {
+        name: "random item name",
+        imageUrls: ["random_imageUrls"],
+        userId: "1",
+        listingId: "1",
+      },
+    ]; // must fetch from api endpoint
     return {
       id: data.id,
       host,
       streetAddress: data.street_address,
       latitude: data.latitude,
       longitude: data.longitude,
+      items,
     };
   }
 
@@ -31,6 +41,7 @@ export class ListingMapper {
       streetAddress: data.street_address,
       latitude: data.latitude,
       longitude: data.longitude,
+      items: data.items,
     };
   }
 
@@ -44,12 +55,22 @@ export class ListingMapper {
       lastName: "mock host lastName",
     };
 
+    const items: StorageItemInterface[] = [
+      {
+        name: "random item name",
+        imageUrls: ["random_imageUrls"],
+        userId: "1",
+        listingId: "1",
+      },
+    ];
+
     return {
       id: data.id,
       host,
       streetAddress: data.streetAddress,
       latitude: data.latitude,
       longitude: data.longitude,
+      items,
     };
   }
 
@@ -60,6 +81,7 @@ export class ListingMapper {
       streetAddress: data.streetAddress,
       latitude: data.latitude,
       longitude: data.longitude,
+      items: data.items,
     };
   }
 }

@@ -1,4 +1,5 @@
 import { AmountInterface } from "../amount";
+import { StorageItemInterface } from "../item";
 import { ListingInterface } from "../listing";
 import { GuestInterface } from "../user";
 
@@ -10,6 +11,7 @@ export interface AggregatedBookingInterface {
   listing: ListingInterface;
   createdAt: string;
   updatedAt?: string;
+  items: StorageItemInterface[];
 }
 
 export interface BookingInterface {
@@ -20,4 +22,5 @@ export interface BookingInterface {
   listingId: string;
   createdAt: string;
   updatedAt?: string;
+  items: StorageItemInterface[];
 }

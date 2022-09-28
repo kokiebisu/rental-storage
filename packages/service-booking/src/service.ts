@@ -3,6 +3,7 @@ import {
   AWSRegion,
   Currency,
   LoggerService,
+  StorageItemInterface,
 } from "@rental-storage-project/common";
 
 import { Booking } from "./entity";
@@ -44,20 +45,21 @@ export class BookingServiceImpl {
     amount: number,
     currency: Currency,
     userId: string,
-    listingId: string
+    listingId: string,
+    items: StorageItemInterface[]
   ): Promise<boolean> {
     const amountValue: Amount = { value: amount, currency };
     const booking = new Booking({
       amount: amountValue,
       userId,
       listingId,
+      items,
     });
 
     try {
       const bookingDTO = BookingMapper.toDTOFromEntity(booking);
       this._logger.debug(bookingDTO, "makeBooking()");
       await this._bookingRepository.save(bookingDTO);
-      await this._publisher.bookingCreated(bookingDTO);
 
       return true;
     } catch (err) {

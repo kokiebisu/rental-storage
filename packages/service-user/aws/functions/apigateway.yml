@@ -2,13 +2,11 @@ UserServiceController:
   handler: dist/adapter/controller/index.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-controller
   environment:
-    MYSQL_HOST: ${self:custom.AURORA_HOST}
+    DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    BOOKING_SERVICE_API_ENDPOINT: ${self:custom.BOOKING_SERVICE_API_ENDPOINT}
-    LISTING_SERVICE_API_ENDPOINT: ${self:custom.LISTING_SERVICE_API_ENDPOINT}
-    USER_SERVICE_API_ENDPOINT: ${self:custom.USER_SERVICE_API_ENDPOINT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
   events:
-    - http: ANY /
-    - http: ANY {proxy+}
+    - http: ANY /users
+    - http: ANY /users/{proxy+}

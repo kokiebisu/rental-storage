@@ -1,8 +1,6 @@
 service: rental-storage-api
 frameworkVersion: "3"
 
-useDotenv: true
-
 plugins:
   - serverless-plugin-common-excludes # this should go before serverless-plugin-include-dependencies
   - serverless-plugin-include-dependencies
