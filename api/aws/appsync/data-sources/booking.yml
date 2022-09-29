@@ -1,5 +1,5 @@
 ## Mutation
 - type: AWS_LAMBDA
-  name: makeBookingFunction
+  name: MakeBookingFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-booking-${self:provider.stage}-appsync-makeBooking
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-booking-${self:provider.stage}-appsync-MakeBooking

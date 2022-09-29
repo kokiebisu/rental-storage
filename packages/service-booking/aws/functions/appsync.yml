@@ -1,6 +1,16 @@
-makeBooking:
-  handler: dist/adapter/graphql/mutation.makeBooking
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-makeBooking
+FindAllCreatedBookingsQuery:
+  handler: dist/adapter/in/api/graphql/query/FindAllCreatedBookings.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindAllCreatedBookings
+  environment:
+    TABLE_NAME: ${self:custom.TABLE_NAME}
+    ACCOUNT_ID: ${aws:accountId}
+    namespace: ${self:custom.namespace}
+    service: ${self:custom.service}
+    stage: ${self:provider.stage}
+
+MakeBookingMutation:
+  handler: dist/adapter/in/api/graphql/mutation/MakeBooking.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-MakeBooking
   environment:
     TABLE_NAME: ${self:custom.TABLE_NAME}
     ACCOUNT_ID: ${aws:accountId}

@@ -1,6 +1,6 @@
 ListingServiceController:
-  handler: dist/adapter/controller/index.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-controller
+  handler: dist/adapter/in/api/controller/index.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Controller
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}

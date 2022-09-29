@@ -1,8 +1,7 @@
-# Graphql
 ## Query
-AppSyncFindGuestById:
-  handler: dist/adapter/graphql/query/findGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findGuestById
+FindGuestByIdQuery:
+  handler: dist/adapter/in/api/graphql/query/FindGuestById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindGuestById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -11,9 +10,9 @@ AppSyncFindGuestById:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
 
-AppSyncFindHostById:
-  handler: dist/adapter/graphql/query/findHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findHostById
+FindHostByIdQuery:
+  handler: dist/adapter/in/api/graphql/query/FindHostById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindHostById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -23,9 +22,9 @@ AppSyncFindHostById:
     ACCOUNT_ID: ${aws:accountId}
 
 ## Mutation
-AppSyncRegisterGuest:
-  handler: dist/adapter/graphql/mutation/registerGuest.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-registerGuest
+RegisterGuestMutation:
+  handler: dist/adapter/in/api/graphql/mutation/RegisterGuest.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RegisterGuest
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -34,9 +33,9 @@ AppSyncRegisterGuest:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
 
-AppSyncRegisterHost:
-  handler: dist/adapter/graphql/mutation/registerHost.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-registerHost
+RegisterHostMutation:
+  handler: dist/adapter/in/api/graphql/mutation/RegisterHost.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RegisterHost
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -45,9 +44,9 @@ AppSyncRegisterHost:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
 
-AppSyncRemoveGuestById:
-  handler: dist/adapter/graphql/mutation/removeGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeGuestById
+RemoveGuestByIdMutation:
+  handler: dist/adapter/in/api/graphql/mutation/RemoveGuestById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveGuestById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -56,9 +55,9 @@ AppSyncRemoveGuestById:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
 
-AppSyncRemoveHostById:
-  handler: dist/adapter/graphql/mutation/removeHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeHostById
+RemoveHostByIdMutation:
+  handler: dist/adapter/in/api/graphql/mutation/RemoveHostById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveHostById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}

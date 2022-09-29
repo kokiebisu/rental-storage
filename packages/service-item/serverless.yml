@@ -10,8 +10,7 @@ provider:
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
-  # iamRoleStatements: ${file(./aws/IAMRole.yml)}
-  iam: # test
+  iam:
     role: !ImportValue ExportedLambdaRoleArn
   deploymentBucket:
     name: rental-storage-item-resources
@@ -37,5 +36,4 @@ custom:
         - ${self:provider.stage}
 
 functions:
-  - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/stream.yml)}
