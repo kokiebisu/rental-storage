@@ -1,34 +1,34 @@
 ## Query
 - type: AWS_LAMBDA
-  name: findGuestByIdFunction
+  name: FindGuestByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-findGuestById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindGuestById
 
 - type: AWS_LAMBDA
-  name: findHostByIdFunction
+  name: FindHostByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-findHostById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindHostById
 
 ## Mutation
 - type: AWS_LAMBDA
-  name: registerGuestFunction
+  name: RegisterGuestFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-registerGuest
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RegisterGuest
 
 - type: AWS_LAMBDA
-  name: removeGuestByIdFunction
+  name: RemoveGuestByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-removeGuestById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RemoveGuestById
 
 - type: AWS_LAMBDA
-  name: registerHostFunction
+  name: RegisterHostFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-registerHost
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RegisterHost
 
 - type: AWS_LAMBDA
-  name: removeHostByIdFunction
+  name: RemoveHostByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-removeHostById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RemoveHostById
 ## TODOS (TEMP)
 # - type: AWS_LAMBDA
 #   name: createTodoFunction

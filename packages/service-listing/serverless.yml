@@ -12,9 +12,11 @@ provider:
   lambdaHashingVersion: 20201221
   deploymentBucket:
     name: rental-storage-listing-resources
+  iam:
+    role: !ImportValue ExportedLambdaRoleArn
   apiGateway:
-    restApiId: !ImportValue MyApiGateway-restApiId
-    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
   namespace: rental-storage
@@ -36,5 +38,4 @@ custom:
 functions:
   - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
-  # - ${file(./aws/functions/sqs.yml)}
-  - ${file(./aws/functions/stream.yml)}
+  - ${file(./aws/functions/sqs.yml)}

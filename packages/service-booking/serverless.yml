@@ -11,12 +11,12 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   iam:
-    role: IAMRole
+    role: !ImportValue ExportedLambdaRoleArn
   deploymentBucket:
     name: rental-storage-booking-resources
   apiGateway:
-    restApiId: !ImportValue MyApiGateway-restApiId
-    restApiRootResourceId: !ImportValue MyApiGateway-rootResourceId
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
   namespace: rental-storage
@@ -26,7 +26,3 @@ custom:
 functions:
   - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
-
-resources:
-  Resources:
-    IAMRole: ${file(./aws/resources/iam/IAMRole.yml)}

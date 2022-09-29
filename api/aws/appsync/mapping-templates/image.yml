@@ -1,6 +1,6 @@
 ## Mutation
 - type: Query
   field: getPresignedURL
-  dataSource: getPresignedURLFunction
+  dataSource: GetPresignedURLFunction
   request: false
   response: false
