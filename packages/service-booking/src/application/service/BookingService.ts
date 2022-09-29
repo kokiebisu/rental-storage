@@ -1,22 +1,17 @@
-import {
-  Amount,
-  AWSRegion,
-  Currency,
-  LoggerService,
-  StorageItemInterface,
-} from "@rental-storage-project/common";
-
 import { BookingPublisherService } from "../../adapter/out/broker/BookingBroker";
 import { BookingRepository } from "../port";
 import { BookingRepositoryImpl } from "../../adapter/out/db";
-import { Booking } from "../../domain/model";
+import { Amount, Booking } from "../../domain/model";
 import { BookingMapper } from "../../adapter/in/mapper";
 import { BookingService } from "../port";
+import { AWSRegion, Currency } from "../../domain/enum";
+import { LoggerUtil } from "../../utils";
+import { StorageItemInterface } from "../../types";
 
 export class BookingServiceImpl implements BookingService {
   private _bookingRepository: BookingRepository;
   private _publisher: BookingPublisherService;
-  private _logger: LoggerService;
+  private _logger: LoggerUtil;
 
   private constructor(
     bookingRepository: BookingRepository,
@@ -24,7 +19,7 @@ export class BookingServiceImpl implements BookingService {
   ) {
     this._bookingRepository = bookingRepository;
     this._publisher = bookingPublisher;
-    this._logger = new LoggerService("BookingServiceImpl");
+    this._logger = new LoggerUtil("BookingServiceImpl");
   }
 
   public static async create() {

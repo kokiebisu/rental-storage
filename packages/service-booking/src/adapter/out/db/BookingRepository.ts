@@ -1,11 +1,22 @@
-import {
-  AWSRegion,
-  BookingInterface,
-  DynamoDBRepository,
-} from "@rental-storage-project/common";
-import { BookingMapper } from "../../in/mapper";
+import AWS from "aws-sdk";
 
-export class BookingRepositoryImpl extends DynamoDBRepository {
+import { BookingMapper } from "../../in/mapper";
+import { BookingRepository } from "../../../application/port";
+import { LoggerUtil } from "../../../utils";
+import { AWSRegion } from "../../../domain/enum";
+import { BookingInterface } from "../../../types";
+
+export class BookingRepositoryImpl implements BookingRepository {
+  private _client: AWS.DynamoDB;
+  private _logger: LoggerUtil;
+
+  private constructor(region: AWSRegion, repositoryName: string) {
+    this._client = new AWS.DynamoDB({
+      region,
+    });
+    this._logger = new LoggerUtil(repositoryName);
+  }
+
   public static async create(
     region: AWSRegion
   ): Promise<BookingRepositoryImpl> {

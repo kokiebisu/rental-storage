@@ -1,5 +1,5 @@
-import { StorageItemInterface } from "../item";
-import { HostInterface } from "../user";
+import { HostInterface } from "./Host";
+import { StorageItemInterface } from "./Item";
 
 export interface AggregatedListingInterface {
   id?: string;

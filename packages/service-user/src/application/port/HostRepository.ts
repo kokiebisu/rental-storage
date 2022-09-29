@@ -1,4 +1,4 @@
-import { HostInterface } from "@rental-storage-project/common";
+import { HostInterface } from "../../types";
 
 export interface HostRepository {
   setup(): Promise<void>;

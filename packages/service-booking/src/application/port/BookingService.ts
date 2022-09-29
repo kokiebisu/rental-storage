@@ -1,5 +1,5 @@
-import { Currency, StorageItemInterface } from "@rental-storage-project/common";
-import { Booking } from "../../domain/model";
+import { Currency } from "../../domain/enum";
+import { StorageItemInterface } from "../../types";
 
 export interface BookingService {
   makeBooking(

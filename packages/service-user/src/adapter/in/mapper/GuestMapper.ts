@@ -1,5 +1,5 @@
-import { GuestInterface } from "@rental-storage-project/common";
 import { Guest, GuestRawInterface } from "../../../domain/model";
+import { GuestInterface } from "../../../types";
 
 export class GuestMapper {
   public static toDTOFromRaw(data: GuestRawInterface) {

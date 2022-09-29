@@ -1,22 +1,21 @@
+import { ListingMapper } from "../../adapter/in/mapper";
+import { ListingRepositoryImpl } from "../../adapter/out/db";
+import { Listing, StreetAddress } from "../../domain/model";
 import {
   AggregatedListingInterface,
   BookingInterface,
   ListingInterface,
-  LoggerService,
-} from "@rental-storage-project/common";
-
-import { ListingMapper } from "../../adapter/in/mapper";
-import { ListingRepositoryImpl } from "../../adapter/out/db";
-import { Listing, StreetAddress } from "../../domain/model";
+} from "../../types";
+import { LoggerUtil } from "../../utils";
 import { ListingRepository, ListingService } from "../port";
 
 export class ListingServiceImpl implements ListingService {
   private _listingRepository: ListingRepository;
-  private _logger: LoggerService;
+  private _logger: LoggerUtil;
 
   private constructor(listingRepository: ListingRepository) {
     this._listingRepository = listingRepository;
-    this._logger = new LoggerService("ListingServiceImpl");
+    this._logger = new LoggerUtil("ListingServiceImpl");
   }
 
   public static async create() {

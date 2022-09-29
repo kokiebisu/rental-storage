@@ -1,7 +1,4 @@
-import {
-  ListingInterface,
-  StorageItemInterface,
-} from "@rental-storage-project/common";
+import { ListingInterface, StorageItemInterface } from "../../types";
 
 export interface ListingRepository {
   setup(): Promise<void>;

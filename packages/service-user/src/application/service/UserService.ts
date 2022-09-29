@@ -1,19 +1,14 @@
-import {
-  BookingInterface,
-  GuestInterface,
-  HostInterface,
-  LoggerService,
-} from "@rental-storage-project/common";
-
 import { GuestMapper } from "../../adapter/in/mapper";
 import { Guest, Host } from "../../domain/model";
 import { GuestRepository, HostRepository, UserService } from "../port";
 import { GuestRepositoryImpl, HostRepositoryImpl } from "../../adapter/out/db";
+import { LoggerUtil } from "../../utils";
+import { BookingInterface, GuestInterface, HostInterface } from "../../types";
 
 export class UserServiceImpl implements UserService {
   private _guestRepository: GuestRepository;
   private _hostRepository: HostRepository;
-  private _logger: LoggerService;
+  private _logger: LoggerUtil;
 
   private constructor(
     guestRepository: GuestRepository,
@@ -21,7 +16,7 @@ export class UserServiceImpl implements UserService {
   ) {
     this._guestRepository = guestRepository;
     this._hostRepository = hostRepository;
-    this._logger = new LoggerService("UserServiceImpl");
+    this._logger = new LoggerUtil("UserServiceImpl");
   }
 
   public static async create() {

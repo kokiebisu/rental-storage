@@ -1,8 +1,8 @@
-import { LoggerService } from "@rental-storage-project/common";
 import { ListingServiceImpl } from "../../../../application/service/ListingService";
+import { LoggerUtil } from "../../../../utils";
 
 export const handler = async (event: any) => {
-  const logger = new LoggerService("handler");
+  const logger = new LoggerUtil("handler");
   const service = await ListingServiceImpl.create();
   logger.info(event, "handler");
   try {

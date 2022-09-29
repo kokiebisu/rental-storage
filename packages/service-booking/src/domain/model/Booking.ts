@@ -1,6 +1,7 @@
 import { BookingStatus } from "../enum";
-import { Amount, StorageItemInterface } from "@rental-storage-project/common";
 import { v4 as uuid } from "uuid";
+import { Amount } from "./Amount";
+import { StorageItemInterface } from "../../types";
 
 interface BookingConstructor {
   id?: string;

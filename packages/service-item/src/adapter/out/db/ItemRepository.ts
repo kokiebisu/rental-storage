@@ -1,20 +1,19 @@
 import Client from "serverless-mysql";
-import {
-  LoggerService,
-  StorageItemInterface,
-} from "@rental-storage-project/common";
+
 import { StorageItemRepository } from "../../../application/port";
+import { StorageItemInterface } from "../../../types";
+import { LoggerUtil } from "../../../utils";
 import { StorageItemMapper } from "../../in/mapper";
 
 export class StorageItemRepositoryImpl implements StorageItemRepository {
   public readonly tableName: string;
   private _client: any;
-  private _logger: LoggerService;
+  private _logger: LoggerUtil;
 
   private constructor(client: any, tableName: string, className: string) {
     this._client = client;
     this.tableName = tableName;
-    this._logger = new LoggerService(className);
+    this._logger = new LoggerUtil(className);
   }
 
   public static async create(): Promise<StorageItemRepositoryImpl> {
