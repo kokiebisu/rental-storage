@@ -1,6 +1,6 @@
 import { createLogger, transports, format, Logger } from "winston";
 
-export class LoggerService {
+export class LoggerUtil {
   private _client: Logger;
   private _className: string;
   public constructor(className: string) {

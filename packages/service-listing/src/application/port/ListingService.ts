@@ -1,7 +1,4 @@
-import {
-  AggregatedListingInterface,
-  ListingInterface,
-} from "@rental-storage-project/common";
+import { AggregatedListingInterface, ListingInterface } from "../../types";
 
 export interface ListingService {
   findListingsWithinLatLng(

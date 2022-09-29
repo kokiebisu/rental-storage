@@ -1,11 +1,9 @@
-import {
-  LoggerService,
-  StorageItemInterface,
-} from "@rental-storage-project/common";
 import { ItemServiceImpl } from "../../../../application/service";
+import { StorageItemInterface } from "../../../../types";
+import { LoggerUtil } from "../../../../utils";
 
 export const handler = async (event: any) => {
-  const logger = new LoggerService("handler");
+  const logger = new LoggerUtil("handler");
   const service = await ItemServiceImpl.create();
   logger.info(event, "handler");
   try {

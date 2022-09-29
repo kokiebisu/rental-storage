@@ -1,18 +1,19 @@
 import Client from "serverless-mysql";
-import { HostInterface, LoggerService } from "@rental-storage-project/common";
 
 import { HostMapper } from "../../in/mapper";
 import { HostRepository } from "../../../application/port";
+import { LoggerUtil } from "../../../utils";
+import { HostInterface } from "../../../types";
 
 export class HostRepositoryImpl implements HostRepository {
   public readonly tableName: string;
   private _client: any;
-  private _logger: LoggerService;
+  private _logger: LoggerUtil;
 
   private constructor(client: any, tableName: string, className: string) {
     this._client = client;
     this.tableName = tableName;
-    this._logger = new LoggerService(className);
+    this._logger = new LoggerUtil(className);
   }
   public static async create(): Promise<HostRepositoryImpl> {
     var client = Client({

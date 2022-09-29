@@ -1,17 +1,15 @@
-import {
-  StorageItemInterface,
-  LoggerService,
-  AWSRegion,
-} from "@rental-storage-project/common";
 import { StorageItem } from "../../domain/model";
 import { StorageItemMapper } from "../../adapter/in/mapper";
 import { ItemPublisherService } from "../../adapter/out/broker/ItemBroker";
 import { ItemService, StorageItemRepository } from "../port";
 import { StorageItemRepositoryImpl } from "../../adapter/out/db";
+import { LoggerUtil } from "../../utils";
+import { StorageItemInterface } from "../../types";
+import { AWSRegion } from "../../domain/enum";
 
 export class ItemServiceImpl implements ItemService {
   private _storageItemRepository: StorageItemRepository;
-  private _logger: LoggerService;
+  private _logger: LoggerUtil;
   private _publisher: ItemPublisherService;
 
   private constructor(
@@ -19,7 +17,7 @@ export class ItemServiceImpl implements ItemService {
     publisher: ItemPublisherService
   ) {
     this._storageItemRepository = storageItemRepository;
-    this._logger = new LoggerService("UserServiceImpl");
+    this._logger = new LoggerUtil("UserServiceImpl");
     this._publisher = publisher;
   }
 

@@ -1,5 +1,5 @@
-import { BookingInterface } from "@rental-storage-project/common";
 import { Booking } from "../../../domain/model";
+import { BookingInterface } from "../../../types";
 
 export class BookingMapper {
   public static toDTOFromEntity(entity: Booking): BookingInterface {

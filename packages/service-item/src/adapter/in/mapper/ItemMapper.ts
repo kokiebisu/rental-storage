@@ -1,5 +1,5 @@
-import { StorageItemInterface } from "@rental-storage-project/common";
 import { StorageItem, StorageItemRawInterface } from "../../../domain/model";
+import { StorageItemInterface } from "../../../types";
 
 export class StorageItemMapper {
   public static toDTOFromRaw(data: StorageItemRawInterface) {

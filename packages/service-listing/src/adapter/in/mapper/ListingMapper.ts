@@ -1,10 +1,10 @@
+import { Listing, ListingRawInterface } from "../../../domain/model";
 import {
   AggregatedListingInterface,
   HostInterface,
   ListingInterface,
   StorageItemInterface,
-} from "@rental-storage-project/common";
-import { Listing, ListingRawInterface } from "../../../domain/model";
+} from "../../../types";
 
 export class ListingMapper {
   public static toAggregatedDTOFromRaw(

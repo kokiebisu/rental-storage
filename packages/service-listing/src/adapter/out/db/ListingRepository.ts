@@ -1,22 +1,20 @@
 import Client from "serverless-mysql";
-import {
-  ListingInterface,
-  LoggerService,
-  StorageItemInterface,
-} from "@rental-storage-project/common";
+
 import { ListingMapper } from "../../in/mapper";
 import { ListingRepository } from "../../../application/port";
 import { ListingRawInterface } from "../../../domain/model";
+import { LoggerUtil } from "../../../utils";
+import { ListingInterface, StorageItemInterface } from "../../../types";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;
   private _client: any;
-  private _logger: LoggerService;
+  private _logger: LoggerUtil;
 
   private constructor(client: any, tableName: string, className: string) {
     this._client = client;
     this.tableName = tableName;
-    this._logger = new LoggerService(className);
+    this._logger = new LoggerUtil(className);
   }
   public static async create(): Promise<ListingRepositoryImpl> {
     var client = Client({
