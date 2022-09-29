@@ -1,17 +1,15 @@
 # ## SQS
-SQSBookingCreated:
-  handler: dist/adapter/consumer/booking/bookingCreated.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-sqs-bookingCreated
+ItemSavedSQS:
+  handler: dist/adapter/in/stream/item/ItemSaved.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-sqs-ItemSaved
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
   events:
     - sqs:
         enabled: true
-        arn:
-          Fn::GetAtt:
-            - ListingSQSQueue
-            - Arn
+        arn: !ImportValue ExportedListingSQSQueueArn

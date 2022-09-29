@@ -1,41 +1,45 @@
 # Query
-AppSyncFindListingById:
-  handler: dist/adapter/graphql/query/findListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingById
+FindListingByIdQuery:
+  handler: dist/adapter/in/api/graphql/query/FindListingById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindListingById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
-AppSyncFindListingsWithinLatLng:
-  handler: dist/adapter/graphql/query/findListingsWithinLatLng.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-findListingsWithinLatLng
+FindListingsWithinLatLngQuery:
+  handler: dist/adapter/in/api/graphql/query/FindListingsWithinLatLng.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindListingsWithinLatLng
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 # Mutation
-AppSyncAddListing:
-  handler: dist/adapter/graphql/mutation/addListing.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-addListing
+AddListingMutation:
+  handler: dist/adapter/in/api/graphql/mutation/AddListing.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-AddListing
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
-AppSyncRemoveListingById:
-  handler: dist/adapter/graphql/mutation/removeListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-removeListingById
+RemoveListingByIdMutation:
+  handler: dist/adapter/in/api/graphql/mutation/RemoveListingById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveListingById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}

@@ -1,25 +1,25 @@
 ## Query
 - type: Query
   field: findListingById
-  dataSource: findListingByIdFunction
+  dataSource: FindListingByIdFunction
   request: false
   response: false
 
 - type: Query
   field: findListingsWithinLatLng
-  dataSource: findListingsWithinLatLngFunction
+  dataSource: FindListingsWithinLatLngFunction
   request: false
   response: false
 
 ## Mutation
 - type: Mutation
   field: addListing
-  dataSource: addListingFunction
+  dataSource: AddListingFunction
   request: false
   response: false
 
 - type: Mutation
   field: removeListingById
-  dataSource: removeListingByIdFunction
+  dataSource: RemoveListingByIdFunction
   request: false
   response: false

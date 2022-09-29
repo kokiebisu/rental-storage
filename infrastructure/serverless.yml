@@ -63,14 +63,16 @@ resources:
     BookingDynamoDBTable: ${file(./aws/resources/dynamodb/BookingTable.yml)}
 
     # SNS Topic
-    SNSTopicBookingCreated: ${file(./aws/resources/sns/topic/booking/SNSTopicBookingCreated.yml)}
+    SNSTopicItemSaved: ${file(./aws/resources/sns/topic/item/SNSTopicItemSaved.yml)}
 
     # SQS
-    UserSNSSubscriptionBookingCreated: ${file(./aws/resources/sqs/user/SNSSubscriptionBookingCreated.yml)}
+    UserSNSSubscriptionItemSaved: ${file(./aws/resources/sqs/user/SNSSubscriptionItemSaved.yml)}
     UserSQSQueue: ${file(./aws/resources/sqs/user/SQSQueue.yml)}
     UserSQSQueuePolicy: ${file(./aws/resources/sqs/user/SQSQueuePolicy.yml)}
-    ListingSNSSubscriptionBookingCreated: ${file(./aws/resources/sqs/listing/SNSSubscriptionBookingCreated.yml)}
+    ListingSNSSubscriptionItemSaved: ${file(./aws/resources/sqs/listing/SNSSubscriptionItemSaved.yml)}
     ListingSQSQueue: ${file(./aws/resources/sqs/listing/SQSQueue.yml)}
     ListingSQSQueuePolicy: ${file(./aws/resources/sqs/listing/SQSQueuePolicy.yml)}
 
+    # IAM
+    LambdaRole: ${file(./aws/resources/iam/LambdaRole.yml)}
   Outputs: ${file(./aws/outputs.yml)}

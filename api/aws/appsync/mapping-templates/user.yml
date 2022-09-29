@@ -1,37 +1,37 @@
 ## Query
 - type: Query
   field: findGuestById
-  dataSource: findGuestByIdFunction
+  dataSource: FindGuestByIdFunction
   request: false
   response: false
 
 - type: Query
   field: findHostById
-  dataSource: findHostByIdFunction
+  dataSource: FindHostByIdFunction
   request: false
   response: false
 
 ## Mutation
 - type: Mutation
   field: registerGuest
-  dataSource: registerGuestFunction
+  dataSource: RegisterGuestFunction
   request: false
   response: false
 
 - type: Mutation
   field: removeGuestById
-  dataSource: removeGuestByIdFunction
+  dataSource: RemoveGuestByIdFunction
   request: false
   response: false
 
 - type: Mutation
   field: registerHost
-  dataSource: registerHostFunction
+  dataSource: RegisterHostFunction
   request: false
   response: false
 
 - type: Mutation
   field: removeHostById
-  dataSource: removeHostByIdFunction
+  dataSource: RemoveHostByIdFunction
   request: false
   response: false

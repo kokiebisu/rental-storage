@@ -8,9 +8,8 @@ Properties:
       - Sid: "allow-sns-messages"
         Effect: Allow
         Principal: "*"
-        Resource: !GetAtt
-          - ListingSQSQueue
-          - Arn
+        Resource:
+          Fn::GetAtt: [ListingSQSQueue, Arn]
         Action: "SQS:SendMessage"
         Condition:
           ArnEquals:
@@ -20,4 +19,4 @@ Properties:
                   - - "arn:aws:sns"
                     - Ref: "AWS::Region"
                     - Ref: "AWS::AccountId"
-                    - "${self:custom.namespace}-booking-${self:provider.stage}-bookingCreated"
+                    - "${self:custom.namespace}-item-${self:provider.stage}-item-saved"

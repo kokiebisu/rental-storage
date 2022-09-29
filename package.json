@@ -14,7 +14,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "postinstall": "./scripts/postinstall.sh"
+    "postinstall": "./scripts/postinstall.sh",
+    "refresh": "./scripts/refresh.sh"
   },
   "devDependencies": {
     "@serverless/compose": "1.3.0",
