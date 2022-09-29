@@ -1,5 +1,4 @@
-import { GuestInterface } from "../../types";
-import { StorageItemInterface } from "@rental-storage-project/item";
+import { GuestInterface, StorageItemInterface } from "../../types";
 
 export interface GuestRepository {
   setup(): Promise<void>;

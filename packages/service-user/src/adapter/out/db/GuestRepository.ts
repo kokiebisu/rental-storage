@@ -3,8 +3,7 @@ import Client from "serverless-mysql";
 import { GuestMapper } from "../../in/mapper";
 import { GuestRepository } from "../../../application/port";
 import { LoggerUtil } from "../../../utils";
-import { GuestInterface } from "../../../types";
-import { StorageItemInterface } from "@rental-storage-project/item";
+import { GuestInterface, StorageItemInterface } from "../../../types";
 
 export class GuestRepositoryImpl implements GuestRepository {
   public readonly tableName: string;
