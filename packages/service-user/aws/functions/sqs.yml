@@ -1,6 +1,6 @@
 ## SQS
 ItemSavedSQS:
-  handler: dist/adapter/in/stream/item/ItemSaved.handler
+  handler: dist/adapter/in/sqs/item/ItemSaved.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-sqs-ItemSaved
   environment:
     DB_HOST: ${self:custom.DB_HOST}

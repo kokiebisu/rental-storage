@@ -1,2 +1,2 @@
-export * from "./StorageItemRepository";
 export * from "./ItemService";
+export * from "./out";
