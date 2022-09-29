@@ -48,19 +48,19 @@ export class BookingServiceImpl {
     listingId: string,
     items: StorageItemInterface[]
   ): Promise<boolean> {
-    const amountValue: Amount = { value: amount, currency };
-    const booking = new Booking({
-      amount: amountValue,
-      userId,
-      listingId,
-      items,
-    });
+    this._logger.info({ amount, currency, userId, listingId }, "makeBooking()");
 
     try {
+      const amountValue: Amount = { value: amount, currency };
+      const booking = new Booking({
+        amount: amountValue,
+        userId,
+        listingId,
+        items,
+      });
       const bookingDTO = BookingMapper.toDTOFromEntity(booking);
       this._logger.debug(bookingDTO, "makeBooking()");
       await this._bookingRepository.save(bookingDTO);
-
       return true;
     } catch (err) {
       this._logger.error(err, "makeBooking()");

@@ -12,6 +12,7 @@ export class BookingRepository extends DynamoDBRepository {
 
   public async save(booking: BookingInterface): Promise<void> {
     this._logger.info(booking, "save()");
+    console.debug("ENTERD2");
     const {
       id,
       status,
@@ -22,7 +23,7 @@ export class BookingRepository extends DynamoDBRepository {
       updatedAt,
       items,
     } = booking;
-
+    console.debug("ENTERD3");
     const itemsStringified = items.map((item: any) => {
       return {
         S: JSON.stringify(item),
