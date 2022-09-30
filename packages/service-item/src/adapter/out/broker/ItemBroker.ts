@@ -1,17 +1,22 @@
-import AWS from "aws-sdk";
+import {
+  SNSClient,
+  PublishCommand,
+  PublishCommandInput,
+} from "@aws-sdk/client-sns";
+
 import { ItemBroker } from "../../../application/port";
 import { AWSRegion } from "../../../domain/enum";
 import { StorageItemInterface } from "../../../types";
 import { LoggerUtil } from "../../../utils";
 
 export class ItemBrokerImpl {
-  private _client: AWS.SNS;
+  private _client: SNSClient;
   private _region: AWSRegion;
   private _accountId: string;
   private _logger: LoggerUtil;
 
   private constructor(region: AWSRegion, accountId: string) {
-    this._client = new AWS.SNS({ region });
+    this._client = new SNSClient({ region });
     this._region = region;
     this._accountId = accountId;
     this._logger = new LoggerUtil("PublisherService");
@@ -35,12 +40,16 @@ export class ItemBrokerImpl {
   }
 
   private async publish(message: string, topicName: string) {
-    const params = {
+    const input: PublishCommandInput = {
       Message: message,
       TopicArn: `arn:aws:sns:${this._region}:${this._accountId}:${topicName}`,
     };
+    const command = new PublishCommand(input);
 
-    await this._client.publish(params).promise();
-    this._logger.info(params.TopicArn, "publish()");
+    try {
+      await this._client.send(command);
+    } catch (err) {
+      this._logger.error(err, "publish()");
+    }
   }
 }
