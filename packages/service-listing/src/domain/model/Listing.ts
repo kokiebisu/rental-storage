@@ -1,47 +1,63 @@
+import { ListingConstructor } from "../../types";
 import { StreetAddress } from "./StreetAddress";
 
-export interface ListingRawInterface {
-  id: string;
-  host_id: string;
-  email_address: string;
-  street_address: string;
-  latitude: number;
-  longitude: number;
-  items: string[];
-}
-
 export class Listing {
-  private _id?: string;
+  public readonly id?: string;
   public readonly hostId: string;
-  private _streetAddress: StreetAddress;
-
+  public readonly streetAddress: StreetAddress;
   public readonly latitude: number;
   public readonly longitude: number;
   public readonly items: string[];
 
-  public constructor(
-    hostId: string,
-    streetAddress: StreetAddress,
-    latitude: number,
-    longitude: number,
-    items: string[] = []
-  ) {
+  public constructor({
+    id,
+    hostId,
+    streetAddress,
+    latitude,
+    longitude,
+    items = [],
+  }: ListingConstructor) {
+    this.validateHostId(hostId);
+    this.validateLatitude(latitude);
+    this.validateLongitude(longitude);
+
+    this.id = id;
     this.hostId = hostId;
-    this._streetAddress = streetAddress;
+    this.streetAddress = streetAddress;
     this.latitude = latitude;
     this.longitude = longitude;
     this.items = items;
   }
 
-  public get id(): string | undefined {
-    return this._id;
+  private validateHostId(hostId: string) {
+    if (!hostId) {
+      throw new Error("hostId was not provided");
+    }
   }
 
-  public set id(value: string | undefined) {
-    this._id = value;
+  private validateLatitude(latitude: number) {
+    if (!latitude) {
+      throw new Error("latitude was not provided");
+    }
+    if (
+      !new RegExp(
+        /^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/
+      ).test(latitude.toString())
+    ) {
+      throw new Error("Provided latitude doesn't exist");
+    }
   }
 
-  public get streetAddress(): string {
-    return this._streetAddress.value;
+  private validateLongitude(longitude: number) {
+    if (!longitude) {
+      throw new Error("longitude was not provided");
+    }
+    if (
+      !new RegExp(
+        /^(\+|-)?(?:180(?:(?:\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/
+      ).test(longitude.toString())
+    ) {
+      throw new Error("Provided latitude doesn't exist");
+    }
   }
 }

@@ -60,7 +60,16 @@ export class ListingServiceImpl implements ListingService {
   public async addListing(
     args: Omit<ListingInterface, "id">
   ): Promise<boolean> {
+    this._logger.info(args, "addListing()");
     const { hostId, streetAddress, latitude, longitude, items } = args;
+
+    const listing = new Listing({
+      hostId,
+      streetAddress: new StreetAddress(streetAddress),
+      latitude,
+      longitude,
+      items,
+    });
 
     const { data: host } = await axios.get(
       `${process.env.SERVICE_API_ENDPOINT}/users/host/${hostId}`
@@ -69,13 +78,6 @@ export class ListingServiceImpl implements ListingService {
       throw new Error(`Provided hostId ${hostId} doesn't exist`);
     }
 
-    const listing = new Listing(
-      hostId,
-      new StreetAddress(streetAddress),
-      latitude,
-      longitude,
-      items
-    );
     try {
       const listingDTO = ListingMapper.toDTOFromEntity(listing);
       await this._listingRepository.save(listingDTO);

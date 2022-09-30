@@ -29,23 +29,16 @@ export class PostalCode {
 }
 
 export class StreetAddress {
-  private _value: string;
+  public readonly value: string;
 
   public constructor(value: string) {
-    if (!this.isValid(value)) {
+    if (!this.isValidStreetAddress(value)) {
       throw new Error("Invalid street address provided");
     }
-    this._value = value;
+    this.value = value;
   }
 
-  public get value(): string {
-    return this._value;
-  }
-  public set value(value: string) {
-    this._value = value;
-  }
-
-  private isValid(value: string) {
+  private isValidStreetAddress(value: string) {
     return value.length > 0;
   }
 
@@ -54,7 +47,7 @@ export class StreetAddress {
   }
 
   public get postalCode(): string {
-    return this._value; // use regex or parsing to get the postal code
+    return this.value; // use regex or parsing to get the postal code
   }
 
   // have helper methods to get the portitions seperately like (country, postal code)

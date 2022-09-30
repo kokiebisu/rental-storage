@@ -1,8 +1,9 @@
-import { Listing, ListingRawInterface } from "../../../domain/model";
+import { Listing } from "../../../domain/model";
 import {
   AggregatedListingInterface,
   HostInterface,
   ListingInterface,
+  ListingRawInterface,
   StorageItemInterface,
 } from "../../../types";
 
@@ -78,7 +79,7 @@ export class ListingMapper {
     return {
       ...(data.id && { id: data.id }),
       hostId: data.hostId,
-      streetAddress: data.streetAddress,
+      streetAddress: data.streetAddress.value,
       latitude: data.latitude,
       longitude: data.longitude,
       items: data.items,

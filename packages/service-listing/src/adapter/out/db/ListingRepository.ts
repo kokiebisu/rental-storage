@@ -2,9 +2,12 @@ import Client from "serverless-mysql";
 
 import { ListingMapper } from "../../in/mapper";
 import { ListingRepository } from "../../../application/port";
-import { ListingRawInterface } from "../../../domain/model";
 import { LoggerUtil } from "../../../utils";
-import { ListingInterface, StorageItemInterface } from "../../../types";
+import {
+  ListingInterface,
+  ListingRawInterface,
+  StorageItemInterface,
+} from "../../../types";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;
@@ -30,7 +33,7 @@ export class ListingRepositoryImpl implements ListingRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS listing (id INT AUTO_INCREMENT NOT NULL, host_id INT, street_address VARCHAR(100) NOT NULL, latitude INT NOT NULL, longitude INT NOT NULL, PRIMARY KEY (id))"
+      "CREATE TABLE IF NOT EXISTS listing (id INT AUTO_INCREMENT NOT NULL, host_id INT, street_address VARCHAR(100) NOT NULL, latitude DECIMAL(11,7) NOT NULL, longitude DECIMAL(11,7) NOT NULL, PRIMARY KEY (id))"
     );
     await this._client.query(
       "CREATE TABLE IF NOT EXISTS listing_item (listing_id INT NOT NULL,item_id INT NOT NULL, PRIMARY KEY (listing_id, item_id))"
@@ -38,10 +41,16 @@ export class ListingRepositoryImpl implements ListingRepository {
   }
 
   public async save(data: Omit<ListingInterface, "id">): Promise<void> {
-    await this._client.query(
-      `INSERT INTO listing (host_id, street_address, latitude, longitude) VALUES(?,?,?,?)`,
-      [data.hostId, data.streetAddress, data.latitude, data.longitude]
-    );
+    this._logger.info(data, "save()");
+    try {
+      await this._client.query(
+        `INSERT INTO listing (host_id, street_address, latitude, longitude) VALUES(?,?,?,?)`,
+        [data.hostId, data.streetAddress, data.latitude, data.longitude]
+      );
+    } catch (err) {
+      this._logger.error(err, "save()");
+      throw err;
+    }
   }
 
   public async addItemToListing(
@@ -58,10 +67,12 @@ export class ListingRepositoryImpl implements ListingRepository {
   }
 
   public async delete(id: string): Promise<void> {
+    this._logger.info({ id }, "delete()");
     return await this._client.query(`DELETE FROM listing WHERE id = ?`, [id]);
   }
 
   public async findOneById(listingId: string): Promise<ListingInterface> {
+    this._logger.info({ listingId }, "delete()");
     const result = await this._client.query(
       `SELECT * FROM listing WHERE id = ?`,
       [listingId]
@@ -74,6 +85,7 @@ export class ListingRepositoryImpl implements ListingRepository {
     longitude: number,
     range: number = 100
   ): Promise<ListingInterface[]> {
+    this._logger.info({ latitude, longitude, range }, "delete()");
     const result: ListingRawInterface[] = await this._client.query(
       `
       SELECT id, ( 3959 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance, latitude, longitude FROM listing HAVING distance < ? ORDER BY distance LIMIT 0 , 20
