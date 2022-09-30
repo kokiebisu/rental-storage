@@ -36,7 +36,7 @@ export class ItemServiceImpl implements ItemService {
       const entity = new StorageItem({
         name: data.name,
         imageUrls: data.imageUrls,
-        userId: data.userId,
+        guestId: data.guestId,
         listingId: data.listingId,
         createdAt: new Date(data.createdAt),
         ...(data.updatedAt && { updatedAt: new Date(data.updatedAt) }),
@@ -44,10 +44,12 @@ export class ItemServiceImpl implements ItemService {
       const dto = StorageItemMapper.toDTOFromEntity(entity);
       const result = await this._storageItemRepository.save(dto);
       console.log("INSERTED RESULT: ", result);
-      await this._broker.dispatchItemSaved({
-        ...dto,
-        id: result.insertId.toString(),
-      });
+      if (result?.insertId) {
+        await this._broker.dispatchItemSaved({
+          ...dto,
+          id: result.insertId.toString(),
+        });
+      }
 
       return true;
     } catch (err) {
