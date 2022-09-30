@@ -119,9 +119,23 @@ ListingSQSQueueArn:
   Export:
     Name: ExportedListingSQSQueueArn
 
+ListingSQSDLQueueArn:
+  Description: "Listing Dead Letter SQSQueue Arn"
+  Value:
+    Fn::GetAtt: [ListingSQSDLQueue, Arn]
+  Export:
+    Name: ExportedListingSQSDLQueueArn
+
 UserSQSQueueArn:
-  Description: "User SQSQueue Arn"
+  Description: "User SQSDLQueue Arn"
   Value:
     Fn::GetAtt: [UserSQSQueue, Arn]
   Export:
     Name: ExportedUserSQSQueueArn
+
+UserSQSDLQueueArn:
+  Description: "User SQS Dead Letter Queue Arn"
+  Value:
+    Fn::GetAtt: [UserSQSDLQueue, Arn]
+  Export:
+    Name: ExportedUserSQSDLQueueArn
