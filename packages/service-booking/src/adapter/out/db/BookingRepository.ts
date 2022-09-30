@@ -25,24 +25,21 @@ export class BookingRepositoryImpl implements BookingRepository {
 
   public async save(booking: BookingInterface): Promise<void> {
     this._logger.info(booking, "save()");
-    console.debug("ENTERD2");
     const {
       id,
       status,
       amount,
-      userId,
+      guestId,
       listingId,
       createdAt,
       updatedAt,
       items,
     } = booking;
-    console.debug("ENTERD3");
     const itemsStringified = items.map((item: any) => {
       return {
         S: JSON.stringify(item),
       };
     });
-    console.debug("ITEM STRINGIFIED: ", itemsStringified);
 
     const params = {
       Item: {
@@ -52,8 +49,8 @@ export class BookingRepositoryImpl implements BookingRepository {
         status: {
           S: status,
         },
-        user_id: {
-          S: userId,
+        guest_id: {
+          S: guestId,
         },
         listing_id: {
           S: listingId,

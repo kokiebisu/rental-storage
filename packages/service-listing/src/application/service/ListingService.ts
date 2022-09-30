@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import { ListingMapper } from "../../adapter/in/mapper";
 import { ListingRepositoryImpl } from "../../adapter/out/db";
 import { Listing, StreetAddress } from "../../domain/model";
@@ -59,6 +61,14 @@ export class ListingServiceImpl implements ListingService {
     args: Omit<ListingInterface, "id">
   ): Promise<boolean> {
     const { hostId, streetAddress, latitude, longitude, items } = args;
+
+    const { data: host } = await axios.get(
+      `${process.env.SERVICE_API_ENDPOINT}/users/host/${hostId}`
+    );
+    if (!host) {
+      throw new Error(`Provided hostId ${hostId} doesn't exist`);
+    }
+
     const listing = new Listing(
       hostId,
       new StreetAddress(streetAddress),

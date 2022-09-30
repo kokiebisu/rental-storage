@@ -76,11 +76,9 @@ export class UserServiceImpl implements UserService {
 
       // send slack message (new user joined!)
       return true;
-    } catch (err) {
-      this._logger.error(
-        "Attributes provided didn't match the User interface",
-        "registerHost()"
-      );
+    } catch (err: any) {
+      // send to DLQ
+      this._logger.error(err, "registerHost()");
       return false;
       // send error alert to slack
     }

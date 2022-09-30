@@ -2,6 +2,7 @@ FindAllCreatedBookingsQuery:
   handler: dist/adapter/in/api/graphql/query/FindAllCreatedBookings.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindAllCreatedBookings
   environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     TABLE_NAME: ${self:custom.TABLE_NAME}
     ACCOUNT_ID: ${aws:accountId}
     namespace: ${self:custom.namespace}
@@ -12,6 +13,7 @@ MakeBookingMutation:
   handler: dist/adapter/in/api/graphql/mutation/MakeBooking.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-MakeBooking
   environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     TABLE_NAME: ${self:custom.TABLE_NAME}
     ACCOUNT_ID: ${aws:accountId}
     namespace: ${self:custom.namespace}

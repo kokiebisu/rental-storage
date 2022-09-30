@@ -16,7 +16,7 @@ exports.handler = async (event: any, context: any) => {
     ) => {
       const { guestId } = request.params;
       const data = await service.findGuestById(guestId);
-      reply.send({ data });
+      reply.send(data);
     }
   );
 
@@ -28,7 +28,7 @@ exports.handler = async (event: any, context: any) => {
     ) => {
       const { hostId } = request.params;
       const data = await service.findHostById(hostId);
-      reply.send({ data });
+      reply.send(data);
     }
   );
 

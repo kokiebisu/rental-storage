@@ -2,6 +2,7 @@ BookingServiceController:
   handler: dist/adapter/in/api/controller/index.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Controller
   environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     TABLE_NAME: ${self:custom.TABLE_NAME}
     ACCOUNT_ID: ${aws:accountId}
     namespace: ${self:custom.namespace}

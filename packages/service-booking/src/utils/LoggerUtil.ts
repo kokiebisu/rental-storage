@@ -45,11 +45,11 @@ export class LoggerUtil {
     });
   }
 
-  public error(message: any, methodName: string) {
+  public error(error: any, methodName: string) {
     this._client.error({
       class: this._className,
       methodName,
-      message,
+      message: error.message,
     });
   }
 }
