@@ -13,3 +13,7 @@ ItemSavedSQS:
     - sqs:
         enabled: true
         arn: !ImportValue ExportedUserSQSQueueArn
+
+  deadLetter:
+    targetArn:
+      GetResourceArn: !ImportValue ExportedUserSQSDLQueueArn

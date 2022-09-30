@@ -1,13 +1,14 @@
 Type: "AWS::SQS::Queue"
+DependsOn: ListingSQSDLQueue
 Properties:
   QueueName: "${self:custom.namespace}-listing-${self:provider.stage}-queue"
   VisibilityTimeout: 930
-  # RedrivePolicy:
-  #   deadLetterTargetArn:
-  #     Fn::Join:
-  #       - ":"
-  #       - - "arn:aws:sqs"
-  #         - Ref: "AWS::Region"
-  #         - Ref: "AWS::AccountId"
-  #         - "${self:custom.namespace}-${self:custom.service}-dead-letter-queue"
-  #   maxReceiveCount: 3
+  RedrivePolicy:
+    deadLetterTargetArn:
+      Fn::Join:
+        - ":"
+        - - "arn:aws:sqs"
+          - Ref: "AWS::Region"
+          - Ref: "AWS::AccountId"
+          - "${self:custom.namespace}-listing-${self:provider.stage}-dead-letter-queue"
+    maxReceiveCount: 3
