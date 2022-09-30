@@ -1,15 +1,19 @@
 import { AWSRegion } from "../../../domain/enum";
 import { LoggerUtil } from "../../../utils";
-import AWS from "aws-sdk";
+import {
+  SNSClient,
+  PublishCommand,
+  PublishCommandInput,
+} from "@aws-sdk/client-sns";
 
 export class BookingPublisherService {
-  private _client: AWS.SNS;
+  private _client: SNSClient;
   private _region: AWSRegion;
   private _accountId: string;
   private _logger: LoggerUtil;
 
   private constructor(region: AWSRegion, accountId: string) {
-    this._client = new AWS.SNS({ region });
+    this._client = new SNSClient({ region });
     this._region = region;
     this._accountId = accountId;
     this._logger = new LoggerUtil("PublisherService");
@@ -24,12 +28,12 @@ export class BookingPublisherService {
   }
 
   private async publish(message: string, topicName: string) {
-    const params = {
+    const input: PublishCommandInput = {
       Message: message,
       TopicArn: `arn:aws:sns:${this._region}:${this._accountId}:${topicName}`,
     };
-
-    await this._client.publish(params).promise();
-    this._logger.info(params.TopicArn, "publish()");
+    const command = new PublishCommand(input);
+    await this._client.send(command);
+    this._logger.info(input.TopicArn, "publish()");
   }
 }

@@ -1,4 +1,12 @@
-import AWS from "aws-sdk";
+import {
+  DynamoDBClient,
+  PutItemCommand,
+  PutItemCommandInput,
+  DeleteItemCommand,
+  DeleteItemCommandInput,
+  GetItemCommand,
+  GetItemCommandInput,
+} from "@aws-sdk/client-dynamodb";
 
 import { BookingMapper } from "../../in/mapper";
 import { BookingRepository } from "../../../application/port";
@@ -7,11 +15,11 @@ import { AWSRegion } from "../../../domain/enum";
 import { BookingInterface } from "../../../types";
 
 export class BookingRepositoryImpl implements BookingRepository {
-  private _client: AWS.DynamoDB;
+  private _client: DynamoDBClient;
   private _logger: LoggerUtil;
 
   private constructor(region: AWSRegion, repositoryName: string) {
-    this._client = new AWS.DynamoDB({
+    this._client = new DynamoDBClient({
       region,
     });
     this._logger = new LoggerUtil(repositoryName);
@@ -41,7 +49,7 @@ export class BookingRepositoryImpl implements BookingRepository {
       };
     });
 
-    const params = {
+    const input: PutItemCommandInput = {
       Item: {
         id: {
           S: id,
@@ -80,28 +88,17 @@ export class BookingRepositoryImpl implements BookingRepository {
       ReturnConsumedCapacity: "TOTAL",
       TableName: process.env.TABLE_NAME,
     };
+    const command = new PutItemCommand(input);
 
-    await this._client
-      .putItem(params as any)
-      .promise()
-      // .then((_data) => {
-      //   return {
-      //     id,
-      //     status,
-      //     userId,
-      //     listingId,
-      //     amount,
-      //     createdAt,
-      //     updatedAt,
-      //   };
-      // })
-      .catch((err) => {
-        this._logger.error(err, "save()");
-      });
+    try {
+      await this._client.send(command);
+    } catch (err) {
+      this._logger.error(err, "save()");
+    }
   }
 
   public async delete(id: string): Promise<any> {
-    const params = {
+    const input: DeleteItemCommandInput = {
       Key: {
         id: {
           S: id,
@@ -109,101 +106,95 @@ export class BookingRepositoryImpl implements BookingRepository {
       },
       TableName: process.env.TABLE_NAME,
     };
-    return await this._client
-      .deleteItem(params as any)
-      .promise()
-      .then((_data) => {
-        return {
-          id,
-        };
-      })
-      .catch((err) => {
-        this._logger.error(err, "delete()");
-      });
+    const command = new DeleteItemCommand(input);
+
+    try {
+      await this._client.send(command);
+    } catch (err) {
+      this._logger.error(err, "delete()");
+    }
   }
 
   public async findById(id: string): Promise<any> {
-    var params = {
+    const input: GetItemCommandInput = {
       Key: {
         id: { S: id },
       },
       TableName: process.env.TABLE_NAME,
     };
+    const command = new GetItemCommand(input);
 
-    const data = await this._client
-      .getItem(params as any)
-      .promise()
-      .then((data: any) => data)
-      .catch((err) => {
-        this._logger.error(err, "findById()");
-      });
-
-    return BookingMapper.toDTOFromRaw(data);
+    try {
+      const data = await this._client.send(command);
+      return BookingMapper.toDTOFromRaw(data);
+    } catch (err) {
+      this._logger.error(err, "findById()");
+    }
   }
 
-  public async findAll(): Promise<any> {
-    const params = {
-      TableName: process.env.TODO_TABLE_NAME,
-    };
-    return this._client
-      .scan(params as any)
-      .promise()
-      .then((data: any) => {
-        const todoList = [];
-        for (let i = 0; i < data.Items!.length; i++) {
-          todoList.push({
-            id: data.Items[i].id.S,
-            name: data.Items[i].name.S,
-            description: data.Items[i].description.S,
-          });
-        }
-        return todoList;
-      })
-      .catch((err) => {
-        this._logger.error(err, "findAll()");
-      });
-  }
+  // public async findAll(): Promise<any> {
+  //   const params = {
+  //     TableName: process.env.TODO_TABLE_NAME,
+  //   };
+  //   return this._client
+  //     .scan(params as any)
+  //     .promise()
+  //     .then((data: any) => {
+  //       const todoList = [];
+  //       for (let i = 0; i < data.Items!.length; i++) {
+  //         todoList.push({
+  //           id: data.Items[i].id.S,
+  //           name: data.Items[i].name.S,
+  //           description: data.Items[i].description.S,
+  //         });
+  //       }
+  //       return todoList;
+  //     })
+  //     .catch((err) => {
+  //       this._logger.error(err, "findAll()");
+  //     });
+  // }
 
-  public async update(
-    id: string,
-    name: string,
-    description: string
-  ): Promise<any> {
-    const params = {
-      ExpressionAttributeNames: {
-        "#n": "name",
-        "#d": "description",
-      },
-      ExpressionAttributeValues: {
-        ":n": {
-          S: name,
-        },
-        ":d": {
-          S: description,
-        },
-      },
-      Key: {
-        id: {
-          S: id,
-        },
-      },
-      ReturnValues: "ALL_NEW",
-      TableName: process.env.TODO_TABLE_NAME,
-      UpdateExpression: "SET #n = :n, #d = :d",
-    };
-    return this._client
-      .updateItem(params as any)
-      .promise()
-      .then((data: any) => {
-        const body = data.Attributes;
-        return {
-          id: body.id.S,
-          name: body.name.S,
-          description: body.description.S,
-        };
-      })
-      .catch((err) => {
-        this._logger.error(err, "update()");
-      });
-  }
+  // public async update(
+  //   id: string,
+  //   name: string,
+  //   description: string
+  // ): Promise<any> {
+  //   const params = {
+  //     ExpressionAttributeNames: {
+  //       "#n": "name",
+  //       "#d": "description",
+  //     },
+  //     ExpressionAttributeValues: {
+  //       ":n": {
+  //         S: name,
+  //       },
+  //       ":d": {
+  //         S: description,
+  //       },
+  //     },
+  //     Key: {
+  //       id: {
+  //         S: id,
+  //       },
+  //     },
+  //     ReturnValues: "ALL_NEW",
+  //     TableName: process.env.TODO_TABLE_NAME,
+  //     UpdateExpression: "SET #n = :n, #d = :d",
+  //   };
+  //   return this._client
+  //     .updateItem(params as any)
+  //     .promise()
+  //     .then((data: any) => {
+  //       const body = data.Attributes;
+  //       return {
+  //         id: body.id.S,
+  //         name: body.name.S,
+  //         description: body.description.S,
+  //       };
+  //     })
+  //     .catch((err) => {
+  //       this._logger.error(err, "update()");
+  //     });
+  // }
 }
