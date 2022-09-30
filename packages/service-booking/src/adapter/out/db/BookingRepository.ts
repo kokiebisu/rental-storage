@@ -29,19 +29,17 @@ export class BookingRepositoryImpl implements BookingRepository {
       id,
       status,
       amount,
-      userId,
+      guestId,
       listingId,
       createdAt,
       updatedAt,
       items,
     } = booking;
-
     const itemsStringified = items.map((item: any) => {
       return {
         S: JSON.stringify(item),
       };
     });
-    console.debug("ITEM STRINGIFIED: ", itemsStringified);
 
     const params = {
       Item: {
@@ -51,8 +49,8 @@ export class BookingRepositoryImpl implements BookingRepository {
         status: {
           S: status,
         },
-        user_id: {
-          S: userId,
+        guest_id: {
+          S: guestId,
         },
         listing_id: {
           S: listingId,

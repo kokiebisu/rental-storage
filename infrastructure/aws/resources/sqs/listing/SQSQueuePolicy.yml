@@ -19,4 +19,4 @@ Properties:
                   - - "arn:aws:sns"
                     - Ref: "AWS::Region"
                     - Ref: "AWS::AccountId"
-                    - "${self:custom.namespace}-item-${self:provider.stage}-item-saved"
+                    - "${self:custom.namespace}-item-${self:provider.stage}-ItemCreated"

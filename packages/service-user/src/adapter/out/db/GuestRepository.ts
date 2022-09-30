@@ -29,7 +29,7 @@ export class GuestRepositoryImpl implements GuestRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS guest (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', PRIMARY KEY (id))"
+      "CREATE TABLE IF NOT EXISTS guest (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', created_at DATE NOT NULL, updated_at DATE, PRIMARY KEY (id))"
     );
     await this._client.query(
       "CREATE TABLE IF NOT EXISTS guest_item (guest_id INT NOT NULL, item_id INT NOT NULL, PRIMARY KEY(guest_id, item_id))"
@@ -39,8 +39,8 @@ export class GuestRepositoryImpl implements GuestRepository {
   public async save(data: GuestInterface): Promise<GuestInterface> {
     this._logger.info(data, "save()");
     const result = await this._client.query(
-      `INSERT INTO guest (first_name, last_name) VALUES(?,?)`,
-      [data.firstName, data.lastName]
+      `INSERT INTO guest (first_name, last_name, created_at) VALUES(?,?,?)`,
+      [data.firstName, data.lastName, data.createdAt]
     );
     return result;
   }

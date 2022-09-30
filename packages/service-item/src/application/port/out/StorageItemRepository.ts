@@ -1,4 +1,4 @@
-import { StorageItemInterface } from "../../types";
+import { StorageItemInterface } from "../../../types";
 
 export interface StorageItemRepository {
   setup(): Promise<void>;

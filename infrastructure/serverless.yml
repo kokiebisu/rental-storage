@@ -63,7 +63,7 @@ resources:
     BookingDynamoDBTable: ${file(./aws/resources/dynamodb/BookingTable.yml)}
 
     # SNS Topic
-    SNSTopicItemSaved: ${file(./aws/resources/sns/topic/item/SNSTopicItemSaved.yml)}
+    SNSTopicItemCreated: ${file(./aws/resources/sns/topic/item/SNSTopicItemSaved.yml)}
 
     # SQS
     UserSNSSubscriptionItemSaved: ${file(./aws/resources/sqs/user/SNSSubscriptionItemSaved.yml)}

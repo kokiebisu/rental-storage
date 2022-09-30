@@ -15,7 +15,5 @@ type Mutation {
 
 input StorageItem {
   name: String
-  imageUrls: String
-  userId: String
-  listingId: String
+  imageUrls: [String]
 }

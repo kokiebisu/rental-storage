@@ -22,6 +22,15 @@ custom:
   namespace: rental-storage
   service: booking
   TABLE_NAME: !ImportValue ExportedBookingDynamoDBTableName
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${self:provider.region}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

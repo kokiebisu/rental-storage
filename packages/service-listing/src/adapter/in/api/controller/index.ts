@@ -16,7 +16,7 @@ exports.handler = async (event: any, context: any) => {
     ) => {
       const { listingId } = request.params;
       const data = await service.findListingById(listingId);
-      reply.send({ data });
+      reply.send(data);
     }
   );
 
@@ -34,7 +34,7 @@ exports.handler = async (event: any, context: any) => {
         longitude,
         range
       );
-      reply.send({ data });
+      reply.send(data);
     }
   );
 

@@ -4,6 +4,6 @@ export interface StorageItemInterface {
   imageUrls: string[];
   userId: string;
   listingId: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt?: string;
 }

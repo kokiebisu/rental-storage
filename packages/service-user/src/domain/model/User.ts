@@ -1,17 +1,33 @@
+import { UserConstructor } from "../../types";
+
 export abstract class User {
-  private _id?: string;
+  public readonly id?: string;
   public readonly firstName: string;
   public readonly lastName: string;
+  public readonly createdAt: Date;
+  public readonly updatedAt?: Date;
 
-  public constructor(firstName: string, lastName: string) {
+  public constructor({
+    id,
+    firstName,
+    lastName,
+    createdAt = new Date(),
+    updatedAt,
+  }: UserConstructor) {
+    if (!this.validateName(firstName)) {
+      throw new Error("Provided first name is invalid");
+    }
+    if (!this.validateName(lastName)) {
+      throw new Error("Provided last name is invalid");
+    }
+    this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 
-  public get id(): string {
-    if (!this._id) {
-      throw new Error("id is empty");
-    }
-    return this._id;
+  private validateName(name: string) {
+    return name.length > 0 && new RegExp(/^[a-z ,.'-]+$/i).test(name);
   }
 }

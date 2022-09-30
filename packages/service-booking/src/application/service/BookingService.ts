@@ -1,3 +1,5 @@
+import axios from "axios";
+
 import { BookingPublisherService } from "../../adapter/out/broker/BookingBroker";
 import { BookingRepository } from "../port";
 import { BookingRepositoryImpl } from "../../adapter/out/db";
@@ -36,23 +38,44 @@ export class BookingServiceImpl implements BookingService {
   public async makeBooking(
     amount: number,
     currency: Currency,
-    userId: string,
+    guestId: string,
     listingId: string,
     items: StorageItemInterface[]
   ): Promise<boolean> {
-    const amountValue: Amount = { value: amount, currency };
-    const booking = new Booking({
-      amount: amountValue,
-      userId,
-      listingId,
-      items,
-    });
+    this._logger.info(
+      { amount, currency, guestId, listingId },
+      "makeBooking()"
+    );
+
+    // Check if userId and listId exist
+    // code here...
+    const { data: user } = await axios.get(
+      `${process.env.SERVICE_API_ENDPOINT}/users/guest/${guestId}`
+    );
+    if (!user) {
+      throw new Error(`Provided userId ${guestId} doesn't exist`);
+    }
+
+    const { data: listing } = await axios.get(
+      `${process.env.SERVICE_API_ENDPOINT}/listings/${listingId}`
+    );
+
+    if (!listing) {
+      throw new Error(`Provided listingId ${listingId} doesn't exist`);
+    }
 
     try {
-      const bookingDTO = BookingMapper.toDTOFromEntity(booking);
-      this._logger.debug(bookingDTO, "makeBooking()");
-      await this._bookingRepository.save(bookingDTO);
+      const amountValue: Amount = { value: amount, currency };
+      const booking = new Booking({
+        amount: amountValue,
+        guestId,
+        listingId,
+        items,
+      });
 
+      await this._bookingRepository.save(
+        BookingMapper.toDTOFromEntity(booking)
+      );
       return true;
     } catch (err) {
       this._logger.error(err, "makeBooking()");
