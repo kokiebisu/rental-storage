@@ -1,4 +1,4 @@
-import { GuestMapper } from "../../adapter/in/mapper";
+import { GuestMapper, HostMapper } from "../../adapter/in/mapper";
 import { Guest, Host } from "../../domain/model";
 import { GuestRepository, HostRepository, UserService } from "../port";
 import { GuestRepositoryImpl, HostRepositoryImpl } from "../../adapter/out/db";
@@ -29,12 +29,12 @@ export class UserServiceImpl implements UserService {
   }
 
   public async registerGuest(data: any): Promise<boolean> {
+    this._logger.info(data, "registerGuest()");
     try {
       const guest = new Guest({
         firstName: data.firstName,
         lastName: data.lastName,
       });
-      // save to guest table
 
       await this._guestRepository.save(GuestMapper.toDTOFromEntity(guest));
       // send slack message (new user joined!)
@@ -67,9 +67,12 @@ export class UserServiceImpl implements UserService {
 
   public async registerHost(data: any): Promise<boolean> {
     try {
-      const host = new Host(data.firstName, data.lastName);
+      const host = new Host({
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
       // save to guest table
-      await this._hostRepository.save(host.toDTO());
+      await this._hostRepository.save(HostMapper.toDTOFromEntity(host));
 
       // send slack message (new user joined!)
       return true;

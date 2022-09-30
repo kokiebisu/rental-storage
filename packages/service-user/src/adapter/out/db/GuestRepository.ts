@@ -29,7 +29,7 @@ export class GuestRepositoryImpl implements GuestRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS guest (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', PRIMARY KEY (id))"
+      "CREATE TABLE IF NOT EXISTS guest (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', created_at DATETIME NOT NULL, updated_at DATETIME, PRIMARY KEY (id))"
     );
     await this._client.query(
       "CREATE TABLE IF NOT EXISTS guest_item (guest_id INT NOT NULL, item_id INT NOT NULL, PRIMARY KEY(guest_id, item_id))"

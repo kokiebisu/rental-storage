@@ -1,5 +1,5 @@
-import { Guest, GuestRawInterface } from "../../../domain/model";
-import { GuestInterface } from "../../../types";
+import { Guest } from "../../../domain/model";
+import { GuestInterface, GuestRawInterface } from "../../../types";
 
 export class GuestMapper {
   public static toDTOFromRaw(data: GuestRawInterface) {
