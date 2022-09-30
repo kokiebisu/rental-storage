@@ -1,5 +1,6 @@
 import { Host } from "../../../domain/model";
 import { HostInterface, HostRawInterface } from "../../../types";
+import { TimeUtil } from "../../../utils";
 
 export class HostMapper {
   public static toDTOFromRaw(data: HostRawInterface) {
@@ -17,8 +18,8 @@ export class HostMapper {
       ...(data.id && { id: data.id }),
       firstName: data.firstName,
       lastName: data.lastName,
-      createdAt: data.createdAt.toString(),
-      ...(data.updatedAt && { updatedAt: data.updatedAt.toString() }),
+      createdAt: TimeUtil.toDate(data.createdAt),
+      ...(data.updatedAt && { updatedAt: TimeUtil.toDate(data.updatedAt) }),
     };
   }
 }

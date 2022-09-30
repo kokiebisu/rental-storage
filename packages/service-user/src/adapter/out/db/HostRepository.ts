@@ -29,7 +29,7 @@ export class HostRepositoryImpl implements HostRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS host (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', created_at DATETIME NOT NULL, updated_at DATETIME, PRIMARY KEY (id))"
+      "CREATE TABLE IF NOT EXISTS host (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', created_at DATE NOT NULL, updated_at DATE, PRIMARY KEY (id))"
     );
   }
 

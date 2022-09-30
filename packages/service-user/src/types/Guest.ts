@@ -5,6 +5,8 @@ export interface GuestInterface {
   firstName: string;
   lastName: string;
   items: string[];
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface GuestRawInterface {
@@ -12,6 +14,8 @@ export interface GuestRawInterface {
   first_name: string;
   last_name: string;
   items: string[];
+  created_at: string;
+  updated_at?: string;
 }
 
 export interface GuestConstructor extends UserConstructor {
