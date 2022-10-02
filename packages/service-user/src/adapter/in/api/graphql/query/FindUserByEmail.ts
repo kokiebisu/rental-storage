@@ -1,7 +1,7 @@
 import { UserServiceImpl } from "../../../../../application/service/UserService";
 
 export const handler = async (event: any) => {
-  const { id } = event.arguments;
+  const { email } = event.arguments;
   const service = await UserServiceImpl.create();
-  return service.findGuestById(id);
+  return service.findUserByEmail(email);
 };

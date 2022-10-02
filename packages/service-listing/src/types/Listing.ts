@@ -1,10 +1,10 @@
 import { StreetAddress } from "../domain/model";
-import { HostInterface } from "./Host";
+import { LenderInterface } from "./Lender";
 import { StorageItemInterface } from "./Item";
 
 export interface ListingConstructor {
   id?: string;
-  hostId: string;
+  lenderId: number;
   streetAddress: StreetAddress;
   latitude: number;
   longitude: number;
@@ -14,7 +14,7 @@ export interface ListingConstructor {
 
 export interface ListingRawInterface {
   id: string;
-  host_id: string;
+  lender_id: number;
   email_address: string;
   street_address: string;
   latitude: number;
@@ -25,7 +25,7 @@ export interface ListingRawInterface {
 
 export interface AggregatedListingInterface {
   id?: string;
-  host: HostInterface;
+  lender: LenderInterface;
   streetAddress: string;
   latitude: number;
   longitude: number;
@@ -35,7 +35,7 @@ export interface AggregatedListingInterface {
 
 export interface ListingInterface {
   id?: string;
-  hostId: string;
+  lenderId: number;
   streetAddress: string;
   latitude: number;
   longitude: number;

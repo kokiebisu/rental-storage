@@ -1,17 +1,17 @@
-import { UserConstructor } from "../../types";
+import { StorageItemInterface, UserConstructor } from "../../types";
 import { v4 as uuid } from "uuid";
 import { EmailAddress } from "./EmailAddress";
-import { Password } from "./Password";
 
-export abstract class User {
+export class User {
   public readonly id?: number;
   public readonly uid: string;
   public readonly firstName: string;
   public readonly lastName: string;
   public readonly emailAddress: EmailAddress;
-  public readonly password: Password;
+  public readonly password: string;
   public readonly createdAt: Date;
   public readonly updatedAt?: Date;
+  public readonly items: StorageItemInterface[];
 
   public constructor({
     id,
@@ -22,6 +22,7 @@ export abstract class User {
     password,
     createdAt = new Date(),
     updatedAt,
+    items = [],
   }: UserConstructor) {
     this.validateFirstName(firstName);
     this.validateLastName(lastName);
@@ -31,6 +32,7 @@ export abstract class User {
     this.lastName = lastName;
     this.emailAddress = emailAddress;
     this.password = password;
+    this.items = items;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

@@ -1,51 +1,16 @@
 ## Query
 - type: AWS_LAMBDA
-  name: FindGuestByIdFunction
+  name: FindUserByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindGuestById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindUserById
 
 - type: AWS_LAMBDA
-  name: FindHostByIdFunction
+  name: FindUserByEmailFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindHostById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindUserByEmail
 
 ## Mutation
 - type: AWS_LAMBDA
-  name: RegisterGuestFunction
+  name: RemoveUserByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RegisterGuest
-
-- type: AWS_LAMBDA
-  name: RemoveGuestByIdFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RemoveGuestById
-
-- type: AWS_LAMBDA
-  name: RegisterHostFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RegisterHost
-
-- type: AWS_LAMBDA
-  name: RemoveHostByIdFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RemoveHostById
-## TODOS (TEMP)
-# - type: AWS_LAMBDA
-#   name: createTodoFunction
-#   config:
-#     functionName: createTodo
-
-# - type: AWS_LAMBDA
-#   name: updateTodoFunction
-#   config:
-#     functionName: updateTodo
-
-# - type: AWS_LAMBDA
-#   name: deleteTodoFunction
-#   config:
-#     functionName: deleteTodo
-
-# - type: AWS_LAMBDA
-#   name: getTodosFunction
-#   config:
-#     functionName: getTodos
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RemoveUserById

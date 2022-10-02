@@ -9,13 +9,13 @@ exports.handler = async (event: any, context: any) => {
   const proxy = awsLambdaFastify(app);
 
   app.get(
-    "/users/guest/:guestId",
+    "/users/:userId",
     async (
-      request: FastifyRequest<{ Params: { guestId: number } }>,
+      request: FastifyRequest<{ Params: { userId: number } }>,
       reply: FastifyReply
     ) => {
-      const { guestId } = request.params;
-      const data = await service.findGuestById(guestId);
+      const { userId } = request.params;
+      const data = await service.findUserById(userId);
       reply.send(data);
     }
   );
@@ -27,19 +27,31 @@ exports.handler = async (event: any, context: any) => {
       reply: FastifyReply
     ) => {
       const { emailAddress } = request.query;
-      const data = await service.findGuestByEmail(emailAddress);
+      const data = await service.findUserByEmail(emailAddress);
       reply.send(data);
     }
   );
 
-  app.get(
-    "/users/host/:hostId",
+  app.post(
+    "/users",
     async (
-      request: FastifyRequest<{ Params: { hostId: number } }>,
+      request: FastifyRequest<{
+        Body: {
+          emailAddress: string;
+          firstName: string;
+          lastName: string;
+          password: string;
+        };
+      }>,
       reply: FastifyReply
     ) => {
-      const { hostId } = request.params;
-      const data = await service.findHostById(hostId);
+      const { emailAddress, firstName, lastName, password } = request.body;
+      const data = await service.createUser({
+        emailAddress,
+        firstName,
+        lastName,
+        password,
+      });
       reply.send(data);
     }
   );

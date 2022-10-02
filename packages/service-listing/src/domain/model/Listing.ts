@@ -3,7 +3,7 @@ import { StreetAddress } from "./StreetAddress";
 
 export class Listing {
   public readonly id?: string;
-  public readonly hostId: string;
+  public readonly lenderId: number;
   public readonly streetAddress: StreetAddress;
   public readonly latitude: number;
   public readonly longitude: number;
@@ -12,19 +12,19 @@ export class Listing {
 
   public constructor({
     id,
-    hostId,
+    lenderId,
     streetAddress,
     latitude,
     longitude,
     imageUrls,
     items = [],
   }: ListingConstructor) {
-    this.validateHostId(hostId);
+    this.validateLenderId(lenderId);
     this.validateLatitude(latitude);
     this.validateLongitude(longitude);
 
     this.id = id;
-    this.hostId = hostId;
+    this.lenderId = lenderId;
     this.streetAddress = streetAddress;
     this.latitude = latitude;
     this.longitude = longitude;
@@ -32,9 +32,9 @@ export class Listing {
     this.items = items;
   }
 
-  private validateHostId(hostId: string) {
-    if (!hostId) {
-      throw new Error("hostId was not provided");
+  private validateLenderId(lenderId: number) {
+    if (!lenderId) {
+      throw new Error("lenderId was not provided");
     }
   }
 

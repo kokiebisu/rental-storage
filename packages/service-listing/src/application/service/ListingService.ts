@@ -61,11 +61,11 @@ export class ListingServiceImpl implements ListingService {
     args: Omit<ListingInterface, "id">
   ): Promise<boolean> {
     this._logger.info(args, "addListing()");
-    const { hostId, streetAddress, latitude, longitude, items, imageUrls } =
+    const { lenderId, streetAddress, latitude, longitude, items, imageUrls } =
       args;
 
     const listing = new Listing({
-      hostId,
+      lenderId,
       streetAddress: new StreetAddress(streetAddress),
       latitude,
       longitude,
@@ -73,11 +73,11 @@ export class ListingServiceImpl implements ListingService {
       items,
     });
 
-    const { data: host } = await axios.get(
-      `${process.env.SERVICE_API_ENDPOINT}/users/host/${hostId}`
+    const { data: lender } = await axios.get(
+      `${process.env.SERVICE_API_ENDPOINT}/users/${lenderId}`
     );
-    if (!host) {
-      throw new Error(`Provided hostId ${hostId} doesn't exist`);
+    if (!lender) {
+      throw new Error(`Provided lenderId ${lenderId} doesn't exist`);
     }
 
     try {
