@@ -2,6 +2,7 @@
 **/env/**
 **/dist
 **/.env
+**/bin
 
 **/tsconfig.tsbuildinfo
 **/.serverless

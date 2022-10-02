@@ -10,7 +10,7 @@
   "scripts": {
     "deploy": "npm run build && serverless deploy",
     "remove": "serverless remove",
-    "build": "turbo run build",
+    "build": "./scripts/build.sh",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
