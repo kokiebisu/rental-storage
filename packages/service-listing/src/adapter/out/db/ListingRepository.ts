@@ -46,7 +46,8 @@ export class ListingRepositoryImpl implements ListingRepository {
           id INT AUTO_INCREMENT NOT NULL,
           url VARCHAR(100),
           listing_id INT NOT NULL,
-          FOREIGN KEY (listing_id) REFERENCES listing(id)
+          FOREIGN KEY (listing_id) REFERENCES listing(id),
+          PRIMARY KEY (id)
         )
       `
     );

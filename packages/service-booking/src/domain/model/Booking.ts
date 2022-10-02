@@ -7,8 +7,8 @@ export class Booking {
   public readonly id: string;
   public readonly status: BookingStatus;
   public readonly amount: Amount;
-  public readonly guestId: string;
-  public readonly listingId: string;
+  public readonly guestId: number;
+  public readonly listingId: number;
   public readonly createdAt: Date;
   public readonly updatedAt?: Date | undefined;
   public readonly items: StorageItemInterface[];

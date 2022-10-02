@@ -44,15 +44,6 @@ export class GuestRepositoryImpl implements GuestRepository {
         )
       `
     );
-    await this._client.query(
-      `
-        CREATE TABLE IF NOT EXISTS guest_item (
-          guest_id INT NOT NULL, 
-          item_id INT NOT NULL, 
-          PRIMARY KEY(guest_id, item_id)
-        )
-      `
-    );
   }
 
   public async save(
