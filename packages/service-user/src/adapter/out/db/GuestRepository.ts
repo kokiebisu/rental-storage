@@ -86,6 +86,25 @@ export class GuestRepositoryImpl implements GuestRepository {
     return GuestMapper.toDTOFromRaw(result[0]);
   }
 
+  public async findOneByEmail(
+    emailAddress: string
+  ): Promise<GuestInterface | null> {
+    this._logger.info({ emailAddress }, "findOneByEmail()");
+    try {
+      const result = await this._client.query(
+        `SELECT * FROM guest where email_address = ?`,
+        [emailAddress]
+      );
+
+      const test = GuestMapper.toDTOFromRaw(result[0]);
+      console.debug("RESULT: ", test);
+      return test;
+    } catch (err) {
+      this._logger.error(err, "findOneByEmail()");
+      throw err;
+    }
+  }
+
   public async findAllItemIdsByGuestId(id: number): Promise<any> {
     this._logger.info(id, "findAllItemIdsByUserId()");
     const result = await this._client.query(
