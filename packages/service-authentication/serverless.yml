@@ -1,0 +1,35 @@
+service: rental-storage-authentication
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: rental-storage-authentication-resources
+  iam:
+    role: !ImportValue ExportedLambdaRoleArn
+  apiGateway:
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+
+custom:
+  namespace: rental-storage
+  service: authentication
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${self:provider.region}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
+
+functions:
+  - ${file(./aws/functions/apigateway.yml)}

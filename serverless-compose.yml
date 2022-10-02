@@ -32,6 +32,11 @@ services:
     dependsOn:
       - infrastructure
 
+  authentication:
+    path: packages/service-authentication
+    dependsOn:
+      - infrastructure
+
   api:
     path: api
     dependsOn:

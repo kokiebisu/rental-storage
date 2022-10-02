@@ -1,0 +1,15 @@
+Signin:
+  handler: bin/signin
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Authentication
+  environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
+  package:
+    exclude:
+      - ./**
+    include:
+      - ./bin/signin
+  events:
+    - http:
+        path: /auth/signin
+        method: post
