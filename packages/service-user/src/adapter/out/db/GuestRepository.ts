@@ -96,9 +96,7 @@ export class GuestRepositoryImpl implements GuestRepository {
         [emailAddress]
       );
 
-      const test = GuestMapper.toDTOFromRaw(result[0]);
-      console.debug("RESULT: ", test);
-      return test;
+      return GuestMapper.toDTOFromRaw(result[0]);
     } catch (err) {
       this._logger.error(err, "findOneByEmail()");
       throw err;
