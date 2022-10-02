@@ -4,7 +4,8 @@ export interface GuestRepository {
   setup(): Promise<void>;
   save(data: GuestInterface): Promise<{ insertId: number } | undefined>;
   delete(id: number): Promise<GuestInterface>;
-  findOneById(id: number): Promise<GuestInterface>;
+  findOneById(id: number): Promise<GuestInterface | null>;
+  findOneByEmail(emailAddress: string): Promise<GuestInterface | null>;
   findAllItemIdsByGuestId(id: number): Promise<any>;
   updateStoringItem(id: number, items: StorageItemInterface[]): Promise<void>;
 }

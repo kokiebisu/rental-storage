@@ -73,6 +73,19 @@ export class UserServiceImpl implements UserService {
     }
   }
 
+  public async findGuestByEmail(
+    emailAddress: string
+  ): Promise<GuestInterface | null> {
+    this._logger.info({ emailAddress }, "findGuestByEmailAddress()");
+    try {
+      const guest = await this._guestRepository.findOneByEmail(emailAddress);
+      return guest;
+    } catch (err) {
+      this._logger.error(err, "findGuestByEmailAddress()");
+      return null;
+    }
+  }
+
   public async registerHost(data: any): Promise<boolean> {
     this._logger.info({ data }, "registerHost()");
     try {

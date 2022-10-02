@@ -21,6 +21,18 @@ exports.handler = async (event: any, context: any) => {
   );
 
   app.get(
+    "/users/find-by-email",
+    async (
+      request: FastifyRequest<{ Querystring: { emailAddress: string } }>,
+      reply: FastifyReply
+    ) => {
+      const { emailAddress } = request.query;
+      const data = await service.findGuestByEmail(emailAddress);
+      reply.send(data);
+    }
+  );
+
+  app.get(
     "/users/host/:hostId",
     async (
       request: FastifyRequest<{ Params: { hostId: number } }>,
