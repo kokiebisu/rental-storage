@@ -20,7 +20,11 @@ custom:
   service: api
   appSync:
     name: ${self:custom.namespace}-${self:custom.service}
-    authenticationType: API_KEY
+    # authenticationType: API_KEY
+    authenticationType: AWS_LAMBDA
+    lambdaAuthorizerConfig:
+      lmabdaFunctionArn: ${self:custom.namespace}-authorizer-${self:provider.stage}-Authorizer
+
     schema:
       - schema/booking.graphql
       - schema/image.graphql
