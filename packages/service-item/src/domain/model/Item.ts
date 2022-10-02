@@ -8,7 +8,7 @@ export class StorageItem {
   public readonly imageUrls: string[];
   public readonly createdAt: Date;
   public readonly updatedAt?: Date | undefined;
-  public readonly guestId: string;
+  public readonly borrowerId: string;
   public readonly listingId: string;
 
   public constructor({
@@ -17,7 +17,7 @@ export class StorageItem {
     imageUrls = [],
     createdAt = new Date(),
     updatedAt,
-    guestId,
+    borrowerId,
     listingId,
   }: StorageItemConstructor) {
     this.id = id;
@@ -25,7 +25,7 @@ export class StorageItem {
     this.imageUrls = imageUrls;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.guestId = guestId;
+    this.borrowerId = borrowerId;
     this.listingId = listingId;
   }
 }

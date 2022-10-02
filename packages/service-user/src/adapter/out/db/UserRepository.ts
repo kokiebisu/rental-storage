@@ -78,10 +78,9 @@ export class UserRepositoryImpl implements UserRepository {
 
   public async findOneById(id: number): Promise<UserInterface> {
     this._logger.info({ id }, "findOneById()");
-    const result = await this._client.query(
-      `SELECT * FROM guest WHERE id = ?`,
-      [id]
-    );
+    const result = await this._client.query(`SELECT * FROM user WHERE id = ?`, [
+      id,
+    ]);
 
     return UserMapper.toDTOFromRaw(result[0]);
   }

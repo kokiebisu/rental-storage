@@ -44,7 +44,7 @@ export class UserServiceImpl implements UserService {
     this._logger.info({ id }, "removeUserById()");
     const userExists = await this.findUserById(id);
     if (!userExists) {
-      throw new Error(`Guest with email ${id} doesn't exist`);
+      throw new Error(`User with email ${id} doesn't exist`);
     }
     try {
       await this._userRepository.delete(id);
