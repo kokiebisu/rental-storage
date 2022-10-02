@@ -1,5 +1,5 @@
-import { StorageItem, StorageItemRawInterface } from "../../../domain/model";
-import { StorageItemInterface } from "../../../types";
+import { StorageItem } from "../../../domain/model";
+import { StorageItemInterface, StorageItemRawInterface } from "../../../types";
 import { TimeUtil } from "../../../utils";
 
 export class StorageItemMapper {
@@ -37,8 +37,8 @@ export class StorageItemMapper {
       return {
         name: item.name,
         imageUrls: item.imageUrls.map((imageUrl: any) => imageUrl),
-        guestId: guest_id.S,
-        listingId: listing_id.S,
+        guestId: Number(guest_id.N),
+        listingId: Number(listing_id.N),
         createdAt: created_at.S,
         ...(updated_at && { updatedAt: updated_at.S }),
       };

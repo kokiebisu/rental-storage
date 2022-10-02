@@ -7,6 +7,7 @@ export class Listing {
   public readonly streetAddress: StreetAddress;
   public readonly latitude: number;
   public readonly longitude: number;
+  public readonly imageUrls: string[];
   public readonly items: string[];
 
   public constructor({
@@ -15,6 +16,7 @@ export class Listing {
     streetAddress,
     latitude,
     longitude,
+    imageUrls,
     items = [],
   }: ListingConstructor) {
     this.validateHostId(hostId);
@@ -26,6 +28,7 @@ export class Listing {
     this.streetAddress = streetAddress;
     this.latitude = latitude;
     this.longitude = longitude;
+    this.imageUrls = imageUrls;
     this.items = items;
   }
 

@@ -4,11 +4,21 @@ import { User } from "./User";
 export class Host extends User {
   public constructor({
     id,
+    emailAddress,
     firstName,
     lastName,
+    password,
     createdAt,
     updatedAt,
   }: HostConstructor) {
-    super({ id, firstName, lastName, createdAt, updatedAt });
+    super({
+      id,
+      emailAddress,
+      firstName,
+      lastName,
+      password,
+      createdAt,
+      updatedAt,
+    });
   }
 }

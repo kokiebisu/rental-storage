@@ -11,7 +11,7 @@ exports.handler = async (event: any, context: any) => {
   app.get(
     "/listings/:listingId",
     async (
-      request: FastifyRequest<{ Params: { listingId: string } }>,
+      request: FastifyRequest<{ Params: { listingId: number } }>,
       reply: FastifyReply
     ) => {
       const { listingId } = request.params;

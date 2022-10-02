@@ -29,23 +29,55 @@ export class GuestRepositoryImpl implements GuestRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS guest (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', created_at DATE NOT NULL, updated_at DATE, PRIMARY KEY (id))"
+      `
+        CREATE TABLE IF NOT EXISTS guest (
+          id int AUTO_INCREMENT, 
+          uid VARCHAR(32), 
+          first_name varchar(20) NOT NULL DEFAULT '', 
+          last_name varchar(20) NOT NULL DEFAULT '', 
+          email_address VARCHAR(50) NOT NULL, 
+          password VARCHAR(50) NOT NULL,
+          created_at DATE NOT NULL, 
+          updated_at DATE, 
+          UNIQUE (email_address), 
+          PRIMARY KEY (id)
+        )
+      `
     );
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS guest_item (guest_id INT NOT NULL, item_id INT NOT NULL, PRIMARY KEY(guest_id, item_id))"
+      `
+        CREATE TABLE IF NOT EXISTS guest_item (
+          guest_id INT NOT NULL, 
+          item_id INT NOT NULL, 
+          PRIMARY KEY(guest_id, item_id)
+        )
+      `
     );
   }
 
-  public async save(data: GuestInterface): Promise<GuestInterface> {
+  public async save(
+    data: GuestInterface
+  ): Promise<{ insertId: number } | undefined> {
     this._logger.info(data, "save()");
-    const result = await this._client.query(
-      `INSERT INTO guest (first_name, last_name, created_at) VALUES(?,?,?)`,
-      [data.firstName, data.lastName, data.createdAt]
-    );
-    return result;
+    try {
+      const result = await this._client.query(
+        `INSERT INTO guest (uid, email_address, password, first_name, last_name, created_at) VALUES(?,?,?,?,?,?)`,
+        [
+          data.uid,
+          data.emailAddress,
+          data.password,
+          data.firstName,
+          data.lastName,
+          data.createdAt,
+        ]
+      );
+      return result;
+    } catch (err) {
+      this._logger.error(err, "save()");
+    }
   }
 
-  public async delete(id: string): Promise<GuestInterface> {
+  public async delete(id: number): Promise<GuestInterface> {
     this._logger.info(id, "delete()");
     const result = await this._client.query(`DELETE FROM guest WHERE id = ?`, [
       id,
@@ -53,8 +85,8 @@ export class GuestRepositoryImpl implements GuestRepository {
     return result;
   }
 
-  public async findOneById(id: string): Promise<GuestInterface> {
-    this._logger.info(id, "findOneById()");
+  public async findOneById(id: number): Promise<GuestInterface> {
+    this._logger.info({ id }, "findOneById()");
     const result = await this._client.query(
       `SELECT * FROM guest WHERE id = ?`,
       [id]
@@ -63,27 +95,27 @@ export class GuestRepositoryImpl implements GuestRepository {
     return GuestMapper.toDTOFromRaw(result[0]);
   }
 
-  public async findAllItemIdsByUserId(guestId: string): Promise<any> {
-    this._logger.info(guestId, "findAllItemIdsByUserId()");
+  public async findAllItemIdsByGuestId(id: number): Promise<any> {
+    this._logger.info(id, "findAllItemIdsByUserId()");
     const result = await this._client.query(
       `SELECT * FROM guest_item WHERE guest_id = ?`,
-      [guestId]
+      [id]
     );
     return result;
   }
 
   public async updateStoringItem(
-    userId: string,
+    id: number,
     items: StorageItemInterface[]
   ): Promise<void> {
-    this._logger.info({ userId, items }, "updateStoringItem()");
+    this._logger.info({ id, items }, "updateStoringItem()");
     for (const item of items) {
       if (!item.id) {
         throw new Error("attribute id doesn't exist");
       }
       await this._client.query(
         `INSERT INTO guest_item (guest_id, item_id) VALUES (?,?)`,
-        [userId, item.id]
+        [id, item.id]
       );
     }
   }

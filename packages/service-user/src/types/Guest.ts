@@ -1,7 +1,10 @@
 import { UserConstructor } from "./User";
 
 export interface GuestInterface {
-  id?: string;
+  id?: number;
+  uid?: string;
+  emailAddress: string;
+  password: string;
   firstName: string;
   lastName: string;
   items: string[];
@@ -10,7 +13,10 @@ export interface GuestInterface {
 }
 
 export interface GuestRawInterface {
-  id: string;
+  id: number;
+  uid: string;
+  email_address: string;
+  password: string;
   first_name: string;
   last_name: string;
   items: string[];

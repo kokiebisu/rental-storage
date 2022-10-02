@@ -6,7 +6,7 @@ export interface ListingService {
     longitude: number,
     range: number
   ): Promise<AggregatedListingInterface[]>;
-  findListingById(id: string): Promise<AggregatedListingInterface | null>;
+  findListingById(id: number): Promise<AggregatedListingInterface | null>;
   addListing(data: ListingInterface): Promise<boolean>;
-  removeListingById(id: string): Promise<boolean>;
+  removeListingById(id: number): Promise<boolean>;
 }

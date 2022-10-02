@@ -9,9 +9,19 @@ type Query {
 }
 
 type Mutation {
-  registerGuest(firstName: String!, lastName: String!): Boolean
+  registerGuest(
+    emailAddress: String!
+    firstName: String!
+    lastName: String!
+    password: String!
+  ): Boolean
   removeGuestById(id: ID!): Boolean
-  registerHost(firstName: String!, lastName: String!): Boolean
+  registerHost(
+    emailAddress: String!
+    firstName: String!
+    lastName: String!
+    password: String!
+  ): Boolean
   removeHostById(id: ID!): Boolean
 }
 
@@ -19,10 +29,12 @@ type Guest {
   id: ID
   firstName: String
   lastName: String
+  emailAddress: String
 }
 
 type Host {
   id: ID
   firstName: String
   lastName: String
+  emailAddress: String
 }

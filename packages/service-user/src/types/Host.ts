@@ -1,7 +1,10 @@
 import { UserConstructor } from "./User";
 
 export interface HostInterface {
-  id?: string;
+  id?: number;
+  uid?: string;
+  emailAddress: string;
+  password: string;
   firstName: string;
   lastName: string;
   createdAt: string;
@@ -11,7 +14,10 @@ export interface HostInterface {
 export interface HostConstructor extends UserConstructor {}
 
 export interface HostRawInterface {
-  id?: string;
+  id?: number;
+  uid?: string;
+  email_address: string;
+  password: string;
   first_name: string;
   last_name: string;
   created_at: string;

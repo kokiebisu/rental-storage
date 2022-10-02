@@ -11,7 +11,7 @@ exports.handler = async (event: any, context: any) => {
   app.get(
     "/users/guest/:guestId",
     async (
-      request: FastifyRequest<{ Params: { guestId: string } }>,
+      request: FastifyRequest<{ Params: { guestId: number } }>,
       reply: FastifyReply
     ) => {
       const { guestId } = request.params;
@@ -23,7 +23,7 @@ exports.handler = async (event: any, context: any) => {
   app.get(
     "/users/host/:hostId",
     async (
-      request: FastifyRequest<{ Params: { hostId: string } }>,
+      request: FastifyRequest<{ Params: { hostId: number } }>,
       reply: FastifyReply
     ) => {
       const { hostId } = request.params;

@@ -8,6 +8,7 @@ export interface ListingConstructor {
   streetAddress: StreetAddress;
   latitude: number;
   longitude: number;
+  imageUrls: string[];
   items: string[];
 }
 
@@ -18,6 +19,7 @@ export interface ListingRawInterface {
   street_address: string;
   latitude: number;
   longitude: number;
+  image_urls: string[];
   items: string[];
 }
 
@@ -27,6 +29,7 @@ export interface AggregatedListingInterface {
   streetAddress: string;
   latitude: number;
   longitude: number;
+  imageUrls: string[];
   items: StorageItemInterface[];
 }
 
@@ -36,5 +39,6 @@ export interface ListingInterface {
   streetAddress: string;
   latitude: number;
   longitude: number;
+  imageUrls: string[];
   items: string[];
 }

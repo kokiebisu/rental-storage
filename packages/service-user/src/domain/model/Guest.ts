@@ -6,13 +6,25 @@ export class Guest extends User {
 
   public constructor({
     id,
+    uid,
+    emailAddress,
     firstName,
     lastName,
     items = [],
+    password,
     createdAt = new Date(),
     updatedAt,
   }: GuestConstructor) {
-    super({ id, firstName, lastName, createdAt, updatedAt });
+    super({
+      id,
+      uid,
+      emailAddress,
+      firstName,
+      lastName,
+      password,
+      createdAt,
+      updatedAt,
+    });
     this.items = items;
   }
 }

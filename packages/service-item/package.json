@@ -14,10 +14,12 @@
     "fastify": "4.6.0",
     "glob": "8.0.3",
     "serverless-mysql": "^1.4.0",
+    "uuid": "9.0.0",
     "winston": "3.8.2"
   },
   "devDependencies": {
     "@types/node": "18.7.18",
+    "@types/uuid": "8.3.4",
     "serverless-deployment-bucket": "1.6.0",
     "serverless-domain-manager": "6.1.0"
   }

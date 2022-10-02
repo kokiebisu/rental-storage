@@ -34,10 +34,28 @@ export class StorageItemRepositoryImpl implements StorageItemRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS storage (id int AUTO_INCREMENT, name VARCHAR(20) NOT NULL, guest_id VARCHAR(30) NOT NULL, listing_id VARCHAR(30) NOT NULL, created_at DATE, updated_at DATE, PRIMARY KEY (id))"
+      `
+        CREATE TABLE IF NOT EXISTS storage (
+          id int AUTO_INCREMENT, 
+          name VARCHAR(20) NOT NULL, 
+          guest_id VARCHAR(30) NOT NULL, 
+          listing_id VARCHAR(30) NOT NULL,
+          created_at DATE, 
+          updated_at DATE, 
+          PRIMARY KEY (id),
+        )
+      `
     );
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS item_image_url (item_id int, image_url VARCHAR(20), PRIMARY KEY (item_id, image_url))"
+      `
+        CREATE TABLE IF NOT EXISTS image (
+          id int AUTO_INCREMENT,
+          url VARCHAR(150),
+          item_id INT NOT NULL,
+          FOREIGN KEY (item_id) REFERENCES storage(item_id),
+          FOREIGN KEY(person_id) REFERENCES person(id)
+        )
+      `
     );
   }
 

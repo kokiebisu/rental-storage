@@ -1,5 +1,5 @@
 import { GuestMapper, HostMapper } from "../../adapter/in/mapper";
-import { Guest, Host } from "../../domain/model";
+import { EmailAddress, Guest, Host, Password } from "../../domain/model";
 import { GuestRepository, HostRepository, UserService } from "../port";
 import { GuestRepositoryImpl, HostRepositoryImpl } from "../../adapter/out/db";
 import { LoggerUtil } from "../../utils";
@@ -32,8 +32,10 @@ export class UserServiceImpl implements UserService {
     this._logger.info(data, "registerGuest()");
     try {
       const guest = new Guest({
-        firstName: data.firstName,
-        lastName: data.lastName,
+        firstName: data?.firstName,
+        lastName: data?.lastName,
+        emailAddress: new EmailAddress(data?.emailAddress),
+        password: await Password.create(data.password),
       });
 
       await this._guestRepository.save(GuestMapper.toDTOFromEntity(guest));
@@ -45,7 +47,12 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  public async removeGuestById(id: string): Promise<boolean> {
+  public async removeGuestById(id: number): Promise<boolean> {
+    this._logger.info({ id }, "removeGuestById()");
+    const guestExists = await this.findGuestById(id);
+    if (!guestExists) {
+      throw new Error(`Guest with email ${id} doesn't exist`);
+    }
     try {
       await this._guestRepository.delete(id);
       return true;
@@ -55,7 +62,8 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  public async findGuestById(id: string): Promise<GuestInterface | null> {
+  public async findGuestById(id: number): Promise<GuestInterface | null> {
+    this._logger.info({ id }, "findGuestById()");
     try {
       const guest = await this._guestRepository.findOneById(id);
       return guest;
@@ -66,10 +74,13 @@ export class UserServiceImpl implements UserService {
   }
 
   public async registerHost(data: any): Promise<boolean> {
+    this._logger.info({ data }, "registerHost()");
     try {
       const host = new Host({
         firstName: data.firstName,
         lastName: data.lastName,
+        emailAddress: new EmailAddress(data.emailAddress),
+        password: await Password.create(data.password),
       });
       // save to guest table
       await this._hostRepository.save(HostMapper.toDTOFromEntity(host));
@@ -84,7 +95,12 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  public async removeHostById(id: string): Promise<boolean> {
+  public async removeHostById(id: number): Promise<boolean> {
+    this._logger.info({ id }, "removeHostById()");
+    const hostExists = await this.findHostById(id);
+    if (!hostExists) {
+      throw new Error(`Host with id ${id} doesn't exist`);
+    }
     try {
       await this._hostRepository.delete(id);
       return true;
@@ -94,7 +110,8 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  public async findHostById(id: string): Promise<HostInterface | null> {
+  public async findHostById(id: number): Promise<HostInterface | null> {
+    this._logger.info({ id }, "findHostById()");
     try {
       const host = await this._hostRepository.findOneById(id);
       return host;
@@ -105,6 +122,7 @@ export class UserServiceImpl implements UserService {
   }
 
   public async updateStoredItems(booking: BookingInterface): Promise<boolean> {
+    this._logger.info({ booking }, "updatedStoredItems()");
     try {
       await this._guestRepository.updateStoringItem(
         booking.userId,

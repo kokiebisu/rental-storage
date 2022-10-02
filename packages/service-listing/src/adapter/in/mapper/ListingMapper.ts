@@ -31,6 +31,7 @@ export class ListingMapper {
       streetAddress: data.street_address,
       latitude: data.latitude,
       longitude: data.longitude,
+      imageUrls: data.image_urls,
       items,
     };
   }
@@ -42,6 +43,7 @@ export class ListingMapper {
       streetAddress: data.street_address,
       latitude: data.latitude,
       longitude: data.longitude,
+      imageUrls: data.image_urls,
       items: data.items,
     };
   }
@@ -71,6 +73,7 @@ export class ListingMapper {
       streetAddress: data.streetAddress,
       latitude: data.latitude,
       longitude: data.longitude,
+      imageUrls: data.imageUrls,
       items,
     };
   }
@@ -82,6 +85,7 @@ export class ListingMapper {
       streetAddress: data.streetAddress.value,
       latitude: data.latitude,
       longitude: data.longitude,
+      imageUrls: data.imageUrls,
       items: data.items,
     };
   }

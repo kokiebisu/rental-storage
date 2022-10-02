@@ -3,11 +3,7 @@ import Client from "serverless-mysql";
 import { ListingMapper } from "../../in/mapper";
 import { ListingRepository } from "../../../application/port";
 import { LoggerUtil } from "../../../utils";
-import {
-  ListingInterface,
-  ListingRawInterface,
-  StorageItemInterface,
-} from "../../../types";
+import { ListingInterface, ListingRawInterface } from "../../../types";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;
@@ -33,20 +29,42 @@ export class ListingRepositoryImpl implements ListingRepository {
 
   public async setup(): Promise<void> {
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS listing (id INT AUTO_INCREMENT NOT NULL, host_id INT, street_address VARCHAR(100) NOT NULL, latitude DECIMAL(11,7) NOT NULL, longitude DECIMAL(11,7) NOT NULL, PRIMARY KEY (id))"
+      `
+        CREATE TABLE IF NOT EXISTS listing (
+          id INT AUTO_INCREMENT NOT NULL, 
+          host_id INT, 
+          street_address VARCHAR(100) NOT NULL, 
+          latitude DECIMAL(11,7) NOT NULL, 
+          longitude DECIMAL(11,7) NOT NULL, 
+          PRIMARY KEY (id)
+        )
+      `
     );
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS listing_item (listing_id INT NOT NULL,item_id INT NOT NULL, PRIMARY KEY (listing_id, item_id))"
+      `
+        CREATE TABLE IF NOT EXISTS image (
+          id INT AUTO_INCREMENT NOT NULL,
+          url VARCHAR(100),
+          listing_id INT NOT NULL,
+          FOREIGN KEY (listing_id) REFERENCES listing(id)
+        )
+      `
     );
   }
 
   public async save(data: Omit<ListingInterface, "id">): Promise<void> {
     this._logger.info(data, "save()");
     try {
-      await this._client.query(
+      const result = await this._client.query(
         `INSERT INTO listing (host_id, street_address, latitude, longitude) VALUES(?,?,?,?)`,
         [data.hostId, data.streetAddress, data.latitude, data.longitude]
       );
+      for await (const imageUrl of data.imageUrls) {
+        await this._client.query(
+          `INSERT INTO image (url, listing_id) VALUES (?,?)`,
+          [imageUrl, result.insertId]
+        );
+      }
     } catch (err) {
       this._logger.error(err, "save()");
       throw err;
@@ -54,28 +72,44 @@ export class ListingRepositoryImpl implements ListingRepository {
   }
 
   public async addItemToListing(
-    listingId: string,
-    itemId: StorageItemInterface[]
-  ) {
-    this._logger.info({ listingId, itemId }, "addItemToListing()");
-
-    await this._client.query(
-      `INSERT INTO listing_item (listing_id, item_id) VALUES (?,?)`,
-      listingId,
-      itemId
+    id: number,
+    itemId: number
+  ): Promise<{ insertId: number } | undefined> {
+    this._logger.info({ id, itemId }, "addItemToListing()");
+    this._logger.info(
+      {
+        config: {
+          host: process.env.DB_HOST,
+          database: process.env.DB_NAME,
+          user: process.env.DB_USERNAME,
+          password: process.env.DB_PASSWORD,
+        },
+      },
+      "test()"
     );
+
+    try {
+      return await this._client.query(
+        `INSERT INTO listing_item (listing_id, item_id) VALUES (?,?)`,
+        id,
+        itemId
+      );
+    } catch (err) {
+      this._logger.error(err, "addItemToListing()");
+      throw err;
+    }
   }
 
-  public async delete(id: string): Promise<void> {
+  public async delete(id: number): Promise<void> {
     this._logger.info({ id }, "delete()");
     return await this._client.query(`DELETE FROM listing WHERE id = ?`, [id]);
   }
 
-  public async findOneById(listingId: string): Promise<ListingInterface> {
-    this._logger.info({ listingId }, "delete()");
+  public async findOneById(id: number): Promise<ListingInterface> {
+    this._logger.info({ id }, "delete()");
     const result = await this._client.query(
       `SELECT * FROM listing WHERE id = ?`,
-      [listingId]
+      [id]
     );
     return ListingMapper.toDTOFromRaw(result[0]);
   }
