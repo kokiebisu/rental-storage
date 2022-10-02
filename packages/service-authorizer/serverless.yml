@@ -6,18 +6,21 @@ plugins:
 
 provider:
   name: aws
-  runtime: python3.8
+  runtime: go1.x
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: rental-storage-image-resources
+    name: rental-storage-authorizer-resources
 
 custom:
   namespace: rental-storage
   service: authorizer
 
 functions:
-  GetPresignedURLGraphql:
-    handler: authorizer.handler
+  Authorize:
+    handler: bin/handler
     name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Authorizer
+    package:
+      include:
+        - ./bin/handler
