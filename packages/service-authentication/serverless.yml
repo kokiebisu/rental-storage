@@ -12,20 +12,24 @@ provider:
   lambdaHashingVersion: 20201221
   deploymentBucket:
     name: rental-storage-authentication-resources
-
-package:
-  individually: true
-  exclude:
-    - ./**
+  iam:
+    role: !ImportValue ExportedLambdaRoleArn
+  apiGateway:
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
   namespace: rental-storage
   service: authentication
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${self:provider.region}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
 
 functions:
-  GetPresignedURLGraphql:
-    handler: bin/handler
-    name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Authentication
-    package:
-      include:
-        - ./bin/handler
+  - ${file(./aws/functions/apigateway.yml)}

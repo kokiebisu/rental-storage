@@ -1,9 +1,9 @@
 .PHONY: prepare build clean deploy
 
 build:
-	cd handler && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../bin/handler authorizer.go && cd ..
+	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/signin signin.go && cd ..
 
 clean:
-	rm -rf ./bin ./vendor Gopkg.lock
+	rm -rf ./bin Gopkg.lock
 
 prepare: clean build
