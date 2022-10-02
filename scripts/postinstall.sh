@@ -1,4 +1,4 @@
-(cd packages/service-authorizer && make prepare)
+(cd packages/service-authorizer && make prepare);
 (cd packages/service-booking && npm install); 
 (cd packages/service-image && npm install); 
 (cd packages/service-listing && npm install); 

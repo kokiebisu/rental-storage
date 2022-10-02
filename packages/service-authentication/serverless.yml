@@ -1,0 +1,31 @@
+service: rental-storage-authentication
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: rental-storage-authentication-resources
+
+package:
+  individually: true
+  exclude:
+    - ./**
+
+custom:
+  namespace: rental-storage
+  service: authentication
+
+functions:
+  GetPresignedURLGraphql:
+    handler: bin/handler
+    name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Authentication
+    package:
+      include:
+        - ./bin/handler
