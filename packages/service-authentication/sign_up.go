@@ -24,9 +24,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	arg := request.Body
 	argument := SignUpArgument{}
 	json.Unmarshal([]byte(arg), &argument)
-
-	// check if the email address exists in the user db
-	fmt.Println(userEndpoint)
 	 
 	// hash password
 	hash, err := bcrypt.GenerateFromPassword([]byte(argument.Password), 10)
@@ -41,7 +38,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	token := GenerateToken(argument.EmailAddress)
 	fmt.Println("TOKEN: ", token)
 	// attach auth token to redis
-	sessionEndpoint := fmt.Sprintf("%s/sessions". endpoint)
+	sessionEndpoint := fmt.Sprintf("%s/sessions")
 	http.Post(sessionEndpoint)
 
 	//Returning response with authorization token
