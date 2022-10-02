@@ -7,8 +7,8 @@ export interface BookingConstructor {
   id?: string;
   status?: BookingStatus;
   amount: Amount;
-  guestId: string;
-  listingId: string;
+  guestId: number;
+  listingId: number;
   createdAt?: Date;
   updatedAt?: Date;
   items: StorageItemInterface[];
@@ -18,8 +18,8 @@ export interface BookingInterface {
   id: string;
   status: string;
   amount: AmountInterface;
-  guestId: string;
-  listingId: string;
+  guestId: number;
+  listingId: number;
   createdAt: string;
   updatedAt?: string;
   items: StorageItemInterface[];

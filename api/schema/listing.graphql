@@ -18,6 +18,7 @@ type Mutation {
     streetAddress: String!
     latitude: Float!
     longitude: Float!
+    imageUrls: [String]
   ): Boolean
   removeListingById(id: ID!): Boolean
 }

@@ -1,12 +1,11 @@
-import { Currency } from "../../domain/enum";
 import { StorageItemInterface } from "../../types";
 
 export interface BookingService {
   makeBooking(
     amount: number,
-    currency: Currency,
-    userId: string,
-    listingId: string,
+    currency: string,
+    userId: number,
+    listingId: number,
     items: StorageItemInterface[]
   ): Promise<boolean>;
 }

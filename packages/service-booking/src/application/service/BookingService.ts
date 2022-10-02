@@ -37,9 +37,9 @@ export class BookingServiceImpl implements BookingService {
 
   public async makeBooking(
     amount: number,
-    currency: Currency,
-    guestId: string,
-    listingId: string,
+    currency: string,
+    guestId: number,
+    listingId: number,
     items: StorageItemInterface[]
   ): Promise<boolean> {
     this._logger.info(
@@ -52,6 +52,7 @@ export class BookingServiceImpl implements BookingService {
     const { data: user } = await axios.get(
       `${process.env.SERVICE_API_ENDPOINT}/users/guest/${guestId}`
     );
+    console.log("USER: ", user);
     if (!user) {
       throw new Error(`Provided userId ${guestId} doesn't exist`);
     }
@@ -59,15 +60,14 @@ export class BookingServiceImpl implements BookingService {
     const { data: listing } = await axios.get(
       `${process.env.SERVICE_API_ENDPOINT}/listings/${listingId}`
     );
-
+    console.log("LISTING: ", listing);
     if (!listing) {
       throw new Error(`Provided listingId ${listingId} doesn't exist`);
     }
 
     try {
-      const amountValue: Amount = { value: amount, currency };
       const booking = new Booking({
-        amount: amountValue,
+        amount: new Amount({ value: amount, currency }),
         guestId,
         listingId,
         items,

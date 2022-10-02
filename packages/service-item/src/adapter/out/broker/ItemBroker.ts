@@ -33,16 +33,17 @@ export class ItemBrokerImpl {
     this._logger.info(data, "dispatchItemSaved()");
     const stringified = JSON.stringify(data);
     try {
-      await this.publish(stringified, "ItemCreated");
+      await this.publish(stringified, this.generateTopicArn("ItemCreated"));
     } catch (err) {
       this._logger.error(err, "dispatchItemSaved()");
     }
   }
 
-  private async publish(message: string, topicName: string) {
+  private async publish(message: string, topicArn: string) {
+    this._logger.info({ message, topicArn }, "publish()");
     const input: PublishCommandInput = {
       Message: message,
-      TopicArn: `arn:aws:sns:${this._region}:${this._accountId}:${topicName}`,
+      TopicArn: topicArn,
     };
     const command = new PublishCommand(input);
 
@@ -51,5 +52,10 @@ export class ItemBrokerImpl {
     } catch (err) {
       this._logger.error(err, "publish()");
     }
+  }
+
+  private generateTopicArn(topicName: string) {
+    this._logger.info({ topicName }, "generateTopicArn()");
+    return `arn:aws:sns:${this._region}:${this._accountId}:rental-storage-item-${process.env.NODE_ENV}-${topicName}`;
   }
 }

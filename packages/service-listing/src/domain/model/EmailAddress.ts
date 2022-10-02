@@ -2,13 +2,16 @@ export class EmailAddress {
   public readonly value: string;
 
   public constructor(value: string) {
-    if (!this.isValid(value)) {
-      throw new Error("Provided email address is invalid");
-    }
+    this.isValidEmailAddress(value);
     this.value = value;
   }
 
-  private isValid(value: string) {
-    return value.length > 3;
+  private isValidEmailAddress(value: string) {
+    if (!value) {
+      throw new Error("Email address was not provided");
+    }
+    if (value.length < 5) {
+      throw new Error("Email address should be longer");
+    }
   }
 }

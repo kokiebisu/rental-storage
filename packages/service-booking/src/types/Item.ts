@@ -1,9 +1,9 @@
 export interface StorageItemInterface {
-  id?: string;
+  id?: number;
   name: string;
   imageUrls: string[];
   userId: string;
   listingId: string;
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
 }

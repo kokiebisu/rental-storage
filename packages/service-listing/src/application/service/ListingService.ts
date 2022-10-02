@@ -46,7 +46,7 @@ export class ListingServiceImpl implements ListingService {
   }
 
   public async findListingById(
-    id: string
+    id: number
   ): Promise<AggregatedListingInterface | null> {
     try {
       const listing = await this._listingRepository.findOneById(id);
@@ -60,7 +60,18 @@ export class ListingServiceImpl implements ListingService {
   public async addListing(
     args: Omit<ListingInterface, "id">
   ): Promise<boolean> {
-    const { hostId, streetAddress, latitude, longitude, items } = args;
+    this._logger.info(args, "addListing()");
+    const { hostId, streetAddress, latitude, longitude, items, imageUrls } =
+      args;
+
+    const listing = new Listing({
+      hostId,
+      streetAddress: new StreetAddress(streetAddress),
+      latitude,
+      longitude,
+      imageUrls,
+      items,
+    });
 
     const { data: host } = await axios.get(
       `${process.env.SERVICE_API_ENDPOINT}/users/host/${hostId}`
@@ -69,13 +80,6 @@ export class ListingServiceImpl implements ListingService {
       throw new Error(`Provided hostId ${hostId} doesn't exist`);
     }
 
-    const listing = new Listing(
-      hostId,
-      new StreetAddress(streetAddress),
-      latitude,
-      longitude,
-      items
-    );
     try {
       const listingDTO = ListingMapper.toDTOFromEntity(listing);
       await this._listingRepository.save(listingDTO);
@@ -86,7 +90,8 @@ export class ListingServiceImpl implements ListingService {
     }
   }
 
-  public async removeListingById(id: string): Promise<boolean> {
+  public async removeListingById(id: number): Promise<boolean> {
+    this._logger.info({ id }, "removeListingById()");
     try {
       await this._listingRepository.delete(id);
       return true;
@@ -97,10 +102,15 @@ export class ListingServiceImpl implements ListingService {
   }
 
   public async occupyStorageItem(booking: BookingInterface) {
-    this._logger.info(booking, "occupyStorageItem()");
-    await this._listingRepository.addItemToListing(
-      booking.listingId,
-      booking.items
-    );
+    this._logger.info({ booking }, "occupyStorageItem()");
+    try {
+      await this._listingRepository.addItemToListing(
+        booking.listingId,
+        booking.id
+      );
+    } catch (err) {
+      this._logger.error(err, "occupyStorageItem()");
+      throw err;
+    }
   }
 }

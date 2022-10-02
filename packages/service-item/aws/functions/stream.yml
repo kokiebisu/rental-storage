@@ -8,6 +8,7 @@ BookingCreatedStream:
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
+    NODE_ENV: ${self:provider.stage}
   events:
     - stream:
         type: dynamodb

@@ -5,7 +5,7 @@ export const useDetailsScreen = () => {
   const { params } = useRoute();
 
   const listingData = {
-    id: "1",
+    id: 1,
     host: {
       emailAddress: "host@gmail.com",
     },

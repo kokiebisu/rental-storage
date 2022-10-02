@@ -47,7 +47,7 @@ export class ItemServiceImpl implements ItemService {
       if (result?.insertId) {
         await this._broker.dispatchItemSaved({
           ...dto,
-          id: result.insertId.toString(),
+          id: result.insertId,
         });
       }
 

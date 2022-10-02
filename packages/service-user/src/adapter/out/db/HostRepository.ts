@@ -28,27 +28,51 @@ export class HostRepositoryImpl implements HostRepository {
   }
 
   public async setup(): Promise<void> {
+    this._logger.info({}, "setup()");
     await this._client.query(
-      "CREATE TABLE IF NOT EXISTS host (id int AUTO_INCREMENT,first_name varchar(20) NOT NULL DEFAULT '', last_name varchar(20) NOT NULL DEFAULT '', created_at DATE NOT NULL, updated_at DATE, PRIMARY KEY (id))"
+      `
+        CREATE TABLE IF NOT EXISTS host (
+          id INT AUTO_INCREMENT, 
+          uid VARCHAR (32), 
+          first_name VARCHAR(20) NOT NULL DEFAULT '', 
+          last_name VARCHAR(20) NOT NULL DEFAULT '', 
+          email_address VARCHAR(50) NOT NULL, 
+          password VARCHAR(50) NOT NULL,
+          created_at DATE NOT NULL, 
+          updated_at DATE, 
+          UNIQUE (email_address), 
+          PRIMARY KEY (id)
+        )
+      `
     );
   }
 
   public async save(data: HostInterface): Promise<{ insertId: string }> {
+    this._logger.info({ data }, "save()");
     const result = await this._client.query(
-      `INSERT INTO host (first_name, last_name, created_at) VALUES(?,?,?)`,
-      [data.firstName, data.lastName, data.createdAt]
+      `INSERT INTO host (uid, email_address, password,first_name, last_name, created_at) VALUES(?,?,?,?,?,?)`,
+      [
+        data.uid,
+        data.emailAddress,
+        data.password,
+        data.firstName,
+        data.lastName,
+        data.createdAt,
+      ]
     );
     return result;
   }
 
-  public async delete(id: string): Promise<HostInterface> {
+  public async delete(id: number): Promise<HostInterface> {
+    this._logger.info({ id }, "delete()");
     const result = await this._client.query(`DELETE FROM host WHERE id = ?`, [
       id,
     ]);
     return result;
   }
 
-  public async findOneById(id: string): Promise<HostInterface> {
+  public async findOneById(id: number): Promise<HostInterface> {
+    this._logger.info({ id }, "findOneById()");
     const result = await this._client.query(`SELECT * FROM host WHERE id = ?`, [
       id,
     ]);

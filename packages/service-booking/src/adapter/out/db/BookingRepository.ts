@@ -58,10 +58,10 @@ export class BookingRepositoryImpl implements BookingRepository {
           S: status,
         },
         guest_id: {
-          S: guestId,
+          N: guestId.toString(),
         },
         listing_id: {
-          S: listingId,
+          N: listingId.toString(),
         },
         amount: {
           M: {

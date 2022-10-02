@@ -2,10 +2,10 @@ import { AmountInterface } from "./Amount";
 import { StorageItemInterface } from "./Item";
 
 export interface BookingInterface {
-  id: string;
+  id: number;
   status: string;
   amount: AmountInterface;
-  userId: string;
+  userId: number;
   listingId: string;
   createdAt: string;
   updatedAt?: string;

@@ -1,14 +1,14 @@
-import { ListingInterface, StorageItemInterface } from "../../types";
+import { ListingInterface } from "../../types";
 
 export interface ListingRepository {
   setup(): Promise<void>;
   save(data: Omit<ListingInterface, "id">): Promise<void>;
   addItemToListing(
-    listingId: string,
-    itemId: StorageItemInterface[]
-  ): Promise<any>;
-  delete(id: string): Promise<void>;
-  findOneById(listingId: string): Promise<ListingInterface>;
+    id: number,
+    itemId: number
+  ): Promise<{ insertId: any } | undefined>;
+  delete(id: number): Promise<void>;
+  findOneById(id: number): Promise<ListingInterface>;
   findManyByLatLng(
     latitude: number,
     longitude: number,
