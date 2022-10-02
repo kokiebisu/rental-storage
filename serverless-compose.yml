@@ -41,3 +41,4 @@ services:
       - listing
       - user
       - item
+      - authorizer

@@ -15,7 +15,7 @@ provider:
 
 custom:
   namespace: rental-storage
-  service: image
+  service: authorizer
 
 functions:
   GetPresignedURLGraphql:
