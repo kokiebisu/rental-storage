@@ -9,7 +9,7 @@ export const useFindMapScreen = () => {
       latitude: 28.32,
       longitude: -16.4,
       price: 25,
-      emailAddress: "host1@gmail.com",
+      emailAddress: "lender1@gmail.com",
       available: "suitcase",
     },
     {
@@ -18,7 +18,7 @@ export const useFindMapScreen = () => {
       latitude: 28.3279822,
       longitude: -16.5124847,
       price: 35,
-      emailAddress: "host2@gmail.com",
+      emailAddress: "lender2@gmail.com",
       available: "bag",
     },
     {
@@ -27,7 +27,7 @@ export const useFindMapScreen = () => {
       latitude: 28.2,
       longitude: -16.5124847,
       price: 50,
-      emailAddress: "host3@gmail.com",
+      emailAddress: "lender3@gmail.com",
       available: "suitcase",
     },
   ];

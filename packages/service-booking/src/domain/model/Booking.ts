@@ -7,7 +7,7 @@ export class Booking {
   public readonly id: string;
   public readonly status: BookingStatus;
   public readonly amount: Amount;
-  public readonly guestId: number;
+  public readonly borrowerId: number;
   public readonly listingId: number;
   public readonly createdAt: Date;
   public readonly updatedAt?: Date | undefined;
@@ -17,7 +17,7 @@ export class Booking {
     id = uuid(),
     status = BookingStatus.CREATED,
     amount,
-    guestId,
+    borrowerId,
     listingId,
     createdAt = new Date(),
     updatedAt,
@@ -26,7 +26,7 @@ export class Booking {
     this.id = id;
     this.status = status;
     this.amount = amount;
-    this.guestId = guestId;
+    this.borrowerId = borrowerId;
     this.listingId = listingId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;

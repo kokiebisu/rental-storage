@@ -1,2 +1,1 @@
-export * from "./GuestMapper";
-export * from "./HostMapper";
+export * from "./UserMapper";

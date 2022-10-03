@@ -1,11 +1,11 @@
 import Client from "serverless-mysql";
 
-import { GuestMapper } from "../../in/mapper";
-import { GuestRepository } from "../../../application/port";
 import { LoggerUtil } from "../../../utils";
-import { GuestInterface, StorageItemInterface } from "../../../types";
+import { UserInterface } from "../../../types";
+import { UserRepository } from "../../../application/port";
+import { UserMapper } from "../../in/mapper";
 
-export class GuestRepositoryImpl implements GuestRepository {
+export class UserRepositoryImpl implements UserRepository {
   public readonly tableName: string;
   private _client: any;
   private _logger: LoggerUtil;
@@ -15,7 +15,7 @@ export class GuestRepositoryImpl implements GuestRepository {
     this.tableName = tableName;
     this._logger = new LoggerUtil(className);
   }
-  public static async create(): Promise<GuestRepositoryImpl> {
+  public static async create(): Promise<UserRepositoryImpl> {
     var client = Client({
       config: {
         host: process.env.DB_HOST,
@@ -24,13 +24,13 @@ export class GuestRepositoryImpl implements GuestRepository {
         password: process.env.DB_PASSWORD,
       },
     });
-    return new GuestRepositoryImpl(client, "guest", "GuestRepository");
+    return new UserRepositoryImpl(client, "user", "UserRepository");
   }
 
   public async setup(): Promise<void> {
     await this._client.query(
       `
-        CREATE TABLE IF NOT EXISTS guest (
+        CREATE TABLE IF NOT EXISTS user (
           id int AUTO_INCREMENT, 
           uid VARCHAR(32), 
           first_name varchar(20) NOT NULL DEFAULT '', 
@@ -47,12 +47,12 @@ export class GuestRepositoryImpl implements GuestRepository {
   }
 
   public async save(
-    data: GuestInterface
+    data: UserInterface
   ): Promise<{ insertId: number } | undefined> {
     this._logger.info(data, "save()");
     try {
       const result = await this._client.query(
-        `INSERT INTO guest (uid, email_address, password, first_name, last_name, created_at) VALUES(?,?,?,?,?,?)`,
+        `INSERT INTO user (uid, email_address, password, first_name, last_name, created_at) VALUES(?,?,?,?,?,?)`,
         [
           data.uid,
           data.emailAddress,
@@ -68,65 +68,37 @@ export class GuestRepositoryImpl implements GuestRepository {
     }
   }
 
-  public async delete(id: number): Promise<GuestInterface> {
+  public async delete(id: number): Promise<UserInterface> {
     this._logger.info(id, "delete()");
-    const result = await this._client.query(`DELETE FROM guest WHERE id = ?`, [
+    const result = await this._client.query(`DELETE FROM user WHERE id = ?`, [
       id,
     ]);
     return result;
   }
 
-  public async findOneById(id: number): Promise<GuestInterface> {
+  public async findOneById(id: number): Promise<UserInterface> {
     this._logger.info({ id }, "findOneById()");
-    const result = await this._client.query(
-      `SELECT * FROM guest WHERE id = ?`,
-      [id]
-    );
+    const result = await this._client.query(`SELECT * FROM user WHERE id = ?`, [
+      id,
+    ]);
 
-    return GuestMapper.toDTOFromRaw(result[0]);
+    return UserMapper.toDTOFromRaw(result[0]);
   }
 
   public async findOneByEmail(
     emailAddress: string
-  ): Promise<GuestInterface | null> {
+  ): Promise<UserInterface | null> {
     this._logger.info({ emailAddress }, "findOneByEmail()");
     try {
       const result = await this._client.query(
-        `SELECT * FROM guest where email_address = ?`,
+        `SELECT * FROM user where email_address = ?`,
         [emailAddress]
       );
 
-      const test = GuestMapper.toDTOFromRaw(result[0]);
-      console.debug("RESULT: ", test);
-      return test;
+      return UserMapper.toDTOFromRaw(result[0]);
     } catch (err) {
       this._logger.error(err, "findOneByEmail()");
       throw err;
-    }
-  }
-
-  public async findAllItemIdsByGuestId(id: number): Promise<any> {
-    this._logger.info(id, "findAllItemIdsByUserId()");
-    const result = await this._client.query(
-      `SELECT * FROM guest_item WHERE guest_id = ?`,
-      [id]
-    );
-    return result;
-  }
-
-  public async updateStoringItem(
-    id: number,
-    items: StorageItemInterface[]
-  ): Promise<void> {
-    this._logger.info({ id, items }, "updateStoringItem()");
-    for (const item of items) {
-      if (!item.id) {
-        throw new Error("attribute id doesn't exist");
-      }
-      await this._client.query(
-        `INSERT INTO guest_item (guest_id, item_id) VALUES (?,?)`,
-        [id, item.id]
-      );
     }
   }
 }

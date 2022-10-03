@@ -32,7 +32,7 @@ export class ListingRepositoryImpl implements ListingRepository {
       `
         CREATE TABLE IF NOT EXISTS listing (
           id INT AUTO_INCREMENT NOT NULL, 
-          host_id INT, 
+          lender_id INT, 
           street_address VARCHAR(100) NOT NULL, 
           latitude DECIMAL(11,7) NOT NULL, 
           longitude DECIMAL(11,7) NOT NULL, 
@@ -57,8 +57,8 @@ export class ListingRepositoryImpl implements ListingRepository {
     this._logger.info(data, "save()");
     try {
       const result = await this._client.query(
-        `INSERT INTO listing (host_id, street_address, latitude, longitude) VALUES(?,?,?,?)`,
-        [data.hostId, data.streetAddress, data.latitude, data.longitude]
+        `INSERT INTO listing (lender_id, street_address, latitude, longitude) VALUES(?,?,?,?)`,
+        [data.lenderId, data.streetAddress, data.latitude, data.longitude]
       );
       for await (const imageUrl of data.imageUrls) {
         await this._client.query(

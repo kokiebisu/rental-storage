@@ -1,4 +1,10 @@
+export interface CreateUserInput {
+  emailAddress: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+}
+
 export interface UserService {
-  registerGuest(data: any): Promise<boolean>;
-  registerHost(data: any): Promise<boolean>;
+  createUser(data: CreateUserInput): Promise<boolean>;
 }

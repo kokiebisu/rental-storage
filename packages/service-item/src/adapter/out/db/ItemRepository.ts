@@ -38,7 +38,7 @@ export class StorageItemRepositoryImpl implements StorageItemRepository {
         CREATE TABLE IF NOT EXISTS storage (
           id int AUTO_INCREMENT, 
           name VARCHAR(20) NOT NULL, 
-          guest_id VARCHAR(30) NOT NULL, 
+          borrower_id VARCHAR(30) NOT NULL, 
           listing_id VARCHAR(30) NOT NULL,
           created_at DATE, 
           updated_at DATE, 
@@ -65,8 +65,8 @@ export class StorageItemRepositoryImpl implements StorageItemRepository {
     this._logger.info(data, "save()");
     try {
       const result = await this._client.query(
-        `INSERT INTO storage (name, guest_id, listing_id, created_at) VALUES(?,?,?,?)`,
-        [data.name, data.guestId, data.listingId, data.createdAt]
+        `INSERT INTO storage (name, borrower_id, listing_id, created_at) VALUES(?,?,?,?)`,
+        [data.name, data.borrowerId, data.listingId, data.createdAt]
       );
       for (const imageUrl of data.imageUrls) {
         await this._client.query(

@@ -14,7 +14,7 @@ type Query {
 
 type Mutation {
   addListing(
-    hostId: ID!
+    lenderId: ID!
     streetAddress: String!
     latitude: Float!
     longitude: Float!
@@ -25,8 +25,14 @@ type Mutation {
 
 type Listing {
   id: ID
-  host: Host
+  lender: Lender
   streetAddress: String
   latitude: Float
   longitude: Float
+}
+
+type Lender {
+  id: Int
+  firstName: String
+  lastName: String
 }
