@@ -11,6 +11,21 @@ ApiGatewayRestApiRootResourceId:
   Export:
     Name: ApiGatewayRootResourceId
 
+# Cache DB
+SessionRedisClusterHost:
+  Description: "Redis Cluster Host"
+  Value:
+    Fn::GetAtt: [SessionRedisCluster, RedisEndpoint.Address]
+  Export:
+    Name: ExporteSessiondRedisClusterHost
+
+SessionRedisClusterPort:
+  Description: "Redis Cache Cluster Port"
+  Value:
+    Fn::GetAtt: [SessionRedisCluster, RedisEndpoint.Port]
+  Export:
+    Name: ExportedSessionRedisClusterPort
+
 # Booking DB
 BookingDynamoDBTableStreamArn:
   Description: "DynamoDB Booking Table"

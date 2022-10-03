@@ -1,7 +1,12 @@
-import logging
-import service
+import json
 
-def handler(event, _):
-    logging.info("EVENT: ", event)
-    response = service.create_presigned_post('rental-storage-listing-dev-profile', 'random')
+
+def handler(event, context):
+    body = {
+        "message": "Go Serverless v3.0! Your function executed successfully SET!",
+        "input": event,
+    }
+
+    response = {"statusCode": 200, "body": json.dumps(body)}
+
     return response

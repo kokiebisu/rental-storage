@@ -40,6 +40,7 @@ resources:
     ServerlessSubnetC: ${file(./aws/resources/network/ServerlessSubnetC.yml)}
     ServerlessSubnetGroup: ${file(./aws/resources/network/ServerlessSubnetGroup.yml)}
     ServerlessSecurityGroup: ${file(./aws/resources/network/ServerlessSecurityGroup.yml)}
+    ServerlessStorageSecurityGroup: ${file(./aws/resources/network/ServerlessStorageSecurityGroup.yml)}
     RouteTablePublic: ${file(./aws/resources/network/RouteTablePublic.yml)}
     RoutePublic: ${file(./aws/resources/network/RoutePublic.yml)}
     RouteTableAssociationSubnetA: ${file(./aws/resources/network/RouteTableAssociationSubnetA.yml)}
@@ -48,6 +49,10 @@ resources:
 
     # S3
     ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfileBucket.yml)}
+
+    # Elasticache
+    SessionRedisCluster: ${file(./aws/resources/elasticache/session/RedisCluster.yml)}
+    SessionRedisSubnetGroup: ${file(./aws/resources/elasticache/session/RedisSubnetGroup.yml)}
 
     # RDS
     RDSClusterParameter: ${file(./aws/resources/rds/RDSClusterParameter.yml)}

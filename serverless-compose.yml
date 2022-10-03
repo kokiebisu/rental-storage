@@ -37,6 +37,11 @@ services:
     dependsOn:
       - infrastructure
 
+  session:
+    path: packages/service-session
+    dependsOn:
+      - infrastructure
+
   api:
     path: api
     dependsOn:
@@ -47,3 +52,5 @@ services:
       - user
       - item
       - authorizer
+      - authentication
+      - session

@@ -12,10 +12,15 @@ provider:
   lambdaHashingVersion: 20201221
   deploymentBucket:
     name: rental-storage-session-resources
+  apiGateway:
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
   namespace: rental-storage
   service: session
+  REDIS_HOST: !ImportValue ExporteSessiondRedisClusterHost
+  REDIS_PORT: !ImportValue ExportedSessionRedisClusterPort
 
 functions:
-  - ${file(./aws/functions/appsync.yml)}
+  - ${file(./aws/functions/apigateway.yml)}

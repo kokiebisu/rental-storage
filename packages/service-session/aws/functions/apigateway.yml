@@ -1,0 +1,19 @@
+SetSession:
+  handler: set_session.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-apigateway-SetSession
+  environment:
+    REDIS_HOST: ${self:custom.REDIS_HOST}
+    REDIS_PORT: ${self:custom.REDIS_PORT}
+    ACCOUNT_ID: ${aws:accountId}
+  events:
+    - http: POST /session
+
+GetSession:
+  handler: get_session.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-apigateway-GetSession
+  environment:
+    REDIS_HOST: ${self:custom.REDIS_HOST}
+    REDIS_PORT: ${self:custom.REDIS_PORT}
+    ACCOUNT_ID: ${aws:accountId}
+  events:
+    - http: GET /session

@@ -1,0 +1,11 @@
+DependsOn: ServerlessStorageSecurityGroup
+Type: AWS::ElastiCache::CacheCluster
+Properties:
+  AutoMinorVersionUpgrade: true
+  Engine: redis
+  CacheNodeType: cache.t2.micro
+  NumCacheNodes: 1
+  VpcSecurityGroupIds:
+    - !Ref "ServerlessSecurityGroup"
+  CacheSubnetGroupName:
+    Ref: SessionRedisSubnetGroup
