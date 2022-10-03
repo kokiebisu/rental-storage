@@ -7,7 +7,7 @@ export interface BookingConstructor {
   id?: string;
   status?: BookingStatus;
   amount: Amount;
-  guestId: number;
+  borrowerId: number;
   listingId: number;
   createdAt?: Date;
   updatedAt?: Date;
@@ -18,7 +18,7 @@ export interface BookingInterface {
   id: string;
   status: string;
   amount: AmountInterface;
-  guestId: number;
+  borrowerId: number;
   listingId: number;
   createdAt: string;
   updatedAt?: string;

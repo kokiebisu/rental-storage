@@ -1,9 +1,9 @@
-import { Guest } from "../../../domain/model";
-import { GuestInterface, GuestRawInterface } from "../../../types";
+import { User } from "../../../domain/model";
+import { UserInterface, UserRawInterface } from "../../../types";
 import { TimeUtil } from "../../../utils";
 
-export class GuestMapper {
-  public static toDTOFromRaw(data: GuestRawInterface): GuestInterface {
+export class UserMapper {
+  public static toDTOFromRaw(data: UserRawInterface): UserInterface {
     return {
       id: data.id,
       uid: data.uid,
@@ -17,12 +17,12 @@ export class GuestMapper {
     };
   }
 
-  public static toDTOFromEntity(data: Guest): GuestInterface {
+  public static toDTOFromEntity(data: User): UserInterface {
     return {
       id: data.id,
       uid: data.uid,
       emailAddress: data.emailAddress.value,
-      password: data.password.value,
+      password: data.password,
       firstName: data.firstName,
       lastName: data.lastName,
       items: data.items,

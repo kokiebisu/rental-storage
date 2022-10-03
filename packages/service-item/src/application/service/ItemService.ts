@@ -36,7 +36,7 @@ export class ItemServiceImpl implements ItemService {
       const entity = new StorageItem({
         name: data.name,
         imageUrls: data.imageUrls,
-        guestId: data.guestId,
+        borrowerId: data.borrowerId,
         listingId: data.listingId,
         createdAt: new Date(data.createdAt),
         ...(data.updatedAt && { updatedAt: new Date(data.updatedAt) }),

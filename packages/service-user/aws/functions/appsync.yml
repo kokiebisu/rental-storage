@@ -1,7 +1,7 @@
 ## Query
-FindGuestByIdQuery:
-  handler: dist/adapter/in/api/graphql/query/FindGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindGuestById
+FindUserByIdQuery:
+  handler: dist/adapter/in/api/graphql/query/FindUserById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindUserById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -10,9 +10,9 @@ FindGuestByIdQuery:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
 
-FindHostByIdQuery:
-  handler: dist/adapter/in/api/graphql/query/FindHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindHostById
+FindUserByEmailQuery:
+  handler: dist/adapter/in/api/graphql/query/FindUserByEmail.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindUserByEmail
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -22,42 +22,9 @@ FindHostByIdQuery:
     ACCOUNT_ID: ${aws:accountId}
 
 ## Mutation
-RegisterGuestMutation:
-  handler: dist/adapter/in/api/graphql/mutation/RegisterGuest.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RegisterGuest
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
-
-RegisterHostMutation:
-  handler: dist/adapter/in/api/graphql/mutation/RegisterHost.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RegisterHost
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
-
-RemoveGuestByIdMutation:
-  handler: dist/adapter/in/api/graphql/mutation/RemoveGuestById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveGuestById
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
-
-RemoveHostByIdMutation:
-  handler: dist/adapter/in/api/graphql/mutation/RemoveHostById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveHostById
+RemoveUserByIdMutation:
+  handler: dist/adapter/in/api/graphql/mutation/RemoveUserById.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveUserById
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
