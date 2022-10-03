@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -11,38 +12,71 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type SignUpArgument struct {
-	EmailAddress      string `json:"email"`
+type UserCreationPayload struct {
+	EmailAddress      string `json:"emailAddress"`
 	Password   string `json:"password"`
 	FirstName string `json:"firstName"`
 	LastName string `json:"lastName"`
 }
 
+type AuthorizationTokenPayload struct {
+	AuthorizationToken string `json:"authorizationToken"`
+}
+
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 
 	// get email address and password from event argument
-	arg := request.Body
-	argument := SignUpArgument{}
-	json.Unmarshal([]byte(arg), &argument)
-	 
+	bodyRequest := UserCreationPayload{}
+	err := json.Unmarshal([]byte(request.Body), &bodyRequest)
+	if err != nil {
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
+	}
+
 	// hash password
-	hash, err := bcrypt.GenerateFromPassword([]byte(argument.Password), 10)
+	hash, err := bcrypt.GenerateFromPassword([]byte(bodyRequest.Password), 10)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("cannot hash password"), StatusCode: 500}, nil
 	}
 	
-	endpoint := os.Getenv("SERVICE_API_ENDPOINT")
-	userEndpoint := fmt.Sprintf("%s/users", endpoint)
-	// send arguments to user-service rest endpoint and create row entry
-	http.Post(userEndpoint)
-	token := GenerateToken(argument.EmailAddress)
-	fmt.Println("TOKEN: ", token)
-	// attach auth token to redis
-	sessionEndpoint := fmt.Sprintf("%s/sessions")
-	http.Post(sessionEndpoint)
+	updatedUser := &UserCreationPayload {
+		EmailAddress: bodyRequest.EmailAddress,
+		Password: string(hash),
+		FirstName: bodyRequest.FirstName,
+		LastName: bodyRequest.LastName,
+	}
 
+	fmt.Println(updatedUser)
+
+	encodedUpdatedUser, err := json.Marshal(&updatedUser)
+	if err != nil {
+        return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
+    }
+	userEndpoint := fmt.Sprintf("%s/users", os.Getenv("SERVICE_API_ENDPOINT"))
+	// // send arguments to user-service rest endpoint and create row entry
+	_, err = http.Post(userEndpoint, "application/json", bytes.NewBuffer(encodedUpdatedUser))
+	if err != nil {
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
+	}
+	
+	token := GenerateToken(bodyRequest.EmailAddress)
+	fmt.Println("TOKEN: ", token)
+	// // attach auth token to redis
+	
+	// sessionEndpoint := fmt.Sprintf("%s/sessions")
+	// request := AuthorizationTokenPayload{
+	// 	AuthorizationToken: token,
+	// }
+	// err := json.Unmarshal(&request)
+	// http.Post(sessionEndpoint, "application/json", bytes.NewBuffer())
+	tokenPayload := &AuthorizationTokenPayload {
+		AuthorizationToken: token,
+	}
+	encoded, err := json.Marshal(tokenPayload)
+	if err != nil {
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
+	}
 	//Returning response with authorization token
-	return events.APIGatewayProxyResponse{Body: string(token), StatusCode: 200}, nil
+	return events.APIGatewayProxyResponse{Body: string(encoded), StatusCode: 200}, nil
 }
 
 func main() {

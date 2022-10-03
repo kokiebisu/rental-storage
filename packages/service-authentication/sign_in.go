@@ -26,8 +26,6 @@ type User struct {
 	CreatedAt string `json:"createdAt"`
 }
 
-
-
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	endpoint := os.Getenv("SERVICE_API_ENDPOINT")
 	
@@ -65,7 +63,8 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	fmt.Println("TOKEN: ", token)
 	// send sqs (service session)
 	sessionEndpoint := fmt.Sprintf("%s/sessions")
-	resp, err = http.Post(sessionEndpoint)
+	fmt.Println(sessionEndpoint)
+	// resp, err = http.Post(sessionEndpoint)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("failed to attach session"), StatusCode: 500}, nil
 	}
