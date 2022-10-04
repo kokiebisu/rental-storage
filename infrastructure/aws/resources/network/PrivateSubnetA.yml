@@ -1,0 +1,9 @@
+DependsOn: VPC
+Type: AWS::EC2::Subnet
+Properties:
+  VpcId: !Ref VPC
+  AvailabilityZone: ${self:provider.region}a
+  CidrBlock: 10.0.1.0/24
+  Tags:
+    - Key: "Name"
+      Value: ${self:custom.namespace}-private-subnet-b

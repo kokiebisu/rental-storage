@@ -15,6 +15,12 @@ provider:
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  iam:
+    role: !ImportValue ExportedLambdaRoleArn
+  ecr:
+    images:
+      app:
+        path: ./
 
 custom:
   namespace: rental-storage

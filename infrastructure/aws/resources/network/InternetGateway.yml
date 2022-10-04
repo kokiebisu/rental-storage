@@ -2,4 +2,4 @@ Type: AWS::EC2::InternetGateway
 Properties:
   Tags:
     - Key: "Name"
-      Value: "ServerlessInternetGateway"
+      Value: ${self:custom.namespace}-internet-gateway

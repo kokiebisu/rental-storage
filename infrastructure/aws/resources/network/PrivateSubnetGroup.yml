@@ -2,9 +2,8 @@ Type: AWS::RDS::DBSubnetGroup
 Properties:
   DBSubnetGroupDescription: "RDS Subnet Group"
   SubnetIds:
-    - Ref: ServerlessSubnetA
-    - Ref: ServerlessSubnetB
-    - Ref: ServerlessSubnetC
+    - !Ref PrivateSubnetA
+    - !Ref PrivateSubnetB
   Tags:
     - Key: "Name"
-      Value: "ServerlessSubnetGroup"
+      Value: ${self:custom.namespace}-private-subnet-group

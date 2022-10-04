@@ -1,36 +1,52 @@
 # Api Gateway
 ApiGatewayRestApiId:
-  Value:
-    Ref: ApiGateway
+  Value: !Ref ApiGateway
   Export:
     Name: ApiGatewayRestApiId
 
 ApiGatewayRestApiRootResourceId:
-  Value:
-    Fn::GetAtt: [ApiGateway, RootResourceId]
+  Value: !GetAtt ApiGateway.RootResourceId
   Export:
     Name: ApiGatewayRootResourceId
+
+# Infrastructure
+ServerlessSecurityGroupId:
+  Value: !GetAtt ServerlessSecurityGroup.GroupId
+  Export:
+    Name: ExportedServerlessSecurityGroupId
+
+PublicSubnetAId:
+  Value: !Ref PublicSubnetA
+  Export:
+    Name: ExportedPublicSubnetA
+
+PrivateSubnetAId:
+  Value: !Ref PrivateSubnetA
+  Export:
+    Name: ExportedPrivateSubnetA
+
+PrivateSubnetBId:
+  Value: !Ref PrivateSubnetB
+  Export:
+    Name: ExportedPrivateSubnetB
 
 # Cache DB
 SessionRedisClusterHost:
   Description: "Redis Cluster Host"
-  Value:
-    Fn::GetAtt: [SessionRedisCluster, RedisEndpoint.Address]
+  Value: !GetAtt CacheCluster.RedisEndpoint.Address
   Export:
-    Name: ExporteSessiondRedisClusterHost
+    Name: ExportedSessionCacheClusterHost
 
 SessionRedisClusterPort:
   Description: "Redis Cache Cluster Port"
-  Value:
-    Fn::GetAtt: [SessionRedisCluster, RedisEndpoint.Port]
+  Value: !GetAtt CacheCluster.RedisEndpoint.Port
   Export:
-    Name: ExportedSessionRedisClusterPort
+    Name: ExportedSessionCacheClusterPort
 
 # Booking DB
 BookingDynamoDBTableStreamArn:
   Description: "DynamoDB Booking Table"
-  Value:
-    Fn::GetAtt: [BookingDynamoDBTable, StreamArn]
+  Value: !GetAtt BookingDynamoDBTable.StreamArn
   Export:
     Name: ExportedBookingDynamoDBTableStreamArn
 
@@ -43,8 +59,7 @@ BookingDynamoDBTableName:
 # Listing DB
 ListingRDSDBHost:
   Description: "Host"
-  Value:
-    Fn::GetAtt: [ListingRDSCluster, Endpoint.Address]
+  Value: !GetAtt ListingRDSCluster.Endpoint.Address
   Export:
     Name: ExportedListingRDSDBHost
 
@@ -69,8 +84,7 @@ ListingRDSDBPassword:
 # User DB
 UserRDSDBHost:
   Description: "User DB Host"
-  Value:
-    Fn::GetAtt: [UserRDSCluster, Endpoint.Address]
+  Value: !GetAtt UserRDSCluster.Endpoint.Address
   Export:
     Name: ExportedUserRDSDBHost
 
@@ -95,8 +109,7 @@ UserRDSDBPassword:
 # Item DB
 ItemRDSDBHost:
   Description: "RDS Host"
-  Value:
-    Fn::GetAtt: [ItemRDSCluster, Endpoint.Address]
+  Value: !GetAtt ItemRDSCluster.Endpoint.Address
   Export:
     Name: ExportedItemRDSDBHost
 
@@ -121,36 +134,31 @@ ItemRDSDBPassword:
 # Role
 LambdaRoleArn:
   Description: "Arn for Lambda role"
-  Value:
-    Fn::GetAtt: [LambdaRole, Arn]
+  Value: !GetAtt LambdaRole.Arn
   Export:
     Name: ExportedLambdaRoleArn
 
 # SQS Queue
 ListingSQSQueueArn:
   Description: "Listing SQSQueue Arn"
-  Value:
-    Fn::GetAtt: [ListingSQSQueue, Arn]
+  Value: !GetAtt ListingSQSQueue.Arn
   Export:
     Name: ExportedListingSQSQueueArn
 
 ListingSQSDLQueueArn:
   Description: "Listing Dead Letter SQSQueue Arn"
-  Value:
-    Fn::GetAtt: [ListingSQSDLQueue, Arn]
+  Value: !GetAtt ListingSQSDLQueue.Arn
   Export:
     Name: ExportedListingSQSDLQueueArn
 
 UserSQSQueueArn:
   Description: "User SQSDLQueue Arn"
-  Value:
-    Fn::GetAtt: [UserSQSQueue, Arn]
+  Value: !GetAtt UserSQSQueue.Arn
   Export:
     Name: ExportedUserSQSQueueArn
 
 UserSQSDLQueueArn:
   Description: "User SQS Dead Letter Queue Arn"
-  Value:
-    Fn::GetAtt: [UserSQSDLQueue, Arn]
+  Value: !GetAtt UserSQSDLQueue.Arn
   Export:
     Name: ExportedUserSQSDLQueueArn

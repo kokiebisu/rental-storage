@@ -1,0 +1,7 @@
+Type: AWS::EC2::NatGateway
+Properties:
+  AllocationId: !GetAtt IP.AllocationId
+  SubnetId: !Ref PublicSubnetA
+  Tags:
+    - Key: Name
+      Value: ${self:custom.namespace}-natgateway

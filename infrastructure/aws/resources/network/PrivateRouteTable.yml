@@ -1,0 +1,6 @@
+Type: AWS::EC2::RouteTable
+Properties:
+  VpcId: !Ref VPC
+  Tags:
+    - Key: Name
+      Value: ${self:custom.namespace}-private-route-table

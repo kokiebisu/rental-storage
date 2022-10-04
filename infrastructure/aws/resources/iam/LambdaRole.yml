@@ -8,7 +8,7 @@ Properties:
           Service: lambda.amazonaws.com
     Version: "2012-10-17"
   Policies:
-    - PolicyName: EnableLog
+    - PolicyName: AWSLambdaVPCAccessExecutionRole
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -17,6 +17,11 @@ Properties:
               - logs:CreateLogGroup
               - logs:CreateLogStream
               - logs:PutLogEvents
+              - ec2:CreateNetworkInterface
+              - ec2:DescribeNetworkInterfaces
+              - ec2:DeleteNetworkInterface
+              - ec2:AssignPrivateIpAddresses
+              - ec2:UnassignPrivateIpAddresses
             Resource: arn:aws:logs:*:*:*
     - PolicyName: EnableDynamoDBStream
       PolicyDocument:
@@ -104,3 +109,17 @@ Properties:
               Fn::Join:
                 - ""
                 - - "arn:aws:s3:::*"
+    - PolicyName: EnableElastiCache
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - "elasticache:*"
+            Resource:
+              Fn::Join:
+                - ":"
+                - - "arn:aws:sns"
+                  - ${aws:region}
+                  - ${aws:accountId}
+                  - "*"
