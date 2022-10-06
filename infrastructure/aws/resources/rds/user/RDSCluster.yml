@@ -2,7 +2,7 @@ Type: AWS::RDS::DBCluster
 Properties:
   MasterUsername: ${self:custom.USER_DB_USERNAME}
   MasterUserPassword: ${self:custom.USER_DB_PASSWORD}
-  DBSubnetGroupName: !Ref PrivateSubnetGroup
+  DBSubnetGroupName: !Ref RDSSubnetGroup
   Engine: aurora
   EngineVersion: "5.6"
   DatabaseName: ${self:custom.USER_DB_NAME}

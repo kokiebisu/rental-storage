@@ -38,30 +38,31 @@ resources:
     InternetGateway: ${file(./aws/resources/network/InternetGateway.yml)}
     NatGateway: ${file(./aws/resources/network/NatGateway.yml)}
 
-    PublicSubnetA: ${file(./aws/resources/network/PublicSubnetA.yml)}
-    PrivateSubnetA: ${file(./aws/resources/network/PrivateSubnetA.yml)}
-    PrivateSubnetB: ${file(./aws/resources/network/PrivateSubnetB.yml)}
-    PrivateSubnetGroup: ${file(./aws/resources/network/PrivateSubnetGroup.yml)}
-    ServerlessSecurityGroup: ${file(./aws/resources/network/ServerlessSecurityGroup.yml)}
-    ServerlessStorageSecurityGroup: ${file(./aws/resources/network/ServerlessStorageSecurityGroup.yml)}
+    PublicSubnetA: ${file(./aws/resources/network/Subnet/PublicSubnetA.yml)}
+    PrivateSubnetA: ${file(./aws/resources/network/Subnet/PrivateSubnetA.yml)}
+    PrivateSubnetB: ${file(./aws/resources/network/Subnet/PrivateSubnetB.yml)}
 
-    PublicRouteTable: ${file(./aws/resources/network/PublicRouteTable.yml)}
-    PublicRoute: ${file(./aws/resources/network/PublicRoute.yml)}
-    PrivateRouteTable: ${file(./aws/resources/network/PrivateRouteTable.yml)}
-    PrivateRoute: ${file(./aws/resources/network/PrivateRoute.yml)}
+    ServerlessSecurityGroup: ${file(./aws/resources/network/SecurityGroup/ServerlessSecurityGroup.yml)}
+    ServerlessStorageSecurityGroup: ${file(./aws/resources/network/SecurityGroup/ServerlessStorageSecurityGroup.yml)}
 
-    PrivateRouteATableAssociation: ${file(./aws/resources/network/PrivateSubnetARouteTableAssociation.yml)}
-    PrivateRouteBTableAssociation: ${file(./aws/resources/network/PrivateSubnetBRouteTableAssociation.yml)}
-    PublicRouteATableAssociation: ${file(./aws/resources/network/PublicSubnetARouteTableAssociation.yml)}
+    PublicRouteTable: ${file(./aws/resources/network/RouteTable/PublicRouteTable.yml)}
+    PublicRoute: ${file(./aws/resources/network/RouteTable/PublicRoute.yml)}
+    PrivateRouteTable: ${file(./aws/resources/network/RouteTable/PrivateRouteTable.yml)}
+    PrivateRoute: ${file(./aws/resources/network/RouteTable/PrivateRoute.yml)}
+
+    PrivateRouteATableAssociation: ${file(./aws/resources/network/RouteTable/PrivateSubnetARouteTableAssociation.yml)}
+    PrivateRouteBTableAssociation: ${file(./aws/resources/network/RouteTable/PrivateSubnetBRouteTableAssociation.yml)}
+    PublicRouteATableAssociation: ${file(./aws/resources/network/RouteTable/PublicSubnetARouteTableAssociation.yml)}
 
     # S3
     ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfileBucket.yml)}
 
     # Elasticache
+    CacheSubnetGroup: ${file(./aws/resources/elasticache/CacheSubnetGroup.yml)}
     CacheCluster: ${file(./aws/resources/elasticache/session/CacheCluster.yml)}
-    CacheSubnetGroup: ${file(./aws/resources/elasticache/session/CacheSubnetGroup.yml)}
 
     # RDS
+    RDSSubnetGroup: ${file(./aws/resources/rds/RDSSubnetGroup.yml)}
     RDSClusterParameter: ${file(./aws/resources/rds/RDSClusterParameter.yml)}
     RDSInstanceParameter: ${file(./aws/resources/rds/RDSInstanceParameter.yml)}
     UserRDSCluster: ${file(./aws/resources/rds/user/RDSCluster.yml)}

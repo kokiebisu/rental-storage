@@ -23,12 +23,12 @@ PublicSubnetAId:
 PrivateSubnetAId:
   Value: !Ref PrivateSubnetA
   Export:
-    Name: ExportedPrivateSubnetA
+    Name: ExportedPrivateSubnetAId
 
 PrivateSubnetBId:
   Value: !Ref PrivateSubnetB
   Export:
-    Name: ExportedPrivateSubnetB
+    Name: ExportedPrivateSubnetBId
 
 # Cache DB
 SessionRedisClusterHost:

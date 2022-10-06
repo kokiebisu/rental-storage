@@ -1,20 +1,20 @@
-SignInApiGateway:
-  handler: bin/signin
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-SignIn
-  environment:
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
-  package:
-    exclude:
-      - ./**
-    include:
-      - ./bin/sign_in
-  events:
-    - http:
-        path: /auth/sign_in
-        method: post
+# SignInApiGateway:
+#   handler: bin/signin
+#   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-SignIn
+#   environment:
+#     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+#     ACCOUNT_ID: ${aws:accountId}
+#   package:
+#     exclude:
+#       - ./**
+#     include:
+#       - ./bin/sign_in
+#   events:
+#     - http:
+#         path: /auth/sign_in
+#         method: post
 
-SignUpApiGateway:
+AuthenticationController:
   handler: bin/sign_up
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-SignUp
   environment:

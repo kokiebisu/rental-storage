@@ -3,11 +3,6 @@ Type: AWS::EC2::SecurityGroup
 Properties:
   GroupDescription: SecurityGroup for Serverless Functions
   VpcId: !Ref VPC
-  SecurityGroupIngress:
-    - IpProtocol: tcp
-      FromPort: "0"
-      ToPort: "65535"
-      CidrIp: "0.0.0.0/0"
   Tags:
     - Key: "Name"
       Value: ${self:custom.namespace}-serverles-security-group

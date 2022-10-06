@@ -4,6 +4,3 @@ Properties:
   SubnetIds:
     - !Ref PrivateSubnetA
     - !Ref PrivateSubnetB
-  Tags:
-    - Key: "Name"
-      Value: ${self:custom.namespace}-private-subnet-group

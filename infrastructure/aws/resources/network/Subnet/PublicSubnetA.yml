@@ -6,4 +6,4 @@ Properties:
   CidrBlock: 10.0.1.0/24
   Tags:
     - Key: "Name"
-      Value: ${self:custom.namespace}-private-subnet-b
+      Value: ${self:custom.namespace}-public-subnet-a

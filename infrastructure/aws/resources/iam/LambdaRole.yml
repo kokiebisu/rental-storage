@@ -22,7 +22,7 @@ Properties:
               - ec2:DeleteNetworkInterface
               - ec2:AssignPrivateIpAddresses
               - ec2:UnassignPrivateIpAddresses
-            Resource: arn:aws:logs:*:*:*
+            Resource: "*"
     - PolicyName: EnableDynamoDBStream
       PolicyDocument:
         Version: "2012-10-17"

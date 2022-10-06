@@ -10,10 +10,10 @@ SetSession:
     REDIS_PORT: ${self:custom.REDIS_PORT}
     ACCOUNT_ID: ${aws:accountId}
   vpc:
-    securityGroupIds: !ImportValue ExportedServerlessSecurityGroupId
+    securityGroupIds:
+      - !ImportValue ExportedServerlessSecurityGroupId
     subnetIds:
       - !ImportValue ExportedPrivateSubnetAId
-      - !ImportValue ExportedPrivateSubnetBId
   events:
     - http: POST /session
 
@@ -29,9 +29,9 @@ GetSession:
     REDIS_PORT: ${self:custom.REDIS_PORT}
     ACCOUNT_ID: ${aws:accountId}
   vpc:
-    securityGroupIds: !ImportValue ExportedServerlessSecurityGroupId
+    securityGroupIds:
+      - !ImportValue ExportedServerlessSecurityGroupId
     subnetIds:
       - !ImportValue ExportedPrivateSubnetAId
-      - !ImportValue ExportedPrivateSubnetBId
   events:
     - http: GET /session

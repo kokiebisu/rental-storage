@@ -25,8 +25,8 @@ provider:
 custom:
   namespace: rental-storage
   service: session
-  REDIS_HOST: !ImportValue ExporteSessiondRedisClusterHost
-  REDIS_PORT: !ImportValue ExportedSessionRedisClusterPort
+  REDIS_HOST: !ImportValue ExportedSessionCacheClusterHost
+  REDIS_PORT: !ImportValue ExportedSessionCacheClusterPort
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

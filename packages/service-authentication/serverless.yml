@@ -10,10 +10,10 @@ provider:
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
-  deploymentBucket:
-    name: rental-storage-authentication-resources
   iam:
     role: !ImportValue ExportedLambdaRoleArn
+  deploymentBucket:
+    name: rental-storage-authentication-resources
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId

@@ -2,38 +2,38 @@ services:
   infrastructure:
     path: infrastructure
 
-  user:
-    path: packages/service-user
-    dependsOn:
-      - infrastructure
-
-  listing:
-    path: packages/service-listing
-    dependsOn:
-      - infrastructure
-
-  image:
-    path: packages/service-image
-    dependsOn:
-      - infrastructure
-
-  booking:
-    path: packages/service-booking
-    dependsOn:
-      - infrastructure
-
-  item:
-    path: packages/service-item
-    dependsOn:
-      - infrastructure
-
   authorizer:
     path: packages/service-authorizer
     dependsOn:
       - infrastructure
 
-  authentication:
-    path: packages/service-authentication
+  # authentication:
+  #   path: packages/service-authentication
+  #   dependsOn:
+  #     - infrastructure
+
+  # booking:
+  #   path: packages/service-booking
+  #   dependsOn:
+  #     - infrastructure
+
+  # image:
+  #   path: packages/service-image
+  #   dependsOn:
+  #     - infrastructure
+
+  # item:
+  #   path: packages/service-item
+  #   dependsOn:
+  #     - infrastructure
+
+  # listing:
+  #   path: packages/service-listing
+  #   dependsOn:
+  #     - infrastructure
+
+  user:
+    path: packages/service-user
     dependsOn:
       - infrastructure
 
@@ -42,15 +42,15 @@ services:
     dependsOn:
       - infrastructure
 
-  api:
-    path: api
-    dependsOn:
-      - infrastructure
-      - booking
-      - image
-      - listing
-      - user
-      - item
-      - authorizer
-      - authentication
-      - session
+  # api:
+  #   path: api
+  #   dependsOn:
+  #     - authorizer
+  #     - authentication
+  #     - booking
+  #     - infrastructure
+  #     - image
+  #     - item
+  #     - listing
+  #     - session
+  #     - user

@@ -1,0 +1,28 @@
+service: rental-storage-authorizer
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  iam:
+    role: !ImportValue ExportedLambdaRoleArn
+  deploymentBucket:
+    name: rental-storage-authorizer-resources
+
+custom:
+  namespace: rental-storage
+  service: authorizer
+
+functions:
+  Authorize:
+    handler: bin/authorize
+    name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Authorizer
+    package:
+      include:
+        - ./bin/authorize

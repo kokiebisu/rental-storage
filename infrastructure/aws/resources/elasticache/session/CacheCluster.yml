@@ -6,5 +6,5 @@ Properties:
   CacheNodeType: cache.t2.micro
   NumCacheNodes: 1
   VpcSecurityGroupIds:
-    - !Ref ServerlessSecurityGroup
+    - !GetAtt ServerlessStorageSecurityGroup.GroupId
   CacheSubnetGroupName: !Ref CacheSubnetGroup

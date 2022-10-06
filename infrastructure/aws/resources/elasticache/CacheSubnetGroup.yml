@@ -3,3 +3,4 @@ Properties:
   Description: "Cache Subnet Group"
   SubnetIds:
     - !Ref PrivateSubnetA
+    - !Ref PrivateSubnetB
