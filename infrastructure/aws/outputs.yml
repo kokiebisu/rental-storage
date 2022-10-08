@@ -10,10 +10,10 @@ ApiGatewayRestApiRootResourceId:
     Name: ApiGatewayRootResourceId
 
 # Infrastructure
-ServerlessSecurityGroupId:
-  Value: !GetAtt ServerlessSecurityGroup.GroupId
+LambdaSecurityGroupId:
+  Value: !GetAtt LambdaSecurityGroup.GroupId
   Export:
-    Name: ExportedServerlessSecurityGroupId
+    Name: ExportedLambdaSecurityGroupId
 
 PublicSubnetAId:
   Value: !Ref PublicSubnetA

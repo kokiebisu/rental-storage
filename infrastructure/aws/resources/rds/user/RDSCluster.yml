@@ -9,4 +9,4 @@ Properties:
   BackupRetentionPeriod: 3
   DBClusterParameterGroupName: !Ref RDSClusterParameter
   VpcSecurityGroupIds:
-    - !Ref ServerlessSecurityGroup
+    - !Ref LambdaSecurityGroup

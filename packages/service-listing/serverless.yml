@@ -1,4 +1,4 @@
-service: rental-storage-listing
+service: rent-a-locker-listing
 frameworkVersion: "3"
 
 plugins:
@@ -11,7 +11,7 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: rental-storage-listing-resources
+    name: rent-a-locker-listing-resources
   iam:
     role: !ImportValue ExportedLambdaRoleArn
   apiGateway:
@@ -19,7 +19,7 @@ provider:
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
-  namespace: rental-storage
+  namespace: rent-a-locker
   service: listing
   DB_NAME: !ImportValue ExportedListingRDSDBName
   DB_USERNAME: !ImportValue ExportedListingRDSDBUsername

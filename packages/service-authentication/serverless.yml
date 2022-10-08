@@ -1,4 +1,4 @@
-service: rental-storage-authentication
+service: rent-a-locker-authentication
 frameworkVersion: "3"
 
 plugins:
@@ -13,13 +13,13 @@ provider:
   iam:
     role: !ImportValue ExportedLambdaRoleArn
   deploymentBucket:
-    name: rental-storage-authentication-resources
+    name: rent-a-locker-authentication-resources
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
-  namespace: rental-storage
+  namespace: rent-a-locker
   service: authentication
   SERVICE_API_ENDPOINT:
     Fn::Join:

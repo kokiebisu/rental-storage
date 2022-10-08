@@ -1,4 +1,4 @@
-service: rental-storage-authorizer
+service: rent-a-locker-authorizer
 frameworkVersion: "3"
 
 plugins:
@@ -13,10 +13,10 @@ provider:
   iam:
     role: !ImportValue ExportedLambdaRoleArn
   deploymentBucket:
-    name: rental-storage-authorizer-resources
+    name: rent-a-locker-authorizer-resources
 
 custom:
-  namespace: rental-storage
+  namespace: rent-a-locker
   service: authorizer
 
 functions:

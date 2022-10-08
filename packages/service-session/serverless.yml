@@ -1,4 +1,4 @@
-service: rental-storage-session
+service: rent-a-locker-session
 frameworkVersion: "3"
 
 plugins:
@@ -11,7 +11,7 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: rental-storage-session-resources
+    name: rent-a-locker-session-resources
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
@@ -23,7 +23,7 @@ provider:
         path: ./
 
 custom:
-  namespace: rental-storage
+  namespace: rent-a-locker
   service: session
   REDIS_HOST: !ImportValue ExportedSessionCacheClusterHost
   REDIS_PORT: !ImportValue ExportedSessionCacheClusterPort

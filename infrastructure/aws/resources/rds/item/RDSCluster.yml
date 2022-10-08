@@ -10,4 +10,4 @@ Properties:
   DBClusterParameterGroupName: !Ref RDSClusterParameter
   DBSubnetGroupName: !Ref RDSSubnetGroup
   VpcSecurityGroupIds:
-    - !Ref ServerlessSecurityGroup
+    - !Ref LambdaSecurityGroup

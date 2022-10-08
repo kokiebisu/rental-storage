@@ -1,4 +1,4 @@
-service: rental-storage-user
+service: rent-a-locker-user
 frameworkVersion: "3"
 
 plugins:
@@ -17,10 +17,10 @@ provider:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
   deploymentBucket:
-    name: rental-storage-user-resources
+    name: rent-a-locker-user-resources
 
 custom:
-  namespace: rental-storage
+  namespace: rent-a-locker
   service: user
   # customDomain:
   #   domainName: "api.mycompany.com"

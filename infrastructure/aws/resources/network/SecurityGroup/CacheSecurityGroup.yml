@@ -7,4 +7,8 @@ Properties:
     - IpProtocol: tcp
       FromPort: "6379"
       ToPort: "6379"
-      SourceSecurityGroupId: !Ref ServerlessSecurityGroup
+      # CidrBlock: "0.0.0.0/0"
+      SourceSecurityGroupId: !Ref LambdaSecurityGroup
+  Tags:
+    - Key: "Name"
+      Value: ${self:custom.namespace}-cache-security-group

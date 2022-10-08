@@ -1,9 +1,9 @@
 SetSession:
-  # handler: app/adapter/api/set_session.handler
-  image:
-    name: app
-    command:
-      - app/adapter/api/set_session.handler
+  handler: src/set_session.handler
+  # image:
+  #   name: app
+  #   command:
+  #     - app/adapter/api/set_session.handler
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-apigateway-SetSession
   environment:
     REDIS_HOST: ${self:custom.REDIS_HOST}
@@ -11,27 +11,27 @@ SetSession:
     ACCOUNT_ID: ${aws:accountId}
   vpc:
     securityGroupIds:
-      - !ImportValue ExportedServerlessSecurityGroupId
+      - !ImportValue ExportedLambdaSecurityGroupId
     subnetIds:
       - !ImportValue ExportedPrivateSubnetAId
+      - !ImportValue ExportedPrivateSubnetBId
   events:
     - http: POST /session
-
-GetSession:
-  # handler: app/adapter/api/get_session.handler
-  image:
-    name: app
-    command:
-      - app/adapter/api/get_session.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-apigateway-GetSession
-  environment:
-    REDIS_HOST: ${self:custom.REDIS_HOST}
-    REDIS_PORT: ${self:custom.REDIS_PORT}
-    ACCOUNT_ID: ${aws:accountId}
-  vpc:
-    securityGroupIds:
-      - !ImportValue ExportedServerlessSecurityGroupId
-    subnetIds:
-      - !ImportValue ExportedPrivateSubnetAId
-  events:
-    - http: GET /session
+# GetSession:
+#   handler: app/adapter/api/get_session.handler
+#   # image:
+#   #   name: app
+#   #   command:
+#   #     - app/adapter/api/get_session.handler
+#   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-apigateway-GetSession
+#   environment:
+#     REDIS_HOST: ${self:custom.REDIS_HOST}
+#     REDIS_PORT: ${self:custom.REDIS_PORT}
+#     ACCOUNT_ID: ${aws:accountId}
+#   vpc:
+#     securityGroupIds:
+#       - !ImportValue ExportedLambdaSecurityGroupId
+#     subnetIds:
+#       - !ImportValue ExportedPrivateSubnetAId
+#   events:
+#     - http: GET /session

@@ -1,4 +1,4 @@
-DependsOn: ServerlessStorageSecurityGroup
+DependsOn: CacheSecurityGroup
 Type: AWS::ElastiCache::CacheCluster
 Properties:
   AutoMinorVersionUpgrade: true
@@ -6,5 +6,5 @@ Properties:
   CacheNodeType: cache.t2.micro
   NumCacheNodes: 1
   VpcSecurityGroupIds:
-    - !GetAtt ServerlessStorageSecurityGroup.GroupId
+    - !GetAtt CacheSecurityGroup.GroupId
   CacheSubnetGroupName: !Ref CacheSubnetGroup

@@ -1,4 +1,4 @@
-service: rental-storage-booking
+service: rent-a-locker-booking
 frameworkVersion: "3"
 
 plugins:
@@ -13,13 +13,13 @@ provider:
   iam:
     role: !ImportValue ExportedLambdaRoleArn
   deploymentBucket:
-    name: rental-storage-booking-resources
+    name: rent-a-locker-booking-resources
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
-  namespace: rental-storage
+  namespace: rent-a-locker
   service: booking
   TABLE_NAME: !ImportValue ExportedBookingDynamoDBTableName
   SERVICE_API_ENDPOINT:

@@ -1,4 +1,4 @@
-service: rental-storage-infrastructure
+service: rent-a-locker-infrastructure
 frameworkVersion: "3"
 
 useDotenv: true
@@ -12,10 +12,10 @@ provider:
   region: us-east-1
   stage: dev
   deploymentBucket:
-    name: rental-storage-infrastructure-resources
+    name: rent-a-locker-infrastructure-resources
 
 custom:
-  namespace: rental-storage
+  namespace: rent-a-locker
   USER_DB_NAME: user
   USER_DB_USERNAME: master
   USER_DB_PASSWORD: password
@@ -42,8 +42,8 @@ resources:
     PrivateSubnetA: ${file(./aws/resources/network/Subnet/PrivateSubnetA.yml)}
     PrivateSubnetB: ${file(./aws/resources/network/Subnet/PrivateSubnetB.yml)}
 
-    ServerlessSecurityGroup: ${file(./aws/resources/network/SecurityGroup/ServerlessSecurityGroup.yml)}
-    ServerlessStorageSecurityGroup: ${file(./aws/resources/network/SecurityGroup/ServerlessStorageSecurityGroup.yml)}
+    LambdaSecurityGroup: ${file(./aws/resources/network/SecurityGroup/LambdaSecurityGroup.yml)}
+    CacheSecurityGroup: ${file(./aws/resources/network/SecurityGroup/CacheSecurityGroup.yml)}
 
     PublicRouteTable: ${file(./aws/resources/network/RouteTable/PublicRouteTable.yml)}
     PublicRoute: ${file(./aws/resources/network/RouteTable/PublicRoute.yml)}

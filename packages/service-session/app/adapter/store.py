@@ -11,10 +11,6 @@ class CacheStore:
         host = os.getenv("REDIS_HOST")
         port = os.getenv("REDIS_PORT")
         self._client = StrictRedis(host=host, port=port, db=0, ssl=True)
-        print('connected')
-        self._client.set("foo", "bar")
-        print(self._client.get('foo'))
-
         print(f"self._client: {self._client}")
 
     def get_token(self, category, token):
