@@ -1,13 +1,13 @@
-# DependsOn: [!ImportValue ExportedServerlessVPCGA]
+# DependsOn: [!ImportValue ExportedVPCGatewayAttachment]
 Type: AWS::RDS::DBInstance
 Properties:
   DBInstanceClass: db.t2.small
   DBSubnetGroupName:
-    Ref: ServerlessSubnetGroup
+    Ref: DBSubnetGroupServerless
   Engine: aurora
   EngineVersion: "5.6"
   PubliclyAccessible: true
   DBParameterGroupName:
-    Ref: RDSInstanceParameter
+    Ref: DBParameterGroup
   DBClusterIdentifier:
     Ref: ItemRDSCluster

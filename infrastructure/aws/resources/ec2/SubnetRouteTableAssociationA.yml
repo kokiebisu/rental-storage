@@ -3,4 +3,4 @@ Properties:
   RouteTableId:
     Ref: RouteTablePublic
   SubnetId:
-    Ref: ServerlessSubnetC
+    Ref: SubnetA

@@ -1,7 +1,7 @@
 Type: AWS::EC2::RouteTable
 Properties:
   VpcId:
-    Ref: ServerlessVPC
+    Ref: VPC
   Tags:
     - Key: Name
       Value: public-route

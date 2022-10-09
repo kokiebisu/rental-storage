@@ -1,4 +1,4 @@
-service: rental-storage-api
+service: rental-a-locker-api
 frameworkVersion: "3"
 
 plugins:
@@ -13,10 +13,10 @@ provider:
   stage: dev
   region: us-east-1
   deploymentBucket:
-    name: rental-storage-api-resources
+    name: rental-a-locker-api-resources
 
 custom:
-  namespace: rental-storage
+  namespace: rental-a-locker
   service: api
   appSync:
     name: ${self:custom.namespace}-${self:custom.service}
