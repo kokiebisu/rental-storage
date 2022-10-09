@@ -46,13 +46,19 @@ exports.handler = async (event: any, context: any) => {
       reply: FastifyReply
     ) => {
       const { emailAddress, firstName, lastName, password } = request.body;
-      const data = await service.createUser({
-        emailAddress,
-        firstName,
-        lastName,
-        password,
-      });
-      reply.send(data);
+      try {
+        const data = await service.createUser({
+          emailAddress,
+          firstName,
+          lastName,
+          password,
+        });
+        console.log("DATA: ", data?.uid);
+        reply.send(data);
+      } catch (err) {
+        reply.statusCode = 500;
+        reply.send({ message: "Email already exists" });
+      }
     }
   );
 
