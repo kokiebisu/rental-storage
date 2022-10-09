@@ -6,5 +6,5 @@ export interface CreateUserInput {
 }
 
 export interface UserService {
-  createUser(data: CreateUserInput): Promise<boolean>;
+  createUser(data: CreateUserInput): Promise<{ uid: string } | null>;
 }

@@ -2,7 +2,7 @@ import { EmailAddress, User } from "../../domain/model";
 import { CreateUserInput, UserRepository, UserService } from "../port";
 
 import { LoggerUtil } from "../../utils";
-import { BookingInterface, UserInterface } from "../../types";
+import { UserInterface } from "../../types";
 import { UserRepositoryImpl } from "../../adapter/out/db";
 import { UserMapper } from "../../adapter/in/mapper";
 
@@ -22,7 +22,9 @@ export class UserServiceImpl implements UserService {
     return new UserServiceImpl(userRepository);
   }
 
-  public async createUser(data: CreateUserInput): Promise<boolean> {
+  public async createUser(
+    data: CreateUserInput
+  ): Promise<{ uid: string } | null> {
     this._logger.info(data, "createUser()");
     try {
       const user = new User({
@@ -32,11 +34,13 @@ export class UserServiceImpl implements UserService {
         password: data.password,
       });
 
-      await this._userRepository.save(UserMapper.toDTOFromEntity(user));
-      return true;
+      const res = await this._userRepository.save(
+        UserMapper.toDTOFromEntity(user)
+      );
+      return { uid: res.uid };
     } catch (err) {
       this._logger.error(err, "createUser()");
-      return false;
+      throw err;
     }
   }
 

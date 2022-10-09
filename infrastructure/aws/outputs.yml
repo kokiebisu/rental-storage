@@ -10,11 +10,6 @@ ApiGatewayRestApiRootResourceId:
   Export:
     Name: ApiGatewayRootResourceId
 
-ApiGatewayAuthorizer:
-  Value: !Ref ApiGatewayAuthorizer
-  Export:
-    Name: ExportedApiGatewayAuthorizerId
-
 # Booking DB
 BookingDynamoDBTableStreamArn:
   Description: "DynamoDB Booking Table"

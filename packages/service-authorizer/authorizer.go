@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -22,21 +23,30 @@ type JWTPayload struct {
 
 func HandleRequest(ctx context.Context, event Event) (*events.AppSyncLambdaAuthorizerResponse, error) {
 		jwt := event.AuthorizationToken
-		authenticationEndpoint := fmt.Sprintf("%s/auth/verify?auth=%s", os.Getenv("SERVICE_ENDPOINT"), jwt)
-		fmt.Println("ENDPOINT", authenticationEndpoint)
-		// // send REST API to verify jwt
-		resp, err := http.Get(authenticationEndpoint)
+		authenticationEndpoint := fmt.Sprintf("%s/auth/verify", os.Getenv("SERVICE_API_ENDPOINT"))
+		body := struct {
+			Token string `json:"token"`
+		}{
+			Token: jwt,
+		}
+		encodedPayload, err := json.Marshal(&body)
 		if err != nil {
 			return generateUnauthorizedResponse(), nil
 		}
-		fmt.Println("RESP", resp)
-		payload := JWTPayload{}
+		// // send REST API to verify jwt
+		resp, err := http.Post(authenticationEndpoint, "application/json", bytes.NewBuffer(encodedPayload))
+		if err != nil {
+			return generateUnauthorizedResponse(), nil
+		}
+
+		payload := struct {
+			UId string `json:"uid"`
+			Exp int `json:"exp"`
+		}{}
 		if err = json.NewDecoder(resp.Body).Decode(&payload); err != nil {
 			return generateUnauthorizedResponse(), nil
 		}
-		fmt.Println("PAYLOAD", payload)
-
-		return generateAuthorizedResponse(payload.UserId), nil
+		return generateAuthorizedResponse(payload.UId), nil
 }
 
 func generateUnauthorizedResponse() *events.AppSyncLambdaAuthorizerResponse {

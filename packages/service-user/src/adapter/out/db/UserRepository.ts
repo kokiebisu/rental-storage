@@ -48,7 +48,7 @@ export class UserRepositoryImpl implements UserRepository {
 
   public async save(
     data: UserInterface
-  ): Promise<{ insertId: number } | undefined> {
+  ): Promise<{ insertId: number; uid: string }> {
     this._logger.info(data, "save()");
     try {
       const result = await this._client.query(
@@ -62,9 +62,13 @@ export class UserRepositoryImpl implements UserRepository {
           data.createdAt,
         ]
       );
-      return result;
+      return {
+        insertId: result.insertId,
+        uid: data.uid,
+      };
     } catch (err) {
       this._logger.error(err, "save()");
+      throw err;
     }
   }
 

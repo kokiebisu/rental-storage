@@ -1,6 +1,6 @@
 SignInApiGateway:
-  handler: bin/signin
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-SignIn
+  handler: bin/sign_in
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-signin
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
@@ -11,12 +11,12 @@ SignInApiGateway:
       - ./bin/sign_in
   events:
     - http:
-        path: /auth/sign_in
+        path: /auth/signin
         method: post
 
 SignUpApiGateway:
   handler: bin/sign_up
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-SignUp
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-signup
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
@@ -28,4 +28,20 @@ SignUpApiGateway:
   events:
     - http:
         path: /auth/signup
+        method: post
+
+VerifyApiGateway:
+  handler: bin/verify
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-verify
+  environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
+  package:
+    exclude:
+      - ./**
+    include:
+      - ./bin/verify
+  events:
+    - http:
+        path: /auth/verify
         method: post

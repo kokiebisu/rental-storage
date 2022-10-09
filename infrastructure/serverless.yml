@@ -31,7 +31,6 @@ resources:
   Resources:
     #ApiGateway
     ApiGatewayRestApi: ${file(./aws/resources/apigateway/RestApi.yml)}
-    ApiGatewayAuthorizer: ${file(./aws/resources/apigateway/Authorizer.yml)}
 
     # Infrastructure
     InternetGateway: ${file(./aws/resources/ec2/InternetGateway.yml)}
