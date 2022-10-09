@@ -1,9 +1,9 @@
-DependsOn: ServerlessVPC
+DependsOn: VPC
 Type: AWS::EC2::SecurityGroup
 Properties:
   GroupDescription: SecurityGroup for Serverless Functions
   VpcId:
-    Ref: ServerlessVPC
+    Ref: VPC
   SecurityGroupIngress:
     - IpProtocol: tcp
       FromPort: "0"
@@ -11,4 +11,4 @@ Properties:
       CidrIp: "0.0.0.0/0"
   Tags:
     - Key: "Name"
-      Value: "ServerlessSecurityGroup"
+      Value: "SecurityGroupServerless"

@@ -1,10 +1,10 @@
-DependsOn: ServerlessVPC
+DependsOn: VPC
 Type: AWS::EC2::Subnet
 Properties:
   VpcId:
-    Ref: ServerlessVPC
+    Ref: VPC
   AvailabilityZone: ${self:provider.region}b
   CidrBlock: 10.0.1.0/24
   Tags:
     - Key: "Name"
-      Value: "ServerlessSubnetB"
+      Value: "SubnetB"

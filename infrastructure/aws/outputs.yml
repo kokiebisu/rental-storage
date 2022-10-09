@@ -1,15 +1,19 @@
 # Api Gateway
 ApiGatewayRestApiId:
-  Value:
-    Ref: ApiGateway
+  Value: !Ref ApiGatewayRestApi
   Export:
     Name: ApiGatewayRestApiId
 
 ApiGatewayRestApiRootResourceId:
   Value:
-    Fn::GetAtt: [ApiGateway, RootResourceId]
+    Fn::GetAtt: [ApiGatewayRestApi, RootResourceId]
   Export:
     Name: ApiGatewayRootResourceId
+
+ApiGatewayAuthorizer:
+  Value: !Ref ApiGatewayAuthorizer
+  Export:
+    Name: ExportedApiGatewayAuthorizerId
 
 # Booking DB
 BookingDynamoDBTableStreamArn:
@@ -104,12 +108,12 @@ ItemRDSDBPassword:
     Name: ExportedItemRDSDBPassword
 
 # Role
-LambdaRoleArn:
+RoleLambdaArn:
   Description: "Arn for Lambda role"
   Value:
-    Fn::GetAtt: [LambdaRole, Arn]
+    Fn::GetAtt: [RoleLambda, Arn]
   Export:
-    Name: ExportedLambdaRoleArn
+    Name: ExportedRoleLambdaArn
 
 # SQS Queue
 ListingSQSQueueArn:

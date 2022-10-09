@@ -1,6 +1,6 @@
 Type: AWS::EC2::VPCGatewayAttachment
 Properties:
   VpcId:
-    Ref: ServerlessVPC
+    Ref: VPC
   InternetGatewayId:
-    Ref: ServerlessInternetGateway
+    Ref: InternetGateway

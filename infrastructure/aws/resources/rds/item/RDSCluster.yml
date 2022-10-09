@@ -3,12 +3,12 @@ Properties:
   MasterUsername: ${self:custom.ITEM_DB_USERNAME}
   MasterUserPassword: ${self:custom.ITEM_DB_PASSWORD}
   DBSubnetGroupName:
-    Ref: ServerlessSubnetGroup
+    Ref: DBSubnetGroupServerless
   Engine: aurora
   EngineVersion: "5.6"
   DatabaseName: ${self:custom.ITEM_DB_NAME}
   BackupRetentionPeriod: 3
   DBClusterParameterGroupName:
-    Ref: RDSClusterParameter
+    Ref: DBClusterParameterGroup
   VpcSecurityGroupIds:
-    - !Ref "ServerlessSecurityGroup"
+    - !Ref "SecurityGroupServerless"

@@ -6,4 +6,4 @@ Properties:
   InstanceTenancy: default
   Tags:
     - Key: "Name"
-      Value: "ServerlessVPC"
+      Value: "VPC"

@@ -1,4 +1,4 @@
-service: rental-storage-user
+service: rental-a-locker-user
 frameworkVersion: "3"
 
 plugins:
@@ -12,15 +12,15 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   iam:
-    role: !ImportValue ExportedLambdaRoleArn
+    role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
   deploymentBucket:
-    name: rental-storage-user-resources
+    name: rental-a-locker-user-resources
 
 custom:
-  namespace: rental-storage
+  namespace: rental-a-locker
   service: user
   # customDomain:
   #   domainName: "api.mycompany.com"

@@ -1,4 +1,4 @@
-service: rental-storage-image
+service: rental-a-locker-image
 frameworkVersion: "3"
 
 plugins:
@@ -11,10 +11,10 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: rental-storage-image-resources
+    name: rental-a-locker-image-resources
 
 custom:
-  namespace: rental-storage
+  namespace: rental-a-locker
   service: image
 
 functions:
