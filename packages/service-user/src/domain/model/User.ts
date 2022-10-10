@@ -1,4 +1,4 @@
-import { StorageItemInterface, UserConstructor } from "../../types";
+import { ItemInterface, UserConstructor } from "../../types";
 import { v4 as uuid } from "uuid";
 import { EmailAddress } from "./EmailAddress";
 import { Payment } from "./Payment";
@@ -10,7 +10,7 @@ export class User {
   public readonly lastName: string;
   public readonly emailAddress: EmailAddress;
   public readonly password: string;
-  public readonly items: StorageItemInterface[];
+  public readonly items: ItemInterface[];
   public payment?: Payment;
   public readonly createdAt: Date;
   public readonly updatedAt?: Date;

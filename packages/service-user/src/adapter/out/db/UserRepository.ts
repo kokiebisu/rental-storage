@@ -3,7 +3,7 @@ import Client from "serverless-mysql";
 import { LoggerUtil } from "../../../utils";
 import { UserRepository } from "../../../application/port";
 import { UserMapper } from "../../in/mapper";
-import { Payment, User } from "../../../domain/model";
+import { User } from "../../../domain/model";
 
 export class UserRepositoryImpl implements UserRepository {
   public readonly tableName: string;
@@ -44,21 +44,6 @@ export class UserRepositoryImpl implements UserRepository {
         )
       `
     );
-
-    await this._client.query(
-      `
-        CREATE TABLE IF NOT EXISTS payment (
-          id int AUTO_INCREMENT,
-          user_id VARCHAR(32),
-          provider_id VARCHAR(32),
-          provider_type VARCHAR(10),
-          created_at DATE NOT NULL, 
-          updated_at DATE, 
-          UNIQUE (provider_id),
-          PRIMARY KEY (id)
-        )
-      `
-    );
   }
 
   public async save(data: User): Promise<User> {
@@ -85,18 +70,6 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  public async savePayment(data: Payment) {
-    this._logger.info(data, "savePayment()");
-    try {
-      await this._client.query(
-        `INSERT INTO payment (provider_id, user_id, provider_type) VALUES(?,?,?)`,
-        [data.providerId, data.userId, data.providerType]
-      );
-    } catch (err) {
-      this._logger.error(err, "savePayment()");
-    }
-  }
-
   public async delete(id: number): Promise<void> {
     this._logger.info(id, "delete()");
     try {
@@ -116,9 +89,10 @@ export class UserRepositoryImpl implements UserRepository {
 
     const result = await this._client.query(
       `
-        SELECT user.*, payment.id as payment_id, payment.provider_id as payment_provider_id, payment.provider_type as payment_provider_type FROM user 
-        INNER JOIN payment_user on user.uid = payment_user.user_id 
-        where user.id = ?`,
+        SELECT user.*, payment.id AS payment_id, payment.provider_id AS payment_provider_id, payment.provider_type AS payment_provider_type FROM user 
+        INNER JOIN payment ON user.id = payment.user_id 
+        WHERE user.id = ?
+      `,
       [id]
     );
 
@@ -130,11 +104,13 @@ export class UserRepositoryImpl implements UserRepository {
     try {
       const result = await this._client.query(
         `
-          SELECT user.*, payment.id as payment_id, payment.provider_id as payment_provider_id, payment.provider_type as payment_provider_type FROM user 
-          INNER JOIN payment_user on user.uid = payment_user.user_id 
-          where user.email_address = ?`,
+          SELECT user.*, payment.id AS payment_id, payment.provider_id AS payment_provider_id, payment.provider_type AS payment_provider_type FROM user 
+          INNER JOIN payment ON user.id = payment.user_id 
+          WHERE user.email_address = ?`,
         [emailAddress]
       );
+
+      console.log("FindOneByEmail: ", result);
 
       return UserMapper.toEntityFromRaw(result[0]);
     } catch (err) {

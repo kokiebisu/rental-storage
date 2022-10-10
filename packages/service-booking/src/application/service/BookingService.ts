@@ -8,7 +8,7 @@ import { BookingMapper } from "../../adapter/in/mapper";
 import { BookingService } from "../port";
 import { AWSRegion } from "../../domain/enum";
 import { LoggerUtil } from "../../utils";
-import { StorageItemInterface } from "../../types";
+import { ItemInterface } from "../../types";
 
 export class BookingServiceImpl implements BookingService {
   private _bookingRepository: BookingRepository;
@@ -38,23 +38,23 @@ export class BookingServiceImpl implements BookingService {
   public async makeBooking(
     amount: number,
     currency: string,
-    borrowerId: number,
+    ownerId: number,
     listingId: number,
-    items: StorageItemInterface[]
+    items: ItemInterface[]
   ): Promise<boolean> {
     this._logger.info(
-      { amount, currency, borrowerId, listingId },
+      { amount, currency, ownerId, listingId },
       "makeBooking()"
     );
 
     // Check if userId and listId exist
     // code here...
     const { data: user } = await axios.get(
-      `${process.env.SERVICE_API_ENDPOINT}/users/${borrowerId}`
+      `${process.env.SERVICE_API_ENDPOINT}/users/${ownerId}`
     );
     console.log("USER: ", user);
     if (!user) {
-      throw new Error(`Provided userId ${borrowerId} doesn't exist`);
+      throw new Error(`Provided userId ${ownerId} doesn't exist`);
     }
 
     const { data: listing } = await axios.get(
@@ -68,7 +68,7 @@ export class BookingServiceImpl implements BookingService {
     try {
       const booking = new Booking({
         amount: new Amount({ value: amount, currency }),
-        borrowerId,
+        ownerId,
         listingId,
         items,
       });

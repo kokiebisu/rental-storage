@@ -22,11 +22,6 @@ services:
     dependsOn:
       - infrastructure
 
-  item:
-    path: packages/service-item
-    dependsOn:
-      - infrastructure
-
   authorizer:
     path: packages/service-authorizer
     dependsOn:
@@ -50,7 +45,6 @@ services:
       - image
       - listing
       - user
-      - item
       - authorizer
       - authentication
       - payment

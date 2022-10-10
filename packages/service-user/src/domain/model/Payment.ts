@@ -5,7 +5,7 @@ export enum ProviderType {
 }
 
 export class Payment {
-  public readonly id?: number;
+  private _id?: number;
   public readonly providerId: string;
   public readonly providerType: ProviderType;
   public readonly userId: number;
@@ -19,10 +19,21 @@ export class Payment {
     if (!this.isProviderType(providerType)) {
       throw new Error("Provided providerType is not valid");
     }
-    this.id = id;
+    this._id = id;
     this.providerId = providerId;
     this.providerType = providerType;
     this.userId = userId;
+  }
+
+  public get id(): number {
+    if (!this._id) {
+      throw new Error("id doesn't exist in payment");
+    }
+    return this._id;
+  }
+
+  public set id(value: number) {
+    this._id = value;
   }
 
   private isProviderType(value: string): value is ProviderType {

@@ -37,7 +37,7 @@ export class BookingRepositoryImpl implements BookingRepository {
       id,
       status,
       amount,
-      borrowerId,
+      ownerId,
       listingId,
       createdAt,
       updatedAt,
@@ -57,8 +57,8 @@ export class BookingRepositoryImpl implements BookingRepository {
         status: {
           S: status,
         },
-        borrower_id: {
-          N: borrowerId.toString(),
+        owner_id: {
+          N: ownerId.toString(),
         },
         listing_id: {
           N: listingId.toString(),
