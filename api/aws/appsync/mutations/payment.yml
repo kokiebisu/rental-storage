@@ -1,0 +1,6 @@
+## Mutation
+- type: Mutation
+  field: makePayment
+  dataSource: MakePaymentFunction
+  request: ./payment/mutation.makePayment.vtl
+  response: false

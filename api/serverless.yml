@@ -29,13 +29,16 @@ custom:
       - schema/image.graphql
       - schema/listing.graphql
       - schema/user.graphql
+      - schema/payment.graphql
     dataSources:
       - ${file(./aws/appsync/data-sources/booking.yml)}
       - ${file(./aws/appsync/data-sources/image.yml)}
       - ${file(./aws/appsync/data-sources/listing.yml)}
       - ${file(./aws/appsync/data-sources/user.yml)}
+      - ${file(./aws/appsync/data-source/payment.yml)}
     mappingTemplates:
       - ${file(./aws/appsync/mapping-templates/booking.yml)}
       - ${file(./aws/appsync/mapping-templates/image.yml)}
       - ${file(./aws/appsync/mapping-templates/listing.yml)}
       - ${file(./aws/appsync/mapping-templates/user.yml)}
+      - ${file(./aws/appsync/mapping-templates/payment.yml)}
