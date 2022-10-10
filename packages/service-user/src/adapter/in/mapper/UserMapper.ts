@@ -12,6 +12,10 @@ export class UserMapper {
       firstName: data.first_name,
       lastName: data.last_name,
       items: data.items,
+      payment: {
+        id: data.payment_id,
+        providerType: data.provider_type,
+      },
       createdAt: data.created_at,
       ...(data.updated_at && { updatedAt: data.updated_at }),
     };
@@ -26,6 +30,12 @@ export class UserMapper {
       firstName: data.firstName,
       lastName: data.lastName,
       items: data.items,
+      ...(data.payment && {
+        payment: {
+          ...(data.payment.customerId && { id: data.payment.customerId }),
+          providerType: data.payment?.providerType,
+        },
+      }),
       createdAt: TimeUtil.toDate(data.createdAt),
       ...(data.updatedAt && {
         updatedAt: TimeUtil.toDate(data.updatedAt),

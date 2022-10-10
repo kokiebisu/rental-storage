@@ -4,6 +4,7 @@ import { LoggerUtil } from "../../../utils";
 import { UserInterface } from "../../../types";
 import { UserRepository } from "../../../application/port";
 import { UserMapper } from "../../in/mapper";
+import { PaymentInterface } from "../../../types/Payment";
 
 export class UserRepositoryImpl implements UserRepository {
   public readonly tableName: string;
@@ -44,6 +45,22 @@ export class UserRepositoryImpl implements UserRepository {
         )
       `
     );
+
+    await this._client.query(
+      `
+        CREATE TABLE IF NOT EXISTS payment_user (
+          id int AUTO_INCREMENT,
+          uid VARCHAR(32),
+          user_id VARCHAR(32),
+          payment_id VARCHAR(32),
+          provider_type VARCHAR(10),
+          created_at DATE NOT NULL, 
+          updated_at DATE, 
+          UNIQUE (payment_id),
+          PRIMARY KEY (id)
+        )
+      `
+    );
   }
 
   public async save(
@@ -62,6 +79,7 @@ export class UserRepositoryImpl implements UserRepository {
           data.createdAt,
         ]
       );
+
       return {
         insertId: result.insertId,
         uid: data.uid,
@@ -70,6 +88,13 @@ export class UserRepositoryImpl implements UserRepository {
       this._logger.error(err, "save()");
       throw err;
     }
+  }
+
+  public async savePayment(data: PaymentInterface) {
+    await this._client.query(
+      `INSERT INTO payment_user (uid, payment_id, user_id, provider_type) VALUES(?,?,?,?)`,
+      [data.uid, data.customerId, data.userId, data.providerType]
+    );
   }
 
   public async delete(id: number): Promise<UserInterface> {

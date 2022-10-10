@@ -1,10 +1,20 @@
-import { EmailAddress, User } from "../../domain/model";
+import axios from "axios";
+import { v4 as uuid } from "uuid";
+
+import { EmailAddress, Payment, User } from "../../domain/model";
 import { CreateUserInput, UserRepository, UserService } from "../port";
 
 import { LoggerUtil } from "../../utils";
 import { UserInterface } from "../../types";
 import { UserRepositoryImpl } from "../../adapter/out/db";
-import { UserMapper } from "../../adapter/in/mapper";
+import { PaymentMapper, UserMapper } from "../../adapter/in/mapper";
+
+export interface AddPaymentInput {
+  userId: string;
+  emailAddress: string;
+  firstName: string;
+  lastName: string;
+}
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;
@@ -37,11 +47,39 @@ export class UserServiceImpl implements UserService {
       const res = await this._userRepository.save(
         UserMapper.toDTOFromEntity(user)
       );
+
+      const userDTO = UserMapper.toDTOFromEntity(user);
+
+      await this.addPayment({
+        userId: userDTO.uid,
+        emailAddress: userDTO.emailAddress,
+        firstName: userDTO.firstName,
+        lastName: userDTO.lastName,
+      });
       return { uid: res.uid };
     } catch (err) {
       this._logger.error(err, "createUser()");
       throw err;
     }
+  }
+
+  public async addPayment(data: AddPaymentInput) {
+    this._logger.info(data, "addPayment()");
+    // get stripe customer id for the user
+    const response: { data: { customerId: string; providerType: string } } =
+      await axios.get(
+        `${process.env.SERVICE_API_ENDPOINT}/payments/customerId?emailAddress=${data.emailAddress}&firstName=${data.firstName}&lastName=${data.lastName}`
+      );
+    console.log("RESPONSE: ", response);
+    const payment = new Payment({
+      uid: uuid(),
+      userId: data.userId,
+      providerType: response.data.providerType,
+      customerId: response.data.customerId,
+    });
+    this._userRepository.savePayment(PaymentMapper.toDTOFromEntity(payment));
+    try {
+    } catch (err) {}
   }
 
   public async removeUserById(id: number): Promise<boolean> {

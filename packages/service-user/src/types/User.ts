@@ -1,5 +1,6 @@
-import { EmailAddress } from "../domain/model";
+import { EmailAddress, Payment, ProviderType } from "../domain/model";
 import { StorageItemInterface } from "./Item";
+import { PaymentInterface } from "./Payment";
 
 export interface UserInterface {
   id?: number;
@@ -8,9 +9,13 @@ export interface UserInterface {
   lastName: string;
   emailAddress: string;
   password: string;
+  payment?: {
+    id?: string;
+    providerType: ProviderType;
+  };
+  items: StorageItemInterface[];
   createdAt?: string;
   updatedAt?: string;
-  items: StorageItemInterface[];
 }
 
 export interface UserRawInterface {
@@ -23,6 +28,8 @@ export interface UserRawInterface {
   created_at: string;
   updated_at?: string;
   items: StorageItemInterface[];
+  payment_id: string;
+  provider_type: ProviderType;
 }
 
 export interface UserConstructor {
@@ -31,6 +38,7 @@ export interface UserConstructor {
   firstName: string;
   lastName: string;
   emailAddress: EmailAddress;
+  payment?: Payment;
   password: string;
   createdAt?: Date;
   updatedAt?: Date;
