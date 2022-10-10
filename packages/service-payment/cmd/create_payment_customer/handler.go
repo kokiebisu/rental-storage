@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -9,11 +10,18 @@ import (
 	"github.com/stripe/stripe-go/customer"
 )
 
+type CreatePaymentCustomerBody struct {
+	EmailAddress string `json:"emailAddress"`
+	FirstName string `json:"firstName"`
+	LastName string `json:"lastName"`
+}
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	emailAddress := request.QueryStringParameters["emailAddress"]
-	firstName := request.QueryStringParameters["firstName"]
-	lastName := request.QueryStringParameters["lastName"]
+	// emailAddress := request.QueryStringParameters["emailAddress"]
+	// firstName := request.QueryStringParameters["firstName"]
+	// lastName := request.QueryStringParameters["lastName"]
+	body := CreatePaymentCustomerBody{}
+	json.Unmarshal([]byte(request.Body), &body)
 	
 	secretsManager := initialize()
 	param, err := secretsManager.getParam()
@@ -23,12 +31,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	stripe.Key = *param.Parameter.Value
 	params := &stripe.CustomerParams{
 		// Description: stripe.String("My First Test Customer (created for API docs at https://www.stripe.com/docs/api)"),
-		Name: stripe.String(fmt.Sprintf("%s %s", firstName, lastName)),
-		Email: stripe.String(emailAddress),
+		Name: stripe.String(fmt.Sprintf("%s %s", body.FirstName, body.LastName)),
+		Email: stripe.String(body.EmailAddress),
 	  }
 	c, _ := customer.New(params)
 	payload := &ResponsePayload {
-		CustomerId: c.ID,
+		ProviderId: c.ID,
 		ProviderType: "stripe",
 	}
 	return SendResponse(payload)

@@ -14,7 +14,7 @@ type ResolverContext struct {
 	UId string `json:"uid"`
 }
 type ResponsePayload struct {
-	CustomerId string `json:"customerId"`
+	ProviderId string `json:"providerId"`
 	ProviderType string `json:"providerType"`
 }
 
