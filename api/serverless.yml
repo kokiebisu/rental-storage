@@ -30,15 +30,16 @@ custom:
       - schema/listing.graphql
       - schema/user.graphql
       - schema/payment.graphql
+    mappingTemplatesLocation: ./aws/appsync/mapping-templates
     dataSources:
       - ${file(./aws/appsync/data-sources/booking.yml)}
       - ${file(./aws/appsync/data-sources/image.yml)}
       - ${file(./aws/appsync/data-sources/listing.yml)}
       - ${file(./aws/appsync/data-sources/user.yml)}
-      - ${file(./aws/appsync/data-source/payment.yml)}
+      - ${file(./aws/appsync/data-sources/payment.yml)}
     mappingTemplates:
-      - ${file(./aws/appsync/mapping-templates/booking.yml)}
-      - ${file(./aws/appsync/mapping-templates/image.yml)}
-      - ${file(./aws/appsync/mapping-templates/listing.yml)}
-      - ${file(./aws/appsync/mapping-templates/user.yml)}
-      - ${file(./aws/appsync/mapping-templates/payment.yml)}
+      - ${file(./aws/appsync/mapping-templates/booking/mapping-template.yml)}
+      - ${file(./aws/appsync/mapping-templates/listing/mapping-template.yml)}
+      - ${file(./aws/appsync/mapping-templates/image/mapping-template.yml)}
+      - ${file(./aws/appsync/mapping-templates/user/mapping-template.yml)}
+      - ${file(./aws/appsync/mapping-templates/payment/mapping-template.yml)}

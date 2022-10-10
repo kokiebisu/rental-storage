@@ -2,18 +2,18 @@
 - type: Query
   field: findUserById
   dataSource: FindUserByIdFunction
-  request: false
+  request: ./user/query.findUserById.vtl
   response: false
 
 - type: Query
   field: findUserByEmail
   dataSource: FindUserByEmailFunction
-  request: false
+  request: ./user/query.findUserByEmail.vtl
   response: false
 
 ## Mutation
 - type: Mutation
   field: removeUserById
   dataSource: RemoveUserByIdFunction
-  request: false
+  request: ./user/mutation.removeUserById.vtl
   response: false

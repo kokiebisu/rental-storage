@@ -2,24 +2,24 @@
 - type: Query
   field: findListingById
   dataSource: FindListingByIdFunction
-  request: false
+  request: ./listing/query.findListingById.vtl
   response: false
 
 - type: Query
   field: findListingsWithinLatLng
   dataSource: FindListingsWithinLatLngFunction
-  request: false
+  request: ./listing/query.findListingsWithinLatLng.vtl
   response: false
 
 ## Mutation
 - type: Mutation
   field: addListing
   dataSource: AddListingFunction
-  request: false
+  request: ./listing/mutation.addListing.vtl
   response: false
 
 - type: Mutation
   field: removeListingById
   dataSource: RemoveListingByIdFunction
-  request: false
+  request: ./listing/mutation.removeListingById.vtl
   response: false

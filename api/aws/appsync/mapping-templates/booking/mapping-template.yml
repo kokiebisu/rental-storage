@@ -2,5 +2,5 @@
 - type: Mutation
   field: makeBooking
   dataSource: MakeBookingFunction
-  request: false
+  request: ./booking/query.makeBooking.vtl
   response: false
