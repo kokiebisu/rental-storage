@@ -55,11 +55,11 @@ func generateUnauthorizedResponse() *events.AppSyncLambdaAuthorizerResponse {
 	}
 }
 
-func generateAuthorizedResponse(userId string) *events.AppSyncLambdaAuthorizerResponse {
+func generateAuthorizedResponse(uid string) *events.AppSyncLambdaAuthorizerResponse {
 	return &events.AppSyncLambdaAuthorizerResponse{
 		IsAuthorized: true,
 		ResolverContext: map[string]interface{}{
-			userId: userId,
+			"uid": uid,
 		},
 	}
 }
