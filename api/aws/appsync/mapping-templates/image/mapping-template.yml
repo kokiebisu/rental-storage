@@ -2,5 +2,5 @@
 - type: Query
   field: getPresignedURL
   dataSource: GetPresignedURLFunction
-  request: false
+  request: ./image/query.getPresignedURL.vtl
   response: false
