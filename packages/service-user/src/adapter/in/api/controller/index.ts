@@ -1,10 +1,10 @@
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import awsLambdaFastify from "@fastify/aws-lambda";
-import { UserServiceImpl } from "../../../../application/service/UserService";
+import { UserServiceImpl } from "../../../../application/service";
 
 exports.handler = async (event: any, context: any) => {
   const app = fastify();
-  const service = await UserServiceImpl.create();
+  const userService = await UserServiceImpl.create();
 
   const proxy = awsLambdaFastify(app);
 
@@ -15,7 +15,7 @@ exports.handler = async (event: any, context: any) => {
       reply: FastifyReply
     ) => {
       const { userId } = request.params;
-      const data = await service.findUserById(userId);
+      const data = await userService.findById(userId);
       reply.send(data);
     }
   );
@@ -27,7 +27,7 @@ exports.handler = async (event: any, context: any) => {
       reply: FastifyReply
     ) => {
       const { emailAddress } = request.query;
-      const data = await service.findUserByEmail(emailAddress);
+      const data = await userService.findByEmail(emailAddress);
       reply.send(data);
     }
   );
@@ -47,13 +47,12 @@ exports.handler = async (event: any, context: any) => {
     ) => {
       const { emailAddress, firstName, lastName, password } = request.body;
       try {
-        const data = await service.createUser({
+        const data = await userService.createUser({
           emailAddress,
           firstName,
           lastName,
           password,
         });
-        console.log("DATA: ", data?.uid);
         reply.send(data);
       } catch (err) {
         reply.statusCode = 500;

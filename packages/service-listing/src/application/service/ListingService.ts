@@ -101,15 +101,15 @@ export class ListingServiceImpl implements ListingService {
     }
   }
 
-  public async occupyStorageItem(booking: BookingInterface) {
-    this._logger.info({ booking }, "occupyStorageItem()");
+  public async occupyItem(booking: BookingInterface) {
+    this._logger.info({ booking }, "occupyItem()");
     try {
       await this._listingRepository.addItemToListing(
         booking.listingId,
         booking.id
       );
     } catch (err) {
-      this._logger.error(err, "occupyStorageItem()");
+      this._logger.error(err, "occupyItem()");
       throw err;
     }
   }

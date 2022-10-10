@@ -1,4 +1,4 @@
-import { StorageItemInterface } from "../../types";
+import { ItemInterface } from "../../types";
 
 export interface BookingService {
   makeBooking(
@@ -6,6 +6,6 @@ export interface BookingService {
     currency: string,
     userId: number,
     listingId: number,
-    items: StorageItemInterface[]
+    items: ItemInterface[]
   ): Promise<boolean>;
 }

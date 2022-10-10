@@ -1,90 +1,68 @@
-import axios from "axios";
-import { v4 as uuid } from "uuid";
-
-import { EmailAddress, Payment, User } from "../../domain/model";
-import { CreateUserInput, UserRepository, UserService } from "../port";
+import { EmailAddress, User } from "../../domain/model";
+import {
+  CreateUserInput,
+  PaymentService,
+  UserRepository,
+  UserService,
+} from "../port";
 
 import { LoggerUtil } from "../../utils";
 import { UserInterface } from "../../types";
 import { UserRepositoryImpl } from "../../adapter/out/db";
-import { PaymentMapper, UserMapper } from "../../adapter/in/mapper";
-
-export interface AddPaymentInput {
-  userId: string;
-  emailAddress: string;
-  firstName: string;
-  lastName: string;
-}
+import { UserMapper } from "../../adapter/in/mapper";
+import { PaymentServiceImpl } from "./PaymentService";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;
+  private _paymentService: PaymentService;
 
   private _logger: LoggerUtil;
 
-  private constructor(userRepository: UserRepository) {
+  private constructor(
+    userRepository: UserRepository,
+    paymentService: PaymentService
+  ) {
     this._userRepository = userRepository;
+    this._paymentService = paymentService;
     this._logger = new LoggerUtil("UserServiceImpl");
   }
 
   public static async create() {
     const userRepository = await UserRepositoryImpl.create();
+    const paymentService = await PaymentServiceImpl.create();
     await userRepository.setup();
-    return new UserServiceImpl(userRepository);
+    return new UserServiceImpl(userRepository, paymentService);
   }
 
-  public async createUser(
-    data: CreateUserInput
-  ): Promise<{ uid: string } | null> {
+  public async createUser(data: CreateUserInput): Promise<UserInterface> {
     this._logger.info(data, "createUser()");
     try {
-      const user = new User({
+      let user = new User({
         firstName: data.firstName,
         lastName: data.lastName,
         emailAddress: new EmailAddress(data?.emailAddress),
         password: data.password,
       });
 
-      const res = await this._userRepository.save(
-        UserMapper.toDTOFromEntity(user)
-      );
+      const savedUser = await this._userRepository.save(user);
 
-      const userDTO = UserMapper.toDTOFromEntity(user);
-
-      await this.addPayment({
-        userId: userDTO.uid,
-        emailAddress: userDTO.emailAddress,
-        firstName: userDTO.firstName,
-        lastName: userDTO.lastName,
+      await this._paymentService.addPayment({
+        userId: savedUser.id,
+        emailAddress: savedUser.emailAddress.value,
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
       });
-      return { uid: res.uid };
+
+      return UserMapper.toDTOFromEntity(savedUser);
     } catch (err) {
       this._logger.error(err, "createUser()");
       throw err;
     }
   }
 
-  public async addPayment(data: AddPaymentInput) {
-    this._logger.info(data, "addPayment()");
-    // get stripe customer id for the user
-    const response: { data: { customerId: string; providerType: string } } =
-      await axios.get(
-        `${process.env.SERVICE_API_ENDPOINT}/payments/customerId?emailAddress=${data.emailAddress}&firstName=${data.firstName}&lastName=${data.lastName}`
-      );
-    console.log("RESPONSE: ", response);
-    const payment = new Payment({
-      uid: uuid(),
-      userId: data.userId,
-      providerType: response.data.providerType,
-      customerId: response.data.customerId,
-    });
-    this._userRepository.savePayment(PaymentMapper.toDTOFromEntity(payment));
-    try {
-    } catch (err) {}
-  }
-
-  public async removeUserById(id: number): Promise<boolean> {
+  public async removeById(id: number): Promise<boolean> {
     this._logger.info({ id }, "removeUserById()");
-    const userExists = await this.findUserById(id);
+    const userExists = await this.findById(id);
     if (!userExists) {
       throw new Error(`User with email ${id} doesn't exist`);
     }
@@ -97,29 +75,63 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  public async findUserById(id: number): Promise<UserInterface | null> {
+  public async findById(id: number): Promise<UserInterface | null> {
     this._logger.info({ id }, "findUserById()");
     try {
       const user = await this._userRepository.findOneById(id);
-      return user;
+      if (!user) {
+        throw new Error(`User with id ${id} doesn't exist in db`);
+      }
+      return UserMapper.toDTOFromEntity(user);
     } catch (err) {
       this._logger.error(err, "findUserById()");
       return null;
     }
   }
 
-  public async findUserByEmail(
+  public async findByEmail(
     emailAddress: string
   ): Promise<UserInterface | null> {
     this._logger.info({ emailAddress }, "findUserByEmail()");
     try {
       const user = await this._userRepository.findOneByEmail(emailAddress);
-      return user;
+      if (!user) {
+        throw new Error(`User with email ${emailAddress} doesn't exist in db`);
+      }
+      return UserMapper.toDTOFromEntity(user);
     } catch (err) {
       this._logger.error(err, "findUserByEmail()");
       return null;
     }
   }
+
+  // public async addItem(data: ItemInterface): Promise<boolean> {
+  //   this._logger.info(data, "addItem()");
+  //   try {
+  //     const entity = new Item({
+  //       name: data.name,
+  //       imageUrls: data.imageUrls,
+  //       ownerId: data.ownerId,
+  //       listingId: data.listingId,
+  //       createdAt: new Date(data.createdAt),
+  //       ...(data.updatedAt && { updatedAt: new Date(data.updatedAt) }),
+  //     });
+  //     const dto = ItemMapper.toDTOFromEntity(entity);
+  //     const result = await this._ItemRepository.save(dto);
+  //     console.log("INSERTED RESULT: ", result);
+  //     if (result?.insertId) {
+  //       await this._broker.dispatchItemSaved({
+  //         ...dto,
+  //         id: result.insertId,
+  //       });
+  //     }
+
+  //     return true;
+  //   } catch (err) {
+  //     this._logger.error("Something went wrong", "addItem()");
+  //     return false;
+  //   }
+  // }
   // MOVE TO items-service
   // public async removeById(id: number): Promise<boolean> {
   //   this._logger.info({ id }, "removeById()");

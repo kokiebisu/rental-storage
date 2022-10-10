@@ -4,7 +4,7 @@ import {
   LenderInterface,
   ListingInterface,
   ListingRawInterface,
-  StorageItemInterface,
+  ItemInterface,
 } from "../../../types";
 
 export class ListingMapper {
@@ -17,7 +17,7 @@ export class ListingMapper {
       firstName: "mock lender firstName",
       lastName: "mock lender lastName",
     };
-    const items: StorageItemInterface[] = [
+    const items: ItemInterface[] = [
       {
         name: "random item name",
         imageUrls: ["random_imageUrls"],
@@ -58,7 +58,7 @@ export class ListingMapper {
       lastName: "mock lender lastName",
     };
 
-    const items: StorageItemInterface[] = [
+    const items: ItemInterface[] = [
       {
         name: "random item name",
         imageUrls: ["random_imageUrls"],

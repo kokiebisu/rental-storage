@@ -1,5 +1,5 @@
 GenerateCustomerIdApiGateway:
-  handler: bin/generate_customer_id
+  handler: bin/create_payment_customer
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-rest-generate-customer-id
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
@@ -8,9 +8,8 @@ GenerateCustomerIdApiGateway:
     exclude:
       - ./**
     include:
-      - ./bin/generate_customer_id
+      - ./bin/create_payment_customer
   events:
     - http:
-        path: /payments/customerId
-        method: get
-# /payment/customerId?emailAddress=..&firstName=..&lastName=..
+        path: /payments/customer
+        method: post

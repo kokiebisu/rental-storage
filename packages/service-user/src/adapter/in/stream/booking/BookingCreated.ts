@@ -1,20 +1,18 @@
 import { ItemServiceImpl } from "../../../../application/service";
 import { LoggerUtil } from "../../../../utils";
-import { StorageItemMapper } from "../../mapper";
+import { ItemMapper } from "../../mapper";
 
 export const handler = async (event: any) => {
   const logger = new LoggerUtil("handler");
-  const service = await ItemServiceImpl.create();
+  const itemService = await ItemServiceImpl.create();
   logger.info(event, "handler");
   try {
     for (const record of event.Records) {
-      const items = StorageItemMapper.toDTOFromBookingStream(
-        record.dynamodb.NewImage
-      );
+      const items = ItemMapper.toDTOFromBookingStream(record.dynamodb.NewImage);
 
       for (const item of items) {
         // add item row to table
-        await service.addItem(item);
+        await itemService.addItem(item);
       }
     }
   } catch (error) {

@@ -14,7 +14,15 @@ type Mutation {
 
 type User {
   id: ID
-  firstName: String
-  lastName: String
-  emailAddress: String
+  firstName: String!
+  lastName: String!
+  emailAddress: String!
+  payment: PaymentInfo
+  createdAt: String!
+  updatedAt: String
+}
+
+type PaymentInfo {
+  providerId: String!
+  providerType: String!
 }

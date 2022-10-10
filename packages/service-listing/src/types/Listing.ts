@@ -1,6 +1,6 @@
 import { StreetAddress } from "../domain/model";
 import { LenderInterface } from "./Lender";
-import { StorageItemInterface } from "./Item";
+import { ItemInterface } from "./Item";
 
 export interface ListingConstructor {
   id?: string;
@@ -30,7 +30,7 @@ export interface AggregatedListingInterface {
   latitude: number;
   longitude: number;
   imageUrls: string[];
-  items: StorageItemInterface[];
+  items: ItemInterface[];
 }
 
 export interface ListingInterface {

@@ -9,11 +9,11 @@ type Mutation {
     currency: String!
     userId: ID!
     listingId: ID!
-    items: [StorageItem]
+    items: [Item]
   ): Boolean
 }
 
-input StorageItem {
+input Item {
   name: String
   imageUrls: [String]
 }

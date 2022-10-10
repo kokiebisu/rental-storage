@@ -9,7 +9,7 @@ export const handler = async (event: any) => {
     for await (const record of event.Records) {
       const body = JSON.parse(record.body);
       const booking = JSON.parse(body.Message);
-      await service.occupyStorageItem(booking);
+      await service.occupyItem(booking);
     }
   } catch (error) {
     logger.error(error, "handler()");

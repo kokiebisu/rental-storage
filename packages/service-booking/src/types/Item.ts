@@ -1,4 +1,4 @@
-export interface StorageItemInterface {
+export interface ItemInterface {
   id?: number;
   name: string;
   imageUrls: string[];

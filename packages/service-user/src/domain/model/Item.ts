@@ -1,31 +1,30 @@
-import { v4 as uuid } from "uuid";
-import { StorageItemConstructor } from "../../types";
+import { ItemConstructor } from "../../types";
 
-export class StorageItem {
+export class Item {
   public readonly id?: number;
   public readonly uid?: string;
   public readonly name: string;
   public readonly imageUrls: string[];
   public readonly createdAt: Date;
   public readonly updatedAt?: Date | undefined;
-  public readonly borrowerId: string;
+  public readonly ownerId: string;
   public readonly listingId: string;
 
   public constructor({
     id,
-    name = uuid(),
+    name,
     imageUrls = [],
     createdAt = new Date(),
     updatedAt,
-    borrowerId,
+    ownerId,
     listingId,
-  }: StorageItemConstructor) {
+  }: ItemConstructor) {
     this.id = id;
     this.name = name;
     this.imageUrls = imageUrls;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.borrowerId = borrowerId;
+    this.ownerId = ownerId;
     this.listingId = listingId;
   }
 }

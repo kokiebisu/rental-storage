@@ -1,5 +1,5 @@
 import { AmountInterface } from "./Amount";
-import { StorageItemInterface } from "./Item";
+import { ItemInterface } from "./Item";
 
 export interface BookingInterface {
   id: number;
@@ -9,5 +9,5 @@ export interface BookingInterface {
   listingId: string;
   createdAt: string;
   updatedAt?: string;
-  items: StorageItemInterface[];
+  items: ItemInterface[];
 }

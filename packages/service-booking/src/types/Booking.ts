@@ -1,26 +1,26 @@
 import { BookingStatus } from "../domain/enum";
 import { Amount } from "../domain/model";
 import { AmountInterface } from "./Amount";
-import { StorageItemInterface } from "./Item";
+import { ItemInterface } from "./Item";
 
 export interface BookingConstructor {
   id?: string;
   status?: BookingStatus;
   amount: Amount;
-  borrowerId: number;
+  ownerId: number;
   listingId: number;
   createdAt?: Date;
   updatedAt?: Date;
-  items: StorageItemInterface[];
+  items: ItemInterface[];
 }
 
 export interface BookingInterface {
   id: string;
   status: string;
   amount: AmountInterface;
-  borrowerId: number;
+  ownerId: number;
   listingId: number;
   createdAt: string;
   updatedAt?: string;
-  items: StorageItemInterface[];
+  items: ItemInterface[];
 }
