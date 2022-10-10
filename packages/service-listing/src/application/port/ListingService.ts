@@ -1,12 +1,20 @@
-import { AggregatedListingInterface, ListingInterface } from "../../types";
+import { ListingInterface } from "../../types";
+
+export interface AddListing {
+  lenderId: string;
+  streetAddress: string;
+  latitude: number;
+  longitude: number;
+  imageUrls: string[];
+}
 
 export interface ListingService {
   findListingsWithinLatLng(
     latitude: number,
     longitude: number,
     range: number
-  ): Promise<AggregatedListingInterface[]>;
-  findListingById(id: number): Promise<AggregatedListingInterface | null>;
-  addListing(data: ListingInterface): Promise<boolean>;
-  removeListingById(id: number): Promise<boolean>;
+  ): Promise<ListingInterface[]>;
+  findListingById(uid: string): Promise<ListingInterface>;
+  addListing(data: AddListing): Promise<boolean>;
+  removeListingById(uid: string): Promise<boolean>;
 }

@@ -4,7 +4,7 @@ schema {
 }
 
 type Query {
-  findUserById(id: ID!): User
+  findUserById(id: ID!): User # admin priviledge
   findUserByEmail(email: String!): User
 }
 
@@ -13,7 +13,7 @@ type Mutation {
 }
 
 type User {
-  id: ID
+  uid: ID
   firstName: String!
   lastName: String!
   emailAddress: String!

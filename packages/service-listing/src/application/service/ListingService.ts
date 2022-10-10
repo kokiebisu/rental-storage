@@ -3,13 +3,9 @@ import axios from "axios";
 import { ListingMapper } from "../../adapter/in/mapper";
 import { ListingRepositoryImpl } from "../../adapter/out/db";
 import { Listing, StreetAddress } from "../../domain/model";
-import {
-  AggregatedListingInterface,
-  BookingInterface,
-  ListingInterface,
-} from "../../types";
+import { ListingInterface } from "../../types";
 import { LoggerUtil } from "../../utils";
-import { ListingRepository, ListingService } from "../port";
+import { AddListing, ListingRepository, ListingService } from "../port";
 
 export class ListingServiceImpl implements ListingService {
   private _listingRepository: ListingRepository;
@@ -31,58 +27,49 @@ export class ListingServiceImpl implements ListingService {
     latitude: number,
     longitude: number,
     range: number
-  ): Promise<any> {
+  ): Promise<ListingInterface[]> {
     try {
       const listings = await this._listingRepository.findManyByLatLng(
         latitude,
         longitude,
         range
       );
-      return listings.map((item) => ListingMapper.toAggregated(item));
+      return listings.map((item) => ListingMapper.toDTOFromEntity(item));
     } catch (err) {
       this._logger.error(err, "findListingsWithinLatLng()");
-      return null;
+      throw err;
     }
   }
 
-  public async findListingById(
-    id: number
-  ): Promise<AggregatedListingInterface | null> {
+  public async findListingById(uid: string): Promise<ListingInterface> {
     try {
-      const listing = await this._listingRepository.findOneById(id);
-      return ListingMapper.toAggregated(listing);
+      const listing = await this._listingRepository.findOneById(uid);
+
+      // return ListingMapper.toAggregated(listing);
+      return ListingMapper.toDTOFromEntity(listing);
     } catch (err) {
       this._logger.error(err, "findListingById()");
-      return null;
+      throw err;
     }
   }
 
-  public async addListing(
-    args: Omit<ListingInterface, "id">
-  ): Promise<boolean> {
+  public async addListing(args: AddListing): Promise<boolean> {
     this._logger.info(args, "addListing()");
-    const { lenderId, streetAddress, latitude, longitude, items, imageUrls } =
-      args;
-
-    const listing = new Listing({
-      lenderId,
-      streetAddress: new StreetAddress(streetAddress),
-      latitude,
-      longitude,
-      imageUrls,
-      items,
-    });
-
-    const { data: lender } = await axios.get(
-      `${process.env.SERVICE_API_ENDPOINT}/users/${lenderId}`
-    );
-    if (!lender) {
-      throw new Error(`Provided lenderId ${lenderId} doesn't exist`);
-    }
-
+    const { lenderId, streetAddress, latitude, longitude, imageUrls } = args;
     try {
-      const listingDTO = ListingMapper.toDTOFromEntity(listing);
-      await this._listingRepository.save(listingDTO);
+      const listing = new Listing({
+        lenderId,
+        streetAddress: new StreetAddress(streetAddress),
+        latitude,
+        longitude,
+        imageUrls,
+      });
+
+      if (!this.checkListingExists(lenderId)) {
+        throw new Error(`Provided lenderId ${lenderId} doesn't exist`);
+      }
+
+      await this._listingRepository.save(listing);
       return true;
     } catch (err) {
       this._logger.error(err, "addListing()");
@@ -90,10 +77,10 @@ export class ListingServiceImpl implements ListingService {
     }
   }
 
-  public async removeListingById(id: number): Promise<boolean> {
-    this._logger.info({ id }, "removeListingById()");
+  public async removeListingById(uid: string): Promise<boolean> {
+    this._logger.info({ uid }, "removeListingById()");
     try {
-      await this._listingRepository.delete(id);
+      await this._listingRepository.delete(uid);
       return true;
     } catch (err) {
       this._logger.error(err, "removeListingById()");
@@ -101,16 +88,24 @@ export class ListingServiceImpl implements ListingService {
     }
   }
 
-  public async occupyItem(booking: BookingInterface) {
-    this._logger.info({ booking }, "occupyItem()");
-    try {
-      await this._listingRepository.addItemToListing(
-        booking.listingId,
-        booking.id
-      );
-    } catch (err) {
-      this._logger.error(err, "occupyItem()");
-      throw err;
-    }
+  // public async occupyStorageItem(booking: BookingInterface) {
+  //   this._logger.info({ booking }, "occupyStorageItem()");
+  //   try {
+  //     await this._listingRepository.addItemToListing(
+  //       booking.listingId,
+  //       booking.id
+  //     );
+  //   } catch (err) {
+  //     this._logger.error(err, "occupyStorageItem()");
+  //     throw err;
+  //   }
+  // }
+
+  private async checkListingExists(lenderId: string) {
+    // check if len
+    const { data: lender } = await axios.get(
+      `${process.env.SERVICE_API_ENDPOINT}/users/${lenderId}`
+    );
+    return lender;
   }
 }

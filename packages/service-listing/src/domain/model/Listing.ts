@@ -1,38 +1,51 @@
+import { v4 as uuid } from "uuid";
+
 import { ListingConstructor } from "../../types";
 import { StreetAddress } from "./StreetAddress";
 
 export class Listing {
-  public readonly id?: string;
-  public readonly lenderId: number;
+  private _id?: number;
+  public readonly uid: string;
+  public readonly lenderId: string;
   public readonly streetAddress: StreetAddress;
   public readonly latitude: number;
   public readonly longitude: number;
   public readonly imageUrls: string[];
-  public readonly items: string[];
 
   public constructor({
     id,
+    uid = uuid(),
     lenderId,
     streetAddress,
     latitude,
     longitude,
     imageUrls,
-    items = [],
   }: ListingConstructor) {
     this.validateLenderId(lenderId);
     this.validateLatitude(latitude);
     this.validateLongitude(longitude);
 
-    this.id = id;
+    this._id = id;
+    this.uid = uid;
     this.lenderId = lenderId;
     this.streetAddress = streetAddress;
     this.latitude = latitude;
     this.longitude = longitude;
     this.imageUrls = imageUrls;
-    this.items = items;
   }
 
-  private validateLenderId(lenderId: number) {
+  public get id(): number {
+    if (!this._id) {
+      throw new Error("id cannot be retrieved since it doesn't exist");
+    }
+    return this._id;
+  }
+
+  public set id(value: number) {
+    this._id = value;
+  }
+
+  private validateLenderId(lenderId: string) {
     if (!lenderId) {
       throw new Error("lenderId was not provided");
     }

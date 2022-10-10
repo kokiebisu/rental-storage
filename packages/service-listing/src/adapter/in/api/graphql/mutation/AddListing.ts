@@ -10,6 +10,5 @@ export const handler = async (event: any) => {
     latitude,
     longitude,
     imageUrls,
-    items,
   });
 };

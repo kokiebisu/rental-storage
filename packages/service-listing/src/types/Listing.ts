@@ -1,44 +1,42 @@
 import { StreetAddress } from "../domain/model";
-import { LenderInterface } from "./Lender";
-import { ItemInterface } from "./Item";
 
 export interface ListingConstructor {
-  id?: string;
-  lenderId: number;
+  id?: number;
+  uid?: string;
+  lenderId: string;
   streetAddress: StreetAddress;
   latitude: number;
   longitude: number;
   imageUrls: string[];
-  items: string[];
 }
 
 export interface ListingRawInterface {
-  id: string;
-  lender_id: number;
+  id: number;
+  uid: string;
+  lender_id: string;
   email_address: string;
   street_address: string;
   latitude: number;
   longitude: number;
   image_urls: string[];
-  items: string[];
 }
 
-export interface AggregatedListingInterface {
-  id?: string;
-  lender: LenderInterface;
-  streetAddress: string;
-  latitude: number;
-  longitude: number;
-  imageUrls: string[];
-  items: ItemInterface[];
-}
+// export interface AggregatedListingInterface {
+//   id?: number;
+//   uid: string;
+//   lender: LenderInterface;
+//   streetAddress: string;
+//   latitude: number;
+//   longitude: number;
+//   imageUrls: string[];
+// }
 
 export interface ListingInterface {
-  id?: string;
-  lenderId: number;
+  id?: number;
+  uid: string;
+  lenderId: string;
   streetAddress: string;
   latitude: number;
   longitude: number;
   imageUrls: string[];
-  items: string[];
 }

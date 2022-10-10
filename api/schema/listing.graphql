@@ -4,7 +4,7 @@ schema {
 }
 
 type Query {
-  findListingById(id: ID!): Listing
+  findListingById(uid: ID!): Listing
   findListingsWithinLatLng(
     latitude: Float!
     longitude: Float!
@@ -24,7 +24,7 @@ type Mutation {
 }
 
 type Listing {
-  id: ID
+  uid: ID
   lender: Lender
   streetAddress: String
   latitude: Float
@@ -32,7 +32,7 @@ type Listing {
 }
 
 type Lender {
-  id: Int
+  uid: Int
   firstName: String
   lastName: String
 }

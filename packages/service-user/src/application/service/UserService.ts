@@ -60,38 +60,35 @@ export class UserServiceImpl implements UserService {
     }
   }
 
-  public async removeById(id: number): Promise<boolean> {
-    this._logger.info({ id }, "removeUserById()");
-    const userExists = await this.findById(id);
+  public async removeById(uid: string): Promise<void> {
+    this._logger.info({ uid }, "removeUserById()");
+    const userExists = await this.findById(uid);
     if (!userExists) {
-      throw new Error(`User with email ${id} doesn't exist`);
+      throw new Error(`User with email ${uid} doesn't exist`);
     }
     try {
-      await this._userRepository.delete(id);
-      return true;
+      await this._userRepository.delete(uid);
     } catch (err) {
       this._logger.error(err, "removeUserById");
-      return false;
+      throw err;
     }
   }
 
-  public async findById(id: number): Promise<UserInterface | null> {
-    this._logger.info({ id }, "findUserById()");
+  public async findById(uid: string): Promise<UserInterface> {
+    this._logger.info({ uid }, "findUserById()");
     try {
-      const user = await this._userRepository.findOneById(id);
+      const user = await this._userRepository.findOneById(uid);
       if (!user) {
-        throw new Error(`User with id ${id} doesn't exist in db`);
+        throw new Error(`User with id ${uid} doesn't exist in db`);
       }
       return UserMapper.toDTOFromEntity(user);
     } catch (err) {
       this._logger.error(err, "findUserById()");
-      return null;
+      throw err;
     }
   }
 
-  public async findByEmail(
-    emailAddress: string
-  ): Promise<UserInterface | null> {
+  public async findByEmail(emailAddress: string): Promise<UserInterface> {
     this._logger.info({ emailAddress }, "findUserByEmail()");
     try {
       const user = await this._userRepository.findOneByEmail(emailAddress);
@@ -101,65 +98,7 @@ export class UserServiceImpl implements UserService {
       return UserMapper.toDTOFromEntity(user);
     } catch (err) {
       this._logger.error(err, "findUserByEmail()");
-      return null;
+      throw err;
     }
   }
-
-  // public async addItem(data: ItemInterface): Promise<boolean> {
-  //   this._logger.info(data, "addItem()");
-  //   try {
-  //     const entity = new Item({
-  //       name: data.name,
-  //       imageUrls: data.imageUrls,
-  //       ownerId: data.ownerId,
-  //       listingId: data.listingId,
-  //       createdAt: new Date(data.createdAt),
-  //       ...(data.updatedAt && { updatedAt: new Date(data.updatedAt) }),
-  //     });
-  //     const dto = ItemMapper.toDTOFromEntity(entity);
-  //     const result = await this._ItemRepository.save(dto);
-  //     console.log("INSERTED RESULT: ", result);
-  //     if (result?.insertId) {
-  //       await this._broker.dispatchItemSaved({
-  //         ...dto,
-  //         id: result.insertId,
-  //       });
-  //     }
-
-  //     return true;
-  //   } catch (err) {
-  //     this._logger.error("Something went wrong", "addItem()");
-  //     return false;
-  //   }
-  // }
-  // MOVE TO items-service
-  // public async removeById(id: number): Promise<boolean> {
-  //   this._logger.info({ id }, "removeById()");
-  //   const userExists = await this.findById(id);
-  //   if (!userExists) {
-  //     throw new Error(`User with id ${id} doesn't exist`);
-  //   }
-  //   try {
-  //     await this._userRepository.delete(id);
-  //     return true;
-  //   } catch (err) {
-  //     this._logger.error(err, "removeById()");
-  //     return false;
-  //   }
-  // }
-
-  // MOVE TO items-service
-  // public async updateStoredItems(booking: BookingInterface): Promise<boolean> {
-  //   this._logger.info({ booking }, "updatedStoredItems()");
-  //   try {
-  //     await this._userRepository.updateStoringItem(
-  //       booking.userId,
-  //       booking.items
-  //     );
-  //     return true;
-  //   } catch (err) {
-  //     this._logger.error(err, "updateStoringItem");
-  //     return false;
-  //   }
-  // }
 }

@@ -1,6 +1,6 @@
 UserServiceController:
   handler: dist/adapter/in/api/controller/index.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Controller
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-controller
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}

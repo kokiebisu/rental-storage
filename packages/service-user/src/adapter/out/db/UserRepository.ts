@@ -70,13 +70,14 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  public async delete(id: number): Promise<void> {
-    this._logger.info(id, "delete()");
+  public async delete(uid: string): Promise<void> {
+    this._logger.info(uid, "delete()");
     try {
       // set up commit/transaction
-      const result = await this._client.query(`DELETE FROM user WHERE id = ?`, [
-        id,
-      ]);
+      const result = await this._client.query(
+        `DELETE FROM user WHERE uid = ?`,
+        [uid]
+      );
       console.log("DELETE RESULT: ", result);
       // return result
     } catch (err) {
@@ -84,16 +85,16 @@ export class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  public async findOneById(id: number): Promise<User> {
-    this._logger.info({ id }, "findOneById()");
+  public async findOneById(uid: string): Promise<User> {
+    this._logger.info({ uid }, "findOneById()");
 
     const result = await this._client.query(
       `
         SELECT user.*, payment.id AS payment_id, payment.provider_id AS payment_provider_id, payment.provider_type AS payment_provider_type FROM user 
         INNER JOIN payment ON user.id = payment.user_id 
-        WHERE user.id = ?
+        WHERE user.uid = ?
       `,
-      [id]
+      [uid]
     );
 
     return UserMapper.toEntityFromRaw(result[0]);

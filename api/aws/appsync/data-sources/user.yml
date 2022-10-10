@@ -2,15 +2,15 @@
 - type: AWS_LAMBDA
   name: FindUserByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindUserById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-find-user-by-id
 
 - type: AWS_LAMBDA
   name: FindUserByEmailFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-FindUserByEmail
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-find-user-by-email
 
 ## Mutation
 - type: AWS_LAMBDA
   name: RemoveUserByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-RemoveUserById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-user-${self:provider.stage}-appsync-remove-user-by-id

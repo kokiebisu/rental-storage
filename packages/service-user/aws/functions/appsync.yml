@@ -1,7 +1,7 @@
 ## Query
 FindUserByIdQuery:
   handler: dist/adapter/in/api/graphql/query/FindUserById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindUserById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-find-user-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -12,7 +12,7 @@ FindUserByIdQuery:
 
 FindUserByEmailQuery:
   handler: dist/adapter/in/api/graphql/query/FindUserByEmail.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindUserByEmail
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-find-user-by-email
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -24,7 +24,7 @@ FindUserByEmailQuery:
 ## Mutation
 RemoveUserByIdMutation:
   handler: dist/adapter/in/api/graphql/mutation/RemoveUserById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveUserById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-remove-user-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
