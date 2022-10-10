@@ -2,6 +2,8 @@ echo "Removing service-authentication bin folder..."
 (cd packages/service-authentication && make clean);
 echo "Removing service-authorizer bin folder..."
 (cd packages/service-authorizer && make clean);
+echo "Removing service-payment bin folder..."
+(cd packages/service-payment && make clean);
 echo "Removing service-booking dep/dist/turbo folders..."
 (cd packages/service-booking && rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo); 
 echo "Removing service-image dep/dist/turbo folders..."

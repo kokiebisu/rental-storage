@@ -1,9 +1,9 @@
 .PHONY: prepare build clean deploy
 
 build:
-	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/sign_in sign_in.go generate_jwt_token.go &&
-	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/sign_up sign_up.go generate_jwt_token.go &&
-	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/verify verify.go verify_token.go generate_jwt_token.go
+	cd cmd/signin && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/signin *.go && cd ../.. &&
+	cd cmd/signup && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/signup *.go && cd ../.. &&
+	cd cmd/verify && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/verify *.go && cd ../..
 
 clean:
 	rm -rf ./bin Gopkg.lock
