@@ -15,6 +15,7 @@ type ResolverContext struct {
 }
 type ResponsePayload struct {
 	CustomerId string `json:"customerId"`
+	ProviderType string `json:"providerType"`
 }
 
 type Error struct {

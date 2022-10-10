@@ -11,6 +11,6 @@ GenerateCustomerIdApiGateway:
       - ./bin/generate_customer_id
   events:
     - http:
-        path: /payment/customerId
+        path: /payments/customerId
         method: get
 # /payment/customerId?emailAddress=..&firstName=..&lastName=..

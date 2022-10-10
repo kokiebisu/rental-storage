@@ -29,6 +29,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	c, _ := customer.New(params)
 	payload := &ResponsePayload {
 		CustomerId: c.ID,
+		ProviderType: "stripe",
 	}
 	return SendResponse(payload)
 }

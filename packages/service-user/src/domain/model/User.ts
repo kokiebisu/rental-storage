@@ -1,6 +1,7 @@
 import { StorageItemInterface, UserConstructor } from "../../types";
 import { v4 as uuid } from "uuid";
 import { EmailAddress } from "./EmailAddress";
+import { Payment } from "./Payment";
 
 export class User {
   public readonly id?: number;
@@ -9,9 +10,10 @@ export class User {
   public readonly lastName: string;
   public readonly emailAddress: EmailAddress;
   public readonly password: string;
+  public readonly items: StorageItemInterface[];
+  public payment?: Payment;
   public readonly createdAt: Date;
   public readonly updatedAt?: Date;
-  public readonly items: StorageItemInterface[];
 
   public constructor({
     id,
@@ -20,9 +22,10 @@ export class User {
     lastName,
     emailAddress,
     password,
+    items = [],
+    payment,
     createdAt = new Date(),
     updatedAt,
-    items = [],
   }: UserConstructor) {
     this.validateFirstName(firstName);
     this.validateLastName(lastName);
@@ -33,6 +36,7 @@ export class User {
     this.emailAddress = emailAddress;
     this.password = password;
     this.items = items;
+    this.payment = payment;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -59,5 +63,9 @@ export class User {
     // if (new RegExp(/^[a-z ,.'-]+$/i).test(value)) {
     //   throw new Error("Provided last name is invalid");
     // }
+  }
+
+  public setPayment(payment: Payment) {
+    this.payment = payment;
   }
 }
