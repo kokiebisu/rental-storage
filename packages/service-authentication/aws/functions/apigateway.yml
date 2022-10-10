@@ -1,5 +1,5 @@
 SignInApiGateway:
-  handler: bin/sign_in
+  handler: bin/signin
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-signin
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
@@ -8,14 +8,14 @@ SignInApiGateway:
     exclude:
       - ./**
     include:
-      - ./bin/sign_in
+      - ./bin/signin
   events:
     - http:
         path: /auth/signin
         method: post
 
 SignUpApiGateway:
-  handler: bin/sign_up
+  handler: bin/signup
   name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-signup
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
@@ -24,7 +24,7 @@ SignUpApiGateway:
     exclude:
       - ./**
     include:
-      - ./bin/sign_up
+      - ./bin/signup
   events:
     - http:
         path: /auth/signup

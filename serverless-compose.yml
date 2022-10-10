@@ -37,6 +37,11 @@ services:
     dependsOn:
       - infrastructure
 
+  payment:
+    path: packages/service-payment
+    dependsOn:
+      - infrastructure
+
   api:
     path: api
     dependsOn:
@@ -48,3 +53,4 @@ services:
       - item
       - authorizer
       - authentication
+      - payment
