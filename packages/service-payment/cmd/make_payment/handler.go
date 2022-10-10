@@ -7,18 +7,6 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-type Event struct {
-	Identity Identity
-}
-
-type Identity struct {
-	ResolverContext ResolverContext
-}
-
-type ResolverContext struct {
-	UId string `json:"uid"`
-}
-
 func handler(event Event) (string, error) {
 	fmt.Println("EVENT: ", event)
 	fmt.Println("EVENT Identity: ", event.Identity)

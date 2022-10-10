@@ -33,3 +33,4 @@ custom:
 
 functions:
   - ${file(./aws/functions/appsync.yml)}
+  - ${file(./aws/functions/apigateway.yml)}
