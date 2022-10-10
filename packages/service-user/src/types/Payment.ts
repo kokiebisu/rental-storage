@@ -2,16 +2,21 @@ import { ProviderType } from "../domain/model";
 
 export interface PaymentConstructor {
   id?: number;
-  uid: string;
-  userId: string;
+  userId: number;
   providerType: string;
-  customerId: string;
+  providerId: string;
+}
+
+export interface PaymentRawInterface {
+  id: number;
+  customer_id: string;
+  user_id: string;
+  provider_type: string;
 }
 
 export interface PaymentInterface {
   id?: number;
-  uid: string;
-  customerId: string;
-  userId: string;
+  providerId: string;
+  userId: number;
   providerType: ProviderType;
 }

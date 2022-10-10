@@ -1,5 +1,4 @@
 import axios from "axios";
-import { v4 as uuid } from "uuid";
 
 import { EmailAddress, Payment, User } from "../../domain/model";
 import { CreateUserInput, UserRepository, UserService } from "../port";
@@ -7,10 +6,10 @@ import { CreateUserInput, UserRepository, UserService } from "../port";
 import { LoggerUtil } from "../../utils";
 import { UserInterface } from "../../types";
 import { UserRepositoryImpl } from "../../adapter/out/db";
-import { PaymentMapper, UserMapper } from "../../adapter/in/mapper";
+import { UserMapper } from "../../adapter/in/mapper";
 
 export interface AddPaymentInput {
-  userId: string;
+  userId: number;
   emailAddress: string;
   firstName: string;
   lastName: string;
@@ -32,31 +31,29 @@ export class UserServiceImpl implements UserService {
     return new UserServiceImpl(userRepository);
   }
 
-  public async createUser(
-    data: CreateUserInput
-  ): Promise<{ uid: string } | null> {
+  public async createUser(data: CreateUserInput): Promise<UserInterface> {
     this._logger.info(data, "createUser()");
     try {
-      const user = new User({
+      let user = new User({
         firstName: data.firstName,
         lastName: data.lastName,
         emailAddress: new EmailAddress(data?.emailAddress),
         password: data.password,
       });
 
-      const res = await this._userRepository.save(
-        UserMapper.toDTOFromEntity(user)
-      );
+      const savedUser = await this._userRepository.save(user);
 
-      const userDTO = UserMapper.toDTOFromEntity(user);
-
+      const userDTO = UserMapper.toDTOFromEntity(savedUser);
+      if (!userDTO.id) {
+        throw new Error(`id property missing from userDTO`);
+      }
       await this.addPayment({
-        userId: userDTO.uid,
+        userId: userDTO.id,
         emailAddress: userDTO.emailAddress,
         firstName: userDTO.firstName,
         lastName: userDTO.lastName,
       });
-      return { uid: res.uid };
+      return userDTO;
     } catch (err) {
       this._logger.error(err, "createUser()");
       throw err;
@@ -66,20 +63,26 @@ export class UserServiceImpl implements UserService {
   public async addPayment(data: AddPaymentInput) {
     this._logger.info(data, "addPayment()");
     // get stripe customer id for the user
-    const response: { data: { customerId: string; providerType: string } } =
-      await axios.get(
-        `${process.env.SERVICE_API_ENDPOINT}/payments/customerId?emailAddress=${data.emailAddress}&firstName=${data.firstName}&lastName=${data.lastName}`
-      );
-    console.log("RESPONSE: ", response);
-    const payment = new Payment({
-      uid: uuid(),
-      userId: data.userId,
-      providerType: response.data.providerType,
-      customerId: response.data.customerId,
-    });
-    this._userRepository.savePayment(PaymentMapper.toDTOFromEntity(payment));
     try {
-    } catch (err) {}
+      const response: { data: { providerId: string; providerType: string } } =
+        await axios.post(
+          `${process.env.SERVICE_API_ENDPOINT}/payments/customer`,
+          {
+            emailAddress: data.emailAddress,
+            firstName: data.firstName,
+            lastName: data.lastName,
+          }
+        );
+      console.log("RESPONSE: ", response);
+      const payment = new Payment({
+        userId: data.userId,
+        providerType: response.data.providerType,
+        providerId: response.data.providerId,
+      });
+      this._userRepository.savePayment(payment);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async removeUserById(id: number): Promise<boolean> {
@@ -101,7 +104,10 @@ export class UserServiceImpl implements UserService {
     this._logger.info({ id }, "findUserById()");
     try {
       const user = await this._userRepository.findOneById(id);
-      return user;
+      if (!user) {
+        throw new Error(`User with id ${id} doesn't exist in db`);
+      }
+      return UserMapper.toDTOFromEntity(user);
     } catch (err) {
       this._logger.error(err, "findUserById()");
       return null;
@@ -114,7 +120,10 @@ export class UserServiceImpl implements UserService {
     this._logger.info({ emailAddress }, "findUserByEmail()");
     try {
       const user = await this._userRepository.findOneByEmail(emailAddress);
-      return user;
+      if (!user) {
+        throw new Error(`User with email ${emailAddress} doesn't exist in db`);
+      }
+      return UserMapper.toDTOFromEntity(user);
     } catch (err) {
       this._logger.error(err, "findUserByEmail()");
       return null;

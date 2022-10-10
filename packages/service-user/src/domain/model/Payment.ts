@@ -6,15 +6,13 @@ export enum ProviderType {
 
 export class Payment {
   public readonly id?: number;
-  public readonly customerId: string;
-  public readonly uid: string;
+  public readonly providerId: string;
   public readonly providerType: ProviderType;
-  public readonly userId: string;
+  public readonly userId: number;
 
   public constructor({
     id,
-    uid,
-    customerId,
+    providerId,
     providerType,
     userId,
   }: PaymentConstructor) {
@@ -22,8 +20,7 @@ export class Payment {
       throw new Error("Provided providerType is not valid");
     }
     this.id = id;
-    this.uid = uid;
-    this.customerId = customerId;
+    this.providerId = providerId;
     this.providerType = providerType;
     this.userId = userId;
   }

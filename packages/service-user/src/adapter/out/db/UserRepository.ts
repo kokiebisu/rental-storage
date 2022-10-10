@@ -1,10 +1,9 @@
 import Client from "serverless-mysql";
 
 import { LoggerUtil } from "../../../utils";
-import { UserInterface } from "../../../types";
 import { UserRepository } from "../../../application/port";
 import { UserMapper } from "../../in/mapper";
-import { PaymentInterface } from "../../../types/Payment";
+import { Payment, User } from "../../../domain/model";
 
 export class UserRepositoryImpl implements UserRepository {
   public readonly tableName: string;
@@ -48,31 +47,28 @@ export class UserRepositoryImpl implements UserRepository {
 
     await this._client.query(
       `
-        CREATE TABLE IF NOT EXISTS payment_user (
+        CREATE TABLE IF NOT EXISTS payment (
           id int AUTO_INCREMENT,
-          uid VARCHAR(32),
           user_id VARCHAR(32),
-          payment_id VARCHAR(32),
+          provider_id VARCHAR(32),
           provider_type VARCHAR(10),
           created_at DATE NOT NULL, 
           updated_at DATE, 
-          UNIQUE (payment_id),
+          UNIQUE (provider_id),
           PRIMARY KEY (id)
         )
       `
     );
   }
 
-  public async save(
-    data: UserInterface
-  ): Promise<{ insertId: number; uid: string }> {
+  public async save(data: User): Promise<User> {
     this._logger.info(data, "save()");
     try {
       const result = await this._client.query(
         `INSERT INTO user (uid, email_address, password, first_name, last_name, created_at) VALUES(?,?,?,?,?,?)`,
         [
           data.uid,
-          data.emailAddress,
+          data.emailAddress.value,
           data.password,
           data.firstName,
           data.lastName,
@@ -80,51 +76,67 @@ export class UserRepositoryImpl implements UserRepository {
         ]
       );
 
-      return {
-        insertId: result.insertId,
-        uid: data.uid,
-      };
+      data.id = result.insertId;
+
+      return data;
     } catch (err) {
       this._logger.error(err, "save()");
       throw err;
     }
   }
 
-  public async savePayment(data: PaymentInterface) {
-    await this._client.query(
-      `INSERT INTO payment_user (uid, payment_id, user_id, provider_type) VALUES(?,?,?,?)`,
-      [data.uid, data.customerId, data.userId, data.providerType]
-    );
+  public async savePayment(data: Payment) {
+    this._logger.info(data, "savePayment()");
+    try {
+      await this._client.query(
+        `INSERT INTO payment (provider_id, user_id, provider_type) VALUES(?,?,?)`,
+        [data.providerId, data.userId, data.providerType]
+      );
+    } catch (err) {
+      this._logger.error(err, "savePayment()");
+    }
   }
 
-  public async delete(id: number): Promise<UserInterface> {
+  public async delete(id: number): Promise<void> {
     this._logger.info(id, "delete()");
-    const result = await this._client.query(`DELETE FROM user WHERE id = ?`, [
-      id,
-    ]);
-    return result;
+    try {
+      // set up commit/transaction
+      const result = await this._client.query(`DELETE FROM user WHERE id = ?`, [
+        id,
+      ]);
+      console.log("DELETE RESULT: ", result);
+      // return result
+    } catch (err) {
+      this._logger.error(err, "delete()");
+    }
   }
 
-  public async findOneById(id: number): Promise<UserInterface> {
+  public async findOneById(id: number): Promise<User> {
     this._logger.info({ id }, "findOneById()");
-    const result = await this._client.query(`SELECT * FROM user WHERE id = ?`, [
-      id,
-    ]);
 
-    return UserMapper.toDTOFromRaw(result[0]);
+    const result = await this._client.query(
+      `
+        SELECT user.*, payment.id as payment_id, payment.provider_id as payment_provider_id, payment.provider_type as payment_provider_type FROM user 
+        INNER JOIN payment_user on user.uid = payment_user.user_id 
+        where user.id = ?`,
+      [id]
+    );
+
+    return UserMapper.toEntityFromRaw(result[0]);
   }
 
-  public async findOneByEmail(
-    emailAddress: string
-  ): Promise<UserInterface | null> {
+  public async findOneByEmail(emailAddress: string): Promise<User> {
     this._logger.info({ emailAddress }, "findOneByEmail()");
     try {
       const result = await this._client.query(
-        `SELECT * FROM user where email_address = ?`,
+        `
+          SELECT user.*, payment.id as payment_id, payment.provider_id as payment_provider_id, payment.provider_type as payment_provider_type FROM user 
+          INNER JOIN payment_user on user.uid = payment_user.user_id 
+          where user.email_address = ?`,
         [emailAddress]
       );
 
-      return UserMapper.toDTOFromRaw(result[0]);
+      return UserMapper.toEntityFromRaw(result[0]);
     } catch (err) {
       this._logger.error(err, "findOneByEmail()");
       throw err;

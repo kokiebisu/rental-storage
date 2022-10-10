@@ -5,8 +5,7 @@ export class PaymentMapper {
   public static toDTOFromEntity(entity: Payment): PaymentInterface {
     return {
       ...(entity.id && { id: entity.id }),
-      customerId: entity.customerId,
-      uid: entity.uid,
+      providerId: entity.providerId,
       providerType: entity.providerType,
       userId: entity.userId,
     };
