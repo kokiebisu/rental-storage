@@ -85,7 +85,7 @@ export class ListingRepositoryImpl implements ListingRepository {
   public async findOneById(uid: string): Promise<Listing> {
     this._logger.info({ uid }, "delete()");
     const result = await this._client.query(
-      `SELECT * FROM listing WHERE id = ?`,
+      `SELECT * FROM listing WHERE uid = ?`,
       [uid]
     );
     return ListingMapper.toEntityFromRaw(result[0]);

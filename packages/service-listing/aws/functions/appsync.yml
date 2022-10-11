@@ -1,7 +1,7 @@
 # Query
 FindListingByIdQuery:
   handler: dist/adapter/in/api/graphql/query/FindListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindListingById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-find-listing-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -12,7 +12,7 @@ FindListingByIdQuery:
 
 FindListingsWithinLatLngQuery:
   handler: dist/adapter/in/api/graphql/query/FindListingsWithinLatLng.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-FindListingsWithinLatLng
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-find-listings-within-lat-lng
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -24,7 +24,7 @@ FindListingsWithinLatLngQuery:
 # Mutation
 AddListingMutation:
   handler: dist/adapter/in/api/graphql/mutation/AddListing.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-AddListing
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-add-listing
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -35,7 +35,7 @@ AddListingMutation:
 
 RemoveListingByIdMutation:
   handler: dist/adapter/in/api/graphql/mutation/RemoveListingById.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-RemoveListingById
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-appsync-remove-listing-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}

@@ -4,16 +4,16 @@ schema {
 }
 
 type Query {
-  findUserById(id: ID!): User # admin priviledge
+  findUserById(uid: ID!): User # admin priviledge
   findUserByEmail(email: String!): User
 }
 
 type Mutation {
-  removeUserById(id: ID!): Boolean
+  removeUserById(uid: ID!): Boolean
 }
 
 type User {
-  uid: ID
+  uid: ID!
   firstName: String!
   lastName: String!
   emailAddress: String!

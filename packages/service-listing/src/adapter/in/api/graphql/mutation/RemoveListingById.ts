@@ -1,7 +1,7 @@
-import { ListingServiceImpl } from "../../../../../application/service/ListingService";
+import { ListingServiceImpl } from "../../../../../application/service";
 
 export const handler = async (event: any) => {
-  const { id } = event.arguments;
+  const { uid } = event.arguments;
   const service = await ListingServiceImpl.create();
-  return await service.removeListingById(id);
+  return await service.removeListingById(uid);
 };

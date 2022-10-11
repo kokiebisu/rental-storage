@@ -8,7 +8,7 @@ type Query {
   findListingsWithinLatLng(
     latitude: Float!
     longitude: Float!
-    range: Int
+    range: Int!
   ): [Listing]
 }
 
@@ -19,20 +19,20 @@ type Mutation {
     latitude: Float!
     longitude: Float!
     imageUrls: [String]
-  ): Boolean
-  removeListingById(id: ID!): Boolean
+  ): Boolean!
+  removeListingById(uid: ID!): Boolean!
 }
 
 type Listing {
-  uid: ID
-  lender: Lender
-  streetAddress: String
-  latitude: Float
-  longitude: Float
+  uid: ID!
+  lender: Lender!
+  streetAddress: String!
+  latitude: Float!
+  longitude: Float!
 }
 
 type Lender {
-  uid: Int
-  firstName: String
-  lastName: String
+  uid: ID!
+  firstName: String!
+  lastName: String!
 }

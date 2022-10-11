@@ -2,20 +2,20 @@
 - type: AWS_LAMBDA
   name: FindListingByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-FindListingById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-find-listing-by-id
 
 - type: AWS_LAMBDA
   name: FindListingsWithinLatLngFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-FindListingsWithinLatLng
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-find-listings-within-lat-lng
 
 ## Mutation
 - type: AWS_LAMBDA
   name: AddListingFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-AddListing
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-add-listing
 
 - type: AWS_LAMBDA
   name: RemoveListingByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-RemoveListingById
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-listing-${self:provider.stage}-appsync-remove-listing-by-id

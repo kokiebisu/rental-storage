@@ -28,6 +28,10 @@ export class ListingServiceImpl implements ListingService {
     longitude: number,
     range: number
   ): Promise<ListingInterface[]> {
+    this._logger.info(
+      { latitude, longitude, range },
+      "findListingsWithinLatLng()"
+    );
     try {
       const listings = await this._listingRepository.findManyByLatLng(
         latitude,
@@ -42,6 +46,7 @@ export class ListingServiceImpl implements ListingService {
   }
 
   public async findListingById(uid: string): Promise<ListingInterface> {
+    this._logger.info({ uid }, "findListingById()");
     try {
       const listing = await this._listingRepository.findOneById(uid);
 
@@ -102,6 +107,7 @@ export class ListingServiceImpl implements ListingService {
   // }
 
   private async checkListingExists(lenderId: string) {
+    this._logger.info({ lenderId }, "checkListingExists()");
     // check if len
     const { data: lender } = await axios.get(
       `${process.env.SERVICE_API_ENDPOINT}/users/${lenderId}`
