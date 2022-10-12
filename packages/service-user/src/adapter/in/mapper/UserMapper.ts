@@ -11,12 +11,16 @@ export class UserMapper {
       password: data.password,
       firstName: data.first_name,
       lastName: data.last_name,
-      payment: new Payment({
-        id: data.payment_id,
-        userId: data.id,
-        providerId: data.payment_provider_id,
-        providerType: data.payment_provider_type,
-      }),
+      ...(data.payment_id &&
+        data.payment_provider_id &&
+        data.payment_provider_type && {
+          payment: new Payment({
+            id: data.payment_id,
+            userId: data.id,
+            providerId: data.payment_provider_id,
+            providerType: data.payment_provider_type,
+          }),
+        }),
     });
   }
 

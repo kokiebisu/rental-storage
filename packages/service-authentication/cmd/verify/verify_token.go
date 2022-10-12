@@ -9,7 +9,6 @@ import (
 )
 
 func verifyJWT(tokenString string) (*Claims, error) {
-	fmt.Println("ENTERED1.1", tokenString)
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

@@ -85,7 +85,8 @@ export class ListingServiceImpl implements ListingService {
   public async removeListingById(uid: string): Promise<boolean> {
     this._logger.info({ uid }, "removeListingById()");
     try {
-      await this._listingRepository.delete(uid);
+      const listing = await this._listingRepository.findOneById(uid);
+      await this._listingRepository.delete(listing);
       return true;
     } catch (err) {
       this._logger.error(err, "removeListingById()");

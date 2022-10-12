@@ -2,8 +2,7 @@ DependsOn: VPC
 Type: AWS::EC2::SecurityGroup
 Properties:
   GroupDescription: SecurityGroup for Serverless Functions
-  VpcId:
-    Ref: VPC
+  VpcId: !Ref VPC
   SecurityGroupIngress:
     - IpProtocol: tcp
       FromPort: "0"

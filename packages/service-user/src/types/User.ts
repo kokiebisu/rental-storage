@@ -27,9 +27,9 @@ export interface UserRawInterface {
   created_at: string;
   updated_at?: string;
   items: ItemInterface[];
-  payment_id: number;
-  payment_provider_id: string;
-  payment_provider_type: string;
+  payment_id?: number;
+  payment_provider_id?: string;
+  payment_provider_type?: string;
 }
 
 export interface UserConstructor {

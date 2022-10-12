@@ -16,16 +16,13 @@ provider:
 
 custom:
   namespace: rental-a-locker
-  USER_DB_NAME: user
+  USER_DB_NAME: users
   USER_DB_USERNAME: master
   USER_DB_PASSWORD: password
-  ITEM_DB_NAME: item
-  ITEM_DB_USERNAME: master
-  ITEM_DB_PASSWORD: password
-  LISTING_DB_NAME: listing
+  LISTING_DB_NAME: listings
   LISTING_DB_USERNAME: master
   LISTING_DB_PASSWORD: password
-  BOOKING_TABLE_NAME: booking
+  BOOKING_TABLE_NAME: bookings
 
 resources:
   Resources:
@@ -33,32 +30,26 @@ resources:
     ApiGatewayRestApi: ${file(./aws/resources/apigateway/RestApi.yml)}
 
     # Infrastructure
+    DBSubnetGroupServerless: ${file(./aws/resources/ec2/DBSubnetGroupServerless.yml)}
     InternetGateway: ${file(./aws/resources/ec2/InternetGateway.yml)}
-    VPC: ${file(./aws/resources/ec2/VPC.yml)}
-    VPCGatewayAttachment: ${file(./aws/resources/ec2/VPCGatewayAttachment.yml)}
+    RoutePublic: ${file(./aws/resources/ec2/RoutePublic.yml)}
+    RouteTablePublic: ${file(./aws/resources/ec2/RouteTablePublic.yml)}
+    SecurityGroupServerless: ${file(./aws/resources/ec2/SecurityGroupServerless.yml)}
     SubnetA: ${file(./aws/resources/ec2/SubnetA.yml)}
     SubnetB: ${file(./aws/resources/ec2/SubnetB.yml)}
     SubnetC: ${file(./aws/resources/ec2/SubnetC.yml)}
-    DBSubnetGroupServerless: ${file(./aws/resources/ec2/DBSubnetGroupServerless.yml)}
-    SecurityGroupServerless: ${file(./aws/resources/ec2/SecurityGroupServerless.yml)}
-    RouteTablePublic: ${file(./aws/resources/ec2/RouteTablePublic.yml)}
-    RoutePublic: ${file(./aws/resources/ec2/RoutePublic.yml)}
     SubnetRouteTableAssociationA: ${file(./aws/resources/ec2/SubnetRouteTableAssociationA.yml)}
     SubnetRouteTableAssociationB: ${file(./aws/resources/ec2/SubnetRouteTableAssociationB.yml)}
     SubnetRouteTableAssociationC: ${file(./aws/resources/ec2/SubnetRouteTableAssociationC.yml)}
+    VPC: ${file(./aws/resources/ec2/VPC.yml)}
+    VPCGatewayAttachment: ${file(./aws/resources/ec2/VPCGatewayAttachment.yml)}
 
     # S3
     ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfile/Bucket.yml)}
 
     # RDS
-    DBClusterParameterGroup: ${file(./aws/resources/rds/DBClusterParameterGroup.yml)}
-    DBParameterGroup: ${file(./aws/resources/rds/DBParameterGroup.yml)}
-    UserRDSCluster: ${file(./aws/resources/rds/user/RDSCluster.yml)}
-    UserRDSInstance: ${file(./aws/resources/rds/user/RDSInstance.yml)}
-    ListingRDSCluster: ${file(./aws/resources/rds/listing/RDSCluster.yml)}
-    ListingRDSInstance: ${file(./aws/resources/rds/listing/RDSInstance.yml)}
-    ItemRDSCluster: ${file(./aws/resources/rds/item/RDSCluster.yml)}
-    ItemRDSInstance: ${file(./aws/resources/rds/item/RDSInstance.yml)}
+    UserRDSInstance: ${file(./aws/resources/rds/user/DBInstance.yml)}
+    ListingRDSInstance: ${file(./aws/resources/rds/listing/DBInstance.yml)}
 
     # DynamoDBTable
     BookingDynamoDBTable: ${file(./aws/resources/dynamodb/Booking/Table.yml)}

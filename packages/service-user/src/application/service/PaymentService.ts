@@ -34,13 +34,13 @@ export class PaymentServiceImpl implements PaymentService {
             lastName: data.lastName,
           }
         );
-      console.log("RESPONSE: ", response);
+
       const payment = new Payment({
         userId: data.userId,
         providerType: response.data.providerType,
         providerId: response.data.providerId,
       });
-      this._paymentRepository.save(payment);
+      await this._paymentRepository.save(payment);
     } catch (err) {
       console.error(err);
     }

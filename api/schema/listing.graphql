@@ -24,15 +24,9 @@ type Mutation {
 }
 
 type Listing {
-  uid: ID!
-  lender: Lender!
+  uid: String!
+  lenderId: String!
   streetAddress: String!
   latitude: Float!
   longitude: Float!
-}
-
-type Lender {
-  uid: ID!
-  firstName: String!
-  lastName: String!
 }
