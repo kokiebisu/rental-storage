@@ -94,20 +94,7 @@ export class ListingServiceImpl implements ListingService {
     }
   }
 
-  // public async occupyStorageItem(booking: BookingInterface) {
-  //   this._logger.info({ booking }, "occupyStorageItem()");
-  //   try {
-  //     await this._listingRepository.addItemToListing(
-  //       booking.listingId,
-  //       booking.id
-  //     );
-  //   } catch (err) {
-  //     this._logger.error(err, "occupyStorageItem()");
-  //     throw err;
-  //   }
-  // }
-
-  private async checkListingExists(lenderId: string) {
+  private async checkListingExists(lenderId: string): Promise<any> {
     this._logger.info({ lenderId }, "checkListingExists()");
     // check if len
     const { data: lender } = await axios.get(
