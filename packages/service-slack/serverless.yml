@@ -14,6 +14,10 @@ provider:
     name: rental-a-locker-slack-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
+  ecr:
+    images:
+      app:
+        path: ./
 
 custom:
   namespace: rental-a-locker

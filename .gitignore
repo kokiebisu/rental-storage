@@ -9,3 +9,5 @@
 .serverless
 **/.turbo
 **/venv
+**/vendor
+**/.vscode
