@@ -37,6 +37,11 @@ services:
     dependsOn:
       - infrastructure
 
+  slack:
+    path: packages/service-slack
+    dependsOn:
+      - infrastructure
+
   api:
     path: api
     dependsOn:
@@ -48,3 +53,4 @@ services:
       - authorizer
       - authentication
       - payment
+      - slack
