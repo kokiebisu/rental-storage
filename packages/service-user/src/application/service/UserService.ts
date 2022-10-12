@@ -1,4 +1,4 @@
-import { EmailAddress, User } from "../../domain/model";
+import { EmailAddress, Name, NameType, User } from "../../domain/model";
 import {
   CreateUserInput,
   PaymentService,
@@ -38,8 +38,8 @@ export class UserServiceImpl implements UserService {
     this._logger.info(data, "createUser()");
     try {
       let user = new User({
-        firstName: data.firstName,
-        lastName: data.lastName,
+        firstName: new Name(NameType.FirstName, data.firstName),
+        lastName: new Name(NameType.LastName, data.lastName),
         emailAddress: new EmailAddress(data?.emailAddress),
         password: data.password,
       });
@@ -49,8 +49,8 @@ export class UserServiceImpl implements UserService {
       await this._paymentService.addPayment({
         userId: savedUser.id,
         emailAddress: savedUser.emailAddress.value,
-        firstName: savedUser.firstName,
-        lastName: savedUser.lastName,
+        firstName: savedUser.firstName.value,
+        lastName: savedUser.lastName.value,
       });
 
       return true;
