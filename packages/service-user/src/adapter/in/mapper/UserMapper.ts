@@ -1,4 +1,10 @@
-import { EmailAddress, Payment, User } from "../../../domain/model";
+import {
+  EmailAddress,
+  Name,
+  NameType,
+  Payment,
+  User,
+} from "../../../domain/model";
 import { UserInterface, UserRawInterface } from "../../../types";
 import { TimeUtil } from "../../../utils";
 
@@ -9,8 +15,8 @@ export class UserMapper {
       uid: data.uid,
       emailAddress: new EmailAddress(data.email_address),
       password: data.password,
-      firstName: data.first_name,
-      lastName: data.last_name,
+      firstName: new Name(NameType.FirstName, data.first_name),
+      lastName: new Name(NameType.LastName, data.last_name),
       ...(data.payment_id &&
         data.payment_provider_id &&
         data.payment_provider_type && {
@@ -30,8 +36,8 @@ export class UserMapper {
       uid: data.uid,
       emailAddress: data.emailAddress.value,
       password: data.password,
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: data.firstName.value,
+      lastName: data.lastName.value,
       items: data.items,
       ...(data.payment && {
         payment: {

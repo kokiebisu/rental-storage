@@ -1,4 +1,4 @@
-import { EmailAddress, Payment, ProviderType } from "../domain/model";
+import { EmailAddress, Name, Payment, ProviderType } from "../domain/model";
 import { ItemInterface } from "./Item";
 
 export interface UserInterface {
@@ -35,8 +35,8 @@ export interface UserRawInterface {
 export interface UserConstructor {
   id?: number;
   uid?: string;
-  firstName: string;
-  lastName: string;
+  firstName: Name;
+  lastName: Name;
   emailAddress: EmailAddress;
   payment?: Payment;
   password: string;
