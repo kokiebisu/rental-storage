@@ -1,0 +1,23 @@
+service: rental-a-locker-slack
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: dev
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: rental-a-locker-slack-resources
+  iam:
+    role: !ImportValue ExportedRoleLambdaArn
+
+custom:
+  namespace: rental-a-locker
+  service: slack
+
+functions:
+  - ${file(./aws/functions/sqs.yml)}

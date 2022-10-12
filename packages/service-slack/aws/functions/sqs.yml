@@ -1,0 +1,3 @@
+SendMessageConsumer:
+  handler: send_message.handler
+  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-consumer-send-message
