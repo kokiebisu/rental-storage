@@ -25,6 +25,7 @@ custom:
   DB_USERNAME: !ImportValue ExportedListingRDSDBUsername
   DB_PASSWORD: !ImportValue ExportedListingRDSDBPassword
   DB_HOST: !ImportValue ExportedListingRDSDBHost
+  DB_PORT: !ImportValue ExportedListingRDSDBPort
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""

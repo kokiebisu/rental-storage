@@ -3,7 +3,7 @@ import { Listing } from "../../domain/model";
 export interface ListingRepository {
   setup(): Promise<void>;
   save(data: Listing): Promise<Listing>;
-  delete(uid: string): Promise<void>;
+  delete(data: Listing): Promise<void>;
   findOneById(uid: string): Promise<Listing>;
   findManyByLatLng(
     latitude: number,

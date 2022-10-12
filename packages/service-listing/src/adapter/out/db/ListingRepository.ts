@@ -1,4 +1,4 @@
-import Client from "serverless-mysql";
+import { Client } from "pg";
 
 import { ListingMapper } from "../../in/mapper";
 import { ListingRepository } from "../../../application/port";
@@ -17,13 +17,12 @@ export class ListingRepositoryImpl implements ListingRepository {
     this._logger = new LoggerUtil(className);
   }
   public static async create(): Promise<ListingRepositoryImpl> {
-    var client = Client({
-      config: {
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-      },
+    var client = new Client({
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      port: Number(process.env.DB_PORT),
     });
     return new ListingRepositoryImpl(client, "listing", "ListingRepository");
   }
@@ -32,23 +31,25 @@ export class ListingRepositoryImpl implements ListingRepository {
     await this._client.query(
       `
         CREATE TABLE IF NOT EXISTS listing (
-          id INT AUTO_INCREMENT NOT NULL, 
-          lender_id VARCHAR(32), 
+          id SERIAL NOT NULL PRIMARY KEY, 
+          uid CHAR(32) NOT NULL,
+          lender_id CHAR(32), 
           street_address VARCHAR(100) NOT NULL, 
           latitude DECIMAL(11,7) NOT NULL, 
-          longitude DECIMAL(11,7) NOT NULL, 
-          PRIMARY KEY (id)
+          longitude DECIMAL(11,7) NOT NULL
         )
       `
     );
     await this._client.query(
       `
         CREATE TABLE IF NOT EXISTS images_listing (
-          id INT AUTO_INCREMENT NOT NULL,
+          id SERIAL NOT NULL PRIMARY KEY,
           url VARCHAR(100),
           listing_id INT NOT NULL,
-          FOREIGN KEY (listing_id) REFERENCES listing(id),
-          PRIMARY KEY (id)
+          CONSTRAINT fk_listing
+            FOREIGN KEY(listing_id) 
+	            REFERENCES listing(id)
+	            ON DELETE CASCADE
         )
       `
     );
@@ -59,12 +60,20 @@ export class ListingRepositoryImpl implements ListingRepository {
     try {
       // commit/transaction add rollback behavior
       const result = await this._client.query(
-        `INSERT INTO listing (lender_id, street_address, latitude, longitude) VALUES(?,?,?,?)`,
-        [data.lenderId, data.streetAddress.value, data.latitude, data.longitude]
+        `INSERT INTO listing (
+          uid, lender_id, street_address, latitude, longitude
+        ) VALUES ($1, $2, $3, $4, $5)`,
+        [
+          data.uid,
+          data.lenderId,
+          data.streetAddress.value,
+          data.latitude,
+          data.longitude,
+        ]
       );
       for await (const imageUrl of data.imageUrls) {
         await this._client.query(
-          `INSERT INTO images_listing (url, listing_id) VALUES (?,?)`,
+          `INSERT INTO images_listing (url, listing_id) VALUES ($1, $2)`,
           [imageUrl, result.insertId]
         );
       }
@@ -77,17 +86,33 @@ export class ListingRepositoryImpl implements ListingRepository {
     }
   }
 
-  public async delete(uid: string): Promise<void> {
-    this._logger.info({ uid }, "delete()");
-    return await this._client.query(`DELETE FROM listing WHERE id = ?`, [uid]);
+  public async delete(data: Listing): Promise<void> {
+    this._logger.info({ data }, "delete()");
+    // commit/transaction remove listing and associated urls
+    try {
+      await this._client.query(`DELETE FROM listing WHERE uid = $1`, [
+        data.uid,
+      ]);
+      await this._client.query(
+        `DELETE FROM images_listing WHERE listing_id = $1`,
+        [data.id]
+      );
+    } catch (err) {
+      this._logger.error(err, "delete()");
+      throw err;
+    }
   }
 
   public async findOneById(uid: string): Promise<Listing> {
-    this._logger.info({ uid }, "delete()");
     const result = await this._client.query(
-      `SELECT * FROM listing WHERE uid = ?`,
+      `
+        SELECT * FROM listing 
+        INNER JOIN images_listing ON listing.id = images_listing.id
+        WHERE listing.uid = $1
+      `,
       [uid]
     );
+
     return ListingMapper.toEntityFromRaw(result[0]);
   }
 
@@ -96,13 +121,13 @@ export class ListingRepositoryImpl implements ListingRepository {
     longitude: number,
     range: number = 100
   ): Promise<Listing[]> {
-    this._logger.info({ latitude, longitude, range }, "delete()");
+    this._logger.info({ latitude, longitude, range }, "findManyByLatLng()");
     const result: ListingRawInterface[] = await this._client.query(
       `
-        SELECT id, ( 3959 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) 
-        AS distance, latitude, longitude 
-        FROM listing 
-        HAVING distance < ? ORDER BY distance LIMIT 0 , 20
+        SELECT listing.*, ( 3959 * acos( cos( radians($1) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians($2) ) + sin( radians($3) ) * sin( radians( latitude ) ) ) ) 
+        AS distance, images_listing.url
+        FROM listing INNER JOIN images_listing ON listing.id = images_listing.id
+        HAVING distance < $4 ORDER BY distance LIMIT 0 , 20
       `,
       [latitude, longitude, latitude, range]
     );

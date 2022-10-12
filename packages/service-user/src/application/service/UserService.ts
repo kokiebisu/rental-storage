@@ -29,12 +29,12 @@ export class UserServiceImpl implements UserService {
 
   public static async create() {
     const userRepository = await UserRepositoryImpl.create();
-    const paymentService = await PaymentServiceImpl.create();
     await userRepository.setup();
+    const paymentService = await PaymentServiceImpl.create();
     return new UserServiceImpl(userRepository, paymentService);
   }
 
-  public async createUser(data: CreateUserInput): Promise<UserInterface> {
+  public async createUser(data: CreateUserInput): Promise<boolean> {
     this._logger.info(data, "createUser()");
     try {
       let user = new User({
@@ -53,24 +53,25 @@ export class UserServiceImpl implements UserService {
         lastName: savedUser.lastName,
       });
 
-      return UserMapper.toDTOFromEntity(savedUser);
+      return true;
     } catch (err) {
       this._logger.error(err, "createUser()");
-      throw err;
+      return false;
     }
   }
 
-  public async removeById(uid: string): Promise<void> {
+  public async removeById(uid: string): Promise<boolean> {
     this._logger.info({ uid }, "removeUserById()");
     const userExists = await this.findById(uid);
     if (!userExists) {
       throw new Error(`User with email ${uid} doesn't exist`);
     }
     try {
-      await this._userRepository.delete(uid);
+      const user = await this._userRepository.delete(uid);
+      return !!user;
     } catch (err) {
       this._logger.error(err, "removeUserById");
-      throw err;
+      return false;
     }
   }
 

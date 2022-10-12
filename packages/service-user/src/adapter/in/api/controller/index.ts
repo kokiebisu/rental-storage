@@ -4,8 +4,8 @@ import { UserServiceImpl } from "../../../../application/service";
 
 exports.handler = async (event: any, context: any) => {
   const app = fastify();
-  const userService = await UserServiceImpl.create();
 
+  const userService = await UserServiceImpl.create();
   const proxy = awsLambdaFastify(app);
 
   app.get(

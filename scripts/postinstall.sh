@@ -8,4 +8,3 @@
 (cd packages/service-image && npm install || { echo 'failed' ; exit 1; }); 
 (cd packages/service-listing && npm install || { echo 'failed' ; exit 1; }); 
 (cd packages/service-user && npm install || { echo 'failed' ; exit 1; });
-(cd packages/service-item && npm install || { echo 'failed' ; exit 1; });

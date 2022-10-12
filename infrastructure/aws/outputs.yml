@@ -5,16 +5,14 @@ ApiGatewayRestApiId:
     Name: ApiGatewayRestApiId
 
 ApiGatewayRestApiRootResourceId:
-  Value:
-    Fn::GetAtt: [ApiGatewayRestApi, RootResourceId]
+  Value: !GetAtt ApiGatewayRestApi.RootResourceId
   Export:
     Name: ApiGatewayRootResourceId
 
 # Booking DB
 BookingDynamoDBTableStreamArn:
   Description: "DynamoDB Booking Table"
-  Value:
-    Fn::GetAtt: [BookingDynamoDBTable, StreamArn]
+  Value: !GetAtt BookingDynamoDBTable.StreamArn
   Export:
     Name: ExportedBookingDynamoDBTableStreamArn
 
@@ -27,10 +25,15 @@ BookingDynamoDBTableName:
 # Listing DB
 ListingRDSDBHost:
   Description: "Host"
-  Value:
-    Fn::GetAtt: [ListingRDSCluster, Endpoint.Address]
+  Value: !GetAtt ListingRDSInstance.Endpoint.Address
   Export:
     Name: ExportedListingRDSDBHost
+
+ListingRDSDBPort:
+  Description: "Port"
+  Value: !GetAtt ListingRDSInstance.Endpoint.Port
+  Export:
+    Name: ExportedListingRDSDBPort
 
 ListingRDSDBName:
   Description: "DynamoDB DB Name"
@@ -53,10 +56,15 @@ ListingRDSDBPassword:
 # User DB
 UserRDSDBHost:
   Description: "User DB Host"
-  Value:
-    Fn::GetAtt: [UserRDSCluster, Endpoint.Address]
+  Value: !GetAtt UserRDSInstance.Endpoint.Address
   Export:
     Name: ExportedUserRDSDBHost
+
+UserRDSDBPort:
+  Description: "User RDS DB Port"
+  Value: !GetAtt UserRDSInstance.Endpoint.Port
+  Export:
+    Name: ExportedUserRDSDBPort
 
 UserRDSDBName:
   Description: "DynamoDB DB Name"
@@ -76,65 +84,34 @@ UserRDSDBPassword:
   Export:
     Name: ExportedUserRDSDBPassword
 
-# Item DB
-ItemRDSDBHost:
-  Description: "RDS Host"
-  Value:
-    Fn::GetAtt: [ItemRDSCluster, Endpoint.Address]
-  Export:
-    Name: ExportedItemRDSDBHost
-
-ItemRDSDBName:
-  Description: "DynamoDB DB Name"
-  Value: ${self:custom.ITEM_DB_NAME}
-  Export:
-    Name: ExportedItemRDSDBName
-
-ItemRDSDBUsername:
-  Description: "DynamoDB DB Name"
-  Value: ${self:custom.ITEM_DB_USERNAME}
-  Export:
-    Name: ExportedItemRDSDBUsername
-
-ItemRDSDBPassword:
-  Description: "Dynamodb DB Password"
-  Value: ${self:custom.ITEM_DB_PASSWORD}
-  Export:
-    Name: ExportedItemRDSDBPassword
-
 # Role
 RoleLambdaArn:
   Description: "Arn for Lambda role"
-  Value:
-    Fn::GetAtt: [RoleLambda, Arn]
+  Value: !GetAtt RoleLambda.Arn
   Export:
     Name: ExportedRoleLambdaArn
 
 # SQS Queue
 ListingSQSQueueArn:
   Description: "Listing SQSQueue Arn"
-  Value:
-    Fn::GetAtt: [ListingSQSQueue, Arn]
+  Value: !GetAtt ListingSQSQueue.Arn
   Export:
     Name: ExportedListingSQSQueueArn
 
 ListingSQSDLQueueArn:
   Description: "Listing Dead Letter SQSQueue Arn"
-  Value:
-    Fn::GetAtt: [ListingSQSDLQueue, Arn]
+  Value: !GetAtt ListingSQSDLQueue.Arn
   Export:
     Name: ExportedListingSQSDLQueueArn
 
 UserSQSQueueArn:
   Description: "User SQSDLQueue Arn"
-  Value:
-    Fn::GetAtt: [UserSQSQueue, Arn]
+  Value: !GetAtt UserSQSQueue.Arn
   Export:
     Name: ExportedUserSQSQueueArn
 
 UserSQSDLQueueArn:
   Description: "User SQS Dead Letter Queue Arn"
-  Value:
-    Fn::GetAtt: [UserSQSDLQueue, Arn]
+  Value: !GetAtt UserSQSDLQueue.Arn
   Export:
     Name: ExportedUserSQSDLQueueArn

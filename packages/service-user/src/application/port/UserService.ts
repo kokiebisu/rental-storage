@@ -8,8 +8,8 @@ export interface CreateUserInput {
 }
 
 export interface UserService {
-  createUser(data: CreateUserInput): Promise<{ uid: string } | null>;
-  removeById(uid: string): Promise<void>;
+  createUser(data: CreateUserInput): Promise<boolean>;
+  removeById(uid: string): Promise<boolean>;
   findById(uid: string): Promise<UserInterface>;
   findByEmail(emailAddress: string): Promise<UserInterface>;
 }

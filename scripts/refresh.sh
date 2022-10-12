@@ -12,5 +12,3 @@ echo "Removing service-listing dep/dist/turbo folders..."
 (cd packages/service-listing && rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo); 
 echo "Removing service-user dep/dist/turbo folders..."
 (cd packages/service-user && rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo);
-echo "Removing service-item dep/dist/turbo folders..."
-(cd packages/service-item && rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo);

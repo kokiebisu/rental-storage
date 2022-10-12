@@ -1,0 +1,16 @@
+DependsOn: VPCGatewayAttachment
+Type: AWS::RDS::DBInstance
+Properties:
+  MasterUsername: ${self:custom.LISTING_DB_USERNAME}
+  MasterUserPassword: ${self:custom.LISTING_DB_PASSWORD}
+  AllocatedStorage: 20
+  EngineVersion: 12.7
+  DBName: ${self:custom.LISTING_DB_NAME}
+  DBInstanceClass: db.t3.micro
+  VPCSecurityGroups:
+    - !GetAtt SecurityGroupServerless.GroupId
+  DBSubnetGroupName: !Ref DBSubnetGroupServerless
+  Engine: postgres
+  PubliclyAccessible: true
+  DeleteAutomatedBackups: true
+  DeletionProtection: false
