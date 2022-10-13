@@ -1,14 +1,20 @@
 import json
 
+from domain.user import User
+
 
 class SQSEventMessageHandler:
     @staticmethod
-    def parse(event):
+    def parse_event(event):
         messages = []
         for record in event['Records']:
-            message = record['Sns']
+            body = json.loads(record['body'])
+            message = body['Message']
+            entity_type = body['MessageAttributes']['entityType']['Value']
+            event_name = body['MessageAttributes']['event']['Value']
             messages.append({
-                'sourceService': message['MessageAttributes']['sourceService']['value'],
-                'entity': json.dumps(message['Message'])
+                'eventName': event_name,
+                'entityType': entity_type,
+                'data': json.loads(message)
             })
         return messages

@@ -10,7 +10,7 @@ class SlackBotAdapter:
         bot_api_key = parameter['Parameter']['Value']
         self.client = WebClient(token=bot_api_key)
 
-    def send_message(self, channel_name: str, message: str):
+    def send_chat_message(self, channel_name: str, message: str):
         self.client.chat_postMessage(
             channel=channel_name,
             text=message
