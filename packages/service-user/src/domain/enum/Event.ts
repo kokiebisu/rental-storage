@@ -1,3 +1,3 @@
 export enum UserEvent {
-  SignUp = "sign-up",
+  Created = "created",
 }

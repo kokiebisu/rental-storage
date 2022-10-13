@@ -1,4 +1,4 @@
-import { UserServiceImpl } from "../../../../../application/service/UserService";
+import { UserServiceImpl } from "../../../../application/Service/UserService";
 
 export const handler = async (event: any) => {
   console.log("LAMBDA EVENT: ", event);

@@ -1,4 +1,4 @@
-import { ProviderType } from "../domain/model";
+import { ProviderType } from "../domain/Model";
 
 export interface PaymentConstructor {
   id?: number;

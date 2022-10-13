@@ -1,12 +1,7 @@
-import {
-  EmailAddress,
-  Name,
-  NameType,
-  Payment,
-  User,
-} from "../../../domain/model";
-import { UserInterface, UserRawInterface } from "../../../types";
-import { TimeUtil } from "../../../utils";
+import { EmailAddress, Name, NameType, Payment, User } from "../../domain/Model";
+import { UserInterface, UserRawInterface } from "../../types";
+import { TimeUtil } from "../../utils";
+
 
 export class UserMapper {
   public static toEntityFromRaw(data: UserRawInterface): User {

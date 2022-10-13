@@ -1,8 +1,8 @@
 import { Client } from "pg";
+import { PaymentRepository } from "../../application/Port";
+import { Payment } from "../../domain/Model";
+import { LoggerUtil } from "../../utils";
 
-import { LoggerUtil } from "../../../utils";
-import { PaymentRepository } from "../../../application/port";
-import { Payment } from "../../../domain/model";
 
 export class PaymentRepositoryImpl implements PaymentRepository {
   public readonly tableName: string;

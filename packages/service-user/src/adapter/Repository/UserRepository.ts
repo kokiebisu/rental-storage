@@ -1,9 +1,8 @@
 import { Client } from "pg";
-
-import { LoggerUtil } from "../../../utils";
-import { UserRepository } from "../../../application/port";
-import { UserMapper } from "../../in/mapper";
-import { User } from "../../../domain/model";
+import { UserRepository } from "../../application/Port";
+import { User } from "../../domain/Model";
+import { LoggerUtil } from "../../utils";
+import { UserMapper } from "../Mapper";
 
 export class UserRepositoryImpl implements UserRepository {
   public readonly tableName: string;
@@ -40,14 +39,14 @@ export class UserRepositoryImpl implements UserRepository {
       await client.query(
         `
           CREATE TABLE IF NOT EXISTS user_account (
-          id SERIAL NOT NULL PRIMARY KEY, 
-          uid VARCHAR(64) NOT NULL, 
-          first_name VARCHAR(20) NOT NULL, 
-          last_name VARCHAR(20) NOT NULL, 
-          email_address VARCHAR(64) NOT NULL UNIQUE, 
-          password VARCHAR(64) NOT NULL,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-          updated_at TIMESTAMP
+            id SERIAL NOT NULL PRIMARY KEY, 
+            uid VARCHAR(64) NOT NULL, 
+            first_name VARCHAR(32) NOT NULL, 
+            last_name VARCHAR(32) NOT NULL, 
+            email_address VARCHAR(64) NOT NULL UNIQUE, 
+            password VARCHAR(64) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+            updated_at TIMESTAMP
           )
         `
       );
@@ -78,8 +77,8 @@ export class UserRepositoryImpl implements UserRepository {
           data.uid,
           data.emailAddress.value,
           data.password,
-          data.firstName,
-          data.lastName,
+          data.firstName.value,
+          data.lastName.value,
           data.createdAt,
         ]
       );
