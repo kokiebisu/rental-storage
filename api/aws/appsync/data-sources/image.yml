@@ -2,4 +2,4 @@
 - type: AWS_LAMBDA
   name: GetPresignedURLFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-image-${self:provider.stage}-graphql-GetPresignedURL
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-image-graphql-get-presigned-url

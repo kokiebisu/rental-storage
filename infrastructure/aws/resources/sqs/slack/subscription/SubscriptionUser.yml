@@ -1,7 +1,7 @@
 Type: "AWS::SNS::Subscription"
 DependsOn:
-  - UserQueue
-  - SNSTopicItemCreated
+  - SlackQueue
+  - TopicUser
 Properties:
   Protocol: sqs
   TopicArn:
@@ -10,11 +10,11 @@ Properties:
       - - "arn:aws:sns"
         - ${aws:region}
         - ${aws:accountId}
-        - ${self:provider.stage}-${self:custom.namespace}-item-topic
+        - ${self:provider.stage}-${self:custom.namespace}-user-topic
   Endpoint:
     Fn::Join:
       - ":"
       - - "arn:aws:sqs"
         - ${aws:region}
         - ${aws:accountId}
-        - ${self:provider.stage}-${self:custom.namespace}-user-queue
+        - ${self:provider.stage}-${self:custom.namespace}-slack-queue

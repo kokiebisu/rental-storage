@@ -92,26 +92,14 @@ RoleLambdaArn:
     Name: ExportedRoleLambdaArn
 
 # SQS Queue
-ListingSQSQueueArn:
-  Description: "Listing SQSQueue Arn"
-  Value: !GetAtt ListingSQSQueue.Arn
+SlackQueueArn:
+  Description: "Slack SQSQueue Arn"
+  Value: !GetAtt SlackQueue.Arn
   Export:
-    Name: ExportedListingSQSQueueArn
+    Name: ExportedSlackQueueArn
 
-ListingSQSDLQueueArn:
-  Description: "Listing Dead Letter SQSQueue Arn"
-  Value: !GetAtt ListingSQSDLQueue.Arn
+SlackDLQueueArn:
+  Description: "Slack Dead Letter SQSQueue Arn"
+  Value: !GetAtt SlackDLQueue.Arn
   Export:
-    Name: ExportedListingSQSDLQueueArn
-
-UserSQSQueueArn:
-  Description: "User SQSDLQueue Arn"
-  Value: !GetAtt UserSQSQueue.Arn
-  Export:
-    Name: ExportedUserSQSQueueArn
-
-UserSQSDLQueueArn:
-  Description: "User SQS Dead Letter Queue Arn"
-  Value: !GetAtt UserSQSDLQueue.Arn
-  Export:
-    Name: ExportedUserSQSDLQueueArn
+    Name: ExportedSlackDLQueueArn

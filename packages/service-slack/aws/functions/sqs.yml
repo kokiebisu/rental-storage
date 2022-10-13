@@ -1,6 +1,6 @@
-SlackUserEventConsumer:
+SlackUserEventMessageConsumer:
   image:
     name: app
     command:
       - adapter/api/sqs/user.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-consumer-user
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-consumer-user

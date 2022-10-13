@@ -22,7 +22,7 @@ custom:
     name: ${self:custom.namespace}-${self:custom.service}
     authenticationType: AWS_LAMBDA
     lambdaAuthorizerConfig:
-      lambdaFunctionArn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:${self:custom.namespace}-authorizer-${self:provider.stage}-Authorizer
+      lambdaFunctionArn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-authorizer
 
     schema:
       - schema/booking.graphql

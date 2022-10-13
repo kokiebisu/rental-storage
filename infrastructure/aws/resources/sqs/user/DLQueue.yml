@@ -1,3 +1,3 @@
 Type: "AWS::SQS::Queue"
 Properties:
-  QueueName: "${self:custom.namespace}-user-${self:provider.stage}-dead-letter-queue"
+  QueueName: ${self:provider.stage}-${self:custom.namespace}-user-dead-letter-queue

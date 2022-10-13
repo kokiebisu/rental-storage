@@ -1,3 +1,3 @@
 Type: AWS::S3::Bucket
 Properties:
-  BucketName: ${self:custom.namespace}-listing-${self:provider.stage}-profile
+  BucketName: ${self:provider.stage}-${self:custom.namespace}-listing-profile

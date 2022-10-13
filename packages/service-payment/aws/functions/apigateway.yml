@@ -1,6 +1,6 @@
 GenerateCustomerIdApiGateway:
   handler: bin/create_payment_customer
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-rest-generate-customer-id
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-generate-customer-id
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}

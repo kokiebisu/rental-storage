@@ -34,7 +34,7 @@ custom:
 functions:
   Authorize:
     handler: bin/authorize
-    name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-Authorizer
+    name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}
     package:
       include:
         - ./bin/authorize

@@ -1,3 +1,0 @@
-Type: "AWS::SNS::Topic"
-Properties:
-  TopicName: ${self:custom.namespace}-item-${self:provider.stage}-ItemCreated

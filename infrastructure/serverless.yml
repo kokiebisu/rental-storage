@@ -55,18 +55,13 @@ resources:
     BookingDynamoDBTable: ${file(./aws/resources/dynamodb/Booking/Table.yml)}
 
     # SNS Topic
-    SNSTopicItemCreated: ${file(./aws/resources/sns/topic/item/SNSTopicItemSaved.yml)}
+    TopicUser: ${file(./aws/resources/sns/topic/TopicUser.yml)}
 
     # SQS
-    UserSNSSubscriptionItemSaved: ${file(./aws/resources/sqs/user/ItemSaved/Subscription.yml)}
-    UserSQSQueue: ${file(./aws/resources/sqs/user/Queue.yml)}
-    UserSQSDLQueue: ${file(./aws/resources/sqs/user/DLQueue.yml)}
-    UserSQSQueuePolicy: ${file(./aws/resources/sqs/user/QueuePolicy.yml)}
-
-    ListingSNSSubscriptionItemSaved: ${file(./aws/resources/sqs/listing/ItemSaved/Subscription.yml)}
-    ListingSQSQueue: ${file(./aws/resources/sqs/listing/Queue.yml)}
-    ListingSQSDLQueue: ${file(./aws/resources/sqs/listing/DLQueue.yml)}
-    ListingSQSQueuePolicy: ${file(./aws/resources/sqs/listing/QueuePolicy.yml)}
+    SlackQueue: ${file(./aws/resources/sqs/slack/Queue.yml)}
+    SlackDLQueue: ${file(./aws/resources/sqs/slack/DLQueue.yml)}
+    SlackQueuePolicy: ${file(./aws/resources/sqs/slack/QueuePolicy.yml)}
+    SlackSubscriptionUser: ${file(./aws/resources/sqs/slack/subscription/SubscriptionUser.yml)}
 
     # IAM
     RoleLambda: ${file(./aws/resources/iam/RoleLambda.yml)}
