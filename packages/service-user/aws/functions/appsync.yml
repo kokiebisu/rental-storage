@@ -1,6 +1,6 @@
 ## Query
 FindUserByIdQuery:
-  handler: dist/adapter/in/api/graphql/query/FindUserById.handler
+  handler: dist/adapter/Api/graphql/query/FindUserById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-user-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -12,7 +12,7 @@ FindUserByIdQuery:
     ACCOUNT_ID: ${aws:accountId}
 
 FindUserByEmailQuery:
-  handler: dist/adapter/in/api/graphql/query/FindUserByEmail.handler
+  handler: dist/adapter/Api/graphql/query/FindUserByEmail.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-user-by-email
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -25,7 +25,7 @@ FindUserByEmailQuery:
 
 ## Mutation
 RemoveUserByIdMutation:
-  handler: dist/adapter/in/api/graphql/mutation/RemoveUserById.handler
+  handler: dist/adapter/Api/graphql/mutation/RemoveUserById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-remove-user-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}

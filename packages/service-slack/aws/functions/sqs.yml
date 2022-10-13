@@ -4,3 +4,6 @@ SlackUserEventMessageConsumer:
     command:
       - adapter/api/sqs/user.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-consumer-user
+  events:
+    - sqs:
+        arn: !ImportValue ExportedSlackQueueArn
