@@ -1,0 +1,2 @@
+class SourceServiceNotFoundException(Exception):
+    pass
