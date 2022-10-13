@@ -8,7 +8,7 @@ export interface CreateUserInput {
 }
 
 export interface UserService {
-  createUser(data: CreateUserInput): Promise<boolean>;
+  createUser(data: CreateUserInput): Promise<UserInterface>;
   removeById(uid: string): Promise<boolean>;
   findById(uid: string): Promise<UserInterface>;
   findByEmail(emailAddress: string): Promise<UserInterface>;

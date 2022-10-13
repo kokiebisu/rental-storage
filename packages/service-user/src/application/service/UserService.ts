@@ -1,29 +1,34 @@
-import { EmailAddress, Name, NameType, User } from "../../domain/model";
 import {
   CreateUserInput,
   PaymentService,
+  UserMessageSender,
   UserRepository,
   UserService,
-} from "../port";
-
-import { LoggerUtil } from "../../utils";
+} from "../Port";
 import { UserInterface } from "../../types";
-import { UserRepositoryImpl } from "../../adapter/out/db";
-import { UserMapper } from "../../adapter/in/mapper";
+import { UserRepositoryImpl } from "../../adapter/Repository";
+import { EmailAddress, Name, NameType, User } from "../../domain/Model";
+import { LoggerUtil } from "../../utils";
 import { PaymentServiceImpl } from "./PaymentService";
+import { UserMapper } from "../../adapter/Mapper";
+import { UserSNSMessageSender } from "../../adapter/MessageSender/UserSNSMessageSender";
+import { AWSRegion } from "../../domain/Enum";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;
   private _paymentService: PaymentService;
+  private _userMessageSender: UserMessageSender
 
   private _logger: LoggerUtil;
 
   private constructor(
     userRepository: UserRepository,
-    paymentService: PaymentService
+    paymentService: PaymentService,
+    userMessageSender: UserMessageSender
   ) {
     this._userRepository = userRepository;
     this._paymentService = paymentService;
+    this._userMessageSender = userMessageSender
     this._logger = new LoggerUtil("UserServiceImpl");
   }
 
@@ -31,10 +36,11 @@ export class UserServiceImpl implements UserService {
     const userRepository = await UserRepositoryImpl.create();
     await userRepository.setup();
     const paymentService = await PaymentServiceImpl.create();
-    return new UserServiceImpl(userRepository, paymentService);
+    const userMessageSender = await UserSNSMessageSender.create(AWSRegion.US_EAST_1)
+    return new UserServiceImpl(userRepository, paymentService, userMessageSender);
   }
 
-  public async createUser(data: CreateUserInput): Promise<boolean> {
+  public async createUser(data: CreateUserInput): Promise<UserInterface> {
     this._logger.info(data, "createUser()");
     try {
       let user = new User({
@@ -53,10 +59,12 @@ export class UserServiceImpl implements UserService {
         lastName: savedUser.lastName.value,
       });
 
-      return true;
+      const userDTO = UserMapper.toDTOFromEntity(user)
+      await this._userMessageSender.userCreated(userDTO)
+      return userDTO
     } catch (err) {
       this._logger.error(err, "createUser()");
-      return false;
+      throw err
     }
   }
 

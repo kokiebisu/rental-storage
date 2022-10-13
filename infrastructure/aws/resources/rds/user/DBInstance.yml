@@ -1,5 +1,6 @@
 DependsOn: VPCGatewayAttachment
 Type: AWS::RDS::DBInstance
+DeletionPolicy: Delete
 Properties:
   MasterUsername: ${self:custom.USER_DB_USERNAME}
   MasterUserPassword: ${self:custom.USER_DB_PASSWORD}
@@ -7,6 +8,7 @@ Properties:
   EngineVersion: 12.7
   DBName: ${self:custom.USER_DB_NAME}
   DBInstanceClass: db.t3.micro
+  DBInstanceIdentifier: ${self:provider.stage}-${self:custom.namespace}-user-db
   VPCSecurityGroups:
     - !GetAtt SecurityGroupServerless.GroupId
   DBSubnetGroupName: !Ref DBSubnetGroupServerless

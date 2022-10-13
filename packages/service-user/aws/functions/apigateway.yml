@@ -1,7 +1,9 @@
 UserServiceController:
-  handler: dist/adapter/in/api/controller/index.handler
-  name: ${self:custom.namespace}-${self:custom.service}-${self:provider.stage}-controller
+  handler: dist/adapter/Api/controller/index.handler
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
   environment:
+    NAMESPACE: ${self:custom.namespace}
+    NODE_ENV: ${self:provider.stage}
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}

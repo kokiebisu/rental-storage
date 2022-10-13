@@ -1,0 +1,23 @@
+Type: AWS::SQS::QueuePolicy
+Properties:
+  Queues:
+    - !Ref SlackQueue
+  PolicyDocument:
+    Version: "2012-10-17"
+    Statement:
+      - Sid: "allow-sns-messages"
+        Effect: Allow
+        Principal: "*"
+        Resource: !GetAtt
+          - SlackQueue
+          - Arn
+        Action: "SQS:SendMessage"
+        Condition:
+          ArnEquals:
+            "aws:SourceArn":
+              - Fn::Join:
+                  - ":"
+                  - - "arn:aws:sns"
+                    - ${aws:region}
+                    - ${aws:accountId}
+                    - ${self:provider.stage}-${self:custom.namespace}-user-topic

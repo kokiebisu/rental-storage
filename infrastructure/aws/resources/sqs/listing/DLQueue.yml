@@ -1,3 +1,0 @@
-Type: "AWS::SQS::Queue"
-Properties:
-  QueueName: "${self:custom.namespace}-listing-${self:provider.stage}-dead-letter-queue"

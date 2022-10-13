@@ -2,4 +2,4 @@
 - type: AWS_LAMBDA
   name: MakePaymentFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:custom.namespace}-payment-${self:provider.stage}-graphql-make-payment
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-payment-graphql-make-payment

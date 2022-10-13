@@ -1,4 +1,4 @@
-import { Payment } from "../../domain/model";
+import { Payment } from "../../domain/Model";
 
 export interface PaymentRepository {
   save(data: Payment): Promise<Payment>;

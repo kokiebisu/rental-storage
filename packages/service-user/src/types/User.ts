@@ -1,4 +1,4 @@
-import { EmailAddress, Name, Payment, ProviderType } from "../domain/model";
+import { EmailAddress, Name, Payment, ProviderType } from "../domain/Model";
 import { ItemInterface } from "./Item";
 
 export interface UserInterface {
