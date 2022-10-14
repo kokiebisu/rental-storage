@@ -1,0 +1,5 @@
+Type: AWS::Kinesis::Stream
+Properties:
+  Name: EventStream
+  RetentionPeriodHours: 24
+  ShardCount: 1

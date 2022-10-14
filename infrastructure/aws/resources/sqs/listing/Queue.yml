@@ -1,7 +1,7 @@
 Type: "AWS::SQS::Queue"
-DependsOn: SlackDLQueue
+DependsOn: ListingDLQueue
 Properties:
-  QueueName: ${self:provider.stage}-${self:custom.namespace}-slack-queue
+  QueueName: ${self:provider.stage}-${self:custom.namespace}-listing-queue
   VisibilityTimeout: 930
   RedrivePolicy:
     deadLetterTargetArn:
@@ -10,5 +10,5 @@ Properties:
         - - "arn:aws:sqs"
           - ${aws:region}
           - ${aws:accountId}
-          - ${self:provider.stage}-${self:custom.namespace}-slack-dead-letter-queue
+          - ${self:provider.stage}-${self:custom.namespace}-listing-dead-letter-queue
     maxReceiveCount: 3
