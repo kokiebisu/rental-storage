@@ -1,7 +1,7 @@
 Type: AWS::SQS::QueuePolicy
 Properties:
   Queues:
-    - !Ref SlackQueue
+    - !Ref BookingQueue
   PolicyDocument:
     Version: "2012-10-17"
     Statement:
@@ -9,7 +9,7 @@ Properties:
         Effect: Allow
         Principal: "*"
         Resource: !GetAtt
-          - SlackQueue
+          - BookingQueue
           - Arn
         Action: "SQS:SendMessage"
         Condition:
@@ -21,3 +21,9 @@ Properties:
                     - ${aws:region}
                     - ${aws:accountId}
                     - ${self:provider.stage}-${self:custom.namespace}-user-topic
+              - Fn::Join:
+                  - ":"
+                  - - "arn:aws:sns"
+                    - ${aws:region}
+                    - ${aws:accountId}
+                    - ${self:provider.stage}-${self:custom.namespace}-payment-topic

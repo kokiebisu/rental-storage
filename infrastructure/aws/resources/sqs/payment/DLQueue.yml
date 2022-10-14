@@ -1,0 +1,3 @@
+Type: "AWS::SQS::Queue"
+Properties:
+  QueueName: ${self:provider.stage}-${self:custom.namespace}-payment-dead-letter-queue
