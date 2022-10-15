@@ -22,6 +22,7 @@ class SlackUserMessageSenderService:
             raise EventNameNotFoundException
 
     def _alert_user_account_created(self, entity: User):
+        print("ENTERED3", entity)
         channel_name = 'C0464PCNZH8'
         message = f'User Signed up :tada:\n>Name: {entity.first_name} {entity.last_name}\n>Email Address: {entity.email_address}'
         self.bot.send_chat_message(channel_name=channel_name, message=message)
