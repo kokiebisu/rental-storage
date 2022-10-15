@@ -12,6 +12,12 @@ provider:
   lambdaHashingVersion: 20201221
   deploymentBucket:
     name: rental-a-locker-image-resources
+  iam:
+    role: !ImportValue ExportedRoleLambdaArn
+  ecr:
+    images:
+      app:
+        path: ./
 
 custom:
   namespace: rental-a-locker
