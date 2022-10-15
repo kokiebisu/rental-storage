@@ -1,6 +1,6 @@
 Type: "AWS::SNS::Subscription"
 DependsOn:
-  - BookingQueue
+  - QueueBooking
   - TopicUser
 Properties:
   Protocol: sqs

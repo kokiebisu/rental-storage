@@ -2,8 +2,9 @@ SlackUserEventMessageConsumer:
   image:
     name: app
     command:
-      - adapter/api/sqs/user.handler
+      - adapter/api/kinesis/user.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-consumer-user
   events:
-    - sqs:
-        arn: !ImportValue ExportedSlackQueueArn
+    - stream:
+        type: kinesis
+        arn: !ImportValue ExportedKinesisStreamArn

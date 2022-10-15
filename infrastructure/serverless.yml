@@ -57,7 +57,6 @@ resources:
     # SNS Topic
     TopicAuthentication: ${file(./aws/resources/sns/topic/TopicAuthentication.yml)}
     TopicBooking: ${file(./aws/resources/sns/topic/TopicBooking.yml)}
-    TopicItem: ${file(./aws/resources/sns/topic/TopicItem.yml)}
     TopicListing: ${file(./aws/resources/sns/topic/TopicListing.yml)}
     TopicPayment: ${file(./aws/resources/sns/topic/TopicPayment.yml)}
     TopicUser: ${file(./aws/resources/sns/topic/TopicUser.yml)}
@@ -66,7 +65,7 @@ resources:
     ## Booking
     QueueBooking: ${file(./aws/resources/sqs/booking/Queue.yml)}
     QueuePolicyBooking: ${file(./aws/resources/sqs/booking/QueuePolicy.yml)}
-    QueuePolicyDLQueue: ${file(./aws/resources/sqs/booking/DLQueue.yml)}
+    DLQueueBooking: ${file(./aws/resources/sqs/booking/DLQueue.yml)}
     SubscriptionBookingUser: ${file(./aws/resources/sqs/booking/subscription/SubscriptionUser.yml)}
 
     # Kinesis

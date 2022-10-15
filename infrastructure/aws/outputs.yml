@@ -92,14 +92,10 @@ RoleLambdaArn:
     Name: ExportedRoleLambdaArn
 
 # SQS Queue
-SlackQueueArn:
-  Description: "Slack SQSQueue Arn"
-  Value: !GetAtt SlackQueue.Arn
-  Export:
-    Name: ExportedSlackQueueArn
 
-SlackDLQueueArn:
-  Description: "Slack Dead Letter SQSQueue Arn"
-  Value: !GetAtt SlackDLQueue.Arn
+# Kinesis Stream
+KinesisStreamArn:
+  Description: "Kinesis Stream Arn"
+  Value: !GetAtt KinesisStream.Arn
   Export:
-    Name: ExportedSlackDLQueueArn
+    Name: ExportedKinesisStreamArn

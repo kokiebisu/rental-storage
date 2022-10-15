@@ -108,9 +108,16 @@ Properties:
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
-        - Effect: Allow
-          Action:
-            - kinesis:PutRecord
-            - kinesis:PutRecords
-          Resource:
-            - !GetAtt KinesisStream.Arn
+          - Effect: Allow
+            Action:
+              - kinesis:PutRecord
+              - kinesis:PutRecords
+            Resource:
+              - "arn:aws:kinesis:${aws:region}:${aws:accountId}:stream/*"
+          - Effect: Allow
+            Action:
+              - "kinesis:Get*"
+              - "kinesis:List*"
+              - "kinesis:Describe*"
+            Resource:
+              - "arn:aws:kinesis:${aws:region}:${aws:accountId}:stream/*"

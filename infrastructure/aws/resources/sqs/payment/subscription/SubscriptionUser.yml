@@ -1,6 +1,6 @@
 Type: "AWS::SNS::Subscription"
 DependsOn:
-  - SlackQueue
+  - QueuePayment
   - TopicUser
 Properties:
   Protocol: sqs

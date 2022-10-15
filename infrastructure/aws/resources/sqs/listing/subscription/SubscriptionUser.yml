@@ -1,6 +1,6 @@
 Type: "AWS::SNS::Subscription"
 DependsOn:
-  - ListingQueue
+  - QueueListing
   - TopicUser
 Properties:
   Protocol: sqs
