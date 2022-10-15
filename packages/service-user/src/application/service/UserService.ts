@@ -1,6 +1,7 @@
 import {
   CreateUserInput,
   PaymentService,
+  UserEventSender,
   UserMessageSender,
   UserRepository,
   UserService,
@@ -13,22 +14,26 @@ import { PaymentServiceImpl } from "./PaymentService";
 import { UserMapper } from "../../adapter/Mapper";
 import { UserSNSMessageSender } from "../../adapter/MessageSender/UserSNSMessageSender";
 import { AWSRegion } from "../../domain/Enum";
+import { UserKinesisStreamEventSender } from "../../adapter/EventSender";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;
   private _paymentService: PaymentService;
   private _userMessageSender: UserMessageSender
+  private _userEventSender: UserEventSender
 
   private _logger: LoggerUtil;
 
   private constructor(
     userRepository: UserRepository,
     paymentService: PaymentService,
-    userMessageSender: UserMessageSender
+    userMessageSender: UserMessageSender,
+    userEventSender: UserEventSender
   ) {
     this._userRepository = userRepository;
     this._paymentService = paymentService;
     this._userMessageSender = userMessageSender
+    this._userEventSender = userEventSender
     this._logger = new LoggerUtil("UserServiceImpl");
   }
 
@@ -37,7 +42,8 @@ export class UserServiceImpl implements UserService {
     await userRepository.setup();
     const paymentService = await PaymentServiceImpl.create();
     const userMessageSender = await UserSNSMessageSender.create(AWSRegion.US_EAST_1)
-    return new UserServiceImpl(userRepository, paymentService, userMessageSender);
+    const userEventSender = await UserKinesisStreamEventSender.create(AWSRegion.US_EAST_1)
+    return new UserServiceImpl(userRepository, paymentService, userMessageSender, userEventSender);
   }
 
   public async createUser(data: CreateUserInput): Promise<UserInterface> {
@@ -60,7 +66,8 @@ export class UserServiceImpl implements UserService {
       });
 
       const userDTO = UserMapper.toDTOFromEntity(user)
-      await this._userMessageSender.userCreated(userDTO)
+      // await this._userMessageSender.userCreated(userDTO)
+      await this._userEventSender.userCreated(userDTO)
       return userDTO
     } catch (err) {
       this._logger.error(err, "createUser()");
