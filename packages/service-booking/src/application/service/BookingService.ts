@@ -52,7 +52,6 @@ export class BookingServiceImpl implements BookingService {
     const { data: user } = await axios.get(
       `${process.env.SERVICE_API_ENDPOINT}/users/${ownerId}`
     );
-    console.log("USER: ", user);
     if (!user) {
       throw new Error(`Provided userId ${ownerId} doesn't exist`);
     }
@@ -60,7 +59,6 @@ export class BookingServiceImpl implements BookingService {
     const { data: listing } = await axios.get(
       `${process.env.SERVICE_API_ENDPOINT}/listings/${listingId}`
     );
-    console.log("LISTING: ", listing);
     if (!listing) {
       throw new Error(`Provided listingId ${listingId} doesn't exist`);
     }

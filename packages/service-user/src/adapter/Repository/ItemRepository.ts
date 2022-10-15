@@ -1,32 +1,13 @@
-import { Client } from "pg";
 import { ItemRepository } from "../../application/Port";
 import { Item } from "../../domain/Model";
 import { ItemRawInterface } from "../../types";
-import { LoggerUtil } from "../../utils";
 import { ItemMapper } from "../Mapper";
+import { AbstractRepositoryImpl } from "./AbstractRepository";
 
 
-export class ItemRepositoryImpl implements ItemRepository {
-  public readonly tableName: string;
-  private _logger: LoggerUtil;
-
-  private constructor(tableName: string, className: string) {
-    this.tableName = tableName;
-    this._logger = new LoggerUtil(className);
-  }
+export class ItemRepositoryImpl extends AbstractRepositoryImpl<Item> implements ItemRepository {
   public static async create(): Promise<ItemRepositoryImpl> {
     return new ItemRepositoryImpl("item", "ItemRepository");
-  }
-
-  public getDBClient() {
-    const client = new Client({
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      port: Number(process.env.DB_PORT),
-    });
-    return client;
   }
 
   public async setup(): Promise<void> {
@@ -75,44 +56,73 @@ export class ItemRepositoryImpl implements ItemRepository {
   public async save(data: Item): Promise<Item> {
     this._logger.info(data, "save()");
     const client = this.getDBClient();
-    try {
-      await client.connect();
+
+    const operations = async (data: Item | string) => {
+      if (!Item.isItem(data)) {
+        throw new Error("Provided data is not Item model")
+      }
       const result = await client.query(
         `INSERT INTO item (name, owner_id, listing_id, created_at) VALUES($1, $2, $3, $4) RETURNING *`,
         [data.name, data.ownerId, data.listingId, data.createdAt]
       );
-      for (const imageUrl of data.imageUrls) {
+        for (const imageUrl of data.imageUrls) {
         await client.query(
           `INSERT INTO item_images (item_id, image_url) VALUES($1, $2)`,
           [result.rows[0].id, imageUrl]
         );
       }
-      await client.end();
-      return result.rows[0];
-    } catch (err) {
-      await client.end();
-      this._logger.error(err, "save()");
-      throw err;
     }
+    const result = await this.startTransaction(operations, client, data)
+    data.id = result.rows[0].id
+    return data;
+    // try {
+    //   await client.connect();
+    //   const result = await client.query(
+    //     `INSERT INTO item (name, owner_id, listing_id, created_at) VALUES($1, $2, $3, $4) RETURNING *`,
+    //     [data.name, data.ownerId, data.listingId, data.createdAt]
+    //   );
+    //   for (const imageUrl of data.imageUrls) {
+    //     await client.query(
+    //       `INSERT INTO item_images (item_id, image_url) VALUES($1, $2)`,
+    //       [result.rows[0].id, imageUrl]
+    //     );
+    //   }
+    //   await client.end();
+    //   return result.rows[0];
+    // } catch (err) {
+    //   await client.end();
+    //   this._logger.error(err, "save()");
+    //   throw err;
+    // }
   }
 
-  public async delete(id: string): Promise<void> {
+  public async delete(id: string): Promise<Item> {
     this._logger.info({ id }, "delete()");
     const client = this.getDBClient();
-    try {
-      await client.connect();
+    const operations = async () => {
       const result = await client.query(
         `DELETE FROM item WHERE id = $1 RETURNING *`,
         [id]
       );
       await client.query("DELETE FROM item_images WHERE item_id = $1", [id]);
-      await client.end();
-      return result.rows[0];
-    } catch (err) {
-      await client.end();
-      this._logger.error(err, "delete()");
-      throw err;
+      return result
     }
+    // try {
+    //   await client.connect();
+    //   const result = await client.query(
+    //     `DELETE FROM item WHERE id = $1 RETURNING *`,
+    //     [id]
+    //   );
+    //   await client.query("DELETE FROM item_images WHERE item_id = $1", [id]);
+    //   await client.end();
+    //   return result.rows[0];
+    // } catch (err) {
+    //   await client.end();
+    //   this._logger.error(err, "delete()");
+    //   throw err;
+    // }
+    const result = await this.startTransaction(operations, client, id)
+    return ItemMapper.toEntityFromRaw(result.rows[0])
   }
 
   public async findOneById(id: string): Promise<Item> {
@@ -120,6 +130,7 @@ export class ItemRepositoryImpl implements ItemRepository {
     const client = this.getDBClient();
     try {
       await client.connect();
+      // use left join for this
       let result = await client.query(
         `SELECT * FROM item WHERE id = $1 RETURNING *`,
         [id]

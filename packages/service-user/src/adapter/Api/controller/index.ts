@@ -47,6 +47,7 @@ exports.handler = async (event: any, context: any) => {
     ) => {
       const { emailAddress, firstName, lastName, password } = request.body;
       try {
+
         const data = await userService.createUser({
           emailAddress,
           firstName,

@@ -64,4 +64,8 @@ export class User {
   public setPayment(payment: Payment) {
     this.payment = payment;
   }
+
+  public static isUser(data: User | string): data is User  {
+    return (data as User).emailAddress !== undefined
+  }
 }

@@ -28,14 +28,11 @@ export class UserSNSMessageSender implements UserMessageSender {
   }
 
   public async userCreated(data: UserInterface) {
-    console.log("ENTERED1.1", data)
     const message = JSON.stringify(data)
     await this._publish(message, UserEvent.Created)
   }
 
   private async _publish(message: string, eventName: UserEvent) {
-    console.log("ENTERED1.2", message)
-    
     try {
       const input: PublishCommandInput = {
         Message: message,
@@ -51,10 +48,8 @@ export class UserSNSMessageSender implements UserMessageSender {
           },
         },
       };
-      console.log("ENTERED1.3", input)
       const command = new PublishCommand(input);
       await this._client.send(command);
-      console.log("ENTERED1.4")
     } catch (err) {
       this._logger.info(err, "_publish()")
       throw err
