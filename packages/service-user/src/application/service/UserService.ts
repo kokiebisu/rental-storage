@@ -2,7 +2,6 @@ import {
   CreateUserInput,
   PaymentService,
   UserEventSender,
-  UserMessageSender,
   UserRepository,
   UserService,
 } from "../Port";
@@ -12,14 +11,12 @@ import { EmailAddress, Name, NameType, User } from "../../domain/Model";
 import { LoggerUtil } from "../../utils";
 import { PaymentServiceImpl } from "./PaymentService";
 import { UserMapper } from "../../adapter/Mapper";
-import { UserSNSMessageSender } from "../../adapter/MessageSender/UserSNSMessageSender";
 import { AWSRegion } from "../../domain/Enum";
 import { UserKinesisStreamEventSender } from "../../adapter/EventSender";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;
   private _paymentService: PaymentService;
-  private _userMessageSender: UserMessageSender
   private _userEventSender: UserEventSender
 
   private _logger: LoggerUtil;
@@ -27,12 +24,10 @@ export class UserServiceImpl implements UserService {
   private constructor(
     userRepository: UserRepository,
     paymentService: PaymentService,
-    userMessageSender: UserMessageSender,
     userEventSender: UserEventSender
   ) {
     this._userRepository = userRepository;
     this._paymentService = paymentService;
-    this._userMessageSender = userMessageSender
     this._userEventSender = userEventSender
     this._logger = new LoggerUtil("UserServiceImpl");
   }
@@ -41,9 +36,8 @@ export class UserServiceImpl implements UserService {
     const userRepository = await UserRepositoryImpl.create();
     await userRepository.setup();
     const paymentService = await PaymentServiceImpl.create();
-    const userMessageSender = await UserSNSMessageSender.create(AWSRegion.US_EAST_1)
     const userEventSender = await UserKinesisStreamEventSender.create(AWSRegion.US_EAST_1)
-    return new UserServiceImpl(userRepository, paymentService, userMessageSender, userEventSender);
+    return new UserServiceImpl(userRepository, paymentService, userEventSender);
   }
 
   public async createUser(data: CreateUserInput): Promise<UserInterface> {
@@ -55,9 +49,7 @@ export class UserServiceImpl implements UserService {
         emailAddress: new EmailAddress(data?.emailAddress),
         password: data.password,
       });
-
       const savedUser = await this._userRepository.save(user);
-
       await this._paymentService.addPayment({
         userId: savedUser.id,
         emailAddress: savedUser.emailAddress.value,

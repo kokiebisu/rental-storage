@@ -1,30 +1,11 @@
-import { Client } from "pg";
 import { PaymentRepository } from "../../application/Port";
 import { Payment } from "../../domain/Model";
-import { LoggerUtil } from "../../utils";
+import { AbstractRepositoryImpl } from "./AbstractRepository";
 
 
-export class PaymentRepositoryImpl implements PaymentRepository {
-  public readonly tableName: string;
-  private _logger: LoggerUtil;
-
-  private constructor(tableName: string, className: string) {
-    this.tableName = tableName;
-    this._logger = new LoggerUtil(className);
-  }
+export class PaymentRepositoryImpl extends AbstractRepositoryImpl<Payment> implements PaymentRepository {
   public static async create(): Promise<PaymentRepositoryImpl> {
     return new PaymentRepositoryImpl("payment", "PaymentRepository");
-  }
-
-  public getDBClient() {
-    const client = new Client({
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      port: 5432,
-    });
-    return client;
   }
 
   public async setup(): Promise<void> {
@@ -59,8 +40,10 @@ export class PaymentRepositoryImpl implements PaymentRepository {
   public async save(data: Payment): Promise<Payment> {
     this._logger.info(data, "save()");
     const client = this.getDBClient();
-    try {
-      await client.connect();
+    const operations = async (data: Payment | string) => {
+      if (!Payment.isPayment(data)) {
+        throw new Error('Provided data is not Payment model')
+      }
       const result = await client.query(
         `
           INSERT INTO payment (
@@ -69,14 +52,10 @@ export class PaymentRepositoryImpl implements PaymentRepository {
         `,
         [data.providerId, data.userId, data.providerType]
       );
-      console.log("SAVED PAYMENT SUCCESSFULLY RESULT: ", result);
-      data.id = result.rows[0].id;
-      await client.end();
-      return data;
-    } catch (err) {
-      this._logger.error(err, "savePayment()");
-      await client.end();
-      throw err;
+      return result
     }
+    const result = await this.startTransaction(operations, client, data)
+    data.id = result.rows[0].id;
+    return result
   }
 }

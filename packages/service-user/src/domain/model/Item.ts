@@ -1,7 +1,7 @@
 import { ItemConstructor } from "../../types";
 
 export class Item {
-  public readonly id?: number;
+  private _id?: number;
   public readonly uid?: string;
   public readonly name: string;
   public readonly imageUrls: string[];
@@ -19,12 +19,27 @@ export class Item {
     ownerId,
     listingId,
   }: ItemConstructor) {
-    this.id = id;
+    this._id = id;
     this.name = name;
     this.imageUrls = imageUrls;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.ownerId = ownerId;
     this.listingId = listingId;
+  }
+
+  public get id() {
+    if (!this._id) {
+      throw new Error('id is not defined')
+    }
+    return this._id
+  }
+
+  public set id(value: number) {
+    this._id = value
+  }
+
+  public static isItem(data: any): data is Item {
+    return (data as Item).ownerId !== undefined && (data as Item).listingId !== undefined
   }
 }

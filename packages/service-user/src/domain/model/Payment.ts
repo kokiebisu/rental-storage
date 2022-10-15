@@ -39,4 +39,8 @@ export class Payment {
   private isProviderType(value: string): value is ProviderType {
     return value === "stripe";
   }
+
+  public static isPayment(data: any): data is Payment {
+    return (data as Payment).providerId !== undefined && (data as Payment).userId !== undefined
+  }
 }

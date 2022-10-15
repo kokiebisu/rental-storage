@@ -1,17 +1,11 @@
-import { Client } from "pg";
+
+
 import { UserRepository } from "../../application/Port";
 import { User } from "../../domain/Model";
-import { LoggerUtil } from "../../utils";
 import { UserMapper } from "../Mapper";
+import { AbstractRepositoryImpl } from "./AbstractRepository";
 
-export class UserRepositoryImpl implements UserRepository {
-  public readonly tableName: string;
-  private _logger: LoggerUtil;
-
-  private constructor(tableName: string, className: string) {
-    this.tableName = tableName;
-    this._logger = new LoggerUtil(className);
-  }
+export class UserRepositoryImpl extends AbstractRepositoryImpl<User> implements UserRepository {
   public static async create(): Promise<UserRepositoryImpl> {
     try {
       return new UserRepositoryImpl("user", "UserRepository");
@@ -19,17 +13,6 @@ export class UserRepositoryImpl implements UserRepository {
       console.error(err);
       throw err;
     }
-  }
-
-  public getDBClient() {
-    const client = new Client({
-      host: process.env.DB_HOST,
-      database: process.env.DB_NAME,
-      user: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      port: 5432,
-    });
-    return client;
   }
 
   public async setup(): Promise<void> {
@@ -65,8 +48,10 @@ export class UserRepositoryImpl implements UserRepository {
   public async save(data: User): Promise<User> {
     this._logger.info(data, "save()");
     const client = this.getDBClient();
-    try {
-      await client.connect();
+    const operations = async (data: User | string) => {
+      if (!User.isUser(data)) {
+        throw new Error("Provided data is not User model") 
+      }
       const result = await client.query(
         `
           INSERT INTO user_account (uid, email_address, password, first_name, last_name, created_at) 
@@ -82,36 +67,25 @@ export class UserRepositoryImpl implements UserRepository {
           data.createdAt,
         ]
       );
-      console.log("save(): ", result);
-      await client.end();
-      data.id = result.rows[0].id;
-      return data;
-    } catch (err) {
-      await client.end();
-      this._logger.error(err, "save()");
-      throw err;
+      return result
     }
+    const result = await this.startTransaction(operations, client, data)
+    data.id = result.rows[0].id;
+    return data;
   }
 
   public async delete(uid: string): Promise<User> {
     this._logger.info(uid, "delete()");
-    const client = this.getDBClient();
-    try {
-      await client.connect();
-      // set up commit/transaction
+    const client = this.getDBClient()
+    const operations = async () => {
       const result = await client.query(
         `DELETE FROM user_account WHERE uid = $1 RETURNING *`,
         [uid]
-      );
-
-      console.log("delete(): ", result);
-      await client.end();
-      return UserMapper.toEntityFromRaw(result.rows[0]);
-    } catch (err) {
-      await client.end();
-      this._logger.error(err, "delete()");
-      throw err;
+      )
+      return result
     }
+    const result = await this.startTransaction(operations, client, uid)
+    return UserMapper.toEntityFromRaw(result.rows[0])
   }
 
   public async findOneById(uid: string): Promise<User> {
@@ -122,10 +96,10 @@ export class UserRepositoryImpl implements UserRepository {
       await client.connect();
       const result = await client.query(
         `
-        SELECT user_account.*, payment.id AS payment_id, payment.provider_id AS payment_provider_id, payment.provider_type AS payment_provider_type FROM user_account 
-        LEFT JOIN payment ON user_account.id = payment.user_id 
-        WHERE user_account.uid = $1
-      `,
+          SELECT user_account.*, payment.id AS payment_id, payment.provider_id AS payment_provider_id, payment.provider_type AS payment_provider_type FROM user_account 
+          LEFT JOIN payment ON user_account.id = payment.user_id 
+          WHERE user_account.uid = $1
+        `,
         [uid]
       );
       await client.end();
@@ -151,8 +125,6 @@ export class UserRepositoryImpl implements UserRepository {
         `,
         [emailAddress]
       );
-
-      console.log("findOneByEmail: ", result);
 
       await client.end();
       return UserMapper.toEntityFromRaw(result.rows[0]);
