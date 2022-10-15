@@ -2,6 +2,5 @@ GetPresignedURLGraphql:
   image:
     name: app
     command:
-      - adapter/api/appsync/get_presigned_url.handler
-  handler: get_presigned_url.handler
+      - get_presigned_upload_url.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-get-presigned-url

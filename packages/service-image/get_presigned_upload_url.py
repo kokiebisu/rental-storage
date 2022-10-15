@@ -2,7 +2,12 @@ import logging
 import boto3
 from botocore.exceptions import ClientError
 
-def create_presigned_post(bucket_name, object_name,
+def handler(event, _):
+    logging.info("EVENT: ", event)
+    response = get_presigned_upload_url('rental-a-storage-listing-dev-profile', 'random')
+    return response
+
+def get_presigned_upload_url(bucket_name, object_name,
                           fields=None, conditions=None, expiration=3600):
     """Generate a presigned URL S3 POST request to upload a file
 
