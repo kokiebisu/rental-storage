@@ -24,4 +24,4 @@ custom:
   service: slack
 
 functions:
-  - ${file(./aws/functions/sqs.yml)}
+  - ${file(./aws/functions/kinesis.yml)}

@@ -1,6 +1,6 @@
 Type: "AWS::SNS::Subscription"
 DependsOn:
-  - UserQueue
+  - QueueUser
   - SNSTopicItemCreated
 Properties:
   Protocol: sqs

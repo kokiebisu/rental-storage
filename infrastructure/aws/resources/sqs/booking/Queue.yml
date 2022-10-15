@@ -1,5 +1,5 @@
 Type: "AWS::SQS::Queue"
-DependsOn: BookingDLQueue
+DependsOn: DLQueueBooking
 Properties:
   QueueName: ${self:provider.stage}-${self:custom.namespace}-booking-queue
   VisibilityTimeout: 930
