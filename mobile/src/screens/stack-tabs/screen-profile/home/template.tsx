@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../../../../context/auth";
 import { googleConfig } from "../../../../env";
 
-import { SuggestionRow } from "../../stack-find/home/suggestion-row";
+import { SuggestionRow } from "../../screen-find/home/suggestion-row";
 
 import "./styles";
 

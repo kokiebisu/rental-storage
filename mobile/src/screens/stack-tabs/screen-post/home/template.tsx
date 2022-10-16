@@ -5,14 +5,12 @@ import {
   View,
   Text,
   Pressable,
-  Image,
   TextInput,
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { googleConfig } from "../../../../env";
-
-import { SuggestionRow } from "../../stack-find/home/suggestion-row";
+import { SuggestionRow } from "../../screen-find/home/suggestion-row";
 
 import "./styles";
 

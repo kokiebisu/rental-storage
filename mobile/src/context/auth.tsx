@@ -61,11 +61,15 @@ export const AuthContextProvider = ({ children }) => {
   const authContext = useMemo(
     () => ({
       signIn: async (data) => {
+        if (!data.emailAddress || !data.password) {
+          alert("Input missing!");
+          return;
+        }
         const response = await axios.post(
           "https://17gm42qnnb.execute-api.us-east-1.amazonaws.com/dev/auth/signin",
           {
-            emailAddress: "ken5@gmail.com",
-            password: "password",
+            emailAddress: data.emailAddress,
+            password: data.password,
           }
         );
 
@@ -99,6 +103,15 @@ export const AuthContextProvider = ({ children }) => {
         }
       },
       signUp: async (data) => {
+        if (
+          !data.emailAddress ||
+          !data.password ||
+          !data.firstName ||
+          !data.lastName
+        ) {
+          alert("Input missing");
+          return;
+        }
         const response = await axios.post(
           "https://17gm42qnnb.execute-api.us-east-1.amazonaws.com/dev/auth/signup",
           {
