@@ -4,11 +4,11 @@ from botocore.exceptions import ClientError
 
 def handler(event, _):
     logging.info("EVENT: ", event)
-    response = get_presigned_upload_url('dev-rental-a-locker-listing-profile', 'random')
+    print("EVENT: ", event)
+    response = get_presigned_upload_url(event['arguments']['filename'])
     return response
 
-def get_presigned_upload_url(bucket_name, object_name,
-                          fields=None, conditions=None, expiration=3600):
+def get_presigned_upload_url(filename: str):
     """Generate a presigned URL S3 POST request to upload a file
 
     :param bucket_name: string
@@ -23,15 +23,23 @@ def get_presigned_upload_url(bucket_name, object_name,
     """
 
     # Generate a presigned S3 POST URL
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client('s3', region_name="us-east-1", config=boto3.session.Config(signature_version='s3v4'))
     try:
-        response = s3_client.generate_presigned_post(
-                Bucket="dev-rental-a-locker-listing-profile", Key="test", ExpiresIn=36000)
-        print("Got presigned POST URL: %s", response['url'])
+        put_url = s3_client.generate_presigned_url(
+                'put_object',
+                Params={
+                    'Bucket': "dev-rental-a-locker-listing-profile",
+                    'Key': filename,
+                    'ACL': 'public-read'
+                })
+        print("Got presigned POST URL: %s", put_url)
     except ClientError:
         print(
             "Couldn't get a presigned POST URL for bucket '%s' and object '%s'",
-            "dev-rental-a-locker-listing-profile", response['url'])
+            "dev-rental-a-locker-listing-profile", put_url)
         raise
-    return response
+    return {
+        'url': put_url,
+        'filename': filename
+    }
         

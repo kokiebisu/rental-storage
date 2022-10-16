@@ -6,7 +6,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: python3.9
   stage: dev
   region: us-east-1
   lambdaHashingVersion: 20201221
@@ -14,10 +14,10 @@ provider:
     name: rental-a-locker-image-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
-  # ecr:
-  #   images:
-  #     app:
-  #       path: ./
+  ecr:
+    images:
+      app:
+        path: ./
 
 custom:
   namespace: rental-a-locker
