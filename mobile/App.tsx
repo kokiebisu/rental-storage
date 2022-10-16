@@ -1,14 +1,6 @@
 import * as React from "react";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
-<<<<<<< Updated upstream
-
-import { MyTabs } from "./src/navigation/tab";
-import { ApolloProvider } from "@apollo/client";
-import { appsyncClient } from "./src/integration/graphql";
-
-import { ContextProvider } from "./src/context";
-=======
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApolloProvider } from "@apollo/client";
 
@@ -20,23 +12,13 @@ import { AuthSignInScreen } from "./src/stacks/stack-auth/signin";
 import { ContextProvider } from "./src/context";
 
 const Stack = createNativeStackNavigator();
->>>>>>> Stashed changes
-
 export default () => {
   return (
     <ApolloProvider client={appsyncClient}>
       <ContextProvider>
-<<<<<<< Updated upstream
-        <NavigationContainer>
-          <MyTabs />
-        </NavigationContainer>
-        <StatusBar />
-      </ContextProvider>
-=======
         <Main />
       </ContextProvider>
       <StatusBar />
->>>>>>> Stashed changes
     </ApolloProvider>
   );
 };
