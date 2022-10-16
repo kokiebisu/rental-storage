@@ -7,7 +7,7 @@ import { ActivityIndicator, View, StyleSheet, Image } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const SplashScreen = ({ navigation }) => {
+export const SplashScreen = ({ navigation }) => {
   //State for ActivityIndicator animation
   const [animating, setAnimating] = useState(true);
 
@@ -38,8 +38,6 @@ const SplashScreen = ({ navigation }) => {
     </View>
   );
 };
-
-export default SplashScreen;
 
 const styles = StyleSheet.create({
   container: {

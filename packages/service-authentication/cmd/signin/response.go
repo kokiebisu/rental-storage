@@ -8,9 +8,9 @@ import (
 
 func SendResponse(token string) (events.APIGatewayProxyResponse, error) {
 	payload := &struct{
-		Token string `json:"token"`
+		AuthorizationToken string `json:"authorizationToken"`
 	}{
-		Token: token,
+		AuthorizationToken: token,
 	}
 	encoded, _ := json.Marshal(payload)
 	return events.APIGatewayProxyResponse{

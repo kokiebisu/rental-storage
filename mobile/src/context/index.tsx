@@ -1,5 +1,5 @@
-import { TodoContextProvider } from "./todos";
+import { AuthContextProvider } from "./auth";
 
-export const ContextProvider = ({ children }) => {
-  return <TodoContextProvider>{children}</TodoContextProvider>;
-};
+export const ContextProvider = ({ children }) => (
+  <AuthContextProvider>{children}</AuthContextProvider>
+);
