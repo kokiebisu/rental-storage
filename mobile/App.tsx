@@ -4,27 +4,30 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApolloProvider } from "@apollo/client";
 
-import { appsyncClient } from "./src/integration/graphql";
 import { AuthContext } from "./src/context/auth";
 import { ContextProvider } from "./src/context";
 import { SplashScreen } from "./src/screens";
 import { AuthSignInScreen } from "./src/screens/stack-auth";
 import { AuthSignUpScreen } from "./src/screens/stack-auth";
 import { Tabs } from "./src/screens/stack-tabs";
+import { useInitialize } from "./src/hooks/useInitialize";
 
-const Stack = createNativeStackNavigator();
-export default () => (
-  <ApolloProvider client={appsyncClient}>
-    <ContextProvider>
-      <Main />
-    </ContextProvider>
-    <StatusBar />
-  </ApolloProvider>
-);
+const App = () => {
+  const { client } = useInitialize();
+  return client ? (
+    <ApolloProvider client={client}>
+      <ContextProvider>
+        <Main />
+      </ContextProvider>
+      <StatusBar />
+    </ApolloProvider>
+  ) : null;
+};
 
 const Main = () => {
   const { authState } = React.useContext(AuthContext);
   const isSignedIn = authState.userToken == null;
+  const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -51,3 +54,5 @@ const Main = () => {
     </NavigationContainer>
   );
 };
+
+export default App;
