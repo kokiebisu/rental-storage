@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 
 def handler(event, _):
     logging.info("EVENT: ", event)
-    response = get_presigned_upload_url('rental-a-storage-listing-dev-profile', 'random')
+    response = get_presigned_upload_url('dev-rental-a-locker-listing-profile', 'random')
     return response
 
 def get_presigned_upload_url(bucket_name, object_name,
@@ -25,14 +25,13 @@ def get_presigned_upload_url(bucket_name, object_name,
     # Generate a presigned S3 POST URL
     s3_client = boto3.client('s3')
     try:
-        response = s3_client.generate_presigned_post(bucket_name,
-                                                    object_name,
-                                                    Fields=fields,
-                                                    Conditions=conditions,
-                                                    ExpiresIn=expiration)
-    except ClientError as e:
-        logging.error(e)
-        return None
-
-    # The response contains the presigned URL and required fields
+        response = s3_client.generate_presigned_post(
+                Bucket="dev-rental-a-locker-listing-profile", Key="test", ExpiresIn=36000)
+        print("Got presigned POST URL: %s", response['url'])
+    except ClientError:
+        print(
+            "Couldn't get a presigned POST URL for bucket '%s' and object '%s'",
+            "dev-rental-a-locker-listing-profile", response['url'])
+        raise
     return response
+        

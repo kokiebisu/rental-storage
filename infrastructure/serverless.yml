@@ -46,6 +46,7 @@ resources:
 
     # S3
     ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfile/Bucket.yml)}
+    BucketPolicyListingProfile: ${file(./aws/resources/s3/ListingProfile/BucketPolicy.yml)}
 
     # RDS
     UserRDSInstance: ${file(./aws/resources/rds/user/DBInstance.yml)}

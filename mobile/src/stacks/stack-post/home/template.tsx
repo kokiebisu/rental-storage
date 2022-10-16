@@ -36,10 +36,11 @@ export default ({
       <View style={{ marginTop: 20 }}>
         <Pressable onPress={handleImagePick}>
           {image ? (
-            <Image
-              source={{ uri: image }}
-              style={{ width: "100%", height: 300 }}
-            />
+            // <Image
+            //   source={{ uri: image }}
+            //   style={{ width: "100%", height: 300 }}
+            // />
+            <View><Text>image here</Text></View>
           ) : (
             <View
               style={{
