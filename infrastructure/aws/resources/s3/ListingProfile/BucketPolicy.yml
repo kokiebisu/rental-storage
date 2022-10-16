@@ -1,0 +1,13 @@
+Type: 'AWS::S3::BucketPolicy'
+Properties:
+  PolicyDocument:
+    Statement:
+      - Sid: PublicReadForGetBucketObjects
+        Effect: Allow
+        Principal: '*'
+        Action:
+          - 's3:GetObject'
+          - 's3:PutObject'
+        Resource: arn:aws:s3:::${self:provider.stage}-${self:custom.namespace}-listing-profile/*
+  Bucket:
+    Ref: ListingProfileS3Bucket

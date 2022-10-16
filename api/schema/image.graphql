@@ -4,9 +4,10 @@ schema {
 }
 
 type Query {
-  getPresignedURL: PresignedURL
+  getPresignedURL(filename: String): PresignedURL
 }
 
 type PresignedURL {
   url: String
+  filename: String
 }

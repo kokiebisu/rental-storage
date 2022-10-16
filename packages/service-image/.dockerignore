@@ -1,0 +1,10 @@
+.serverless
+aws
+node_modules
+vendor
+venv
+Makefile
+Dockerfile
+package-lock.json
+package.json
+serverless.yml
