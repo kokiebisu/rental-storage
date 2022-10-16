@@ -5,23 +5,23 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApolloProvider } from "@apollo/client";
 
 import { appsyncClient } from "./src/integration/graphql";
-import { Tabs } from "./src/navigation/tab";
+import { Tabs } from "./src/stacks/stack-tabs";
 import { AuthContext } from "./src/context/auth";
-import SplashScreen from "./src/stacks/screen-splash";
+
 import { AuthSignInScreen } from "./src/stacks/stack-auth/signin";
 import { ContextProvider } from "./src/context";
+import { SplashScreen } from "./src/screens";
+import { AuthSignUpScreen } from "./src/stacks/stack-auth/signup";
 
 const Stack = createNativeStackNavigator();
-export default () => {
-  return (
-    <ApolloProvider client={appsyncClient}>
-      <ContextProvider>
-        <Main />
-      </ContextProvider>
-      <StatusBar />
-    </ApolloProvider>
-  );
-};
+export default () => (
+  <ApolloProvider client={appsyncClient}>
+    <ContextProvider>
+      <Main />
+    </ContextProvider>
+    <StatusBar />
+  </ApolloProvider>
+);
 
 const Main = () => {
   const { authState } = React.useContext(AuthContext);
@@ -29,24 +29,25 @@ const Main = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <React.Fragment>
+        <Stack.Group>
           {isSignedIn ? (
-            <React.Fragment>
+            <Stack.Group>
               <Stack.Screen name="SignIn" component={AuthSignInScreen} />
-            </React.Fragment>
+              <Stack.Screen name="SignUp" component={AuthSignUpScreen} />
+            </Stack.Group>
           ) : (
-            <React.Fragment>
+            <Stack.Group>
               <Stack.Screen
                 name="Tabs"
                 component={Tabs}
                 options={{ headerShown: false }}
               />
-            </React.Fragment>
+            </Stack.Group>
           )}
           <Stack.Group>
             <Stack.Screen name="Splash" component={SplashScreen} />
           </Stack.Group>
-        </React.Fragment>
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

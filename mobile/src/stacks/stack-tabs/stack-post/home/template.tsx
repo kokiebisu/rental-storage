@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { googleConfig } from "../../../../env";
 
-import { googleConfig } from "../../../env/google";
 import { SuggestionRow } from "../../stack-find/home/suggestion-row";
 
 import "./styles";
@@ -40,7 +40,9 @@ export default ({
             //   source={{ uri: image }}
             //   style={{ width: "100%", height: 300 }}
             // />
-            <View><Text>image here</Text></View>
+            <View>
+              <Text>image here</Text>
+            </View>
           ) : (
             <View
               style={{

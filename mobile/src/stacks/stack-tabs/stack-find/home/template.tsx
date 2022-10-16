@@ -4,7 +4,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { SafeAreaView } from "react-native-safe-area-context";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { googleConfig } from "../../../env";
+import { googleConfig } from "../../../../env";
 import styles from "./styles";
 import { SuggestionRow } from "./suggestion-row";
 
