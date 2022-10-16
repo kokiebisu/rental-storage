@@ -5,13 +5,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApolloProvider } from "@apollo/client";
 
 import { appsyncClient } from "./src/integration/graphql";
-import { Tabs } from "./src/stacks/stack-tabs";
+
 import { AuthContext } from "./src/context/auth";
 
-import { AuthSignInScreen } from "./src/stacks/stack-auth/signin";
+import { AuthSignInScreen } from "./src/screens/stack-auth/screen-signin";
 import { ContextProvider } from "./src/context";
-import { SplashScreen } from "./src/screens";
-import { AuthSignUpScreen } from "./src/stacks/stack-auth/signup";
+import { SplashScreen, Tabs } from "./src/screens";
+import { AuthSignUpScreen } from "./src/screens/stack-auth/screen-signup";
 
 const Stack = createNativeStackNavigator();
 export default () => (
