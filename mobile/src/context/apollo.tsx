@@ -1,3 +1,4 @@
+import { createContext } from "react";
 import {
   ApolloClient,
   ApolloLink,
@@ -13,15 +14,17 @@ import * as SecureStore from "expo-secure-store";
 const getUserToken = async () => {
   try {
     const token = await SecureStore.getItemAsync("userToken");
-    console.debug("TOKEN: ", token);
     return token;
   } catch (err) {
     console.error(err);
   }
 };
 
-export const useInitialize = () => {
+export const ApolloContext = createContext(null);
+
+export const ApolloContextProvider = ({ children }) => {
   const [client, setClient] = useState<any>(null);
+
   useEffect(() => {
     (async () => {
       const token = await getUserToken();
@@ -47,5 +50,8 @@ export const useInitialize = () => {
       );
     })();
   }, []);
-  return { client };
+
+  return (
+    <ApolloContext.Provider value={client}>{children}</ApolloContext.Provider>
+  );
 };

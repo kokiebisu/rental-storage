@@ -1,5 +1,10 @@
 ## Query
 - type: AWS_LAMBDA
+  name: FindMeFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-user-graphql-find-me
+
+- type: AWS_LAMBDA
   name: FindUserByIdFunction
   config:
     lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-user-graphql-find-user-by-id
