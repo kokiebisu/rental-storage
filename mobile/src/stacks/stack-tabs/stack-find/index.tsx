@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { stacksConfig } from "../../config";
+import { stacksConfig } from "../../../config";
 import { FindMapScreen } from "./map";
 import { FindHomeScreen } from "./home";
 import { FindDetailsScreen } from "./details";

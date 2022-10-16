@@ -1,7 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { tabsConfig } from "../config";
-import { FindStackScreen, PostStackScreen } from "../stacks";
+
+import { tabsConfig } from "../../config";
+import { FindStackScreen } from "./stack-find";
+import { PostStackScreen } from "./stack-post";
+import { ProfileStackScreen } from "./stack-profile";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -22,8 +25,13 @@ export const Tabs = () => {
       />
       <Tab.Screen
         options={generateTabConfig("Post")}
-        name="PostStock"
+        name="PostStack"
         component={PostStackScreen}
+      />
+      <Tab.Screen
+        options={generateTabConfig("Post")}
+        name="ProfileStack"
+        component={ProfileStackScreen}
       />
     </Tab.Navigator>
   );

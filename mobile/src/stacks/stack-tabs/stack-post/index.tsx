@@ -2,7 +2,7 @@ import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { PostHomeScreen } from "./home";
-import { stacksConfig } from "../../config";
+import { stacksConfig } from "../../../config";
 
 const PostStack = createNativeStackNavigator();
 

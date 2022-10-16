@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ApolloProvider } from "@apollo/client";
 
 import { appsyncClient } from "./src/integration/graphql";
-import { Tabs } from "./src/navigation/tab";
+import { Tabs } from "./src/stacks/stack-tabs";
 import { AuthContext } from "./src/context/auth";
 
 import { AuthSignInScreen } from "./src/stacks/stack-auth/signin";
@@ -29,25 +29,25 @@ const Main = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <React.Fragment>
+        <Stack.Group>
           {isSignedIn ? (
-            <React.Fragment>
+            <Stack.Group>
               <Stack.Screen name="SignIn" component={AuthSignInScreen} />
               <Stack.Screen name="SignUp" component={AuthSignUpScreen} />
-            </React.Fragment>
+            </Stack.Group>
           ) : (
-            <React.Fragment>
+            <Stack.Group>
               <Stack.Screen
                 name="Tabs"
                 component={Tabs}
                 options={{ headerShown: false }}
               />
-            </React.Fragment>
+            </Stack.Group>
           )}
           <Stack.Group>
             <Stack.Screen name="Splash" component={SplashScreen} />
           </Stack.Group>
-        </React.Fragment>
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

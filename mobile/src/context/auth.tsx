@@ -73,6 +73,7 @@ export const AuthContextProvider = ({ children }) => {
 
         if (response.status !== 200) {
           alert("something went wrong");
+          return;
         }
 
         const { authorizationToken } = response.data;
@@ -89,7 +90,14 @@ export const AuthContextProvider = ({ children }) => {
           console.error(err);
         }
       },
-      signOut: () => dispatch({ type: "SIGN_OUT" }),
+      signOut: async () => {
+        try {
+          await SecureStore.deleteItemAsync("userToken");
+          dispatch({ type: "SIGN_OUT" });
+        } catch (err) {
+          console.error(err);
+        }
+      },
       signUp: async (data) => {
         const response = await axios.post(
           "https://17gm42qnnb.execute-api.us-east-1.amazonaws.com/dev/auth/signup",
@@ -100,6 +108,11 @@ export const AuthContextProvider = ({ children }) => {
             password: data.password,
           }
         );
+
+        if (response.status !== 200) {
+          alert("Something went wrong");
+          return;
+        }
 
         const { authorizationToken } = response.data;
         console.log("RESPONSE: ", response.data);
