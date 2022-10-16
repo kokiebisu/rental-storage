@@ -28,17 +28,3 @@ export const Tabs = () => {
     </Tab.Navigator>
   );
 };
-
-export const MainStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Tabs"
-        component={Tabs}
-        options={{ headerShown: false }}
-      />
-      {/* Profile */}
-      {/* Settings */}
-    </Stack.Navigator>
-  );
-};

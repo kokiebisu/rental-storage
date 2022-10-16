@@ -7,9 +7,5 @@ import AuthSignInScreen from "./signin";
 const Stack = createNativeStackNavigator();
 
 export const AuthStack = () => {
-  return (
-    <Stack.Navigator screenOptions={stacksConfig}>
-      <Stack.Screen name="SignIn" component={AuthSignInScreen} />
-    </Stack.Navigator>
-  );
+  return <></>;
 };

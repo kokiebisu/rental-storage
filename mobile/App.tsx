@@ -1,18 +1,16 @@
 import * as React from "react";
 import { StatusBar } from "expo-status-bar";
-import { NavigationContainer, StackActions } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 
 import { ApolloProvider } from "@apollo/client";
 import { appsyncClient } from "./src/integration/graphql";
-
-import { ContextProvider } from "./src/context";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AuthStack } from "./src/stacks";
 
 import * as SecureStore from "expo-secure-store";
-import { MainStack } from "./src/navigation/tab";
+import { Tabs } from "./src/navigation/tab";
 import { AuthContext } from "./src/context/auth";
 import SplashScreen from "./src/stacks/screen-splash";
+import { AuthSignInScreen } from "./src/stacks/stack-auth/signin";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,7 +51,8 @@ export default () => {
       let userToken;
 
       try {
-        userToken = await SecureStore;
+        userToken = await SecureStore.getItemAsync("userToken");
+        console.log("USER TOKEN: ", userToken);
       } catch (err) {
         // Restoring token failed
       }
@@ -89,14 +88,27 @@ export default () => {
     []
   );
 
+  const isSignedIn = state.userToken == null;
+
   return (
     <ApolloProvider client={appsyncClient}>
       <AuthContext.Provider value={authContext}>
         <NavigationContainer>
-          {/* <MyTabs /> */}
           <Stack.Navigator>
             <>
-              {state.userToken == null ? <AuthStack /> : <MainStack />}
+              {isSignedIn ? (
+                <React.Fragment>
+                  <Stack.Screen name="SignIn" component={AuthSignInScreen} />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Stack.Screen
+                    name="Tabs"
+                    component={Tabs}
+                    options={{ headerShown: false }}
+                  />
+                </React.Fragment>
+              )}
               <Stack.Group>
                 <Stack.Screen name="Splash" component={SplashScreen} />
               </Stack.Group>
