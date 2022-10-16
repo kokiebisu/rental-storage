@@ -1,5 +1,11 @@
 ## Query
 - type: Query
+  field: findMe
+  dataSource: FindMeFunction
+  request: ./user/query.findMe.vtl
+  response: false
+
+- type: Query
   field: findUserById
   dataSource: FindUserByIdFunction
   request: ./user/query.findUserById.vtl
