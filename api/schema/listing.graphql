@@ -10,6 +10,7 @@ type Query {
     longitude: Float!
     range: Int!
   ): [Listing]
+  findMyListings: [Listing]
 }
 
 type Mutation {

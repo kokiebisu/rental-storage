@@ -11,3 +11,9 @@
 - stripe
 - aws (lambda, sqs, sns, s3)
 - postgres
+
+# Add query/mutation
+
+1 Add query to mapping-template/datasource/schema.graphql (api)
+2 Add query/mutation to serverless.yml in service package
+3 Add code

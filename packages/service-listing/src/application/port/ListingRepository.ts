@@ -10,4 +10,5 @@ export interface ListingRepository {
     longitude: number,
     range: number
   ): Promise<Listing[]>;
+  findManyByUserId(userId: string): Promise<Listing[]>;
 }

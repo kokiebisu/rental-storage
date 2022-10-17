@@ -15,6 +15,7 @@ export interface ListingService {
     range: number
   ): Promise<ListingInterface[]>;
   findListingById(uid: string): Promise<ListingInterface>;
+  findListingsByUserId(userId: string): Promise<ListingInterface[]>;
   addListing(data: AddListing): Promise<boolean>;
   removeListingById(uid: string): Promise<boolean>;
 }

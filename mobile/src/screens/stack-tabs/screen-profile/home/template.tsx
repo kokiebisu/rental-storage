@@ -9,15 +9,15 @@ import { ProfileContext } from "../../../../context/profile";
 
 export default () => {
   const { signOut } = useContext(AuthContext);
-  const { profile } = useContext(ProfileContext);
-
+  const { profileState } = useContext(ProfileContext);
+  console.log("STATE: ", profileState);
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
       <Button title="Sign out" onPress={() => signOut()} />
       <View>
-        <Text>{profile.emailAddress}</Text>
+        <Text>{profileState.emailAddress}</Text>
         <Text>
-          {profile.firstName} {profile.lastName}
+          {profileState.firstName} {profileState.lastName}
         </Text>
       </View>
     </SafeAreaView>
