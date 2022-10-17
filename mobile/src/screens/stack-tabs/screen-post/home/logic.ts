@@ -1,33 +1,66 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
-import { useLazyQuery } from "@apollo/client";
-import { QUERY_GET_PRESIGNED_URL } from "../../../../graphql";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import {
+  MUTATION_ADD_LISTING,
+  QUERY_GET_PRESIGNED_URL,
+} from "../../../../graphql";
+import { ProfileContext } from "../../../../context/profile";
+import { Client } from "../../../../config/appsync";
 
 export const usePostHomeScreen = () => {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
   const [latLng, setLatLng] = useState(null);
   const [url, setUrl] = useState(null);
+  const { profile } = useContext(ProfileContext);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const [getImageUrls, { loading, error, data: imageUrlsData }] = useLazyQuery(
     QUERY_GET_PRESIGNED_URL
   );
+  const [
+    addListing,
+    {
+      data: addListingData,
+      loading: addListingLoading,
+      error: addListingError,
+    },
+  ] = useMutation(MUTATION_ADD_LISTING, {
+    client: Client,
+  });
 
   useEffect(() => {
-    console.log("IMAGE URL: ", imageUrlsData);
     if (imageUrlsData) {
       const { url } = imageUrlsData.getPresignedURL;
       setUrl(url);
     }
   }, [imageUrlsData]);
 
-  console.log("URL: ", url);
-
   const handlePostListing = async () => {
     try {
       await uploadPhotoToS3(image.base64, image.uri, url);
+      console.log("VARIABLES: ", {
+        variables: {
+          imageUrls: [url.split("?")[0]],
+          lenderId: profile.uid,
+          latitude: latLng.lat,
+          longitude: latLng.lng,
+          streetAddress,
+        },
+      });
+      await addListing({
+        variables: {
+          imageUrls: [url.split("?")[0]],
+          lenderId: profile.uid,
+          latitude: latLng.lat,
+          longitude: latLng.lng,
+          streetAddress,
+        },
+      });
     } catch (err) {
       console.error(err);
     }
@@ -78,12 +111,13 @@ export const usePostHomeScreen = () => {
       if (!result.cancelled) {
         const arr = result.uri.split("/");
         const filename = arr[arr.length - 1];
-        console.log("RESULT: ", filename);
+
         setImage(result);
         getImageUrls({
           variables: {
             filename,
           },
+          client: Client,
         });
       }
     } catch (err) {
@@ -99,7 +133,8 @@ export const usePostHomeScreen = () => {
     handlePriceChange: (e) => setPrice(e),
     handlePostListing,
     handleSelectSuggestion: (data, details = null) => {
-      setLatLng(details.geometry.viewport);
+      setStreetAddress(data.description);
+      setLatLng(details.geometry.location);
     },
     handleImagePick,
   };

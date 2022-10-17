@@ -1,6 +1,6 @@
 # Query
 FindListingByIdQuery:
-  handler: dist/adapter/in/api/graphql/query/FindListingById.handler
+  handler: dist/adapter/api/graphql/query/FindListingById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-listing-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -12,7 +12,7 @@ FindListingByIdQuery:
     ACCOUNT_ID: ${aws:accountId}
 
 FindListingsWithinLatLngQuery:
-  handler: dist/adapter/in/api/graphql/query/FindListingsWithinLatLng.handler
+  handler: dist/adapter/api/graphql/query/FindListingsWithinLatLng.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-listings-within-lat-lng
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -25,7 +25,7 @@ FindListingsWithinLatLngQuery:
 
 # Mutation
 AddListingMutation:
-  handler: dist/adapter/in/api/graphql/mutation/AddListing.handler
+  handler: dist/adapter/api/graphql/mutation/AddListing.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-add-listing
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -37,7 +37,7 @@ AddListingMutation:
     ACCOUNT_ID: ${aws:accountId}
 
 RemoveListingByIdMutation:
-  handler: dist/adapter/in/api/graphql/mutation/RemoveListingById.handler
+  handler: dist/adapter/api/graphql/mutation/RemoveListingById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-remove-listing-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}

@@ -28,7 +28,6 @@ exports.handler = async (event: any, context: any) => {
     ) => {
       const { emailAddress } = request.query;
       const data = await userService.findByEmail(emailAddress);
-      console.log("FIND BY EMAIL: ", data);
       reply.send(data);
     }
   );

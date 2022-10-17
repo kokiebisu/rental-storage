@@ -1,5 +1,5 @@
-import { Listing, StreetAddress } from "../../../domain/model";
-import { ListingInterface, ListingRawInterface } from "../../../types";
+import { Listing, StreetAddress } from "../../domain/model";
+import { ListingInterface, ListingRawInterface } from "../../types";
 
 export class ListingMapper {
   public static toEntityFromRaw(data: ListingRawInterface): Listing {

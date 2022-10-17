@@ -44,7 +44,6 @@ export const AuthContextProvider = ({ children }) => {
 
       try {
         userToken = await SecureStore.getItemAsync("userToken");
-        console.log("USER TOKEN: ", userToken);
       } catch (err) {
         // Restoring token failed
       }

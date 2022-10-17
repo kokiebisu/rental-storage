@@ -20,10 +20,10 @@ export const QUERY_FIND_USER_BY_EMAIL = gql`
 export const QUERY_FIND_ME = gql`
   query Query {
     findMe {
-      createdAt
-      emailAddress
-      firstName
+      uid
       lastName
+      firstName
+      emailAddress
     }
   }
 `;
