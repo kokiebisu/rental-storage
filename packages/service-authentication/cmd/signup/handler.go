@@ -12,16 +12,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type UserCreationPayload struct {
-	EmailAddress      string `json:"emailAddress"`
-	Password   string `json:"password"`
-	FirstName string `json:"firstName"`
-	LastName string `json:"lastName"`
-}
-
-type AuthorizationTokenPayload struct {
-	AuthorizationToken string `json:"authorizationToken"`
-}
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// get email address and password from event argument
@@ -31,8 +21,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
 	}
 
+	fmt.Println("Password: ", bodyRequest.Password)
+
 	// hash password
-	hash, err := bcrypt.GenerateFromPassword([]byte(bodyRequest.Password), 10)
+	hash, err := bcrypt.GenerateFromPassword([]byte(bodyRequest.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("cannot hash password"), StatusCode: 500}, nil
 	}

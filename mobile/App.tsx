@@ -11,17 +11,14 @@ import { AuthSignInScreen } from "./src/screens/stack-auth";
 import { AuthSignUpScreen } from "./src/screens/stack-auth";
 import { Tabs } from "./src/screens/stack-tabs";
 import { useInitialize } from "./src/hooks/useInitialize";
+import { Client } from "./src/config/appsync";
 
 const App = () => {
-  const { client } = useInitialize();
-  return client ? (
-    <ApolloProvider client={client}>
-      <ContextProvider>
-        <Main />
-      </ContextProvider>
-      <StatusBar />
-    </ApolloProvider>
-  ) : null;
+  return (
+    <ContextProvider>
+      <Main />
+    </ContextProvider>
+  );
 };
 
 const Main = () => {
@@ -29,29 +26,32 @@ const Main = () => {
   const isSignedIn = authState.userToken == null;
   const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Group>
-          {isSignedIn ? (
-            <Stack.Group>
-              <Stack.Screen name="SignIn" component={AuthSignInScreen} />
-              <Stack.Screen name="SignUp" component={AuthSignUpScreen} />
-            </Stack.Group>
-          ) : (
-            <Stack.Group>
-              <Stack.Screen
-                name="Tabs"
-                component={Tabs}
-                options={{ headerShown: false }}
-              />
-            </Stack.Group>
-          )}
+    <ApolloProvider client={Client}>
+      <NavigationContainer>
+        <Stack.Navigator>
           <Stack.Group>
-            <Stack.Screen name="Splash" component={SplashScreen} />
+            {isSignedIn ? (
+              <Stack.Group>
+                <Stack.Screen name="SignIn" component={AuthSignInScreen} />
+                <Stack.Screen name="SignUp" component={AuthSignUpScreen} />
+              </Stack.Group>
+            ) : (
+              <Stack.Group>
+                <Stack.Screen
+                  name="Tabs"
+                  component={Tabs}
+                  options={{ headerShown: false }}
+                />
+              </Stack.Group>
+            )}
+            <Stack.Group>
+              <Stack.Screen name="Splash" component={SplashScreen} />
+            </Stack.Group>
           </Stack.Group>
-        </Stack.Group>
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+      <StatusBar />
+    </ApolloProvider>
   );
 };
 

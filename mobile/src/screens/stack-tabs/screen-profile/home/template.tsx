@@ -10,11 +10,23 @@ import "./styles";
 
 export default () => {
   const { signOut } = useContext(AuthContext);
-  const { data } = useQuery<any>(QUERY_FIND_ME, {
+  const { data, loading, error } = useQuery<any>(QUERY_FIND_ME, {
     fetchPolicy: "network-only",
   });
-  if (!data) {
-    alert("something went wrong");
+
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
+  if (error) {
+    alert("Somethign happened");
+  }
+
+  if (!data || !data.findMe) {
+    signOut();
   }
   const {
     findMe: { firstName, lastName, emailAddress, createdAt },

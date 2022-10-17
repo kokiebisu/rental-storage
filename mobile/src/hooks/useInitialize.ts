@@ -13,39 +13,40 @@ import * as SecureStore from "expo-secure-store";
 const getUserToken = async () => {
   try {
     const token = await SecureStore.getItemAsync("userToken");
-    console.debug("TOKEN: ", token);
     return token;
   } catch (err) {
     console.error(err);
   }
 };
 
-export const useInitialize = () => {
+export const useInitialize = ({ authState }) => {
   const [client, setClient] = useState<any>(null);
   useEffect(() => {
-    (async () => {
-      const token = await getUserToken();
-      const url = appsyncConfig.GRAPHQL_ENDPOINT;
-      const region = appsyncConfig.REGION;
-      const auth = {
-        type: appsyncConfig.AUTHENTICATION_TYPE,
-        token: token,
-      } as AuthOptions;
+    if (!authState.userToken) {
+      (async () => {
+        const token = await getUserToken();
+        const url = appsyncConfig.GRAPHQL_ENDPOINT;
+        const region = appsyncConfig.REGION;
+        const auth = {
+          type: appsyncConfig.AUTHENTICATION_TYPE,
+          token: token,
+        } as AuthOptions;
 
-      const httpLink = new HttpLink({ uri: url });
+        const httpLink = new HttpLink({ uri: url });
 
-      const link = ApolloLink.from([
-        createAuthLink({ url, region: appsyncConfig.REGION, auth }),
-        createSubscriptionHandshakeLink({ url, region, auth }, httpLink),
-      ]);
+        const link = ApolloLink.from([
+          createAuthLink({ url, region: appsyncConfig.REGION, auth }),
+          createSubscriptionHandshakeLink({ url, region, auth }, httpLink),
+        ]);
 
-      setClient(
-        new ApolloClient({
-          link,
-          cache: new InMemoryCache(),
-        })
-      );
-    })();
-  }, []);
+        setClient(
+          new ApolloClient({
+            link,
+            cache: new InMemoryCache(),
+          })
+        );
+      })();
+    }
+  }, [authState.userToken]);
   return { client };
 };

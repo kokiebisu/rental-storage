@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"github.com/golang-jwt/jwt"
 )
 
@@ -20,7 +18,7 @@ func GenerateJWTToken(payload *Payload) (string, error) {
     claims := Claims{
         payload.UId,
         jwt.StandardClaims{
-            ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+            ExpiresAt: 100000000000000,
             Issuer: "test",
         },
     }

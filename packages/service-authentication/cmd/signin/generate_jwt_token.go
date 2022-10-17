@@ -7,7 +7,7 @@ import (
 )
 
 // GenerateToken returns a unique token based on the provided email string
-func GenerateJWTToken(payload struct{UId string}) (string, error) {
+func GenerateJWTToken(payload *Payload) (string, error) {
     claims := Claims{
         payload.UId,
         jwt.StandardClaims{
