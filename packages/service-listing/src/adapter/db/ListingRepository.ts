@@ -1,9 +1,9 @@
 import { Client } from "pg";
 
-import { ListingMapper } from "../../in/mapper";
-import { ListingRepository } from "../../../application/port";
-import { LoggerUtil } from "../../../utils";
-import { Listing } from "../../../domain/model";
+import { ListingMapper } from "../mapper";
+import { ListingRepository } from "../../application/port";
+import { LoggerUtil } from "../../utils";
+import { Listing } from "../../domain/model";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;
@@ -38,11 +38,11 @@ export class ListingRepositoryImpl implements ListingRepository {
         `
           CREATE TABLE IF NOT EXISTS listing (
             id SERIAL NOT NULL PRIMARY KEY, 
-            uid CHAR(64) NOT NULL,
-            lender_id CHAR(32), 
+            uid VARCHAR(64) NOT NULL,
+            lender_id VARCHAR(64), 
             street_address VARCHAR(100) NOT NULL, 
-            latitude DECIMAL(11,7) NOT NULL, 
-            longitude DECIMAL(11,7) NOT NULL
+            latitude DECIMAL(16,14) NOT NULL, 
+            longitude DECIMAL(16,14) NOT NULL
           )
         `
       );
@@ -50,7 +50,7 @@ export class ListingRepositoryImpl implements ListingRepository {
         `
           CREATE TABLE IF NOT EXISTS images_listing (
             id SERIAL NOT NULL PRIMARY KEY,
-            url VARCHAR(100),
+            url TEXT,
             listing_id INT NOT NULL,
             CONSTRAINT fk_listing
               FOREIGN KEY(listing_id) 

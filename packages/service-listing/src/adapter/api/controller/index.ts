@@ -1,6 +1,6 @@
 import fastify, { FastifyReply, FastifyRequest } from "fastify";
 import awsLambdaFastify from "@fastify/aws-lambda";
-import { ListingServiceImpl } from "../../../../application/service/ListingService";
+import { ListingServiceImpl } from "../../../application/service/ListingService";
 
 exports.handler = async (event: any, context: any) => {
   const app = fastify();

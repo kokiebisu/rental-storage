@@ -1,29 +1,66 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import {
+  MUTATION_ADD_LISTING,
+  QUERY_GET_PRESIGNED_URL,
+} from "../../../../graphql";
+import { ProfileContext } from "../../../../context/profile";
+import { Client } from "../../../../config/appsync";
 
 export const usePostHomeScreen = () => {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
   const [latLng, setLatLng] = useState(null);
+  const [url, setUrl] = useState(null);
+  const { profile } = useContext(ProfileContext);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  const [getImageUrls, { loading, error, data: imageUrlsData }] = useLazyQuery(
+    QUERY_GET_PRESIGNED_URL
+  );
+  const [
+    addListing,
+    {
+      data: addListingData,
+      loading: addListingLoading,
+      error: addListingError,
+    },
+  ] = useMutation(MUTATION_ADD_LISTING, {
+    client: Client,
+  });
+
+  useEffect(() => {
+    if (imageUrlsData) {
+      const { url } = imageUrlsData.getPresignedURL;
+      setUrl(url);
+    }
+  }, [imageUrlsData]);
 
   const handlePostListing = async () => {
-    // alert(
-    //   JSON.stringify({
-    //     image,
-    //     title,
-    //     price,
-    //     latLng,
-    //   })
-    // );
-    // if (!image || !title || !price || !latLng) {
-    //   throw new Error('Field is missing')
-    // }
-
     try {
-      const url = "USE_PRESIGNED_URL";
       await uploadPhotoToS3(image.base64, image.uri, url);
+      console.log("VARIABLES: ", {
+        variables: {
+          imageUrls: [url.split("?")[0]],
+          lenderId: profile.uid,
+          latitude: latLng.lat,
+          longitude: latLng.lng,
+          streetAddress,
+        },
+      });
+      await addListing({
+        variables: {
+          imageUrls: [url.split("?")[0]],
+          lenderId: profile.uid,
+          latitude: latLng.lat,
+          longitude: latLng.lng,
+          streetAddress,
+        },
+      });
     } catch (err) {
       console.error(err);
     }
@@ -40,14 +77,6 @@ export const usePostHomeScreen = () => {
       type: `image/${fileType}`,
     } as any);
 
-    // const uriParts = uri.split(".");
-    // const fileType = uriParts[uriParts.length - 1];
-    // const formData = new FormData()
-    // formData.append('photo', {
-    //   uri,
-    //   name: `photo.${fileType}`,
-    //   type: `image/${fileType}`
-    // }as any)
     const config = {
       headers: {
         "x-amz-acl": "public-read",
@@ -55,10 +84,8 @@ export const usePostHomeScreen = () => {
         "Content-Type": "image/jpeg",
       },
     };
-    // console.log("FORMDATA: ", formData)
 
     try {
-      // const response = await axios.post(url, formData, config)
       const response = await axios.put(
         apiUrl,
         Buffer.from(base64Data, "base64"),
@@ -82,7 +109,16 @@ export const usePostHomeScreen = () => {
       });
 
       if (!result.cancelled) {
+        const arr = result.uri.split("/");
+        const filename = arr[arr.length - 1];
+
         setImage(result);
+        getImageUrls({
+          variables: {
+            filename,
+          },
+          client: Client,
+        });
       }
     } catch (err) {
       console.error(err);
@@ -97,7 +133,8 @@ export const usePostHomeScreen = () => {
     handlePriceChange: (e) => setPrice(e),
     handlePostListing,
     handleSelectSuggestion: (data, details = null) => {
-      setLatLng(details.geometry.viewport);
+      setStreetAddress(data.description);
+      setLatLng(details.geometry.location);
     },
     handleImagePick,
   };

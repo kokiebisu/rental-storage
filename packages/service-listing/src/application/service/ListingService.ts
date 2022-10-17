@@ -1,7 +1,7 @@
 import axios from "axios";
 
-import { ListingMapper } from "../../adapter/in/mapper";
-import { ListingRepositoryImpl } from "../../adapter/out/db";
+import { ListingMapper } from "../../adapter/mapper";
+import { ListingRepositoryImpl } from "../../adapter/db";
 import { Listing, StreetAddress } from "../../domain/model";
 import { ListingInterface } from "../../types";
 import { LoggerUtil } from "../../utils";

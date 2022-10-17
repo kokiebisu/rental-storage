@@ -1,4 +1,4 @@
-import { ListingServiceImpl } from "../../../../../application/service/ListingService";
+import { ListingServiceImpl } from "../../../../application/service/ListingService";
 
 export const handler = async (event: any) => {
   const { lenderId, streetAddress, latitude, longitude, items, imageUrls } =
