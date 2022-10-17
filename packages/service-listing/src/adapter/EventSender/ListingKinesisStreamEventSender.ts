@@ -1,16 +1,17 @@
-import { AWSRegion, UserEvent } from "../../domain/Enum";
-import { LoggerUtil } from "../../utils";
-import { UserInterface } from "../../types";
-import { UserEventSender } from "../../application/Port";
 import {
   KinesisClient,
   AddTagsToStreamCommand,
   PutRecordCommand,
   PutRecordCommandInput,
 } from "@aws-sdk/client-kinesis";
+import { ListingInterface } from "../../types";
+import { LoggerUtil } from "../../utils";
 import { v4 as uuid } from "uuid";
+import { AWSRegion } from "../../domain/enum";
+import { ListingEvent } from "../../domain/enum/Event";
+import { ListingEventSender } from "../../application/port";
 
-export class UserKinesisStreamEventSender implements UserEventSender {
+export class ListingKinesisStreamEventSender implements ListingEventSender {
   private _client: KinesisClient;
   private _logger: LoggerUtil;
 
@@ -20,17 +21,17 @@ export class UserKinesisStreamEventSender implements UserEventSender {
   }
   public static async create(
     region: AWSRegion
-  ): Promise<UserKinesisStreamEventSender> {
+  ): Promise<ListingKinesisStreamEventSender> {
     if (!process.env.ACCOUNT_ID) {
       throw new Error("accountId was not successfully retrieved");
     }
-    return new UserKinesisStreamEventSender(region, process.env.ACCOUNT_ID);
+    return new ListingKinesisStreamEventSender(region, process.env.ACCOUNT_ID);
   }
 
-  public async userCreated(data: UserInterface) {
+  public async listingCreated(data: ListingInterface) {
     const event = {
-      sourceEntity: "User",
-      eventName: UserEvent.Created,
+      sourceEntity: "Listing",
+      eventName: ListingEvent.Created,
       data,
     };
     await this._publish(JSON.stringify(event));

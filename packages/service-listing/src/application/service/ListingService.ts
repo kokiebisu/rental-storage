@@ -5,22 +5,37 @@ import { ListingRepositoryImpl } from "../../adapter/db";
 import { Listing, StreetAddress } from "../../domain/model";
 import { ListingInterface } from "../../types";
 import { LoggerUtil } from "../../utils";
-import { AddListing, ListingRepository, ListingService } from "../port";
+import {
+  AddListing,
+  ListingEventSender,
+  ListingRepository,
+  ListingService,
+} from "../port";
+import { ListingKinesisStreamEventSender } from "../../adapter/EventSender";
+import { AWSRegion } from "../../domain/enum";
 
 export class ListingServiceImpl implements ListingService {
   private _listingRepository: ListingRepository;
+  private _listingEventSender: ListingEventSender;
   private _logger: LoggerUtil;
 
-  private constructor(listingRepository: ListingRepository) {
+  private constructor(
+    listingRepository: ListingRepository,
+    listingEventSender: ListingEventSender
+  ) {
     this._listingRepository = listingRepository;
+    this._listingEventSender = listingEventSender;
     this._logger = new LoggerUtil("ListingServiceImpl");
   }
 
   public static async create() {
     const listingRepository = await ListingRepositoryImpl.create();
+    const listingEventSender = await ListingKinesisStreamEventSender.create(
+      AWSRegion.US_EAST_1
+    );
 
     await listingRepository.setup();
-    return new ListingServiceImpl(listingRepository);
+    return new ListingServiceImpl(listingRepository, listingEventSender);
   }
 
   public async findListingsWithinLatLng(
@@ -62,7 +77,7 @@ export class ListingServiceImpl implements ListingService {
     this._logger.info(args, "addListing()");
     const { lenderId, streetAddress, latitude, longitude, imageUrls } = args;
     try {
-      const listing = new Listing({
+      let listing = new Listing({
         lenderId,
         streetAddress: new StreetAddress(streetAddress),
         latitude,
@@ -74,7 +89,9 @@ export class ListingServiceImpl implements ListingService {
         throw new Error(`Provided lenderId ${lenderId} doesn't exist`);
       }
 
-      await this._listingRepository.save(listing);
+      listing = await this._listingRepository.save(listing);
+      const listingDTO = ListingMapper.toDTOFromEntity(listing);
+      await this._listingEventSender.listingCreated(listingDTO);
       return true;
     } catch (err) {
       this._logger.error(err, "addListing()");

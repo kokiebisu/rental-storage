@@ -2,7 +2,7 @@ SlackUserEventMessageConsumer:
   image:
     name: app
     command:
-      - adapter/api/kinesis/user.handler
+      - adapter/api/kinesis.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-consumer-user
   events:
     - stream:
