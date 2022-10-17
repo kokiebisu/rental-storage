@@ -5,7 +5,7 @@ import { AuthContext } from "../../../context/auth";
 
 export const AuthSignInScreen = () => {
   const navigation = useNavigation();
-  const [username, setUsername] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
 
   const { signIn } = useContext(AuthContext);
@@ -13,9 +13,9 @@ export const AuthSignInScreen = () => {
   return (
     <View>
       <TextInput
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="emailAddress"
+        value={emailAddress}
+        onChangeText={setEmailAddress}
       />
       <TextInput
         placeholder="Password"
@@ -23,7 +23,10 @@ export const AuthSignInScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Sign in" onPress={() => signIn({ username, password })} />
+      <Button
+        title="Sign in"
+        onPress={() => signIn({ emailAddress, password })}
+      />
       <Button title="Sign up" onPress={() => navigation.navigate("SignUp")} />
     </View>
   );

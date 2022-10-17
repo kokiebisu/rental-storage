@@ -29,13 +29,11 @@ export const AuthSignUpScreen = () => {
         placeholder="First name"
         value={firstName}
         onChangeText={setFirstName}
-        secureTextEntry
       />
       <TextInput
         placeholder="Last name"
         value={lastName}
         onChangeText={setLastName}
-        secureTextEntry
       />
       <Button
         title="Sign up"

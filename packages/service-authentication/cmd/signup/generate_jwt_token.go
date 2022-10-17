@@ -6,15 +6,6 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-type Payload struct {
-    UId string `json:"uid"`
-}
-
-type Claims struct {
-    UId string `json:"uid`
-    jwt.StandardClaims
-}
-
 // GenerateToken returns a unique token based on the provided email string
 func GenerateJWTToken(payload *Payload) (string, error) {
     claims := Claims{

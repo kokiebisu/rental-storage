@@ -1,14 +1,15 @@
 package main
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"log"
 
-func VerifyPassword(providedPassword string, userPassword string) (bool, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(providedPassword), 10)
+	"golang.org/x/crypto/bcrypt"
+)
+
+func VerifyPassword(hashedPassword string, plainPassword string) (bool, error) {
+	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
 	if err != nil {
-		return false, err
-	}
-	err = bcrypt.CompareHashAndPassword(hash, []byte(userPassword))
-	if err != nil {
+		log.Println(err)
 		return false, nil
 	}
 	return true, nil

@@ -1,15 +1,16 @@
 Type: AWS::S3::Bucket
+DeletionPolicy: Delete
 Properties:
   BucketName: ${self:provider.stage}-${self:custom.namespace}-listing-profile
   AccessControl: PublicReadWrite
   CorsConfiguration:
     CorsRules:
       - AllowedMethods:
-        - GET
-        - PUT
-        - POST
-        - HEAD
+          - GET
+          - PUT
+          - POST
+          - HEAD
         AllowedOrigins:
-        - "*"
+          - "*"
         AllowedHeaders:
-        - "*"
+          - "*"

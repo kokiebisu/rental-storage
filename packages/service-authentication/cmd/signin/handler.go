@@ -13,14 +13,15 @@ import (
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	endpoint := os.Getenv("SERVICE_API_ENDPOINT")
 	
-	// get email address and password from event argument
-	arg := request.Body
-	argument := SignInArgument{}
-	json.Unmarshal([]byte(arg), &argument)
 	
-	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", endpoint, argument.EmailAddress)
+	// get email address and password from event argument
+	bodyRequest := SignInArgument{}
+	err := json.Unmarshal([]byte(request.Body), &bodyRequest)
+	if err != nil {
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
+	}
+	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", endpoint, bodyRequest.EmailAddress)
 	// check if the email address exists in the user db
-	fmt.Println(userEndpoint)
 	resp, err := http.Get(userEndpoint)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("request to user endpoint failed"), StatusCode: 500}, nil
@@ -29,21 +30,17 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err = json.NewDecoder(resp.Body).Decode(&user); err != nil {
 		return events.APIGatewayProxyResponse{Body: string("request to user endpoint failed"), StatusCode: 500}, nil
 	}
-	 
-	matched, err := VerifyPassword(argument.EmailAddress, user.Password)
+	matched, err := VerifyPassword(user.Password, bodyRequest.Password)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("something went wrong when validating pasword"), StatusCode: 500}, nil
 	}
 	if !matched {
 		return events.APIGatewayProxyResponse{Body: string("provided password is invalid"), StatusCode: 500}, nil
 	}
-
-	payload := &struct {
-		UId string
-	}{
+	response := &Payload {
 		UId: user.Uid,
 	}
-	token, err := GenerateJWTToken(*payload)
+	token, err := GenerateJWTToken(response)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("unable to generate token"), StatusCode: 500}, nil
 	}

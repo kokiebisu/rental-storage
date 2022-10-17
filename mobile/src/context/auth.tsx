@@ -2,6 +2,7 @@ import * as React from "react";
 import axios from "axios";
 import { createContext, useEffect, useMemo, useReducer } from "react";
 import * as SecureStore from "expo-secure-store";
+import { API_GATEWAY_ENDPOINT } from "../env/aws";
 
 export const AuthContext = createContext({});
 
@@ -66,14 +67,12 @@ export const AuthContextProvider = ({ children }) => {
           return;
         }
         const response = await axios.post(
-          "https://17gm42qnnb.execute-api.us-east-1.amazonaws.com/dev/auth/signin",
+          `${API_GATEWAY_ENDPOINT}/auth/signin`,
           {
             emailAddress: data.emailAddress,
             password: data.password,
           }
         );
-
-        console.log("RESPONSE: ", response);
 
         if (response.status !== 200) {
           alert("something went wrong");
@@ -81,8 +80,6 @@ export const AuthContextProvider = ({ children }) => {
         }
 
         const { authorizationToken } = response.data;
-
-        console.log("AUTHORIZATION TOKEN: ", authorizationToken);
         // in a production app, we need to send some data (usually username, password) to server and get a token
         // we will also need to handle errors if sign in faield
         try {
@@ -113,7 +110,7 @@ export const AuthContextProvider = ({ children }) => {
           return;
         }
         const response = await axios.post(
-          "https://17gm42qnnb.execute-api.us-east-1.amazonaws.com/dev/auth/signup",
+          `${API_GATEWAY_ENDPOINT}/auth/signup`,
           {
             emailAddress: data.emailAddress,
             firstName: data.firstName,
@@ -128,7 +125,6 @@ export const AuthContextProvider = ({ children }) => {
         }
 
         const { authorizationToken } = response.data;
-        console.log("RESPONSE: ", response.data);
         // in a production app, we need to send some data (usually username, password) to server and get a token
         // we will also need to handle errors if sign in faield
         try {

@@ -22,10 +22,10 @@ export const usePostHomeScreen = () => {
     // }
 
     try {
-      const url = 'USE_PRESIGNED_URL'
-      await uploadPhotoToS3(image.base64, image.uri, url)
+      const url = "USE_PRESIGNED_URL";
+      await uploadPhotoToS3(image.base64, image.uri, url);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
     alert("Thank you for posting!");
   };
@@ -33,13 +33,13 @@ export const usePostHomeScreen = () => {
   const uploadPhotoToS3 = async (base64Data, uri, apiUrl) => {
     const uriParts = uri.split(".");
     const fileType = uriParts[uriParts.length - 1];
-    const formData = new FormData()
-    formData.append('photo', {
-      uri, 
+    const formData = new FormData();
+    formData.append("photo", {
+      uri,
       name: `photo.${fileType}`,
-      type: `image/${fileType}`
-    } as any)
-    
+      type: `image/${fileType}`,
+    } as any);
+
     // const uriParts = uri.split(".");
     // const fileType = uriParts[uriParts.length - 1];
     // const formData = new FormData()
@@ -52,20 +52,23 @@ export const usePostHomeScreen = () => {
       headers: {
         "x-amz-acl": "public-read",
         "Content-Encoding": "base64",
-        "Content-Type": "image/jpeg"
-      }
-    }
+        "Content-Type": "image/jpeg",
+      },
+    };
     // console.log("FORMDATA: ", formData)
-   
+
     try {
       // const response = await axios.post(url, formData, config)
-      const response = await axios.put(apiUrl, Buffer.from(base64Data, "base64"), config)
-      console.log("RESPONSE: ", response)
+      const response = await axios.put(
+        apiUrl,
+        Buffer.from(base64Data, "base64"),
+        config
+      );
       return response;
     } catch (err) {
-      console.error("ERROR: ", err)
+      console.error("ERROR: ", err);
     }
-  }
+  };
 
   const handleImagePick = async () => {
     // No permissions request is necessary for launching the image library
@@ -75,14 +78,14 @@ export const usePostHomeScreen = () => {
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
-        base64: true
+        base64: true,
       });
-  
+
       if (!result.cancelled) {
         setImage(result);
       }
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   };
 

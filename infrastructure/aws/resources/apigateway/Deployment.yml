@@ -1,0 +1,5 @@
+Type: "AWS::ApiGateway::Deployment"
+Properties:
+  RestApiId: !Ref ApiGatewayRestApi
+  Description: Dev
+  StageName: dev

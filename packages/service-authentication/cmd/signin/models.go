@@ -3,16 +3,22 @@ package main
 import "github.com/golang-jwt/jwt"
 
 type SignInArgument struct {
-	EmailAddress      string `json:"email"`
+	EmailAddress      string `json:"emailAddress"`
 	Password   string `json:"password"`
 }
 
 type Payload struct {
     UId string `json:"uid"`
+    // FirstName string `json:"firstName"`
+    // LastName string `json:"lastName"`
+    // EmailAddress string `json:"emailAddress"`
+    // Password string `json:"password"`
+    // CreatedAt string `json:"createdAt"`
+    // UpdatedAt string `json:"updatedAt"`
 }
 
 type Claims struct {
-    UId string `json:"uid`
+    UId string `json:"uid"`
     jwt.StandardClaims
 }
 
