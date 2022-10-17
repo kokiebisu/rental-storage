@@ -132,7 +132,7 @@ export class ListingRepositoryImpl implements ListingRepository {
       const result = await client.query(
         `
           SELECT * FROM listing 
-          INNER JOIN images_listing ON listing.id = images_listing.id
+          LEFT JOIN images_listing ON listing.id = images_listing.listing_id
           WHERE listing.uid = $1
         `,
         [uid]
@@ -141,6 +141,28 @@ export class ListingRepositoryImpl implements ListingRepository {
       return ListingMapper.toEntityFromRaw(result.rows[0]);
     } catch (err) {
       this._logger.error(err, "findOneById()");
+      await client.end();
+      throw err;
+    }
+  }
+
+  public async findManyByUserId(userId: string): Promise<Listing[]> {
+    this._logger.info({ userId }, "findManyByUserId()");
+    const client = this.getDBClient();
+    try {
+      await client.connect();
+      const result = await client.query(
+        `
+          SELECT * FROM listing 
+          LEFT JOIN images_listing ON listing.id = images_listing.listing_id
+          WHERE listing.lender_id = $1
+        `,
+        [userId]
+      );
+      await client.end();
+      return result.rows.map((item) => ListingMapper.toEntityFromRaw(item));
+    } catch (err) {
+      this._logger.error(err, "findManyByUserId()");
       await client.end();
       throw err;
     }

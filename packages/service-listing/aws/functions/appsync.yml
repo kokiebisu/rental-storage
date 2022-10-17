@@ -23,6 +23,18 @@ FindListingsWithinLatLngQuery:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
 
+FindMyListingsQuery:
+  handler: dist/adapter/api/graphql/query/FindMyListings.handler
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-my-listings
+  environment:
+    DB_HOST: ${self:custom.DB_HOST}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_PORT: ${self:custom.DB_PORT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
+
 # Mutation
 AddListingMutation:
   handler: dist/adapter/api/graphql/mutation/AddListing.handler

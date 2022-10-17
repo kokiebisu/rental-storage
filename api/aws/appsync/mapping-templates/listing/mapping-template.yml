@@ -11,6 +11,12 @@
   request: ./listing/query.findListingsWithinLatLng.vtl
   response: false
 
+- type: Query
+  field: findMyListings
+  dataSource: FindMyListingsFunction
+  request: ./listing/query.findMyListings.vtl
+  response: false
+
 ## Mutation
 - type: Mutation
   field: addListing

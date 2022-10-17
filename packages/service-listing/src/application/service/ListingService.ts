@@ -73,6 +73,21 @@ export class ListingServiceImpl implements ListingService {
     }
   }
 
+  public async findListingsByUserId(
+    userId: string
+  ): Promise<ListingInterface[]> {
+    this._logger.info({ userId }, "findListingsByUserId()");
+    try {
+      const listings = await this._listingRepository.findManyByUserId(userId);
+
+      // return ListingMapper.toAggregated(listing);
+      return listings.map((listing) => ListingMapper.toDTOFromEntity(listing));
+    } catch (err) {
+      this._logger.error(err, "findListingById()");
+      throw err;
+    }
+  }
+
   public async addListing(args: AddListing): Promise<boolean> {
     this._logger.info(args, "addListing()");
     const { lenderId, streetAddress, latitude, longitude, imageUrls } = args;
