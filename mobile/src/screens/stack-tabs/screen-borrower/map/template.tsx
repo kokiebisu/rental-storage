@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
-import Post from "../../../../components/card";
+import Post from "../../../../components/card/card-post";
 import { CustomMarker } from "../../../../components";
 
 export default ({

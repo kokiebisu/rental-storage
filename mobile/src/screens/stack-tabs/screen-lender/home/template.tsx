@@ -1,11 +1,15 @@
-import { useQuery } from "@apollo/client";
-import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Button, FlatList, Pressable } from "react-native";
+import { useQuery } from "@apollo/client";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import { Client } from "../../../../config/appsync";
 import { QUERY_FIND_MY_LISTINGS } from "../../../../graphql";
+import { Card } from "../../../../components/card";
+import { Typography } from "../../../../components/typography";
+import { Spacing } from "../../../../components/spacing";
 
 export default () => {
   const navigation = useNavigation();
@@ -23,21 +27,27 @@ export default () => {
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
       <View>
-        <Text>Listings</Text>
+        <Spacing variant="lg">
+          <Typography variant="h2">Listing</Typography>
+        </Spacing>
       </View>
-      <View>
-        {listings
-          ? listings.map((listing) => {
-              return (
-                <View key={listing.uid}>
-                  <View>
-                    <Text>{listing.streetAddress}</Text>
-                  </View>
-                </View>
-              );
-            })
-          : null}
-      </View>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={listings}
+        renderItem={({ item }) => {
+          return (
+            <View style={{ marginBottom: 16 }}>
+              <Pressable onPress={() => alert("pressed")}>
+                <Card
+                  variant="listing"
+                  streetAddress={item.streetAddress}
+                  imageUrls={item.imageUrls}
+                />
+              </Pressable>
+            </View>
+          );
+        }}
+      />
       <View>
         <Button
           title="Create Listing"

@@ -15,6 +15,7 @@ export const QUERY_FIND_LISTING_BY_ID = gql`
 export const QUERY_FIND_MY_LISTINGS = gql`
   query Query {
     findMyListings {
+      imageUrls
       latitude
       lenderId
       longitude
