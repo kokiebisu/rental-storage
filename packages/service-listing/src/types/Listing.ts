@@ -1,4 +1,4 @@
-import { StreetAddress } from "../domain/model";
+import { StreetAddress } from "../Domain/Model";
 
 export interface ListingConstructor {
   id?: number;
@@ -20,16 +20,6 @@ export interface ListingRawInterface {
   longitude: number;
   image_urls: string[];
 }
-
-// export interface AggregatedListingInterface {
-//   id?: number;
-//   uid: string;
-//   lender: LenderInterface;
-//   streetAddress: string;
-//   latitude: number;
-//   longitude: number;
-//   imageUrls: string[];
-// }
 
 export interface ListingInterface {
   id?: number;

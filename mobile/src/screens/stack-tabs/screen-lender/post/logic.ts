@@ -9,7 +9,7 @@ import {
 import { ProfileContext } from "../../../../context/profile";
 import { Client } from "../../../../config/appsync";
 
-export const usePostHomeScreen = () => {
+export const useLenderPostScreen = () => {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
@@ -40,7 +40,7 @@ export const usePostHomeScreen = () => {
     }
   }, [imageUrlsData]);
 
-  const handlePostListing = async () => {
+  const handleLenderListing = async () => {
     try {
       await uploadPhotoToS3(image.base64, image.uri, url);
       console.log("VARIABLES: ", {
@@ -64,7 +64,7 @@ export const usePostHomeScreen = () => {
     } catch (err) {
       console.error(err);
     }
-    alert("Thank you for posting!");
+    alert("Thank you for Lendering!");
   };
 
   const uploadPhotoToS3 = async (base64Data, uri, apiUrl) => {
@@ -131,7 +131,7 @@ export const usePostHomeScreen = () => {
     price,
     handleTitleChange: (e) => setTitle(e),
     handlePriceChange: (e) => setPrice(e),
-    handlePostListing,
+    handleLenderListing,
     handleSelectSuggestion: (data, details = null) => {
       setStreetAddress(data.description);
       setLatLng(details.geometry.location);

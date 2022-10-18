@@ -1,11 +1,13 @@
-import { ItemRepository } from "../../application/Port";
-import { Item } from "../../domain/Model";
-import { ItemRawInterface } from "../../types";
+import { ItemRepository } from "../../Application/Port";
+import { Item } from "../../Domain/Model";
+import { ItemRawInterface } from "../../Types";
 import { ItemMapper } from "../Mapper";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 
-
-export class ItemRepositoryImpl extends AbstractRepositoryImpl<Item> implements ItemRepository {
+export class ItemRepositoryImpl
+  extends AbstractRepositoryImpl<Item>
+  implements ItemRepository
+{
   public static async create(): Promise<ItemRepositoryImpl> {
     return new ItemRepositoryImpl("item", "ItemRepository");
   }
@@ -59,21 +61,21 @@ export class ItemRepositoryImpl extends AbstractRepositoryImpl<Item> implements 
 
     const operations = async (data: Item | string) => {
       if (!Item.isItem(data)) {
-        throw new Error("Provided data is not Item model")
+        throw new Error("Provided data is not Item model");
       }
       const result = await client.query(
         `INSERT INTO item (name, owner_id, listing_id, created_at) VALUES($1, $2, $3, $4) RETURNING *`,
         [data.name, data.ownerId, data.listingId, data.createdAt]
       );
-        for (const imageUrl of data.imageUrls) {
+      for (const imageUrl of data.imageUrls) {
         await client.query(
           `INSERT INTO item_images (item_id, image_url) VALUES($1, $2)`,
           [result.rows[0].id, imageUrl]
         );
       }
-    }
-    const result = await this.startTransaction(operations, client, data)
-    data.id = result.rows[0].id
+    };
+    const result = await this.startTransaction(operations, client, data);
+    data.id = result.rows[0].id;
     return data;
     // try {
     //   await client.connect();
@@ -105,8 +107,8 @@ export class ItemRepositoryImpl extends AbstractRepositoryImpl<Item> implements 
         [id]
       );
       await client.query("DELETE FROM item_images WHERE item_id = $1", [id]);
-      return result
-    }
+      return result;
+    };
     // try {
     //   await client.connect();
     //   const result = await client.query(
@@ -121,8 +123,8 @@ export class ItemRepositoryImpl extends AbstractRepositoryImpl<Item> implements 
     //   this._logger.error(err, "delete()");
     //   throw err;
     // }
-    const result = await this.startTransaction(operations, client, id)
-    return ItemMapper.toEntityFromRaw(result.rows[0])
+    const result = await this.startTransaction(operations, client, id);
+    return ItemMapper.toEntityFromRaw(result.rows[0]);
   }
 
   public async findOneById(id: string): Promise<Item> {

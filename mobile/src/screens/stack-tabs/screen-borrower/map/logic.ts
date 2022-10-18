@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 
-export const useFindMapScreen = () => {
+export const useBorrowerMapScreen = () => {
   const navigation = useNavigation();
   const places = [
     {

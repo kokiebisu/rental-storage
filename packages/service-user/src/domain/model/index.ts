@@ -2,4 +2,4 @@ export * from "./User";
 export * from "./EmailAddress";
 export * from "./Payment";
 export * from "./Item";
-export * from './Name'
+export * from "./Name";

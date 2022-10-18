@@ -1,7 +1,7 @@
 import axios from "axios";
-import { PaymentRepositoryImpl } from "../../adapter/Repository";
-import { Payment } from "../../domain/Model";
-import { LoggerUtil } from "../../utils";
+import { PaymentRepositoryImpl } from "../../Adapter/Repository";
+import { Payment } from "../../Domain/Model";
+import { LoggerUtil } from "../../Utils";
 import { AddPaymentInput, PaymentRepository } from "../Port";
 import { PaymentService } from "../Port";
 

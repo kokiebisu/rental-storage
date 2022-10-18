@@ -1,11 +1,12 @@
-
-
-import { UserRepository } from "../../application/Port";
-import { User } from "../../domain/Model";
+import { UserRepository } from "../../Application/Port";
+import { User } from "../../Domain/Model";
 import { UserMapper } from "../Mapper";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 
-export class UserRepositoryImpl extends AbstractRepositoryImpl<User> implements UserRepository {
+export class UserRepositoryImpl
+  extends AbstractRepositoryImpl<User>
+  implements UserRepository
+{
   public static async create(): Promise<UserRepositoryImpl> {
     try {
       return new UserRepositoryImpl("user", "UserRepository");
@@ -50,7 +51,7 @@ export class UserRepositoryImpl extends AbstractRepositoryImpl<User> implements 
     const client = this.getDBClient();
     const operations = async (data: User | string) => {
       if (!User.isUser(data)) {
-        throw new Error("Provided data is not User model") 
+        throw new Error("Provided data is not User model");
       }
       const result = await client.query(
         `
@@ -67,25 +68,25 @@ export class UserRepositoryImpl extends AbstractRepositoryImpl<User> implements 
           data.createdAt,
         ]
       );
-      return result
-    }
-    const result = await this.startTransaction(operations, client, data)
+      return result;
+    };
+    const result = await this.startTransaction(operations, client, data);
     data.id = result.rows[0].id;
     return data;
   }
 
   public async delete(uid: string): Promise<User> {
     this._logger.info(uid, "delete()");
-    const client = this.getDBClient()
+    const client = this.getDBClient();
     const operations = async () => {
       const result = await client.query(
         `DELETE FROM user_account WHERE uid = $1 RETURNING *`,
         [uid]
-      )
-      return result
-    }
-    const result = await this.startTransaction(operations, client, uid)
-    return UserMapper.toEntityFromRaw(result.rows[0])
+      );
+      return result;
+    };
+    const result = await this.startTransaction(operations, client, uid);
+    return UserMapper.toEntityFromRaw(result.rows[0]);
   }
 
   public async findOneById(uid: string): Promise<User> {

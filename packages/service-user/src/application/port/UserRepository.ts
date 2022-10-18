@@ -1,4 +1,4 @@
-import { User } from "../../domain/Model";
+import { User } from "../../Domain/Model";
 
 export interface UserRepository {
   setup(): Promise<void>;

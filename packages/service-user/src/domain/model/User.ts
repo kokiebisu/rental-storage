@@ -1,4 +1,4 @@
-import { ItemInterface, UserConstructor } from "../../types";
+import { ItemInterface, UserConstructor } from "../../Types";
 import { v4 as uuid } from "uuid";
 import { EmailAddress } from "./EmailAddress";
 import { Payment } from "./Payment";
@@ -65,7 +65,7 @@ export class User {
     this.payment = payment;
   }
 
-  public static isUser(data: User | string): data is User  {
-    return (data as User).emailAddress !== undefined
+  public static isUser(data: User | string): data is User {
+    return (data as User).emailAddress !== undefined;
   }
 }

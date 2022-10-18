@@ -1,4 +1,4 @@
-import { Listing } from "../../domain/model";
+import { Listing } from "../../Domain/Model";
 
 export interface ListingRepository {
   setup(): Promise<void>;

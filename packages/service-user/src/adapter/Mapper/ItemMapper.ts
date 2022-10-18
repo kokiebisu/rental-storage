@@ -1,7 +1,6 @@
-import { Item } from "../../domain/Model";
-import { ItemInterface, ItemRawInterface } from "../../types";
-import { TimeUtil } from "../../utils";
-
+import { Item } from "../../Domain/Model";
+import { ItemInterface, ItemRawInterface } from "../../Types";
+import { TimeUtil } from "../../Utils";
 
 export class ItemMapper {
   public static toEntityFromRaw(data: ItemRawInterface): Item {

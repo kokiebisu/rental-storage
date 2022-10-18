@@ -1,9 +1,11 @@
-import { PaymentRepository } from "../../application/Port";
-import { Payment } from "../../domain/Model";
+import { PaymentRepository } from "../../Application/Port";
+import { Payment } from "../../Domain/Model";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 
-
-export class PaymentRepositoryImpl extends AbstractRepositoryImpl<Payment> implements PaymentRepository {
+export class PaymentRepositoryImpl
+  extends AbstractRepositoryImpl<Payment>
+  implements PaymentRepository
+{
   public static async create(): Promise<PaymentRepositoryImpl> {
     return new PaymentRepositoryImpl("payment", "PaymentRepository");
   }
@@ -42,7 +44,7 @@ export class PaymentRepositoryImpl extends AbstractRepositoryImpl<Payment> imple
     const client = this.getDBClient();
     const operations = async (data: Payment | string) => {
       if (!Payment.isPayment(data)) {
-        throw new Error('Provided data is not Payment model')
+        throw new Error("Provided data is not Payment model");
       }
       const result = await client.query(
         `
@@ -52,10 +54,10 @@ export class PaymentRepositoryImpl extends AbstractRepositoryImpl<Payment> imple
         `,
         [data.providerId, data.userId, data.providerType]
       );
-      return result
-    }
-    const result = await this.startTransaction(operations, client, data)
+      return result;
+    };
+    const result = await this.startTransaction(operations, client, data);
     data.id = result.rows[0].id;
-    return result
+    return result;
   }
 }

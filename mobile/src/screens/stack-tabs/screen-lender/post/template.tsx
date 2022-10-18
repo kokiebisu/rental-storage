@@ -10,7 +10,7 @@ import {
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { googleConfig } from "../../../../env";
-import { SuggestionRow } from "../../screen-find/home/suggestion-row";
+import { SuggestionRow } from "../../screen-borrower/home/suggestion-row";
 
 import "./styles";
 
@@ -20,7 +20,7 @@ export default ({
   price,
   handleTitleChange,
   handlePriceChange,
-  handlePostListing,
+  handleLenderListing,
   handleSelectSuggestion,
   handleImagePick,
 }) => {
@@ -28,7 +28,7 @@ export default ({
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
       <View>
         <Text style={{ fontSize: 32, fontWeight: "bold" }}>
-          Post your place
+          Lender your place
         </Text>
       </View>
       <View style={{ marginTop: 20 }}>
@@ -98,7 +98,7 @@ export default ({
       </View>
       <View style={{ marginTop: 20 }}>
         <Pressable
-          onPress={handlePostListing}
+          onPress={handleLenderListing}
           style={{ backgroundColor: "black", width: "100%", padding: 16 }}
         >
           <Text
@@ -109,7 +109,7 @@ export default ({
               fontWeight: "bold",
             }}
           >
-            Post
+            Lender
           </Text>
         </Pressable>
       </View>

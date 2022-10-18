@@ -1,5 +1,5 @@
-import { UserInterface } from "../../types";
+import { UserInterface } from "../../Types";
 
 export interface UserEventSender {
-    userCreated(data: UserInterface): Promise<void>
+  userCreated(data: UserInterface): Promise<void>;
 }
