@@ -28,7 +28,7 @@ const Main = () => {
     <ApolloProvider client={Client}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Group>
+          <Stack.Group screenOptions={{ headerShown: false }}>
             {isSignedIn ? (
               <Stack.Group>
                 <Stack.Screen name="SignIn" component={AuthSignInScreen} />
