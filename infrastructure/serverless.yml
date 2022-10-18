@@ -26,10 +26,6 @@ custom:
 
 resources:
   Resources:
-    #ApiGateway
-    ApiGatewayRestApi: ${file(./aws/resources/apigateway/RestApi.yml)}
-    ApiGatewayDeployment: ${file(./aws/resources/apigateway/Deployment.yml)}
-
     # Infrastructure
     DBSubnetGroupServerless: ${file(./aws/resources/ec2/DBSubnetGroupServerless.yml)}
     InternetGateway: ${file(./aws/resources/ec2/InternetGateway.yml)}

@@ -20,7 +20,6 @@ custom:
 resources:
   Resources:
     #ApiGateway
-    ApiGatewayRestApi: ${file(./aws/resources/apigateway/RestApi.yml)}
-    ApiGatewayDeployment: ${file(./aws/resources/apigateway/Deployment.yml)}
+    ApiGatewayRestApi: ${file(./aws/apigateway/RestApi.yml)}
 
   Outputs: ${file(./aws/outputs.yml)}

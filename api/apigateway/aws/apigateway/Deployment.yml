@@ -1,4 +1,6 @@
 Type: "AWS::ApiGateway::Deployment"
+DependsOn:
+  - ApiGatewayRestApi
 Properties:
   RestApiId: !Ref ApiGatewayRestApi
   Description: Dev

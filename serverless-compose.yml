@@ -3,19 +3,7 @@ services:
     path: infrastructure
 
   api-apigateway:
-    path: api/apigateawy
-    dependsOn:
-      - infrastructure
-
-  user:
-    path: packages/service-user
-    dependsOn:
-      - infrastructure
-
-  listing:
-    path: packages/service-listing
-    dependsOn:
-      - infrastructure
+    path: api/apigateway
 
   image:
     path: packages/service-image
@@ -32,11 +20,6 @@ services:
     dependsOn:
       - infrastructure
 
-  authentication:
-    path: packages/service-authentication
-    dependsOn:
-      - infrastructure
-
   payment:
     path: packages/service-payment
     dependsOn:
@@ -47,6 +30,24 @@ services:
     dependsOn:
       - infrastructure
 
+  user:
+    path: packages/service-user
+    dependsOn:
+      - infrastructure
+      - api-apigateway
+
+  listing:
+    path: packages/service-listing
+    dependsOn:
+      - infrastructure
+      - api-apigateway
+
+  authentication:
+    path: packages/service-authentication
+    dependsOn:
+      - infrastructure
+      - api-apigateway
+
   api-appsync:
     path: api/appsync
     dependsOn:
@@ -56,7 +57,4 @@ services:
       - listing
       - user
       - authorizer
-      - authentication
       - payment
-      - slack
-      - api-apigateway
