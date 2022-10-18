@@ -15,11 +15,12 @@ type Query {
 
 type Mutation {
   addListing(
-    lenderId: ID!
+    title: String!
     streetAddress: String!
     latitude: Float!
     longitude: Float!
     imageUrls: [String]
+    fee: Fee!
   ): Boolean!
   removeListingById(uid: ID!): Boolean!
 }
@@ -31,4 +32,9 @@ type Listing {
   latitude: Float!
   longitude: Float!
   imageUrls: [String]
+}
+
+type Fee {
+  amount: Int
+  currency: String
 }
