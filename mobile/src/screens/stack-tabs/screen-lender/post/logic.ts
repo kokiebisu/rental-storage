@@ -43,15 +43,6 @@ export const useLenderPostScreen = () => {
   const handleLenderListing = async () => {
     try {
       await uploadPhotoToS3(image.base64, image.uri, url);
-      console.log("VARIABLES: ", {
-        variables: {
-          imageUrls: [url.split("?")[0]],
-          lenderId: profile.uid,
-          latitude: latLng.lat,
-          longitude: latLng.lng,
-          streetAddress,
-        },
-      });
       await addListing({
         variables: {
           imageUrls: [url.split("?")[0]],

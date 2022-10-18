@@ -10,7 +10,7 @@ import { ProfileContext } from "../../../../context/profile";
 export default () => {
   const { signOut } = useContext(AuthContext);
   const { profileState } = useContext(ProfileContext);
-  console.log("STATE: ", profileState);
+
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
       <Button title="Sign out" onPress={() => signOut()} />
