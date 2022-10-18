@@ -1,0 +1,15 @@
+{
+  "name": "@rental-storage-project/api-appsync",
+  "private": true,
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove"
+  },
+  "devDependencies": {
+    "serverless-appsync-plugin": "1.14.0",
+    "serverless-deployment-bucket": "1.6.0",
+    "serverless-plugin-common-excludes": "4.0.0",
+    "serverless-plugin-include-dependencies": "5.0.0",
+    "serverless-pseudo-parameters": "2.6.1"
+  }
+}

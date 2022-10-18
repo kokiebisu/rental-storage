@@ -37,6 +37,7 @@ export const AuthSignInScreen = () => {
             variant="plain"
             value={password}
             onChangeText={setPassword}
+            secure
           />
         </Spacing>
       </Spacing>

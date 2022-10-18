@@ -16,7 +16,6 @@
     "@react-navigation/bottom-tabs": "6.3.3",
     "@react-navigation/native": "6.0.12",
     "@react-navigation/native-stack": "6.8.0",
-    "@types/react": "~18.0.0",
     "@types/react-native": "~0.69.1",
     "aws-appsync": "4.1.7",
     "aws-appsync-auth-link": "3.0.7",
@@ -38,7 +37,8 @@
     "typescript": "^4.6.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "@types/react": "~18.0.0"
   },
   "private": true
 }

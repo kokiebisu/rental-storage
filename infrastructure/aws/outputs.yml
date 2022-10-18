@@ -1,14 +1,3 @@
-# Api Gateway
-ApiGatewayRestApiId:
-  Value: !Ref ApiGatewayRestApi
-  Export:
-    Name: ApiGatewayRestApiId
-
-ApiGatewayRestApiRootResourceId:
-  Value: !GetAtt ApiGatewayRestApi.RootResourceId
-  Export:
-    Name: ApiGatewayRootResourceId
-
 # Booking DB
 BookingDynamoDBTableStreamArn:
   Description: "DynamoDB Booking Table"

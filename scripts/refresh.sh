@@ -4,11 +4,23 @@ echo "Removing service-authorizer bin folder..."
 (cd packages/service-authorizer && make clean);
 echo "Removing service-payment bin folder..."
 (cd packages/service-payment && make clean);
+
 echo "Removing service-booking dep/dist/turbo folders..."
-(cd packages/service-booking && rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo); 
+(cd packages/service-booking && make clean); 
 echo "Removing service-image dep/dist/turbo folders..."
-(cd packages/service-image && rm -rf node_modules); 
+(cd packages/service-image && make clean); 
 echo "Removing service-listing dep/dist/turbo folders..."
-(cd packages/service-listing && rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo); 
+(cd packages/service-listing && make clean); 
 echo "Removing service-user dep/dist/turbo folders..."
-(cd packages/service-user && rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo);
+(cd packages/service-user && make clean);
+
+echo "Removing service-user dep/dist/turbo folders..."
+(cd packages/service-user && make clean);
+
+echo "Removing infrastructure dep/dist/turbo folders..."
+(cd packages/service-user && make clean);
+
+echo "Removing api-apigateway dep folder..."
+(cd api/apigateway && make clean);
+echo "Removing api-appsync dep folder..."
+(cd api/appsync && make clean);
