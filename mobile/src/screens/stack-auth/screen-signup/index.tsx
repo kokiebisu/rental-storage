@@ -39,6 +39,7 @@ export const AuthSignUpScreen = () => {
             variant="plain"
             value={password}
             onChangeText={setPassword}
+            secure
           />
         </Spacing>
         <Spacing variant="md">

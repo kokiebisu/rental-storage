@@ -1,14 +1,14 @@
 import axios from "axios";
 
-import { BookingPublisherService } from "../../adapter/out/broker/BookingBroker";
-import { BookingRepository } from "../port";
-import { BookingRepositoryImpl } from "../../adapter/out/db";
-import { Amount, Booking } from "../../domain/model";
-import { BookingMapper } from "../../adapter/in/mapper";
-import { BookingService } from "../port";
-import { AWSRegion } from "../../domain/enum";
-import { LoggerUtil } from "../../utils";
-import { ItemInterface } from "../../types";
+import { BookingPublisherService } from "../../Adapter/Broker/BookingBroker";
+import { BookingRepository } from "../Port";
+import { BookingRepositoryImpl } from "../../Adapter/Database";
+import { Amount, Booking } from "../../Domain/Model";
+import { BookingMapper } from "../../Adapter/Mapper";
+import { BookingService } from "../Port";
+import { AWSRegion } from "../../Domain/Enum";
+import { LoggerUtil } from "../../Utils";
+import { ItemInterface } from "../../Types";
 
 export class BookingServiceImpl implements BookingService {
   private _bookingRepository: BookingRepository;

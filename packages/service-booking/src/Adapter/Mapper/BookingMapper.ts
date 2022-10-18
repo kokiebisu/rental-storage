@@ -1,5 +1,5 @@
-import { Booking } from "../../../domain/model";
-import { BookingInterface } from "../../../types";
+import { Booking } from "../../Domain/Model";
+import { BookingInterface } from "../../Types";
 
 export class BookingMapper {
   public static toDTOFromEntity(entity: Booking): BookingInterface {

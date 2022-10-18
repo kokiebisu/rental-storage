@@ -1,0 +1,26 @@
+service: rental-a-locker-api-apigateway
+frameworkVersion: "3"
+
+useDotenv: true
+
+plugins:
+  - serverless-export-outputs
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  region: us-east-1
+  stage: dev
+  deploymentBucket:
+    name: rental-a-locker-api-apigateway-resources
+
+custom:
+  namespace: rental-a-locker
+
+resources:
+  Resources:
+    #ApiGateway
+    ApiGatewayRestApi: ${file(./aws/resources/apigateway/RestApi.yml)}
+    ApiGatewayDeployment: ${file(./aws/resources/apigateway/Deployment.yml)}
+
+  Outputs: ${file(./aws/outputs.yml)}

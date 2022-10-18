@@ -1,0 +1,11 @@
+{
+  "name": "@rent-storage-project/api-apigateway",
+  "scripts": {
+    "deploy": "sls deploy",
+    "remove": "sls remove"
+  },
+  "devDependencies": {
+    "serverless-deployment-bucket": "1.6.0",
+    "serverless-export-outputs": "1.0.2"
+  }
+}

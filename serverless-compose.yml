@@ -2,6 +2,11 @@ services:
   infrastructure:
     path: infrastructure
 
+  api-apigateway:
+    path: api/apigateawy
+    dependsOn:
+      - infrastructure
+
   user:
     path: packages/service-user
     dependsOn:
@@ -42,8 +47,8 @@ services:
     dependsOn:
       - infrastructure
 
-  api:
-    path: api
+  api-appsync:
+    path: api/appsync
     dependsOn:
       - infrastructure
       - booking
@@ -54,3 +59,4 @@ services:
       - authentication
       - payment
       - slack
+      - api-apigateway

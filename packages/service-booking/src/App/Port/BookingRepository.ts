@@ -1,4 +1,4 @@
-import { BookingInterface } from "../../types";
+import { BookingInterface } from "../../Types";
 
 export interface BookingRepository {
   save(booking: BookingInterface): Promise<void>;

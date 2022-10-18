@@ -1,4 +1,4 @@
-import { ItemInterface } from "../../types";
+import { ItemInterface } from "../../Types";
 
 export interface BookingService {
   makeBooking(
