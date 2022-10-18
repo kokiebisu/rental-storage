@@ -11,6 +11,10 @@ export const Spacing = ({ variant, children }) => {
       return <View style={{ marginVertical: 16 }}>{children}</View>;
     case "sm":
       return <View style={{ marginVertical: 12 }}>{children}</View>;
+    case "ssm":
+      return <View style={{ marginVertical: 8 }}>{children}</View>;
+    case "3sm":
+      return <View style={{ marginVertical: 4 }}>{children}</View>;
     default:
       throw new Error("Invalid spacing variant");
   }
