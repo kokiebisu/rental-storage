@@ -10,6 +10,7 @@ import {
 import * as SecureStore from "expo-secure-store";
 import { API_GATEWAY_ENDPOINT } from "../env/aws";
 import { ProfileContext } from "./profile";
+import { Alert } from "react-native";
 
 export const AuthContext = createContext({});
 
@@ -104,7 +105,7 @@ export const AuthContextProvider = ({ children }) => {
           profileDispatch({ type: "FLUSH" });
           dispatch({ type: "SIGN_OUT" });
         } catch (err) {
-          console.error(err);
+          Alert.alert("Somethign went wrong");
         }
       },
       signUp: async (data) => {

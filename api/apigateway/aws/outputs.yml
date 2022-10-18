@@ -1,0 +1,10 @@
+# Api Gateway
+ApiGatewayRestApiId:
+  Value: !Ref ApiGatewayRestApi
+  Export:
+    Name: ApiGatewayRestApiId
+
+ApiGatewayRestApiRootResourceId:
+  Value: !GetAtt ApiGatewayRestApi.RootResourceId
+  Export:
+    Name: ApiGatewayRootResourceId
