@@ -1,18 +1,18 @@
 import axios from "axios";
 
-import { ListingMapper } from "../../adapter/mapper";
-import { ListingRepositoryImpl } from "../../adapter/db";
-import { Listing, StreetAddress } from "../../domain/model";
-import { ListingInterface } from "../../types";
-import { LoggerUtil } from "../../utils";
+import { ListingMapper } from "../../Adapter/Mapper";
+import { ListingRepositoryImpl } from "../../Adapter/Database";
+import { ListingInterface } from "../../Types";
+import { LoggerUtil } from "../../Utils";
 import {
   AddListing,
   ListingEventSender,
   ListingRepository,
   ListingService,
-} from "../port";
-import { ListingKinesisStreamEventSender } from "../../adapter/EventSender";
-import { AWSRegion } from "../../domain/enum";
+} from "../Port";
+import { ListingKinesisStreamEventSender } from "../../Adapter/EventSender";
+import { AWSRegion } from "../../Domain/Enum";
+import { Listing, StreetAddress } from "../../Domain/Model";
 
 export class ListingServiceImpl implements ListingService {
   private _listingRepository: ListingRepository;

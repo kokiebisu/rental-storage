@@ -1,9 +1,11 @@
 import { Client } from "pg";
 
-import { ListingMapper } from "../mapper";
-import { ListingRepository } from "../../application/port";
-import { LoggerUtil } from "../../utils";
-import { Listing } from "../../domain/model";
+import { ListingMapper } from "../Mapper";
+import { ListingRepository } from "../../App/Port";
+import { LoggerUtil } from "../../Utils";
+
+import { ListingRawInterface } from "../../Types";
+import { Listing } from "../../Domain/Model";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;
@@ -131,14 +133,17 @@ export class ListingRepositoryImpl implements ListingRepository {
       await client.connect();
       const result = await client.query(
         `
-          SELECT * FROM listing 
+          SELECT listing.*, images_listing.url FROM listing 
           LEFT JOIN images_listing ON listing.id = images_listing.listing_id
           WHERE listing.uid = $1
         `,
         [uid]
       );
       await client.end();
-      return ListingMapper.toEntityFromRaw(result.rows[0]);
+      const aggregatedListingsRaw: ListingRawInterface[] = this.aggregate(
+        result.rows
+      );
+      return ListingMapper.toEntityFromRaw(aggregatedListingsRaw[0]);
     } catch (err) {
       this._logger.error(err, "findOneById()");
       await client.end();
@@ -153,14 +158,19 @@ export class ListingRepositoryImpl implements ListingRepository {
       await client.connect();
       const result = await client.query(
         `
-          SELECT * FROM listing 
+          SELECT listing.*, images_listing.url FROM listing 
           LEFT JOIN images_listing ON listing.id = images_listing.listing_id
           WHERE listing.lender_id = $1
         `,
         [userId]
       );
+      const aggregatedListingsRaw: ListingRawInterface[] = this.aggregate(
+        result.rows
+      );
       await client.end();
-      return result.rows.map((item) => ListingMapper.toEntityFromRaw(item));
+      return aggregatedListingsRaw.map((item) =>
+        ListingMapper.toEntityFromRaw(item)
+      );
     } catch (err) {
       this._logger.error(err, "findManyByUserId()");
       await client.end();
@@ -186,12 +196,40 @@ export class ListingRepositoryImpl implements ListingRepository {
         `,
         [latitude, longitude, latitude, range]
       );
+      const aggregatedListingsRaw: ListingRawInterface[] = this.aggregate(
+        result.rows
+      );
       await client.end();
-      return result.rows.map((item) => ListingMapper.toEntityFromRaw(item));
+      return aggregatedListingsRaw.map((item) =>
+        ListingMapper.toEntityFromRaw(item)
+      );
     } catch (err) {
       this._logger.error(err, "findManyByLatLng()");
       await client.end();
       throw err;
     }
+  }
+
+  private aggregate(data: any[]): ListingRawInterface[] {
+    const obj: {
+      [key: string]: any;
+    } = {};
+    data.forEach((item: any) => {
+      const itemId = item.id.toString();
+      if (item.id in obj) {
+        obj[itemId].image_urls.push(item.url);
+      } else {
+        obj[item.id] = {
+          id: item.id,
+          uid: item.uid,
+          lender_id: item.lender_id,
+          street_address: item.street_address,
+          latitude: item.latitude,
+          longitude: item.longitude,
+          image_urls: [item.url],
+        };
+      }
+    });
+    return Object.values(obj).map((item) => item);
   }
 }

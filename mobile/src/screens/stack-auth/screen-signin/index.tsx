@@ -16,6 +16,7 @@ export const AuthSignInScreen = () => {
         placeholder="emailAddress"
         value={emailAddress}
         onChangeText={setEmailAddress}
+        autoCapitalize="none"
       />
       <TextInput
         placeholder="Password"

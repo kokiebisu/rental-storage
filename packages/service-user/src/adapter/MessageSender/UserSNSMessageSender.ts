@@ -1,12 +1,12 @@
-import { AWSRegion, UserEvent } from "../../domain/Enum";
-import { LoggerUtil } from "../../utils";
+import { AWSRegion, UserEvent } from "../../Domain/Enum";
+import { LoggerUtil } from "../../Utils";
 import {
   SNSClient,
   PublishCommand,
   PublishCommandInput,
 } from "@aws-sdk/client-sns";
-import { UserInterface } from "../../types";
-import { UserMessageSender } from "../../application/Port";
+import { UserInterface } from "../../Types";
+import { UserMessageSender } from "../../Application/Port";
 
 export class UserSNSMessageSender implements UserMessageSender {
   private _client: SNSClient;
@@ -28,8 +28,8 @@ export class UserSNSMessageSender implements UserMessageSender {
   }
 
   public async userCreated(data: UserInterface) {
-    const message = JSON.stringify(data)
-    await this._publish(message, UserEvent.Created)
+    const message = JSON.stringify(data);
+    await this._publish(message, UserEvent.Created);
   }
 
   private async _publish(message: string, eventName: UserEvent) {
@@ -51,9 +51,8 @@ export class UserSNSMessageSender implements UserMessageSender {
       const command = new PublishCommand(input);
       await this._client.send(command);
     } catch (err) {
-      this._logger.info(err, "_publish()")
-      throw err
+      this._logger.info(err, "_publish()");
+      throw err;
     }
-
   }
 }

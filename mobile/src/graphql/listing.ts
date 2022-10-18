@@ -12,6 +12,18 @@ export const QUERY_FIND_LISTING_BY_ID = gql`
   }
 `;
 
+export const QUERY_FIND_MY_LISTINGS = gql`
+  query Query {
+    findMyListings {
+      latitude
+      lenderId
+      longitude
+      streetAddress
+      uid
+    }
+  }
+`;
+
 export const QUERY_FIND_LISTINGS_WITHIN_LAT_LNG = gql`
   query Query($latitude: Float!, $longitude: Float!, $range: Int!) {
     findListingsWithinLatLng(

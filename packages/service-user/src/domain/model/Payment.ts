@@ -1,4 +1,4 @@
-import { PaymentConstructor } from "../../types";
+import { PaymentConstructor } from "../../Types";
 
 export enum ProviderType {
   STRIPE = "stripe",
@@ -41,6 +41,9 @@ export class Payment {
   }
 
   public static isPayment(data: any): data is Payment {
-    return (data as Payment).providerId !== undefined && (data as Payment).userId !== undefined
+    return (
+      (data as Payment).providerId !== undefined &&
+      (data as Payment).userId !== undefined
+    );
   }
 }

@@ -1,5 +1,5 @@
 BookingCreatedStream:
-  handler: dist/adapter/Api/Stream/BookingCreated.handler
+  handler: dist/Adapter/Api/Stream/BookingCreated.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-stream-booking-created
   environment:
     DB_HOST: ${self:custom.DB_HOST}

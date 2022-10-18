@@ -1,4 +1,4 @@
-import { ItemConstructor } from "../../types";
+import { ItemConstructor } from "../../Types";
 
 export class Item {
   private _id?: number;
@@ -30,16 +30,19 @@ export class Item {
 
   public get id() {
     if (!this._id) {
-      throw new Error('id is not defined')
+      throw new Error("id is not defined");
     }
-    return this._id
+    return this._id;
   }
 
   public set id(value: number) {
-    this._id = value
+    this._id = value;
   }
 
   public static isItem(data: any): data is Item {
-    return (data as Item).ownerId !== undefined && (data as Item).listingId !== undefined
+    return (
+      (data as Item).ownerId !== undefined &&
+      (data as Item).listingId !== undefined
+    );
   }
 }

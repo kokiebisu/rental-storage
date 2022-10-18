@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { ListingConstructor } from "../../types";
+import { ListingConstructor } from "../../Types";
 import { StreetAddress } from "./StreetAddress";
 
 export class Listing {

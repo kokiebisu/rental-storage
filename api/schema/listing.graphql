@@ -30,4 +30,5 @@ type Listing {
   streetAddress: String!
   latitude: Float!
   longitude: Float!
+  imageUrls: [String]
 }

@@ -1,5 +1,5 @@
 UserServiceController:
-  handler: dist/adapter/Api/controller/index.handler
+  handler: dist/Adapter/Api/Controller/index.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
   environment:
     NAMESPACE: ${self:custom.namespace}

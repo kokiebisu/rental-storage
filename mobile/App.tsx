@@ -10,7 +10,6 @@ import { SplashScreen } from "./src/screens";
 import { AuthSignInScreen } from "./src/screens/stack-auth";
 import { AuthSignUpScreen } from "./src/screens/stack-auth";
 import { Tabs } from "./src/screens/stack-tabs";
-import { useInitialize } from "./src/hooks/useInitialize";
 import { Client } from "./src/config/appsync";
 
 const App = () => {

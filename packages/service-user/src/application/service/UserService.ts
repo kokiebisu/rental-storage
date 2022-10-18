@@ -5,19 +5,19 @@ import {
   UserRepository,
   UserService,
 } from "../Port";
-import { UserInterface } from "../../types";
-import { UserRepositoryImpl } from "../../adapter/Repository";
-import { EmailAddress, Name, NameType, User } from "../../domain/Model";
-import { LoggerUtil } from "../../utils";
+import { UserInterface } from "../../Types";
+import { UserRepositoryImpl } from "../../Adapter/Repository";
+import { EmailAddress, Name, NameType, User } from "../../Domain/Model";
+import { LoggerUtil } from "../../Utils";
 import { PaymentServiceImpl } from "./PaymentService";
-import { UserMapper } from "../../adapter/Mapper";
-import { AWSRegion } from "../../domain/Enum";
-import { UserKinesisStreamEventSender } from "../../adapter/EventSender";
+import { UserMapper } from "../../Adapter/Mapper";
+import { AWSRegion } from "../../Domain/Enum";
+import { UserKinesisStreamEventSender } from "../../Adapter/EventSender";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;
   private _paymentService: PaymentService;
-  private _userEventSender: UserEventSender
+  private _userEventSender: UserEventSender;
 
   private _logger: LoggerUtil;
 
@@ -28,7 +28,7 @@ export class UserServiceImpl implements UserService {
   ) {
     this._userRepository = userRepository;
     this._paymentService = paymentService;
-    this._userEventSender = userEventSender
+    this._userEventSender = userEventSender;
     this._logger = new LoggerUtil("UserServiceImpl");
   }
 
@@ -36,7 +36,9 @@ export class UserServiceImpl implements UserService {
     const userRepository = await UserRepositoryImpl.create();
     await userRepository.setup();
     const paymentService = await PaymentServiceImpl.create();
-    const userEventSender = await UserKinesisStreamEventSender.create(AWSRegion.US_EAST_1)
+    const userEventSender = await UserKinesisStreamEventSender.create(
+      AWSRegion.US_EAST_1
+    );
     return new UserServiceImpl(userRepository, paymentService, userEventSender);
   }
 
@@ -57,13 +59,13 @@ export class UserServiceImpl implements UserService {
         lastName: savedUser.lastName.value,
       });
 
-      const userDTO = UserMapper.toDTOFromEntity(user)
+      const userDTO = UserMapper.toDTOFromEntity(user);
       // await this._userMessageSender.userCreated(userDTO)
-      await this._userEventSender.userCreated(userDTO)
-      return userDTO
+      await this._userEventSender.userCreated(userDTO);
+      return userDTO;
     } catch (err) {
       this._logger.error(err, "createUser()");
-      throw err
+      throw err;
     }
   }
 
