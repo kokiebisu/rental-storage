@@ -28,7 +28,7 @@ export default ({
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
       <View>
         <Text style={{ fontSize: 32, fontWeight: "bold" }}>
-          Lender your place
+          List your place
         </Text>
       </View>
       <View style={{ marginTop: 20 }}>
@@ -109,7 +109,7 @@ export default ({
               fontWeight: "bold",
             }}
           >
-            Lender
+            Submit
           </Text>
         </Pressable>
       </View>

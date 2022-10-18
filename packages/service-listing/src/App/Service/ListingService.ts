@@ -2,7 +2,6 @@ import axios from "axios";
 
 import { ListingMapper } from "../../Adapter/Mapper";
 import { ListingRepositoryImpl } from "../../Adapter/Database";
-import { Listing, StreetAddress } from "../../Domain/Model";
 import { ListingInterface } from "../../Types";
 import { LoggerUtil } from "../../Utils";
 import {
@@ -13,6 +12,7 @@ import {
 } from "../Port";
 import { ListingKinesisStreamEventSender } from "../../Adapter/EventSender";
 import { AWSRegion } from "../../Domain/Enum";
+import { Listing, StreetAddress } from "../../Domain/Model";
 
 export class ListingServiceImpl implements ListingService {
   private _listingRepository: ListingRepository;

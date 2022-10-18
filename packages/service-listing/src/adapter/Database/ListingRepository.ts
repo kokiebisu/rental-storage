@@ -3,8 +3,9 @@ import { Client } from "pg";
 import { ListingMapper } from "../Mapper";
 import { ListingRepository } from "../../App/Port";
 import { LoggerUtil } from "../../Utils";
-import { Listing } from "../../Domain/Model";
+
 import { ListingRawInterface } from "../../Types";
+import { Listing } from "../../Domain/Model";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;
