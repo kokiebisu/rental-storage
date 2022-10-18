@@ -11,8 +11,8 @@ import {
   ListingService,
 } from "../Port";
 import { ListingKinesisStreamEventSender } from "../../Adapter/EventSender";
-import { AWSRegion } from "../../Domain/Enum";
-import { Listing, StreetAddress } from "../../Domain/Model";
+import { AWSRegion, CurrencyType, RentalFeeType } from "../../Domain/Enum";
+import { Amount, Fee, Listing, StreetAddress } from "../../Domain/Model";
 
 export class ListingServiceImpl implements ListingService {
   private _listingRepository: ListingRepository;
@@ -90,14 +90,30 @@ export class ListingServiceImpl implements ListingService {
 
   public async addListing(args: AddListing): Promise<boolean> {
     this._logger.info(args, "addListing()");
-    const { lenderId, streetAddress, latitude, longitude, imageUrls } = args;
+    const {
+      lenderId,
+      streetAddress,
+      latitude,
+      longitude,
+      imageUrls,
+      title,
+      fee,
+    } = args;
     try {
       let listing = new Listing({
+        title,
         lenderId,
         streetAddress: new StreetAddress(streetAddress),
         latitude,
         longitude,
         imageUrls,
+        fee: new Fee({
+          amount: new Amount({
+            value: fee.amount.value,
+            currency: fee.amount.currency as CurrencyType,
+          }),
+          type: fee.type as RentalFeeType,
+        }),
       });
 
       if (!this.checkListingExists(lenderId)) {

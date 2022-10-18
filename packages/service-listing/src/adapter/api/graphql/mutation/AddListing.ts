@@ -1,7 +1,8 @@
 import { ListingServiceImpl } from "../../../../App/Service/ListingService";
 
 export const handler = async (event: any) => {
-  const { lenderId, streetAddress, latitude, longitude, items, imageUrls } =
+  const { uid: lenderId } = event.identity.resolverContext;
+  const { streetAddress, latitude, longitude, imageUrls, title, fee } =
     event.arguments;
   const service = await ListingServiceImpl.create();
   return await service.addListing({
@@ -10,5 +11,7 @@ export const handler = async (event: any) => {
     latitude,
     longitude,
     imageUrls,
+    title,
+    fee,
   });
 };
