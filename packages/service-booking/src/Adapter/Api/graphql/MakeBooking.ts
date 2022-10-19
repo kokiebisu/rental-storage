@@ -1,4 +1,4 @@
-import { BookingServiceImpl } from "../../../../App/Service/BookingService";
+import { BookingServiceImpl } from "../../../app/service/BookingService";
 
 export const handler = async (event: any) => {
   const { amount, currency, userId, listingId, items } = event.arguments;
