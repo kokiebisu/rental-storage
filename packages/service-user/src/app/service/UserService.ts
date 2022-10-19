@@ -4,15 +4,15 @@ import {
   UserEventSender,
   UserRepository,
   UserService,
-} from "../Port";
-import { UserInterface } from "../../Types";
-import { UserRepositoryImpl } from "../../Adapter/Repository";
-import { EmailAddress, Name, NameType, User } from "../../Domain/Model";
-import { LoggerUtil } from "../../Utils";
+} from "../port";
+import { UserInterface } from "../../types";
+import { UserRepositoryImpl } from "../../adapter/repository";
+import { EmailAddress, Name, NameType, User } from "../../domain/model";
+import { LoggerUtil } from "../../utils";
 import { PaymentServiceImpl } from "./PaymentService";
-import { UserMapper } from "../../Adapter/Mapper";
-import { AWSRegion } from "../../Domain/Enum";
-import { UserKinesisStreamEventSender } from "../../Adapter/EventSender";
+import { UserMapper } from "../../adapter/mapper";
+import { AWSRegion } from "../../domain/enum";
+import { UserKinesisStreamEventSender } from "../../adapter/sender-event";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;

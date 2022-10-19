@@ -1,4 +1,4 @@
-import { Item } from "../../Domain/Model";
+import { Item } from "../../domain/model";
 
 export interface ItemRepository {
   save(data: Item): Promise<Item>;

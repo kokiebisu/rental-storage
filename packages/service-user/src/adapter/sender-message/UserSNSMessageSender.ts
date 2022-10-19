@@ -1,12 +1,12 @@
-import { AWSRegion, UserEvent } from "../../Domain/Enum";
-import { LoggerUtil } from "../../Utils";
+import { AWSRegion, UserEvent } from "../../domain/enum";
+import { LoggerUtil } from "../../utils";
 import {
   SNSClient,
   PublishCommand,
   PublishCommandInput,
 } from "@aws-sdk/client-sns";
-import { UserInterface } from "../../Types";
-import { UserMessageSender } from "../../Application/Port";
+import { UserInterface } from "../../types";
+import { UserMessageSender } from "../../app/port";
 
 export class UserSNSMessageSender implements UserMessageSender {
   private _client: SNSClient;

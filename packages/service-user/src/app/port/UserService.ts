@@ -1,4 +1,4 @@
-import { UserInterface } from "../../Types";
+import { UserInterface } from "../../types";
 
 export interface CreateUserInput {
   emailAddress: string;

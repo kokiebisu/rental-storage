@@ -1,7 +1,7 @@
-import { AWSRegion, UserEvent } from "../../Domain/Enum";
-import { LoggerUtil } from "../../Utils";
-import { UserInterface } from "../../Types";
-import { UserEventSender } from "../../Application/Port";
+import { AWSRegion, UserEvent } from "../../domain/enum";
+import { LoggerUtil } from "../../utils";
+import { UserInterface } from "../../types";
+import { UserEventSender } from "../../app/port";
 import {
   KinesisClient,
   AddTagsToStreamCommand,

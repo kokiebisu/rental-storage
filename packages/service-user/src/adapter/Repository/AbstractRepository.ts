@@ -1,6 +1,6 @@
 import { Client } from "pg";
 
-import { LoggerUtil } from "../../Utils";
+import { LoggerUtil } from "../../utils";
 
 export abstract class AbstractRepositoryImpl<T> {
   protected readonly tableName: string;

@@ -1,5 +1,5 @@
-import { PaymentRepository } from "../../Application/Port";
-import { Payment } from "../../Domain/Model";
+import { PaymentRepository } from "../../app/port";
+import { Payment } from "../../domain/model";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 
 export class PaymentRepositoryImpl
