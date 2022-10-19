@@ -1,6 +1,6 @@
-import { CurrencyType, RentalFeeType } from "../../Domain/Enum";
-import { Amount, Fee, Listing, StreetAddress } from "../../Domain/Model";
-import { ListingInterface, ListingRawInterface } from "../../Types";
+import { CurrencyType, RentalFeeType } from "../../domain/enum";
+import { Amount, Fee, Listing, StreetAddress } from "../../domain/model";
+import { ListingInterface, ListingRawInterface } from "../../types";
 
 export class ListingMapper {
   public static toEntityFromRaw(data: ListingRawInterface): Listing {

@@ -1,4 +1,4 @@
-import { Fee, StreetAddress } from "../Domain/Model";
+import { Fee, StreetAddress } from "../domain/model";
 import { FeeInterface } from "./Fee";
 
 export interface ListingConstructor {

@@ -1,5 +1,5 @@
-import { BookingStatus } from "../Domain/Enum";
-import { Amount } from "../Domain/Model";
+import { BookingStatus } from "../domain/enum";
+import { Amount } from "../domain/model";
 import { AmountInterface } from "./Amount";
 import { ItemInterface } from "./Item";
 

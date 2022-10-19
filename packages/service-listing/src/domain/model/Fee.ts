@@ -1,5 +1,5 @@
-import { FeeConstructor } from "../../Types";
-import { RentalFeeType } from "../Enum";
+import { FeeConstructor } from "../../types";
+import { RentalFeeType } from "../enum";
 import { Amount } from "./Amount";
 
 export class Fee {

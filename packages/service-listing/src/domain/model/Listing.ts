@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { ListingConstructor } from "../../Types";
+import { ListingConstructor } from "../../types";
 import { Fee } from "./Fee";
 import { StreetAddress } from "./StreetAddress";
 

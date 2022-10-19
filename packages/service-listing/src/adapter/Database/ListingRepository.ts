@@ -4,8 +4,8 @@ import { ListingMapper } from "../mapper";
 import { ListingRepository } from "../../app/port";
 import { LoggerUtil } from "../../utils";
 
-import { ListingRawInterface } from "../../Types";
-import { Listing } from "../../Domain/Model";
+import { ListingRawInterface } from "../../types";
+import { Listing } from "../../domain/model";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;

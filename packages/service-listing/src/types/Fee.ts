@@ -1,5 +1,5 @@
-import { RentalFeeType } from "../Domain/Enum";
-import { Amount } from "../Domain/Model";
+import { RentalFeeType } from "../domain/enum";
+import { Amount } from "../domain/model";
 import { AmountInterface } from "./Amount";
 
 export interface FeeConstructor {

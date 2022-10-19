@@ -10,9 +10,9 @@ import {
 
 import { BookingMapper } from "../mapper";
 import { BookingRepository } from "../../app/port";
-import { LoggerUtil } from "../../Utils";
-import { AWSRegion } from "../../Domain/Enum";
-import { BookingInterface } from "../../Types";
+import { LoggerUtil } from "../../utils";
+import { AWSRegion } from "../../domain/enum";
+import { BookingInterface } from "../../types";
 
 export class BookingRepositoryImpl implements BookingRepository {
   private _client: DynamoDBClient;

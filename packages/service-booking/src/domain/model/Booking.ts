@@ -1,7 +1,7 @@
-import { BookingStatus } from "../Enum";
+import { BookingStatus } from "../enum";
 import { v4 as uuid } from "uuid";
 import { Amount } from "./Amount";
-import { BookingConstructor, ItemInterface } from "../../Types";
+import { BookingConstructor, ItemInterface } from "../../types";
 
 export class Booking {
   public readonly id: string;
