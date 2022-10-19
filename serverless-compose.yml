@@ -58,3 +58,6 @@ services:
       - user
       - authorizer
       - payment
+      - authentication
+      - slack
+      - api-apigateway

@@ -19,22 +19,28 @@ type Mutation {
     streetAddress: String!
     latitude: Float!
     longitude: Float!
-    imageUrls: [String]
-    fee: Fee!
+    imageUrls: [String] # fee: Fee!
   ): Boolean!
   removeListingById(uid: ID!): Boolean!
 }
 
 type Listing {
   uid: String!
+  title: String!
   lenderId: String!
   streetAddress: String!
   latitude: Float!
   longitude: Float!
   imageUrls: [String]
+  fee: Fee!
 }
 
 type Fee {
-  amount: Int
-  currency: String
+  amount: Int!
+  currency: String!
+}
+
+input FeeInput {
+  amount: Int!
+  currency: String!
 }
