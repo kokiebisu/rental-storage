@@ -3,10 +3,16 @@ import gql from "graphql-tag";
 export const QUERY_FIND_LISTING_BY_ID = gql`
   query Query($uid: ID!) {
     findListingById(uid: $uid) {
+      fee {
+        amount
+        currency
+      }
+      imageUrls
       latitude
       lenderId
       longitude
       streetAddress
+      title
       uid
     }
   }
@@ -15,11 +21,16 @@ export const QUERY_FIND_LISTING_BY_ID = gql`
 export const QUERY_FIND_MY_LISTINGS = gql`
   query Query {
     findMyListings {
+      fee {
+        amount
+        currency
+      }
       imageUrls
       latitude
       lenderId
       longitude
       streetAddress
+      title
       uid
     }
   }
@@ -32,10 +43,16 @@ export const QUERY_FIND_LISTINGS_WITHIN_LAT_LNG = gql`
       longitude: $longitude
       range: $range
     ) {
+      fee {
+        amount
+        currency
+      }
+      imageUrls
       latitude
       lenderId
       longitude
       streetAddress
+      title
       uid
     }
   }
@@ -43,17 +60,20 @@ export const QUERY_FIND_LISTINGS_WITHIN_LAT_LNG = gql`
 
 export const MUTATION_ADD_LISTING = gql`
   mutation MyMutation(
-    $lenderId: ID!
+    $feeAmount: Int
+    $feeCurrency: String
     $imageUrls: [String]
-    $latitude: Float!
-    $longitude: Float!
-    $streetAddress: String!
+    $latitude: Float
+    $longitude: Float
+    $streetAddress: String
+    $title: String
   ) {
     addListing(
+      fee: { amount: $feeAmount, currency: $feeCurrency }
       latitude: $latitude
-      lenderId: $lenderId
       longitude: $longitude
       streetAddress: $streetAddress
+      title: $title
       imageUrls: $imageUrls
     )
   }

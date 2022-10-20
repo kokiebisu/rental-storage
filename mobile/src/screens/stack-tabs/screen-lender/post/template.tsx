@@ -20,7 +20,7 @@ export default ({
   price,
   handleTitleChange,
   handlePriceChange,
-  handleLenderListing,
+  handleListingSubmit,
   handleSelectSuggestion,
   handleImagePick,
 }) => {
@@ -98,7 +98,7 @@ export default ({
       </View>
       <View style={{ marginTop: 20 }}>
         <Pressable
-          onPress={handleLenderListing}
+          onPress={handleListingSubmit}
           style={{ backgroundColor: "black", width: "100%", padding: 16 }}
         >
           <Text
