@@ -20,12 +20,12 @@ runs:
 
     - name: Test Image Service
       run: |
-        cd packages/service-image
+        cd packages/service-image &&
         make test
       shell: bash
 
     - name: Test Slack Service
       run: |
-        cd packages/service-slack
+        cd packages/service-slack &&
         make test
       shell: bash

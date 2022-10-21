@@ -19,8 +19,8 @@ jobs:
         with:
           repo-token: "${{ secrets.GH_TOKEN }}"
 
-  test-typescript:
-    name: Set up and test Typescript
+  setup-test-typescript:
+    name: Set up and test typescript services
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +33,7 @@ jobs:
         uses: ./.github/actions/test-nodejs
 
   test-python:
-    name: Set up and test python3.8
+    name: Set up and test python services
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
