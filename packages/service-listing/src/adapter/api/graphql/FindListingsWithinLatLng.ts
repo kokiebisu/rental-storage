@@ -1,4 +1,4 @@
-import { ListingServiceImpl } from "../../../app/service";
+import { ListingServiceImpl } from "../../../apps/service";
 
 export const handler = async (event: any) => {
   const { latitude, longitude, range } = event.arguments;

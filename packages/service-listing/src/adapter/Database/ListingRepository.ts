@@ -1,7 +1,7 @@
 import { Client } from "pg";
 
 import { ListingMapper } from "../mapper";
-import { ListingRepository } from "../../app/port";
+import { ListingRepository } from "../../apps/port";
 import { LoggerUtil } from "../../utils";
 
 import { ListingRawInterface } from "../../types";
