@@ -12,12 +12,11 @@ import { Client } from "../../../../config/appsync";
 export const useLenderPostScreen = () => {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
+  const [fee, setFee] = useState("");
   const [streetAddress, setStreetAddress] = useState("");
   const [latLng, setLatLng] = useState(null);
   const [url, setUrl] = useState(null);
-  const { profile } = useContext(ProfileContext);
-  const [imageUrl, setImageUrl] = useState(null);
+  const { profileState } = useContext(ProfileContext);
 
   const [getImageUrls, { loading, error, data: imageUrlsData }] = useLazyQuery(
     QUERY_GET_PRESIGNED_URL
@@ -40,16 +39,19 @@ export const useLenderPostScreen = () => {
     }
   }, [imageUrlsData]);
 
-  const handleLenderListing = async () => {
+  const handleListingSubmit = async () => {
     try {
       await uploadPhotoToS3(image.base64, image.uri, url);
       await addListing({
         variables: {
+          title,
           imageUrls: [url.split("?")[0]],
-          lenderId: profile.uid,
+          lenderId: profileState.uid,
           latitude: latLng.lat,
           longitude: latLng.lng,
           streetAddress,
+          feeAmount: Number(fee),
+          feeCurrency: "cad",
         },
       });
     } catch (err) {
@@ -119,10 +121,10 @@ export const useLenderPostScreen = () => {
   return {
     image,
     title,
-    price,
-    handleTitleChange: (e) => setTitle(e),
-    handlePriceChange: (e) => setPrice(e),
-    handleLenderListing,
+    fee,
+    handleTitleChange: setTitle,
+    handlefeeChange: setFee,
+    handleListingSubmit,
     handleSelectSuggestion: (data, details = null) => {
       setStreetAddress(data.description);
       setLatLng(details.geometry.location);

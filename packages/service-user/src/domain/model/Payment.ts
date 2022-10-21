@@ -1,4 +1,4 @@
-import { PaymentConstructor } from "../../Types";
+import { PaymentConstructor } from "../../types";
 
 export enum ProviderType {
   STRIPE = "stripe",

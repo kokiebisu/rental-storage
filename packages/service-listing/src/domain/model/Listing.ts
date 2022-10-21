@@ -1,25 +1,30 @@
 import { v4 as uuid } from "uuid";
 
-import { ListingConstructor } from "../../Types";
+import { ListingConstructor } from "../../types";
+import { Fee } from "./Fee";
 import { StreetAddress } from "./StreetAddress";
 
 export class Listing {
   private _id?: number;
   public readonly uid: string;
+  public readonly title: string;
   public readonly lenderId: string;
   public readonly streetAddress: StreetAddress;
   public readonly latitude: number;
   public readonly longitude: number;
   public readonly imageUrls: string[];
+  public readonly fee: Fee;
 
   public constructor({
     id,
     uid = uuid(),
+    title,
     lenderId,
     streetAddress,
     latitude,
     longitude,
     imageUrls,
+    fee,
   }: ListingConstructor) {
     this.validateLenderId(lenderId);
     this.validateLatitude(latitude);
@@ -27,11 +32,13 @@ export class Listing {
 
     this._id = id;
     this.uid = uid;
+    this.title = title;
     this.lenderId = lenderId;
     this.streetAddress = streetAddress;
     this.latitude = latitude;
     this.longitude = longitude;
     this.imageUrls = imageUrls;
+    this.fee = fee;
   }
 
   public get id(): number {

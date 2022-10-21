@@ -15,20 +15,33 @@ type Query {
 
 type Mutation {
   addListing(
-    lenderId: ID!
+    title: String!
     streetAddress: String!
     latitude: Float!
     longitude: Float!
     imageUrls: [String]
+    fee: FeeInput!
   ): Boolean!
   removeListingById(uid: ID!): Boolean!
 }
 
 type Listing {
   uid: String!
+  title: String!
   lenderId: String!
   streetAddress: String!
   latitude: Float!
   longitude: Float!
   imageUrls: [String]
+  fee: Fee!
+}
+
+type Fee {
+  amount: Int!
+  currency: String!
+}
+
+input FeeInput {
+  amount: Int!
+  currency: String!
 }

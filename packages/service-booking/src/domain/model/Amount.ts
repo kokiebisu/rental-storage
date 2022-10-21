@@ -1,5 +1,5 @@
-import { AmountConstructor } from "../../Types";
-import { Currency } from "../Enum";
+import { AmountConstructor } from "../../types";
+import { Currency } from "../enum";
 
 export class Amount {
   public readonly value: number;

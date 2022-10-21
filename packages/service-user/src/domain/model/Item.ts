@@ -1,4 +1,4 @@
-import { ItemConstructor } from "../../Types";
+import { ItemConstructor } from "../../types";
 
 export class Item {
   private _id?: number;

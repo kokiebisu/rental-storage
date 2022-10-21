@@ -1,4 +1,4 @@
-import { ItemInterface, UserConstructor } from "../../Types";
+import { ItemInterface, UserConstructor } from "../../types";
 import { v4 as uuid } from "uuid";
 import { EmailAddress } from "./EmailAddress";
 import { Payment } from "./Payment";

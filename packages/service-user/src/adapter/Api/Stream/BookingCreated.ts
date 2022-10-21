@@ -1,6 +1,6 @@
-import { ItemServiceImpl } from "../../../Application/Service";
-import { LoggerUtil } from "../../../Utils";
-import { ItemMapper } from "../../Mapper";
+import { ItemServiceImpl } from "../../../app/service";
+import { LoggerUtil } from "../../../utils";
+import { ItemMapper } from "../../mapper";
 
 export const handler = async (event: any) => {
   const logger = new LoggerUtil("handler");

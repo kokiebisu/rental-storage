@@ -1,4 +1,4 @@
-service: rental-a-locker-api
+service: rental-a-locker-api-appsync
 frameworkVersion: "3"
 
 plugins:
@@ -13,11 +13,11 @@ provider:
   stage: dev
   region: us-east-1
   deploymentBucket:
-    name: rental-a-locker-api-resources
+    name: rental-a-locker-api-appsync-resources
 
 custom:
   namespace: rental-a-locker
-  service: api
+  service: api-appsync
   appSync:
     name: ${self:custom.namespace}-${self:custom.service}
     authenticationType: AWS_LAMBDA
@@ -39,7 +39,7 @@ custom:
       - ${file(./aws/appsync/data-sources/payment.yml)}
     mappingTemplates:
       - ${file(./aws/appsync/mapping-templates/booking/mapping-template.yml)}
-      - ${file(./aws/appsync/mapping-templates/listing/mapping-template.yml)}
       - ${file(./aws/appsync/mapping-templates/image/mapping-template.yml)}
+      - ${file(./aws/appsync/mapping-templates/listing/mapping-template.yml)}
       - ${file(./aws/appsync/mapping-templates/user/mapping-template.yml)}
       - ${file(./aws/appsync/mapping-templates/payment/mapping-template.yml)}

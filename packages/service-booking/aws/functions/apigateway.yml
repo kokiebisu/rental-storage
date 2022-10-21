@@ -1,5 +1,5 @@
 BookingServiceController:
-  handler: dist/Adapter/Api/Controller/index.handler
+  handler: dist/adapter/api/controller/index.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}

@@ -1,6 +1,6 @@
 ## Query
 FindMeQuery:
-  handler: dist/Adapter/Api/Graphql/Query/FindMe.handler
+  handler: dist/adapter/api/graphql/FindMe.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-me
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -12,7 +12,7 @@ FindMeQuery:
     ACCOUNT_ID: ${aws:accountId}
 
 FindUserByIdQuery:
-  handler: dist/Adapter/Api/Graphql/Query/FindUserById.handler
+  handler: dist/adapter/api/graphql/FindUserById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-user-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -24,7 +24,7 @@ FindUserByIdQuery:
     ACCOUNT_ID: ${aws:accountId}
 
 FindUserByEmailQuery:
-  handler: dist/Adapter/Api/Graphql/Query/FindUserByEmail.handler
+  handler: dist/adapter/api/graphql/FindUserByEmail.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-user-by-email
   environment:
     DB_HOST: ${self:custom.DB_HOST}
@@ -37,7 +37,7 @@ FindUserByEmailQuery:
 
 ## Mutation
 RemoveUserByIdMutation:
-  handler: dist/Adapter/Api/Graphql/Mutation/RemoveUserById.handler
+  handler: dist/adapter/api/graphql/RemoveUserById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-remove-user-by-id
   environment:
     DB_HOST: ${self:custom.DB_HOST}

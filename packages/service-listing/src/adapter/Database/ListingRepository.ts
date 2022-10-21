@@ -1,11 +1,11 @@
 import { Client } from "pg";
 
-import { ListingMapper } from "../Mapper";
-import { ListingRepository } from "../../App/Port";
-import { LoggerUtil } from "../../Utils";
+import { ListingMapper } from "../mapper";
+import { ListingRepository } from "../../app/port";
+import { LoggerUtil } from "../../utils";
 
-import { ListingRawInterface } from "../../Types";
-import { Listing } from "../../Domain/Model";
+import { ListingRawInterface } from "../../types";
+import { Listing } from "../../domain/model";
 
 export class ListingRepositoryImpl implements ListingRepository {
   public readonly tableName: string;
@@ -41,6 +41,7 @@ export class ListingRepositoryImpl implements ListingRepository {
           CREATE TABLE IF NOT EXISTS listing (
             id SERIAL NOT NULL PRIMARY KEY, 
             uid VARCHAR(64) NOT NULL,
+            title VARCHAR(64),
             lender_id VARCHAR(64), 
             street_address VARCHAR(100) NOT NULL, 
             latitude DECIMAL(16,14) NOT NULL, 
@@ -51,9 +52,24 @@ export class ListingRepositoryImpl implements ListingRepository {
       await client.query(
         `
           CREATE TABLE IF NOT EXISTS images_listing (
-            id SERIAL NOT NULL PRIMARY KEY,
-            url TEXT,
+            url TEXT NOT NULL,
             listing_id INT NOT NULL,
+            PRIMARY KEY (url, listing_id),
+            CONSTRAINT fk_listing
+              FOREIGN KEY(listing_id) 
+                REFERENCES listing(id)
+                ON DELETE CASCADE
+          )
+        `
+      );
+      await client.query(
+        `
+          CREATE_TABLE IF NOT EXISTS fees_listing (
+            amount INT NOT NULL,
+            currency VARCHAR(6) NOT NULL,
+            type VARCHAR(10) NOT NULL,
+            listing_id INT NOT NULL,
+            PRIMARY KEY(listing_id, type),
             CONSTRAINT fk_listing
               FOREIGN KEY(listing_id) 
                 REFERENCES listing(id)
@@ -95,6 +111,15 @@ export class ListingRepositoryImpl implements ListingRepository {
           [imageUrl, result.rows[0].id]
         );
       }
+      await client.query(
+        `INSERT INTO fees_listing (amount, currency, type, listing_id) VALUES ($1, $2, $3, $4)`,
+        [
+          data.fee.amount.value,
+          data.fee.amount.currency,
+          data.fee.type,
+          result.rows[0].id,
+        ]
+      );
       data.id = result.rows[0].id;
       await client.end();
       return data;
@@ -119,6 +144,10 @@ export class ListingRepositoryImpl implements ListingRepository {
         `DELETE FROM images_listing WHERE listing_id = $1 RETURNING *`,
         [result.rows[0].id]
       );
+      await client.query(
+        `DELETE FROM fees_listing WHERE listing_id = $1 RETURNING *`,
+        [result.rows[0].id]
+      );
     } catch (err) {
       this._logger.error(err, "delete()");
       await client.end();
@@ -133,8 +162,9 @@ export class ListingRepositoryImpl implements ListingRepository {
       await client.connect();
       const result = await client.query(
         `
-          SELECT listing.*, images_listing.url FROM listing 
+          SELECT listing.*, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type FROM listing 
           LEFT JOIN images_listing ON listing.id = images_listing.listing_id
+          LEFT JOIN fees_listing ON listing.id = fees_listing.listing_id
           WHERE listing.uid = $1
         `,
         [uid]
@@ -160,6 +190,7 @@ export class ListingRepositoryImpl implements ListingRepository {
         `
           SELECT listing.*, images_listing.url FROM listing 
           LEFT JOIN images_listing ON listing.id = images_listing.listing_id
+          LEFT JOIN fees_listing ON listing.id = fees_listing.listing_id
           WHERE listing.lender_id = $1
         `,
         [userId]
@@ -190,8 +221,9 @@ export class ListingRepositoryImpl implements ListingRepository {
       const result = await client.query(
         `
           SELECT listing.*, ( 3959 * acos( cos( radians($1) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians($2) ) + sin( radians($3) ) * sin( radians( latitude ) ) ) ) 
-          AS distance, images_listing.url
-          FROM listing INNER JOIN images_listing ON listing.id = images_listing.id
+          AS distance, images_listing.url FROM listing 
+          INNER JOIN images_listing ON listing.id = images_listing.listing_id
+          INNER JOIN fees_listing ON listing.id = fees_listing.listing_id
           HAVING distance < $4 ORDER BY distance LIMIT 0 , 20
         `,
         [latitude, longitude, latitude, range]
@@ -222,11 +254,19 @@ export class ListingRepositoryImpl implements ListingRepository {
         obj[item.id] = {
           id: item.id,
           uid: item.uid,
+          title: item.title,
           lender_id: item.lender_id,
           street_address: item.street_address,
           latitude: item.latitude,
           longitude: item.longitude,
           image_urls: [item.url],
+          fees: [
+            {
+              amount: item.fee.amount,
+              currency: item.fee.currency,
+              type: item.fee.type,
+            },
+          ],
         };
       }
     });
