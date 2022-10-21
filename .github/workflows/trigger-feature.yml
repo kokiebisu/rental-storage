@@ -41,6 +41,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - run: make install-deps
+
       - name: Build
         run: npm run build
 
