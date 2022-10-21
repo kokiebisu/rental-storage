@@ -16,7 +16,7 @@ export const useLenderPostScreen = () => {
   const [streetAddress, setStreetAddress] = useState("");
   const [latLng, setLatLng] = useState(null);
   const [url, setUrl] = useState(null);
-  const { profile } = useContext(ProfileContext);
+  const { profileState } = useContext(ProfileContext);
 
   const [getImageUrls, { loading, error, data: imageUrlsData }] = useLazyQuery(
     QUERY_GET_PRESIGNED_URL
@@ -46,7 +46,7 @@ export const useLenderPostScreen = () => {
         variables: {
           title,
           imageUrls: [url.split("?")[0]],
-          lenderId: profile.uid,
+          lenderId: profileState.uid,
           latitude: latLng.lat,
           longitude: latLng.lng,
           streetAddress,

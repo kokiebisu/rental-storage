@@ -52,9 +52,9 @@ export class ListingRepositoryImpl implements ListingRepository {
       await client.query(
         `
           CREATE TABLE IF NOT EXISTS images_listing (
-            url TEXT,
+            url TEXT NOT NULL,
             listing_id INT NOT NULL,
-            PRIMARY_KEY (url, listing_id),
+            PRIMARY KEY (url, listing_id),
             CONSTRAINT fk_listing
               FOREIGN KEY(listing_id) 
                 REFERENCES listing(id)
@@ -69,7 +69,7 @@ export class ListingRepositoryImpl implements ListingRepository {
             currency VARCHAR(6) NOT NULL,
             type VARCHAR(10) NOT NULL,
             listing_id INT NOT NULL,
-            PRIMARY_KEY(listing_id, type),
+            PRIMARY KEY(listing_id, type),
             CONSTRAINT fk_listing
               FOREIGN KEY(listing_id) 
                 REFERENCES listing(id)
