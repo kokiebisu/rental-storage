@@ -7,9 +7,9 @@
 
 # Typescript
 echo "Setting up Booking Service..."
-cd packages/service-booking && npm install && cd ../../
+cd ../packages/service-booking && npm install && cd ../../
 echo "Setting up Image Service..."
-cd packages/service-image && npm install && cd ../../
+cd ../packages/service-image && npm install && cd ../../
 # echo "Setting up Listing Service..."
 # (cd packages/service-listing && npm install || { echo 'failed' ; exit 1; }); 
 # echo "Setting up User Service..."
