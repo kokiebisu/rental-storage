@@ -7,18 +7,18 @@
 
 # Typescript
 echo "Setting up Booking Service..."
-(cd packages/service-booking && npm install || { echo 'failed' ; exit 1; }); 
+cd packages/service-booking && npm install && cd ../../
 echo "Setting up Image Service..."
-(cd packages/service-image && npm install || { echo 'failed' ; exit 1; }); 
-echo "Setting up Listing Service..."
-(cd packages/service-listing && npm install || { echo 'failed' ; exit 1; }); 
-echo "Setting up User Service..."
-(cd packages/service-user && npm install || { echo 'failed' ; exit 1; });
+cd packages/service-image && npm install && cd ../../
+# echo "Setting up Listing Service..."
+# (cd packages/service-listing && npm install || { echo 'failed' ; exit 1; }); 
+# echo "Setting up User Service..."
+# (cd packages/service-user && npm install || { echo 'failed' ; exit 1; });
 
-echo "Setting up Infrastructure..."
-(cd infrastructure && npm install || { echo 'failed' ; exit 1; });
+# echo "Setting up Infrastructure..."
+# (cd infrastructure && npm install || { echo 'failed' ; exit 1; });
 
-echo "Setting up Appsync..."
-(cd api/appsync && npm install || { echo 'failed' ; exit 1; });
-echo "Setting up Api Gateway..."
-(cd api/apigateway && npm install || { echo 'failed' ; exit 1; });
+# echo "Setting up Appsync..."
+# (cd api/appsync && npm install || { echo 'failed' ; exit 1; });
+# echo "Setting up Api Gateway..."
+# (cd api/apigateway && npm install || { echo 'failed' ; exit 1; });
