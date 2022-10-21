@@ -8,10 +8,10 @@ import {
   GetItemCommandInput,
 } from "@aws-sdk/client-dynamodb";
 
-import { BookingMapper } from "../mapper";
-import { BookingRepository } from "../../app/Port";
+import { BookingMapper } from "../mappers";
+import { BookingRepository } from "../../apps/port";
 import { LoggerUtil } from "../../utils";
-import { AWSRegion } from "../../domain/enum";
+import { AWSRegion } from "../../domain/enums";
 import { BookingInterface } from "../../types";
 
 export class BookingRepositoryImpl implements BookingRepository {

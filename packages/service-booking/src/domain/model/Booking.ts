@@ -1,4 +1,4 @@
-import { BookingStatus } from "../enum";
+import { BookingStatus } from "../enums";
 import { v4 as uuid } from "uuid";
 import { Amount } from "./Amount";
 import { BookingConstructor, ItemInterface } from "../../types";
