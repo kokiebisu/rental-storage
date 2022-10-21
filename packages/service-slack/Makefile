@@ -3,3 +3,6 @@ install-deps-local:
 
 start-venv:
 	source venv/bin/activate
+
+test:
+	python -m pytest -v
