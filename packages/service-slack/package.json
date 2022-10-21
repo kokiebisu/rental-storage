@@ -1,5 +1,5 @@
 {
-  "name": "@rental-storage-project/image",
+  "name": "@rental-storage-project/slack",
   "scripts": {
     "deploy": "sls deploy",
     "remove": "sls remove"
