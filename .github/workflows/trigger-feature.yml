@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Typescript packages
-        uses: ./actions/setup-nodejs
+        uses: ./.github/actions/setup-nodejs
 
       - name: Test Typescript packages
-        uses: ./actions/test-nodejs
+        uses: ./.github/actions/test-nodejs
