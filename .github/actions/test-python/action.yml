@@ -16,13 +16,16 @@ runs:
         python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      shell: bash
 
     - name: Test Image Service
       run: |
         cd packages/service-image
         make test
+      shell: bash
 
     - name: Test Slack Service
       run: |
         cd packages/service-slack
         make test
+      shell: bash

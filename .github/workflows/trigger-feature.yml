@@ -32,5 +32,12 @@ jobs:
       - name: Test Typescript packages
         uses: ./.github/actions/test-nodejs
 
+  test-python:
+    name: Set up and test python3.8
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Test Python packages
         uses: ./.github/actions/test-python
