@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { ListingMapper } from "../../adapter/mapper";
-import { ListingRepositoryImpl } from "../../adapter/databases";
+import { ListingRepositoryImpl } from "../../adapter/database";
 import { ListingInterface } from "../../types";
 import { LoggerUtil } from "../../utils";
 import {

@@ -1,4 +1,4 @@
-import { BookingStatus } from "../domain/enums";
+import { BookingStatus } from "../domain/enum";
 import { Amount } from "../domain/model";
 import { AmountInterface } from "./Amount";
 import { ItemInterface } from "./Item";

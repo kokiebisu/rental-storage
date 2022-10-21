@@ -1,4 +1,4 @@
-import { ListingServiceImpl } from "../../../apps/service";
+import { ListingServiceImpl } from "../../../app/service";
 import { LoggerUtil } from "../../../utils";
 
 export const handler = async (event: any) => {

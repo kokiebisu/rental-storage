@@ -9,7 +9,7 @@ import { LoggerUtil } from "../../utils";
 import { v4 as uuid } from "uuid";
 import { AWSRegion } from "../../domain/enum";
 import { ListingEvent } from "../../domain/enum";
-import { ListingEventSender } from "../../apps/port";
+import { ListingEventSender } from "../../app/port";
 
 export class ListingKinesisStreamEventSender implements ListingEventSender {
   private _client: KinesisClient;

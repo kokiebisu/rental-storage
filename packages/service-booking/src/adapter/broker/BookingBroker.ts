@@ -1,4 +1,4 @@
-import { AWSRegion } from "../../domain/enums";
+import { AWSRegion } from "../../domain/enum";
 import { LoggerUtil } from "../../utils";
 import {
   SNSClient,

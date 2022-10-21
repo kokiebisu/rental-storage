@@ -6,7 +6,7 @@ import { BookingRepositoryImpl } from "../../adapter/database";
 import { Amount, Booking } from "../../domain/model";
 import { BookingMapper } from "../../adapter/mapper";
 import { BookingService } from "../port";
-import { AWSRegion } from "../../domain/enums";
+import { AWSRegion } from "../../domain/enum";
 import { LoggerUtil } from "../../utils";
 import { ItemInterface } from "../../types";
 

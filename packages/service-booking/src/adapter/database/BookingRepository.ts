@@ -11,7 +11,7 @@ import {
 import { BookingMapper } from "../mapper";
 import { BookingRepository } from "../../app/port";
 import { LoggerUtil } from "../../utils";
-import { AWSRegion } from "../../domain/enums";
+import { AWSRegion } from "../../domain/enum";
 import { BookingInterface } from "../../types";
 
 export class BookingRepositoryImpl implements BookingRepository {
