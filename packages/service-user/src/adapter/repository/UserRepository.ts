@@ -1,6 +1,6 @@
 import { UserRepository } from "../../app/port";
 import { User } from "../../domain/model";
-import { UserMapper } from "../mappers";
+import { UserMapper } from "../mapper";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 
 export class UserRepositoryImpl

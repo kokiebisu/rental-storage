@@ -1,7 +1,7 @@
 import { ItemRepository } from "../../app/port";
 import { Item } from "../../domain/model";
 import { ItemRawInterface } from "../../types";
-import { ItemMapper } from "../mappers";
+import { ItemMapper } from "../mapper";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 
 export class ItemRepositoryImpl
