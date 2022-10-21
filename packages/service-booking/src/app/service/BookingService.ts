@@ -1,10 +1,10 @@
 import axios from "axios";
 
-import { BookingPublisherService } from "../../adapters/brokers/BookingBroker";
+import { BookingPublisherService } from "../../adapter/broker/BookingBroker";
 import { BookingRepository } from "../port";
-import { BookingRepositoryImpl } from "../../adapters/databases";
+import { BookingRepositoryImpl } from "../../adapter/database";
 import { Amount, Booking } from "../../domain/model";
-import { BookingMapper } from "../../adapters/mappers";
+import { BookingMapper } from "../../adapter/mapper";
 import { BookingService } from "../port";
 import { AWSRegion } from "../../domain/enums";
 import { LoggerUtil } from "../../utils";
