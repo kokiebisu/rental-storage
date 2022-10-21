@@ -35,6 +35,9 @@ jobs:
           node-version: 16
           cache: "npm"
 
+      - name: Make postinstall executable
+        run: chmod +x scripts/postinstall.sh
+
       - name: Install dependencies
         run: npm install
 
