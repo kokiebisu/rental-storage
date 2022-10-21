@@ -16,7 +16,7 @@ echo "Setting up User Service..."
 cd packages/service-user && npm ci && cd ../..
 
 echo "Setting up Infrastructure..."
-cd infrastructure && npm ci && cd ../..
+cd infrastructure && npm ci && cd ..
 
 echo "Setting up Appsync..."
 cd api/appsync && npm ci && cd ../..
