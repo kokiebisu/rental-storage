@@ -11,12 +11,12 @@ jobs:
     permissions:
       contents: read
       pull-requests: PublicReadWrite
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: ffittschen/pr-branch-labeler@v1
-          with:
-            repo-token: "${{ secrets.GH_TOKEN }}"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ffittschen/pr-branch-labeler@v1
+        with:
+          repo-token: "${{ secrets.GH_TOKEN }}"
 
   label-by-package:
     name: Add/Remove labels
