@@ -6,13 +6,13 @@ import {
   UserService,
 } from "../port";
 import { UserInterface } from "../../types";
-import { UserRepositoryImpl } from "../../adapter/repository";
+import { UserRepositoryImpl } from "../../adapters/repository";
 import { EmailAddress, Name, NameType, User } from "../../domain/model";
 import { LoggerUtil } from "../../utils";
 import { PaymentServiceImpl } from "./PaymentService";
-import { UserMapper } from "../../adapter/mapper";
+import { UserMapper } from "../../adapters/mappers";
 import { AWSRegion } from "../../domain/enum";
-import { UserKinesisStreamEventSender } from "../../adapter/sender-event";
+import { UserKinesisStreamEventSender } from "../../adapters/sender-event";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;

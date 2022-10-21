@@ -3,7 +3,7 @@ import { ItemRepository, ItemService } from "../port";
 
 import { LoggerUtil } from "../../utils";
 import { ItemInterface } from "../../types";
-import { ItemRepositoryImpl } from "../../adapter/repository";
+import { ItemRepositoryImpl } from "../../adapters/repository";
 
 export class ItemServiceImpl implements ItemService {
   private _itemRepository: ItemRepository;
