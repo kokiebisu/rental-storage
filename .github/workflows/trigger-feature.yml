@@ -31,3 +31,6 @@ jobs:
 
       - name: Test Typescript packages
         uses: ./.github/actions/test-nodejs
+
+      - name: Test Python packages
+        uses: ./.github/actions/test-python
