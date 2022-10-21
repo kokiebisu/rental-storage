@@ -1,0 +1,45 @@
+name: Pull Request (Feature/Chore)
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  label-by-branch:
+    name: Add/Remove branch labels
+    permissions:
+      contents: read
+      pull-requests: PublicReadWrite
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - uses: ffittschen/pr-branch-labeler@v1
+          with:
+            repo-token: "${{ secrets.GH_TOKEN }}"
+
+  label-by-package:
+    name: Add/Remove labels
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GH_TOKEN }}"
+          sync-labels: true
+
+  test:
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install packages
+        run: npm run install
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Test packages
+        run: npm run test
