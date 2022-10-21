@@ -38,3 +38,4 @@ runs:
 
     - name: Test
       run: npm run test
+      shell: bash
