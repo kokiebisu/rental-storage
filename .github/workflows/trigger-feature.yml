@@ -14,7 +14,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ffittschen/pr-branch-labeler@v1
         with:
           repo-token: "${{ secrets.GH_TOKEN }}"
@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Typescript packages
         uses: ./.github/actions/setup-nodejs
