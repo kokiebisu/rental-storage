@@ -1,2 +1,2 @@
 install-deps:
-	./scripts/postinstall.sh
+	./scripts/install.sh

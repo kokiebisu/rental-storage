@@ -19,30 +19,13 @@ jobs:
         with:
           repo-token: "${{ secrets.GH_TOKEN }}"
 
-  build:
-    name: Build and Test
+  test-typescript:
+    name: Set up and test Typescript
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+      - name: Setup Typescript packages
+        uses: ./actions/setup-nodejs
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          cache: "npm"
-
-      - name: Make postinstall executable
-        run: chmod +x scripts/postinstall.sh
-
-      - name: Install dependencies
-        run: npm install
-
-      - run: make install-deps
-
-      - name: Build
-        run: npm run build
-
-      - name: Test
-        run: npm run test
+      - name: Test Typescript packages
+        uses: ./actions/test-nodejs

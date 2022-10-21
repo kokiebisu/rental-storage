@@ -1,11 +1,7 @@
 #! /bin/sh
+echo "Setting up package root..."
+npm ci
 
-# Go
-# (cd packages/service-authorizer && make prepare || { echo 'failed' ; exit 1; });
-# (cd packages/service-authentication && make prepare || { echo 'failed' ; exit 1; });
-# (cd packages/service-payment && make prepare || { echo 'failed' ; exit 1; });
-
-# Typescript
 echo "Setting up Booking Service..."
 cd packages/service-booking && npm ci && cd ../..
 echo "Setting up Image Service..."
@@ -22,3 +18,8 @@ echo "Setting up Appsync..."
 cd api/appsync && npm ci && cd ../..
 echo "Setting up Api Gateway..."
 cd api/apigateway && npm ci && cd ../..
+
+# Go
+# (cd packages/service-authorizer && make prepare || { echo 'failed' ; exit 1; });
+# (cd packages/service-authentication && make prepare || { echo 'failed' ; exit 1; });
+# (cd packages/service-payment && make prepare || { echo 'failed' ; exit 1; });
