@@ -15,10 +15,10 @@ cd packages/service-listing && npm install && cd ../..
 echo "Setting up User Service..."
 cd packages/service-user && npm install && cd ../..
 
-# echo "Setting up Infrastructure..."
-# (cd infrastructure && npm install || { echo 'failed' ; exit 1; });
+echo "Setting up Infrastructure..."
+cd infrastructure && npm install && cd ../..
 
-# echo "Setting up Appsync..."
-# (cd api/appsync && npm install || { echo 'failed' ; exit 1; });
-# echo "Setting up Api Gateway..."
-# (cd api/apigateway && npm install || { echo 'failed' ; exit 1; });
+echo "Setting up Appsync..."
+cd api/appsync && npm install && cd ../..
+echo "Setting up Api Gateway..."
+cd api/apigateway && npm install && cd ../..
