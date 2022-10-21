@@ -9,7 +9,7 @@ import {
 } from "@aws-sdk/client-dynamodb";
 
 import { BookingMapper } from "../mapper";
-import { BookingRepository } from "../../app/port";
+import { BookingRepository } from "../../app/Port";
 import { LoggerUtil } from "../../utils";
 import { AWSRegion } from "../../domain/enum";
 import { BookingInterface } from "../../types";
