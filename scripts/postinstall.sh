@@ -7,18 +7,18 @@
 
 # Typescript
 echo "Setting up Booking Service..."
-cd packages/service-booking && npm install && cd ../..
+cd packages/service-booking && npm ci && cd ../..
 echo "Setting up Image Service..."
-cd packages/service-image && npm install && cd ../..
+cd packages/service-image && npm ci && cd ../..
 echo "Setting up Listing Service..."
-cd packages/service-listing && npm install && cd ../..
+cd packages/service-listing && npm ci && cd ../..
 echo "Setting up User Service..."
-cd packages/service-user && npm install && cd ../..
+cd packages/service-user && npm ci && cd ../..
 
 echo "Setting up Infrastructure..."
-cd infrastructure && npm install && cd ../..
+cd infrastructure && npm ci && cd ../..
 
 echo "Setting up Appsync..."
-cd api/appsync && npm install && cd ../..
+cd api/appsync && npm ci && cd ../..
 echo "Setting up Api Gateway..."
-cd api/apigateway && npm install && cd ../..
+cd api/apigateway && npm ci && cd ../..
