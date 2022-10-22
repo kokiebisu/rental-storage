@@ -17,7 +17,7 @@ jobs:
           configuration-path: .github/labeler.yml
           repo-token: "${{ secrets.GH_TOKEN }}"
 
-  aws-setup:
+  deps-install:
     name: Dependency Install
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -26,10 +26,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install deps
-        uses: ./.github/actions/aws-setup
+        uses: ./.github/actions/deps-install
 
   unit-test:
     name: Unit Test
+    needs: [deps-install]
     uses: ./.github/workflows/unit-test.yml
 
   deploy:
