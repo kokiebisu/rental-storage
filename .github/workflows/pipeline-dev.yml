@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  deps-install:
+  setup-deps:
     name: Dependency Install
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -16,15 +16,14 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install deps
-        uses: ./.github/actions/deps-install
+        uses: ./.github/actions/setup-deps
 
   deploy:
     name: Deploy (dev)
-    needs: [deps-install]
+    needs: [setup-deps]
     runs-on: ubuntu-latest
     if: "!failure() && !cancelled()"
     environment: dev
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
