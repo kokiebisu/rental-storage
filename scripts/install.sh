@@ -20,6 +20,6 @@ echo "Setting up Api Gateway..."
 cd api/apigateway && npm ci && cd ../..
 
 # Go
-# (cd packages/service-authorizer && make prepare || { echo 'failed' ; exit 1; });
+cd packages/service-authorizer && npm ci && cd ../..
 # (cd packages/service-authentication && make prepare || { echo 'failed' ; exit 1; });
 # (cd packages/service-payment && make prepare || { echo 'failed' ; exit 1; });
