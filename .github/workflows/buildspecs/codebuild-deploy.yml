@@ -7,9 +7,9 @@ phases:
   build:
     commands:
       - npm run build
-      - npm run deploy
+      - npm run ci:deploy
   post_build:
-    commands: npm run deploy
+    commands: echo "Running integration tests..."
 artifact:
   files:
     - "**/*"
