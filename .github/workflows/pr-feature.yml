@@ -17,6 +17,17 @@ jobs:
           configuration-path: .github/labeler.yml
           repo-token: "${{ secrets.GH_TOKEN }}"
 
+  aws-setup:
+    name: Dependency Install
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install deps
+        uses: ./.github/actions/aws-setup
+
   unit-test-typescript:
     name: Unit Test (Typescript)
     timeout-minutes: 15
