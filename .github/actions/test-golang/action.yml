@@ -1,0 +1,42 @@
+name: Test Golang
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up Golang environment
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install root dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+      shell: bash
+
+    - name: Install Image service dependencies
+      run: |
+        cd packages/service-image
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      shell: bash
+
+    - name: Test Image Service
+      run: |
+        cd packages/service-image
+        make test
+      shell: bash
+
+    - name: Install Slack service dependencies
+      run: |
+        cd packages/service-slack
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      shell: bash
+
+    - name: Test Slack Service
+      run: |
+        cd packages/service-slack
+        make test
+      shell: bash
