@@ -10,20 +10,20 @@ services:
   #   dependsOn:
   #     - infrastructure
 
-  # booking:
-  #   path: packages/service-booking
-  #   dependsOn:
-  #     - infrastructure
+  booking:
+    path: packages/service-booking
+    dependsOn:
+      - infrastructure
 
   authorizer:
     path: packages/service-authorizer
     dependsOn:
       - infrastructure
 
-  # payment:
-  #   path: packages/service-payment
-  #   dependsOn:
-  #     - infrastructure
+  payment:
+    path: packages/service-payment
+    dependsOn:
+      - infrastructure
 
   # slack:
   #   path: packages/service-slack
@@ -42,11 +42,11 @@ services:
       - infrastructure
       - api-apigateway
 
-  # authentication:
-  #   path: packages/service-authentication
-  #   dependsOn:
-  #     - infrastructure
-  #     - api-apigateway
+  authentication:
+    path: packages/service-authentication
+    dependsOn:
+      - infrastructure
+      - api-apigateway
 
   api-appsync:
     path: api/appsync
@@ -57,7 +57,7 @@ services:
       - listing
       - user
       - authorizer
-      # - payment
-      # - authentication
+      - payment
+      - authentication
       # - slack
       - api-apigateway

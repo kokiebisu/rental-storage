@@ -21,5 +21,5 @@ cd api/apigateway && npm ci && cd ../..
 
 # Go
 cd packages/service-authorizer && npm ci && cd ../..
-# (cd packages/service-authentication && make prepare || { echo 'failed' ; exit 1; });
-# (cd packages/service-payment && make prepare || { echo 'failed' ; exit 1; });
+cd packages/service-authentication && npm ci && cd ../..
+cd packages/service-payment && npm ci && cd ../..
