@@ -9,3 +9,9 @@ clean:
 	rm -rf ./bin Gopkg.lock
 
 prepare: clean build
+
+.PHONY: test
+test:
+	cd cmd/signin && go test && cd ../../
+	cd cmd/signup && go test && cd ../../
+	cd cmd/verify && go test && cd ../../

@@ -13,17 +13,17 @@ runs:
     - name: Test authorizer service
       run: |
         cd packages/service-authorizer
-        go test
+        make test
       shell: bash
 
     - name: Test authentication service
       run: |
         cd packages/service-authentication
-        go test
+        make test
       shell: bash
 
     - name: Test payment service
       run: |
         cd packages/service-payment
-        go test
+        make test
       shell: bash
