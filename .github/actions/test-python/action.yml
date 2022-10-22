@@ -11,7 +11,7 @@ runs:
       with:
         python-version: 3.9
 
-    - name: Install root dependencies
+    - name: Install global dependencies
       run: |
         python -m pip install --upgrade pip
         pip install flake8 pytest

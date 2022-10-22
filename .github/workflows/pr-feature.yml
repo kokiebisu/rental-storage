@@ -44,6 +44,17 @@ jobs:
       - name: Test Python packages
         uses: ./.github/actions/test-python
 
+  unit-test-golang:
+    name: Unit test golang services
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test Golang packages
+        uses: ./.github/actions/test-golang
+
   deploy:
     name: Deploy to dev
     runs-on: ubuntu-latest
