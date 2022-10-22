@@ -4,7 +4,9 @@ build:
 clean:
 	rm -rf ./bin Gopkg.lock
 
-prepare: clean build
+prepare: 
+	clean build
 
 .PHONY: test
-test: go test
+test: 
+	go test
