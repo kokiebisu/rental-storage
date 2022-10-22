@@ -4,7 +4,8 @@
     "build": "tsc -b .",
     "deploy": "npm run build && sls deploy",
     "remove": "sls remove",
-    "test": "npm run build && export TABLE_NAME=booking && jest"
+    "test:unit": "jest test/unit-test",
+    "test:integration": "jest test/integration-test"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.181.0",

@@ -5,7 +5,7 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
-    "test": {
+    "test:unit": {
       "dependsOn": ["^build"],
       "outputs": []
     }
