@@ -20,39 +20,39 @@ jobs:
           repo-token: "${{ secrets.GH_TOKEN }}"
 
   unit-test-typescript:
-    name: Unit test typescript services
+    name: Unit Test (Typescript)
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Typescript packages
+      - name: Setup
         uses: ./.github/actions/setup-nodejs
 
-      - name: Unit Test Typescript packages
+      - name: Run Test
         uses: ./.github/actions/test-nodejs
 
   unit-test-python:
-    name: Unit test python services
+    name: Unit Test (Python)
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Test Python packages
+      - name: Run Test
         uses: ./.github/actions/test-python
 
   unit-test-golang:
-    name: Unit test golang services
+    name: Unit Test (Go)
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Test Golang packages
+      - name: Run Test
         uses: ./.github/actions/test-golang
 
   deploy:

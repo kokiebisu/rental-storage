@@ -15,10 +15,10 @@ services:
   #   dependsOn:
   #     - infrastructure
 
-  # authorizer:
-  #   path: packages/service-authorizer
-  #   dependsOn:
-  #     - infrastructure
+  authorizer:
+    path: packages/service-authorizer
+    dependsOn:
+      - infrastructure
 
   # payment:
   #   path: packages/service-payment
@@ -56,7 +56,7 @@ services:
       # - image
       - listing
       - user
-      # - authorizer
+      - authorizer
       # - payment
       # - authentication
       # - slack
