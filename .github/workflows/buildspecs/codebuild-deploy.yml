@@ -1,0 +1,14 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - npm install
+      - make install-deps
+  build:
+    commands:
+      - npm run build
+  post_build:
+    commands: npm run deploy
+artifact:
+  files:
+    - "**/*"
