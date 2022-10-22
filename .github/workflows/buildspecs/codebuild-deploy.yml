@@ -7,6 +7,7 @@ phases:
   build:
     commands:
       - npm run build
+      - npm run deploy
   post_build:
     commands: npm run deploy
 artifact:
