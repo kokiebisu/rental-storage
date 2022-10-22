@@ -1,58 +1,10 @@
 name: PR Pipeline (Feature)
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches: "dev"
 
 jobs:
-  label-by-branch:
-    name: Add/Remove branch labels
-    permissions:
-      contents: read
-      pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/labeler@v4
-        with:
-          configuration-path: .github/labeler.yml
-          repo-token: "${{ secrets.GH_TOKEN }}"
-
-  unit-test-typescript:
-    name: Unit Test (Typescript)
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup
-        uses: ./.github/actions/setup-nodejs
-
-      - name: Run Test
-        uses: ./.github/actions/test-nodejs
-
-  unit-test-python:
-    name: Unit Test (Python)
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Run Test
-        uses: ./.github/actions/test-python
-
-  unit-test-golang:
-    name: Unit Test (Go)
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Run Test
-        uses: ./.github/actions/test-golang
-
   deploy:
     name: Deploy (dev)
     runs-on: ubuntu-latest
@@ -92,4 +44,4 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy
-        run: sls deploy
+        run: sls deploy --stage dev
