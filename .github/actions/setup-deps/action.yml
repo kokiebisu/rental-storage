@@ -28,10 +28,3 @@ runs:
       run: make install-deps
       if: steps.node-modules-cache.outputs.cache-hit != 'true'
       shell: bash
-
-    - name: Cache node modules
-      id: node-modules-cache
-      uses: actions/cache@v3
-      with:
-        path: "**/node_modules"
-        key: node-modules-cache
