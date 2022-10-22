@@ -3,3 +3,7 @@ install-deps-local:
 
 start-venv:
 	source venv/bin/activate
+
+.PHONY: test
+test:
+	python -m pytest -v

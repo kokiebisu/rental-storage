@@ -10,7 +10,7 @@ plugins:
 provider:
   name: aws
   region: us-east-1
-  stage: dev
+  stage: ${opt:stage, 'local'}
   deploymentBucket:
     name: rental-a-locker-api-apigateway-resources
 

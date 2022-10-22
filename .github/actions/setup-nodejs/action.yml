@@ -1,0 +1,25 @@
+name: Build and Test Typescript
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Cache node modules
+      id: node-modules-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/node_modules"
+        key: node-modules-cache
+
+    - name: Build
+      run: npm run build
+      shell: bash
+
+    - name: Cache dist modules
+      id: dist-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/dist/**"
+        key: dist-cache

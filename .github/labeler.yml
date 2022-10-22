@@ -1,0 +1,26 @@
+authentication-service:
+  - packages/service-authentication/**
+authorizer-service:
+  - packages/service-authorizer/**
+booking-service:
+  - packages/service-booking/**
+image-service:
+  - packages/service-image/**
+listing-service:
+  - packages/service-listing/**
+payment-service:
+  - packages/service-payment/**
+slack-service:
+  - packages/service-slack/**
+user-service:
+  - packages/service-user/**
+scripts:
+  - scripts/**
+infrastructure:
+  - infrastructure/**
+api:
+  - api/**
+mobile:
+  - mobile/**
+github-workflows:
+  - .github/**

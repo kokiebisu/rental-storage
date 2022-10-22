@@ -10,7 +10,7 @@ plugins:
 
 provider:
   name: aws
-  stage: dev
+  stage: ${opt:stage, 'local'}
   region: us-east-1
   deploymentBucket:
     name: rental-a-locker-api-appsync-resources

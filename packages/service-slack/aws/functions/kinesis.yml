@@ -1,4 +1,4 @@
-SlackUserEventMessageConsumer:
+UserEventMessageConsumer:
   image:
     name: app
     command:

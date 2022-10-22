@@ -1,5 +1,5 @@
 {
-  "name": "@rental-storage-project/authorizer",
+  "name": "@rental-storage-project/payment",
   "scripts": {
     "deploy": "sls deploy",
     "remove": "sls remove"
