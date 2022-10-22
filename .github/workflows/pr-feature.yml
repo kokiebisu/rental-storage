@@ -64,5 +64,5 @@ jobs:
       - name: Run Codebuild
         uses: aws-actions/aws-codebuild-run-build@v1
         with:
-          project-name: github-action-dev
+          project-name: github-actions-dev
           buildspec-override: .github/workflows/buildspecs/codebuild-deploy.yml
