@@ -15,8 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ffittschen/pr-branch-labeler@v1
+      - uses: TimonVS/pr-labeler-action@v3
         with:
+          configuration-path: .github/labeler.yml
           repo-token: "${{ secrets.GH_TOKEN }}"
 
   unit-test-typescript:
