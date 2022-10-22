@@ -25,10 +25,10 @@ services:
     dependsOn:
       - infrastructure
 
-  # slack:
-  #   path: packages/service-slack
-  #   dependsOn:
-  #     - infrastructure
+  slack:
+    path: packages/service-slack
+    dependsOn:
+      - infrastructure
 
   user:
     path: packages/service-user
@@ -36,11 +36,11 @@ services:
       - infrastructure
       - api-apigateway
 
-  # listing:
-  #   path: packages/service-listing
-  #   dependsOn:
-  #     - infrastructure
-  #     - api-apigateway
+  listing:
+    path: packages/service-listing
+    dependsOn:
+      - infrastructure
+      - api-apigateway
 
   authentication:
     path: packages/service-authentication
@@ -54,10 +54,10 @@ services:
       - infrastructure
       - booking
       - image
-      # - listing
+      - listing
       - user
       - authorizer
       - payment
       - authentication
-      # - slack
+      - slack
       - api-apigateway

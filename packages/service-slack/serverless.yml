@@ -7,7 +7,7 @@ plugins:
 provider:
   name: aws
   runtime: python3.8
-  stage: ${opt:stage, 'local'}}
+  stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
