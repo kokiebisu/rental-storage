@@ -5,10 +5,10 @@ services:
   api-apigateway:
     path: api/apigateway
 
-  # image:
-  #   path: packages/service-image
-  #   dependsOn:
-  #     - infrastructure
+  image:
+    path: packages/service-image
+    dependsOn:
+      - infrastructure
 
   booking:
     path: packages/service-booking
@@ -25,10 +25,10 @@ services:
     dependsOn:
       - infrastructure
 
-  # slack:
-  #   path: packages/service-slack
-  #   dependsOn:
-  #     - infrastructure
+  slack:
+    path: packages/service-slack
+    dependsOn:
+      - infrastructure
 
   user:
     path: packages/service-user
@@ -52,12 +52,12 @@ services:
     path: api/appsync
     dependsOn:
       - infrastructure
-      # - booking
-      # - image
+      - booking
+      - image
       - listing
       - user
       - authorizer
       - payment
       - authentication
-      # - slack
+      - slack
       - api-apigateway
