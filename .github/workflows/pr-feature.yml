@@ -58,7 +58,7 @@ jobs:
   deploy:
     name: Deploy to dev
     runs-on: ubuntu-latest
-    needs: [unit-test-typescript, unit-test-python]
+    needs: [unit-test-typescript, unit-test-python, unit-test-golang]
     if: "!failure() && !cancelled()"
     environment: dev
 

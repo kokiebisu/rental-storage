@@ -14,13 +14,16 @@ runs:
       run: |
         cd packages/service-authorizer
         go test
+      shell: bash
 
     - name: Test authentication service
       run: |
         cd packages/service-authentication
         go test
+      shell: bash
 
     - name: Test payment service
       run: |
         cd packages/service-payment
         go test
+      shell: bash
