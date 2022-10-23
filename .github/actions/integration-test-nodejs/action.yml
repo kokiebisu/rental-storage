@@ -1,0 +1,20 @@
+name: Test Nodejs Services
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14
+        cache: "npm"
+
+    - name: Setup dependencies
+      uses: ./.github/actions/setup-deps
+
+    - name: Test
+      run: npm run test:integration
+      shell: bash
