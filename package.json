@@ -11,6 +11,7 @@
     "predeploy": "./scripts/predeploy.sh",
     "generate:env:local": "turbo run generate:env:local",
     "generate:env:dev": "turbo run generate:env:dev",
+    "build": "turbo run build",
     "deploy": "serverless deploy --stage local",
     "remove": "serverless remove --stage local",
     "dev": "turbo run dev",
