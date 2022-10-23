@@ -19,10 +19,13 @@ provider:
     images:
       app:
         path: ./
+  environment:
+    accountId: ${aws:accountId}
 
 custom:
   namespace: rental-a-locker
   service: slack
+  ACCOUNT_ID: ${aws:accountId}
 
 functions:
   - ${file(./aws/functions/kinesis.yml)}

@@ -6,7 +6,7 @@ Properties:
   MasterUserPassword: ${self:custom.LISTING_DB_PASSWORD}
   AllocatedStorage: 20
   EngineVersion: 12.7
-  DBName: ${self:provider.stage}-${self:custom.LISTING_DB_NAME}
+  DBName: ${self:custom.LISTING_DB_NAME}
   DBInstanceClass: db.t3.micro
   DBInstanceIdentifier: ${self:provider.stage}-${self:custom.namespace}-listing-db
   VPCSecurityGroups:

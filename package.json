@@ -9,7 +9,8 @@
   "main": "index.js",
   "scripts": {
     "predeploy": "./scripts/predeploy.sh",
-    "generate:env": "turbo run generate:env",
+    "generate:env:local": "turbo run generate:env:local",
+    "generate:env:dev": "turbo run generate:env:dev",
     "deploy": "serverless deploy --stage local",
     "remove": "serverless remove",
     "build": "turbo run build",

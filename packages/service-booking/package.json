@@ -6,7 +6,8 @@
     "remove": "sls remove",
     "test:unit": "jest test/unit-test",
     "test:integration": "jest test/integration-test",
-    "generate:env": "sls export-env --stage dev"
+    "generate:env:local": "sls export-env",
+    "generate:env:dev": "sls export-env --stage dev"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.181.0",

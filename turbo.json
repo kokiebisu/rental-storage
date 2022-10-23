@@ -13,7 +13,11 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
-    "generate:env": {
+    "generate:env:local": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "generate:env:dev": {
       "dependsOn": ["^build"],
       "outputs": []
     }
