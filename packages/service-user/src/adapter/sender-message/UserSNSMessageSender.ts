@@ -36,7 +36,7 @@ export class UserSNSMessageSender implements UserMessageSender {
     try {
       const input: PublishCommandInput = {
         Message: message,
-        TopicArn: `arn:aws:sns:${this._region}:${this._accountId}:${process.env.NODE_ENV}-${process.env.NAMESPACE}-user-topic`,
+        TopicArn: `arn:aws:sns:${this._region}:${this._accountId}:${process.env.STAGE}-${process.env.NAMESPACE}-user-topic`,
         MessageAttributes: {
           entityType: {
             DataType: "String",

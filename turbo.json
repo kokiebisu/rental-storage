@@ -15,11 +15,13 @@
     },
     "generate:env:local": {
       "dependsOn": ["^build"],
-      "outputs": []
+      "outputs": [],
+      "cache": false
     },
     "generate:env:dev": {
       "dependsOn": ["^build"],
-      "outputs": []
+      "outputs": [],
+      "cache": false
     }
   }
 }

@@ -3,7 +3,7 @@ UserServiceController:
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
   environment:
     NAMESPACE: ${self:custom.namespace}
-    NODE_ENV: ${self:provider.stage}
+    STAGE: ${self:provider.stage}
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}

@@ -9,7 +9,7 @@ BookingCreatedStream:
     DB_PORT: ${self:custom.DB_PORT}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
-    NODE_ENV: ${self:provider.stage}
+    STAGE: ${self:provider.stage}
   events:
     - stream:
         type: dynamodb

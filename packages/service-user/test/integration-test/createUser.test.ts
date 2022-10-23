@@ -1,5 +1,5 @@
-import { CreateUserInput, UserService } from "../../../src/app/port";
-import { UserServiceImpl } from "../../../src/app/service";
+import { CreateUserInput, UserService } from "../../src/app/port";
+import { UserServiceImpl } from "../../src/app/service";
 import { faker } from "@faker-js/faker";
 
 let service: UserService;

@@ -18,6 +18,13 @@ provider:
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    TABLE_NAME: ${self:custom.TABLE_NAME}
+    ACCOUNT_ID: ${aws:accountId}
+    namespace: ${self:custom.namespace}
+    service: ${self:custom.service}
+    stage: ${self:provider.stage}
 
 custom:
   namespace: rental-a-locker

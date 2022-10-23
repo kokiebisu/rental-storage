@@ -37,9 +37,10 @@ export class UserKinesisStreamEventSender implements UserEventSender {
   }
 
   private async _publish(message: string) {
+    this._logger.info({ env: process.env.STAGE }, "YOYO");
     try {
       const input: PutRecordCommandInput = {
-        StreamName: "EventStream",
+        StreamName: `${process.env.STAGE}-EventStream`,
         PartitionKey: uuid(),
         Data: Uint8Array.from(
           Array.from(message).map((letter) => letter.charCodeAt(0))
