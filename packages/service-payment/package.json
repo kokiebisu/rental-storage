@@ -2,9 +2,12 @@
   "name": "@rental-storage-project/payment",
   "scripts": {
     "deploy": "sls deploy",
-    "remove": "sls remove"
+    "remove": "sls remove",
+    "generate:env": "sls export-env --stage dev"
   },
-  "dependencies": {},
+  "dependencies": {
+    "serverless-export-env": "2.2.0"
+  },
   "devDependencies": {
     "serverless-deployment-bucket": "1.6.0"
   }

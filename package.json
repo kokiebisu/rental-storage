@@ -10,6 +10,7 @@
   "scripts": {
     "predeploy": "./scripts/predeploy.sh",
     "deploy": "npm run build && npm run predeploy && serverless deploy",
+    "generate:env": "turbo run generate:env",
     "ci:deploy": "serverless deploy",
     "remove": "serverless remove",
     "build": "turbo run build",
