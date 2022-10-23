@@ -1,7 +1,8 @@
-service: rental-a-locker-listing
+service: rental-a-locker-booking
 frameworkVersion: "3"
 
 plugins:
+  - serverless-deployment-bucket
   - serverless-export-env
 
 provider:
@@ -12,29 +13,23 @@ provider:
   lambdaHashingVersion: 20201221
   iam:
     role: !ImportValue ExportedRoleLambdaArn
+  deploymentBucket:
+    name: ${self:provider.stage}-rental-a-locker-booking-resources
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
   environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    TABLE_NAME: ${self:custom.TABLE_NAME}
     ACCOUNT_ID: ${aws:accountId}
-  export-env:
-    filename: .env
-    overwrite: true
+    namespace: ${self:custom.namespace}
+    service: ${self:custom.service}
+    stage: ${self:provider.stage}
 
 custom:
   namespace: rental-a-locker
-  service: listing
-  DB_NAME: !ImportValue ExportedListingRDSDBName
-  DB_USERNAME: !ImportValue ExportedListingRDSDBUsername
-  DB_PASSWORD: !ImportValue ExportedListingRDSDBPassword
-  DB_HOST: !ImportValue ExportedListingRDSDBHost
-  DB_PORT: !ImportValue ExportedListingRDSDBPort
+  service: booking
+  TABLE_NAME: !ImportValue ExportedBookingDynamoDBTableName
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""
@@ -44,6 +39,9 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

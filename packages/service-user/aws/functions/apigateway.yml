@@ -1,16 +1,6 @@
 UserServiceController:
   handler: dist/adapter/api/controller/index.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
-  environment:
-    NAMESPACE: ${self:custom.namespace}
-    STAGE: ${self:provider.stage}
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
   events:
     - http: ANY /users
     - http: ANY /users/{proxy+}

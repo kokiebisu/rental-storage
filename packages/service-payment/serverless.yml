@@ -2,7 +2,6 @@ service: rental-a-locker-payment
 frameworkVersion: "3"
 
 plugins:
-  - serverless-deployment-bucket
   - serverless-export-env
 
 provider:
@@ -11,8 +10,6 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
-  deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-payment-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
@@ -34,6 +31,9 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
 
 functions:
   - ${file(./aws/functions/appsync.yml)}

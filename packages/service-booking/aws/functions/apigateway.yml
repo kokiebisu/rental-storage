@@ -1,13 +1,6 @@
 BookingServiceController:
   handler: dist/adapter/api/controller/index.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
-  environment:
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    TABLE_NAME: ${self:custom.TABLE_NAME}
-    ACCOUNT_ID: ${aws:accountId}
-    namespace: ${self:custom.namespace}
-    service: ${self:custom.service}
-    stage: ${self:provider.stage}
 
   events:
     - http: ANY /bookings

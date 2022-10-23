@@ -3,7 +3,7 @@
   "scripts": {
     "deploy": "sls deploy",
     "remove": "sls remove",
-    "generate:env:local": "sls export-env",
+    "generate:env:local": "sls export-env --stage local",
     "generate:env:dev": "sls export-env --stage dev"
   },
   "dependencies": {

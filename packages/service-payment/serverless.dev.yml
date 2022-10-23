@@ -1,40 +1,30 @@
-service: rental-a-locker-listing
+service: rental-a-locker-payment
 frameworkVersion: "3"
 
 plugins:
+  - serverless-deployment-bucket
   - serverless-export-env
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: go1.x
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-rental-a-locker-payment-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
   environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
-  export-env:
-    filename: .env
-    overwrite: true
 
 custom:
   namespace: rental-a-locker
-  service: listing
-  DB_NAME: !ImportValue ExportedListingRDSDBName
-  DB_USERNAME: !ImportValue ExportedListingRDSDBUsername
-  DB_PASSWORD: !ImportValue ExportedListingRDSDBPassword
-  DB_HOST: !ImportValue ExportedListingRDSDBHost
-  DB_PORT: !ImportValue ExportedListingRDSDBPort
+  service: payment
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""
@@ -44,7 +34,10 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
 
 functions:
-  - ${file(./aws/functions/apigateway.yml)}
   - ${file(./aws/functions/appsync.yml)}
+  - ${file(./aws/functions/apigateway.yml)}

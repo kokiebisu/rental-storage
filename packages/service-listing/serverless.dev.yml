@@ -2,6 +2,7 @@ service: rental-a-locker-listing
 frameworkVersion: "3"
 
 plugins:
+  - serverless-deployment-bucket
   - serverless-export-env
 
 provider:
@@ -10,6 +11,8 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-rental-a-locker-listing-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
