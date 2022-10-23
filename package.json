@@ -12,8 +12,6 @@
     "generate:env:local": "turbo run generate:env:local",
     "generate:env:dev": "turbo run generate:env:dev",
     "build": "turbo run build",
-    "deploy:local": "serverless deploy --stage local",
-    "deploy:dev": "serverless deploy --config serverless-compose.dev.yml --stage dev",
     "remove:local": "serverless remove --stage local",
     "remove:dev": "serverless remove --stage dev",
     "dev": "turbo run dev",
