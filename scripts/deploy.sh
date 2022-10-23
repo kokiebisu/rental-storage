@@ -15,4 +15,4 @@ else
     echo "Copying serverless.yml"
     cp config/serverless-compose.yml ./serverless-compose.yml;
 fi
-npx sls deploy --stage local;
+npx sls deploy --stage $ENVIRONMENT;
