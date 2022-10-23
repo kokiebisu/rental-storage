@@ -12,6 +12,10 @@
     "test:integration": {
       "dependsOn": ["^build"],
       "outputs": []
+    },
+    "generate:env": {
+      "dependsOn": ["^build"],
+      "outputs": []
     }
   }
 }
