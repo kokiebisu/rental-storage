@@ -14,19 +14,19 @@ provider:
   deploymentBucket:
     name: rental-a-locker-user-resources
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: !ImportValue ${self.provider.stage}-ExportedRoleLambdaArn
   apiGateway:
-    restApiId: !ImportValue ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+    restApiId: !ImportValue ${self.provider.stage}-ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ${self.provider.stage}-ApiGatewayRootResourceId
 
 custom:
   namespace: rental-a-locker
   service: user
-  DB_NAME: !ImportValue ExportedUserRDSDBName
-  DB_USERNAME: !ImportValue ExportedUserRDSDBUsername
-  DB_PASSWORD: !ImportValue ExportedUserRDSDBPassword
-  DB_HOST: !ImportValue ExportedUserRDSDBHost
-  DB_PORT: !ImportValue ExportedUserRDSDBPort
+  DB_NAME: !ImportValue ${self.provider.stage}-ExportedUserRDSDBName
+  DB_USERNAME: !ImportValue ${self.provider.stage}-ExportedUserRDSDBUsername
+  DB_PASSWORD: !ImportValue ${self.provider.stage}-ExportedUserRDSDBPassword
+  DB_HOST: !ImportValue ${self.provider.stage}-ExportedUserRDSDBHost
+  DB_PORT: !ImportValue ${self.provider.stage}-ExportedUserRDSDBPort
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""

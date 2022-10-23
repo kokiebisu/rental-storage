@@ -14,7 +14,7 @@ provider:
   deploymentBucket:
     name: rental-a-locker-slack-resources
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: !ImportValue ${self.provider.stage}-ExportedRoleLambdaArn
   ecr:
     images:
       app:

@@ -13,4 +13,4 @@ BookingCreatedStream:
   events:
     - stream:
         type: dynamodb
-        arn: !ImportValue ExportedBookingDynamoDBTableStreamArn
+        arn: !ImportValue ${self.provider.stage}-ExportedBookingDynamoDBTableStreamArn

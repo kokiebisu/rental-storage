@@ -14,10 +14,10 @@ provider:
   deploymentBucket:
     name: rental-a-locker-payment-resources
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: !ImportValue ${self.provider.stage}-ExportedRoleLambdaArn
   apiGateway:
-    restApiId: !ImportValue ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+    restApiId: !ImportValue ${self.provider.stage}-ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ${self.provider.stage}-ApiGatewayRootResourceId
 
 custom:
   namespace: rental-a-locker
