@@ -64,7 +64,7 @@ export class ListingRepositoryImpl implements ListingRepository {
       );
       await client.query(
         `
-          CREATE_TABLE IF NOT EXISTS fees_listing (
+          CREATE TABLE IF NOT EXISTS fees_listing (
             amount INT NOT NULL,
             currency VARCHAR(6) NOT NULL,
             type VARCHAR(10) NOT NULL,
