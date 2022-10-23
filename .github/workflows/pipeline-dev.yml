@@ -42,7 +42,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy / Develop
-        run: sls deploy --stage dev
+        run: npm run deploy:dev
 
   integration-tests:
     name: Integration Test
