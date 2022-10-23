@@ -3,9 +3,6 @@ frameworkVersion: "3"
 
 useDotenv: true
 
-plugins:
-  - serverless-export-outputs
-
 provider:
   name: aws
   region: us-east-1
@@ -65,6 +62,9 @@ resources:
 
     # Kinesis
     KinesisStream: ${file(./aws/resources/kinesis/Stream.yml)}
+
+    # SSM
+    ParameterStripeKey: ${file(./aws/resources/ssm/payment/ParameterStripeKey.yml)}
 
     # IAM
     RoleLambda: ${file(./aws/resources/iam/RoleLambda.yml)}

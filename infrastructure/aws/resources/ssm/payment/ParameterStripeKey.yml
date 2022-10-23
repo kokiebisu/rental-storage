@@ -1,0 +1,6 @@
+Type: AWS::SSM::Parameter
+Properties:
+  Name: "/service-payment/stripe"
+  Type: String
+  Value: ${env:STRIPE_SECRET_KEY}
+  Description: Stripe key
