@@ -12,21 +12,21 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: rental-a-locker-user-resources
+    name: ${self:provider.stage}-rental-a-locker-user-resources
   iam:
-    role: !ImportValue ${self.provider.stage}-ExportedRoleLambdaArn
+    role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
-    restApiId: !ImportValue ${self.provider.stage}-ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ${self.provider.stage}-ApiGatewayRootResourceId
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
   namespace: rental-a-locker
   service: user
-  DB_NAME: !ImportValue ${self.provider.stage}-ExportedUserRDSDBName
-  DB_USERNAME: !ImportValue ${self.provider.stage}-ExportedUserRDSDBUsername
-  DB_PASSWORD: !ImportValue ${self.provider.stage}-ExportedUserRDSDBPassword
-  DB_HOST: !ImportValue ${self.provider.stage}-ExportedUserRDSDBHost
-  DB_PORT: !ImportValue ${self.provider.stage}-ExportedUserRDSDBPort
+  DB_NAME: !ImportValue ExportedUserRDSDBName
+  DB_USERNAME: !ImportValue ExportedUserRDSDBUsername
+  DB_PASSWORD: !ImportValue ExportedUserRDSDBPassword
+  DB_HOST: !ImportValue ExportedUserRDSDBHost
+  DB_PORT: !ImportValue ExportedUserRDSDBPort
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""

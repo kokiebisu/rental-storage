@@ -7,4 +7,4 @@ UserEventMessageConsumer:
   events:
     - stream:
         type: kinesis
-        arn: !ImportValue ${self.provider.stage}-ExportedKinesisStreamArn
+        arn: !ImportValue ExportedKinesisStreamArn

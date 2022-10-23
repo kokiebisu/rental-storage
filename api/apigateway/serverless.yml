@@ -12,7 +12,7 @@ provider:
   region: us-east-1
   stage: ${opt:stage, 'local'}
   deploymentBucket:
-    name: rental-a-locker-api-apigateway-resources
+    name: ${self:provider.stage}-rental-a-locker-api-apigateway-resources
 
 custom:
   namespace: rental-a-locker

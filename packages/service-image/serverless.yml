@@ -12,9 +12,9 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: rental-a-locker-image-resources
+    name: ${self:provider.stage}-rental-a-locker-image-resources
   iam:
-    role: !ImportValue ${self.provider.stage}-ExportedRoleLambdaArn
+    role: !ImportValue ExportedRoleLambdaArn
   ecr:
     images:
       app:

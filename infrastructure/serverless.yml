@@ -12,7 +12,7 @@ provider:
   region: us-east-1
   stage: ${opt:stage, 'local'}
   deploymentBucket:
-    name: rental-a-locker-infrastructure-resources
+    name: ${self:provider.stage}-rental-a-locker-infrastructure-resources
 
 custom:
   namespace: rental-a-locker

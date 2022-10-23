@@ -12,12 +12,12 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   iam:
-    role: !ImportValue ${self.provider.stage}-ExportedRoleLambdaArn
+    role: !ImportValue ExportedRoleLambdaArn
   deploymentBucket:
-    name: rental-a-locker-authorizer-resources
+    name: ${self:provider.stage}-rental-a-locker-authorizer-resources
   apiGateway:
-    restApiId: !ImportValue ${self.provider.stage}-ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ${self.provider.stage}-ApiGatewayRootResourceId
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
 
 custom:
   namespace: rental-a-locker
