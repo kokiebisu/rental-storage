@@ -3,82 +3,82 @@ BookingDynamoDBTableStreamArn:
   Description: "DynamoDB Booking Table"
   Value: !GetAtt BookingDynamoDBTable.StreamArn
   Export:
-    Name: "${self.provider.stage}-ExportedBookingDynamoDBTableStreamArn"
+    Name: ExportedBookingDynamoDBTableStreamArn
 
 BookingDynamoDBTableName:
   Description: "DynamoDB Booking Table Name"
   Value: ${self:custom.BOOKING_TABLE_NAME}
   Export:
-    Name: "${self.provider.stage}-ExportedBookingDynamoDBTableName"
+    Name: ExportedBookingDynamoDBTableName
 
 # Listing DB
 ListingRDSDBHost:
   Description: "Host"
   Value: !GetAtt ListingRDSInstance.Endpoint.Address
   Export:
-    Name: "${self.provider.stage}-ExportedListingRDSDBHost"
+    Name: ExportedListingRDSDBHost
 
 ListingRDSDBPort:
   Description: "Port"
   Value: !GetAtt ListingRDSInstance.Endpoint.Port
   Export:
-    Name: "${self.provider.stage}-ExportedListingRDSDBPort"
+    Name: ExportedListingRDSDBPort
 
 ListingRDSDBName:
   Description: "DynamoDB DB Name"
   Value: ${self:custom.LISTING_DB_NAME}
   Export:
-    Name: "${self.provider.stage}-ExportedListingRDSDBName"
+    Name: ExportedListingRDSDBName
 
 ListingRDSDBUsername:
   Description: "DynamoDB DB Name"
   Value: ${self:custom.LISTING_DB_USERNAME}
   Export:
-    Name: "${self.provider.stage}-ExportedListingRDSDBUsername"
+    Name: ExportedListingRDSDBUsername
 
 ListingRDSDBPassword:
   Description: "Dynamodb DB Password"
   Value: ${self:custom.LISTING_DB_PASSWORD}
   Export:
-    Name: "${self.provider.stage}-ExportedListingRDSDBPassword"
+    Name: ExportedListingRDSDBPassword
 
 # User DB
 UserRDSDBHost:
   Description: "User DB Host"
   Value: !GetAtt UserRDSInstance.Endpoint.Address
   Export:
-    Name: "${self.provider.stage}-ExportedUserRDSDBHost"
+    Name: ExportedUserRDSDBHost
 
 UserRDSDBPort:
   Description: "User RDS DB Port"
   Value: !GetAtt UserRDSInstance.Endpoint.Port
   Export:
-    Name: "${self.provider.stage}-ExportedUserRDSDBPort"
+    Name: ExportedUserRDSDBPort
 
 UserRDSDBName:
   Description: "DynamoDB DB Name"
   Value: ${self:custom.USER_DB_NAME}
   Export:
-    Name: "${self.provider.stage}-ExportedUserRDSDBName"
+    Name: ExportedUserRDSDBName
 
 UserRDSDBUsername:
   Description: "DynamoDB DB Name"
   Value: ${self:custom.USER_DB_USERNAME}
   Export:
-    Name: "${self.provider.stage}-ExportedUserRDSDBUsername"
+    Name: ExportedUserRDSDBUsername
 
 UserRDSDBPassword:
   Description: "Dynamodb DB Password"
   Value: ${self:custom.USER_DB_PASSWORD}
   Export:
-    Name: "${self.provider.stage}-ExportedUserRDSDBPassword"
+    Name: ExportedUserRDSDBPassword
 
 # Role
 RoleLambdaArn:
   Description: "Arn for Lambda role"
   Value: !GetAtt RoleLambda.Arn
   Export:
-    Name: "${self.provider.stage}-ExportedRoleLambdaArn"
+    Name: ExportedRoleLambdaArn
 
 # SQS Queue
 
@@ -87,4 +87,4 @@ KinesisStreamArn:
   Description: "Kinesis Stream Arn"
   Value: !GetAtt KinesisStream.Arn
   Export:
-    Name: "${self.provider.stage}-ExportedKinesisStreamArn"
+    Name: ExportedKinesisStreamArn
