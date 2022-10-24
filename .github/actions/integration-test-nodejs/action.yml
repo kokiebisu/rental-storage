@@ -16,6 +16,9 @@ runs:
     - name: Check out code
       uses: actions/checkout@v3
 
+    - name: Setup dependencies
+      uses: ./.github/actions/setup-deps
+
     - name: Setup Node.js environment
       uses: actions/setup-node@v3
       with:

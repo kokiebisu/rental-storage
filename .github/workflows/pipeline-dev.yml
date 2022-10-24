@@ -54,9 +54,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup dependencies
-        uses: ./.github/actions/setup-deps
-
       - name: Setup nodejs
         uses: ./.github/actions/setup-nodejs
 
