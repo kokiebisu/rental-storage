@@ -8,7 +8,7 @@ if [ test -f "serverless.yml" ]; then
     rm serverless.yml 
 fi
 
-if [ "$ENVIRONMENT" == "dev" ]; then
+if [ "$ENVIRONMENT" = "dev" ]; then
     echo "Copying serverless.dev.yml"
     cp config/serverless-compose.dev.yml ./serverless-compose.yml;
 else
