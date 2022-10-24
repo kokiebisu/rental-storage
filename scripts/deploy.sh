@@ -3,7 +3,7 @@
 ENVIRONMENT=$1
 echo "ENVIRONMENT: $ENVIRONMENT"
 
-if test -f "serverless.yml"; then
+if [ test -f "serverless.yml" ]; then
     echo "Removing serverless.yml"
     rm serverless.yml 
 fi
