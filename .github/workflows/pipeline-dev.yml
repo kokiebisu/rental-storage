@@ -57,6 +57,12 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-deps
 
+      - name: Setup nodejs
+        uses: ./.github/actions/setup-nodejs
+
+      - name: Setup golang
+        uses: ./.github/actions/setup-golang
+
       - name: Integration Test
         uses: ./.github/actions/integration-test-nodejs
         with:

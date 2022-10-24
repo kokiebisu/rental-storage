@@ -1,0 +1,19 @@
+name: Build Golang
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Build authentication service
+      run: cd packages/authentication && make build
+      shell: bash
+
+    - name: Build authorizer service
+      run: cd packages/authorizer && make build
+      shell: bash
+
+    - name: Build payment service
+      run: cd packages/payment && make build
+      shell: bash

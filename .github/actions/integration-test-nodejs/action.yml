@@ -22,9 +22,6 @@ runs:
         node-version: 14
         cache: "npm"
 
-    - name: Setup dependencies
-      uses: ./.github/actions/setup-deps
-
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
