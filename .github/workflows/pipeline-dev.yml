@@ -20,6 +20,7 @@ jobs:
 
   deploy:
     name: Deploy (dev)
+    timout-minutes: 15
     needs: [setup-deps]
     runs-on: ubuntu-latest
     if: "!failure() && !cancelled()"
@@ -34,6 +35,12 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-deps
 
+      - name: Setup nodejs
+        uses: ./.github/actions/setup-nodejs
+
+      - name: Setup golang
+        uses: ./.github/actions/setup-golang
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
@@ -44,25 +51,25 @@ jobs:
       - name: Deploy / Develop
         run: make deploy-dev
 
-  integration-tests:
-    name: Integration Test
-    needs: [deploy]
-    runs-on: ubuntu-latest
-    if: "!failure() && !cancelled()"
-    environment: dev
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # integration-tests:
+  #   name: Integration Test
+  #   needs: [deploy]
+  #   runs-on: ubuntu-latest
+  #   if: "!failure() && !cancelled()"
+  #   environment: dev
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Setup nodejs
-        uses: ./.github/actions/setup-nodejs
+  #     - name: Setup nodejs
+  #       uses: ./.github/actions/setup-nodejs
 
-      - name: Setup golang
-        uses: ./.github/actions/setup-golang
+  #     - name: Setup golang
+  #       uses: ./.github/actions/setup-golang
 
-      - name: Integration Test
-        uses: ./.github/actions/integration-test-nodejs
-        with:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+  #     - name: Integration Test
+  #       uses: ./.github/actions/integration-test-nodejs
+  #       with:
+  #         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         AWS_REGION: ${{ secrets.AWS_REGION }}
