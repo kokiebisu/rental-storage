@@ -20,7 +20,7 @@ jobs:
 
   deploy:
     name: Deploy (dev)
-    timout-minutes: 15
+    timeout-minutes: 15
     needs: [setup-deps]
     runs-on: ubuntu-latest
     if: "!failure() && !cancelled()"
