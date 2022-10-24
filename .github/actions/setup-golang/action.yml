@@ -7,13 +7,13 @@ runs:
       uses: actions/checkout@v3
 
     - name: Build authentication service
-      run: cd packages/authentication && make build
+      run: cd packages/service-authentication && make build
       shell: bash
 
     - name: Build authorizer service
-      run: cd packages/authorizer && make build
+      run: cd packages/service-authorizer && make build
       shell: bash
 
     - name: Build payment service
-      run: cd packages/payment && make build
+      run: cd packages/service-payment && make build
       shell: bash
