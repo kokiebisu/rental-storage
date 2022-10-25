@@ -3,9 +3,9 @@
 ENVIRONMENT=$1
 echo "ENVIRONMENT: $ENVIRONMENT"
 
-if [ test -f "serverless.yml" ]; then
-    echo "Removing serverless.yml"
-    rm serverless.yml 
+if [ -e serverless-compose.yml ]; then
+    echo "Removing serverless-compose.yml"
+    rm serverless-compose.yml 
 fi
 
 if [ "$ENVIRONMENT" = "dev" ]; then
