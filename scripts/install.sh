@@ -25,10 +25,10 @@ echo "Installing Payment Service dependencies..."
 cd packages/service-payment && npm install && cd ../..
 
 echo "Installing Infrastructure dependencies..."
-cd infrastructure && npm install && cd ..
+cd infrastructure && npm install && npx serverless plugin install -n serverless-deployment-bucket && cd ..
 
 echo "Installing Appsync dependencies..."
-cd api/appsync && npm install && cd ../..
+cd api/appsync && npm install && npx serverless plugin install -n serverless-deployment-bucket && cd ../..
 echo "Installing Api Gateway dependencies..."
-cd api/apigateway && npm install && cd ../..
+cd api/apigateway && npm install && npx serverless plugin install -n serverless-deployment-bucket && cd ../..
 
