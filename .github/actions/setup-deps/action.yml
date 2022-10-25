@@ -13,7 +13,7 @@ runs:
         cache: "npm"
 
     - name: Install global dependencies
-      run: npm install -g serverless
+      run: npm install -g serverless serverless-deployment-bucket
       shell: bash
 
     - name: Retreive node_modules cache

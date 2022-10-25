@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install global packages
-        run: npm install -g serverless
+        run: npm install -g serverless serverless-deployment-bucket
 
       - name: Setup dependencies
         uses: ./.github/actions/setup-deps
