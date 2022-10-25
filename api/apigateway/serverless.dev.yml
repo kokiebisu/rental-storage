@@ -4,7 +4,6 @@ frameworkVersion: "3"
 useDotenv: true
 
 plugins:
-  - serverless-export-outputs
   - serverless-deployment-bucket
 
 provider:

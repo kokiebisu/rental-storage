@@ -3,9 +3,6 @@ frameworkVersion: "3"
 
 useDotenv: true
 
-plugins:
-  - serverless-export-outputs
-
 provider:
   name: aws
   region: us-east-1

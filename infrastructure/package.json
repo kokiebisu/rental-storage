@@ -5,7 +5,6 @@
     "remove": "sls remove"
   },
   "devDependencies": {
-    "serverless-deployment-bucket": "1.6.0",
-    "serverless-export-outputs": "1.0.2"
+    "serverless-deployment-bucket": "1.6.0"
   }
 }
