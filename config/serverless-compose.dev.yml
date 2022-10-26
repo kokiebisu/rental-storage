@@ -13,11 +13,11 @@ services:
   #   dependsOn:
   #     - infrastructure
 
-  # booking:
-  #   path: packages/service-booking
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
+  booking:
+    path: packages/service-booking
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
 
   # authorizer:
   #   path: packages/service-authorizer
@@ -44,12 +44,12 @@ services:
   #     - infrastructure
   #     - api-apigateway
 
-  # listing:
-  #   path: packages/service-listing
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
-  #     - api-apigateway
+  listing:
+    path: packages/service-listing
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
+      - api-apigateway
 
   # authentication:
   #   path: packages/service-authentication
