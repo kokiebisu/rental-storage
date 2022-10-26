@@ -15,4 +15,7 @@ else
     echo "Copying serverless.yml"
     cp config/serverless-compose.yml ./serverless-compose.yml;
 fi
+
+cd api/appsync && npm install && cd ../..;
+
 npx sls deploy --stage $ENVIRONMENT;
