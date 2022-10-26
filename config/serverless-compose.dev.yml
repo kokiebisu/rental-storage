@@ -7,11 +7,11 @@ services:
     path: api/apigateway
     config: serverless.dev.yml
 
-  # image:
-  #   path: packages/service-image
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
+  image:
+    path: packages/service-image
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
 
   booking:
     path: packages/service-booking
