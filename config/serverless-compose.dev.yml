@@ -58,17 +58,17 @@ services:
       - infrastructure
       - api-apigateway
 
-  # api-appsync:
-  #   path: api/appsync
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
-  #     - booking
-  #     - image
-  #     - listing
-  #     - user
-  #     - authorizer
-  #     - payment
-  #     - authentication
-  #     - slack
-  #     - api-apigateway
+  api-appsync:
+    path: api/appsync
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
+      - booking
+      - image
+      - listing
+      - user
+      - authorizer
+      - payment
+      - authentication
+      - slack
+      - api-apigateway
