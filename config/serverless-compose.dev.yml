@@ -37,12 +37,12 @@ services:
   #   dependsOn:
   #     - infrastructure
 
-  # user:
-  #   path: packages/service-user
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
-  #     - api-apigateway
+  user:
+    path: packages/service-user
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
+      - api-apigateway
 
   listing:
     path: packages/service-listing
