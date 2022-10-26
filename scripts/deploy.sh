@@ -20,7 +20,7 @@ fi
 cd api/appsync && npm install -D && cd ../.. &&
 cd api/apigateway && npm install -D && cd ../.. &&
 
-cd infrastructure && npm install -D && cd ../.. &&
+cd infrastructure && npm install -D && cd .. &&
 
 cd packages/service-authentication && npm install -D && cd ../.. &&
 cd packages/service-authorizer && npm install -D && cd ../.. &&
