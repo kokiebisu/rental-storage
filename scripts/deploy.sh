@@ -17,18 +17,18 @@ else
 fi
 
 # Install dev dependencies
-cd api/appsync && npm ci --only=dev && cd ../.. &&
-cd api/apigateway && npm ci --only=dev && cd ../.. &&
+cd api/appsync && npm install -D && cd ../.. &&
+cd api/apigateway && npm install -D && cd ../.. &&
 
-cd infrastructure && npm ci --only=dev && cd ../.. &&
+cd infrastructure && npm install -D && cd ../.. &&
 
-cd packages/service-authentication && npm ci --only=dev && cd ../.. &&
-cd packages/service-authorizer && npm ci --only=dev && cd ../.. &&
-cd packages/service-booking && npm ci --only=dev && cd ../.. &&
-cd packages/service-image && npm ci --only=dev && cd ../.. &&
-cd packages/service-listing && npm ci --only=dev && cd ../.. &&
-cd packages/service-payment && npm ci --only=dev && cd ../.. &&
-cd packages/service-slack && npm ci --only=dev && cd ../.. &&
-cd packages/service-user && npm ci --only=dev && cd ../.. &&
+cd packages/service-authentication && npm install -D && cd ../.. &&
+cd packages/service-authorizer && npm install -D && cd ../.. &&
+cd packages/service-booking && npm install -D && cd ../.. &&
+cd packages/service-image && npm install -D && cd ../.. &&
+cd packages/service-listing && npm install -D && cd ../.. &&
+cd packages/service-payment && npm install -D && cd ../.. &&
+cd packages/service-slack && npm install -D && cd ../.. &&
+cd packages/service-user && npm install -D && cd ../.. &&
 
 npx sls deploy --stage $ENVIRONMENT;
