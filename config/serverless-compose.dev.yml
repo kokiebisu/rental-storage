@@ -19,17 +19,17 @@ services:
     dependsOn:
       - infrastructure
 
-  # authorizer:
-  #   path: packages/service-authorizer
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
+  authorizer:
+    path: packages/service-authorizer
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
 
-  # payment:
-  #   path: packages/service-payment
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
+  payment:
+    path: packages/service-payment
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
 
   # slack:
   #   path: packages/service-slack
