@@ -51,12 +51,12 @@ services:
       - infrastructure
       - api-apigateway
 
-  # authentication:
-  #   path: packages/service-authentication
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
-  #     - api-apigateway
+  authentication:
+    path: packages/service-authentication
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
+      - api-apigateway
 
   # api-appsync:
   #   path: api/appsync
