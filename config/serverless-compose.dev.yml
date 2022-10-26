@@ -31,11 +31,11 @@ services:
     dependsOn:
       - infrastructure
 
-  # slack:
-  #   path: packages/service-slack
-  #   config: serverless.dev.yml
-  #   dependsOn:
-  #     - infrastructure
+  slack:
+    path: packages/service-slack
+    config: serverless.dev.yml
+    dependsOn:
+      - infrastructure
 
   user:
     path: packages/service-user
