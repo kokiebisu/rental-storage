@@ -5,10 +5,11 @@ npm install
 echo "Installing Infrastructure dependencies..."
 cd infrastructure && npm install && cd ..
 
+# api
 echo "Installing Appsync dependencies..."
 cd api/appsync && npm install && cd ../..
 echo "Installing Api Gateway dependencies..."
-cd api/apigateway && npm install && cd ../..
+cd api/apigateway && npm install && serverless plugin install -n serverless-plugin-common-excludes && cd ../..
 
 
 # typescript
