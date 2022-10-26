@@ -1,5 +1,5 @@
 {
-  "name": "infrastructure",
+  "name": "@rental-storage-project/infrastructure",
   "scripts": {
     "deploy": "sls deploy",
     "remove": "sls remove"

@@ -1,8 +1,6 @@
 service: rental-a-locker-infrastructure
 frameworkVersion: "3"
 
-useDotenv: true
-
 plugins:
   - serverless-deployment-bucket
 
@@ -22,8 +20,6 @@ custom:
   LISTING_DB_USERNAME: master
   LISTING_DB_PASSWORD: password
   BOOKING_TABLE_NAME: bookings
-  dotenv:
-    path: ./ssm.env
 
 resources:
   Resources:
