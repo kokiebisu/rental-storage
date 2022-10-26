@@ -26,9 +26,6 @@ provider:
     DB_PORT: ${self:custom.DB_PORT}
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
-  export-env:
-    filename: .env
-    overwrite: true
 
 custom:
   namespace: rental-a-locker
@@ -47,6 +44,9 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
