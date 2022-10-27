@@ -17,9 +17,7 @@ type CreatePaymentCustomerBody struct {
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	// emailAddress := request.QueryStringParameters["emailAddress"]
-	// firstName := request.QueryStringParameters["firstName"]
-	// lastName := request.QueryStringParameters["lastName"]
+	fmt.Println("hello")
 	body := CreatePaymentCustomerBody{}
 	json.Unmarshal([]byte(request.Body), &body)
 	

@@ -1,0 +1,34 @@
+service: rental-a-locker-slack
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-export-env
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${opt:stage, 'local'}
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-rental-a-locker-slack-resources
+  iam:
+    role: !ImportValue ExportedRoleLambdaArn
+  ecr:
+    images:
+      app:
+        path: ./
+  environment:
+    accountId: ${aws:accountId}
+
+custom:
+  namespace: rental-a-locker
+  service: slack
+  ACCOUNT_ID: ${aws:accountId}
+  export-env:
+    filename: .env
+    overwrite: true
+
+functions:
+  - ${file(./aws/functions/kinesis.yml)}

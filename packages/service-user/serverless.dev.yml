@@ -1,0 +1,56 @@
+service: rental-a-locker-user
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-export-env
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'local'}
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-rental-a-locker-user-resources
+  iam:
+    role: !ImportValue ExportedRoleLambdaArn
+  apiGateway:
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  environment:
+    NAMESPACE: ${self:custom.namespace}
+    STAGE: ${self:provider.stage}
+    DB_HOST: ${self:custom.DB_HOST}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_PORT: ${self:custom.DB_PORT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
+
+custom:
+  namespace: rental-a-locker
+  service: user
+  export-env:
+    filename: .env
+    overwrite: true
+  DB_NAME: !ImportValue ExportedUserRDSDBName
+  DB_USERNAME: !ImportValue ExportedUserRDSDBUsername
+  DB_PASSWORD: !ImportValue ExportedUserRDSDBPassword
+  DB_HOST: !ImportValue ExportedUserRDSDBHost
+  DB_PORT: !ImportValue ExportedUserRDSDBPort
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${self:provider.region}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
+
+functions:
+  - ${file(./aws/functions/apigateway.yml)}
+  - ${file(./aws/functions/appsync.yml)}
+  - ${file(./aws/functions/stream.yml)}

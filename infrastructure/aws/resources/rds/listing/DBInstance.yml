@@ -16,4 +16,3 @@ Properties:
   PubliclyAccessible: true
   DeleteAutomatedBackups: true
   DeletionProtection: false
-  

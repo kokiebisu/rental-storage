@@ -2,7 +2,7 @@ service: rental-a-locker-listing
 frameworkVersion: "3"
 
 plugins:
-  - serverless-deployment-bucket
+  - serverless-export-env
 
 provider:
   name: aws
@@ -10,13 +10,19 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
-  deploymentBucket:
-    name: rental-a-locker-listing-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  environment:
+    DB_HOST: ${self:custom.DB_HOST}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_PORT: ${self:custom.DB_PORT}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 custom:
   namespace: rental-a-locker
@@ -35,6 +41,9 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

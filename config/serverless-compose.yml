@@ -1,0 +1,63 @@
+services:
+  infrastructure:
+    path: infrastructure
+
+  api-apigateway:
+    path: api/apigateway
+
+  image:
+    path: packages/service-image
+    dependsOn:
+      - infrastructure
+
+  booking:
+    path: packages/service-booking
+    dependsOn:
+      - infrastructure
+
+  authorizer:
+    path: packages/service-authorizer
+    dependsOn:
+      - infrastructure
+
+  payment:
+    path: packages/service-payment
+    dependsOn:
+      - infrastructure
+
+  slack:
+    path: packages/service-slack
+    dependsOn:
+      - infrastructure
+
+  user:
+    path: packages/service-user
+    dependsOn:
+      - infrastructure
+      - api-apigateway
+
+  listing:
+    path: packages/service-listing
+    dependsOn:
+      - infrastructure
+      - api-apigateway
+
+  authentication:
+    path: packages/service-authentication
+    dependsOn:
+      - infrastructure
+      - api-apigateway
+
+  api-appsync:
+    path: api/appsync
+    dependsOn:
+      - infrastructure
+      - booking
+      - image
+      - listing
+      - user
+      - authorizer
+      - payment
+      - authentication
+      - slack
+      - api-apigateway

@@ -17,3 +17,8 @@
 1 Add query to mapping-template/datasource/schema.graphql (api)
 2 Add query/mutation to serverless.yml in service package
 3 Add code
+
+# Onboarding
+
+1 Create gmail account
+2 Get invited to AWS organization

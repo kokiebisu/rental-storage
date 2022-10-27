@@ -8,4 +8,5 @@ module.exports = {
   collectCoverage: true,
   clearMocks: true,
   coverageDirectory: "coverage",
+  setupFiles: ["dotenv/config"],
 };

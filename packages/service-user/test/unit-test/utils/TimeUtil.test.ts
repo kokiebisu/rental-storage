@@ -1,4 +1,4 @@
-import { TimeUtil } from "../../src/utils";
+import { TimeUtil } from "../../../src/utils";
 
 const mock = {
   date: "Wed Oct 19 2022 23:00:12 GMT-0700 (Pacific Daylight Time)",

@@ -12,8 +12,6 @@ provider:
   name: aws
   stage: ${opt:stage, 'local'}
   region: us-east-1
-  deploymentBucket:
-    name: rental-a-locker-api-appsync-resources
 
 custom:
   namespace: rental-a-locker

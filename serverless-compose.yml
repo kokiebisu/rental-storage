@@ -1,63 +1,74 @@
 services:
   infrastructure:
     path: infrastructure
+    config: serverless.dev.yml
 
   api-apigateway:
     path: api/apigateway
+    config: serverless.dev.yml
 
-  image:
-    path: packages/service-image
-    dependsOn:
-      - infrastructure
+  # image:
+  #   path: packages/service-image
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
 
-  booking:
-    path: packages/service-booking
-    dependsOn:
-      - infrastructure
+  # booking:
+  #   path: packages/service-booking
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
 
-  authorizer:
-    path: packages/service-authorizer
-    dependsOn:
-      - infrastructure
+  # authorizer:
+  #   path: packages/service-authorizer
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
 
-  payment:
-    path: packages/service-payment
-    dependsOn:
-      - infrastructure
+  # payment:
+  #   path: packages/service-payment
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
 
-  slack:
-    path: packages/service-slack
-    dependsOn:
-      - infrastructure
+  # slack:
+  #   path: packages/service-slack
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
 
-  user:
-    path: packages/service-user
-    dependsOn:
-      - infrastructure
-      - api-apigateway
+  # user:
+  #   path: packages/service-user
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
+  #     - api-apigateway
 
-  listing:
-    path: packages/service-listing
-    dependsOn:
-      - infrastructure
-      - api-apigateway
+  # listing:
+  #   path: packages/service-listing
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
+  #     - api-apigateway
 
-  authentication:
-    path: packages/service-authentication
-    dependsOn:
-      - infrastructure
-      - api-apigateway
+  # authentication:
+  #   path: packages/service-authentication
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
+  #     - api-apigateway
 
-  api-appsync:
-    path: api/appsync
-    dependsOn:
-      - infrastructure
-      - booking
-      - image
-      - listing
-      - user
-      - authorizer
-      - payment
-      - authentication
-      - slack
-      - api-apigateway
+  # api-appsync:
+  #   path: api/appsync
+  #   config: serverless.dev.yml
+  #   dependsOn:
+  #     - infrastructure
+  #     - booking
+  #     - image
+  #     - listing
+  #     - user
+  #     - authorizer
+  #     - payment
+  #     - authentication
+  #     - slack
+  #     - api-apigateway

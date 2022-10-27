@@ -30,7 +30,7 @@ func initialize() *SecretsManager {
 
 func (sm *SecretsManager) getParam() (*ssm.GetParameterOutput, error) {
 	param, err := sm.client.GetParameter(&ssm.GetParameterInput{
-		Name:           aws.String("/dev/service-payment/stripe"),
+		Name:           aws.String("/service-payment/stripe"),
 		WithDecryption: aws.Bool(false),
 	})
 	if err != nil {

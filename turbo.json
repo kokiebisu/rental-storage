@@ -5,9 +5,23 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
-    "test": {
+    "test:unit": {
       "dependsOn": ["^build"],
       "outputs": []
+    },
+    "test:integration": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "generate:env:local": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "cache": false
+    },
+    "generate:env:dev": {
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "cache": false
     }
   }
 }

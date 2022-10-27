@@ -2,10 +2,13 @@
   "name": "@rental-storage-project/authentication",
   "scripts": {
     "deploy": "sls deploy",
-    "remove": "sls remove"
+    "remove": "sls remove",
+    "generate:env:local": "sls export-env",
+    "generate:env:dev": "sls export-env --stage dev"
   },
   "dependencies": {},
   "devDependencies": {
-    "serverless-deployment-bucket": "1.6.0"
+    "serverless-deployment-bucket": "1.6.0",
+    "serverless-export-env": "2.2.0"
   }
 }

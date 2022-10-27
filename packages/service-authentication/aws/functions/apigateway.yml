@@ -1,9 +1,6 @@
 SignInApiGateway:
   handler: bin/signin
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-signin
-  environment:
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
   package:
     exclude:
       - ./**
@@ -17,9 +14,6 @@ SignInApiGateway:
 SignUpApiGateway:
   handler: bin/signup
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-signup
-  environment:
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
   package:
     exclude:
       - ./**
@@ -33,9 +27,6 @@ SignUpApiGateway:
 VerifyApiGateway:
   handler: bin/verify
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-verify
-  environment:
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
   package:
     exclude:
       - ./**

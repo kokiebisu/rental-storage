@@ -2,7 +2,7 @@ service: rental-a-locker-authentication
 frameworkVersion: "3"
 
 plugins:
-  - serverless-deployment-bucket
+  - serverless-export-env
 
 provider:
   name: aws
@@ -10,13 +10,14 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
-  deploymentBucket:
-    name: rental-a-locker-authentication-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
 
 custom:
   namespace: rental-a-locker
@@ -30,6 +31,9 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

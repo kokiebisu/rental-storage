@@ -2,48 +2,15 @@
 FindMeQuery:
   handler: dist/adapter/api/graphql/FindMe.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-me
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
 
 FindUserByIdQuery:
   handler: dist/adapter/api/graphql/FindUserById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-user-by-id
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
 
 FindUserByEmailQuery:
   handler: dist/adapter/api/graphql/FindUserByEmail.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-user-by-email
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
-
 ## Mutation
 RemoveUserByIdMutation:
   handler: dist/adapter/api/graphql/RemoveUserById.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-remove-user-by-id
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}

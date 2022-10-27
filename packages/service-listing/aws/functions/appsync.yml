@@ -1,61 +1,21 @@
 # Query
 FindListingByIdQuery:
   handler: dist/adapter/api/graphql/FindListingById.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-listing-by-id
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
+  name: ${self:provider.stage}-${self:custom.service}-graphql-find-listing-by-id
 
 FindListingsWithinLatLngQuery:
   handler: dist/adapter/api/graphql/FindListingsWithinLatLng.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-listings-within-lat-lng
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
+  name: ${self:provider.stage}-${self:custom.service}-graphql-find-listings-within-lat-lng
 
 FindMyListingsQuery:
   handler: dist/adapter/api/graphql/FindMyListings.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-my-listings
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
+  name: ${self:provider.stage}-${self:custom.service}-graphql-find-my-listings
 
 # Mutation
 AddListingMutation:
   handler: dist/adapter/api/graphql/AddListing.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-add-listing
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
+  name: ${self:provider.stage}-${self:custom.service}-graphql-add-listing
 
 RemoveListingByIdMutation:
   handler: dist/adapter/api/graphql/RemoveListingById.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-remove-listing-by-id
-  environment:
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
+  name: ${self:provider.stage}-${self:custom.service}-graphql-remove-listing-by-id
