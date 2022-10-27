@@ -32,10 +32,6 @@ runs:
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Load lambda environment variables into .env
-      run: npm run generate:env:dev
-      shell: bash
-
     - name: Test
       run: npm run test:integration
       shell: bash
