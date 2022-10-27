@@ -19,7 +19,7 @@ echo "ENVIRONMENT: $ENVIRONMENT"
 # Install dev dependencies
 echo "Install dev dependencies for appsync" && 
 # cd api/appsync && npm install -D && cd ../.. &&
-cd infrastructure && serverless deploy --config serverless.dev.yml
+cd infrastructure && serverless deploy --config serverless.dev.yml --stage dev
 # echo "Install dev dependencies for apigateway" && 
 # cd api/apigateway && npm install -D && cd ../.. &&
 
