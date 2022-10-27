@@ -46,4 +46,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Test
-        uses: ./.github/actions/test-go
+        uses: ./.github/actions/integration-test-go
+        with:
+          environment: dev
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
