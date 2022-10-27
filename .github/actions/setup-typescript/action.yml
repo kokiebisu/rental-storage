@@ -1,4 +1,4 @@
-name: Build and Test Typescript
+name: Typescript
 
 runs:
   using: "composite"

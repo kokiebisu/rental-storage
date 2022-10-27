@@ -32,6 +32,9 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-deps
 
+      - name: Retrieve builds
+        uses: ./.github/actions/retrieve-builds
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:

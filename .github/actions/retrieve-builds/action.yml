@@ -1,0 +1,26 @@
+name: Retrieve builds
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Retreive dist cache
+      id: dist-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/dist"
+        key: dist-cache
+
+    - name: Build Typescript
+      run: npm run build
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+
+    - name: Retrieve bin cache
+      id: bin-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/bin"
+        key: bin-cache

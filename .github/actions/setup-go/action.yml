@@ -17,3 +17,10 @@ runs:
     - name: Build payment service
       run: cd packages/service-payment && make build
       shell: bash
+
+    - name: Cache bin modules
+      id: bin-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/bin"
+        key: bin-cache
