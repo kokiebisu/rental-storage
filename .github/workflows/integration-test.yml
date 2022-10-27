@@ -17,6 +17,11 @@ jobs:
 
       - name: Run Test
         uses: ./.github/actions/integration-test-nodejs
+        with:
+          environment: dev
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
 
   # unit-test-python:
   #   name: Unit Test (Python)
