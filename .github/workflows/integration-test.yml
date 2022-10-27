@@ -13,9 +13,6 @@ jobs:
       # - name: Setup Typescript
       #   uses: ./.github/actions/setup-typescript
 
-      - name: Retrieve cache
-        uses: ./.github/actions/retrieve-cache
-
       - name: Run Test
         uses: ./.github/actions/integration-test-typescript
         with:

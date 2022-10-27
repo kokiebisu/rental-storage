@@ -17,31 +17,29 @@ echo "ENVIRONMENT: $ENVIRONMENT"
 # fi
 
 # Install dev dependencies
-echo "Install dev dependencies for appsync" && 
+echo "Deploy infrastructure" && 
 # cd api/appsync && npm install -D && cd ../.. &&
-cd infrastructure && serverless deploy --config serverless.dev.yml --stage dev
-# echo "Install dev dependencies for apigateway" && 
-# cd api/apigateway && npm install -D && cd ../.. &&
+cd infrastructure && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+echo "Deploy apigateway" && 
+cd api/apigateway && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
 
-# echo "Install dev dependencies for infrastructure" && 
-# cd infrastructure && npm install -D && cd .. &&
+echo "Deploy authentication service" &&
+cd packages/service-authentication && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
 
-# echo "Install dev depdendencies for authentication service" &&
-# cd packages/service-authentication && npm install -D && cd ../.. &&
-# echo "Install dev depdendencies for authorizer service" &&
-# cd packages/service-authorizer && npm install -D && cd ../.. &&
-# echo "Install dev depdendencies for booking service" &&
-# cd packages/service-booking && npm install -D && cd ../.. &&
-# echo "Install dev dependencies for image service" &&
-# cd packages/service-image && npm install -D && cd ../.. &&
-# echo "Install dev dependencies for listing service" &&
-# cd packages/service-listing && npm install -D && cd ../.. &&
-# echo "Install dev dependencies for payment service" &&
-# cd packages/service-payment && npm install -D && cd ../.. &&
-# echo "Install dev dependencies for slack service" &&
-# cd packages/service-slack && npm install -D && cd ../.. &&
-# echo "Install dev dependencies for user service" &&
-# cd packages/service-user && npm install -D && cd ../.. &&
+echo "Deploy authorizer service" &&
+cd packages/service-authorizer && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+echo "Deploy booking service" &&
+cd packages/service-booking && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+echo "Deploy image service" &&
+cd packages/service-image && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+echo "Deploy listing service" &&
+cd packages/service-listing && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+echo "Deploy payment service" &&
+cd packages/service-payment && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+echo "Deploy slack service" &&
+cd packages/service-slack && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+echo "Deploy user service" &&
+cd packages/service-user && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
 
 # echo "Listing the files..."
 # ls
