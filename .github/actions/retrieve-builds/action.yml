@@ -13,9 +13,14 @@ runs:
         path: "**/dist"
         key: dist-cache
 
+    - name: Root install
+      run: npm install
+      if: steps.dist-cache.outputs.cache-hit != 'true'
+      shell: bash
+
     - name: Build Typescript
       run: npm run build
-      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      if: steps.dist-cache.outputs.cache-hit != 'true'
       shell: bash
 
     - name: Retrieve bin cache
