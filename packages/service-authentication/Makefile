@@ -10,8 +10,14 @@ clean:
 
 prepare: clean build
 
-.PHONY: test
-test:
-	cd cmd/signin && go test && cd ../..
-	cd cmd/signup && go test && cd ../..
-	cd cmd/verify && go test && cd ../..
+.PHONY: unit-test
+unit-test:
+	cd cmd/signin && go test ./.../unit_test && cd ../..
+	cd cmd/signup && go test ./.../unit_test && cd ../..
+	cd cmd/verify && go test ./.../unit_test && cd ../..
+
+.PHONY: integration-test
+integration-test: 
+	cd cmd/signin && go test ./.../integration_test && cd ../..
+	cd cmd/signup && go test ./.../integration_test && cd ../..
+	cd cmd/verify && go test ./.../integration_test && cd ../..

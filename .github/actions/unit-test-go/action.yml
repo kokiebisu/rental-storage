@@ -10,20 +10,31 @@ runs:
       with:
         go-version: "^1.13.1" # The Go version to download (if necessary) and use.
 
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Load lambda environment variables into .env
+      run: npm run generate:env:dev
+      shell: bash
+
     - name: Test authorizer service
       run: |
         cd packages/service-authorizer
-        make test
+        make integration-test
       shell: bash
 
     - name: Test authentication service
       run: |
         cd packages/service-authentication
-        make test
+        make integration-test
       shell: bash
 
     - name: Test payment service
       run: |
         cd packages/service-payment
-        make test
+        make integration-test
       shell: bash
