@@ -5,6 +5,7 @@
     "remove": "sls remove"
   },
   "devDependencies": {
+    "serverless": "3.23.0",
     "serverless-deployment-bucket": "1.6.0"
   }
 }
