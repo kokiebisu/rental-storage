@@ -46,8 +46,10 @@ runs:
       run: |
         cd packages/service-image
         make integration-test
+      shell: bash
 
     - name: Test Slack Service
       run: |
         cd packages/service-slack
         make integration-test
+      shell: bash
