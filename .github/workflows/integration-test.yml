@@ -4,7 +4,7 @@ on:
 jobs:
   setup:
     name: Setup environment
-    timout-minutes: 15
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,8 +22,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Setup Typescript
-      #   uses: ./.github/actions/setup-typescript
+      - name: Retrieve cache
+        uses: ./.github/actions/retrieve-cache
 
       - name: Run Test
         uses: ./.github/actions/integration-test-typescript
