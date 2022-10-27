@@ -20,14 +20,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: "npm"
+
       - name: Install global dependencies
         run: npm install -g serverless@2.72.3
 
-      - name: Install root dependencies
-        run: npm install
-
-      - name: Install deps
-        run: make install-deps
+      - name: Setup dependencies
+        uses: ./.github/actions/setup-deps
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
