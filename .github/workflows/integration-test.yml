@@ -23,16 +23,16 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
 
-  # unit-test-python:
-  #   name: Unit Test (Python)
-  #   timeout-minutes: 15
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  integration-test-python:
+    name: Python
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Run Test
-  #       uses: ./.github/actions/test-python
+      - name: Run Test
+        uses: ./.github/actions/test-python
 
   # unit-test-golang:
   #   name: Unit Test (Go)
