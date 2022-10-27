@@ -1,5 +1,5 @@
 service: rental-a-locker-payment
-frameworkVersion: "3"
+# frameworkVersion: "3"
 
 plugins:
   - serverless-export-env
