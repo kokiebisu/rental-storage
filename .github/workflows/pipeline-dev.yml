@@ -77,7 +77,7 @@ jobs:
         uses: ./.github/actions/setup-golang
 
       - name: Integration Test
-        uses: ./.github/actions/integration-test-nodejs
+        uses: ./.github/workflows/integration-test.yml
         with:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
