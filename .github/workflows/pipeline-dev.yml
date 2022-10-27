@@ -7,8 +7,13 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  setup:
+    name: Setup
+    uses: ./.github/workflows/setup.yml
+
   deploy:
     name: Deploy (dev)
+    needs: [setup]
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
@@ -23,12 +28,6 @@ jobs:
 
       - name: Install deps
         run: make install-deps
-
-      - name: Setup Typescript
-        uses: ./.github/actions/setup-typescript
-
-      - name: Setup Go
-        uses: ./.github/actions/setup-go
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
