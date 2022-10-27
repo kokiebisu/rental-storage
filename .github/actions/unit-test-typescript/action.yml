@@ -1,4 +1,4 @@
-name: Test Nodejs Services
+name: Typescript
 
 runs:
   using: "composite"

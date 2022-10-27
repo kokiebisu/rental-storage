@@ -24,8 +24,8 @@ jobs:
       - name: Install deps
         run: make install-deps
 
-      - name: Setup nodejs
-        uses: ./.github/actions/setup-nodejs
+      - name: Setup Typescript
+        uses: ./.github/actions/setup-typescript
 
       - name: Setup golang
         uses: ./.github/actions/setup-golang
