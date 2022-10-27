@@ -26,7 +26,7 @@ cd packages/service-image && npm install --omit=dev && cd ../..
 echo "Installing Slack Service dependencies..."
 cd packages/service-slack && npm install --omit=dev && cd ../..
 
-# golang
+# go
 echo "Installing Authentication Service dependencies..."
 cd packages/service-authentication && npm install --omit=dev && cd ../..
 echo "Installing Authorizer Service dependencies..."

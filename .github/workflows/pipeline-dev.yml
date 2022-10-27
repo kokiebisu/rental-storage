@@ -27,8 +27,8 @@ jobs:
       - name: Setup Typescript
         uses: ./.github/actions/setup-typescript
 
-      - name: Setup golang
-        uses: ./.github/actions/setup-golang
+      - name: Setup Go
+        uses: ./.github/actions/setup-go
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16

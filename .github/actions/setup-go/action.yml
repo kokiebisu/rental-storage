@@ -1,4 +1,4 @@
-name: Build Golang
+name: Go
 
 runs:
   using: "composite"
