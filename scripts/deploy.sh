@@ -40,7 +40,7 @@ cd packages/service-payment && npm install -D && cd ../.. &&
 echo "Install dev dependencies for slack service" &&
 cd packages/service-slack && npm install -D && cd ../.. &&
 echo "Install dev dependencies for user service" &&
-cd packages/service-user && npm install -D && cd ../.. &&
+cd packages/service-user && npm install -D && cd ../../.. &&
 
 TEST=$(pwd)
 echo $TEST
