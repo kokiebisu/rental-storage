@@ -39,4 +39,7 @@ cd packages/service-payment && serverless deploy --config serverless.dev.yml --s
 echo "Deploy slack service" &&
 cd packages/service-slack && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
 echo "Deploy user service" &&
-cd packages/service-user && serverless deploy --config serverless.dev.yml --stage dev
+cd packages/service-user && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+
+echo "Deploy appsync service" &&
+cd api/appsync && serverless deploy --config serverless.dev.yml --stage dev
