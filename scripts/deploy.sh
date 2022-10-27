@@ -19,7 +19,7 @@ echo "ENVIRONMENT: $ENVIRONMENT"
 # Install dev dependencies
 echo "Deploy infrastructure" && 
 # cd api/appsync && npm install -D && cd ../.. &&
-cd infrastructure && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
+cd infrastructure && serverless deploy --config serverless.dev.yml --stage dev && cd .. &&
 echo "Deploy apigateway" && 
 cd api/apigateway && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
 
@@ -39,12 +39,4 @@ cd packages/service-payment && serverless deploy --config serverless.dev.yml --s
 echo "Deploy slack service" &&
 cd packages/service-slack && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
 echo "Deploy user service" &&
-cd packages/service-user && serverless deploy --config serverless.dev.yml --stage dev && cd ../.. &&
-
-# echo "Listing the files..."
-# ls
-
-# TEST=$(pwd)
-# echo $TEST
-# echo "Deploy $ENVIRONMENT" && 
-# serverless deploy --stage $ENVIRONMENT;
+cd packages/service-user && serverless deploy --config serverless.dev.yml --stage dev
