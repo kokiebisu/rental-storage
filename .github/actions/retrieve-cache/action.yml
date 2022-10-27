@@ -6,6 +6,18 @@ runs:
     - name: Check out code
       uses: actions/checkout@v3
 
+    - name: Retrieve node_modules cache
+      id: node-modules-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/node_modules"
+        key: node-modules-cache
+
+    - name: Install dependencies
+      run: make install-deps
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+
     - name: Retreive dist cache
       id: dist-cache
       uses: actions/cache@v3
@@ -13,10 +25,10 @@ runs:
         path: "**/dist"
         key: dist-cache
 
-    - name: Root install
-      run: npm install
-      if: steps.dist-cache.outputs.cache-hit != 'true'
-      shell: bash
+    # - name: Root install
+    #   run: npm install
+    #   if: steps.dist-cache.outputs.cache-hit != 'true'
+    #   shell: bash
 
     - name: Build Typescript
       run: npm run build

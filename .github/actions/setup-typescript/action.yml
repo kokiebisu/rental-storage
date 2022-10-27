@@ -13,8 +13,8 @@ runs:
         path: "**/node_modules"
         key: node-modules-cache
 
-    - name: Install root dependencies
-      run: npm install
+    - name: Install node_modules
+      run: make install-deps
       if: steps.node-modules-cache.outputs.cache-hit != 'true'
       shell: bash
 
