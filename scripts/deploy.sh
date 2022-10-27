@@ -3,22 +3,23 @@
 ENVIRONMENT=$1
 echo "ENVIRONMENT: $ENVIRONMENT"
 
-if [ -e serverless-compose.yml ]; then
-    echo "Removing serverless-compose.yml";
-    rm serverless-compose.yml ;
-fi
+# if [ -e serverless-compose.yml ]; then
+#     echo "Removing serverless-compose.yml";
+#     rm serverless-compose.yml ;
+# fi
 
-if [ "$ENVIRONMENT" = "dev" ]; then
-    echo "Copying serverless.dev.yml";
-    cp config/serverless-compose.dev.yml ./serverless-compose.yml;
-else
-    echo "Copying serverless.yml";
-    cp config/serverless-compose.yml ./serverless-compose.yml;
-fi
+# if [ "$ENVIRONMENT" = "dev" ]; then
+#     echo "Copying serverless.dev.yml";
+#     cp config/serverless-compose.dev.yml ./serverless-compose.yml;
+# else
+#     echo "Copying serverless.yml";
+#     cp config/serverless-compose.yml ./serverless-compose.yml;
+# fi
 
 # Install dev dependencies
-# echo "Install dev dependencies for appsync" && 
+echo "Install dev dependencies for appsync" && 
 # cd api/appsync && npm install -D && cd ../.. &&
+cd infrastructure && serverless deploy --config serverless.dev.yml
 # echo "Install dev dependencies for apigateway" && 
 # cd api/apigateway && npm install -D && cd ../.. &&
 
@@ -42,10 +43,10 @@ fi
 # echo "Install dev dependencies for user service" &&
 # cd packages/service-user && npm install -D && cd ../.. &&
 
-echo "Listing the files..."
-ls
+# echo "Listing the files..."
+# ls
 
-TEST=$(pwd)
-echo $TEST
-echo "Deploy $ENVIRONMENT" && 
-serverless deploy --stage $ENVIRONMENT;
+# TEST=$(pwd)
+# echo $TEST
+# echo "Deploy $ENVIRONMENT" && 
+# serverless deploy --stage $ENVIRONMENT;
