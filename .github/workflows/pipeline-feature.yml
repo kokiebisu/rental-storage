@@ -17,18 +17,11 @@ jobs:
           configuration-path: .github/labeler.yml
           repo-token: "${{ secrets.GH_TOKEN }}"
 
-  setup-deps:
-    name: Dependency Install
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install deps
-        uses: ./.github/actions/setup-deps
+  setup:
+    name: Setup
+    uses: ./.github/workflows/setup.yml
 
   unit-test:
     name: Unit Test
-    needs: [setup-deps]
+    needs: [setup]
     uses: ./.github/workflows/unit-test.yml
