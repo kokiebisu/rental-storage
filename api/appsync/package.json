@@ -6,6 +6,7 @@
     "remove": "sls remove"
   },
   "devDependencies": {
+    "serverless": "3.23.0",
     "serverless-appsync-plugin": "1.14.0",
     "serverless-deployment-bucket": "1.6.0",
     "serverless-plugin-common-excludes": "4.0.0",
