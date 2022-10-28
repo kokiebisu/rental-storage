@@ -1,84 +1,40 @@
 name: Develop Pipeline
 
 on:
-  # push:
-  #   branches: "dev"
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches: "dev"
 
 jobs:
-  # setup-deps:
-  #   name: Dependency Install
-  #   timeout-minutes: 15
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  setup-typescript:
+    name: Setup / Typescript
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Install deps
-  #       uses: ./.github/actions/setup-deps
+      - name: Setup Typescript
+        uses: ./.github/actions/setup-typescript
+
+  setup-go:
+    name: Setup / Go
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: ./.github/actions/setup-go
 
   deploy:
-    name: Deploy (dev)
-    timeout-minutes: 15
-    # needs: [setup-deps]
-    runs-on: ubuntu-latest
-    # if: "!failure() && !cancelled()"
-    # environment: dev
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    name: Deploy
+    needs: [setup-typescript, setup-go]
+    uses: ./.github/workflows/deploy-dev.yml
+    secrets: inherit
 
-      - name: Install global dependencies
-        run: npm install -g serverless
-        # shell: bash
-
-      - name: Install root dependencies
-        run: npm install
-
-      - name: Install deps
-        run: make install-deps
-        # if: steps.node-modules-cache.outputs.cache-hit != 'true'
-        # shell: bash
-
-      # - name: Setup dependencies
-      #   uses: ./.github/actions/setup-deps
-
-      - name: Setup nodejs
-        uses: ./.github/actions/setup-nodejs
-
-      - name: Setup golang
-        uses: ./.github/actions/setup-golang
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      - name: Deploy / Develop
-        run: make deploy-dev
-
-  integration-tests:
+  integration:
     name: Integration Test
     needs: [deploy]
-    runs-on: ubuntu-latest
-    if: "!failure() && !cancelled()"
-    environment: dev
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup nodejs
-        uses: ./.github/actions/setup-nodejs
-
-      - name: Setup golang
-        uses: ./.github/actions/setup-golang
-
-      - name: Integration Test
-        uses: ./.github/actions/integration-test-nodejs
-        with:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+    uses: ./.github/workflows/test-integration.yml
+    secrets: inherit

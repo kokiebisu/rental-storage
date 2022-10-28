@@ -17,18 +17,29 @@ jobs:
           configuration-path: .github/labeler.yml
           repo-token: "${{ secrets.GH_TOKEN }}"
 
-  setup-deps:
-    name: Dependency Install
+  setup-typescript:
+    name: Setup / Typescript
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install deps
-        uses: ./.github/actions/setup-deps
+      - name: Setup Typescript
+        uses: ./.github/actions/setup-typescript
+
+  setup-go:
+    name: Setup / Go
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: ./.github/actions/setup-go
 
   unit-test:
     name: Unit Test
-    needs: [setup-deps]
-    uses: ./.github/workflows/unit-test.yml
+    needs: [setup-typescript, setup-go]
+    uses: ./.github/workflows/test-unit.yml

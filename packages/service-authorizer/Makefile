@@ -7,6 +7,10 @@ clean:
 prepare: 
 	clean build
 
-.PHONY: test
-test: 
-	go test
+.PHONY: unit-test
+unit-test: 
+	go test ./.../unit_test
+
+.PHONY: integration-test
+integration-test: 
+	go test ./.../integration_test

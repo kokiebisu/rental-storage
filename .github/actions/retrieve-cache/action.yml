@@ -1,4 +1,4 @@
-name: Test Nodejs Services
+name: Retrieve cache
 
 runs:
   using: "composite"
@@ -6,13 +6,7 @@ runs:
     - name: Check out code
       uses: actions/checkout@v3
 
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v3
-      with:
-        node-version: 14
-        cache: "npm"
-
-    - name: Retreive node_modules cache
+    - name: Retrieve node_modules cache
       id: node-modules-cache
       uses: actions/cache@v3
       with:
@@ -24,18 +18,33 @@ runs:
       if: steps.node-modules-cache.outputs.cache-hit != 'true'
       shell: bash
 
-    - name: Retrieve dist cache
+    - name: Retreive dist cache
       id: dist-cache
       uses: actions/cache@v3
       with:
         path: "**/dist"
         key: dist-cache
 
-    - name: Build packages
+    - name: Retreive env cache
+      id: env-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/.env"
+        key: env-cache
+
+    - name: Generate env
+      run: npm run generate:env:dev
+      if: steps.env-cache.outputs.cache-hit != 'true'
+      shell: bash
+
+    - name: Build Typescript
       run: npm run build
       if: steps.dist-cache.outputs.cache-hit != 'true'
       shell: bash
 
-    - name: Test
-      run: npm run test:unit
-      shell: bash
+    - name: Retrieve bin cache
+      id: bin-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/bin"
+        key: bin-cache
