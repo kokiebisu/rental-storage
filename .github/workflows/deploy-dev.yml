@@ -50,7 +50,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
   deploy-apigateway:
-    name: Api
+    name: ApiGateway
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
@@ -154,7 +154,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
   deploy-appsync:
-    name: Api
+    name: AppSync
     needs: [deploy-infrastructure, deploy-apigateway, deploy-service]
     timeout-minutes: 15
     runs-on: ubuntu-latest
