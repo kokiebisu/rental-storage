@@ -25,10 +25,17 @@ runs:
         path: "**/dist"
         key: dist-cache
 
-    # - name: Root install
-    #   run: npm install
-    #   if: steps.dist-cache.outputs.cache-hit != 'true'
-    #   shell: bash
+    - name: Retreive env cache
+      id: env-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/.env"
+        key: env-cache
+
+    - name: Generate env
+      run: npm run generate:env:dev
+      if: steps.env-cache.outputs.cache-hit != 'true'
+      bash: shell
 
     - name: Build Typescript
       run: npm run build
