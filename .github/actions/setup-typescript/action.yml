@@ -22,8 +22,8 @@ runs:
         npm run build
       shell: bash
 
-    - uses: actions/upload-artifact@v2
-      rentention-period: 1
+    - uses: actions/upload-artifact@v3
+      retention-days: 1
       with:
         name: dist-${{ matrix.package }}-${{ github.sha }}
         path: packages/service-${{ inputs.package }}/dist
