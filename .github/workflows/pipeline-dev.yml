@@ -11,36 +11,41 @@ jobs:
     name: Setup
     uses: ./.github/workflows/setup.yml
 
+  # deploy:
+  #   name: Deploy (dev)
+  #   needs: [setup]
+  #   timeout-minutes: 15
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Setup Node.js environment
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 14
+  #         cache: "npm"
+
+  #     - name: Install global dependencies
+  #       run: npm install -g serverless@2.72.3
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1-node16
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
+
+  #     - name: Setup dependencies
+  #       uses: ./.github/actions/retrieve-cache
+
+  #     - name: Deploy / Develop
+  #       run: make deploy-dev
   deploy:
-    name: Deploy (dev)
+    name: Deploy
     needs: [setup]
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          cache: "npm"
-
-      - name: Install global dependencies
-        run: npm install -g serverless@2.72.3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      - name: Setup dependencies
-        uses: ./.github/actions/retrieve-cache
-
-      - name: Deploy / Develop
-        run: make deploy-dev
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
 
   integration:
     name: Integration Test
