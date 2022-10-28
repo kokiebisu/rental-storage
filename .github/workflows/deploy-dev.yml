@@ -49,9 +49,57 @@ jobs:
           serverless deploy --config serverless.dev.yml --stage dev
         if: steps.changes.outputs.package == 'true'
 
+  deploy-apigateway:
+    name: Api
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - apigateway
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - 'api/${{ matrix.package }}/**'
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: "npm"
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Install global dependencies
+        run: npm install -g serverless@2.72.3
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Setup dependencies
+        uses: ./.github/actions/retrieve-cache
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Deploy
+        run: |
+          cd api/${{ matrix.package }}
+          serverless deploy --config serverless.dev.yml --stage dev
+        if: steps.changes.outputs.package == 'true'
+
   deploy-service:
     name: Service
-    needs: [deploy-infrastructure]
+    needs: [deploy-infrastructure, deploy-apigateway]
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
@@ -105,9 +153,9 @@ jobs:
           serverless deploy --config serverless.dev.yml --stage dev
         if: steps.changes.outputs.package == 'true'
 
-  deploy-api:
+  deploy-appsync:
     name: Api
-    needs: [deploy-infrastructure, deploy-service]
+    needs: [deploy-infrastructure, deploy-apigateway, deploy-service]
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:

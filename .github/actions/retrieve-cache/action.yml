@@ -1,4 +1,4 @@
-name: Retrieve builds
+name: Retrieve cache
 
 runs:
   using: "composite"

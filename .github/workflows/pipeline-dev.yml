@@ -7,48 +7,36 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  setup:
-    name: Setup
-    uses: ./.github/workflows/setup.yml
+  setup-typescript:
+    name: Typescript
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  # deploy:
-  #   name: Deploy (dev)
-  #   needs: [setup]
-  #   timeout-minutes: 15
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+      - name: Setup Typescript
+        uses: ./.github/actions/setup-typescript
 
-  #     - name: Setup Node.js environment
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 14
-  #         cache: "npm"
+  setup-go:
+    name: Go
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Install global dependencies
-  #       run: npm install -g serverless@2.72.3
+      - name: Setup Go
+        uses: ./.github/actions/setup-go
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1-node16
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-east-1
-
-  #     - name: Setup dependencies
-  #       uses: ./.github/actions/retrieve-cache
-
-  #     - name: Deploy / Develop
-  #       run: make deploy-dev
   deploy:
     name: Deploy
-    needs: [setup]
-    uses: ./.github/workflows/deploy.yml
+    needs: [setup-typescript, setup-go]
+    uses: ./.github/workflows/deploy-dev.yml
     secrets: inherit
 
   integration:
     name: Integration Test
     needs: [deploy]
-    uses: ./.github/workflows/integration-test.yml
+    uses: ./.github/workflows/test-integration.yml
     secrets: inherit
