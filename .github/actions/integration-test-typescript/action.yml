@@ -32,6 +32,10 @@ runs:
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
+    - name: Cat Export
+      run: cd packages/service-listing && echo "$(cat .env)"
+      shell: bash
+
     - name: Test
       run: npm run test:integration
       shell: bash
