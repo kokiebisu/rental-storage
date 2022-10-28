@@ -20,6 +20,25 @@ jobs:
         with:
           package: ${{ matrix.package }}
 
+  post-setup-typescript:
+    name: Cache Typescript
+    needs: [setup-typescript]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve node_modules cache
+        id: node-modules-cache
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: node-modules-cache
+
+      - name: Retrieve dist cache
+        id: dist-cache
+        uses: actions/cache@v3
+        with:
+          path: "**/dist"
+          key: dist-cache
+
   setup-go:
     name: Go
     timeout-minutes: 15
@@ -38,3 +57,15 @@ jobs:
         uses: ./.github/actions/setup-go
         with:
           package: ${{ matrix.package }}
+
+  post-setup-go:
+    name: Cache Go
+    needs: [setup-go]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieve bin cache
+        id: bin-cache
+        uses: actions/cache@v3
+        with:
+          path: "**/bin"
+          key: bin-cache
