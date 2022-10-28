@@ -6,6 +6,12 @@ jobs:
     name: Typescript
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - booking
+          - listing
+          - user
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -49,13 +55,16 @@ jobs:
           key: dist-cache
         if: steps.changes.outputs.package == 'true'
 
-      - name: Build packages
-        run: npm run build
+      - name: Build package
+        run: |
+          cd package/service-${{ matrix.package }}
         shell: bash
         if: steps.changes.outputs.package == 'true' && steps.dist-cache.outputs.cache-hit != 'true'
 
-      - name: Test
-        run: npm run test:unit
+      - name: Test ${{ matrix.package }} service
+        run: |
+          cd package/service-${{ matrix.package }}
+          npm run test:unit
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
