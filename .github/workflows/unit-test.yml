@@ -38,9 +38,8 @@ jobs:
 
       - name: Install dependencies
         run: make install-deps
-        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         shell: bash
-        if: steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.package == 'true' && steps.node-modules-cache.outputs.cache-hit != 'true'
 
       - name: Retrieve dist cache
         id: dist-cache
@@ -52,9 +51,8 @@ jobs:
 
       - name: Build packages
         run: npm run build
-        if: steps.dist-cache.outputs.cache-hit != 'true'
         shell: bash
-        if: steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.package == 'true' && steps.dist-cache.outputs.cache-hit != 'true'
 
       - name: Test
         run: npm run test:unit
@@ -87,14 +85,12 @@ jobs:
           python-version: 3.9
         if: steps.changes.outputs.package == 'true'
 
-
       - name: Install global dependencies
         run: |
           python -m pip install --upgrade pip
           pip install flake8 pytest
         shell: bash
         if: steps.changes.outputs.package == 'true'
-
 
       - name: Install Image service dependencies
         run: |
@@ -103,14 +99,12 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-
       - name: Test ${{ matrix.package }} Service
         run: |
           cd packages/service-${{ matrix.package }}
           make unit-test
         shell: bash
         if: steps.changes.outputs.package == 'true'
-
 
   unit-test-go:
     name: Go
