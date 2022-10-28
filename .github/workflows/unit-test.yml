@@ -13,8 +13,39 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup-typescript
 
-      - name: Run Test
-        uses: ./.github/actions/unit-test-typescript
+      - name: Setup Node.js environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14
+        cache: "npm"
+
+    - name: Retreive node_modules cache
+      id: node-modules-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/node_modules"
+        key: node-modules-cache
+
+    - name: Install dependencies
+      run: make install-deps
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+
+    - name: Retrieve dist cache
+      id: dist-cache
+      uses: actions/cache@v3
+      with:
+        path: "**/dist"
+        key: dist-cache
+
+    - name: Build packages
+      run: npm run build
+      if: steps.dist-cache.outputs.cache-hit != 'true'
+      shell: bash
+
+    - name: Test
+      run: npm run test:unit
+      shell: bash
 
   unit-test-python:
     name: Python
