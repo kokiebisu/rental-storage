@@ -31,6 +31,7 @@ runs:
 
     - name: Hello
       run: echo 'testing hello!'
+      shell: bash
 
     - name: dist path
       run: echo ${{ steps.download-dist.outputs.download-path }}
@@ -38,6 +39,7 @@ runs:
 
     - name: Hello
       run: echo 'testing goodbye!'
+      shell: bash
 
     - name: Build
       run: |
