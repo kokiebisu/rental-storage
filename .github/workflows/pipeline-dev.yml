@@ -1,10 +1,8 @@
 name: Develop Pipeline
 
 on:
-  # push:
-  #   branches: "dev"
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches: "dev"
 
 jobs:
   setup-typescript:
