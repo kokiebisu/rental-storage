@@ -14,7 +14,7 @@ runs:
       id: node-modules-cache
       uses: actions/cache@v3
       with:
-        path: "packages/service-${{ matrix.package }}/node_modules"
+        path: packages/service-${{ inputs.package }}/node_modules
         key: node-modules-cache
 
     # - name: Install node_modules
@@ -37,8 +37,8 @@ runs:
       id: dist-cache
       uses: actions/cache@v3
       with:
-        path: "packages/service-${{ matrix.package }}/dist"
-        key: ${{ matrix.package }}-dist-cache
+        path: "packages/service-${{ inputs.package }}/dist"
+        key: ${{ inputs.package }}-dist-cache
 
     - name: Build
       run: |
