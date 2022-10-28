@@ -1,5 +1,3 @@
-name: Go
-
 inputs:
   environment:
     required: true
