@@ -1,7 +1,4 @@
 import unittest
-from faker import Faker
-
-fake = Faker()
 
 class TestAdd(unittest.TestCase):
     def test_success(self):
