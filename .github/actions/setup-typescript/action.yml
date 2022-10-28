@@ -23,7 +23,7 @@ runs:
       shell: bash
 
     - uses: actions/upload-artifact@v3
-      retention-days: 1
       with:
-        name: dist-${{ matrix.package }}-${{ github.sha }}
+        name: dist-${{ inputs.package }}-${{ github.sha }}
         path: packages/service-${{ inputs.package }}/dist
+        retention-days: 1
