@@ -15,7 +15,7 @@ runs:
       uses: actions/cache@v3
       with:
         path: packages/service-${{ inputs.package }}/node_modules
-        key: node-modules-cache
+        key: ${{ inputs.package }}-node-modules-cache
 
     # - name: Install node_modules
     #   run: make install-deps
@@ -45,3 +45,4 @@ runs:
         cd packages/service-${{ inputs.package }}
         npm run build
       shell: bash
+      if: steps.dist-cache.outputs.cache-hit != 'true'

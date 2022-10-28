@@ -17,8 +17,8 @@ runs:
       shell: bash
 
     - name: Cache bin modules
-      id: ${{ inputs.package }}-bin-cache
+      id: bin-cache
       uses: actions/cache@v3
       with:
         path: "**/bin"
-        key: ${{ inputs.package }}-bin-cache
+        key: bin-cache

@@ -11,11 +11,11 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: [setup-typescript, setup-go]
+    needs: [setup]
     uses: ./.github/workflows/deploy-dev.yml
     secrets: inherit
 
-  integration:
+  integration-test:
     name: Integration Test
     needs: [deploy]
     uses: ./.github/workflows/test-integration.yml
