@@ -8,7 +8,7 @@ on:
 
 jobs:
   setup-typescript:
-    name: Typescript
+    name: Setup / Typescript
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
@@ -19,7 +19,7 @@ jobs:
         uses: ./.github/actions/setup-typescript
 
   setup-go:
-    name: Go
+    name: Setup / Go
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
