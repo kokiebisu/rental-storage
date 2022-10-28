@@ -28,6 +28,12 @@ jobs:
     name: Typescript
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - booking
+          - listings
+          - user
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -42,13 +48,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Cat Export
-        run: cd packages/service-listing && echo "$(cat .env)"
-        shell: bash
-
-      - name: Test
-        run: npm run test:integration
-        shell: bash
+      - name: Test ${{ matrix.package }} service
+        run: |
+          cd packages/service-${{ matrix.package }}
+          npm run test:integration
 
   integration-test-python:
     name: Python
@@ -76,7 +79,7 @@ jobs:
           pip install flake8 pytest
         shell: bash
 
-      - name: Test ${{ matrix.package }} Service
+      - name: Test ${{ matrix.package }} service
         run: |
           cd packages/service-${{ matrix.package }}
           pip install -r requirements.txt
@@ -107,6 +110,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Test
-        run: make integration-test
+      - name: Test ${{ matrix.package }} service
+        run: |
+          cd packages/service-${{ matrix.package }}
+          make integration-test
         shell: bash
