@@ -2,7 +2,7 @@ on: workflow_call
 
 jobs:
   setup-typescript:
-    name: Setup / Typescript
+    name: Typescript
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
@@ -21,7 +21,7 @@ jobs:
           package: ${{ matrix.package }}
 
   setup-go:
-    name: Setup / Go
+    name: Go
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
@@ -38,3 +38,40 @@ jobs:
         uses: ./.github/actions/setup-go
         with:
           package: ${{ matrix.package }}
+
+  cache:
+    name: Set cache
+    needs: [setup-typescript, setup-go]
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache typescript node modules cache
+        id: node-modules-cache
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: node-modules-cache
+
+      - name: Cache typescript node modules cache
+        id: node-modules-cache
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: node-modules-cache
+
+      - name: Cache dist modules cache
+        id: dist-cache
+        uses: actions/cache@v3
+        with:
+          path: "**/dist"
+          key: dist-cache
+
+      - name: Cache bin modules
+        id: bin-cache
+        uses: actions/cache@v3
+        with:
+          path: "**/bin"
+          key: bin-cache

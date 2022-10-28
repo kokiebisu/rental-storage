@@ -15,10 +15,3 @@ runs:
         cd packages/service-${{ inputs.package }}
         make build
       shell: bash
-
-    - name: Cache bin modules
-      id: bin-cache
-      uses: actions/cache@v3
-      with:
-        path: "**/bin"
-        key: bin-cache

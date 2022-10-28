@@ -14,13 +14,8 @@ runs:
       id: node-modules-cache
       uses: actions/cache@v3
       with:
-        path: packages/service-${{ inputs.package }}/node_modules
-        key: ${{ inputs.package }}-node-modules-cache
-
-    # - name: Install node_modules
-    #   run: make install-deps
-    #   if: steps.node-modules-cache.outputs.cache-hit != 'true'
-    #   shell: bash
+        path: "**/node_modules"
+        key: node-modules-cache
 
     - name: Install node_modules
       run: |
@@ -29,16 +24,12 @@ runs:
       if: steps.node-modules-cache.outputs.cache-hit != 'true'
       shell: bash
 
-    # - name: Build
-    #   run: npm run build
-    #   shell: bash
-
     - name: Retrieve dist modules cache
       id: dist-cache
       uses: actions/cache@v3
       with:
-        path: "packages/service-${{ inputs.package }}/dist"
-        key: ${{ inputs.package }}-dist-cache
+        path: "**/dist"
+        key: dist-cache
 
     - name: Build
       run: |
