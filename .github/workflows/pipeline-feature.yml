@@ -23,5 +23,5 @@ jobs:
 
   unit-test:
     name: Unit Test
-    needs: [setup-typescript, setup-go]
+    needs: [setup]
     uses: ./.github/workflows/test-unit.yml
