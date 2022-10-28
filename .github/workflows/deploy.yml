@@ -6,9 +6,10 @@ jobs:
     name: Infrastructure
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    matrix:
-      package:
-        - infrastructure
+    strategy:
+      matrix:
+        package:
+          - infrastructure
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -49,16 +50,17 @@ jobs:
     needs: [deploy-infrastructure]
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    matrix:
-      package:
-        - authentication
-        - authorizer
-        - booking
-        - image
-        - listing
-        - payment
-        - slack
-        - user
+    strategy:
+      matrix:
+        package:
+          - authentication
+          - authorizer
+          - booking
+          - image
+          - listing
+          - payment
+          - slack
+          - user
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -99,10 +101,11 @@ jobs:
     needs: [deploy-infrastructure, deploy-service]
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    matrix:
-      package:
-        - appsync
-        - apigateway
+    strategy:
+      matrix:
+        package:
+          - appsync
+          - apigateway
     steps:
       - name: Checkout
         uses: actions/checkout@v3
