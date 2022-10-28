@@ -35,7 +35,7 @@ runs:
     - name: Generate env
       run: npm run generate:env:dev
       if: steps.env-cache.outputs.cache-hit != 'true'
-      bash: shell
+      shell: bash
 
     - name: Build Typescript
       run: npm run build
