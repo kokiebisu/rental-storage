@@ -26,6 +26,7 @@ jobs:
         with:
           node-version: 14
           cache: "npm"
+        if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
         run: npm install -g serverless@2.72.3
@@ -36,14 +37,17 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+        if: steps.changes.outputs.package == 'true'
 
       - name: Setup dependencies
         uses: ./.github/actions/retrieve-cache
+        if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
         run: |
           cd ${{ matrix.package }}
           serverless deploy --config serverless.dev.yml --stage dev
+        if: steps.changes.outputs.package == 'true'
 
   deploy-service:
     name: Service
@@ -77,9 +81,11 @@ jobs:
         with:
           node-version: 14
           cache: "npm"
+        if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
         run: npm install -g serverless@2.72.3
+        if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -87,14 +93,17 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+        if: steps.changes.outputs.package == 'true'
 
       - name: Setup dependencies
         uses: ./.github/actions/retrieve-cache
+        if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
         run: |
           cd packages/service-${{ matrix.package }}
           serverless deploy --config serverless.dev.yml --stage dev
+        if: steps.changes.outputs.package == 'true'
 
   deploy-api:
     name: Api
@@ -122,9 +131,11 @@ jobs:
         with:
           node-version: 14
           cache: "npm"
+        if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
         run: npm install -g serverless@2.72.3
+        if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -132,11 +143,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+        if: steps.changes.outputs.package == 'true'
 
       - name: Setup dependencies
         uses: ./.github/actions/retrieve-cache
+        if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
         run: |
           cd api/${{ matrix.package }}
           serverless deploy --config serverless.dev.yml --stage dev
+        if: steps.changes.outputs.package == 'true'
