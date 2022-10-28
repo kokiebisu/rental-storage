@@ -29,9 +29,15 @@ runs:
       shell: bash
       if: steps.download-node-modules.outputs.download-path
 
+    - name: Hello
+      run: echo 'testing hello!'
+
     - name: dist path
       run: echo ${{ steps.download-dist.outputs.download-path }}
       shell: bash
+
+    - name: Hello
+      run: echo 'testing goodbye!'
 
     - name: Build
       run: |
