@@ -1,6 +1,5 @@
 service: rental-a-locker-booking
 variablesResolutionMode: 20210326
-# frameworkVersion: "3"
 
 plugins:
   - serverless-export-env

@@ -1,6 +1,5 @@
 service: rental-a-locker-image
 variablesResolutionMode: 20210326
-# frameworkVersion: "3"
 
 plugins:
   - serverless-deployment-bucket

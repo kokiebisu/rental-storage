@@ -1,5 +1,5 @@
 service: rental-a-locker-api-appsync
-# frameworkVersion: "3"
+variablesResolutionMode: 20210326
 
 plugins:
   - serverless-plugin-common-excludes # this should go before serverless-plugin-include-dependencies
