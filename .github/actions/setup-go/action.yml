@@ -18,6 +18,6 @@ runs:
 
     - uses: actions/upload-artifact@v3
       with:
-        name: dist-${{ inputs.package }}-${{ github.sha }}
+        name: bin-${{ inputs.package }}-${{ github.sha }}
         path: packages/service-${{ inputs.package }}/bin
         retention-days: 1

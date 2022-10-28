@@ -10,10 +10,27 @@ runs:
     - name: Check out code
       uses: actions/checkout@v3
 
+    - uses: actions/download-artifact@v3
+      id: download-node-modules
+      with:
+        name: node-modules-${{ inputs.package }}-${{ github.sha }}
+        path: packages/service-${{ inputs.package }}/dist
+
+    - uses: actions/download-artifact@v3
+      id: download-dist
+      with:
+        name: dist-${{ inputs.package }}-${{ github.sha }}
+        path: packages/service-${{ inputs.package }}/dist
+
     - name: Install node_modules
       run: |
         cd packages/service-${{ inputs.package }}
         npm install
+      shell: bash
+      if: steps.download-node-modules.outputs.download-path
+
+    - name: dist path
+      run: echo ${{ steps.download-dist.outputs.download-path }}
       shell: bash
 
     - name: Build
@@ -21,6 +38,13 @@ runs:
         cd packages/service-${{ inputs.package }}
         npm run build
       shell: bash
+      if: steps.download-dist.outputs.download-path == ''
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: node-modules-${{ inputs.package }}-${{ github.sha }}
+        path: packages/service-${{ inputs.package }}/node_modules
+        retention-days: 1
 
     - uses: actions/upload-artifact@v3
       with:
