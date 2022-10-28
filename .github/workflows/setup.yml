@@ -1,0 +1,40 @@
+on: workflow_call
+
+jobs:
+  setup-typescript:
+    name: Setup / Typescript
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - booking
+          - listing
+          - user
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Typescript
+        uses: ./.github/actions/setup-typescript
+        with:
+          package: ${{ matrix.package }}
+
+  setup-go:
+    name: Setup / Go
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - authentication
+          - authorizer
+          - payment
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: ./.github/actions/setup-go
+        with:
+          package: ${{ matrix.package }}
