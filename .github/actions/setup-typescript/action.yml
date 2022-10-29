@@ -1,5 +1,3 @@
-on: workflow_call
-
 jobs:
   setup-typescript:
     name: Typescript
@@ -22,11 +20,9 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: 14
-          cache: "npm"
+          version: 6.0.2
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global packages
@@ -59,40 +55,5 @@ jobs:
         with:
           name: dist-${{ matrix.package }}-${{ github.sha }}
           path: packages/service-${{ matrix.package }}/dist
-          retention-days: 1
-        if: steps.changes.outputs.package == 'true'
-
-  setup-go:
-    name: Go
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package:
-          - authentication
-          - authorizer
-          - payment
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            package:
-              - '${{ matrix.package }}/**'
-
-      - name: Build ${{ matrix.package }} service
-        run: |
-          cd packages/service-${{ matrix.package }}
-          make build
-        shell: bash
-        if: steps.changes.outputs.package == 'true'
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: bin-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/bin
           retention-days: 1
         if: steps.changes.outputs.package == 'true'

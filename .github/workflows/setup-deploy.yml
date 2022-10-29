@@ -1,0 +1,49 @@
+on: workflow_call
+
+jobs:
+  setup-infrastructure:
+    name: Infrastructure
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        package:
+          - infrastructure
+    steps:
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.package }}
+          pnpm install
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
+          path: ${{ matrix.package }}/node_modules
+          retention-days: 1
+
+  setup-api:
+    name: Api
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        package:
+          - apigateway
+          - appsync
+    steps:
+      - name: Install dependencies
+        run: |
+          cd api/${{ matrix.package }}
+          pnpm install
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
+          path: api/${{ matrix.package }}/node_modules
+          retention-days: 1
+
+  setup-typescript:
+    name: Typescript
+    uses: ./.github/actions/setup-typescript
+
+  setup-go:
+    name: Go
+    uses: ./.github/actions/setup-go

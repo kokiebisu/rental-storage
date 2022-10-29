@@ -1,8 +1,10 @@
 name: PR Pipeline
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    - main
+  # pull_request:
+  #   types: [opened, synchronize]
 
 jobs:
   label-by-branch:
@@ -19,7 +21,7 @@ jobs:
 
   setup:
     name: Setup
-    uses: ./.github/workflows/setup.yml
+    uses: ./.github/workflows/setup-test.yml
 
   unit-test:
     name: Unit Test

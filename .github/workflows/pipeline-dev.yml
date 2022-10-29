@@ -8,7 +8,7 @@ on:
 jobs:
   setup:
     name: Setup
-    uses: ./.github/workflows/setup.yml
+    uses: ./.github/workflows/setup-deploy.yml
 
   deploy:
     name: Deploy
