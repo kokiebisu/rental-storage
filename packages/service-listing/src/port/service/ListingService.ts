@@ -1,4 +1,4 @@
-import { FeeInterface, ListingInterface } from "../../types";
+import { FeeInterface, ListingInterface } from "../../domain/types";
 
 export interface AddListing {
   lenderId: string;

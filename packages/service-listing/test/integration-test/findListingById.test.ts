@@ -1,5 +1,5 @@
-import { ListingService } from "../../src/app/port";
-import { ListingServiceImpl } from "../../src/app/service";
+import { ListingService } from "../../src/port/service";
+import { ListingServiceImpl } from "../../src/adapter/service";
 
 let service: ListingService;
 

@@ -4,12 +4,12 @@ import {
   PutRecordCommand,
   PutRecordCommandInput,
 } from "@aws-sdk/client-kinesis";
-import { ListingInterface } from "../../types";
+import { ListingInterface } from "../../domain/types";
 import { LoggerUtil } from "../../utils";
 import { v4 as uuid } from "uuid";
 import { AWSRegion } from "../../domain/enum";
 import { ListingEvent } from "../../domain/enum";
-import { ListingEventSender } from "../../app/port";
+import { ListingEventSender } from "../../port/sender-event";
 
 export class ListingKinesisStreamEventSender implements ListingEventSender {
   private _client: KinesisClient;

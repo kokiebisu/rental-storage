@@ -1,4 +1,4 @@
-import { CurrencyType } from "../domain/enum";
+import { CurrencyType } from "../enum";
 
 export interface AmountInterface {
   value: number;

@@ -1,10 +1,10 @@
 import { Client } from "pg";
 
 import { ListingMapper } from "../mapper";
-import { ListingRepository } from "../../app/port";
+import { ListingRepository } from "../../port/repository";
 import { LoggerUtil } from "../../utils";
 
-import { ListingRawInterface } from "../../types";
+import { ListingRawInterface } from "../../domain/types";
 import { Listing } from "../../domain/model";
 
 export class ListingRepositoryImpl implements ListingRepository {
