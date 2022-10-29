@@ -10,42 +10,26 @@ runs:
     - name: Check out code
       uses: actions/checkout@v3
 
-    - uses: actions/download-artifact@v3
-      id: download-node-modules
-      with:
-        name: node-modules-${{ inputs.package }}-${{ github.sha }}
-        path: packages/service-${{ inputs.package }}/dist
-
-    - uses: actions/download-artifact@v3
-      id: download-dist
-      with:
-        name: dist-${{ inputs.package }}-${{ github.sha }}
-        path: packages/service-${{ inputs.package }}/dist
-
     - name: Install node_modules
       run: |
         cd packages/service-${{ inputs.package }}
         npm install
       shell: bash
-      if: failure() && steps.download-node-modules.outcome != 'success'
 
     - name: Build
       run: |
         cd packages/service-${{ inputs.package }}
         npm run build
       shell: bash
-      if: failure() && steps.download-dist.outcome != 'success'
 
     - uses: actions/upload-artifact@v3
       with:
         name: node-modules-${{ inputs.package }}-${{ github.sha }}
         path: packages/service-${{ inputs.package }}/node_modules
         retention-days: 1
-      if: failure() && steps.download-node-modules.outcome != 'success'
 
     - uses: actions/upload-artifact@v3
       with:
         name: dist-${{ inputs.package }}-${{ github.sha }}
         path: packages/service-${{ inputs.package }}/dist
         retention-days: 1
-      if: failure() && steps.download-dist.outcome != 'success'

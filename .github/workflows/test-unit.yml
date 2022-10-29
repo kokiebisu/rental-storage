@@ -13,15 +13,20 @@ jobs:
           - listing
           - user
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      # - uses: dorny/paths-filter@v2
-      #   id: changes
-      #   with:
-      #     filters: |
-      #       package:
-      #         - '${{ matrix.package }}/**'
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - '${{ matrix.package }}/**'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: node-modules-${{ inputs.package }}-${{ github.sha }}
+          path: packages/service-${{ inputs.package }}/node_modules
 
       # - name: Setup
       #   uses: ./.github/actions/setup-typescript
@@ -60,6 +65,12 @@ jobs:
       #     cd package/service-${{ matrix.package }}
       #   shell: bash
       #   if: steps.changes.outputs.package == 'true' && steps.dist-cache.outputs.cache-hit != 'true'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist-${{ inputs.package }}-${{ github.sha }}
+          path: packages/service-${{ inputs.package }}/dist
+        if: steps.changes.outputs.package == 'true'
 
       - name: Test ${{ matrix.package }} service
         run: |
