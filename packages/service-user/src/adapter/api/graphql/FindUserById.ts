@@ -1,4 +1,4 @@
-import { UserServiceImpl } from "../../../app/service";
+import { UserServiceImpl } from "../../service";
 
 export const handler = async (event: any) => {
   const { uid } = event.arguments;

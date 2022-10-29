@@ -1,4 +1,4 @@
-import { BookingServiceImpl } from "../../src/app/service";
+import { BookingServiceImpl } from "../../src/adapter/service";
 import { BookingService } from "../../src/app/port";
 
 let service: BookingService;

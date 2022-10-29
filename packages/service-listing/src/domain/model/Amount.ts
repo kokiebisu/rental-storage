@@ -1,4 +1,4 @@
-import { AmountConstructor } from "../../types";
+import { AmountConstructor } from "../types";
 import { CurrencyType } from "../enum";
 
 export class Amount {

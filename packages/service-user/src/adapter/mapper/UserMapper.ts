@@ -5,7 +5,7 @@ import {
   Payment,
   User,
 } from "../../domain/model";
-import { UserInterface, UserRawInterface } from "../../types";
+import { UserInterface, UserRawInterface } from "../../domain/types";
 import { TimeUtil } from "../../utils";
 
 export class UserMapper {

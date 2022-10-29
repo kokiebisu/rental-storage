@@ -1,4 +1,4 @@
-import { ListingServiceImpl } from "../../../app/service";
+import { ListingServiceImpl } from "../../service";
 
 export const handler = async (event: any) => {
   const { uid } = event.arguments;

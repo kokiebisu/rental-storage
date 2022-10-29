@@ -1,6 +1,6 @@
-import { ItemRepository } from "../../app/port";
+import { ItemRepository } from "../../port";
 import { Item } from "../../domain/model";
-import { ItemRawInterface } from "../../types";
+import { ItemRawInterface } from "../../domain/types";
 import { ItemMapper } from "../mapper";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 

@@ -1,4 +1,4 @@
-import { PaymentRepository } from "../../app/port";
+import { PaymentRepository } from "../../port";
 import { Payment } from "../../domain/model";
 import { AbstractRepositoryImpl } from "./AbstractRepository";
 

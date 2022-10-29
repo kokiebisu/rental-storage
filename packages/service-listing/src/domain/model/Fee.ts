@@ -1,4 +1,4 @@
-import { FeeConstructor } from "../../types";
+import { FeeConstructor } from "../types";
 import { RentalFeeType } from "../enum";
 import { Amount } from "./Amount";
 
