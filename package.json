@@ -8,13 +8,10 @@
   "description": "# rental-storage",
   "main": "index.js",
   "scripts": {
-    "predeploy": "./scripts/predeploy.sh",
     "generate:env:local": "turbo run generate:env:local",
     "generate:env:dev": "turbo run generate:env:dev",
     "build": "turbo run build",
     "remove:local": "serverless remove --stage local",
-    "remove:dev": "serverless remove --stage dev",
-    "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "refresh": "./scripts/refresh.sh",
