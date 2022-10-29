@@ -3,8 +3,32 @@ on: workflow_call
 jobs:
   setup-typescript:
     name: Typescript
-    uses: ./.github/actions/setup-typescript
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - booking
+          - listing
+          - user
+    steps:
+      - name: Typescript
+        uses: ./.github/actions/setup-typescript
+        with:
+          package: ${{ matrix.package }}
 
   setup-go:
     name: Go
-    uses: ./.github/actions/setup-go
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - authentication
+          - authorizer
+          - payment
+    steps:
+      - name: Setup
+        uses: ./.github/actions/setup-go
+        with:
+          package: ${{ matrix.package }}

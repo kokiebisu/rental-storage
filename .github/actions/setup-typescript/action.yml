@@ -1,59 +1,54 @@
-jobs:
-  setup-typescript:
-    name: Typescript
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package:
-          - booking
-          - listing
-          - user
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+inputs:
+  package:
+    type: string
 
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            package:
-              - '${{ matrix.package }}/**'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 6.0.2
-        if: steps.changes.outputs.package == 'true'
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          package:
+            - '${{ inputs.package }}/**'
 
-      - name: Install global packages
-        run: |
-          npm install -g pnpm
-        if: steps.changes.outputs.package == 'true'
+    - uses: pnpm/action-setup@v2.2.4
+      with:
+        version: 6.0.2
+      if: steps.changes.outputs.package == 'true'
 
-      - name: Install node_modules
-        run: |
-          cd packages/service-${{ matrix.package }}
-          pnpm install
-        shell: bash
-        if: steps.changes.outputs.package == 'true'
+    - name: Install global packages
+      run: |
+        npm install -g pnpm
+      if: steps.changes.outputs.package == 'true'
 
-      - name: Build
-        run: |
-          cd packages/service-${{ matrix.package }}
-          pnpm run build
-        shell: bash
-        if: steps.changes.outputs.package == 'true'
+    - name: Install node_modules
+      run: |
+        cd packages/service-${{ inputs.package }}
+        pnpm install
+      shell: bash
+      if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/node_modules
-          retention-days: 1
-        if: steps.changes.outputs.package == 'true'
+    - name: Build
+      run: |
+        cd packages/service-${{ inputs.package }}
+        pnpm run build
+      shell: bash
+      if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: dist-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/dist
-          retention-days: 1
-        if: steps.changes.outputs.package == 'true'
+    - uses: actions/upload-artifact@v3
+      with:
+        name: node-modules-${{ inputs.package }}-${{ github.sha }}
+        path: packages/service-${{ inputs.package }}/node_modules
+        retention-days: 1
+      if: steps.changes.outputs.package == 'true'
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: dist-${{ inputs.package }}-${{ github.sha }}
+        path: packages/service-${{ inputs.package }}/dist
+        retention-days: 1
+      if: steps.changes.outputs.package == 'true'
