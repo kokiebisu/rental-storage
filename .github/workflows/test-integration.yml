@@ -4,16 +4,17 @@ on:
 jobs:
   setup:
     name: Setup environment
-    matrix:
-      package:
-        - booking
-        - listings
-        - user
-        - image
-        - slack
-        - authentication
-        - authorizer
-        - payment
+    strategy:
+      matrix:
+        package:
+          - booking
+          - listings
+          - user
+          - image
+          - slack
+          - authentication
+          - authorizer
+          - payment
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
