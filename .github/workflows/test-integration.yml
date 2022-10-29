@@ -4,11 +4,37 @@ on:
 jobs:
   setup:
     name: Setup environment
+    strategy:
+      matrix:
+        package:
+          - booking
+          - listings
+          - user
+          - image
+          - slack
+          - authentication
+          - authorizer
+          - payment
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - '${{ matrix.package }}/**'
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Install root packages
+        run: pnpm install
+        shell: bash
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -16,13 +42,26 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+        if: steps.changes.outputs.package == 'true'
 
-      - name: Retrieve cache
-        uses: ./.github/actions/retrieve-cache
+      - name: Install dependencies
+        run: |
+          cd packages/service-${{ matrix.package }}
+          pnpm install
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
 
       - name: Generate env files
-        run: npm run generate:env:dev
+        run: pnpm run generate:env:dev
         shell: bash
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: env-${{ inputs.package }}-${{ github.sha }}
+          path: packages/service-${{ inputs.package }}/.env
+          retention-days: 1
+        if: steps.changes.outputs.package == 'true'
 
   integration-test-typescript:
     name: Typescript
@@ -46,8 +85,23 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - name: Retrieve cache
-        uses: ./.github/actions/retrieve-cache
+      - name: Install dependencies
+        run: |
+          cd packages/service-${{ matrix.package }}
+          pnpm install
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/dist
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: env-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/.env
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -61,8 +115,16 @@ jobs:
       - name: Test ${{ matrix.package }} service
         run: |
           cd packages/service-${{ matrix.package }}
-          npm run test:integration
+          pnpm run test:integration
         if: steps.changes.outputs.package == 'true'
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: dist-${{ matrix.package }}-${{ github.sha }}
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
 
   integration-test-python:
     name: Python
@@ -130,8 +192,16 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - name: Retrieve cache
-        uses: ./.github/actions/retrieve-cache
+      - uses: actions/download-artifact@v3
+        with:
+          name: bin-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/bin
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: env-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/.env
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -147,4 +217,14 @@ jobs:
           cd packages/service-${{ matrix.package }}
           make integration-test
         shell: bash
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: bin-${{ matrix.package }}-${{ github.sha }}
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: env-${{ matrix.package }}-${{ github.sha }}
         if: steps.changes.outputs.package == 'true'

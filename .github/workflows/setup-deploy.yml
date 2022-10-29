@@ -1,0 +1,97 @@
+on: workflow_call
+
+jobs:
+  setup-infrastructure:
+    name: Infrastructure
+    timeout-minutes: 15
+    runs-on: latest
+    strategy:
+      matrix:
+        package:
+          - infrastructure
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.package }}
+          pnpm install
+
+  setup-api:
+    name: Api
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - apigateway
+          - appsync
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Install dependencies
+        run: |
+          cd api/${{ matrix.package }}
+          pnpm install
+
+  setup-typescript:
+    name: Typescript
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - booking
+          - listing
+          - user
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Typescript
+        uses: ./.github/actions/setup-typescript
+        with:
+          package: ${{ matrix.package }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
+          path: api/${{ matrix.package }}/node_modules
+          retention-days: 1
+
+  setup-go:
+    name: Go
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - authentication
+          - authorizer
+          - payment
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Setup
+        uses: ./.github/actions/setup-go
+        with:
+          package: ${{ matrix.package }}

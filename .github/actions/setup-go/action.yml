@@ -1,26 +1,42 @@
-name: Go
+inputs:
+  package:
+    type: string
 
 runs:
   using: "composite"
   steps:
-    - name: Check out code
+    - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Build authentication service
-      run: cd packages/service-authentication && make build
-      shell: bash
-
-    - name: Build authorizer service
-      run: cd packages/service-authorizer && make build
-      shell: bash
-
-    - name: Build payment service
-      run: cd packages/service-payment && make build
-      shell: bash
-
-    - name: Cache bin modules
-      id: bin-cache
-      uses: actions/cache@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
       with:
-        path: "**/bin"
-        key: bin-cache
+        filters: |
+          package:
+            - '${{ inputs.package }}/**'
+
+    - uses: pnpm/action-setup@v2.2.4
+      with:
+        version: 6.0.2
+      if: steps.changes.outputs.package == 'true'
+
+    - name: Install node_modules
+      run: |
+        cd packages/service-${{ inputs.package }}
+        pnpm install
+      shell: bash
+      if: steps.changes.outputs.package == 'true'
+
+    - name: Build
+      run: |
+        cd packages/service-${{ inputs.package }}
+        make build
+      shell: bash
+      if: steps.changes.outputs.package == 'true'
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: bin-${{ inputs.package }}-${{ github.sha }}
+        path: packages/service-${{ inputs.package }}/bin
+        retention-days: 1
+      if: steps.changes.outputs.package == 'true'
