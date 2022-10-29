@@ -1,6 +1,24 @@
 on: workflow_call
 
 jobs:
+  setup-root:
+    name: Root
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install node_modules
+        run: npm install
+        shell: bash
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: node-modules-${{ github.sha }}
+          path: node_modules
+          retention-days: 1
+
   setup-typescript:
     name: Typescript
     timeout-minutes: 15
@@ -15,10 +33,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Typescript
-        uses: ./.github/actions/setup-typescript
+      - name: Install node_modules
+        run: |
+          cd packages/service-${{ inputs.package }}
+          npm install
+        shell: bash
+
+      - name: Build
+        run: |
+          cd packages/service-${{ inputs.package }}
+          npm run build
+        shell: bash
+
+      - uses: actions/upload-artifact@v3
         with:
-          package: ${{ matrix.package }}
+          name: node-modules-${{ inputs.package }}-${{ github.sha }}
+          path: packages/service-${{ inputs.package }}/node_modules
+          retention-days: 1
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist-${{ inputs.package }}-${{ github.sha }}
+          path: packages/service-${{ inputs.package }}/dist
+          retention-days: 1
 
   setup-go:
     name: Go
