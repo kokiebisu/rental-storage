@@ -4,6 +4,7 @@ jobs:
   setup-infrastructure:
     name: Infrastructure
     timeout-minutes: 15
+    runs-on: latest
     strategy:
       matrix:
         package:
@@ -23,6 +24,7 @@ jobs:
   setup-api:
     name: Api
     timeout-minutes: 15
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         package:
