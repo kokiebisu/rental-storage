@@ -28,10 +28,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # - name: Retrieve cache
-      #   uses: ./.github/actions/retrieve-cache
-      - name: Setup
-        uses: ./.github/workflows/setup.yml
+      # - name: Setup
+      #   uses: ./.github/workflows/setup.yml
 
       - name: Generate env files
         run: npm run generate:env:dev
