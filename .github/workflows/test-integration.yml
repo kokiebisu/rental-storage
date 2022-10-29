@@ -220,9 +220,9 @@ jobs:
       - uses: geekyeggo/delete-artifact@v2
         with:
           name: bin-${{ matrix.package }}-${{ github.sha }}
+        if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/delete-artifact@v2
+      - uses: geekyeggo/delete-artifact@v2
         with:
           name: env-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/.env
         if: steps.changes.outputs.package == 'true'
