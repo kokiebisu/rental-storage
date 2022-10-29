@@ -1,10 +1,8 @@
 name: PR Pipeline
 
 on:
-  push:
-    - main
-  # pull_request:
-  #   types: [opened, synchronize]
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   label-by-branch:

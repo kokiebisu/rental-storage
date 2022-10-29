@@ -23,10 +23,11 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/node_modules
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.package }}
+          pnpm install
+        shell: bash
         if: steps.changes.outputs.package == 'true'
 
       - uses: actions/download-artifact@v3
@@ -45,10 +46,6 @@ jobs:
       - uses: geekyeggo/delete-artifact@v2
         with:
           name: dist-${{ matrix.package }}-${{ github.sha }}
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
 
   unit-test-python:
     name: Python
