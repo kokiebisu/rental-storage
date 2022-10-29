@@ -38,6 +38,12 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
+      - uses: actions/download-artifact@v3
+        with:
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
+          path: infrastructure/node-modules
+        if: steps.changes.outputs.package == 'true'
+
       - name: Deploy
         run: |
           cd ${{ matrix.package }}
@@ -69,7 +75,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: pnpm install -g serverless@2.72.3
+        run: pnpm install -g serverless
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -80,8 +86,10 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
-      - name: Setup dependencies
-        uses: ./.github/actions/retrieve-cache
+      - uses: actions/download-artifact@v3
+        with:
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
+          path: api/${{ matrix.package }}/node-modules
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
