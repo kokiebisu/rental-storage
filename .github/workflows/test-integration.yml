@@ -44,10 +44,11 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: node-modules-${{ github.sha }}
-          path: node_modules
+      - name: Install dependencies
+        run: |
+          cd packages/service-${{ matrix.package }}
+          pnpm install
+        shell: bash
         if: steps.changes.outputs.package == 'true'
 
       - name: Generate env files
@@ -84,10 +85,11 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/node_modules
+      - name: Install dependencies
+        run: |
+          cd packages/service-${{ matrix.package }}
+          pnpm install
+        shell: bash
         if: steps.changes.outputs.package == 'true'
 
       - uses: actions/download-artifact@v3

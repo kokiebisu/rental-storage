@@ -6,13 +6,8 @@ on:
   pull_request:
 
 jobs:
-  setup:
-    name: Setup
-    uses: ./.github/workflows/setup-deploy.yml
-
   deploy:
     name: Deploy
-    needs: [setup]
     uses: ./.github/workflows/deploy-dev.yml
     secrets: inherit
 

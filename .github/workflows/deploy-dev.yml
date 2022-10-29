@@ -38,10 +38,10 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
-          path: infrastructure/node-modules
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.package }}
+          pnpm install
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
@@ -86,10 +86,10 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
-          path: api/${{ matrix.package }}/node-modules
+      - name: Install dependencies
+        run: |
+          cd api/${{ matrix.package }}
+          pnpm install
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
@@ -142,8 +142,10 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
-      - name: Setup dependencies
-        uses: ./.github/actions/retrieve-cache
+      - name: Install dependencies
+        run: |
+          cd packages/service-${{ matrix.package }}
+          pnpm install
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
@@ -189,8 +191,10 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
-      - name: Setup dependencies
-        uses: ./.github/actions/retrieve-cache
+      - name: Install dependencies
+        run: |
+          cd api/${{ matrix.package }}
+          pnpm install
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
