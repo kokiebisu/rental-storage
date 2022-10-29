@@ -20,11 +20,6 @@ runs:
         version: 6.0.2
       if: steps.changes.outputs.package == 'true'
 
-    - name: Install global packages
-      run: |
-        npm install -g pnpm
-      if: steps.changes.outputs.package == 'true'
-
     - name: Install node_modules
       run: |
         cd packages/service-${{ inputs.package }}
