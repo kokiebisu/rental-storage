@@ -4,6 +4,16 @@ on:
 jobs:
   setup:
     name: Setup environment
+    matrix:
+      package:
+        - booking
+        - listings
+        - user
+        - image
+        - slack
+        - authentication
+        - authorizer
+        - payment
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
@@ -17,12 +27,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Retrieve cache
-        uses: ./.github/actions/retrieve-cache
+      # - name: Retrieve cache
+      #   uses: ./.github/actions/retrieve-cache
+      - name: Setup
+        uses: ./.github/workflows/setup.yml
 
       - name: Generate env files
         run: npm run generate:env:dev
         shell: bash
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: env-${{ inputs.package }}-${{ github.sha }}
+          path: packages/service-${{ inputs.package }}/.env
+          retention-days: 1
 
   integration-test-typescript:
     name: Typescript
@@ -46,8 +64,22 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - name: Retrieve cache
-        uses: ./.github/actions/retrieve-cache
+      - uses: actions/download-artifact@v3
+        with:
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/node_modules
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/dist
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: env-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/.env
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -130,8 +162,16 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - name: Retrieve cache
-        uses: ./.github/actions/retrieve-cache
+      - uses: actions/download-artifact@v3
+        with:
+          name: bin-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/bin
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: env-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/.env
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
