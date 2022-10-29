@@ -35,26 +35,26 @@ jobs:
 
       - name: Install node_modules
         run: |
-          cd packages/service-${{ inputs.package }}
+          cd packages/service-${{ matrix.package }}
           npm install
         shell: bash
 
       - name: Build
         run: |
-          cd packages/service-${{ inputs.package }}
+          cd packages/service-${{ matrix.package }}
           npm run build
         shell: bash
 
       - uses: actions/upload-artifact@v3
         with:
-          name: node-modules-${{ inputs.package }}-${{ github.sha }}
-          path: packages/service-${{ inputs.package }}/node_modules
+          name: node-modules-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/node_modules
           retention-days: 1
 
       - uses: actions/upload-artifact@v3
         with:
-          name: dist-${{ inputs.package }}-${{ github.sha }}
-          path: packages/service-${{ inputs.package }}/dist
+          name: dist-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/dist
           retention-days: 1
 
   setup-go:
@@ -71,7 +71,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Go
-        uses: ./.github/actions/setup-go
+      - name: Build ${{ matrix.package }} service
+        run: |
+          cd packages/service-${{ matrix.package }}
+          make build
+        shell: bash
+
+      - uses: actions/upload-artifact@v3
         with:
-          package: ${{ matrix.package }}
+          name: bin-${{ matrix.package }}-${{ github.sha }}
+          path: packages/service-${{ matrix.package }}/bin
+          retention-days: 1
