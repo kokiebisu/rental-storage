@@ -1,24 +1,6 @@
 on: workflow_call
 
 jobs:
-  setup-root:
-    name: Root
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install node_modules
-        run: npm install
-        shell: bash
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: node-modules-${{ github.sha }}
-          path: node_modules
-          retention-days: 1
-
   setup-typescript:
     name: Typescript
     timeout-minutes: 15
@@ -33,29 +15,52 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - '${{ matrix.package }}/**'
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: "npm"
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Install global packages
+        run: |
+          npm install -g pnpm
+        if: steps.changes.outputs.package == 'true'
+
       - name: Install node_modules
         run: |
           cd packages/service-${{ matrix.package }}
-          npm install
+          pnpm install
         shell: bash
+        if: steps.changes.outputs.package == 'true'
 
       - name: Build
         run: |
           cd packages/service-${{ matrix.package }}
-          npm run build
+          pnpm run build
         shell: bash
+        if: steps.changes.outputs.package == 'true'
 
       - uses: actions/upload-artifact@v3
         with:
           name: node-modules-${{ matrix.package }}-${{ github.sha }}
           path: packages/service-${{ matrix.package }}/node_modules
           retention-days: 1
+        if: steps.changes.outputs.package == 'true'
 
       - uses: actions/upload-artifact@v3
         with:
           name: dist-${{ matrix.package }}-${{ github.sha }}
           path: packages/service-${{ matrix.package }}/dist
           retention-days: 1
+        if: steps.changes.outputs.package == 'true'
 
   setup-go:
     name: Go
@@ -71,14 +76,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - '${{ matrix.package }}/**'
+
       - name: Build ${{ matrix.package }} service
         run: |
           cd packages/service-${{ matrix.package }}
           make build
         shell: bash
+        if: steps.changes.outputs.package == 'true'
 
       - uses: actions/upload-artifact@v3
         with:
           name: bin-${{ matrix.package }}-${{ github.sha }}
           path: packages/service-${{ matrix.package }}/bin
           retention-days: 1
+        if: steps.changes.outputs.package == 'true'
