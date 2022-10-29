@@ -3,7 +3,7 @@
   "private": true,
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "tsc -b .",
+    "build": "tsc -b tsconfig.build.json",
     "deploy": "npm run build && sls deploy",
     "remove": "sls remove",
     "test:unit": "jest test/unit-test",
