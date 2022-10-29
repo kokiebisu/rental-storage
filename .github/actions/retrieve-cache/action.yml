@@ -33,12 +33,12 @@ runs:
         key: env-cache
 
     - name: Generate env
-      run: npm run generate:env:dev
+      run: pnpm run generate:env:dev
       if: steps.env-cache.outputs.cache-hit != 'true'
       shell: bash
 
     - name: Build Typescript
-      run: npm run build
+      run: pnpm run build
       if: steps.dist-cache.outputs.cache-hit != 'true'
       shell: bash
 
