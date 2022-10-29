@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     name: Deploy
-    environment: dev
     uses: ./.github/workflows/deploy-dev.yml
     secrets: inherit
 

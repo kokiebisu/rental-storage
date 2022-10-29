@@ -6,6 +6,7 @@ jobs:
     name: Infrastructure
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    environment: dev-infrastructure
     strategy:
       matrix:
         package:
@@ -54,6 +55,7 @@ jobs:
     name: ApiGateway
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    environment: dev-apigateway
     strategy:
       matrix:
         package:
@@ -103,6 +105,7 @@ jobs:
     needs: [deploy-infrastructure, deploy-apigateway]
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    environment: dev-service
     strategy:
       matrix:
         package:
@@ -159,6 +162,7 @@ jobs:
     needs: [deploy-infrastructure, deploy-apigateway, deploy-service]
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    environment: dev-appsync
     strategy:
       matrix:
         package:
