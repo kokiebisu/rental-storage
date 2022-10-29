@@ -21,15 +21,13 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: 14
-          cache: "npm"
+          version: 6.0.2
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: npm install -g serverless@2.72.3
+        run: pnpm install -g serverless@2.72.3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -68,15 +66,13 @@ jobs:
             package:
               - 'api/${{ matrix.package }}/**'
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: 14
-          cache: "npm"
+          version: 6.0.2
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: npm install -g serverless@2.72.3
+        run: pnpm install -g serverless@2.72.3
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -124,15 +120,13 @@ jobs:
             package:
               - 'packages/${{ matrix.package }}/**'
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: 14
-          cache: "npm"
+          version: 6.0.2
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: npm install -g serverless@2.72.3
+        run: pnpm install -g serverless@2.72.3
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -173,15 +167,13 @@ jobs:
             package:
               - 'api/${{ matrix.package }}/**'
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2.2.4
         with:
-          node-version: 14
-          cache: "npm"
+          version: 6.0.2
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: npm install -g serverless@2.72.3
+        run: pnpm install -g serverless@2.72.3
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials

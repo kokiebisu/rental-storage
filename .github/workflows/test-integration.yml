@@ -28,9 +28,9 @@ jobs:
             package:
               - '${{ matrix.package }}/**'
 
-      - name: Install global packages
-        run: npm install -g pnpm
-        shell: bash
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
 
       - name: Install root packages
         run: pnpm install
