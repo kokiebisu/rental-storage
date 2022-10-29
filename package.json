@@ -1,9 +1,6 @@
 {
   "name": "rent-storage-project",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "version": "1.0.0",
   "description": "# rental-storage",
   "main": "index.js",
