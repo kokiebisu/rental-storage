@@ -5,8 +5,8 @@ import {
   PublishCommand,
   PublishCommandInput,
 } from "@aws-sdk/client-sns";
-import { UserInterface } from "../../types";
-import { UserMessageSender } from "../../app/port";
+import { UserInterface } from "../../domain/types";
+import { UserMessageSender } from "../../port";
 
 export class UserSNSMessageSender implements UserMessageSender {
   private _client: SNSClient;

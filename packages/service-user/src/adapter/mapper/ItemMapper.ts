@@ -1,5 +1,5 @@
 import { Item } from "../../domain/model";
-import { ItemInterface, ItemRawInterface } from "../../types";
+import { ItemInterface, ItemRawInterface } from "../../domain/types";
 import { TimeUtil } from "../../utils";
 
 export class ItemMapper {

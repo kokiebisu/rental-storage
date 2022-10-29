@@ -1,4 +1,4 @@
-import { UserServiceImpl } from "../../../app/service/UserService";
+import { UserServiceImpl } from "../../../adapter/service/UserService";
 
 export const handler = async (event: any) => {
   const { uid } = event.identity.resolverContext;

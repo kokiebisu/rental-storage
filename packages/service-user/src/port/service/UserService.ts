@@ -1,4 +1,4 @@
-import { UserInterface } from "../../types";
+import { UserInterface } from "../../domain/types";
 
 export interface CreateUserInput {
   emailAddress: string;

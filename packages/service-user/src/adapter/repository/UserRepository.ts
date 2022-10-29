@@ -1,4 +1,4 @@
-import { UserRepository } from "../../app/port";
+import { UserRepository } from "../../port";
 import { User } from "../../domain/model";
 import { UserMapper } from "../mapper";
 import { AbstractRepositoryImpl } from "./AbstractRepository";

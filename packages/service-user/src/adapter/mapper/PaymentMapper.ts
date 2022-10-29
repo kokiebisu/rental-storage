@@ -1,5 +1,5 @@
 import { Payment } from "../../domain/model";
-import { PaymentInterface } from "../../types";
+import { PaymentInterface } from "../../domain/types";
 
 export class PaymentMapper {
   public static toDTOFromEntity(entity: Payment): PaymentInterface {

@@ -1,4 +1,4 @@
-import { ItemServiceImpl } from "../../../app/service";
+import { ItemServiceImpl } from "../../service";
 import { LoggerUtil } from "../../../utils";
 import { ItemMapper } from "../../mapper";
 

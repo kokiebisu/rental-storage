@@ -1,9 +1,9 @@
 import { Item } from "../../domain/model";
-import { ItemRepository, ItemService } from "../port";
+import { ItemRepository, ItemService } from "../../port";
 
 import { LoggerUtil } from "../../utils";
-import { ItemInterface } from "../../types";
-import { ItemRepositoryImpl } from "../../adapter/repository";
+import { ItemInterface } from "../../domain/types";
+import { ItemRepositoryImpl } from "../repository";
 
 export class ItemServiceImpl implements ItemService {
   private _itemRepository: ItemRepository;

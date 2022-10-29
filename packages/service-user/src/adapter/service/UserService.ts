@@ -4,8 +4,8 @@ import {
   UserEventSender,
   UserRepository,
   UserService,
-} from "../port";
-import { UserInterface } from "../../types";
+} from "../../port";
+import { UserInterface } from "../../domain/types";
 import { UserRepositoryImpl } from "../../adapter/repository";
 import { EmailAddress, Name, NameType, User } from "../../domain/model";
 import { LoggerUtil } from "../../utils";
