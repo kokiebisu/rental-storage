@@ -6,8 +6,8 @@
     "generate:env:local": "sls export-env",
     "generate:env:dev": "sls export-env --stage dev"
   },
-  "dependencies": {},
   "devDependencies": {
+    "serverless": "2.72.3",
     "serverless-deployment-bucket": "1.6.0",
     "serverless-export-env": "2.2.0"
   }
