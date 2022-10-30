@@ -1,7 +1,10 @@
 BookingServiceController:
-  handler: dist/adapter/api/controller/index.handler
+  # handler: dist/adapter/api/controller/index.handler
+  image:
+    name: app
+    command:
+      - dist/adapter/api/controller/index.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
-
   events:
     - http: ANY /bookings
     - http: ANY /bookings/{proxy+}

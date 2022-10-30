@@ -1,7 +1,15 @@
 FindAllCreatedBookingsQuery:
-  handler: dist/adapter/api/graphql/FindAllCreatedBookings.handler
+  # handler: dist/adapter/api/graphql/FindAllCreatedBookings.handler
+  image:
+    name: app
+    command:
+      - dist/adapter/api/graphql/FindAllCreatedBookings.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-find-all-created-bookings
 
 MakeBookingMutation:
-  handler: dist/adapter/api/graphql/MakeBooking.handler
+  image:
+    name: app
+    command:
+      - dist/adapter/api/graphql/MakeBooking.handler
+  # handler: dist/adapter/api/graphql/MakeBooking.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-make-booking
