@@ -5,7 +5,6 @@ import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Client } from "../../../../config/appsync";
 import { QUERY_FIND_MY_LISTINGS } from "../../../../graphql";
 import { Card } from "../../../../components/card";
 import { Typography } from "../../../../components/typography";
@@ -14,9 +13,7 @@ import { Spacing } from "../../../../components/spacing";
 export default () => {
   const navigation = useNavigation();
   const [listings, setListings] = useState([]);
-  const { data, loading, error } = useQuery(QUERY_FIND_MY_LISTINGS, {
-    client: Client,
-  });
+  const { data, loading, error } = useQuery(QUERY_FIND_MY_LISTINGS);
 
   useEffect(() => {
     if (!loading && !error) {

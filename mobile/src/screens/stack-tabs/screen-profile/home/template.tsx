@@ -2,16 +2,18 @@ import * as React from "react";
 import { useContext } from "react";
 import { View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { AuthContext } from "../../../../context/auth";
 
 import "./styles";
+import { AuthContext } from "../../../../context/auth";
 import { ProfileContext } from "../../../../context/profile";
 import { Spacing } from "../../../../components/spacing";
 import { Typography } from "../../../../components/typography";
 
 export default () => {
-  const { signOut } = useContext(AuthContext);
+  const { signOut, authState } = useContext(AuthContext);
   const { profileState } = useContext(ProfileContext);
+  console.log("PROFILE: ", profileState);
+  console.log("AUTH STATE: ", authState);
 
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>

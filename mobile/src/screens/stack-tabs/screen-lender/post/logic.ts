@@ -2,12 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import { useLazyQuery, useMutation } from "@apollo/client";
+
 import {
   MUTATION_ADD_LISTING,
   QUERY_GET_PRESIGNED_URL,
 } from "../../../../graphql";
 import { ProfileContext } from "../../../../context/profile";
-import { Client } from "../../../../config/appsync";
 
 export const useLenderPostScreen = () => {
   const [image, setImage] = useState(null);
@@ -28,9 +28,7 @@ export const useLenderPostScreen = () => {
       loading: addListingLoading,
       error: addListingError,
     },
-  ] = useMutation(MUTATION_ADD_LISTING, {
-    client: Client,
-  });
+  ] = useMutation(MUTATION_ADD_LISTING);
 
   useEffect(() => {
     if (imageUrlsData) {
@@ -110,7 +108,6 @@ export const useLenderPostScreen = () => {
           variables: {
             filename,
           },
-          client: Client,
         });
       }
     } catch (err) {
