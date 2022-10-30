@@ -30,7 +30,7 @@ provider:
     ACCOUNT_ID: ${aws:accountId}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: user
   export-env:
     filename: .env
