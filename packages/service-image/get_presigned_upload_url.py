@@ -1,4 +1,5 @@
 import logging
+import os
 import boto3
 from botocore.exceptions import ClientError
 
@@ -23,12 +24,14 @@ def get_presigned_upload_url(filename: str):
     """
 
     # Generate a presigned S3 POST URL
+    stage = os.environ['STAGE']
+    account_id = os.environ['ACCOUNT_ID']
     s3_client = boto3.client('s3', region_name="us-east-1", config=boto3.session.Config(signature_version='s3v4'))
     try:
         put_url = s3_client.generate_presigned_url(
                 'put_object',
                 Params={
-                    'Bucket': "dev-rental-a-locker-listing-profile",
+                    'Bucket': f'{stage}-{account_id}-rental-a-locker-listing-profile',
                     'Key': filename,
                     'ACL': 'public-read'
                 })
@@ -36,7 +39,7 @@ def get_presigned_upload_url(filename: str):
     except ClientError:
         print(
             "Couldn't get a presigned POST URL for bucket '%s' and object '%s'",
-            "dev-rental-a-locker-listing-profile", put_url)
+            "dev-app-listing-profile", put_url)
         raise
     return {
         'url': put_url,

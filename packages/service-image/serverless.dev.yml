@@ -21,7 +21,7 @@ provider:
         path: ./
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: image
   export-env:
     filename: .env
