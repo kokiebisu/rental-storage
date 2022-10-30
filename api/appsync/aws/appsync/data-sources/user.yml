@@ -2,20 +2,20 @@
 - type: AWS_LAMBDA
   name: FindMeFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-app-user-graphql-find-me
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-user-graphql-find-me
 
 - type: AWS_LAMBDA
   name: FindUserByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-app-user-graphql-find-user-by-id
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-user-graphql-find-user-by-id
 
 - type: AWS_LAMBDA
   name: FindUserByEmailFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-app-user-graphql-find-user-by-email
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-user-graphql-find-user-by-email
 
 ## Mutation
 - type: AWS_LAMBDA
   name: RemoveUserByIdFunction
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-app-user-graphql-remove-user-by-id
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-user-graphql-remove-user-by-id
