@@ -1,6 +1,6 @@
-import { CreateUserInput, UserService } from "../../src/port";
 import { UserServiceImpl } from "../../src/adapter/service";
 import { faker } from "@faker-js/faker";
+import { CreateUserInput, UserService } from "../../src/port/service";
 
 let service: UserService;
 let mockEmailAddress = faker.internet.email();

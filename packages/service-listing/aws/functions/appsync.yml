@@ -1,21 +1,41 @@
 # Query
 FindListingByIdQuery:
-  handler: dist/adapter/api/graphql/FindListingById.handler
-  name: ${self:provider.stage}-${self:custom.service}-graphql-find-listing-by-id
+  image:
+    name: app
+    command:
+      - dist/adapter/api/graphql/FindListingsById.handler
+  # handler: dist/adapter/api/graphql/FindListingById.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-graphql-find-listing-by-id
 
 FindListingsWithinLatLngQuery:
-  handler: dist/adapter/api/graphql/FindListingsWithinLatLng.handler
-  name: ${self:provider.stage}-${self:custom.service}-graphql-find-listings-within-lat-lng
+  image:
+    name: app
+    command:
+      - dist/adapter/api/graphql/FindListingsWithinLatLng.handler
+  # handler: dist/adapter/api/graphql/FindListingsWithinLatLng.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-graphql-find-listings-within-lat-lng
 
 FindMyListingsQuery:
-  handler: dist/adapter/api/graphql/FindMyListings.handler
-  name: ${self:provider.stage}-${self:custom.service}-graphql-find-my-listings
+  image:
+    name: app
+    command:
+      - dist/adapter/api/graphql/FindMyListings.handler
+  # handler: dist/adapter/api/graphql/FindMyListings.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-graphql-find-my-listings
 
 # Mutation
 AddListingMutation:
-  handler: dist/adapter/api/graphql/AddListing.handler
-  name: ${self:provider.stage}-${self:custom.service}-graphql-add-listing
+  # handler: dist/adapter/api/graphql/AddListing.handler
+  image:
+    name: app
+    command:
+      - dist/adapter/api/graphql/AddListing.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-graphql-add-listing
 
 RemoveListingByIdMutation:
-  handler: dist/adapter/api/graphql/RemoveListingById.handler
-  name: ${self:provider.stage}-${self:custom.service}-graphql-remove-listing-by-id
+  # handler: dist/adapter/api/graphql/RemoveListingById.handler
+  image:
+    name: app
+    command:
+      - dist/adapter/api/graphql/RemoveListingById.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-graphql-remove-listing-by-id

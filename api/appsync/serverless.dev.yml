@@ -16,7 +16,7 @@ provider:
     name: ${self:provider.stage}-rental-a-locker-api-appsync-resources
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: api-appsync
   appSync:
     name: ${self:custom.namespace}-${self:custom.service}

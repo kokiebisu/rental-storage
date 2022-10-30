@@ -2,14 +2,18 @@ service: rental-a-locker-infrastructure
 variablesResolutionMode: 20210326
 
 useDotenv: true
+plugins:
+  - serverless-deployment-bucket
 
 provider:
   name: aws
   region: us-east-1
   stage: ${opt:stage, 'local'}
+  deploymentBucket:
+    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-infrastructure-resources
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   USER_DB_NAME: users
   USER_DB_USERNAME: master
   USER_DB_PASSWORD: password

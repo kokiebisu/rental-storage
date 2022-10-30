@@ -18,6 +18,10 @@ provider:
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
@@ -28,7 +32,7 @@ provider:
     ACCOUNT_ID: ${aws:accountId}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: listing
   DB_NAME: !ImportValue ExportedListingRDSDBName
   DB_USERNAME: !ImportValue ExportedListingRDSDBUsername

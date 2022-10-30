@@ -2,6 +2,7 @@ service: rental-a-locker-user
 variablesResolutionMode: 20210326
 
 plugins:
+  - serverless-deployment-bucket
   - serverless-export-env
 
 provider:
@@ -10,11 +11,17 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-user-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
   environment:
     NAMESPACE: ${self:custom.namespace}
     STAGE: ${self:provider.stage}
@@ -27,7 +34,7 @@ provider:
     ACCOUNT_ID: ${aws:accountId}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: user
   export-env:
     filename: .env

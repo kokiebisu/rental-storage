@@ -2,6 +2,7 @@ service: rental-a-locker-authorizer
 variablesResolutionMode: 20210326
 
 plugins:
+  - serverless-deployment-bucket
   - serverless-export-env
 
 provider:
@@ -10,6 +11,8 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-authorizer-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
@@ -19,7 +22,7 @@ provider:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: authorizer
   SERVICE_API_ENDPOINT:
     Fn::Join:

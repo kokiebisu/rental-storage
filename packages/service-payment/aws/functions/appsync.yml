@@ -1,3 +1,7 @@
 MakePaymentGraphql:
-  handler: bin/make_payment
+  # handler: bin/make_payment
+  image:
+    name: app
+    command:
+      - bin/make_payment
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-make-payment

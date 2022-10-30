@@ -1,6 +1,10 @@
 UserServiceController:
-  handler: dist/adapter/api/controller/index.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
+  image:
+    name: app
+    command:
+      - dist/adapter/api/controller/index.handler
+  # handler: dist/adapter/api/controller/index.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-controller
   events:
     - http: ANY /users
     - http: ANY /users/{proxy+}

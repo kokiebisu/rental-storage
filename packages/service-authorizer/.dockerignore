@@ -1,0 +1,11 @@
+.serverless
+.turbo
+aws
+node_modules
+Dockerfile
+Makefile
+package.json
+pnpm-lock.yaml
+serverless.dev.yml
+serverless.yml
+bin

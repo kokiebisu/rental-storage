@@ -1,10 +1,3 @@
-import {
-  CreateUserInput,
-  PaymentService,
-  UserEventSender,
-  UserRepository,
-  UserService,
-} from "../../port";
 import { UserInterface } from "../../domain/types";
 import { UserRepositoryImpl } from "../../adapter/repository";
 import { EmailAddress, Name, NameType, User } from "../../domain/model";
@@ -13,6 +6,13 @@ import { PaymentServiceImpl } from "./PaymentService";
 import { UserMapper } from "../../adapter/mapper";
 import { AWSRegion } from "../../domain/enum";
 import { UserKinesisStreamEventSender } from "../../adapter/sender-event";
+import {
+  CreateUserInput,
+  PaymentService,
+  UserService,
+} from "../../port/service";
+import { UserRepository } from "../../port/repository";
+import { UserEventSender } from "../../port/sender-event";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;

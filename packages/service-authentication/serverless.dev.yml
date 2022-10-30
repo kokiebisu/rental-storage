@@ -23,7 +23,7 @@ provider:
     ACCOUNT_ID: ${aws:accountId}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: authentication
   SERVICE_API_ENDPOINT:
     Fn::Join:

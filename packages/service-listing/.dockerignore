@@ -1,0 +1,13 @@
+.serverless
+.turbo
+aws
+coverage
+test
+Dockerfile
+jest.config.ts
+Makefile
+serverless.dev.yml
+serverless.yml
+tsconfig.build.json
+tsconfig.build.tsbuildinfo
+tsconfig.json

@@ -6,6 +6,7 @@ import {
   Text,
   Pressable,
   TextInput,
+  Image,
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +25,7 @@ export default ({
   handleSelectSuggestion,
   handleImagePick,
 }) => {
+  console.log("IMAGE: ", image);
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
       <View>
@@ -34,14 +36,23 @@ export default ({
       <View style={{ marginTop: 20 }}>
         <Pressable onPress={handleImagePick}>
           {image ? (
-            // <Image
-            //   source={{ uri: image }}
-            //   style={{ width: "100%", height: 300 }}
-            // />
-            <View>
-              <Text>image here</Text>
+            <View style={{ width: "100%", height: 300 }}>
+              <Image
+                // source={{ uri: image }}
+                resizeMode="cover"
+                source={{ uri: image.uri }}
+                style={{
+                  flex: 1,
+                  width: undefined,
+                  height: undefined,
+                  resizeMode: "cover",
+                }}
+              />
             </View>
           ) : (
+            // <View>
+            //   <Text>image here</Text>
+            // </View>
             <View
               style={{
                 height: 300,
