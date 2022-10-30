@@ -3,13 +3,18 @@ variablesResolutionMode: 20210326
 
 useDotenv: true
 
+plugins:
+  - serverless-deployment-bucket
+
 provider:
   name: aws
   region: us-east-1
   stage: ${opt:stage, 'local'}
+  deploymentBucket:
+    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-api-apigateway-resources
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
 
 resources:
   Resources:
