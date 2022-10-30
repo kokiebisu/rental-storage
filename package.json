@@ -2,7 +2,7 @@
   "name": "rent-storage-project",
   "private": true,
   "version": "1.0.0",
-  "description": "# rental-storage",
+  "description": "# rental-a-locker",
   "main": "index.js",
   "scripts": {
     "generate:env:local": "turbo run generate:env:local",

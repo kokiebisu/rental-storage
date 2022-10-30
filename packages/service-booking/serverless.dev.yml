@@ -18,6 +18,10 @@ provider:
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     TABLE_NAME: ${self:custom.TABLE_NAME}
@@ -27,7 +31,7 @@ provider:
     stage: ${self:provider.stage}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: booking
   TABLE_NAME: !ImportValue ExportedBookingDynamoDBTableName
   SERVICE_API_ENDPOINT:

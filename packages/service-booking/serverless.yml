@@ -2,6 +2,7 @@ service: rental-a-locker-booking
 variablesResolutionMode: 20210326
 
 plugins:
+  - serverless-deployment-bucket
   - serverless-export-env
 
 provider:
@@ -10,11 +11,17 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-booking-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     TABLE_NAME: ${self:custom.TABLE_NAME}
@@ -24,7 +31,7 @@ provider:
     stage: ${self:provider.stage}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: booking
   TABLE_NAME: !ImportValue ExportedBookingDynamoDBTableName
   SERVICE_API_ENDPOINT:

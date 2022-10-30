@@ -1,14 +1,14 @@
 import { AWSRegion, UserEvent } from "../../domain/enum";
 import { LoggerUtil } from "../../utils";
 import { UserInterface } from "../../domain/types";
-import { UserEventSender } from "../../port";
+
 import {
   KinesisClient,
-  AddTagsToStreamCommand,
   PutRecordCommand,
   PutRecordCommandInput,
 } from "@aws-sdk/client-kinesis";
 import { v4 as uuid } from "uuid";
+import { UserEventSender } from "../../port/sender-event";
 
 export class UserKinesisStreamEventSender implements UserEventSender {
   private _client: KinesisClient;

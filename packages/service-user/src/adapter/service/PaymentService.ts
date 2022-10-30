@@ -1,8 +1,9 @@
 import axios from "axios";
 import { PaymentRepositoryImpl } from "../../adapter/repository";
 import { Payment } from "../../domain/model";
+import { PaymentRepository } from "../../port/repository";
+import { AddPaymentInput, PaymentService } from "../../port/service";
 import { LoggerUtil } from "../../utils";
-import { AddPaymentInput, PaymentRepository, PaymentService } from "../../port";
 
 export class PaymentServiceImpl implements PaymentService {
   private _paymentRepository: PaymentRepository;

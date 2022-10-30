@@ -12,7 +12,7 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-image-resources
+    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-image-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   ecr:
@@ -21,7 +21,7 @@ provider:
         path: ./
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: image
   export-env:
     filename: .env

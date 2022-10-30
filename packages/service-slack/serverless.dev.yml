@@ -23,7 +23,7 @@ provider:
     accountId: ${aws:accountId}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: slack
   ACCOUNT_ID: ${aws:accountId}
   export-env:

@@ -1,6 +1,10 @@
 BookingCreatedStream:
-  handler: dist/adapter/api/stream/BookingCreated.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-stream-booking-created
+  image:
+    name: app
+    command:
+      - dist/adapter/api/stream/BookingCreated.handler
+  # handler: dist/adapter/api/stream/BookingCreated.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-stream-booking-created
   events:
     - stream:
         type: dynamodb

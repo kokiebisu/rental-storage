@@ -14,7 +14,7 @@ provider:
     name: ${self:provider.stage}-rental-a-locker-api-apigateway-resources
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
 
 resources:
   Resources:

@@ -22,7 +22,7 @@ provider:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: authorizer
   SERVICE_API_ENDPOINT:
     Fn::Join:
