@@ -4,6 +4,7 @@ import { View, Button, FlatList, Pressable } from "react-native";
 import { useQuery } from "@apollo/client";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
 
 import { QUERY_FIND_MY_LISTINGS } from "../../../../graphql";
 import { Card } from "../../../../components/card";
@@ -23,10 +24,22 @@ export default () => {
 
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
-      <View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingHorizontal: 6,
+        }}
+      >
         <Spacing variant="lg">
           <Typography variant="h2">Listing</Typography>
         </Spacing>
+        <View>
+          <Pressable onPress={() => navigation.navigate("Post")}>
+            <AntDesign name="pluscircleo" size={24} color="black" />
+          </Pressable>
+        </View>
       </View>
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -45,12 +58,6 @@ export default () => {
           );
         }}
       />
-      <View>
-        <Button
-          title="Create Listing"
-          onPress={() => navigation.navigate("Post")}
-        />
-      </View>
     </SafeAreaView>
   );
 };
