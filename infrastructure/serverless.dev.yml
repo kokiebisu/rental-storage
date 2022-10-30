@@ -12,7 +12,7 @@ provider:
     name: ${self:provider.stage}-rental-a-locker-infrastructure-resources
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   USER_DB_NAME: users
   USER_DB_USERNAME: master
   USER_DB_PASSWORD: password
