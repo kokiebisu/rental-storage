@@ -1,14 +1,12 @@
-import { useQuery } from "@apollo/client";
 import { createContext, useEffect, useReducer } from "react";
-import { Client } from "../config/appsync";
+import { useQuery } from "@apollo/client";
+
 import { QUERY_FIND_ME } from "../graphql";
 
 export const ProfileContext = createContext(null);
 
 export const ProfileContextProvider = ({ children }) => {
-  const { data, error, loading } = useQuery(QUERY_FIND_ME, {
-    client: Client,
-  });
+  const { data, error, loading } = useQuery(QUERY_FIND_ME);
   const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -39,17 +37,24 @@ export const ProfileContextProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    if (
-      !error &&
-      !loading &&
-      (!state.uid || !state.emailAddress || !state.firstName || !state.lastName)
-    ) {
+    if (!error && !loading) {
       dispatch({
         type: "SET",
         profile: data.findMe,
       });
     }
   }, [data]);
+
+  if (
+    !error &&
+    !loading &&
+    (!state.uid || !state.emailAddress || !state.firstName || !state.lastName)
+  ) {
+    dispatch({
+      type: "SET",
+      profile: data.findMe,
+    });
+  }
 
   return (
     <ProfileContext.Provider

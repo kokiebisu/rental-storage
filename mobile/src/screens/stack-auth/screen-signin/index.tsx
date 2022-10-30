@@ -1,7 +1,8 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useContext, useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+
 import { Button } from "../../../components/button";
 import { Input } from "../../../components/input";
 import { Spacing } from "../../../components/spacing";

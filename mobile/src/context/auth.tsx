@@ -1,21 +1,19 @@
 import * as React from "react";
 import axios from "axios";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-} from "react";
+import { Alert } from "react-native";
+import { createContext, useEffect, useMemo, useReducer } from "react";
 import * as SecureStore from "expo-secure-store";
 import { API_GATEWAY_ENDPOINT } from "../env/aws";
-import { ProfileContext } from "./profile";
-import { Alert } from "react-native";
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext({
+  authState: {
+    isLoading: false,
+    isSignout: false,
+    userToken: null,
+  },
+});
 
 export const AuthContextProvider = ({ children }) => {
-  const { profileDispatch } = useContext(ProfileContext);
   const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -102,7 +100,6 @@ export const AuthContextProvider = ({ children }) => {
       signOut: async () => {
         try {
           await SecureStore.deleteItemAsync("userToken");
-          profileDispatch({ type: "FLUSH" });
           dispatch({ type: "SIGN_OUT" });
         } catch (err) {
           Alert.alert("Somethign went wrong");
