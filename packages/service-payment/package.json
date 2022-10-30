@@ -1,7 +1,7 @@
 {
   "name": "@rental-storage-project/payment",
   "scripts": {
-    "deploy": "sls deploy",
+    "deploy": "make build && sls deploy",
     "remove": "sls remove",
     "generate:env:local": "sls export-env --stage local",
     "generate:env:dev": "sls export-env --stage dev"

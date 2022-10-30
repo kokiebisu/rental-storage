@@ -18,12 +18,16 @@ provider:
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
 
 custom:
-  namespace: rental-a-locker
+  namespace: app
   service: payment
   SERVICE_API_ENDPOINT:
     Fn::Join:
