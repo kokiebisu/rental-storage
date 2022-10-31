@@ -8,7 +8,7 @@
     "generate:env:local": "turbo run generate:env:local",
     "generate:env:dev": "turbo run generate:env:dev",
     "build": "turbo run build",
-    "remove:local": "serverless remove --stage local",
+    "remove:local": "serverless remove --stage dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "refresh": "./scripts/refresh.sh",
