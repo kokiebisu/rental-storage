@@ -21,7 +21,7 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
       - name: Install dependencies
         run: |
@@ -65,7 +65,7 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
       - name: Set up Python environment
         uses: actions/setup-python@v4
@@ -113,7 +113,7 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
       - uses: actions/setup-go@v3
         with:

@@ -43,7 +43,11 @@ custom:
 
 functions:
   Authorize:
-    handler: bin/authorize
+    # handler: bin/authorize
+    image:
+      name: app
+      command:
+        - bin/authorize
     name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}
     package:
       include:

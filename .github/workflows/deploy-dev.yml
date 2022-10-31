@@ -126,7 +126,7 @@ jobs:
         with:
           filters: |
             package:
-              - 'packages/${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2

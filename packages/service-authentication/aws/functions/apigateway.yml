@@ -1,5 +1,9 @@
 SignInApiGateway:
-  handler: bin/signin
+  # handler: bin/signin
+  image:
+    name: app
+    command:
+      - bin/signin
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-signin
   package:
     exclude:
@@ -12,7 +16,11 @@ SignInApiGateway:
         method: post
 
 SignUpApiGateway:
-  handler: bin/signup
+  # handler: bin/signup
+  image:
+    name: app
+    command:
+      - bin/signup
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-signup
   package:
     exclude:
@@ -25,7 +33,11 @@ SignUpApiGateway:
         method: post
 
 VerifyApiGateway:
-  handler: bin/verify
+  # handler: bin/verify
+  image:
+    name: app
+    command:
+      - bin/verify
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-verify
   package:
     exclude:
