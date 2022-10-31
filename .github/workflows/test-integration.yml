@@ -61,7 +61,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: env-${{ inputs.package }}-${{ github.sha }}
-          path: packages/service-${{ inputs.package }}/.env
+          path: packages/service-${{ matrix.package }}/.env
           retention-days: 1
         if: steps.changes.outputs.package == 'true'
 
