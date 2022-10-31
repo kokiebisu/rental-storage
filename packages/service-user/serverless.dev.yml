@@ -18,6 +18,10 @@ provider:
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
   environment:
     NAMESPACE: ${self:custom.namespace}
     STAGE: ${self:provider.stage}
