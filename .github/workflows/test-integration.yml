@@ -52,7 +52,9 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Generate env files
-        run: pnpm run generate:env:dev
+        run: |
+          cd packages/service-${{ matrix.package }} 
+          pnpm run generate:env:dev
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
