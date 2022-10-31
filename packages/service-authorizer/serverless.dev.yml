@@ -18,6 +18,10 @@ provider:
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
