@@ -26,7 +26,7 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
       - uses: pnpm/action-setup@v2.2.4
         with:
@@ -83,7 +83,7 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
       - name: Install dependencies
         run: |
@@ -145,7 +145,7 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -190,7 +190,7 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/**'
+              - 'packages-/service-${{ matrix.package }}/**'
 
       - uses: actions/download-artifact@v3
         with:
