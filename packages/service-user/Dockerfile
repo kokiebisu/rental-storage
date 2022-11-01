@@ -7,7 +7,7 @@ COPY pnpm-lock.yaml ./
 COPY tsconfig.docker.json ./
 
 RUN npm install -g pnpm typescript
-RUN pnpm install
+RUN pnpm install --frozen-lockfile
 COPY ./ ./
 
 RUN pnpm build:docker

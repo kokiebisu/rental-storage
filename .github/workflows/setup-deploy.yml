@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd ${{ matrix.package }}
-          pnpm install
+          pnpm install --frozen-lockfile
 
   setup-api:
     name: Api
@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd api/${{ matrix.package }}
-          pnpm install
+          pnpm install --frozen-lockfile
 
   setup-typescript:
     name: Typescript
