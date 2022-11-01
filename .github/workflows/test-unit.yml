@@ -38,7 +38,7 @@ jobs:
 
       - name: Test ${{ matrix.package }} service
         run: |
-          cd package/service-${{ matrix.package }}
+          cd packages/service-${{ matrix.package }}
           npm run test:unit
         shell: bash
         if: steps.changes.outputs.package == 'true'
