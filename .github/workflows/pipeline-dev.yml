@@ -1,8 +1,9 @@
 name: Develop Pipeline
 
 on:
-  push:
-    branches: "dev"
+  pull_request:
+  # push:
+  #   branches: "dev"
 
 jobs:
   deploy:
