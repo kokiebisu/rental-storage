@@ -116,19 +116,9 @@ jobs:
           go-version: "^1.13.1" # The Go version to download (if necessary) and use.
         if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: bin-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/bin
-        if: steps.changes.outputs.package == 'true'
-
       - name: Test authorizer service
         run: |
           cd packages/service-${{ matrix.package }}
           make unit-test
         shell: bash
         if: steps.changes.outputs.package == 'true'
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: bin-${{ matrix.package }}-${{ github.sha }}
