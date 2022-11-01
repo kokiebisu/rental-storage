@@ -4,7 +4,7 @@
 **/*.env
 **/bin
 
-**/tsconfig.build.tsbuildinfo
+**/tsconfig.*.tsbuildinfo
 **/.serverless
 .serverless
 **/.turbo
