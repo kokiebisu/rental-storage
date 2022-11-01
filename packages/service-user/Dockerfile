@@ -1,4 +1,4 @@
-FROM node:14.17.0-alpine AS build-image
+FROM node:14 AS build-image
 
 WORKDIR /app
 
