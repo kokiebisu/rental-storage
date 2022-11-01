@@ -33,7 +33,7 @@ jobs:
           version: 6.0.2
 
       - name: Install root packages
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
         shell: bash
 
       - name: Configure AWS credentials
@@ -47,7 +47,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/service-${{ matrix.package }}
-          pnpm install
+          pnpm install --frozen-lockfile
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
@@ -90,7 +90,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/service-${{ matrix.package }}
-          pnpm install
+          pnpm install --frozen-lockfile
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
