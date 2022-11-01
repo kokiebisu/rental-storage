@@ -36,22 +36,12 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/dist
-        if: steps.changes.outputs.package == 'true'
-
       - name: Test ${{ matrix.package }} service
         run: |
           cd package/service-${{ matrix.package }}
           npm run test:unit
         shell: bash
         if: steps.changes.outputs.package == 'true'
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: dist-${{ matrix.package }}-${{ github.sha }}
 
   unit-test-python:
     name: Python
