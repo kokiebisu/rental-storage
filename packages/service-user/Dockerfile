@@ -21,4 +21,4 @@ COPY --from=build-image /app/pnpm-lock.yaml ./
 
 RUN pnpm install --prod
 
-CMD [ "app" ]
+CMD [ "app.handler" ]
