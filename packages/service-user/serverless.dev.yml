@@ -36,9 +36,6 @@ provider:
 custom:
   namespace: app
   service: user
-  export-env:
-    filename: .env
-    overwrite: true
   DB_NAME: !ImportValue ExportedUserRDSDBName
   DB_USERNAME: !ImportValue ExportedUserRDSDBUsername
   DB_PASSWORD: !ImportValue ExportedUserRDSDBPassword
@@ -53,6 +50,9 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

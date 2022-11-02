@@ -9,4 +9,5 @@ module.exports = {
   clearMocks: true,
   coverageDirectory: "coverage",
   setupFiles: ["dotenv/config"],
+  testTimeout: 100000,
 };

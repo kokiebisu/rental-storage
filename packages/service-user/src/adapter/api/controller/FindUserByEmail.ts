@@ -2,7 +2,7 @@ import { UserServiceImpl } from "../../service";
 
 export const handler = async (event: any) => {
   console.log("FIND USER BY EMAIL EVENT: ", event);
-  const { uid } = event.arguments;
+  const { email } = event.queryStringParameters;
   const service = await UserServiceImpl.create();
-  return service.findById(uid);
+  return service.findByEmail(email);
 };

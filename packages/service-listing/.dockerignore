@@ -10,4 +10,5 @@ serverless.dev.yml
 serverless.yml
 tsconfig.build.json
 tsconfig.build.tsbuildinfo
+tsconfig.docker.tsbuildinfo
 tsconfig.json
