@@ -87,6 +87,12 @@ jobs:
             package:
               - 'packages/service-${{ matrix.package }}/**'
 
+      - name: Install global dependencies
+        run: |
+          npm install -g pnpm
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
+
       - name: Install dependencies
         run: |
           cd packages/service-${{ matrix.package }}
