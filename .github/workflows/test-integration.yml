@@ -33,7 +33,7 @@ jobs:
           version: 6.0.2
 
       - name: Install root packages
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
         shell: bash
 
       - name: Configure AWS credentials
@@ -47,7 +47,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/service-${{ matrix.package }}
-          pnpm install
+          pnpm install --frozen-lockfile
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: env-${{ inputs.package }}-${{ github.sha }}
+          name: env-${{ matrix.package }}-${{ github.sha }}
           path: packages/service-${{ matrix.package }}/.env
           retention-days: 1
         if: steps.changes.outputs.package == 'true'
@@ -87,10 +87,16 @@ jobs:
             package:
               - 'packages/service-${{ matrix.package }}/**'
 
+      - name: Install global dependencies
+        run: |
+          npm install -g pnpm
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
+
       - name: Install dependencies
         run: |
           cd packages/service-${{ matrix.package }}
-          pnpm install
+          pnpm install --frozen-lockfile
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
@@ -100,11 +106,19 @@ jobs:
           path: packages/service-${{ matrix.package }}/dist
         if: steps.changes.outputs.package == 'true'
 
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: dist-${{ matrix.package }}-${{ github.sha }}
+
       - uses: actions/download-artifact@v3
         with:
           name: env-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/.env
+          path: packages/service-${{ matrix.package }}
         if: steps.changes.outputs.package == 'true'
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: env-${{ matrix.package }}-${{ github.sha }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -119,14 +133,6 @@ jobs:
           cd packages/service-${{ matrix.package }}
           pnpm run test:integration
         if: steps.changes.outputs.package == 'true'
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: dist-${{ matrix.package }}-${{ github.sha }}
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
 
   integration-test-python:
     name: Python
@@ -200,10 +206,20 @@ jobs:
           path: packages/service-${{ matrix.package }}/bin
         if: steps.changes.outputs.package == 'true'
 
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: bin-${{ matrix.package }}-${{ github.sha }}
+        if: steps.changes.outputs.package == 'true'
+
       - uses: actions/download-artifact@v3
         with:
           name: env-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/.env
+          path: packages/service-${{ matrix.package }}
+        if: steps.changes.outputs.package == 'true'
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: env-${{ matrix.package }}-${{ github.sha }}
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -219,14 +235,4 @@ jobs:
           cd packages/service-${{ matrix.package }}
           make integration-test
         shell: bash
-        if: steps.changes.outputs.package == 'true'
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: bin-${{ matrix.package }}-${{ github.sha }}
-        if: steps.changes.outputs.package == 'true'
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: env-${{ matrix.package }}-${{ github.sha }}
         if: steps.changes.outputs.package == 'true'

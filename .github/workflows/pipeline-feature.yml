@@ -17,11 +17,6 @@ jobs:
           configuration-path: .github/labeler.yml
           repo-token: "${{ secrets.GH_TOKEN }}"
 
-  setup:
-    name: Setup
-    uses: ./.github/workflows/setup-test.yml
-
   unit-test:
     name: Unit Test
-    needs: [setup]
     uses: ./.github/workflows/test-unit.yml

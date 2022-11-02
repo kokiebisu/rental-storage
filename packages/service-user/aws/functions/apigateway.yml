@@ -1,10 +1,43 @@
-UserServiceController:
+# UserServiceController:
+#   image:
+#     name: app
+#     command:
+#       - dist/adapter/api/controller/index.handler
+#   # handler: dist/adapter/api/controller/index.handler
+#   name: ${self:provider.stage}-app-${self:custom.service}-rest-controller
+#   events:
+#     - http: ANY /users
+#     - http: ANY /users/{proxy+}
+
+CreateUserRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/index.handler
-  # handler: dist/adapter/api/controller/index.handler
-  name: ${self:provider.stage}-app-${self:custom.service}-rest-controller
+      - dist/adapter/api/controller/CreateUser.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-create-user
   events:
-    - http: ANY /users
-    - http: ANY /users/{proxy+}
+    - http:
+        path: /users
+        method: post
+
+FindUserByEmailRest:
+  image:
+    name: app
+    command:
+      - dist/adapter/api/controller/FindUserByEmail.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-user-by-email
+  events:
+    - http:
+        path: /users/find-by-email
+        method: get
+
+FindUserByUserIdRest:
+  image:
+    name: app
+    command:
+      - dist/adapter/api/controller/FindUserByUserId.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-user-by-user-id
+  events:
+    - http:
+        path: /users/{userId}
+        method: get
