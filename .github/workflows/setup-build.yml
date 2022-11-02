@@ -1,49 +1,6 @@
 on: workflow_call
 
 jobs:
-  setup-infrastructure:
-    name: Infrastructure
-    timeout-minutes: 15
-    runs-on: latest
-    strategy:
-      matrix:
-        package:
-          - infrastructure
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 6.0.2
-
-      - name: Install dependencies
-        run: |
-          cd ${{ matrix.package }}
-          pnpm install --frozen-lockfile
-
-  setup-api:
-    name: Api
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package:
-          - apigateway
-          - appsync
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 6.0.2
-
-      - name: Install dependencies
-        run: |
-          cd api/${{ matrix.package }}
-          pnpm install --frozen-lockfile
-
   setup-typescript:
     name: Typescript
     timeout-minutes: 15
