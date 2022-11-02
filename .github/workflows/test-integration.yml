@@ -120,7 +120,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: env-${{ matrix.package }}-${{ github.sha }}
-          path: packages/service-${{ matrix.package }}/.env
+          path: packages/service-${{ matrix.package }}
         if: steps.changes.outputs.package == 'true'
 
       - name: Echo .env
