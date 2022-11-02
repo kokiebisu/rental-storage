@@ -58,6 +58,13 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
+      - name: Echo
+        run: |
+          cd packages/service-${{ matrix.package }}
+          cat .env
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
+
       - uses: actions/upload-artifact@v3
         with:
           name: env-${{ matrix.package }}-${{ github.sha }}
@@ -114,6 +121,13 @@ jobs:
         with:
           name: env-${{ matrix.package }}-${{ github.sha }}
           path: packages/service-${{ matrix.package }}/.env
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Echo .env
+        run: |
+          cd packages/service-${{ matrix.package }}
+          cat .env
+        shell: bash
         if: steps.changes.outputs.package == 'true'
 
       - uses: geekyeggo/delete-artifact@v2
