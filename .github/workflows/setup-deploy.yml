@@ -67,12 +67,6 @@ jobs:
         with:
           package: ${{ matrix.package }}
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
-          path: api/${{ matrix.package }}/node_modules
-          retention-days: 1
-
   setup-go:
     name: Go
     timeout-minutes: 15

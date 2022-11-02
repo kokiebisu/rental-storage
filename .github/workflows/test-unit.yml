@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/service-${{ matrix.package }}
-          pnpm install
+          pnpm install --frozen-lockfile
         shell: bash
         if: steps.changes.outputs.package == 'true'
 

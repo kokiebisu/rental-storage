@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: env-${{ inputs.package }}-${{ github.sha }}
+          name: env-${{ matrix.package }}-${{ github.sha }}
           path: packages/service-${{ matrix.package }}/.env
           retention-days: 1
         if: steps.changes.outputs.package == 'true'
@@ -129,10 +129,6 @@ jobs:
       - uses: geekyeggo/delete-artifact@v2
         with:
           name: dist-${{ matrix.package }}-${{ github.sha }}
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: node-modules-${{ matrix.package }}-${{ github.sha }}
 
   integration-test-python:
     name: Python
