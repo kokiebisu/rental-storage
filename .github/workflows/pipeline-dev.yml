@@ -1,9 +1,8 @@
 name: Develop Pipeline
 
 on:
-  pull_request:
-  # push:
-  #   branches: "dev"
+  push:
+    branches: "dev"
 
 jobs:
   setup-service:
