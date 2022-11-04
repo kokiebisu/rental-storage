@@ -38,10 +38,15 @@ type Listing {
 
 type Fee {
   amount: Int!
-  currency: String!
+  currency: CurrencyType!
 }
 
 input FeeInput {
   amount: Int!
-  currency: String!
+  currency: CurrencyType!
+  type: FeeType!
+}
+
+enum FeeType {
+  MONTHLY
 }

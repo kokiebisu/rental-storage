@@ -1,10 +1,21 @@
-ListingServiceController:
+FindListingByIdRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/index.handler
-  # handler: dist/adapter/api/controller/index.handler
-  name: ${self:provider.stage}-app-${self:custom.service}-rest-controller
+      - dist/adapter/api/controller/FindListingById.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-listing-by-id
   events:
-    - http: ANY /listings
-    - http: ANY /listings/{proxy+}
+    - http:
+        path: /listings/{listingId}
+        method: get
+
+FindListingsWithinLatLngRest:
+  image:
+    name: app
+    command:
+      - dist/adapter/api/controller/FindListingsWithinLatLng.handler
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-listings-within-lat-lng
+  events:
+    - http:
+        path: /listings
+        method: get

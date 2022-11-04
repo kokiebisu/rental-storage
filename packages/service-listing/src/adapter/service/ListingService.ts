@@ -96,6 +96,7 @@ export class ListingServiceImpl implements ListingService {
       title,
       fee,
     } = args;
+    console.log("FEE: ", fee.amount, fee.currency, fee.type);
     try {
       let listing = new Listing({
         title,
@@ -106,8 +107,8 @@ export class ListingServiceImpl implements ListingService {
         imageUrls,
         fee: new Fee({
           amount: new Amount({
-            value: fee.amount.value,
-            currency: fee.amount.currency as CurrencyType,
+            value: fee.amount,
+            currency: fee.currency as CurrencyType,
           }),
           type: fee.type as RentalFeeType,
         }),
