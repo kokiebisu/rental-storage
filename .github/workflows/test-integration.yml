@@ -8,7 +8,7 @@ jobs:
       matrix:
         package:
           - booking
-          - listings
+          - listing
           - user
           - image
           - slack
