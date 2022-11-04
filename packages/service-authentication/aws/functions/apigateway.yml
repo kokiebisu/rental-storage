@@ -1,49 +1,31 @@
-SignInApiGateway:
-  # handler: bin/signin
+SignInRest:
   image:
     name: app
     command:
       - bin/signin
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-signin
-  package:
-    exclude:
-      - ./**
-    include:
-      - ./bin/signin
   events:
     - http:
         path: /auth/signin
         method: post
 
-SignUpApiGateway:
-  # handler: bin/signup
+SignUpRest:
   image:
     name: app
     command:
       - bin/signup
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-signup
-  package:
-    exclude:
-      - ./**
-    include:
-      - ./bin/signup
   events:
     - http:
         path: /auth/signup
         method: post
 
-VerifyApiGateway:
-  # handler: bin/verify
+VerifyRest:
   image:
     name: app
     command:
       - bin/verify
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-verify
-  package:
-    exclude:
-      - ./**
-    include:
-      - ./bin/verify
   events:
     - http:
         path: /auth/verify
