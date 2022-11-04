@@ -109,6 +109,7 @@ jobs:
       - uses: geekyeggo/delete-artifact@v2
         with:
           name: dist-${{ matrix.package }}-${{ github.sha }}
+        if: steps.changes.outputs.package == 'true'
 
       - uses: actions/download-artifact@v3
         with:
@@ -119,6 +120,7 @@ jobs:
       - uses: geekyeggo/delete-artifact@v2
         with:
           name: env-${{ matrix.package }}-${{ github.sha }}
+        if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
