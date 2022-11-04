@@ -9,7 +9,7 @@ prepare:
 
 .PHONY: unit-test
 unit-test: 
-	go test ./.../unit_test
+	cd cmd/authorize && go test ./.../unit_test
 
 .PHONY: integration-test
 integration-test: 
