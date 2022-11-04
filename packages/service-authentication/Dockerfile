@@ -10,6 +10,8 @@ RUN cd cmd/verify && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ..
 
 FROM amazon/aws-lambda-go:latest
 
+WORKDIR ${LAMBDA_TASK_ROOT}
+
 COPY --from=build-image /app/bin ${LAMBDA_TASK_ROOT}/bin/
 
 CMD [ "app" ]

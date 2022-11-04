@@ -43,10 +43,10 @@ custom:
 
 functions:
   Authorize:
-    handler: bin/authorize
+    image:
+      name: app
+      command:
+        - bin/authorize
     name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}
-    package:
-      include:
-        - ./bin/authorize
     environment:
       SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}

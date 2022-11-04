@@ -14,6 +14,8 @@ RUN pnpm build:docker
 
 FROM amazon/aws-lambda-nodejs:14
 
+WORKDIR ${LAMBDA_TASK_ROOT}
+
 RUN npm install -g pnpm
 COPY --from=build-image /app/dist ${LAMBDA_TASK_ROOT}/dist
 COPY --from=build-image /app/package.json ./

@@ -27,6 +27,10 @@ dependencies:
   '@fastify/aws-lambda': 3.1.3
   axios: 0.27.2
   dotenv: 16.0.3
+<<<<<<< HEAD
+=======
+  fastify: 4.6.0
+>>>>>>> 313874a240b3c3f9b8e03735c93949ca1277492f
   keyv: 4.5.0
   pg: 8.8.0
   rimraf: 3.0.2

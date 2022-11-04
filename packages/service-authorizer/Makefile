@@ -1,15 +1,18 @@
+.PHONY: build
 build:
-	env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o bin/authorize authorizer.go
+	cd cmd/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/authorize *.go
 
+.PHONY: clean
 clean:
 	rm -rf ./bin Gopkg.lock
 
+.PHONY: prepare
 prepare: 
 	clean build
 
 .PHONY: unit-test
 unit-test: 
-	go test ./.../unit_test
+	cd cmd/authorize && go test ./.../unit_test
 
 .PHONY: integration-test
 integration-test: 
