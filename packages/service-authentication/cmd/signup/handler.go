@@ -21,8 +21,6 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
 	}
 
-	fmt.Println("Password: ", bodyRequest.Password)
-
 	// hash password
 	hash, err := bcrypt.GenerateFromPassword([]byte(bodyRequest.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -67,15 +65,15 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
 	}
-	
+
 	tokenPayload := &AuthorizationTokenPayload {
 		AuthorizationToken: token,
 	}
-
 	encoded, err := json.Marshal(tokenPayload)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
 	}
+
 	return events.APIGatewayProxyResponse{Body: string(encoded), StatusCode: 200}, nil
 }
 
