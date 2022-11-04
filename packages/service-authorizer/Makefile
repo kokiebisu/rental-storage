@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	cd cmd/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/authorize authorizer.go
+	cd cmd/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/authorize *.go
 
 .PHONY: clean
 clean:
