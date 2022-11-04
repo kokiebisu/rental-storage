@@ -1,4 +1,5 @@
-import { FeeInterface, ListingInterface } from "../../domain/types";
+import { CurrencyType, RentalFeeType } from "../../domain/enum";
+import { ListingInterface } from "../../domain/types";
 
 export interface AddListing {
   lenderId: string;
@@ -7,7 +8,11 @@ export interface AddListing {
   longitude: number;
   imageUrls: string[];
   title: string;
-  fee: FeeInterface;
+  fee: {
+    amount: number;
+    currency: CurrencyType;
+    type: RentalFeeType;
+  };
 }
 
 export interface ListingService {
