@@ -74,7 +74,7 @@ jobs:
       matrix:
         package:
           - booking
-          - listings
+          - listing
           - user
     steps:
       - name: Checkout
@@ -198,7 +198,7 @@ jobs:
         with:
           filters: |
             package:
-              - 'packages-/service-${{ matrix.package }}/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
       - uses: actions/download-artifact@v3
         with:
