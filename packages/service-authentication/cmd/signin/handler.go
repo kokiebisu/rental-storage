@@ -11,16 +11,13 @@ import (
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	endpoint := os.Getenv("SERVICE_API_ENDPOINT")
-	
-	
 	// get email address and password from event argument
 	bodyRequest := SignInArgument{}
 	err := json.Unmarshal([]byte(request.Body), &bodyRequest)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
 	}
-	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", endpoint, bodyRequest.EmailAddress)
+	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", os.Getenv("SERVICE_API_ENDPOINT"), bodyRequest.EmailAddress)
 	// check if the email address exists in the user db
 	resp, err := http.Get(userEndpoint)
 	if err != nil {
