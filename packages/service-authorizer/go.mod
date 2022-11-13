@@ -1,4 +1,4 @@
-module authorize
+module service-authorizer
 
 go 1.19
 
