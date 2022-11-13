@@ -1,4 +1,4 @@
-service: rental-a-locker-booking
+service: service-booking
 variablesResolutionMode: 20210326
 
 plugins:
@@ -12,7 +12,7 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-booking-resources
+    name: ${self:provider.stage}-${aws:accountId}-booking-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
@@ -49,4 +49,3 @@ custom:
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
-  - ${file(./aws/functions/appsync.yml)}

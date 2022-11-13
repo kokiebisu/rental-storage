@@ -1,4 +1,4 @@
-service: rental-a-locker-booking
+service: service-booking
 variablesResolutionMode: 20210326
 
 plugins:
@@ -14,7 +14,7 @@ provider:
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-booking-resources
+    name: ${self:provider.stage}-booking-resources
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
@@ -49,4 +49,3 @@ custom:
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
-  - ${file(./aws/functions/appsync.yml)}
