@@ -1,3 +1,5 @@
+composition:
+  - packages/composition/**
 service:authentication:
   - packages/service-authentication/**
 service:authorizer:
@@ -18,10 +20,10 @@ scripts:
   - scripts/**
 infrastructure:
   - infrastructure/**
-api:appsync:
-  - api/appsync/**
-api:apigateway:
-  - api/apigateway/**
+infrastructure:appsync:
+  - infrastructure/aws/resources/appsync/**
+infrastructure:apigateway:
+  - infrastructure/aws/resources/apigateway/**
 mobile:
   - mobile/**
 github-workflows:
