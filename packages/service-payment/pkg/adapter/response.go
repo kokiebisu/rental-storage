@@ -1,7 +1,9 @@
-package main
+package adapter
 
 import (
 	"encoding/json"
+
+	"service-payment/pkg/port"
 
 	"github.com/aws/aws-lambda-go/events"
 )
@@ -9,7 +11,7 @@ import (
 func SendResponse(payload interface{}) (events.APIGatewayProxyResponse, error) {
 	encoded, err := json.Marshal(payload)
 	if err != nil {
-		error := &Error{
+		error := &port.Error{
 			Message: "encoding failed",
 		}
 		errEncoded, _ := json.Marshal(error)

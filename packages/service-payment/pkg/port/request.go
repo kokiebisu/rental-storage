@@ -1,4 +1,4 @@
-package main
+package port
 
 type Event struct {
 	Field string `json:"field"`
@@ -8,6 +8,13 @@ type Event struct {
 
 type Identity struct {
 	ResolverContext ResolverContext
+}
+
+type CreatePaymentCustomerBody struct {
+	UserId string `json:"userId"`
+	EmailAddress string `json:"emailAddress"`
+	FirstName string `json:"firstName"`
+	LastName string `json:"lastName"`
 }
 
 type ResolverContext struct {
