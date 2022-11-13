@@ -1,7 +1,7 @@
 Type: AWS::S3::Bucket
 DeletionPolicy: Delete
 Properties:
-  BucketName: ${self:provider.stage}-${aws:accountId}-rental-a-locker-listing-profile
+  BucketName: ${self:provider.stage}-${aws:accountId}-listing-profile
   AccessControl: PublicReadWrite
   CorsConfiguration:
     CorsRules:

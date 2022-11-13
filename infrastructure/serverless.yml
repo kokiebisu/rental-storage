@@ -1,4 +1,4 @@
-service: rental-a-locker-infrastructure
+service: infrastructure
 variablesResolutionMode: 20210326
 
 useDotenv: true
@@ -10,7 +10,7 @@ provider:
   region: us-east-1
   stage: ${opt:stage, 'local'}
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-infrastructure-resources
+    name: ${self:provider.stage}-${aws:accountId}-infrastructure-resources
 
 custom:
   namespace: app
@@ -20,6 +20,9 @@ custom:
   LISTING_DB_NAME: listings
   LISTING_DB_USERNAME: master
   LISTING_DB_PASSWORD: password
+  PAYMENT_DB_NAME: payments
+  PAYMENT_DB_USERNAME: master
+  PAYMENT_DB_PASSWORD: password
   BOOKING_TABLE_NAME: bookings
 
 resources:
@@ -46,6 +49,7 @@ resources:
     # RDS
     UserRDSInstance: ${file(./aws/resources/rds/user/DBInstance.yml)}
     ListingRDSInstance: ${file(./aws/resources/rds/listing/DBInstance.yml)}
+    PaymentRDSInstance: ${file(./aws/resources/rds/payment/DBInstance.yml)}
 
     # DynamoDBTable
     BookingDynamoDBTable: ${file(./aws/resources/dynamodb/Booking/Table.yml)}

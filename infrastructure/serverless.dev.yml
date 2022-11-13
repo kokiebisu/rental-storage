@@ -1,4 +1,4 @@
-service: rental-a-locker-infrastructure
+service: infrastructure
 variablesResolutionMode: 20210326
 
 plugins:
@@ -9,7 +9,7 @@ provider:
   region: us-east-1
   stage: ${opt:stage, 'local'}
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-infrastructure-resources
+    name: ${self:provider.stage}-infrastructure-resources
 
 custom:
   namespace: app
@@ -19,6 +19,9 @@ custom:
   LISTING_DB_NAME: listings
   LISTING_DB_USERNAME: master
   LISTING_DB_PASSWORD: password
+  PAYMENT_DB_NAME: listings
+  PAYMENT_DB_USERNAME: master
+  PAYMENT_DB_PASSWORD: password
   BOOKING_TABLE_NAME: bookings
 
 resources:
