@@ -1,4 +1,4 @@
-service: rental-a-locker-api-appsync
+service: infrastructure-appsync
 variablesResolutionMode: 20210326
 
 plugins:
@@ -13,7 +13,7 @@ provider:
   stage: ${opt:stage, 'local'}
   region: us-east-1
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-api-appsync-resources
+    name: ${self:provider.stage}-infrastructure-appsync-resources
 
 custom:
   namespace: app

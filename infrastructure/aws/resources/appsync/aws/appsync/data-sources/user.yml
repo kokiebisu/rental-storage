@@ -1,0 +1,21 @@
+## Query
+- type: AWS_LAMBDA
+  name: FindMeFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-me
+
+- type: AWS_LAMBDA
+  name: FindUserByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-user-by-id
+
+- type: AWS_LAMBDA
+  name: FindUserByEmailFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-user-by-email
+
+## Mutation
+- type: AWS_LAMBDA
+  name: RemoveUserByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-remove-user-by-id
