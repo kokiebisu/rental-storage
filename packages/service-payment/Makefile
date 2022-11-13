@@ -10,10 +10,4 @@ prepare: clean build
 
 .PHONY: unit-test
 unit-test:
-	cd cmd/create_payment_customer && go test ./.../unit_test && cd ../../
-	cd cmd/make_payment && go test ./.../unit_test
-
-.PHONY: integration-test
-integration-test:
-	cd cmd/create_payment_customer && go test ./.../integration_test && cd ../../
-	cd cmd/make_payment && go test ./.../integration_test
+	cd pkg/test && go test ./... && cd ../..
