@@ -97,18 +97,18 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd api/${{ matrix.package }}
+          cd infrastructure/aws/resources/${{ matrix.package }}
           pnpm install --frozen-lockfile
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
         run: |
-          cd api/${{ matrix.package }}
+          cd infrastructure/aws/resources/${{ matrix.package }}
           serverless deploy --config serverless.dev.yml --stage dev
         if: steps.changes.outputs.package == 'true'
 
   deploy-composition:
-    name: composition
+    name: Composition
     needs: [deploy-infrastructure, deploy-apigateway]
     timeout-minutes: 15
     runs-on: ubuntu-latest
