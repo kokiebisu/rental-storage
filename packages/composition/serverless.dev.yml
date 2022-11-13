@@ -1,0 +1,47 @@
+service: composition
+variablesResolutionMode: 20210326
+
+plugins:
+  - serverless-deployment-bucket
+  - serverless-export-env
+
+provider:
+  name: aws
+  runtime: go1.x
+  stage: ${opt:stage, 'local'}
+  region: us-east-1
+  lambdaHashingVersion: 20201221
+  deploymentBucket:
+    name: ${self:provider.stage}-composition-resources
+  iam:
+    role: !ImportValue ExportedRoleLambdaArn
+  apiGateway:
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+  ecr:
+    images:
+      app:
+        path: ./
+  environment:
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    ACCOUNT_ID: ${aws:accountId}
+
+custom:
+  namespace: app
+  service: composition
+  SERVICE_API_ENDPOINT:
+    Fn::Join:
+      - ""
+      - - "https://"
+        - ${self:provider.apiGateway.restApiId}
+        - ".execute-api."
+        - ${self:provider.region}
+        - ".amazonaws.com/"
+        - ${self:provider.stage}
+  export-env:
+    filename: .env
+    overwrite: true
+
+functions:
+  - ${file(./aws/functions/query.yml)}
+  - ${file(./aws/functions/mutation.yml)}
