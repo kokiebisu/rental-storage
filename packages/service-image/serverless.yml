@@ -1,4 +1,4 @@
-service: rental-a-locker-image
+service: service-image
 variablesResolutionMode: 20210326
 
 plugins:
@@ -12,9 +12,12 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-image-resources
+    name: ${self:provider.stage}-${aws:accountId}-image-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
+  apiGateway:
+    restApiId: !ImportValue ApiGatewayRestApiId
+    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
   ecr:
     images:
       app:
@@ -28,4 +31,4 @@ custom:
     overwrite: true
 
 functions:
-  - ${file(./aws/functions/appsync.yml)}
+  - ${file(./aws/functions/apigateway.yml)}
