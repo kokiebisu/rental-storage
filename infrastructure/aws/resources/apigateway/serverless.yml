@@ -1,4 +1,4 @@
-service: rental-a-locker-api-apigateway
+service: infrastructure-apigateway
 variablesResolutionMode: 20210326
 
 useDotenv: true
@@ -11,14 +11,13 @@ provider:
   region: us-east-1
   stage: ${opt:stage, 'local'}
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-api-apigateway-resources
+    name: ${self:provider.stage}-${aws:accountId}-infrastructure-apigateway-resources
 
 custom:
   namespace: app
 
 resources:
   Resources:
-    #ApiGateway
     ApiGatewayRestApi: ${file(./aws/apigateway/RestApi.yml)}
 
   Outputs: ${file(./aws/outputs.yml)}
