@@ -48,6 +48,7 @@ resources:
     # RDS
     UserRDSInstance: ${file(./aws/resources/rds/user/DBInstance.yml)}
     ListingRDSInstance: ${file(./aws/resources/rds/listing/DBInstance.yml)}
+    PaymentRDSInstance: ${file(./aws/resources/rds/payment/DBInstance.yml)}
 
     # DynamoDBTable
     BookingDynamoDBTable: ${file(./aws/resources/dynamodb/Booking/Table.yml)}
