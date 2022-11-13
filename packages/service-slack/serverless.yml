@@ -1,4 +1,4 @@
-service: rental-a-locker-slack
+service: service-slack
 variablesResolutionMode: 20210326
 
 plugins:
@@ -12,7 +12,7 @@ provider:
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-slack-resources
+    name: ${self:provider.stage}-${aws:accountId}-slack-resources
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   ecr:
