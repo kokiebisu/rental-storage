@@ -1,8 +1,25 @@
 on: workflow_call
 
 jobs:
+  setup-composition:
+    name: Composition Service
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Typescript
+        uses: ./.github/actions/setup-typescript
+        with:
+          package: ${{ matrix.package }}
+
   setup-typescript:
-    name: Typescript
+    name: Typescript Service
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
@@ -22,10 +39,10 @@ jobs:
       - name: Typescript
         uses: ./.github/actions/setup-typescript
         with:
-          package: ${{ matrix.package }}
+          package: service-${{ matrix.package }}
 
   setup-go:
-    name: Go
+    name: Go Service
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
@@ -45,4 +62,4 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup-go
         with:
-          package: ${{ matrix.package }}
+          package: service-${{ matrix.package }}
