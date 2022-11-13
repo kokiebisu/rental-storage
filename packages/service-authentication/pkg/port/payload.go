@@ -1,6 +1,4 @@
-package main
-
-import "github.com/golang-jwt/jwt"
+package port
 
 type UserCreationPayload struct {
 	EmailAddress      string `json:"emailAddress"`
@@ -13,11 +11,6 @@ type AuthorizationTokenPayload struct {
 	AuthorizationToken string `json:"authorizationToken"`
 }
 
-type Payload struct {
+type GenerateJWTTokenPayload struct {
     UId string `json:"uid"`
-}
-
-type Claims struct {
-    UId string `json:"uid"`
-    jwt.StandardClaims
 }

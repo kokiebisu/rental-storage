@@ -1,8 +1,8 @@
 .PHONY: build
 build:
-	cd cmd/signin && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/signin *.go && cd ../..
-	cd cmd/signup && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/signup *.go && cd ../..
-	cd cmd/verify && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/verify *.go && cd ../..
+	cd cmd/signin && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../bin/signin && cd ../..
+	cd cmd/signup && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../bin/signup && cd ../..
+	cd cmd/verify && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../bin/verify && cd ../..
 
 .PHONY: clean
 clean:

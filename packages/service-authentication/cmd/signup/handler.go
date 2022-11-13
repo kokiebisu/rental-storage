@@ -10,12 +10,15 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"golang.org/x/crypto/bcrypt"
+
+	"service-authentication/pkg/adapter"
+	"service-authentication/pkg/port"
 )
 
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// get email address and password from event argument
-	bodyRequest := UserCreationPayload{}
+	bodyRequest := port.UserCreationPayload{}
 	err := json.Unmarshal([]byte(request.Body), &bodyRequest)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
@@ -27,7 +30,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return events.APIGatewayProxyResponse{Body: string("cannot hash password"), StatusCode: 500}, nil
 	}
 	
-	updatedUser := &UserCreationPayload {
+	updatedUser := &port.UserCreationPayload {
 		EmailAddress: bodyRequest.EmailAddress,
 		Password: string(hash),
 		FirstName: bodyRequest.FirstName,
@@ -57,16 +60,18 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		}
 		return events.APIGatewayProxyResponse{Body: string(encodedMessage), StatusCode: 500}, nil
 	}
-	response := &Payload{}
+	response := &port.GenerateJWTTokenPayload{}
 	if err = json.NewDecoder(resp.Body).Decode(&response); err != nil {
 		return events.APIGatewayProxyResponse{Body: string("unable to decode"), StatusCode: 500}, nil
 	}
-	token, err := GenerateJWTToken(response)
+	service := adapter.SetupEncryptionService()
+
+	token, err := service.GenerateJWTToken(response)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
 	}
 
-	tokenPayload := &AuthorizationTokenPayload {
+	tokenPayload := &port.AuthorizationTokenPayload {
 		AuthorizationToken: token,
 	}
 	encoded, err := json.Marshal(tokenPayload)
