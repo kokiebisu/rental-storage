@@ -16,7 +16,7 @@ jobs:
       - name: Typescript
         uses: ./.github/actions/setup-typescript
         with:
-          package: ${{ matrix.package }}
+          package: composition
 
   setup-typescript:
     name: Typescript Service
