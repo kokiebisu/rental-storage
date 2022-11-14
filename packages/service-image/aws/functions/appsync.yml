@@ -1,9 +1,0 @@
-GetPresignedURLGraphql:
-  image:
-    name: app
-    command:
-      - get_presigned_upload_url.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-graphql-get-presigned-url
-  environment:
-    ACCOUNT_ID: ${aws:accountId}
-    STAGE: ${self:provider.stage}

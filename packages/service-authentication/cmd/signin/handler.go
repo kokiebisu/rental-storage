@@ -8,11 +8,15 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	"service-authentication/pkg/adapter"
+	"service-authentication/pkg/domain"
+	"service-authentication/pkg/port"
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// get email address and password from event argument
-	bodyRequest := SignInArgument{}
+	bodyRequest := port.SignInArgument{}
 	err := json.Unmarshal([]byte(request.Body), &bodyRequest)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
@@ -23,26 +27,28 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("request to user endpoint failed"), StatusCode: 500}, nil
 	}
-	user := &User{}
+	user := &domain.User{}
 	if err = json.NewDecoder(resp.Body).Decode(&user); err != nil {
 		return events.APIGatewayProxyResponse{Body: string("request to user endpoint failed"), StatusCode: 500}, nil
 	}
-	matched, err := VerifyPassword(user.Password, bodyRequest.Password)
+
+	service := adapter.SetupEncryptionService()
+	matched, err := service.VerifyPassword(user.Password, bodyRequest.Password)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("something went wrong when validating pasword"), StatusCode: 500}, nil
 	}
 	if !matched {
 		return events.APIGatewayProxyResponse{Body: string("provided password is invalid"), StatusCode: 500}, nil
 	}
-	response := &Payload {
+	response := &port.GenerateJWTTokenPayload {
 		UId: user.Uid,
 	}
-	token, err := GenerateJWTToken(response)
+	token, err := service.GenerateJWTToken(response)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("unable to generate token"), StatusCode: 500}, nil
 	}
 
-	return SendResponse(token)
+	return adapter.SendResponse(token)
 }
 
 

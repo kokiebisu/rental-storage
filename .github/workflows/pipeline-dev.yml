@@ -6,17 +6,17 @@ on:
     branches: "dev"
 
 jobs:
-  setup-service:
+  setup-build:
     name: Setup
-    uses: ./.github/workflows/setup-build.yml
+    uses: ./.github/workflows/call-setup-build.yml
 
-  deploy:
+  deploy-dev:
     name: Deploy
-    uses: ./.github/workflows/deploy-dev.yml
+    uses: ./.github/workflows/call-deploy-dev.yml
     secrets: inherit
 
-  integration-test:
+  test-integration:
     name: Integration Test
-    needs: [deploy]
-    uses: ./.github/workflows/test-integration.yml
+    needs: [setup-build, deploy-dev]
+    uses: ./.github/workflows/call-test-integration.yml
     secrets: inherit

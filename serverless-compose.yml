@@ -1,0 +1,82 @@
+## THIS IS ONLY FOR LOCAL USE. CANNOT BE USED ON THE CI PIPELINE.
+services:
+  infrastructure:
+    path: infrastructure
+    config: serverless.yml
+
+  infrastructure-apigateway:
+    path: infrastructure/aws/resources/apigateway
+    config: serverless.yml
+
+  image:
+    path: packages/service-image
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+
+  booking:
+    path: packages/service-booking
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+
+  authorizer:
+    path: packages/service-authorizer
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+
+  payment:
+    path: packages/service-payment
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+
+  slack:
+    path: packages/service-slack
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+
+  user:
+    path: packages/service-user
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+      - infrastructure-apigateway
+
+  listing:
+    path: packages/service-listing
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+      - infrastructure-apigateway
+
+  authentication:
+    path: packages/service-authentication
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+      - infrastructure-apigateway
+
+  composition:
+    path: packages/composition
+    config: serverless.yml
+    dependsOn:
+      - infrastructure-apigateway
+
+  infrastructure-appsync:
+    path: infrastructure/aws/resources/appsync
+    config: serverless.yml
+    dependsOn:
+      - infrastructure
+      - infrastructure-apigateway
+      - composition
+      - booking
+      - image
+      - listing
+      - user
+      - authorizer
+      - payment
+      - authentication
+      - slack

@@ -13,7 +13,7 @@ runs:
       with:
         filters: |
           package:
-            - 'packages/service-${{ inputs.package }}/**'
+            - 'packages/${{ inputs.package }}/**'
 
     - uses: pnpm/action-setup@v2.2.4
       with:
@@ -22,14 +22,14 @@ runs:
 
     - name: Install node_modules
       run: |
-        cd packages/service-${{ inputs.package }}
+        cd packages/${{ inputs.package }}
         pnpm install --frozen-lockfile
       shell: bash
       if: steps.changes.outputs.package == 'true'
 
     - name: Build
       run: |
-        cd packages/service-${{ inputs.package }}
+        cd packages/${{ inputs.package }}
         make build
       shell: bash
       if: steps.changes.outputs.package == 'true'
@@ -37,6 +37,6 @@ runs:
     - uses: actions/upload-artifact@v3
       with:
         name: bin-${{ inputs.package }}-${{ github.sha }}
-        path: packages/service-${{ inputs.package }}/bin
+        path: packages/${{ inputs.package }}/bin
         retention-days: 1
       if: steps.changes.outputs.package == 'true'

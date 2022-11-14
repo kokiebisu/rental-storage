@@ -1,15 +1,9 @@
 GenerateCustomerIdApiGateway:
-  # handler: bin/create_payment_customer
   image:
     name: app
     command:
       - bin/create_payment_customer
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-generate-customer-id
-  package:
-    exclude:
-      - ./**
-    include:
-      - ./bin/create_payment_customer
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-create_payment_customer
   events:
     - http:
         path: /payments/customer

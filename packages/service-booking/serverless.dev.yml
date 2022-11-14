@@ -1,4 +1,4 @@
-service: rental-a-locker-booking
+service: service-booking
 variablesResolutionMode: 20210326
 
 plugins:
@@ -8,13 +8,13 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
   lambdaHashingVersion: 20201221
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-booking-resources
+    name: ${self:provider.stage}-rental-a-locker-app-sls-booking
   apiGateway:
     restApiId: !ImportValue ApiGatewayRestApiId
     restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
@@ -49,4 +49,3 @@ custom:
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
-  - ${file(./aws/functions/appsync.yml)}

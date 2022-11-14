@@ -1,5 +1,0 @@
-## Mutation
-- type: AWS_LAMBDA
-  name: MakeBookingFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-booking-graphql-make-booking

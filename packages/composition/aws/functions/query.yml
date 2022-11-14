@@ -1,0 +1,57 @@
+FindMe:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findMe
+  name: ${self:provider.stage}-app-${self:custom.service}-find-me
+FindUserById:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findUserById
+  name: ${self:provider.stage}-app-${self:custom.service}-find-user-by-id
+
+FindUserByEmail:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findUserByEmail
+  name: ${self:provider.stage}-app-${self:custom.service}-find-user-by-email
+
+FindListingById:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findListingById
+  name: ${self:provider.stage}-app-${self:custom.service}-find-listing-by-id
+
+FindListingsWithinLatLng:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findListingsWithinLatLng
+  name: ${self:provider.stage}-app-${self:custom.service}-find-listings-within-lat-lng
+
+FindMyListings:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findMyListings
+  name: ${self:provider.stage}-app-${self:custom.service}-find-my-listings
+
+GetPresignedURL:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.getPresignedURL
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-get-presigned-url
+  environment:
+    ACCOUNT_ID: ${aws:accountId}
+    STAGE: ${self:provider.stage}
+
+FindAllCreatedBookings:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findAllCreatedBookings
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-all-created-bookings

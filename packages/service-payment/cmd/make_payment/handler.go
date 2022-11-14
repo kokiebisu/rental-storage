@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"os"
 
+	"service-payment/pkg/port"
+
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func handler(event Event) (string, error) {
+func handler(event port.Event) (string, error) {
 	fmt.Println("EVENT: ", event)
 	fmt.Println("EVENT Identity: ", event.Identity)
 	fmt.Println("EVENT Resolver conext: ", event.Identity.ResolverContext)

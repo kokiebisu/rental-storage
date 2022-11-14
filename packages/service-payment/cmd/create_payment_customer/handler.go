@@ -8,21 +8,18 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/customer"
+
+	"service-payment/pkg/adapter"
+	"service-payment/pkg/domain"
+	"service-payment/pkg/port"
 )
 
-type CreatePaymentCustomerBody struct {
-	EmailAddress string `json:"emailAddress"`
-	FirstName string `json:"firstName"`
-	LastName string `json:"lastName"`
-}
-
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	fmt.Println("hello")
-	body := CreatePaymentCustomerBody{}
+	body := port.CreatePaymentCustomerBody{}
 	json.Unmarshal([]byte(request.Body), &body)
 	
-	secretsManager := initialize()
-	param, err := secretsManager.getParam()
+	secretsManager := adapter.SetupSecretsManager()
+	param, err := secretsManager.GetParam()
 	if err != nil {
 		panic(err)
 	}
@@ -33,11 +30,30 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		Email: stripe.String(body.EmailAddress),
 	  }
 	c, _ := customer.New(params)
-	payload := &ResponsePayload {
+	payload := &port.ResponsePayload {
 		ProviderId: c.ID,
 		ProviderType: "stripe",
 	}
-	return SendResponse(payload)
+	db, err := adapter.SetupDB()
+	if err != nil {
+		panic("Unable to setup db")
+	}
+	repository := adapter.SetupCustomerRepository(db)
+	pc := &domain.PaymentCustomer{
+		UserId: body.UserId,
+		CustomerId: payload.ProviderId,
+		ProviderType: payload.ProviderType,
+	}
+	err = repository.SetupTables()
+	if err != nil {
+		panic("Unable to setup: " + err.Error())
+	}
+	_, err = repository.Save(pc)
+	if err != nil {
+		panic("Unable to save payment customer: " + err.Error())
+	}
+
+	return adapter.SendResponse(payload)
 }
 
 func main() {

@@ -1,4 +1,4 @@
-service: rental-a-locker-infrastructure
+service: infrastructure
 variablesResolutionMode: 20210326
 
 plugins:
@@ -7,9 +7,9 @@ plugins:
 provider:
   name: aws
   region: us-east-1
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'dev'}
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-infrastructure-resources
+    name: ${self:provider.stage}-rental-a-locker-app-sls-infrastructure
 
 custom:
   namespace: app
@@ -19,6 +19,9 @@ custom:
   LISTING_DB_NAME: listings
   LISTING_DB_USERNAME: master
   LISTING_DB_PASSWORD: password
+  PAYMENT_DB_NAME: listings
+  PAYMENT_DB_USERNAME: master
+  PAYMENT_DB_PASSWORD: password
   BOOKING_TABLE_NAME: bookings
 
 resources:
@@ -39,12 +42,13 @@ resources:
     VPCGatewayAttachment: ${file(./aws/resources/ec2/VPCGatewayAttachment.yml)}
 
     # S3
-    ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfile/Bucket.yml)}
-    BucketPolicyListingProfile: ${file(./aws/resources/s3/ListingProfile/BucketPolicy.yml)}
+    ListingProfileS3Bucket: ${file(./aws/resources/s3/${self:provider.stage}/ListingProfile/Bucket.yml)}
+    BucketPolicyListingProfile: ${file(./aws/resources/s3/${self:provider.stage}/ListingProfile/BucketPolicy.yml)}
 
     # RDS
     UserRDSInstance: ${file(./aws/resources/rds/user/DBInstance.yml)}
     ListingRDSInstance: ${file(./aws/resources/rds/listing/DBInstance.yml)}
+    PaymentRDSInstance: ${file(./aws/resources/rds/payment/DBInstance.yml)}
 
     # DynamoDBTable
     BookingDynamoDBTable: ${file(./aws/resources/dynamodb/Booking/Table.yml)}

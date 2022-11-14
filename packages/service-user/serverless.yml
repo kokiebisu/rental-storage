@@ -1,4 +1,4 @@
-service: rental-a-locker-user
+service: service-user
 variablesResolutionMode: 20210326
 
 plugins:
@@ -8,11 +8,11 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: ${opt:stage, 'local'}
+  stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-user-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-user
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
@@ -56,5 +56,4 @@ custom:
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}
-  - ${file(./aws/functions/appsync.yml)}
   - ${file(./aws/functions/stream.yml)}

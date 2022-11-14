@@ -11,9 +11,5 @@ prepare:
 	clean build
 
 .PHONY: unit-test
-unit-test: 
-	cd cmd/authorize && go test ./.../unit_test
-
-.PHONY: integration-test
-integration-test: 
-	go test ./.../integration_test
+unit-test:
+	cd pkg/test && go test ./... && cd ../..

@@ -1,4 +1,4 @@
-service: rental-a-locker-authentication
+service: service-authentication
 variablesResolutionMode: 20210326
 
 plugins:
@@ -8,11 +8,11 @@ plugins:
 provider:
   name: aws
   runtime: go1.x
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-authentication-resources
+    name: ${self:provider.stage}-rental-a-locker-app-sls-authentication
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:

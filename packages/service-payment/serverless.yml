@@ -1,4 +1,4 @@
-service: rental-a-locker-payment
+service: service-payment
 variablesResolutionMode: 20210326
 
 plugins:
@@ -8,11 +8,11 @@ plugins:
 provider:
   name: aws
   runtime: go1.x
-  stage: ${opt:stage, 'local'}
+  stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-rental-a-locker-payment-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-payment
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:
@@ -24,11 +24,22 @@ provider:
         path: ./
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
+    STAGE: ${self:provider.stage}
     ACCOUNT_ID: ${aws:accountId}
+    DB_HOST: ${self:custom.DB_HOST}
+    DB_NAME: ${self:custom.DB_NAME}
+    DB_USERNAME: ${self:custom.DB_USERNAME}
+    DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    DB_PORT: ${self:custom.DB_PORT}
 
 custom:
   namespace: app
   service: payment
+  DB_HOST: !ImportValue ExportedPaymentRDSDBHost
+  DB_NAME: !ImportValue ExportedPaymentRDSDBName
+  DB_USERNAME: !ImportValue ExportedPaymentRDSDBUsername
+  DB_PASSWORD: !ImportValue ExportedPaymentRDSDBPassword
+  DB_PORT: !ImportValue ExportedPaymentRDSDBPort
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""
@@ -38,10 +49,10 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
+
   export-env:
     filename: .env
     overwrite: true
 
 functions:
-  - ${file(./aws/functions/appsync.yml)}
   - ${file(./aws/functions/apigateway.yml)}

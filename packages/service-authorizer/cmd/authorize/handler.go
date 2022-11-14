@@ -10,10 +10,12 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	"service-authorizer/pkg/port"
 )
 
 
-func HandleRequest(ctx context.Context, event Event) (*events.AppSyncLambdaAuthorizerResponse, error) {
+func HandleRequest(ctx context.Context, event port.Event) (*events.AppSyncLambdaAuthorizerResponse, error) {
 	jwt := event.AuthorizationToken
 	
 	body := struct {

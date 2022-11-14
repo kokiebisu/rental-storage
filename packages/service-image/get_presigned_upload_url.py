@@ -6,6 +6,7 @@ from botocore.exceptions import ClientError
 def handler(event, _):
     logging.info("EVENT: ", event)
     print("EVENT: ", event)
+    ## THIS NEED TO BE CONVERTED TO REST 
     response = get_presigned_upload_url(event['arguments']['filename'])
     return response
 
@@ -31,7 +32,7 @@ def get_presigned_upload_url(filename: str):
         put_url = s3_client.generate_presigned_url(
                 'put_object',
                 Params={
-                    'Bucket': f'{stage}-{account_id}-rental-a-locker-listing-profile',
+                    'Bucket': f'{stage}-{account_id}-listing-profile',
                     'Key': filename,
                     'ACL': 'public-read'
                 })

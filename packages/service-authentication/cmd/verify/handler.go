@@ -5,17 +5,20 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	"service-authentication/pkg/adapter"
+	"service-authentication/pkg/port"
 )
 
 // checks if the authorizationToken in the payload is valid
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	bodyRequest := VerifyPayload{}
+	bodyRequest := port.AuthorizationTokenPayload{}
 	err := json.Unmarshal([]byte(request.Body), &bodyRequest)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
 	}
-
-	claims, err := verifyJWT(bodyRequest.AuthorizationToken)
+	service := adapter.SetupEncryptionService()
+	claims, err := service.VerifyJWT(bodyRequest.AuthorizationToken)
 	if err != nil {
         return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
     }
