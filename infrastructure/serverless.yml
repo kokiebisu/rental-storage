@@ -8,9 +8,9 @@ plugins:
 provider:
   name: aws
   region: us-east-1
-  stage: ${opt:stage, 'local'}
+  stage: local
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-infrastructure-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-infrastructure
 
 custom:
   namespace: app
@@ -43,8 +43,8 @@ resources:
     VPCGatewayAttachment: ${file(./aws/resources/ec2/VPCGatewayAttachment.yml)}
 
     # S3
-    ListingProfileS3Bucket: ${file(./aws/resources/s3/ListingProfile/Bucket.yml)}
-    BucketPolicyListingProfile: ${file(./aws/resources/s3/ListingProfile/BucketPolicy.yml)}
+    ListingProfileS3Bucket: ${file(./aws/resources/s3/local/ListingProfile/Bucket.yml)}
+    BucketPolicyListingProfile: ${file(./aws/resources/s3/local/ListingProfile/BucketPolicy.yml)}
 
     # RDS
     UserRDSInstance: ${file(./aws/resources/rds/user/DBInstance.yml)}

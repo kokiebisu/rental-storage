@@ -8,11 +8,11 @@ plugins:
 provider:
   name: aws
   runtime: python3.8
-  stage: ${opt:stage, 'local'}
+  stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-slack-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-slack
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   ecr:

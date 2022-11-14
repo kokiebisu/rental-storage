@@ -8,11 +8,11 @@ plugins:
 provider:
   name: aws
   runtime: go1.x
-  stage: ${opt:stage, 'local'}
+  stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-authorizer-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-authorizer
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:

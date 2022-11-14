@@ -8,11 +8,11 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: ${opt:stage, 'local'}
+  stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-listing-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-listing
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:

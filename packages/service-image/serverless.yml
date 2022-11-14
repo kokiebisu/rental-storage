@@ -8,11 +8,11 @@ plugins:
 provider:
   name: aws
   runtime: python3.9
-  stage: ${opt:stage, 'local'}
+  stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-image-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-image
   iam:
     role: !ImportValue ExportedRoleLambdaArn
   apiGateway:

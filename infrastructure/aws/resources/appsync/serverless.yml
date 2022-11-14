@@ -10,10 +10,10 @@ plugins:
 
 provider:
   name: aws
-  stage: ${opt:stage, 'local'}
+  stage: local
   region: us-east-1
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-infrastructure-appsync-resources
+    name: ${self:provider.stage}-${aws:accountId}-sls-infrastructure-appsync
 
 custom:
   namespace: app

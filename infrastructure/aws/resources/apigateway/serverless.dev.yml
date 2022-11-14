@@ -9,9 +9,9 @@ plugins:
 provider:
   name: aws
   region: us-east-1
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'dev'}
   deploymentBucket:
-    name: ${self:provider.stage}-infrastructure-apigateway-resources
+    name: ${self:provider.stage}-rental-a-locker-app-sls-infrastructure-apigateway
 
 custom:
   namespace: app
