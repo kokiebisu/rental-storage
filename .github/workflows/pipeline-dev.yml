@@ -17,6 +17,6 @@ jobs:
 
   test-integration:
     name: Integration Test
-    needs: [deploy-dev, setup-composition]
+    needs: [setup-build, deploy-dev]
     uses: ./.github/workflows/call-test-integration.yml
     secrets: inherit
