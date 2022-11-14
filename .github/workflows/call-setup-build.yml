@@ -13,7 +13,7 @@ jobs:
         with:
           version: 6.0.2
 
-      - name: Typescript
+      - name: Setup
         uses: ./.github/actions/setup-typescript
         with:
           package: composition
@@ -36,7 +36,7 @@ jobs:
         with:
           version: 6.0.2
 
-      - name: Typescript
+      - name: Setup
         uses: ./.github/actions/setup-typescript
         with:
           package: service-${{ matrix.package }}
