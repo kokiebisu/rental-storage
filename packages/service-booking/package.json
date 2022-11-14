@@ -5,7 +5,6 @@
     "deploy": "npm run build && sls deploy",
     "remove": "sls remove",
     "test:unit": "jest test/unit-test",
-    "test:integration": "jest test/integration-test",
     "generate:env:local": "sls export-env",
     "generate:env:dev": "sls export-env --stage dev"
   },
