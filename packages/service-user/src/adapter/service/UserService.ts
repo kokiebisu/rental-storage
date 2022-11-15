@@ -16,7 +16,7 @@ import { UserEventSender } from "../../port/sender-event";
 
 export class UserServiceImpl implements UserService {
   private _userRepository: UserRepository;
-  private _paymentService: PaymentService;
+  // private _paymentService: PaymentService;
   private _userEventSender: UserEventSender;
 
   private _logger: LoggerUtil;
@@ -27,7 +27,7 @@ export class UserServiceImpl implements UserService {
     userEventSender: UserEventSender
   ) {
     this._userRepository = userRepository;
-    this._paymentService = paymentService;
+    // this._paymentService = paymentService;
     this._userEventSender = userEventSender;
     this._logger = new LoggerUtil("UserServiceImpl");
   }
@@ -52,12 +52,12 @@ export class UserServiceImpl implements UserService {
         password: data.password,
       });
       const savedUser = await this._userRepository.save(user);
-      await this._paymentService.addPayment({
-        userId: savedUser.id,
-        emailAddress: savedUser.emailAddress.value,
-        firstName: savedUser.firstName.value,
-        lastName: savedUser.lastName.value,
-      });
+      // await this._paymentService.addPayment({
+      //   userId: savedUser.id,
+      //   emailAddress: savedUser.emailAddress.value,
+      //   firstName: savedUser.firstName.value,
+      //   lastName: savedUser.lastName.value,
+      // });
 
       const userDTO = UserMapper.toDTOFromEntity(user);
       // await this._userMessageSender.userCreated(userDTO)

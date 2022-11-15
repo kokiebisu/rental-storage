@@ -2,7 +2,7 @@ CreateUserRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/CreateUser.handler
+      - bin/create_user
   name: ${self:provider.stage}-app-${self:custom.service}-rest-create-user
   events:
     - http:
@@ -13,20 +13,31 @@ FindUserByEmailRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/FindUserByEmail.handler
+      - bin/find_user_by_email
   name: ${self:provider.stage}-app-${self:custom.service}-rest-find-user-by-email
   events:
     - http:
         path: /users/find-by-email
         method: get
 
-FindUserByUserIdRest:
+FindUserByIdRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/FindUserByUserId.handler
-  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-user-by-user-id
+      - bin/find_user_by_id
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-user-by-id
   events:
     - http:
         path: /users/{userId}
         method: get
+
+RemoveUserById:
+  image:
+    name: app
+    command:
+      - bin/remove_user_by_id
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-remove-user-by-id
+  events:
+    - http:
+        path: /users/{userId}
+        method: delete
