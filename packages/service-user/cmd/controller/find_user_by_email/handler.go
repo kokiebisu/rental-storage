@@ -4,20 +4,21 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
-	"github.com/kokiebisu/rental-storage/service-user/internal/adapter"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/controller"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/db"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
 	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	db, err := adapter.NewPostgresDB()
+	db, err := db.New()
 	if err != nil {
 		panic(err)
 	}
 	repo := repository.NewUserRepository(db)
 	repo.Setup()
 	service := service.NewUserService(repo)
-	apigateway := adapter.NewApiGatewayHandler(service)
+	apigateway := controller.New(service)
 	return apigateway.FindUserByEmail(request)
 }
 

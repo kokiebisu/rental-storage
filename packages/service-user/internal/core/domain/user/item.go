@@ -47,3 +47,17 @@ func CreateItem(name string, ownerId string, listingId string) Item {
 		ListingId: listingId,
 	}
 }
+
+func (r ItemRaw) ToEntity() Item {
+	createdAt, _ := time.Parse("YYYY-MM-DD", r.CreatedAt)
+	updatedAt, _ := time.Parse("YYYY-MM-DD", r.UpdatedAt)
+	return Item{
+		Uid:       r.Uid,
+		Name:      r.Name,
+		ImageUrls: r.ImageUrls,
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
+		OwnerId:   r.OwnerId,
+		ListingId: r.ListingId,
+	}
+}

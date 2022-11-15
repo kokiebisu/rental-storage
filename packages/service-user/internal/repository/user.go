@@ -8,17 +8,17 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type UserRepositoryImpl struct {
+type UserRepository struct {
 	db *sql.DB
 }
 
-func NewUserRepository(db *sql.DB) *UserRepositoryImpl {
-	return &UserRepositoryImpl{
+func NewUserRepository(db *sql.DB) *UserRepository {
+	return &UserRepository{
 		db: db,
 	}
 }
 
-func (r *UserRepositoryImpl) Setup() error {
+func (r *UserRepository) Setup() error {
 	_, err := r.db.Exec(`
 		CREATE TABLE IF NOT EXISTS user_account (
 			id SERIAL NOT NULL PRIMARY KEY, 
@@ -37,20 +37,18 @@ func (r *UserRepositoryImpl) Setup() error {
 	return nil
 }
 
-func (r *UserRepositoryImpl) Save(user domain.User) error {
-	fmt.Println("ENTERED2.2.1: ", user.Uid, user.EmailAddress, user.Password, user.FirstName, user.LastName, user.CreatedAt)
+func (r *UserRepository) Save(user domain.User) error {
 	_, err := r.db.Exec(`
 		INSERT INTO user_account (uid, email_address, password, first_name, last_name, created_at, updated_at) 
         VALUES ($1, $2, $3, $4, $5, $6, $7)
 	`, user.Uid, user.EmailAddress.Value, user.Password, user.FirstName.Value, user.LastName.Value, user.CreatedAt.Format("2006-01-02"), user.UpdatedAt.Format("2006-01-02"))
 	if err != nil {
-		fmt.Println("ENTERD2.2.2: ", err)
 		return err
 	}
 	return nil
 }
 
-func (r *UserRepositoryImpl) Delete(uid string) error {
+func (r *UserRepository) Delete(uid string) error {
 	_, err := r.db.Exec(`
 		DELETE FROM user_account WHERE uid = $1
 	`, uid)
@@ -60,7 +58,7 @@ func (r *UserRepositoryImpl) Delete(uid string) error {
 	return nil
 }
 
-func (r *UserRepositoryImpl) FindOneById(uid string) (domain.User, error) {
+func (r *UserRepository) FindOneById(uid string) (domain.User, error) {
 	var id int64
 	var emailAddress string
 	var firstName string
@@ -90,7 +88,7 @@ func (r *UserRepositoryImpl) FindOneById(uid string) (domain.User, error) {
 	return user.ToEntity(), nil
 }
 
-func (r *UserRepositoryImpl) FindOneByEmail(emailAddress string) (domain.User, error) {
+func (r *UserRepository) FindOneByEmail(emailAddress string) (domain.User, error) {
 	var id int64
 	var uid string
 	var firstName string

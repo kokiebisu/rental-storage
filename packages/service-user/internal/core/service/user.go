@@ -8,17 +8,17 @@ import (
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
 )
 
-type UserServiceImpl struct {
+type UserService struct {
 	userRepository port.UserRepository
 }
 
-func NewUserService(userRepository port.UserRepository) *UserServiceImpl {
-	return &UserServiceImpl{
+func NewUserService(userRepository port.UserRepository) *UserService {
+	return &UserService{
 		userRepository: userRepository,
 	}
 }
 
-func (s *UserServiceImpl) CreateUser(emailAddress string, firstName string, lastName string, password string) error {
+func (s *UserService) CreateUser(emailAddress string, firstName string, lastName string, password string) error {
 	user := domain.CreateUser(firstName, lastName, emailAddress, password)
 	err := s.userRepository.Save(user)
 	if err != nil {
@@ -27,7 +27,7 @@ func (s *UserServiceImpl) CreateUser(emailAddress string, firstName string, last
 	return nil
 }
 
-func (s *UserServiceImpl) RemoveById(uid string) error {
+func (s *UserService) RemoveById(uid string) error {
 	err := s.userRepository.Delete(uid)
 	if err != nil {
 		return errors.New("failed to remove via repository")
@@ -35,7 +35,7 @@ func (s *UserServiceImpl) RemoveById(uid string) error {
 	return nil
 }
 
-func (s *UserServiceImpl) FindById(uid string) (domain.User, error) {
+func (s *UserService) FindById(uid string) (domain.User, error) {
 	user, err := s.userRepository.FindOneById(uid)
 	if err != nil {
 		return domain.User{}, errors.New("failed to find via repository")
@@ -43,7 +43,7 @@ func (s *UserServiceImpl) FindById(uid string) (domain.User, error) {
 	return user, nil
 }
 
-func (s *UserServiceImpl) FindByEmail(emailAddress string) (domain.User, error) {
+func (s *UserService) FindByEmail(emailAddress string) (domain.User, error) {
 	user, err := s.userRepository.FindOneByEmail(emailAddress)
 	if err != nil {
 		fmt.Println("ENTERED2", err)

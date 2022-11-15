@@ -1,4 +1,4 @@
-package adapter
+package controller
 
 import (
 	"encoding/json"
@@ -17,14 +17,14 @@ func NewApiGatewayHandler(service port.UserService) *ApiGatewayHandler {
 	}
 }
 
-func (h *ApiGatewayHandler) CreateUser(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
 		FirstName     string `json:"firstName"`
 		LastName      string `json:"lastName"`
 		Password      string `json:"password"`
 	}{}
-	err := json.Unmarshal([]byte(request.Body), &body)
+	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		panic(err)
 	}
@@ -35,8 +35,8 @@ func (h *ApiGatewayHandler) CreateUser(request events.APIGatewayProxyRequest) (e
 	return sendCreatedResponse()
 }
 
-func (h *ApiGatewayHandler) FindUserByEmail(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	emailAddress := request.QueryStringParameters["emailAddress"]
+func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	emailAddress := event.QueryStringParameters["emailAddress"]
 	user, err := h.service.FindByEmail(emailAddress)
 	if err != nil {
 		panic(err)
@@ -44,8 +44,8 @@ func (h *ApiGatewayHandler) FindUserByEmail(request events.APIGatewayProxyReques
 	return sendResponse(user.ToDTO())
 }
 
-func (h *ApiGatewayHandler) FindUserById(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	uid := request.PathParameters["userId"]
+func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	uid := event.PathParameters["userId"]
 	user, err := h.service.FindById(uid)
 	if err != nil {
 		panic(err)
@@ -53,8 +53,8 @@ func (h *ApiGatewayHandler) FindUserById(request events.APIGatewayProxyRequest) 
 	return sendResponse(user.ToDTO())
 }
 
-func (h *ApiGatewayHandler) RemoveUserById(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	uid := request.PathParameters["userId"]
+func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	uid := event.PathParameters["userId"]
 	err := h.service.RemoveById(uid)
 	if err != nil {
 		panic(err)

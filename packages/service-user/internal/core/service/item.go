@@ -5,11 +5,11 @@ import (
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
 )
 
-type ItemServiceImpl struct {
+type ItemService struct {
 	itemRepository port.ItemRepository
 }
 
-func (s *ItemServiceImpl) AddItems(items []domain.ItemDTO) {
+func (s *ItemService) AddItems(items []domain.ItemDTO) {
 	for _, i := range items {
 		item := domain.CreateItem(i.Name, i.OwnerId, i.ListingId)
 		s.itemRepository.Save(item)

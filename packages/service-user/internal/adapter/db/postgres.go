@@ -1,4 +1,4 @@
-package adapter
+package db
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func NewPostgresDB() (*sql.DB, error) {
+func NewPostgres() (*sql.DB, error) {
 	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		log.Fatalln("Unable to convert DB_PORT")
