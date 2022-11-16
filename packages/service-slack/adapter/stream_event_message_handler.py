@@ -14,17 +14,6 @@ class KinesisEventStreamHandler:
                 'eventName': event['eventName'],
                 'data': event['data']
             })
-            
-            # body = json.loads(record['body'])
-            # message = body['Message']
-            # entity_type = body['MessageAttributes']['entityType']['Value']
-            # event_name = body['MessageAttributes']['event']['Value']
-            # messages.append({
-            #     'eventName': event_name,
-            #     'entityType': entity_type,
-            #     'data': json.loads(message)
-            # })
-        print(messages)
         return messages
 
 

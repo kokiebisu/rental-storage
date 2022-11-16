@@ -1,6 +1,3 @@
-import logging
-
-
 from slack_sdk.errors import SlackApiError
 
 from domain.error import EntityTypeNotFoundException, EventNameNotFoundException
@@ -10,16 +7,12 @@ from app.listing import SlackListingMessageSenderService
 from adapter.bot import SlackBotAdapter
 
 def handler(event, context):
-    logging.info("EVENT: ", event)
-
     messages = KinesisEventStreamHandler.parse_event(event)
     bot_adapter = SlackBotAdapter()
     
     try:
-        print("ENTERED2")
         for message in messages:
             if 'data' in message:
-                print("MESSAGE: ", message)
                 if message['eventEntity'] == 'User':
                     service = SlackUserMessageSenderService(bot_adapter)
                     service.send_user_account_event_message(message['eventName'], message['data'])
