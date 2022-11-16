@@ -20,12 +20,12 @@ provider:
       app:
         path: ./
   environment:
-    accountId: ${aws:accountId}
+    ACCOUNT_ID: ${aws:accountId}
+    STAGE: ${self:provider.stage}
 
 custom:
   namespace: app
   service: slack
-  ACCOUNT_ID: ${aws:accountId}
   export-env:
     filename: .env
     overwrite: true

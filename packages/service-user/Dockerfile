@@ -1,26 +1,18 @@
-FROM node:14 AS build-image
+FROM golang:1.19 AS build-image
 
 WORKDIR /app
 
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-COPY tsconfig.docker.json ./
+COPY . .
 
-RUN npm install -g pnpm typescript
-RUN pnpm install --frozen-lockfile
-COPY ./ ./
+RUN cd cmd/controller/create_user && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/create_user
+RUN cd cmd/controller/find_user_by_email && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/find_user_by_email
+RUN cd cmd/controller/find_user_by_id && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/find_user_by_id
+RUN cd cmd/controller/remove_user_by_id && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/remove_user_by_id
 
-RUN pnpm build:docker
-
-FROM amazon/aws-lambda-nodejs:14
+FROM amazon/aws-lambda-go:latest
 
 WORKDIR ${LAMBDA_TASK_ROOT}
 
-RUN npm install -g pnpm
-COPY --from=build-image /app/dist ${LAMBDA_TASK_ROOT}/dist
-COPY --from=build-image /app/package.json ./
-COPY --from=build-image /app/pnpm-lock.yaml ./
+COPY --from=build-image /app/bin ${LAMBDA_TASK_ROOT}/bin/
 
-RUN pnpm install --prod
-
-CMD [ "app.handler" ]
+CMD [ "app" ]
