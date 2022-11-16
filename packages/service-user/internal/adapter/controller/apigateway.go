@@ -28,18 +28,18 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (eve
 	if err != nil {
 		panic(err)
 	}
-	err = h.service.CreateUser(body.EmailAddresss, body.FirstName, body.LastName, body.Password)
+	uid, err := h.service.CreateUser(body.EmailAddresss, body.FirstName, body.LastName, body.Password)
 	if err != nil {
-		panic(err)
+		return sendFailureResponse(err)
 	}
-	return sendCreatedResponse()
+	return sendCreatedResponse(uid)
 }
 
 func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	emailAddress := event.QueryStringParameters["emailAddress"]
 	user, err := h.service.FindByEmail(emailAddress)
 	if err != nil {
-		panic(err)
+		return sendFailureResponse(err)
 	}
 	return sendResponse(user.ToDTO())
 }
@@ -48,7 +48,7 @@ func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (e
 	uid := event.PathParameters["userId"]
 	user, err := h.service.FindById(uid)
 	if err != nil {
-		panic(err)
+		return sendFailureResponse(err)
 	}
 	return sendResponse(user.ToDTO())
 }
@@ -57,7 +57,7 @@ func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) 
 	uid := event.PathParameters["userId"]
 	err := h.service.RemoveById(uid)
 	if err != nil {
-		panic(err)
+		return sendFailureResponse(err)
 	}
 	return sendDeletedResponse()
 }
@@ -75,12 +75,28 @@ func sendResponse(data interface{}) (events.APIGatewayProxyResponse, error) {
 
 func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
 	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
+		StatusCode: 204,
 	}, nil
 }
 
-func sendCreatedResponse() (events.APIGatewayProxyResponse, error) {
+func sendCreatedResponse(userId string) (events.APIGatewayProxyResponse, error) {
+	encoded, err := json.Marshal(&struct {
+		Uid string `json:"uid"`
+	}{
+		Uid: userId,
+	})
+	if err != nil {
+		panic(err)
+	}
 	return events.APIGatewayProxyResponse{
-		StatusCode: 201,
+		StatusCode: 200,
+		Body:       string(encoded),
+	}, nil
+}
+
+func sendFailureResponse(err error) (events.APIGatewayProxyResponse, error) {
+	return events.APIGatewayProxyResponse{
+		StatusCode: 404,
+		Body:       string(err.Error()),
 	}, nil
 }

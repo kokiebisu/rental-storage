@@ -6,6 +6,7 @@ import (
 
 	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/controller"
 	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/db"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/sender"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
 	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
 )
@@ -16,8 +17,9 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		panic(err)
 	}
 	repo := repository.NewUserRepository(db)
+	eventSender := sender.New()
 	repo.Setup()
-	service := service.NewUserService(repo)
+	service := service.NewUserService(repo, eventSender)
 	apigateway := controller.New(service)
 	return apigateway.CreateUser(request)
 }

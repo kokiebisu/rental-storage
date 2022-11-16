@@ -10,35 +10,47 @@ import (
 
 type UserService struct {
 	userRepository port.UserRepository
+	eventSender    port.EventSender
 }
 
-func NewUserService(userRepository port.UserRepository) *UserService {
+func NewUserService(userRepository port.UserRepository, eventSender port.EventSender) *UserService {
 	return &UserService{
 		userRepository: userRepository,
+		eventSender:    eventSender,
 	}
 }
 
-func (s *UserService) CreateUser(emailAddress string, firstName string, lastName string, password string) error {
+func (s *UserService) CreateUser(emailAddress string, firstName string, lastName string, password string) (string, error) {
 	user := domain.CreateUser(firstName, lastName, emailAddress, password)
-	err := s.userRepository.Save(user)
+	uid, err := s.userRepository.Save(user)
 	if err != nil {
-		return errors.New("failed to create via repository")
+		message := fmt.Sprintf("failed to create user in db: %s", err.Error())
+		return uid, errors.New(message)
 	}
-	return nil
+	err = s.eventSender.UserCreated(user.ToDTO())
+	if err != nil {
+		// send to dead letter queue (?)
+		message := fmt.Sprintf("failed to send user created event: %s", err.Error())
+		return uid, errors.New(message)
+	}
+	return uid, nil
 }
 
 func (s *UserService) RemoveById(uid string) error {
 	err := s.userRepository.Delete(uid)
 	if err != nil {
-		return errors.New("failed to remove via repository")
+		message := fmt.Sprintf("failed to remove account from db: %s", err.Error())
+		return errors.New(message)
 	}
+	// user removed event
 	return nil
 }
 
 func (s *UserService) FindById(uid string) (domain.User, error) {
 	user, err := s.userRepository.FindOneById(uid)
 	if err != nil {
-		return domain.User{}, errors.New("failed to find via repository")
+		message := fmt.Sprintf("failed to find from db: %s", err.Error())
+		return domain.User{}, errors.New(message)
 	}
 	return user, nil
 }
@@ -46,8 +58,8 @@ func (s *UserService) FindById(uid string) (domain.User, error) {
 func (s *UserService) FindByEmail(emailAddress string) (domain.User, error) {
 	user, err := s.userRepository.FindOneByEmail(emailAddress)
 	if err != nil {
-		fmt.Println("ENTERED2", err)
-		return domain.User{}, errors.New("failed to find via repository")
+		message := fmt.Sprintf("failed to find from db: %s", err)
+		return domain.User{}, errors.New(message)
 	}
 	return user, nil
 }

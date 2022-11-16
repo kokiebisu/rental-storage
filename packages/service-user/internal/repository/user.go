@@ -37,15 +37,15 @@ func (r *UserRepository) Setup() error {
 	return nil
 }
 
-func (r *UserRepository) Save(user domain.User) error {
+func (r *UserRepository) Save(user domain.User) (string, error) {
 	_, err := r.db.Exec(`
 		INSERT INTO user_account (uid, email_address, password, first_name, last_name, created_at, updated_at) 
         VALUES ($1, $2, $3, $4, $5, $6, $7)
 	`, user.Uid, user.EmailAddress.Value, user.Password, user.FirstName.Value, user.LastName.Value, user.CreatedAt.Format("2006-01-02"), user.UpdatedAt.Format("2006-01-02"))
 	if err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	return user.Uid, nil
 }
 
 func (r *UserRepository) Delete(uid string) error {

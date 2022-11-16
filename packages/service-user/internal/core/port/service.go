@@ -7,7 +7,7 @@ type ItemService interface {
 }
 
 type UserService interface {
-	CreateUser(emailAddress string, firstName string, lastName string, password string) error
+	CreateUser(emailAddress string, firstName string, lastName string, password string) (string, error)
 	RemoveById(uid string) error
 	FindById(uid string) (domain.User, error)
 	FindByEmail(emailAddress string) (domain.User, error)

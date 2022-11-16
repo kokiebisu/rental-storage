@@ -10,7 +10,7 @@ type ItemRepository interface {
 
 type UserRepository interface {
 	Setup() error
-	Save(domain.User) error
+	Save(domain.User) (string, error)
 	Delete(uid string) error
 	FindOneById(uid string) (domain.User, error)
 	FindOneByEmail(emailAddress string) (domain.User, error)

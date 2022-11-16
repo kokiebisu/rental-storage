@@ -1,13 +1,14 @@
 package sender
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/kinesis"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/kinesis"
 
 	"github.com/google/uuid"
 
@@ -15,35 +16,29 @@ import (
 )
 
 type KinesisSender struct {
-	client *kinesis.Kinesis
-}
-
-type Event struct {
-	SourceEntity string
-	EventName    string
-	Data         domain.UserDTO
+	client *kinesis.Client
 }
 
 func New() *KinesisSender {
-	region := "us-east-1"
-	mySession := session.Must(session.NewSession(&aws.Config{
-		Region: &region,
-	}))
-
+	defaultConfig, err := config.LoadDefaultConfig(context.TODO())
+	if err != nil {
+		log.Fatalf("failed to load SDK configuration, %v", err)
+	}
 	// Create a Kinesis client with additional configuration
-	client := kinesis.New(mySession)
+	client := kinesis.NewFromConfig(defaultConfig)
 	return &KinesisSender{
 		client: client,
 	}
 }
 
 func (s *KinesisSender) UserCreated(user domain.UserDTO) error {
-	event := &Event{
-		SourceEntity: "User",
-		EventName:    "created",
-		Data:         user,
+	fmt.Println("USER HERE: ", user)
+	event := map[string]interface{}{
+		"sourceEntity": "User",
+		"eventName":    "created",
+		"data":         user,
 	}
-
+	fmt.Println("EVENT: ", event)
 	encoded, err := json.Marshal(event)
 	if err != nil {
 		return err
@@ -52,12 +47,15 @@ func (s *KinesisSender) UserCreated(user domain.UserDTO) error {
 }
 
 func (s *KinesisSender) publish(data []byte) error {
+
 	streamName := fmt.Sprintf("%s-EventStream", os.Getenv("STAGE"))
 	partitionKey := uuid.New().String()
-	_, err := s.client.PutRecord(&kinesis.PutRecordInput{
+
+	res, err := s.client.PutRecord(context.TODO(), &kinesis.PutRecordInput{
 		StreamName:   &streamName,
 		PartitionKey: &partitionKey,
 		Data:         data,
 	})
+	fmt.Println("SENT: ", res)
 	return err
 }
