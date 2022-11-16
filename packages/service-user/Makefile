@@ -13,4 +13,4 @@ prepare: clean build
 
 .PHONY: unit-test
 unit-test:
-	cd pkg/test && go test ./... && cd ../..
+	cd test && go test ./... && cd ../..
