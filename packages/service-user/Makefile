@@ -12,6 +12,6 @@ clean:
 .PHONY: prepare
 prepare: clean build
 
-.PHONY: unit-test
-unit-test:
+.PHONY: test
+test:
 	cd test && go test ./... && cd ../..

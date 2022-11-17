@@ -8,6 +8,6 @@ clean:
 
 prepare: clean build
 
-.PHONY: unit-test
-unit-test:
+.PHONY: test
+test:
 	cd pkg/test && go test ./... && cd ../..

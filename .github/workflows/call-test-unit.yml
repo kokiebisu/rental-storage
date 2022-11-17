@@ -85,7 +85,7 @@ jobs:
       - name: Test ${{ matrix.package }} Service
         run: |
           cd packages/service-${{ matrix.package }}
-          make unit-test
+          make test
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
@@ -119,6 +119,6 @@ jobs:
       - name: Test authorizer service
         run: |
           cd packages/service-${{ matrix.package }}
-          make unit-test
+          make test
         shell: bash
         if: steps.changes.outputs.package == 'true'
