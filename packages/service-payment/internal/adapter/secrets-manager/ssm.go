@@ -1,4 +1,4 @@
-package adapter
+package secrets
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
@@ -10,7 +10,7 @@ type SecretsManager struct {
 	client *ssm.SSM
 }
 
-func SetupSecretsManager() *SecretsManager {
+func New() *SecretsManager {
 	sess, err := session.NewSessionWithOptions(session.Options{
 		Config:            aws.Config{Region: aws.String("us-east-1")},
 		SharedConfigState: session.SharedConfigEnable,

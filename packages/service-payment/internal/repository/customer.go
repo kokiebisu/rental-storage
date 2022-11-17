@@ -1,25 +1,24 @@
-package adapter
+package repository
 
 import (
 	"database/sql"
-
-	"service-payment/pkg/domain"
-	"service-payment/pkg/port"
+	"service-payment/internal/core/domain"
 
 	_ "github.com/lib/pq"
 )
 
+type CustomerRepository struct {
+	DB *sql.DB
+}
 
-type CustomerRepository port.CustomerRepository
-
-func SetupCustomerRepository(db *sql.DB) *CustomerRepository {
+func NewCustomerRepository(db *sql.DB) *CustomerRepository {
 	return &CustomerRepository{
-		Db: db,
+		DB: db,
 	}
 }
 
-func (r *CustomerRepository) SetupTables() (error) {
-	_, err := r.Db.Query(`
+func (r *CustomerRepository) SetupTables() error {
+	_, err := r.DB.Query(`
 		CREATE TABLE IF NOT EXISTS customer (
 			user_id VARCHAR(64) NOT NULL,
 			customer_id VARCHAR(64) NOT NULL,
@@ -33,8 +32,8 @@ func (r *CustomerRepository) SetupTables() (error) {
 	return nil
 }
 
-func (r *CustomerRepository) Save(pc *domain.PaymentCustomer) (*domain.PaymentCustomer, error) {
-	_, err := r.Db.Exec(`
+func (r *CustomerRepository) Save(pc domain.PaymentCustomer) (domain.PaymentCustomer, error) {
+	_, err := r.DB.Exec(`
 		INSERT INTO customer (
 			user_id,
 			customer_id, 
@@ -42,7 +41,7 @@ func (r *CustomerRepository) Save(pc *domain.PaymentCustomer) (*domain.PaymentCu
 		) VALUES ($1, $2, $3)
 	`, pc.UserId, pc.CustomerId, pc.ProviderType)
 	if err != nil {
-		return nil, err
+		return domain.PaymentCustomer{}, err
 	}
 	return pc, nil
 }

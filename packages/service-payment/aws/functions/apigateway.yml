@@ -2,7 +2,7 @@ GenerateCustomerIdApiGateway:
   image:
     name: app
     command:
-      - bin/create_payment_customer
+      - bin/create-payment-customer
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-create_payment_customer
   events:
     - http:

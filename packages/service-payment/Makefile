@@ -1,7 +1,7 @@
 .PHONY: build
 build:
-	cd cmd/make_payment && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../bin/make_payment && cd ../..
-	cd cmd/create_payment_customer && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../bin/create_payment_customer && cd ../..
+	cd cmd/controller/make-payment && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/make-payment && cd ../..
+	cd cmd/controller/create-payment-customer && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/create-payment-customer && cd ../..
 
 clean:
 	rm -rf ./bin Gopkg.lock

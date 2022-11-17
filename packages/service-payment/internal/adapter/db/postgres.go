@@ -1,4 +1,4 @@
-package adapter
+package db
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func SetupDB() (*sql.DB, error) {
+func NewPostgres() (*sql.DB, error) {
 	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		log.Fatalln("Unable to convert DB_PORT")
@@ -31,18 +31,18 @@ func SetupDB() (*sql.DB, error) {
 	}
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",
-        dbHost, dbPort, dbUser, dbPassword, dbName,
-    )
+		dbHost, dbPort, dbUser, dbPassword, dbName,
+	)
 
-    db, err := sql.Open("postgres", dsn)
-    if err != nil {
-        panic(err)
-    }
+	db, err := sql.Open("postgres", dsn)
+	if err != nil {
+		panic(err)
+	}
 
-    err = db.Ping()
-    if err != nil {
-        panic(err)
-    }
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
 
 	return db, nil
 }
