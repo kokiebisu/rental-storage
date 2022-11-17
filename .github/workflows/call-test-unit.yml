@@ -116,7 +116,7 @@ jobs:
           go-version: "^1.13.1" # The Go version to download (if necessary) and use.
         if: steps.changes.outputs.package == 'true'
 
-      - name: Test authorizer service
+      - name: Test service
         run: |
           cd packages/service-${{ matrix.package }}
           make test
