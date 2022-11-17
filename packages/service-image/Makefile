@@ -4,8 +4,8 @@ install-deps-local:
 start-venv:
 	source venv/bin/activate
 
-.PHONY: unit-test
-unit-test:
+.PHONY: test
+test:
 	python -m pytest -v test/unit_test
 
 .PHONY: integration-test

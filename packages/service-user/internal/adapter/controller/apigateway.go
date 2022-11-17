@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
@@ -28,6 +29,7 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (eve
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("Create User Params: ", body.EmailAddresss, body.FirstName, body.LastName, body.Password)
 	uid, err := h.service.CreateUser(body.EmailAddresss, body.FirstName, body.LastName, body.Password)
 	if err != nil {
 		return sendFailureResponse(err)
