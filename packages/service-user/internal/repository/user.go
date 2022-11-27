@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 
 	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	_ "github.com/lib/pq"
@@ -101,7 +100,7 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (domain.User, error
 		WHERE email_address = $1
   	`, emailAddress)
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
-	fmt.Println("RESULT: ", id, uid, firstName, lastName, emailAddress, password, createdAt, updatedAt)
+
 	if err != nil {
 		return domain.User{}, err
 	}
