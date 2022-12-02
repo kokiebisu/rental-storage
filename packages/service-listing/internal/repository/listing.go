@@ -198,55 +198,69 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, error) {
 func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]domain.Listing, error) {
 	rows, err := r.db.Query(
 		`
-          SELECT listing.*, ( 3959 * acos( cos( radians($1) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians($2) ) + sin( radians($3) ) * sin( radians( latitude ) ) ) ) 
-          AS distance, images_listing.url FROM listing 
-          INNER JOIN images_listing ON listing.id = images_listing.listing_id
-          INNER JOIN fees_listing ON listing.id = fees_listing.listing_id
-          HAVING distance < $4 ORDER BY distance LIMIT 0 , 20
-        `,
-		latitude, longitude, latitude, distance,
+			SELECT * FROM (
+				SELECT listing.*, 
+						( 3959 * acos( cos( radians($1) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians($2) ) + sin( radians(1) ) * sin( radians( latitude ) ) ) ) 
+						AS distance, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type FROM listing 
+						LEFT JOIN images_listing ON listing.id = images_listing.listing_id
+						LEFT JOIN fees_listing ON listing.id = fees_listing.listing_id
+						GROUP BY id, uid, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type
+			) 
+			x GROUP BY x.id, x.uid, x.title, x.lender_id, x.street_address, x.latitude, x.longitude, x.url, x.amount, x.currency, x.type, x.distance 
+			HAVING x.distance < $3 ORDER BY x.distance LIMIT 10
+		`,
+		latitude, longitude, distance,
 	)
 	if err != nil {
 		return []domain.Listing{}, err
 	}
-	listings := []domain.Listing{}
+	listingsMap := map[string]domain.Listing{}
 	for rows.Next() {
 		var id string
 		var uid string
 		var title string
-		var lender_id string
-		var street_address string
+		var lenderId string
+		var streetAddress string
 		var latitude float32
 		var longitude float32
-		var image_urls []string
+		var distance float32
+		var imageUrl string
 		var feeAmount int64
 		var feeCurrency string
 		var feeType string
-		err := rows.Scan(&id, &uid, &title, &lender_id, &street_address, &latitude, &longitude, &image_urls, &feeType, &feeAmount, &feeCurrency)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
 		if err != nil {
 			return []domain.Listing{}, err
 		}
-		listing, err := domain.ListingRaw{
-			Uid:           uid,
-			Title:         title,
-			LenderId:      lender_id,
-			StreetAddress: street_address,
-			Latitude:      latitude,
-			Longitude:     longitude,
-			ImageUrls:     image_urls,
-			Fee: domain.FeeRaw{
-				Amount: domain.AmountRaw{
-					Value:    feeAmount,
-					Currency: feeCurrency,
+		if entry, ok := listingsMap[uid]; ok {
+			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)
+		} else {
+			listing, err := domain.ListingRaw{
+				Uid:           uid,
+				Title:         title,
+				LenderId:      lenderId,
+				StreetAddress: streetAddress,
+				Latitude:      latitude,
+				Longitude:     longitude,
+				ImageUrls:     append([]string{}, imageUrl),
+				Fee: domain.FeeRaw{
+					Amount: domain.AmountRaw{
+						Value:    feeAmount,
+						Currency: feeCurrency,
+					},
+					Type: feeType,
 				},
-				Type: feeType,
-			},
-		}.ToEntity()
-		if err != nil {
-			log.Fatalf(err.Error())
-			return []domain.Listing{}, err
+			}.ToEntity()
+			if err != nil {
+				log.Fatalf(err.Error())
+				return []domain.Listing{}, err
+			}
+			listingsMap[uid] = listing
 		}
-		listings = append(listings, listing)
+	}
+	listings := []domain.Listing{}
+	for _, value := range listingsMap {
+		listings = append(listings, value)
 	}
 	return listings, nil
 }
