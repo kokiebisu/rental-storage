@@ -32,13 +32,11 @@ func New() *KinesisSender {
 }
 
 func (s *KinesisSender) UserCreated(user domain.UserDTO) error {
-	fmt.Println("USER HERE: ", user)
 	event := map[string]interface{}{
 		"sourceEntity": "User",
 		"eventName":    "created",
 		"data":         user,
 	}
-	fmt.Println("EVENT: ", event)
 	encoded, err := json.Marshal(event)
 	if err != nil {
 		return err
@@ -56,6 +54,5 @@ func (s *KinesisSender) publish(data []byte) error {
 		PartitionKey: &partitionKey,
 		Data:         data,
 	})
-	fmt.Println("SENT: ", res)
 	return err
 }

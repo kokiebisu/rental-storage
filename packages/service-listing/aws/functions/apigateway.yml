@@ -2,7 +2,7 @@ FindListingByIdRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/FindListingById.handler
+      - bin/find-listing-by-id
   name: ${self:provider.stage}-app-${self:custom.service}-rest-find-listing-by-id
   events:
     - http:
@@ -13,9 +13,20 @@ FindListingsWithinLatLngRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/FindListingsWithinLatLng.handler
+      - bin/find-listings-within-lat-lng
   name: ${self:provider.stage}-app-${self:custom.service}-rest-find-listings-within-lat-lng
   events:
     - http:
         path: /listings
         method: get
+
+AddListingRest:
+  image:
+    name: app
+    command:
+      - bin/add-listing
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-add-listing
+  events:
+    - http:
+        path: /listings
+        method: post
