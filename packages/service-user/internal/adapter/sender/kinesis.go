@@ -49,7 +49,7 @@ func (s *KinesisSender) publish(data []byte) error {
 	streamName := fmt.Sprintf("%s-EventStream", os.Getenv("STAGE"))
 	partitionKey := uuid.New().String()
 
-	res, err := s.client.PutRecord(context.TODO(), &kinesis.PutRecordInput{
+	_, err := s.client.PutRecord(context.TODO(), &kinesis.PutRecordInput{
 		StreamName:   &streamName,
 		PartitionKey: &partitionKey,
 		Data:         data,
