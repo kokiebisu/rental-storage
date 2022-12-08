@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"errors"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
@@ -29,17 +30,20 @@ func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		sendFailureResponse(err)
+		return sendFailureResponse(err)
 	}
 	bookingId, err := h.service.CreateBooking(body.Amount, body.UserId, body.ListingId, body.Items)
 	if err != nil {
-		sendFailureResponse(err)
+		return sendFailureResponse(err)
 	}
 	return sendCreatedResponse(bookingId)
 }
 
 func (h *ApiGatewayHandler) FindUserBookings(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	userId := event.PathParameters["userId"]
+	if userId == "" {
+		return sendFailureResponse(errors.New("userId not provided"))
+	}
 	bookings, err := h.service.FindUserBookings(userId)
 	if err != nil {
 		return sendFailureResponse(err)
@@ -75,11 +79,11 @@ func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
 	}, nil
 }
 
-func sendCreatedResponse(listingId string) (events.APIGatewayProxyResponse, error) {
+func sendCreatedResponse(bookingId string) (events.APIGatewayProxyResponse, error) {
 	encoded, err := json.Marshal(&struct {
 		Uid string `json:"uid"`
 	}{
-		Uid: listingId,
+		Uid: bookingId,
 	})
 	if err != nil {
 		panic(err)

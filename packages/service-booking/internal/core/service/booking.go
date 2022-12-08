@@ -32,7 +32,6 @@ func (s *BookingService) CreateBooking(amountDTO amount.DTO, ownerId string, lis
 		}
 		itemEntities = append(itemEntities, validItem)
 	}
-
 	bookingEntity, err := booking.New(amountEntity, ownerId, listingId, itemEntities)
 	if err != nil {
 		return "", err

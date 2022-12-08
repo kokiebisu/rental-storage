@@ -4,7 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
@@ -32,7 +34,7 @@ func NewNoSQLClient() (*NoSQLClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	tableName := os.Getenv("TABLE_NAME")
+	tableName := fmt.Sprintf("%s-%s", os.Getenv("TABLE_NAME"), os.Getenv("STAGE"))
 	if tableName == "" {
 		return nil, errors.New("TABLE_NAME not properly retrieved")
 	}
@@ -44,8 +46,8 @@ func NewNoSQLClient() (*NoSQLClient, error) {
 
 func (c *NoSQLClient) Save(booking booking.Entity) error {
 	itemsStringified := []types.AttributeValue{}
-	for item, _ := range booking.Items {
-		itemStringified, err := json.Marshal(item)
+	for _, i := range booking.Items {
+		itemStringified, err := json.Marshal(i)
 		if err != nil {
 			return errors.New("failed to marshal item")
 		}
@@ -56,10 +58,10 @@ func (c *NoSQLClient) Save(booking booking.Entity) error {
 		Item: map[string]types.AttributeValue{
 			"id":         &types.AttributeValueMemberS{Value: booking.Id},
 			"status":     &types.AttributeValueMemberS{Value: string(booking.Status)},
-			"owner_id":   &types.AttributeValueMemberS{Value: "john@doe.io"},
+			"owner_id":   &types.AttributeValueMemberS{Value: booking.OwnerId},
 			"listing_id": &types.AttributeValueMemberS{Value: booking.ListingId},
 			"amount": &types.AttributeValueMemberM{Value: map[string]types.AttributeValue{
-				"Value":    &types.AttributeValueMemberN{Value: string(booking.Amount.Value)},
+				"Value":    &types.AttributeValueMemberN{Value: strconv.Itoa(int(booking.Amount.Value))},
 				"Currency": &types.AttributeValueMemberS{Value: booking.Amount.Currency},
 			}},
 			"items":      &types.AttributeValueMemberL{Value: itemsStringified},

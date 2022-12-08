@@ -8,3 +8,14 @@ FindCreatedListingsRest:
     - http:
         path: /bookings
         method: get
+
+CreateBooking:
+  image:
+    name: app
+    command:
+      - bin/create-booking
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-create-booking
+  events:
+    - http:
+        path: /bookings
+        method: post
