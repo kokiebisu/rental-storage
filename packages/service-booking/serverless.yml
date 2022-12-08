@@ -7,7 +7,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: go1.x
   stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
