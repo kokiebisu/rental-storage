@@ -17,7 +17,7 @@ type Raw struct {
 	Currency string `json:"currency"`
 }
 
-func NewEntity(value int32, currency string) (Entity, error) {
+func New(value int32, currency string) (Entity, error) {
 	err := validateAmountValue(value)
 	if err != nil {
 		return Entity{}, err
@@ -41,4 +41,18 @@ func validateAmountValue(value int32) error {
 
 func validateAmountCurrency(value string) error {
 	return nil
+}
+
+func (d DTO) ToEntity() Entity {
+	return Entity{
+		Value:    d.Value,
+		Currency: d.Currency,
+	}
+}
+
+func (e Entity) ToDTO() DTO {
+	return DTO{
+		Value:    e.Value,
+		Currency: e.Currency,
+	}
 }

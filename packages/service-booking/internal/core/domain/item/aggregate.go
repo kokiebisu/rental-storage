@@ -1,6 +1,9 @@
 package item
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type Entity struct {
 	Id        int32
@@ -40,6 +43,27 @@ func New(name string, imageUrls []string, userId string, listingId string) (Enti
 		ListingId: listingId,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Time{},
+	}, nil
+}
+
+func (d DTO) ToEntity() (Entity, error) {
+	layout := "01/02/2006 3:04:05 PM"
+	createdAt, err := time.Parse(layout, d.CreatedAt)
+	if err != nil {
+		return Entity{}, errors.New("unable to parse CreatedAt")
+	}
+	updatedAt, err := time.Parse(layout, d.UpdatedAt)
+	if err != nil {
+		return Entity{}, errors.New("unable to parse UpdatedAt")
+	}
+	return Entity{
+		Id:        d.Id,
+		Name:      d.Name,
+		ImageUrls: d.ImageUrls,
+		UserId:    d.UserId,
+		ListingId: d.ListingId,
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
 	}, nil
 }
 

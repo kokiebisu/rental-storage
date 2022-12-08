@@ -20,25 +20,25 @@ type Entity struct {
 }
 
 type DTO struct {
-	Id        string `json:"id"`
-	Status    string `json:"status"`
-	Amount    string `json:"amount"`
-	OwnerId   string `json:"ownerId"`
-	ListingId string `json:"listingId"`
-	Items     string `json:"items"`
-	CreatedAt string `json:"createdAt"`
-	UpdatedAt string `json:"updatedAt"`
+	Id        string     `json:"id"`
+	Status    string     `json:"status"`
+	Amount    amount.DTO `json:"amount"`
+	OwnerId   string     `json:"ownerId"`
+	ListingId string     `json:"listingId"`
+	Items     []item.DTO `json:"items"`
+	CreatedAt string     `json:"createdAt"`
+	UpdatedAt string     `json:"updatedAt"`
 }
 
 type Raw struct {
-	Id        string `json:"id"`
-	Status    string `json:"status"`
-	Amount    string `json:"amount"`
-	OwnerId   string `json:"owner_id"`
-	ListingId string `json:"listing_id"`
-	Items     string `json:"items"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
+	Id        string     `json:"id"`
+	Status    string     `json:"status"`
+	Amount    amount.Raw `json:"amount"`
+	OwnerId   string     `json:"owner_id"`
+	ListingId string     `json:"listing_id"`
+	Items     []item.Raw `json:"items"`
+	CreatedAt string     `json:"created_at"`
+	UpdatedAt string     `json:"updated_at"`
 }
 
 const (
@@ -48,7 +48,7 @@ const (
 
 type BookingStatus string
 
-func New(amount amount.Entity, ownerId string, listingId string, items []item.Entity) (booking.Entity, error) {
+func New(amount amount.Entity, ownerId string, listingId string, items []item.Entity) (Entity, error) {
 	return Entity{
 		Id:        uuid.New().String(),
 		Status:    CREATED,
@@ -59,4 +59,23 @@ func New(amount amount.Entity, ownerId string, listingId string, items []item.En
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Time{},
 	}, nil
+}
+
+func (e *Entity) ToDTO() DTO {
+	createdAtString := e.CreatedAt.Format("2016-08-19")
+	updatedAtString := e.UpdatedAt.Format("2016-08-19")
+	itemsDTO := []item.DTO{}
+	for _, i := range e.Items {
+		itemsDTO = append(itemsDTO, i.ToDTO())
+	}
+	return DTO{
+		Id:        e.Id,
+		Status:    string(e.Status),
+		Amount:    e.Amount.ToDTO(),
+		OwnerId:   e.OwnerId,
+		ListingId: e.ListingId,
+		Items:     itemsDTO,
+		CreatedAt: createdAtString,
+		UpdatedAt: updatedAtString,
+	}
 }
