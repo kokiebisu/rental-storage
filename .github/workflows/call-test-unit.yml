@@ -2,45 +2,45 @@ on:
   workflow_call:
 
 jobs:
-  unit-test-typescript:
-    name: Typescript
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package:
-          - booking
+  # unit-test-typescript:
+  #   name: Typescript
+  #   timeout-minutes: 15
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       package:
+  #         -
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            package:
-              - 'packages/service-${{ matrix.package }}/**'
+  #     - uses: dorny/paths-filter@v2
+  #       id: changes
+  #       with:
+  #         filters: |
+  #           package:
+  #             - 'packages/service-${{ matrix.package }}/**'
 
-      - name: Install global dependencies
-        run: |
-          npm install -g pnpm
-        shell: bash
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Install global dependencies
+  #       run: |
+  #         npm install -g pnpm
+  #       shell: bash
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Install dependencies
-        run: |
-          cd packages/service-${{ matrix.package }}
-          pnpm install --frozen-lockfile
-        shell: bash
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Install dependencies
+  #       run: |
+  #         cd packages/service-${{ matrix.package }}
+  #         pnpm install --frozen-lockfile
+  #       shell: bash
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Test ${{ matrix.package }} service
-        run: |
-          cd packages/service-${{ matrix.package }}
-          npm run test:unit
-        shell: bash
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Test ${{ matrix.package }} service
+  #       run: |
+  #         cd packages/service-${{ matrix.package }}
+  #         npm run test:unit
+  #       shell: bash
+  #       if: steps.changes.outputs.package == 'true'
 
   unit-test-python:
     name: Python
@@ -98,6 +98,7 @@ jobs:
         package:
           - authorizer
           - authentication
+          - booking
           - listing
           - payment
           - user

@@ -2,7 +2,8 @@
   "name": "@rental-storage-project/api-appsync",
   "private": true,
   "scripts": {
-    "deploy": "sls deploy",
+    "deploy:local": "sls deploy --config serverless.yml --stage local",
+    "deploy:dev": "sls deploy --config serverless.dev.yml --stage dev",
     "remove": "sls remove"
   },
   "devDependencies": {
