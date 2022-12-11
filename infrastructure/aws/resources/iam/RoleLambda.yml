@@ -43,6 +43,7 @@ Properties:
               - dynamodb:DeleteItem
               - dynamodb:GetItem
               - dynamodb:Scan
+              - dynamodb:Query
             Resource: "arn:aws:dynamodb:${aws:region}:*:table/*"
     - PolicyName: EnableSSM
       PolicyDocument:
