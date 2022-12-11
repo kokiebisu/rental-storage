@@ -18,27 +18,26 @@ jobs:
         with:
           package: composition
 
-  setup-typescript:
-    name: Typescript Service
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        package:
-          - booking
+  # setup-typescript:
+  #   name: Typescript Service
+  #   timeout-minutes: 15
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       package:
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 6.0.2
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 6.0.2
 
-      - name: Setup
-        uses: ./.github/actions/setup-typescript
-        with:
-          package: service-${{ matrix.package }}
+  #     - name: Setup
+  #       uses: ./.github/actions/setup-typescript
+  #       with:
+  #         package: service-${{ matrix.package }}
 
   setup-go:
     name: Go Service
@@ -49,6 +48,7 @@ jobs:
         package:
           - authentication
           - authorizer
+          - booking
           - listing
           - payment
           - user
