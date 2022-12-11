@@ -9,7 +9,6 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/kinesis"
-
 	"github.com/google/uuid"
 
 	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"

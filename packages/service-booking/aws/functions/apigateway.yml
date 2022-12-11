@@ -1,10 +1,21 @@
-BookingServiceController:
-  # handler: dist/adapter/api/controller/index.handler
+FindCreatedListingsRest:
   image:
     name: app
     command:
-      - dist/adapter/api/controller/index.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-controller
+      - bin/find-created-bookings
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-find-created-listings
   events:
-    - http: ANY /bookings
-    - http: ANY /bookings/{proxy+}
+    - http:
+        path: /bookings
+        method: get
+
+CreateBooking:
+  image:
+    name: app
+    command:
+      - bin/create-booking
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-create-booking
+  events:
+    - http:
+        path: /bookings
+        method: post

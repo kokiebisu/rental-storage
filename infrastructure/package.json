@@ -1,8 +1,10 @@
 {
   "name": "@rental-storage-project/infrastructure",
   "scripts": {
-    "deploy": "sls deploy",
-    "remove": "sls remove"
+    "deploy:local": "sls deploy --config serverless.yml --stage local",
+    "deploy:dev": "sls deploy --config serverless.dev.yml --stage dev",
+    "remove:local": "sls remove --stage local",
+    "remove:dev": "sls remove --stage dev"
   },
   "devDependencies": {
     "serverless-deployment-bucket": "1.6.0"
