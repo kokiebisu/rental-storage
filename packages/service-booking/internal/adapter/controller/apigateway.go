@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/aws/aws-lambda-go/events"
+
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
@@ -40,7 +41,7 @@ func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (
 }
 
 func (h *ApiGatewayHandler) FindUserBookings(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	userId := event.PathParameters["userId"]
+	userId := event.QueryStringParameters["userId"]
 	if userId == "" {
 		return sendFailureResponse(errors.New("userId not provided"))
 	}

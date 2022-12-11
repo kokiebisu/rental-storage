@@ -26,7 +26,7 @@ func (s *BookingService) CreateBooking(amountDTO amount.DTO, ownerId string, lis
 		return "", err
 	}
 	for _, i := range itemsDTO {
-		validItem, err := item.New(i.Name, i.ImageUrls, i.UserId, i.ListingId)
+		validItem, err := item.New(i.Name, i.ImageUrls)
 		if err != nil {
 			return "", errors.New("something went wrong while mapping")
 		}
@@ -46,7 +46,7 @@ func (s *BookingService) CreateBooking(amountDTO amount.DTO, ownerId string, lis
 func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, error) {
 	bookings, err := s.bookingRepository.FindManyByUserId(userId)
 	if err != nil {
-		return []booking.Entity{}, nil
+		return []booking.Entity{}, err
 	}
 	return bookings, nil
 }

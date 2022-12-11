@@ -61,6 +61,29 @@ func New(amount amount.Entity, ownerId string, listingId string, items []item.En
 	}, nil
 }
 
+func (d *DTO) ToEntity() (Entity, error) {
+	amountEntity, err := amount.New(d.Amount.Value, d.Amount.Currency)
+	if err != nil {
+		return Entity{}, err
+	}
+	items := []item.Entity{}
+	for _, i := range d.Items {
+		itemEntity, err := i.ToEntity()
+		if err != nil {
+			return Entity{}, err
+		}
+		items = append(items, itemEntity)
+	}
+	return Entity{
+		Id:        d.Id,
+		Status:    BookingStatus(d.Status),
+		Amount:    amountEntity,
+		OwnerId:   d.OwnerId,
+		ListingId: d.ListingId,
+		Items:     items,
+	}, nil
+}
+
 func (e *Entity) ToDTO() DTO {
 	createdAtString := e.CreatedAt.Format("2016-08-19")
 	updatedAtString := e.UpdatedAt.Format("2016-08-19")

@@ -2,17 +2,16 @@ package db
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
-	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
+
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 )
 
@@ -45,29 +44,14 @@ func NewNoSQLClient() (*NoSQLClient, error) {
 }
 
 func (c *NoSQLClient) Save(booking booking.Entity) error {
-	itemsStringified := []types.AttributeValue{}
-	for _, i := range booking.Items {
-		itemStringified, err := json.Marshal(i)
-		if err != nil {
-			return errors.New("failed to marshal item")
-		}
-		itemsStringified = append(itemsStringified, &types.AttributeValueMemberS{Value: string(itemStringified)})
+	bookingDTO := booking.ToDTO()
+	item, err := attributevalue.MarshalMap(bookingDTO)
+	if err != nil {
+		return err
 	}
-	_, err := c.client.PutItem(context.TODO(), &dynamodb.PutItemInput{
-		TableName: aws.String(c.tableName),
-		Item: map[string]types.AttributeValue{
-			"id":         &types.AttributeValueMemberS{Value: booking.Id},
-			"status":     &types.AttributeValueMemberS{Value: string(booking.Status)},
-			"owner_id":   &types.AttributeValueMemberS{Value: booking.OwnerId},
-			"listing_id": &types.AttributeValueMemberS{Value: booking.ListingId},
-			"amount": &types.AttributeValueMemberM{Value: map[string]types.AttributeValue{
-				"Value":    &types.AttributeValueMemberN{Value: strconv.Itoa(int(booking.Amount.Value))},
-				"Currency": &types.AttributeValueMemberS{Value: booking.Amount.Currency},
-			}},
-			"items":      &types.AttributeValueMemberL{Value: itemsStringified},
-			"created_at": &types.AttributeValueMemberS{Value: booking.CreatedAt.Format("YYYY-MM-DD")},
-			"updated_at": &types.AttributeValueMemberS{Value: booking.UpdatedAt.Format("YYYY-MM-DD")},
-		},
+	_, err = c.client.PutItem(context.TODO(), &dynamodb.PutItemInput{
+		TableName:              aws.String(c.tableName),
+		Item:                   item,
 		ReturnConsumedCapacity: "TOTAL",
 	})
 	if err != nil {
@@ -108,20 +92,30 @@ func (c NoSQLClient) FindById(id string) (booking.Entity, error) {
 }
 
 func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, error) {
+	shouldScanIndexForward := false
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:              &c.tableName,
-		KeyConditionExpression: aws.String("userId = :hashKey"),
+		KeyConditionExpression: aws.String("OwnerId = :hashKey"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":hashKey": &types.AttributeValueMemberS{Value: userId},
 		},
+		ScanIndexForward: &shouldScanIndexForward,
 	})
 	if err != nil {
 		return []booking.Entity{}, errors.New("error occured when finding item from dynamodb by id")
 	}
 	targets := []booking.Entity{}
 	for _, i := range output.Items {
-		target := booking.Entity{}
+		target := booking.DTO{}
 		err = attributevalue.UnmarshalMap(i, &target)
+		if err != nil {
+			return []booking.Entity{}, err
+		}
+		entity, err := target.ToEntity()
+		if err != nil {
+			return []booking.Entity{}, err
+		}
+		targets = append(targets, entity)
 	}
 
 	if err != nil {
