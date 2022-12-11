@@ -19,7 +19,7 @@ func NewBookingService(bookingRepository port.BookingRepository) *BookingService
 	}
 }
 
-func (s *BookingService) CreateBooking(amountDTO amount.DTO, ownerId string, listingId string, itemsDTO []item.DTO) (string, error) {
+func (s *BookingService) CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, error) {
 	itemEntities := []item.Entity{}
 	amountEntity, err := amount.New(amountDTO.Value, amountDTO.Currency)
 	if err != nil {
@@ -32,7 +32,7 @@ func (s *BookingService) CreateBooking(amountDTO amount.DTO, ownerId string, lis
 		}
 		itemEntities = append(itemEntities, validItem)
 	}
-	bookingEntity, err := booking.New(amountEntity, ownerId, listingId, itemEntities)
+	bookingEntity, err := booking.New(amountEntity, userId, listingId, itemEntities)
 	if err != nil {
 		return "", err
 	}

@@ -7,6 +7,6 @@ import (
 )
 
 type BookingService interface {
-	CreateBooking(amountDTO amount.DTO, ownerId string, listingId string, itemsDTO []item.DTO) (string, error)
+	CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, error)
 	FindUserBookings(userId string) ([]booking.Entity, error)
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -93,15 +94,18 @@ func (c NoSQLClient) FindById(id string) (booking.Entity, error) {
 
 func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, error) {
 	shouldScanIndexForward := false
+	indexName := "BookingUserIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:              &c.tableName,
-		KeyConditionExpression: aws.String("OwnerId = :hashKey"),
+		IndexName:              &indexName,
+		KeyConditionExpression: aws.String("UserId = :hashKey"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":hashKey": &types.AttributeValueMemberS{Value: userId},
 		},
 		ScanIndexForward: &shouldScanIndexForward,
 	})
 	if err != nil {
+		log.Fatal(err)
 		return []booking.Entity{}, errors.New("error occured when finding item from dynamodb by id")
 	}
 	targets := []booking.Entity{}

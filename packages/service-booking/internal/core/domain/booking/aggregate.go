@@ -12,7 +12,7 @@ type Entity struct {
 	Id        string
 	Status    BookingStatus
 	Amount    amount.Entity
-	OwnerId   string
+	UserId    string
 	ListingId string
 	Items     []item.Entity
 	CreatedAt time.Time
@@ -23,7 +23,7 @@ type DTO struct {
 	Id        string     `json:"id"`
 	Status    string     `json:"status"`
 	Amount    amount.DTO `json:"amount"`
-	OwnerId   string     `json:"ownerId"`
+	UserId    string     `json:"userId"`
 	ListingId string     `json:"listingId"`
 	Items     []item.DTO `json:"items"`
 	CreatedAt string     `json:"createdAt"`
@@ -31,14 +31,14 @@ type DTO struct {
 }
 
 type Raw struct {
-	Id        string     `json:"id"`
-	Status    string     `json:"status"`
-	Amount    amount.Raw `json:"amount"`
-	OwnerId   string     `json:"owner_id"`
-	ListingId string     `json:"listing_id"`
-	Items     []item.Raw `json:"items"`
-	CreatedAt string     `json:"created_at"`
-	UpdatedAt string     `json:"updated_at"`
+	Id        string     `json:"Id"`
+	Status    string     `json:"Status"`
+	Amount    amount.Raw `json:"Amount"`
+	UserId    string     `json:"UserId"`
+	ListingId string     `json:"ListingId"`
+	Items     []item.Raw `json:"Items"`
+	CreatedAt string     `json:"CreatedAt"`
+	UpdatedAt string     `json:"UpdatedAt"`
 }
 
 const (
@@ -48,12 +48,12 @@ const (
 
 type BookingStatus string
 
-func New(amount amount.Entity, ownerId string, listingId string, items []item.Entity) (Entity, error) {
+func New(amount amount.Entity, userId string, listingId string, items []item.Entity) (Entity, error) {
 	return Entity{
 		Id:        uuid.New().String(),
 		Status:    CREATED,
 		Amount:    amount,
-		OwnerId:   ownerId,
+		UserId:    userId,
 		ListingId: listingId,
 		Items:     items,
 		CreatedAt: time.Now(),
@@ -78,7 +78,7 @@ func (d *DTO) ToEntity() (Entity, error) {
 		Id:        d.Id,
 		Status:    BookingStatus(d.Status),
 		Amount:    amountEntity,
-		OwnerId:   d.OwnerId,
+		UserId:    d.UserId,
 		ListingId: d.ListingId,
 		Items:     items,
 	}, nil
@@ -95,7 +95,7 @@ func (e *Entity) ToDTO() DTO {
 		Id:        e.Id,
 		Status:    string(e.Status),
 		Amount:    e.Amount.ToDTO(),
-		OwnerId:   e.OwnerId,
+		UserId:    e.UserId,
 		ListingId: e.ListingId,
 		Items:     itemsDTO,
 		CreatedAt: createdAtString,
