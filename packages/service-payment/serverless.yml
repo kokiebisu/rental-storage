@@ -14,10 +14,10 @@ provider:
   deploymentBucket:
     name: ${self:provider.stage}-${aws:accountId}-sls-payment
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: ${ssm:/terraform/iam/lambda-role-arn}
   apiGateway:
-    restApiId: !ImportValue ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
+    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
   ecr:
     images:
       app:
@@ -35,11 +35,11 @@ provider:
 custom:
   namespace: app
   service: payment
-  DB_HOST: !ImportValue ExportedPaymentRDSDBHost
-  DB_NAME: !ImportValue ExportedPaymentRDSDBName
-  DB_USERNAME: !ImportValue ExportedPaymentRDSDBUsername
-  DB_PASSWORD: !ImportValue ExportedPaymentRDSDBPassword
-  DB_PORT: !ImportValue ExportedPaymentRDSDBPort
+  # DB_HOST: ${ssm:/terraform/rds/payment-db-host}
+  # DB_NAME: ${ssm:/terraform/rds/payment-db-name}
+  # DB_USERNAME: ${ssm:/terraform/rds/payment-db-username}
+  # DB_PASSWORD: ${ssm:/terraform/rds/payment-db-password}
+  # DB_PORT: ${ssm:/terraform/rds/payment-db-port}
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""

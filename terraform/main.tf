@@ -1,3 +1,9 @@
+module "apigateway" {
+  source = "./modules/apigateway"
+
+  environment = var.environment
+}
+
 module "dynamodb" {
   source = "./modules/dynamodb"
 

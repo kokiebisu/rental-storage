@@ -14,10 +14,10 @@ provider:
   deploymentBucket:
     name: ${self:provider.stage}-${aws:accountId}-sls-booking
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: ${ssm:/terraform/iam/lambda-role-arn}
   apiGateway:
-    restApiId: !ImportValue ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
+    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
   ecr:
     images:
       app:
@@ -33,7 +33,7 @@ provider:
 custom:
   namespace: app
   service: booking
-  TABLE_NAME: !ImportValue ExportedBookingDynamoDBTableName
+  TABLE_NAME: ${ssm:/terraform/dynamodb/booking-table-name}
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""

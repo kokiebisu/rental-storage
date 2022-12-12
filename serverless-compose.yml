@@ -1,13 +1,5 @@
 ## THIS IS ONLY FOR LOCAL USE. CANNOT BE USED ON THE CI PIPELINE.
 services:
-  infrastructure:
-    path: infrastructure
-    config: serverless.yml
-
-  infrastructure-apigateway:
-    path: infrastructure/aws/resources/apigateway
-    config: serverless.yml
-
   image:
     path: packages/service-image
     config: serverless.yml
@@ -66,11 +58,9 @@ services:
       - infrastructure-apigateway
 
   infrastructure-appsync:
-    path: infrastructure/aws/resources/appsync
+    path: appsync
     config: serverless.yml
     dependsOn:
-      - infrastructure
-      - infrastructure-apigateway
       - composition
       - booking
       - image

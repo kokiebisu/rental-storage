@@ -14,10 +14,10 @@ provider:
   deploymentBucket:
     name: ${self:provider.stage}-${aws:accountId}-sls-user
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: ${ssm:/terraform/iam/lambda-role-arn}
   apiGateway:
-    restApiId: !ImportValue ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
+    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
   ecr:
     images:
       app:
@@ -36,11 +36,11 @@ provider:
 custom:
   namespace: app
   service: user
-  DB_NAME: !ImportValue ExportedUserRDSDBName
-  DB_USERNAME: !ImportValue ExportedUserRDSDBUsername
-  DB_PASSWORD: !ImportValue ExportedUserRDSDBPassword
-  DB_HOST: !ImportValue ExportedUserRDSDBHost
-  DB_PORT: !ImportValue ExportedUserRDSDBPort
+  DB_NAME: ${ssm:/terraform/rds/user-db-name}
+  DB_USERNAME: ${ssm:/terraform/rds/user-db-username}
+  DB_PASSWORD: ${ssm:/terraform/rds/user-db-password}
+  DB_HOST: ${ssm:/terraform/rds/user-db-host}
+  DB_PORT: ${ssm:/terraform/rds/user-db-port}
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""

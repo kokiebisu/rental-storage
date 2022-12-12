@@ -8,4 +8,4 @@ BookingCreatedStream:
   events:
     - stream:
         type: dynamodb
-        arn: !ImportValue ExportedBookingDynamoDBTableStreamArn
+        arn: ${ssm:/terraform/dynamodb/booking-table-stream-arn}

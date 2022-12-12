@@ -14,7 +14,7 @@ provider:
   deploymentBucket:
     name: ${self:provider.stage}-rental-a-locker-app-sls-slack
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: ${ssm:/terraform/iam/lambda-role-arn}
   ecr:
     images:
       app:
