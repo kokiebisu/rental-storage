@@ -2,7 +2,7 @@ on:
   workflow_call:
 
 jobs:
-  deploy-infrastructure:
+  deploy-terraform:
     name: Infrastructure
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -16,92 +16,85 @@ jobs:
         with:
           filters: |
             package:
-              - '${{ matrix.package }}/aws/resources/dynamodb/**'
-              - '${{ matrix.package }}/aws/resources/ec2/**'
-              - '${{ matrix.package }}/aws/resources/iam/**'
-              - '${{ matrix.package }}/aws/resources/kinesis/**'
-              - '${{ matrix.package }}/aws/resources/rds/**'
-              - '${{ matrix.package }}/aws/resources/s3/**'
-              - '${{ matrix.package }}/aws/resources/sns/**'
-              - '${{ matrix.package }}/aws/resources/sqs/**'
+              - 'terraform/**'
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 6.0.2
-        if: steps.changes.outputs.package == 'true'
+        # - uses: pnpm/action-setup@v2.2.4
+        #   with:
+        #     version: 6.0.2
+        #   if: steps.changes.outputs.package == 'true'
 
-      - name: Install global dependencies
-        run: pnpm install -g serverless
-        if: steps.changes.outputs.package == 'true'
+        # - name: Install global dependencies
+        #   run: pnpm install -g serverless
+        #   if: steps.changes.outputs.package == 'true'
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-        if: steps.changes.outputs.package == 'true'
+        # - name: Configure AWS credentials
+        #   uses: aws-actions/configure-aws-credentials@v1-node16
+        #   with:
+        #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        #     aws-region: us-east-1
+        #   if: steps.changes.outputs.package == 'true'
 
-      - name: Install dependencies
-        run: |
-          cd ${{ matrix.package }}
-          pnpm install --frozen-lockfile
+        # - name: Install dependencies
+        #   run: |
+        #     cd ${{ matrix.package }}
+        #     pnpm install --frozen-lockfile
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
         run: |
-          cd ${{ matrix.package }}
-          serverless deploy --config serverless.dev.yml --stage dev
+          cd terraform
+          terraform apply -auto-approve
         if: steps.changes.outputs.package == 'true'
 
-  deploy-apigateway:
-    name: ApiGateway
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # deploy-apigateway:
+  #   name: ApiGateway
+  #   timeout-minutes: 15
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            package:
-              - 'infrastructure/aws/resources/${{ matrix.package }}/**'
+  #     - uses: dorny/paths-filter@v2
+  #       id: changes
+  #       with:
+  #         filters: |
+  #           package:
+  #             - 'infrastructure/aws/resources/${{ matrix.package }}/**'
 
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 6.0.2
-        if: steps.changes.outputs.package == 'true'
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 6.0.2
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Install global dependencies
-        run: pnpm install -g serverless
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Install global dependencies
+  #       run: pnpm install -g serverless
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1-node16
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Install dependencies
-        run: |
-          cd infrastructure/aws/resources/${{ matrix.package }}
-          pnpm install --frozen-lockfile
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Install dependencies
+  #       run: |
+  #         cd infrastructure/aws/resources/${{ matrix.package }}
+  #         pnpm install --frozen-lockfile
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Deploy
-        run: |
-          cd infrastructure/aws/resources/${{ matrix.package }}
-          serverless deploy --config serverless.dev.yml --stage dev
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Deploy
+  #       run: |
+  #         cd infrastructure/aws/resources/${{ matrix.package }}
+  #         serverless deploy --config serverless.dev.yml --stage dev
+  #       if: steps.changes.outputs.package == 'true'
 
   deploy-composition:
     name: Composition
-    needs: [deploy-infrastructure, deploy-apigateway]
+    needs: [deploy-terraform]
     timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: dev
@@ -146,7 +139,7 @@ jobs:
 
   deploy-service:
     name: Service
-    needs: [deploy-infrastructure, deploy-apigateway]
+    needs: [deploy-terraform]
     timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: dev
@@ -202,7 +195,7 @@ jobs:
 
   deploy-appsync:
     name: AppSync
-    needs: [deploy-infrastructure, deploy-apigateway, deploy-service]
+    needs: [deploy-terraform, deploy-service]
     timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: dev
@@ -215,7 +208,7 @@ jobs:
         with:
           filters: |
             package:
-              - 'infrastructure/aws/resources/${{ matrix.package }}/**'
+              - 'appsync/**'
 
       - uses: pnpm/action-setup@v2.2.4
         with:
