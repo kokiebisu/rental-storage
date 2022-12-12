@@ -1,5 +1,0 @@
-Type: AWS::Kinesis::Stream
-Properties:
-  Name: ${self:provider.stage}-EventStream
-  RetentionPeriodHours: 24
-  ShardCount: 1

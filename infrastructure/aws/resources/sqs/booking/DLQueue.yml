@@ -1,3 +1,0 @@
-Type: "AWS::SQS::Queue"
-Properties:
-  QueueName: ${self:provider.stage}-${self:custom.namespace}-booking-dead-letter-queue
