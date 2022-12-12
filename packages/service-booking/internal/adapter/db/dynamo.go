@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"os"
 
@@ -34,7 +33,7 @@ func NewNoSQLClient() (*NoSQLClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	tableName := fmt.Sprintf("%s-%s", os.Getenv("TABLE_NAME"), os.Getenv("STAGE"))
+	tableName := os.Getenv("TABLE_NAME")
 	if tableName == "" {
 		return nil, errors.New("TABLE_NAME not properly retrieved")
 	}
