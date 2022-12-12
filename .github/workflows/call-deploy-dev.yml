@@ -3,7 +3,7 @@ on:
 
 jobs:
   deploy-terraform:
-    name: Infrastructure
+    name: Terraform
     timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: dev
@@ -40,6 +40,12 @@ jobs:
         #     cd ${{ matrix.package }}
         #     pnpm install --frozen-lockfile
         # if: steps.changes.outputs.terraform == 'true'
+
+      - name: Setup
+        run: |
+          cd terraform
+          terraform init
+        if: steps.changes.outputs.terraform == 'true'
 
       - name: Deploy
         run: |
