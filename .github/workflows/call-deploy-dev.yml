@@ -41,6 +41,32 @@ jobs:
         #     pnpm install --frozen-lockfile
         # if: steps.changes.outputs.terraform == 'true'
 
+      - name: Generate secrets file
+        run: |
+          cd terraform
+          cat <<EOF > terraform.tfvars
+          namespace   = ${{ secrets.NAMESPACE }}
+          region      = ${{ secrets.REGIOn }}
+          profile     = ${{ secrets.PROFILE }}
+          environment = ${{ secrets.ENVIRONMENT }}
+
+          booking_table_name = ${{ secrets.BOOKING_TABLE_NAME }}
+
+          listing_db_username = ${{ secrets.LISTING_DB_USERNAME }}
+          listing_db_password = ${{ secrets.LISTING_DB_PASSWORD }}
+          listing_db_name     = ${{ secrets.LISTING_DB_NAME }}
+
+          user_db_username = ${{ secrets.USER_DB_USERNAME }}
+          user_db_password = ${{ secrets.USER_DB_PASSWORD }}
+          user_db_name     = ${{ secrets.USER_DB_NAME }}
+          EOF
+        if: steps.changes.outputs.terraform == 'true'
+
+      - name: read
+        run: |
+          cat terraform.tfvars
+        if: steps.changes.outputs.terraform == 'true'
+
       - name: Setup
         run: |
           cd terraform
