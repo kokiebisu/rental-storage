@@ -64,6 +64,7 @@ jobs:
 
       - name: read
         run: |
+          cd terraform
           cat terraform.tfvars
         if: steps.changes.outputs.terraform == 'true'
 
