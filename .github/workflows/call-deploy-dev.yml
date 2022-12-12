@@ -15,7 +15,7 @@ jobs:
         id: changes
         with:
           filters: |
-            package:
+            terraform:
               - 'terraform/**'
 
         # - uses: pnpm/action-setup@v2.2.4
@@ -39,13 +39,13 @@ jobs:
         #   run: |
         #     cd ${{ matrix.package }}
         #     pnpm install --frozen-lockfile
-        if: steps.changes.outputs.package == 'true'
+        # if: steps.changes.outputs.terraform == 'true'
 
       - name: Deploy
         run: |
           cd terraform
           terraform apply -auto-approve
-        if: steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.terraform == 'true'
 
   # deploy-apigateway:
   #   name: ApiGateway
@@ -107,7 +107,7 @@ jobs:
         with:
           filters: |
             package:
-              - 'packages/${{ matrix.package }}/**'
+              - 'packages/composition/**'
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
