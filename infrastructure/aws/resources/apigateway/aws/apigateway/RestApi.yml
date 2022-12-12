@@ -1,3 +1,0 @@
-Type: AWS::ApiGateway::RestApi
-Properties:
-  Name: ApiGateway

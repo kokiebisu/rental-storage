@@ -1,7 +1,8 @@
 {
   "name": "@rental-storage-project/authorizer",
   "scripts": {
-    "deploy": "sls deploy",
+    "deploy:local": "sls deploy --config serverless.yml --stage local",
+    "deploy:dev": "sls deploy --config serverless.dev.yml --stage dev",
     "remove": "sls remove",
     "generate:env:local": "sls export-env",
     "generate:env:dev": "sls export-env --stage dev"

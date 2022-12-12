@@ -7,4 +7,4 @@ UserEventMessageConsumer:
   events:
     - stream:
         type: kinesis
-        arn: !ImportValue ExportedKinesisStreamArn
+        arn: ${ssm:/terraform/kinesis/event-stream-arn}

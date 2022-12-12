@@ -14,10 +14,10 @@ provider:
   deploymentBucket:
     name: ${self:provider.stage}-rental-a-locker-app-sls-listing
   iam:
-    role: !ImportValue ExportedRoleLambdaArn
+    role: ${ssm:/terraform/iam/lambda-role-arn}
   apiGateway:
-    restApiId: !ImportValue ApiGatewayRestApiId
-    restApiRootResourceId: !ImportValue ApiGatewayRootResourceId
+    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
+    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
   ecr:
     images:
       app:
@@ -35,11 +35,11 @@ provider:
 custom:
   namespace: app
   service: listing
-  DB_NAME: !ImportValue ExportedListingRDSDBName
-  DB_USERNAME: !ImportValue ExportedListingRDSDBUsername
-  DB_PASSWORD: !ImportValue ExportedListingRDSDBPassword
-  DB_HOST: !ImportValue ExportedListingRDSDBHost
-  DB_PORT: !ImportValue ExportedListingRDSDBPort
+  DB_NAME: ${ssm:/terraform/rds/listing-db-name}
+  DB_USERNAME: ${ssm:/terraform/rds/listing-db-username}
+  DB_PASSWORD: ${ssm:/terraform/rds/listing-db-password}
+  DB_HOST: ${ssm:/terraform/rds/listing-db-host}
+  DB_PORT: ${ssm:/terraform/rds/listing-db-port}
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""
