@@ -1,6 +1,6 @@
 resource "aws_security_group" "serverless" {
   description = "Security group for Serverless functions"
-  vpc_id = aws_vpc.default.id
+  vpc_id = aws_vpc.this.id
   
   ingress {
     from_port = 0
