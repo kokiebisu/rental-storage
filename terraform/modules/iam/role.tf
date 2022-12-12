@@ -1,4 +1,5 @@
 resource "aws_iam_role" "lambda" {
+    name = "service-lambda-role"
     assume_role_policy = jsonencode({
         Version = "2012-10-17"
         Statement = [
@@ -7,7 +8,7 @@ resource "aws_iam_role" "lambda" {
                 Effect = "Allow"
                 Sid = ""
                 Principal = {
-                    Service = "ec2.amazonaws.com"
+                    Service = "lambda.amazonaws.com"
                 }
             }
         ]
@@ -57,7 +58,7 @@ resource "aws_iam_role" "lambda" {
                 {
                     Action = ["dynamodb:PutItem", "dynamodb:UpdateItem", "dynamodb:DeleteItem", "dynamodb:GetItem", "dynamodb:Scan", "dynamodb:Query"]
                     Effect = "Allow"
-                    Resource = "aws:aws:dynamodb:${var.region}:*:table/*"
+                    Resource = "arn:aws:dynamodb:${var.region}:*:table/*"
                 }
             ]
         })

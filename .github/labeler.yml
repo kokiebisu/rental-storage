@@ -18,12 +18,10 @@ service:user:
   - packages/service-user/**
 scripts:
   - scripts/**
-infrastructure:
-  - infrastructure/**
-infrastructure:appsync:
+api:appsync:
   - infrastructure/aws/resources/appsync/**
-infrastructure:apigateway:
-  - infrastructure/aws/resources/apigateway/**
+terraform:
+  - terraform/**
 mobile:
   - mobile/**
 github-workflows:

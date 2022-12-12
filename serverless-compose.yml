@@ -3,61 +3,40 @@ services:
   image:
     path: packages/service-image
     config: serverless.yml
-    dependsOn:
-      - infrastructure
 
   booking:
     path: packages/service-booking
     config: serverless.yml
-    dependsOn:
-      - infrastructure
 
   authorizer:
     path: packages/service-authorizer
     config: serverless.yml
-    dependsOn:
-      - infrastructure
 
-  payment:
-    path: packages/service-payment
-    config: serverless.yml
-    dependsOn:
-      - infrastructure
+  # payment:
+  #   path: packages/service-payment
+  #   config: serverless.yml
 
   slack:
     path: packages/service-slack
     config: serverless.yml
-    dependsOn:
-      - infrastructure
 
   user:
     path: packages/service-user
     config: serverless.yml
-    dependsOn:
-      - infrastructure
-      - infrastructure-apigateway
 
   listing:
     path: packages/service-listing
     config: serverless.yml
-    dependsOn:
-      - infrastructure
-      - infrastructure-apigateway
 
   authentication:
     path: packages/service-authentication
     config: serverless.yml
-    dependsOn:
-      - infrastructure
-      - infrastructure-apigateway
 
   composition:
     path: packages/composition
     config: serverless.yml
-    dependsOn:
-      - infrastructure-apigateway
 
-  infrastructure-appsync:
+  api-appsync:
     path: appsync
     config: serverless.yml
     dependsOn:
@@ -67,6 +46,6 @@ services:
       - listing
       - user
       - authorizer
-      - payment
+      # - payment
       - authentication
       - slack
