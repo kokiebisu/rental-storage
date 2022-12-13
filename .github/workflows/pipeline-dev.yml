@@ -2,21 +2,22 @@ name: Develop Pipeline
 
 on:
   workflow_dispatch:
-  push:
-    branches: "dev"
+  # push:
+  #   branches: "dev"
+  pull_request:
 
 jobs:
-  setup-build:
-    name: Setup
-    uses: ./.github/workflows/call-setup-build.yml
+  # setup-build:
+  #   name: Setup
+  #   uses: ./.github/workflows/call-setup-build.yml
 
   deploy-dev:
     name: Deploy
     uses: ./.github/workflows/call-deploy-dev.yml
     secrets: inherit
 
-  test-integration:
-    name: Integration Test
-    needs: [setup-build, deploy-dev]
-    uses: ./.github/workflows/call-test-integration.yml
-    secrets: inherit
+  # test-integration:
+  #   name: Integration Test
+  #   needs: [setup-build, deploy-dev]
+  #   uses: ./.github/workflows/call-test-integration.yml
+  #   secrets: inherit
