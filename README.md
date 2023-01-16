@@ -41,3 +41,11 @@
 10 create .terraform.tfvars
 
 11 replace profile with 'rental-storage'
+
+12 `terraform apply`
+
+13 `brew install serverless`
+
+14 Go to all packages and install npm packages (appsync, composition, service-booking, service-payment, service-authentication, service-authorizer, ...etc)
+
+15 `brew install docker`
