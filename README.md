@@ -2,14 +2,12 @@
 
 # stack
 
-- typescript (relational database services (domains), nosql database services (transactions))
-- fastify (rest api endpoint)
+- go (no domain services (authorizer, authentication, payment, relational database services (domains), nosql database services (transactions))
 - python (data processing (numpy, machine learning eventually?), notification (slack sdk), email sendgrid)
-- go (no domain services (authorizer, authentication, payment))
 - serverless framework
 - cloudformation
 - stripe
-- aws (lambda, sqs, sns, s3)
+- aws (lambda, sqs, sns, s3, cloudformation, kinesis, cloudwatch. rds. dynamodb, systems manager)
 - postgres
 
 # Add query/mutation
