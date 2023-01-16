@@ -25,3 +25,9 @@
 `export AWS_PROFILE=rental-storage`
 `setx AWS_PROFILE rental-storage`
 5 Get invited to Slack
+6 Clone the repo
+7 Install root packages
+8 brew install terraform
+9 cd terraform && terraform init
+10 create .terraform.tfvars
+11 replace profile with 'rental-storage'
