@@ -48,4 +48,6 @@
 
 14 Go to all packages and install npm packages (appsync, composition, service-booking, service-payment, service-authentication, service-authorizer, ...etc)
 
-15 `brew install docker`
+15 Install docker desktop
+
+16 `sls deploy`
