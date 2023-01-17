@@ -22,7 +22,6 @@
 
 2 Get invited to AWS organization
 
-<<<<<<< Updated upstream
 3 Create IAM user
 
 4 Set up AWS PROFILE
@@ -39,20 +38,22 @@
 
 9 cd terraform && terraform init
 
-10 create .terraform.tfvars
+10 copy/paste .terraform.tfvars
 
 11 replace profile with 'rental-storage'
 
-12 `terraform apply`
+12 `terraform:setup:local` from root
 
-13 `brew install serverless`
+13 `terraform apply`
 
-14 Go to all packages and install npm packages (appsync, composition, service-booking, service-payment, service-authentication, service-authorizer, ...etc)
+14 `brew install serverless`
 
-15 Install docker desktop
+15 Go to all packages and install npm packages (appsync, composition, service-booking, service-payment, service-authentication, service-authorizer, ...etc)
 
-16 `sls deploy`
-=======
+16 Install docker desktop
+
+17 `sls deploy`
+
 # terraform
 
 local
@@ -60,4 +61,3 @@ use local state
 
 dev/staging
 use s3 backend (github actions)
->>>>>>> Stashed changes

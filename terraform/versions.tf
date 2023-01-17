@@ -1,9 +1,5 @@
 terraform {
   required_version = ">= 0.15"
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
   required_providers {
     aws = {
       source  = "hashicorp/aws"
