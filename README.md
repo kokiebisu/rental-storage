@@ -22,6 +22,7 @@
 
 2 Get invited to AWS organization
 
+<<<<<<< Updated upstream
 3 Create IAM user
 
 4 Set up AWS PROFILE
@@ -51,3 +52,12 @@
 15 Install docker desktop
 
 16 `sls deploy`
+=======
+# terraform
+
+local
+use local state
+
+dev/staging
+use s3 backend (github actions)
+>>>>>>> Stashed changes
