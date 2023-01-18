@@ -17,6 +17,13 @@ module "ec2" {
   namespace = var.namespace
 }
 
+module "iam" {
+   source = "./modules/iam"
+
+   region     = var.region
+   account_id = module.identity.account_id
+}
+
 module "identity" {
   source = "./modules/identity"
 }
