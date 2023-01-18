@@ -38,6 +38,7 @@ resource "aws_api_gateway_stage" "default" {
 }
 
 resource "aws_api_gateway_deployment" "default" {
+  depends_on = [aws_api_gateway_resource.health, aws_api_gateway_integration.health, aws_api_gateway_method.health_get]
   rest_api_id = aws_api_gateway_rest_api.default.id
 
   triggers = {

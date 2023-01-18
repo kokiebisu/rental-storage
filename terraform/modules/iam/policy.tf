@@ -28,7 +28,7 @@ resource "aws_iam_policy" "enable_dynamodb_stream" {
             {
                 Action = ["dynamodb:GetRecords", "dynamodb:DescribeStream", "dynamodb:GetShardIterator"]
                 Effect = "Allow"
-                Resource = "arn:aws:dynamodb:${var.region}:${module.identity.account_id}:table/*/stream/*"
+                Resource = "arn:aws:dynamodb:${var.region}:${var.account_id}:table/*/stream/*"
             }
         ]
     })
@@ -58,7 +58,7 @@ resource "aws_iam_policy" "enable_ssm" {
             {
                 Action = ["ssm:GetParameter", "ssm:GetParameters", "ssm:GetParametersByPath", "ssm:DescribeParameters", "ssm:PutParameter"]
                 Effect = "Allow"
-                Resource = "arn:aws:ssm:${var.region}:${module.identity.account_id}:*"
+                Resource = "arn:aws:ssm:${var.region}:${var.account_id}:*"
             }
         ]
     })
@@ -73,7 +73,7 @@ resource "aws_iam_policy" "enable_sqs" {
             {
                 Action = ["sqs:ReceiveMessage", "sqs:DeleteMessage", "sqs:GetQueueAttributes"]
                 Effect = "Allow"
-                Resource = "arn:aws:sqs:${var.region}:${module.identity.account_id}:*"
+                Resource = "arn:aws:sqs:${var.region}:${var.account_id}:*"
             }
         ]
     })
@@ -88,7 +88,7 @@ resource "aws_iam_policy" "enable_sns" {
             {
                 Action = ["sns:CreateTopic", "sns:Publish"],
                 Effect = "Allow"
-                Resource = "arn:aws:sns:${var.region}:${module.identity.account_id}:*"
+                Resource = "arn:aws:sns:${var.region}:${var.account_id}:*"
             }
         ]
     })
@@ -118,12 +118,12 @@ resource "aws_iam_policy" "enable_kinesis" {
             {
                 Action = ["kinesis:PutRecord", "kinesis:PutRecords"]
                 Effect = "Allow"
-                Resource = "arn:aws:kinesis:${var.region}:${module.identity.account_id}:stream/*"
+                Resource = "arn:aws:kinesis:${var.region}:${var.account_id}:stream/*"
             },
             {
                 Action = ["kinesis:Get*", "kinesis:List*", "kinesis:Describe*"]
                 Effect = "Allow"
-                Resource = "arn:aws:kinesis:${var.region}:${module.identity.account_id}:stream/*"
+                Resource = "arn:aws:kinesis:${var.region}:${var.account_id}:stream/*"
             }
         ]
     })
