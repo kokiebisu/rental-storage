@@ -18,10 +18,10 @@ module "ec2" {
 }
 
 module "iam" {
-  source = "./modules/iam"
+   source = "./modules/iam"
 
-  region     = var.region
-  account_id = module.identity.account_id
+   region     = var.region
+   account_id = module.identity.account_id
 }
 
 module "identity" {
@@ -81,3 +81,4 @@ module "sns" {
   payment_queue_arn = module.sqs.payment_queue_arn
   user_queue_arn    = module.sqs.user_queue_arn
 }
+
