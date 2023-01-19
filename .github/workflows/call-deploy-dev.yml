@@ -72,13 +72,6 @@ jobs:
 
       - name: Terraform init, plan and apply
         run: |
-<<<<<<< Updated upstream
-          echo "** Running Terraform Init**"
-          terraform init
-
-          echo "** Running Terraform Validate**"
-          terraform validate
-=======
           cd packages/composition
           pnpm install --frozen-lockfile
         if: steps.changes.outputs.package == 'true'
@@ -88,7 +81,6 @@ jobs:
           cd packages/composition
           serverless deploy --config serverless.dev.yml --stage dev
         if: steps.changes.outputs.package == 'true'
->>>>>>> Stashed changes
 
           echo "** Running Terraform Plan**"
           terraform plan
