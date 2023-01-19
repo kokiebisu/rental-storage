@@ -13,7 +13,8 @@
     "test:integration": "turbo run test:integration",
     "terraform:setup:local": "rm terraform/versions.tf && cp terraform/config/local.tf terraform/versions.tf",
     "terraform:setup:dev": "rm terraform/versions.tf && cp terraform/config/dev.tf terraform/versions.tf",
-    "terraform:setup:production": "rm terraform/versions.tf && cp terraform/config/production.tf terraform/versions.tf"
+    "terraform:setup:production": "rm terraform/versions.tf && cp terraform/config/production.tf terraform/versions.tf",
+    "terraform:destroy": "cd terraform && terraform destroy"
   },
   "devDependencies": {
     "@serverless/compose": "1.3.0",

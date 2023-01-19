@@ -1,11 +1,11 @@
 #! /bin/zsh
 
 function remove_services () {
-    local package=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
-    for service in "${services[@]}"
+    local packages=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
+    for package in "${packages[@]}"
     do
-        echo "Removing ${(C)service} service...";
-        (cd "packages/service-$service" && pnpm run remove);
+        echo "Removing ${(C)package} service...";
+        (cd "packages/service-${package}" && pnpm run remove);
     done
 }
 
