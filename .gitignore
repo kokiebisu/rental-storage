@@ -16,6 +16,8 @@
 **/.pytest_cache
 .DS_Store
 
+# terraform
 .terraform
 *.tfvars
-*.tfstate
+*.tfstate.*
+terraform.tfstate

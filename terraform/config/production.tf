@@ -1,6 +1,14 @@
 terraform {
   required_version = ">= 0.15"
 
+  backend "s3" {
+    bucket = "rental-storage-terraform-production"
+    key = "production/terraform.tfstate"
+    region = "us-east-1"
+    encrypt = true
+    kms_key_id = "alias/terraform-bucket-key"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"

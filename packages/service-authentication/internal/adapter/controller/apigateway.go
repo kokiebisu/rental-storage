@@ -2,9 +2,10 @@ package controller
 
 import (
 	"encoding/json"
-	"service-authentication/internal/core/port"
 
 	"github.com/aws/aws-lambda-go/events"
+
+	"service-authentication/internal/core/port"
 )
 
 type ApiGatewayHandler struct {
@@ -48,10 +49,12 @@ func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (events.
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
 	if err != nil {
-		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
 	}
-
 	encoded, err := h.service.SignUp(bodyRequest.EmailAddress, bodyRequest.FirstName, bodyRequest.LastName, bodyRequest.Password)
+	if err != nil {
+		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
+	}
 	return events.APIGatewayProxyResponse{Body: string(encoded), StatusCode: 200}, nil
 }
 

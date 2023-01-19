@@ -8,12 +8,13 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"service-authentication/internal/core/domain"
-	"service-authentication/internal/core/port"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
+
+	"service-authentication/internal/core/domain"
+	"service-authentication/internal/core/port"
 )
 
 type EncryptionService struct{}
@@ -58,12 +59,6 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 		return "", errors.New("cannot hash password")
 	}
 
-	// updatedUser := &port.UserCreationPayload{
-	// 	EmailAddress: bodyRequest.EmailAddress,
-	// 	Password:     string(hash),
-	// 	FirstName:    bodyRequest.FirstName,
-	// 	LastName:     bodyRequest.LastName,
-	// }
 	updatedUser := struct {
 		EmailAddress string `json:"emailAddress"`
 		Password     string `json:"password"`
@@ -109,9 +104,6 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 		return "", err
 	}
 
-	// tokenPayload := &port.AuthorizationTokenPayload{
-	// 	AuthorizationToken: token,
-	// }
 	tokenPayload := map[string]string{
 		"AuthorizationToken": token,
 	}

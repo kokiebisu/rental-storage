@@ -1,59 +1,59 @@
-# module "apigateway" {
-#   source = "./modules/apigateway"
+module "apigateway" {
+  source = "./modules/apigateway"
 
-#   environment = var.environment
-# }
+  environment = var.environment
+}
 
-# module "dynamodb" {
-#   source = "./modules/dynamodb"
+module "dynamodb" {
+  source = "./modules/dynamodb"
 
-#   booking_table_name = var.booking_table_name
-#   environment        = var.environment
-# }
+  booking_table_name = var.booking_table_name
+  environment        = var.environment
+}
 
-# module "ec2" {
-#   source = "./modules/ec2"
+module "ec2" {
+  source = "./modules/ec2"
 
-#   namespace = var.namespace
-# }
+  namespace = var.namespace
+}
 
-# module "iam" {
-#   source = "./modules/iam"
+module "iam" {
+   source = "./modules/iam"
 
-#   region     = var.region
-#   account_id = module.identity.account_id
-# }
+   region     = var.region
+   account_id = module.identity.account_id
+}
 
 module "identity" {
   source = "./modules/identity"
 }
 
-# module "kinesis" {
-#   source = "./modules/kinesis"
+module "kinesis" {
+  source = "./modules/kinesis"
 
-#   environment = var.environment
-# }
+  environment = var.environment
+}
 
 module "kms" {
   source = "./modules/kms"
 }
 
-# module "rds" {
-#   source = "./modules/rds"
+module "rds" {
+  source = "./modules/rds"
 
-#   namespace                    = var.namespace
-#   environment                  = var.environment
-#   serverless_security_group_id = module.ec2.serverless_security_group_id
-#   db_subnet_group_name         = module.ec2.db_subnet_group_name
+  namespace                    = var.namespace
+  environment                  = var.environment
+  serverless_security_group_id = module.ec2.serverless_security_group_id
+  db_subnet_group_name         = module.ec2.db_subnet_group_name
 
-#   listing_db_username = var.listing_db_username
-#   listing_db_password = var.listing_db_password
-#   listing_db_name     = var.listing_db_name
+  listing_db_username = var.listing_db_username
+  listing_db_password = var.listing_db_password
+  listing_db_name     = var.listing_db_name
 
-#   user_db_username = var.user_db_username
-#   user_db_password = var.user_db_password
-#   user_db_name     = var.user_db_name
-# }
+  user_db_username = var.user_db_username
+  user_db_password = var.user_db_password
+  user_db_name     = var.user_db_name
+}
 
 module "s3" {
   source = "./modules/s3"
@@ -64,25 +64,26 @@ module "s3" {
   kms_terraform_bucket_key_arn = module.kms.kms_terraform_bucket_key_arn
 }
 
-# module "sqs" {
-#   source = "./modules/sqs"
+module "sqs" {
+  source = "./modules/sqs"
 
-#   namespace                = var.namespace
-#   environment              = var.environment
-#   authentication_topic_arn = module.sns.authentication_topic_arn
-#   booking_topic_arn        = module.sns.booking_topic_arn
-#   listing_topic_arn        = module.sns.listing_topic_arn
-#   payment_topic_arn        = module.sns.payment_topic_arn
-#   user_topic_arn           = module.sns.user_topic_arn
-# }
+  namespace                = var.namespace
+  environment              = var.environment
+  authentication_topic_arn = module.sns.authentication_topic_arn
+  booking_topic_arn        = module.sns.booking_topic_arn
+  listing_topic_arn        = module.sns.listing_topic_arn
+  payment_topic_arn        = module.sns.payment_topic_arn
+  user_topic_arn           = module.sns.user_topic_arn
+}
 
-# module "sns" {
-#   source = "./modules/sns"
+module "sns" {
+  source = "./modules/sns"
 
-#   namespace         = var.namespace
-#   environment       = var.environment
-#   booking_queue_arn = module.sqs.booking_queue_arn
-#   listing_queue_arn = module.sqs.listing_queue_arn
-#   payment_queue_arn = module.sqs.payment_queue_arn
-#   user_queue_arn    = module.sqs.user_queue_arn
-# }
+  namespace         = var.namespace
+  environment       = var.environment
+  booking_queue_arn = module.sqs.booking_queue_arn
+  listing_queue_arn = module.sqs.listing_queue_arn
+  payment_queue_arn = module.sqs.payment_queue_arn
+  user_queue_arn    = module.sqs.user_queue_arn
+}
+
