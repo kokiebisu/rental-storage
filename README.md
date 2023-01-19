@@ -20,39 +20,37 @@
 
 1 Create gmail account
 
-2 Get invited to AWS organization
+2 Install Docker Desktop
 
-3 Create IAM user
+3 Get invited to AWS organization
 
-4 Set up AWS PROFILE
+4 Create IAM user
+
+5 Set up AWS PROFILE
 `export AWS_PROFILE=rental-storage`
 `setx AWS_PROFILE rental-storage`
 
-5 Get invited to Slack
+6 Get invited to Slack
 
-6 Clone the repo
+7 Clone the repo
 
-7 Install root packages
+8 `brew install terraform`
 
-8 brew install terraform
+9 `cd terraform && terraform init`
 
-9 cd terraform && terraform init
+10 copy/paste ./.terraform.tfvars
 
-10 copy/paste .terraform.tfvars
+11 `pnpm run terraform:setup:local` from root
 
-11 replace profile with 'rental-storage'
+12 `terraform apply`
 
-12 `terraform:setup:local` from root
-
-13 `terraform apply`
+13 Enter 'local', 'rental-storage'
 
 14 `brew install serverless`
 
-15 Go to all packages and install npm packages (appsync, composition, service-booking, service-payment, service-authentication, service-authorizer, ...etc)
+15 `pnpm run deps:install`
 
-16 Install docker desktop
-
-17 `sls deploy`
+16 `pnpm run deploy:local`
 
 # terraform
 

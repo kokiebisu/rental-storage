@@ -3,8 +3,8 @@
   "scripts": {
     "build": "rimraf dist && tsc -b tsconfig.build.json",
     "build:docker": "tsc -b tsconfig.docker.json",
-    "deploy": "sls deploy --stage local",
-    "remove": "sls remove",
+    "deploy": "sls deploy --config serverless.yml --stage local",
+    "remove": "sls remove --config serverless.yml --stage local",
     "generate:env:local": "sls export-env",
     "generate:env:dev": "sls export-env --stage dev",
     "test:integration": "jest --coverage false"
