@@ -14,12 +14,10 @@ import (
 	"service-authorizer/pkg/port"
 )
 
-
 func HandleRequest(ctx context.Context, event port.Event) (*events.AppSyncLambdaAuthorizerResponse, error) {
 	jwt := event.AuthorizationToken
-	
 	body := struct {
-		Token string `json:"token"`
+		Token string `json:"AuthorizationToken"`
 	}{
 		Token: jwt,
 	}
@@ -35,7 +33,7 @@ func HandleRequest(ctx context.Context, event port.Event) (*events.AppSyncLambda
 	}
 	payload := struct {
 		UId string `json:"uid"`
-		Exp int `json:"exp"`
+		Exp int    `json:"exp"`
 	}{}
 	if err = json.NewDecoder(resp.Body).Decode(&payload); err != nil {
 		return generateUnauthorizedResponse(), nil
@@ -59,5 +57,5 @@ func generateAuthorizedResponse(uid string) *events.AppSyncLambdaAuthorizerRespo
 }
 
 func main() {
-        lambda.Start(HandleRequest)
+	lambda.Start(HandleRequest)
 }
