@@ -7,3 +7,7 @@ start-venv:
 .PHONY: test
 test:
 	pytest -v test/unit_test
+
+.PHONY: lint
+lint:
+	flake8 . --exclude ./vendor/**,./node_modules/**
