@@ -2,12 +2,17 @@ import boto3
 import os
 from slack_sdk.web.client import WebClient
 
+
 class SlackBotAdapter:
     client: WebClient
 
     def __init__(self):
         ssm = boto3.client('ssm')
-        parameter = ssm.get_parameter(Name=f"/{os.environ['STAGE']}/service-slack/bot-api-key", WithDecryption=True)
+        path = f"/{os.environ['STAGE']}/service-slack/bot-api-key"
+        parameter \
+            = ssm.get_parameter(
+                        Name=path,
+                        WithDecryption=True)
         bot_api_key = parameter['Parameter']['Value']
         self.client = WebClient(token=bot_api_key)
 
