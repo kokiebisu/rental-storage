@@ -1,5 +1,6 @@
 from typing import Any
 
+from constants.events import ListingEvents
 from domain.listing import Listing
 from domain.error import EventNameNotFoundException
 from adapter.bot import SlackBotAdapter
@@ -16,8 +17,8 @@ class SlackListingMessageSenderService:
                     lender_id=message['lenderId'],
                     street_address=message['streetAddress']
                 )
-        if event_name == "created":
-            self._alert(entity=listing)
+        if event_name in ListingEvents:
+            message = SlackListingMessageSenderService.generate_listing_created_message(lender_id=listing.lender_id, street_address=listing.street_address)
         else:
             raise EventNameNotFoundException
 
@@ -25,8 +26,13 @@ class SlackListingMessageSenderService:
         channel_name = 'C0464PCNZH8'
         message = SlackListingMessageSenderService._generate_listing_created_message(lender_id=entity["lender_id"], street_address=entity["street_address"])
         self.bot.send_chat_message(channel_name=channel_name, message=message)
-    
-    def _generate_listing_created_message(self, lender_id: str, street_address: str):
+        
+    @classmethod
+    def get_channel_name(cls):
+        return 'C0464PCNZH8'
+
+    @classmethod
+    def generate_listing_created_message(cls, lender_id: str, street_address: str):
         return (
             f'Listing was posted! :tada:\n'
             f'Lender Id: {lender_id}\n'
