@@ -1,4 +1,4 @@
-#! /bin/zsh
+#!/bin/bash
 
 function install_dependencies_root() {
     echo "Installing root dependencies...";
@@ -10,16 +10,14 @@ function install_dependencies_services() {
     
     for package in "${packages[@]}"
     do
-        name=`echo ${package:0:1} | tr  '[a-z]' '[A-Z]'`${package:1}
-        echo "Installing ${name} service dependencies...";
-        (cd "packages/service-$package" && pnpm install);
+        echo "Installing ${service^} service dependencies...";
+        (cd "packages/service-${service}" && pnpm install);
     done
 }
 
 function install_dependencies_appsync() {
     local package="appsync"
-    name=`echo ${package:0:1} | tr  '[a-z]' '[A-Z]'`${package:1}
-    echo "Installing ${name} dependencies...";
+    echo "Installing ${package^} service dependencies...";
     (cd appsync && pnpm install);
 }
 
