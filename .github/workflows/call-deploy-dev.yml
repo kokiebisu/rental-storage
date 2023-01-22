@@ -17,11 +17,10 @@ jobs:
       #     filters: |
       #       terraform:
       #         - 'terraform/**'
-
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
-        if: steps.changes.outputs.package == 'true'
+        # if: steps.changes.outputs.package == 'true'
 
       - name: Terraform config
         run: pnpm run terraform:setup:dev
