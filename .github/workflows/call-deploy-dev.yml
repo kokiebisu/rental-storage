@@ -23,7 +23,7 @@ jobs:
         # if: steps.changes.outputs.package == 'true'
 
       - name: Setup Terraform
-          uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v1
 
       - name: Terraform config
         run: pnpm run terraform:setup:dev
