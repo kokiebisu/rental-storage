@@ -22,6 +22,9 @@ jobs:
           version: 6.0.2
         # if: steps.changes.outputs.package == 'true'
 
+      - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v1
+
       - name: Terraform config
         run: pnpm run terraform:setup:dev
         shell: bash
@@ -34,15 +37,63 @@ jobs:
           aws-region: us-east-1
         # if: steps.changes.outputs.package == 'true'
 
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+        shell: bash
+        working-directory: ./terraform
+
       - name: Terraform init
+        id: init
         run: terraform init
         shell: bash
         working-directory: ./terraform
 
-      - name: Terraform plan
-        run: terraform plan
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
         shell: bash
         working-directory: ./terraform
+
+      - name: Terraform plan
+        id: plan
+        run: terraform plan -no-color -input=false
+        shell: bash
+        working-directory: ./terraform
+
+    - name: Update Pull Request
+      uses: actions/github-script@v6
+      if: github.event_name == 'pull_request'
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+
+          </details>
+
+          *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
+    - name: Terraform Plan Status
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
 
   deploy-composition:
     name: Composition
