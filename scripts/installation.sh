@@ -1,13 +1,14 @@
-#! /bin/zsh
+#!/bin/bash
 
 function install_dependencies_root() {
     echo "Installing root dependencies...";
     (pnpm install);
 }
 
-function install_dependencies_services () {
-    local services=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
-    for service in "${services[@]}"
+function install_dependencies_services() {
+    local packages=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
+    
+    for package in "${packages[@]}"
     do
         echo "Installing ${service^} service dependencies...";
         (cd "packages/service-${service}" && pnpm install);

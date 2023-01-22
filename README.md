@@ -36,6 +36,9 @@
 
 8 `brew install terraform`
 
+9 Must install latest bash for Mac users
+`brew install bash`
+
 9 `cd terraform && terraform init`
 
 10 copy/paste ./.terraform.tfvars

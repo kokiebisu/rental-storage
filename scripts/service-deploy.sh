@@ -1,4 +1,4 @@
-#! /bin/zsh
+#!/bin/bash
 
 function deploy_services () {
     local packages=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
