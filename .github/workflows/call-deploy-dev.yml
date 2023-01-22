@@ -25,7 +25,7 @@ jobs:
 
       - name: Terraform config
         run: pnpm run terraform:setup:dev
-        shell: zsh
+        shell: bash
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
