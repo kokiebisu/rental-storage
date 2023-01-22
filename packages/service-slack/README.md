@@ -10,57 +10,66 @@
 
 #### Set up Virtual Environment
 
-1. Install Pyenv
-   On my Mac, I install pyenv & its sister project pyenv-virtualenv with Homebrew:
+`which python`
+/usr/bin/python or /usr/bin/python3
+-> there is something wrong if nothing is displayed
 
-$ brew install readline xz
-$ brew install pyenv pyenv-virtualenv
+`python -V`
+Python 2.7.12
+-> If there is something wrong, nothing will be displayed
 
-2. Make sure Pyenv is activated on every boot up
-   You then need to add this to .bashrc (or .zshrc):
+`brew install openssl readline sqlite3 xz zlib`
 
+### Install Pyenv
+
+What is pyenv?
+Pyenv’s main job is to install different python versions into their own environments and allow you to swap between them, You can even set it up so that it will try multiple versions in order when you run a Python application which can be quite useful.
+
+Using the pyenv-installer
+
+`curl https://pyenv.run | bash`
+
+### Add to the end of .zshrc/.bashrc
+
+```
+export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-On Ubuntu, use the pyenv-installer:
+```
 
-$ sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
- libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
- xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
-$ curl https://pyenv.run | bash
-You then need to add this to .bashrc:
+Restart your terminal
 
-$ export PATH="$HOME/.pyenv/bin:$PATH"
-$ eval "$(pyenv init -)"
-$ eval "$(pyenv virtualenv-init -)"
-After restarting the terminal, pyenv will be available to you.
+### Install python version
 
-3. Install Python using Pyenv
-   Pyenv’s main job is to install different python versions into their own environments and allow you to swap between them, You can even set it up so that it will try multiple versions in order when you run a Python application which can be quite useful.
+`pyenv install 3.9.15`
 
-To list the available versions: pyenv install -l. I install the latest versions of the Pythons that I’m interested in:
+### Check if the python version is properly installed
 
-$ pyenv install 2.7.16
-$ pyenv install 3.7.4
-Use pyenv versions to see what’s installed.
+`ls ~/.pyenv/versions`
+3.9.15
 
-We can now set a given version as our system-wide python with pyenv global, however, it’s much more useful to set up isolated environments and use them.
+#### When you want to uninstall simply remove the folder
 
-4. Create day-to-day environments
-   Separate environments, known as virtualenvs or venvs, isolate an app and its dependencies from another one. In principle, you could have a separate environment for each application, but in practice, I’ve found that for my day-to-day apps, I can use the same environment for all apps for a given major Python version. I calls these environments apps2 and apps3 and put all my day-to-day apps and their dependencies in here, leaving the original Python installations clean for creating further environments for development work.
+`pyenv uninstall 3.9.15`
 
-We create a new environment using the pyenv virtualenv command:
+#### Create new virtual environment
 
-$ pyenv virtualenv 2.7.16 apps2
-$ pyenv virtualenv 3.7.4 apps3
-We set these are my system-wide defaults using pyenv global:
+Separate environments, known as virtualenvs or venvs, isolate an app and its dependencies from another one. In principle, you could have a separate environment for each application, but in practice, I’ve found that for my day-to-day apps, I can use the same environment for all apps for a given major Python version. I calls these environments apps2 and apps3 and put all my day-to-day apps and their dependencies in here, leaving the original Python installations clean for creating further environments for development work.
 
-$ pyenv global apps3 apps2
-This tells pyenv to look for a given app in the apps3 environment first and if it’s not there, look in apps2. We can now install python apps as required.
+`pyenv virtualenv <python_version> <environment_name>`
+`pyenv virtualenv 3.9.15 slack-service`
 
-Firstly, the released version of rst2pdf:
+#### Activate virtual environment
 
-#### Install dependencies
+`pyenv activate slack-service`
+
+##### Deactivate virtual environment
+
+`pyenv deactivate`
+
+### Install dependencies
 
 Make sure you are in the virtual environment and install the packages
 
 `pip install -r requirements.txt`
+
+We can now set a given version as our system-wide python with pyenv global, however, it’s much more useful to set up isolated environments and use them.
