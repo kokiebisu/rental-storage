@@ -52,6 +52,14 @@
 
 16 `pnpm run deploy:local`
 
+## Enable Git Hooks
+
+1 You can enable python linting when committing your changes automatically by using the following command.
+`make enable-precommit`
+
+You can disable the pre-commit hook by the following
+`make disable-precommit`
+
 # terraform
 
 local
