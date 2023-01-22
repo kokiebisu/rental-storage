@@ -15,6 +15,12 @@ function install_dependencies_services() {
     done
 }
 
+function install_dependencies_composition() {
+    local package="composition"
+    echo "Installing ${package^} service dependencies...";
+    (cd "packages/${package}" && pnpm install);
+}
+
 function install_dependencies_appsync() {
     local package="appsync"
     echo "Installing ${package^} service dependencies...";
@@ -23,4 +29,5 @@ function install_dependencies_appsync() {
 
 install_dependencies_root
 install_dependencies_services
+install_dependencies_composition
 install_dependencies_appsync
