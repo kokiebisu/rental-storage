@@ -34,6 +34,11 @@ jobs:
           aws-region: us-east-1
         # if: steps.changes.outputs.package == 'true'
 
+      - name: Terraform init
+        run: terraform init
+        shell: bash
+        working-directory: ./terraform
+
       - name: Terraform plan
         run: terraform plan
         shell: bash
