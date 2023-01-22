@@ -5,9 +5,9 @@
   "description": "# rental-a-locker",
   "main": "index.js",
   "scripts": {
-    "deps:install": "./scripts/installation.sh",
-    "deploy:local": "./scripts/service-deploy.sh",
-    "remove:local": "./scripts/service-remove.sh",
+    "deps:install": "bash ./scripts/installation.sh",
+    "deploy:local": "bash ./scripts/service-deploy.sh",
+    "remove:local": "bash ./scripts/service-remove.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test:unit": "turbo run test:unit",
     "test:integration": "turbo run test:integration",
