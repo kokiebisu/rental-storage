@@ -11,12 +11,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            terraform:
-              - 'terraform/**'
+      # - uses: dorny/paths-filter@v2
+      #   id: changes
+      #   with:
+      #     filters: |
+      #       terraform:
+      #         - 'terraform/**'
 
       - uses: pnpm/action-setup@v2.2.4
         with:
@@ -81,7 +81,6 @@ jobs:
       #     cd packages/composition
       #     serverless deploy --config serverless.dev.yml --stage dev
       #   if: steps.changes.outputs.package == 'true'
-
       #     echo "** Running Terraform Plan**"
       #     terraform plan
       #   working-directory: ./terraform
