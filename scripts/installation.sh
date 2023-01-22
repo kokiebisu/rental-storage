@@ -9,14 +9,14 @@ function install_dependencies_services () {
     local services=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
     for service in "${services[@]}"
     do
-        echo "Installing ${(C)service} service dependencies...";
-        (cd "packages/service-$service" && pnpm install);
+        echo "Installing ${service^} service dependencies...";
+        (cd "packages/service-${service}" && pnpm install);
     done
 }
 
 function install_dependencies_appsync() {
     local package="appsync"
-    echo "Installing ${(C)package} service dependencies...";
+    echo "Installing ${package^} service dependencies...";
     (cd appsync && pnpm install);
 }
 
