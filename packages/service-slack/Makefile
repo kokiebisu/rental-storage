@@ -6,8 +6,8 @@ start-venv:
 
 .PHONY: test
 test:
-	python -m pytest -v test/unit_test
+	pytest -v test/unit_test
 
-.PHONY: integration-test
-integration-test:
-	python -m pytest -v test/integration_test
+.PHONY: lint
+lint:
+	flake8 . --exclude ./vendor/**,./node_modules/**

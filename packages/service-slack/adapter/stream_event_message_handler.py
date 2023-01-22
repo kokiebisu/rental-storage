@@ -7,7 +7,8 @@ class KinesisEventStreamHandler:
     def parse_event(event):
         messages = []
         for record in event['Records']:
-            decoded = base64.b64decode(record["kinesis"]["data"]).decode("utf-8")
+            decoded = base64.b64decode(record["kinesis"]["data"])\
+                                                        .decode("utf-8")
             event = json.loads(decoded)
             messages.append({
                 'eventEntity': event['sourceEntity'],
@@ -15,9 +16,3 @@ class KinesisEventStreamHandler:
                 'data': event['data']
             })
         return messages
-
-
-
-
-
-    
