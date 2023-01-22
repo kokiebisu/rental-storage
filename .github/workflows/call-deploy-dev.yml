@@ -76,15 +76,15 @@ jobs:
           pnpm install --frozen-lockfile
         if: steps.changes.outputs.package == 'true'
 
-      - name: Deploy
-        run: |
-          cd packages/composition
-          serverless deploy --config serverless.dev.yml --stage dev
-        if: steps.changes.outputs.package == 'true'
+      # - name: Deploy
+      #   run: |
+      #     cd packages/composition
+      #     serverless deploy --config serverless.dev.yml --stage dev
+      #   if: steps.changes.outputs.package == 'true'
 
-          echo "** Running Terraform Plan**"
-          terraform plan
-        working-directory: ./terraform
+      #     echo "** Running Terraform Plan**"
+      #     terraform plan
+      #   working-directory: ./terraform
 
       # - name: Terraform Destroy
       #   run: |
