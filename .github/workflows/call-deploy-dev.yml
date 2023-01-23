@@ -7,6 +7,10 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     environment: dev
+    strategy:
+      matrix:
+        package:
+          - composition
     steps:
       - name: Checkout
         uses: actions/checkout@v3
