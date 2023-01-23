@@ -137,7 +137,7 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-        if: steps.changes.outputs.package == 'true'
+        if: github.ref != 'refs/heads/dev' && steps.changes.outputs.package == 'true'
 
       - name: Terraform Plan Status
         run: exit 1
