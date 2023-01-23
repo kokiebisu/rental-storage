@@ -21,9 +21,14 @@ jobs:
         with:
           version: 6.0.2
 
+      - name: Install global dependencies
+        run: pnpm install -g serverless@2.72.3
+        if: steps.changes.outputs.package == 'true'
+
       - name: Install root packages
         run: pnpm install --frozen-lockfile
         shell: bash
+        if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16

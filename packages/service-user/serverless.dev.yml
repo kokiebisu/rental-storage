@@ -16,8 +16,8 @@ provider:
   iam:
     role: ${ssm:/terraform/iam/lambda-role-arn}
   apiGateway:
-    restApiId: ${ssm:/terraform/iam/rest-api-id}
-    restApiRootResourceId: ${ssm:/terraform/iam/rest-api-root-resource-id}
+    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
+    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
   ecr:
     images:
       app:
