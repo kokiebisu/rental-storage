@@ -43,26 +43,9 @@ jobs:
         shell: bash
         working-directory: ./terraform
 
-      # - name: Terraform Format
-      #   id: fmt
-      #   run: |
-      #     export TF_VAR_namespace='rental-storage' \
-      #     export TF_VAR_region='us-east-1' \
-      #     export TF_VAR_booking_table_name='booking' \
-      #     export TF_VAR_listing_db_username='postgres' \
-      #     export TF_VAR_listing_db_password='password' \
-      #     export TF_VAR_listing_db_name='listings' \
-      #     export TF_VAR_user_db_username='postgres' \
-      #     export TF_VAR_user_db_password='password' \
-      #     export TF_VAR_user_db_name='users' \
-      #     terraform fmt -check
-      #   shell: bash
-      #   working-directory: ./terraform
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-        shell: bash
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
         env:
           TF_VAR_namespace: rental-storage
           TF_VAR_region: us-east-1
@@ -73,21 +56,38 @@ jobs:
           TF_VAR_user_db_username: postgres
           TF_VAR_user_db_password: password
           TF_VAR_user_db_name: users
+        shell: bash
+        working-directory: ./terraform
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+        env:
+          TF_VAR_namespace: rental-storage
+          TF_VAR_region: us-east-1
+          TF_VAR_booking_table_name: booking
+          TF_VAR_listing_db_username: postgres
+          TF_VAR_listing_db_password: password
+          TF_VAR_listing_db_name: listings
+          TF_VAR_user_db_username: postgres
+          TF_VAR_user_db_password: password
+          TF_VAR_user_db_name: users
+        shell: bash
         working-directory: ./terraform
 
       - name: Terraform plan
         id: plan
-        run: |
-          export TF_VAR_namespace='rental-storage' \
-          export TF_VAR_region='us-east-1' \
-          export TF_VAR_booking_table_name='booking' \
-          export TF_VAR_listing_db_username='postgres' \
-          export TF_VAR_listing_db_password='password' \
-          export TF_VAR_listing_db_name='listings' \
-          export TF_VAR_user_db_username='postgres' \
-          export TF_VAR_user_db_password='password' \
-          export TF_VAR_user_db_name='users' \
-          terraform plan -no-color -input=false
+        run: terraform plan -no-color -input=false
+        env:
+          TF_VAR_namespace: rental-storage
+          TF_VAR_region: us-east-1
+          TF_VAR_booking_table_name: booking
+          TF_VAR_listing_db_username: postgres
+          TF_VAR_listing_db_password: password
+          TF_VAR_listing_db_name: listings
+          TF_VAR_user_db_username: postgres
+          TF_VAR_user_db_password: password
+          TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
 
