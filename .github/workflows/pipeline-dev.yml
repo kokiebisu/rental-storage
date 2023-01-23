@@ -16,7 +16,8 @@ jobs:
     secrets: inherit
 
   # deploy-dev:
-  #   name: Deploy
+  #   name: Deploy Services
+  #   needs: [check-core-infra]
   #   uses: ./.github/workflows/call-deploy-dev.yml
   #   secrets: inherit
 
