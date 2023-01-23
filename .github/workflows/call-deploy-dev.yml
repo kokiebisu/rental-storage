@@ -11,23 +11,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - uses: dorny/paths-filter@v2
-      #   id: changes
-      #   with:
-      #     filters: |
-      #       terraform:
-      #         - 'terraform/**'
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            terraform:
+              - 'terraform/**'
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
-        # if: steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.package == 'true'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform config
         run: pnpm run terraform:setup:dev
         shell: bash
+        if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -35,13 +37,14 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-        # if: steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform init
         id: init
         run: terraform init
         shell: bash
         working-directory: ./terraform
+        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Format
         id: fmt
@@ -61,6 +64,7 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
+        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Validate
         id: validate
@@ -80,8 +84,9 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
+        if: steps.changes.outputs.package == 'true'
 
-      - name: Terraform plan
+      - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -input=false
         env:
@@ -100,10 +105,10 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
+        if: steps.changes.outputs.package == 'true'
 
       - name: Update Pull Request
         uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
@@ -130,13 +135,14 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
         run: exit 1
+        if: steps.plan.outcome == 'failure' && steps.changes.outputs.package == 'true'
 
       - name: Terraform Apply
-        # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -154,6 +160,7 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
+        if: steps.changes.outputs.package == 'true'
 
   # deploy-composition:
   #   name: Composition
