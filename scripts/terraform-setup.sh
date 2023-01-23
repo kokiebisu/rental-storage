@@ -12,5 +12,12 @@ function setup_terraform_providers() {
     (rm terraform/providers.tf && cp terraform/providers/local.tf terraform/providers.tf);
 }
 
+function setup_terraform_variables() {
+    environment=$1
+    echo "Setting up variables.tf for ${environment} environment..."
+    (rm terraform/variables.tf && cp terraform/variables/local.tf terraform/variables.tf);
+}
+
 setup_terraform_versions $1
 setup_terraform_providers $1
+setup_terraform_variables $1
