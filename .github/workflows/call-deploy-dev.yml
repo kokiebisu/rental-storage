@@ -138,6 +138,8 @@ jobs:
       - name: Terraform Apply
         # if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve -input=false
+        shell: bash
+        working-directory: ./terraform
 
   # deploy-composition:
   #   name: Composition
