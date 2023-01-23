@@ -2,7 +2,7 @@ resource "aws_db_instance" "listing" {
     username = "${var.listing_db_username}"
     password = "${var.listing_db_password}"
     allocated_storage = 20
-    engine_version = 12.7
+    engine_version = 12.11
     name = "${var.listing_db_name}"
     instance_class = "db.t3.micro"
     identifier = "${var.environment}-${var.namespace}-listing-db"
@@ -19,7 +19,7 @@ resource "aws_db_instance" "user" {
     username = "${var.user_db_username}"
     password = "${var.user_db_password}"
     allocated_storage = 20
-    engine_version = 12.7
+    engine_version = 12.11
     name = "${var.user_db_name}"
     instance_class = "db.t3.micro"
     identifier = "${var.environment}-${var.namespace}-user-db"
