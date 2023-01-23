@@ -3,16 +3,6 @@ variable "namespace" {
   type        = string
 }
 
-variable "region" {
-  description = "AWS region"
-  type        = string
-}
-
-variable "profile" {
-  description = "AWS profile to be used"
-  type        = string
-}
-
 variable "booking_table_name" {
   description = "Table of name for booking service db"
   type        = string
