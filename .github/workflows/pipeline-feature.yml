@@ -20,3 +20,8 @@ jobs:
   test-unit:
     name: Unit Test
     uses: ./.github/workflows/call-test-unit.yml
+
+  check-core-infra:
+    name: Core Infrastructure
+    uses: ./.github/workflows/call-core-infra.yml
+    secrets: inherit

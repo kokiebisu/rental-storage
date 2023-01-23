@@ -10,10 +10,15 @@ jobs:
     name: Setup
     uses: ./.github/workflows/call-setup-build.yml
 
-  deploy-dev:
-    name: Deploy
-    uses: ./.github/workflows/call-deploy-dev.yml
+  check-core-infra:
+    name: Core Infrastructure
+    uses: ./.github/workflows/call-core-infra.yml
     secrets: inherit
+
+  # deploy-dev:
+  #   name: Deploy
+  #   uses: ./.github/workflows/call-deploy-dev.yml
+  #   secrets: inherit
 
   # test-integration:
   #   name: Integration Test
