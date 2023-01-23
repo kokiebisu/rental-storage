@@ -46,16 +46,16 @@ jobs:
       - name: Terraform Format
         id: fmt
         run: |
-          terraform fmt \
-          -var namespace=rental-storage \
-          region    = "us-east-1" \
-          booking_table_name = "booking" \
-          listing_db_username = "postgres" \
-          listing_db_password = "password" \
-          listing_db_name     = "listings" \
-          user_db_username = "postgres" \
-          user_db_password = "password" \
-          user_db_name     = "users"
+          export TF_VAR_namespace='rental-storage' \
+          export TF_VAR_region='us-east-1' \
+          export TF_VAR_booking_table_name='booking' \
+          export TF_VAR_listing_db_username='postgres' \
+          export TF_VAR_listing_db_password='password' \
+          export TF_VAR_listing_db_name='listings' \
+          export TF_VAR_user_db_username='postgres' \
+          export TF_VAR_user_db_password='password' \
+          export TF_VAR_user_db_name='users' \
+          terraform fmt
         shell: bash
         working-directory: ./terraform
 
