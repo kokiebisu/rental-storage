@@ -15,12 +15,68 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - 'packages/composition/**'
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Install global dependencies
+        run: pnpm install -g serverless@2.72.3
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Install dependencies
+        run: |
+          cd packages/${{ matrix.package }}
+          pnpm install --frozen-lockfile
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Deploy
+        run: |
+          cd packages/${{ matrix.package }}
+          serverless deploy --config serverless.dev.yml --stage dev
+        if: steps.changes.outputs.package == 'true'
+
+  deploy-service:
+    name: Service
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    environment: dev
+    strategy:
+      matrix:
+        package:
+          - authentication
+          - authorizer
+          - booking
+          - image
+          - listing
+          - payment
+          - slack
+          - user
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
       # - uses: dorny/paths-filter@v2
       #   id: changes
       #   with:
       #     filters: |
       #       package:
-      #         - 'packages/composition/**'
+      #         - 'packages/service-${{ matrix.package }}/**'
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
@@ -40,114 +96,57 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd packages/${{ matrix.package }}
+          cd packages/service-${{ matrix.package }}
           pnpm install --frozen-lockfile
         # if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
         run: |
-          cd packages/${{ matrix.package }}
+          cd packages/service-${{ matrix.package }}
           serverless deploy --config serverless.dev.yml --stage dev
         # if: steps.changes.outputs.package == 'true'
 
-  # deploy-service:
-  #   name: Service
-  #   needs: [deploy-terraform]
-  #   timeout-minutes: 15
-  #   runs-on: ubuntu-latest
-  #   environment: dev
-  #   strategy:
-  #     matrix:
-  #       package:
-  #         - authentication
-  #         - authorizer
-  #         - booking
-  #         - image
-  #         - listing
-  #         - payment
-  #         - slack
-  #         - user
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+  deploy-appsync:
+    name: AppSync
+    needs: [deploy-composition, deploy-service]
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - uses: dorny/paths-filter@v2
-  #       id: changes
-  #       with:
-  #         filters: |
-  #           package:
-  #             - 'packages/service-${{ matrix.package }}/**'
-  #     - uses: pnpm/action-setup@v2.2.4
-  #       with:
-  #         version: 6.0.2
-  #       if: steps.changes.outputs.package == 'true'
+      # - uses: dorny/paths-filter@v2
+      #   id: changes
+      #   with:
+      #     filters: |
+      #       package:
+      #         - 'appsync/**'
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+        # if: steps.changes.outputs.package == 'true'
 
-  #     - name: Install global dependencies
-  #       run: pnpm install -g serverless@2.72.3
-  #       if: steps.changes.outputs.package == 'true'
+      - name: Install global dependencies
+        run: pnpm install -g serverless@2.72.3
+        # if: steps.changes.outputs.package == 'true'
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1-node16
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-east-1
-  #       if: steps.changes.outputs.package == 'true'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+        # if: steps.changes.outputs.package == 'true'
 
-  #     - name: Install dependencies
-  #       run: |
-  #         cd packages/service-${{ matrix.package }}
-  #         pnpm install --frozen-lockfile
-  #       if: steps.changes.outputs.package == 'true'
+      - name: Install dependencies
+        run: |
+          cd infrastructure/aws/resources/${{ matrix.package }}
+          pnpm install --frozen-lockfile
+        # if: steps.changes.outputs.package == 'true'
 
-  #     - name: Deploy
-  #       run: |
-  #         cd packages/service-${{ matrix.package }}
-  #         serverless deploy --config serverless.dev.yml --stage dev
-  #       if: steps.changes.outputs.package == 'true'
-
-  # deploy-appsync:
-  #   name: AppSync
-  #   needs: [deploy-terraform, deploy-service]
-  #   timeout-minutes: 15
-  #   runs-on: ubuntu-latest
-  #   environment: dev
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - uses: dorny/paths-filter@v2
-  #       id: changes
-  #       with:
-  #         filters: |
-  #           package:
-  #             - 'appsync/**'
-
-  #     - uses: pnpm/action-setup@v2.2.4
-  #       with:
-  #         version: 6.0.2
-  #       if: steps.changes.outputs.package == 'true'
-
-  #     - name: Install global dependencies
-  #       run: pnpm install -g serverless@2.72.3
-  #       if: steps.changes.outputs.package == 'true'
-
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1-node16
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-east-1
-  #       if: steps.changes.outputs.package == 'true'
-
-  #     - name: Install dependencies
-  #       run: |
-  #         cd infrastructure/aws/resources/${{ matrix.package }}
-  #         pnpm install --frozen-lockfile
-  #       if: steps.changes.outputs.package == 'true'
-
-  #     - name: Deploy
-  #       run: |
-  #         cd infrastructure/aws/resources/${{ matrix.package }}
-  #         serverless deploy --config serverless.dev.yml --stage dev
-  #       if: steps.changes.outputs.package == 'true'
+      - name: Deploy
+        run: |
+          cd infrastructure/aws/resources/${{ matrix.package }}
+          serverless deploy --config serverless.dev.yml --stage dev
+        # if: steps.changes.outputs.package == 'true'
