@@ -5,24 +5,20 @@
   "description": "# rental-a-locker",
   "main": "index.js",
   "scripts": {
-    "deps:install": "./scripts/installation.sh",
-    "deploy:local": "./scripts/service-deploy.sh",
-    "remove:local": "./scripts/service-remove.sh",
+    "deps:install": "bash ./scripts/installation.sh",
+    "deploy:local": "bash ./scripts/service-deploy.sh",
+    "remove:local": "bash ./scripts/service-remove.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test:unit": "turbo run test:unit",
     "test:integration": "turbo run test:integration",
-    "terraform:setup:local": "rm terraform/versions.tf && cp terraform/config/local.tf terraform/versions.tf",
-    "terraform:setup:dev": "rm terraform/versions.tf && cp terraform/config/dev.tf terraform/versions.tf",
+    "terraform:setup:local": "bash ./scripts/terraform-setup.sh local",
+    "terraform:setup:dev": "bash ./scripts/terraform-setup.sh dev",
     "terraform:setup:production": "rm terraform/versions.tf && cp terraform/config/production.tf terraform/versions.tf",
     "terraform:destroy": "cd terraform && terraform destroy"
   },
   "devDependencies": {
-    "@serverless/compose": "1.3.0",
-    "@types/node": "18.11.9",
     "eslint": "8.23.1",
-    "prettier": "2.7.1",
-    "turbo": "1.4.7",
-    "typescript": "4.8.3"
+    "prettier": "2.7.1"
   },
   "repository": {
     "type": "git",
