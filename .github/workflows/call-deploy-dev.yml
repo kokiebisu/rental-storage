@@ -37,15 +37,15 @@ jobs:
           aws-region: us-east-1
         # if: steps.changes.outputs.package == 'true'
 
-      - name: Terraform Format
-        id: fmt
-        run: terraform fmt -check
-        shell: bash
-        working-directory: ./terraform
-
       - name: Terraform init
         id: init
         run: terraform init
+        shell: bash
+        working-directory: ./terraform
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
         shell: bash
         working-directory: ./terraform
 
