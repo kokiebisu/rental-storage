@@ -18,25 +18,25 @@ runs:
     - uses: pnpm/action-setup@v2.2.4
       with:
         version: 6.0.2
-      if: steps.changes.outputs.package == 'true'
+      # if: steps.changes.outputs.package == 'true'
 
     - name: Install node_modules
       run: |
         cd packages/${{ inputs.package }}
         pnpm install --frozen-lockfile
       shell: bash
-      if: steps.changes.outputs.package == 'true'
+      # if: steps.changes.outputs.package == 'true'
 
     - name: Build
       run: |
         cd packages/${{ inputs.package }}
         pnpm run build
       shell: bash
-      if: steps.changes.outputs.package == 'true'
+      # if: steps.changes.outputs.package == 'true'
 
     - uses: actions/upload-artifact@v3
       with:
         name: dist-${{ inputs.package }}-${{ github.sha }}
         path: packages/${{ inputs.package }}/dist
         retention-days: 1
-      if: steps.changes.outputs.package == 'true'
+      # if: steps.changes.outputs.package == 'true'
