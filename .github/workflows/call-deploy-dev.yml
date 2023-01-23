@@ -134,85 +134,85 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
-  deploy-composition:
-    name: Composition
-    needs: [deploy-terraform]
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # deploy-composition:
+  #   name: Composition
+  #   needs: [deploy-terraform]
+  #   timeout-minutes: 15
+  #   runs-on: ubuntu-latest
+  #   environment: dev
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            package:
-              - 'packages/composition/**'
-      - uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 6.0.2
-        if: steps.changes.outputs.package == 'true'
+  #     - uses: dorny/paths-filter@v2
+  #       id: changes
+  #       with:
+  #         filters: |
+  #           package:
+  #             - 'packages/composition/**'
+  #     - uses: pnpm/action-setup@v2.2.4
+  #       with:
+  #         version: 6.0.2
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Install global dependencies
-        run: pnpm install -g serverless@2.72.3
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Install global dependencies
+  #       run: pnpm install -g serverless@2.72.3
+  #       if: steps.changes.outputs.package == 'true'
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1-node16
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
 
-      - name: Setup Terraform CLI
-        uses: hashicorp/setup-terraform@v2.0.2
+  #     - name: Setup Terraform CLI
+  #       uses: hashicorp/setup-terraform@v2.0.2
 
-      - name: Terraform init, plan and apply
-        run: |
-          cd packages/composition
-          pnpm install --frozen-lockfile
-        if: steps.changes.outputs.package == 'true'
+  #     - name: Terraform init, plan and apply
+  #       run: |
+  #         cd packages/composition
+  #         pnpm install --frozen-lockfile
+  #       if: steps.changes.outputs.package == 'true'
 
-      # - name: Deploy
-      #   run: |
-      #     cd packages/composition
-      #     serverless deploy --config serverless.dev.yml --stage dev
-      #   if: steps.changes.outputs.package == 'true'
-      #     echo "** Running Terraform Plan**"
-      #     terraform plan
-      #   working-directory: ./terraform
+  # - name: Deploy
+  #   run: |
+  #     cd packages/composition
+  #     serverless deploy --config serverless.dev.yml --stage dev
+  #   if: steps.changes.outputs.package == 'true'
+  #     echo "** Running Terraform Plan**"
+  #     terraform plan
+  #   working-directory: ./terraform
 
-      # - name: Terraform Destroy
-      #   run: |
-      #     echo "** Running Terraform Destroy**"
-      #     terraform plan -destroy
-      #   #        terraform destroy -auto-approve
-      #   working-directory: ${{ github.event.inputs.tfpath }}
+  # - name: Terraform Destroy
+  #   run: |
+  #     echo "** Running Terraform Destroy**"
+  #     terraform plan -destroy
+  #   #        terraform destroy -auto-approve
+  #   working-directory: ${{ github.event.inputs.tfpath }}
 
-      # - uses: pnpm/action-setup@v2.2.4
-      #   with:
-      #     version: 6.0.2
-      #   if: steps.changes.outputs.package == 'true'
+  # - uses: pnpm/action-setup@v2.2.4
+  #   with:
+  #     version: 6.0.2
+  #   if: steps.changes.outputs.package == 'true'
 
-      # - name: Install global dependencies
-      #   run: pnpm install -g serverless
-      #   if: steps.changes.outputs.package == 'true'
+  # - name: Install global dependencies
+  #   run: pnpm install -g serverless
+  #   if: steps.changes.outputs.package == 'true'
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1-node16
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-1
-      #   if: steps.changes.outputs.package == 'true'
+  # - name: Configure AWS credentials
+  #   uses: aws-actions/configure-aws-credentials@v1-node16
+  #   with:
+  #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #     aws-region: us-east-1
+  #   if: steps.changes.outputs.package == 'true'
 
-      # - name: Install dependencies
-      #   run: |
-      #     cd ${{ matrix.package }}
-      #     pnpm install --frozen-lockfile
-      # if: steps.changes.outputs.terraform == 'true'
+  # - name: Install dependencies
+  #   run: |
+  #     cd ${{ matrix.package }}
+  #     pnpm install --frozen-lockfile
+  # if: steps.changes.outputs.terraform == 'true'
 
   # deploy-composition:
   #   name: Composition
