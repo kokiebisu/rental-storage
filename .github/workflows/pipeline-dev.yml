@@ -15,11 +15,11 @@ jobs:
     uses: ./.github/workflows/call-core-infra.yml
     secrets: inherit
 
-  # deploy-dev:
-  #   name: Deploy Services
-  #   needs: [check-core-infra]
-  #   uses: ./.github/workflows/call-deploy-dev.yml
-  #   secrets: inherit
+  deploy-dev:
+    name: Deploy Services
+    needs: [check-core-infra]
+    uses: ./.github/workflows/call-deploy-dev.yml
+    secrets: inherit
 
   # test-integration:
   #   name: Integration Test
