@@ -47,6 +47,9 @@ jobs:
         id: fmt
         run: terraform fmt
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
           TF_VAR_namespace: rental-storage
           TF_VAR_region: us-east-1
           TF_VAR_booking_table_name: booking
@@ -63,6 +66,9 @@ jobs:
         id: validate
         run: terraform validate -no-color
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
           TF_VAR_namespace: rental-storage
           TF_VAR_region: us-east-1
           TF_VAR_booking_table_name: booking
@@ -79,6 +85,9 @@ jobs:
         id: plan
         run: terraform plan -no-color -input=false
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
           TF_VAR_namespace: rental-storage
           TF_VAR_region: us-east-1
           TF_VAR_booking_table_name: booking
