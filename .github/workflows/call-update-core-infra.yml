@@ -2,7 +2,7 @@ on:
   workflow_call:
 
 jobs:
-  run:
+  run-terraform:
     name: Terraform
     timeout-minutes: 15
     runs-on: ubuntu-latest
