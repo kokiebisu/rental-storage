@@ -21,8 +21,8 @@ jobs:
     uses: ./.github/workflows/call-deploy-dev.yml
     secrets: inherit
 
-  # test-integration:
-  #   name: Integration Test
-  #   needs: [setup-build, deploy-dev]
-  #   uses: ./.github/workflows/call-test-integration.yml
-  #   secrets: inherit
+  test-integration:
+    name: Integration Test
+    needs: [setup-build, check-core-infra, deploy-dev]
+    uses: ./.github/workflows/call-test-integration.yml
+    secrets: inherit
