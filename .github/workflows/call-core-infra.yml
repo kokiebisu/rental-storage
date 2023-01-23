@@ -130,6 +130,12 @@ jobs:
             </details>
 
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
         if: github.ref != 'refs/heads/dev' && steps.changes.outputs.package == 'true'
 
       - name: Terraform Plan Status
