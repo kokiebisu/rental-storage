@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function remove_services () {
+function remove_services() {
     local packages=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
     for package in "${packages[@]}"
     do
