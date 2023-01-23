@@ -1,10 +1,9 @@
 name: Develop Pipeline
 
 on:
-  pull_request:
-  # workflow_dispatch:
-  # # push:
-  # #   branches: "dev"
+  workflow_dispatch:
+  push:
+    branches: "dev"
 
 jobs:
   setup-build:
