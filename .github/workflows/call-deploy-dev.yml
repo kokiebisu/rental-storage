@@ -17,8 +17,9 @@ jobs:
         id: changes
         with:
           filters: |
-            terraform:
+            package:
               - 'terraform/**'
+              - '.github/**'
 
       - uses: pnpm/action-setup@v2.2.4
         with:
@@ -162,7 +163,7 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
-        if: github.ref == 'refs/heads/dev' && github.event_name == 'push' && steps.changes.outputs.package == 'true'
+        if: github.ref == 'refs/heads/dev' && steps.changes.outputs.package == 'true'
 
   # deploy-composition:
   #   name: Composition
