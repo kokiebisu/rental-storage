@@ -43,7 +43,7 @@ jobs:
           cd packages/composition
           pnpm install --frozen-lockfile
         shell: bash
-        if: steps.changes.outputs.package == 'true'
+        # if: steps.changes.outputs.package == 'true'
 
       - name: Generate env files
         run: |
