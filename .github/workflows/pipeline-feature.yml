@@ -20,3 +20,8 @@ jobs:
   test-unit:
     name: Unit Test
     uses: ./.github/workflows/call-test-unit.yml
+
+  check-terraform:
+    name: Terraform
+    uses: ./.github/workflows/call-terraform.yml
+    secrets: inherit
