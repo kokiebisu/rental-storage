@@ -50,6 +50,6 @@ setup_terraform_variables $1
 
 if [ "$1" = "dev" ] || [ "$1" = "production" ]
 then
+    echo "Setting up for dev/production deployment..."
     setup_terraform_backend $1
-    echo "Its the dev environment!"
 fi
