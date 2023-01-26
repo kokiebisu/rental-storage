@@ -4,7 +4,7 @@ function lint_services() {
     local packages=("booking" "listing" "payment" "user" "slack")
     for package in "${packages[@]}"
     do
-        echo "Linting ${package} service..."\n
+        echo -e "Linting ${package} service...\n"
         (cd "packages/service-${package}" && make lint)
     done
 }
