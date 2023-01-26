@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function lint_services() {
-    local packages=("booking" "listing" "payment" "user" "slack")
+    local packages=("authentication" "booking" "listing" "payment" "user" "slack")
     for package in "${packages[@]}"
     do
         echo -e "\nLinting ${package} service..."
