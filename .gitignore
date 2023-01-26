@@ -32,6 +32,8 @@
 *.tfvars
 *.tfstate.*
 terraform.tfstate
+terraform.tfstate.backup
+errored.tfstate
 
 # vscode
 **/.vscode

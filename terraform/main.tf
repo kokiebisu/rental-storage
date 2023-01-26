@@ -34,10 +34,6 @@ module "kinesis" {
   environment = var.environment
 }
 
-module "kms" {
-  source = "./modules/kms"
-}
-
 module "rds" {
   source = "./modules/rds"
 
@@ -58,10 +54,8 @@ module "rds" {
 module "s3" {
   source = "./modules/s3"
 
-  namespace                    = var.namespace
   environment                  = var.environment
   account_id                   = module.identity.account_id
-  kms_terraform_bucket_key_arn = module.kms.kms_terraform_bucket_key_arn
 }
 
 module "sqs" {
