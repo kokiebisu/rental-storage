@@ -35,13 +35,13 @@ function setup_terraform_variables() {
 
 function setup_terraform_backend() {
     local ENVIRONMENT=$1
-    local FILE="terraform/terraform_state.tf"
+    local FILE="terraform/backend.tf"
     if [ -f "$FILE" ]; then
-        echo "terraform_state.tf does exist"
-        (rm terraform/terraform_state.tf)
+        echo "backend.tf does exist"
+        (rm terraform/backend.tf)
     fi
     echo "Setting up backend.tf for ${ENVIRONMENT} environment..."
-    (cp terraform/config/${ENVIRONMENT}/terraform_state.tf terraform/terraform_state.tf)
+    (cp terraform/config/${ENVIRONMENT}/backend.tf terraform/backend.tf)
 }
 
 setup_terraform_versions $1
