@@ -1,23 +1,55 @@
 #!/bin/bash
 
 function setup_terraform_versions() {
-    environment=$1
-    echo "Setting up versions.tf for ${environment} environment..."
-    (rm terraform/versions.tf && cp terraform/config/${environment}.tf terraform/versions.tf);
+    local ENVIRONMENT=$1
+    local FILE="terraform/versions.tf"
+    if [ -f "$FILE" ]; then
+        echo "versions.tf does exist"
+        (rm terraform/versions.tf)
+    fi
+    echo "Setting up versions.tf for ${ENVIRONMENT} environment..."
+    (cp terraform/config/${ENVIRONMENT}/versions.tf terraform/versions.tf);
 }
 
 function setup_terraform_providers() {
-    environment=$1
-    echo "Setting up providers.tf for ${environment} environment..."
-    (rm terraform/providers.tf && cp terraform/providers/${environment}.tf terraform/providers.tf);
+    local ENVIRONMENT=$1
+    local FILE="terraform/providers.tf"
+    if [ -f "$FILE" ]; then
+        echo "providers.tf does exist"
+        (rm terraform/providers.tf)
+    fi
+    echo "Setting up providers.tf for ${ENVIRONMENT} environment..."
+    (cp terraform/config/${ENVIRONMENT}/providers.tf terraform/providers.tf);
 }
 
 function setup_terraform_variables() {
-    environment=$1
-    echo "Setting up variables.tf for ${environment} environment..."
-    (rm terraform/variables.tf && cp terraform/variables/${environment}.tf terraform/variables.tf);
+    local ENVIRONMENT=$1
+    local FILE="terraform/variables.tf"
+    if [ -f "$FILE" ]; then
+        echo "variables.tf does exist"
+        (rm terraform/variables.tf)
+    fi
+    echo "Setting up variables.tf for ${ENVIRONMENT} environment..."
+    (cp terraform/config/${ENVIRONMENT}/variables.tf terraform/variables.tf);
+}
+
+function setup_terraform_backend() {
+    local ENVIRONMENT=$1
+    local FILE="terraform/backend.tf"
+    if [ -f "$FILE" ]; then
+        echo "backend.tf does exist"
+        (rm terraform/backend.tf)
+    fi
+    echo "Setting up backend.tf for ${ENVIRONMENT} environment..."
+    (cp terraform/config/${ENVIRONMENT}/backend.tf terraform/backend.tf)
 }
 
 setup_terraform_versions $1
 setup_terraform_providers $1
 setup_terraform_variables $1
+
+if [ "$1" = "dev" ] || [ "$1" = "production" ]
+then
+    echo "Setting up for dev/production deployment..."
+    setup_terraform_backend $1
+fi
