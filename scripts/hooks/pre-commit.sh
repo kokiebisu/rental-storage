@@ -1,4 +1,17 @@
 #!/bin/bash
 
+function lint_services() {
+    local packages=("booking" "listing" "payment" "user" "slack")
+    for package in "${packages[@]}"
+    do
+        echo "Linting ${package} service..."
+        (cd "packages/service-${package}" && make lint)
+    done
+}
+
+function lint_composition() {
+    echo "Linting composition service..."
+}
+
 # lint
-cd packages/service-slack && make lint
+lint_services
