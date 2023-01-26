@@ -74,11 +74,11 @@ func sendResponse(data interface{}) (events.APIGatewayProxyResponse, error) {
 	}, nil
 }
 
-func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 204,
-	}, nil
-}
+// func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
+// 	return events.APIGatewayProxyResponse{
+// 		StatusCode: 204,
+// 	}, nil
+// }
 
 func sendCreatedResponse(bookingId string) (events.APIGatewayProxyResponse, error) {
 	encoded, err := json.Marshal(&struct {

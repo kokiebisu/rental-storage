@@ -44,15 +44,9 @@ func validateAmountCurrency(value string) error {
 }
 
 func (d DTO) ToEntity() Entity {
-	return Entity{
-		Value:    d.Value,
-		Currency: d.Currency,
-	}
+	return Entity(d)
 }
 
 func (e Entity) ToDTO() DTO {
-	return DTO{
-		Value:    e.Value,
-		Currency: e.Currency,
-	}
+	return DTO(e)
 }

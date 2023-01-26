@@ -1,0 +1,8 @@
+linters-settings:
+  govet:
+    enable-all: true
+    disable:
+      - composites
+      - fieldalignment
+      - shadow
+      - unusedwrite

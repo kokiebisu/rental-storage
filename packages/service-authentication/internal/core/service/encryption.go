@@ -122,6 +122,9 @@ func (s *EncryptionService) Verify(authorizationToken string) (string, error) {
 	}
 
 	encoded, err := json.Marshal(claims)
+	if err != nil {
+		log.Fatal(err)
+	}
 	return string(encoded), nil
 }
 

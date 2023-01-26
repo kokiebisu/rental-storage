@@ -36,6 +36,8 @@
 
 8 `brew install terraform`
 
+9 `brew install golangci-lint`
+
 9 Must install latest bash for Mac users
 `brew install bash`
 

@@ -23,11 +23,7 @@ func NewPostgres() (*sql.DB, error) {
 	dbPassword := os.Getenv("DB_PASSWORD")
 
 	if err != nil {
-		panic("configuration error : " + err.Error())
-	}
-
-	if err != nil {
-		panic("failed to create authentication token: " + err.Error())
+		log.Fatal("configuration error : " + err.Error())
 	}
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",
@@ -36,12 +32,12 @@ func NewPostgres() (*sql.DB, error) {
 
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	err = db.Ping()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	return db, nil

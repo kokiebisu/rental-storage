@@ -26,13 +26,10 @@ func NewNoSQLClient() (*NoSQLClient, error) {
 		return nil
 	})
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	client := dynamodb.NewFromConfig(cfg)
-	if err != nil {
-		return nil, err
-	}
 	tableName := os.Getenv("TABLE_NAME")
 	if tableName == "" {
 		return nil, errors.New("TABLE_NAME not properly retrieved")

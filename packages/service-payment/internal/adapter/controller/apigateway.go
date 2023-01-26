@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 	"service-payment/internal/core/port"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -60,8 +61,11 @@ func (h *ApiGatewayHandler) CreateCustomer(event events.APIGatewayProxyRequest) 
 		FirstName    string `json:"firstName"`
 		LastName     string `json:"lastName"`
 	}{}
-	json.Unmarshal([]byte(event.Body), &body)
-	err := h.customerService.CreateCustomer(body.UserId, body.FirstName, body.LastName, body.EmailAddress)
+	err := json.Unmarshal([]byte(event.Body), &body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = h.customerService.CreateCustomer(body.UserId, body.FirstName, body.LastName, body.EmailAddress)
 	if err != nil {
 		return sendFailureResponse(err)
 	}

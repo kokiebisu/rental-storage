@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"log"
 
 	"github.com/aws/aws-lambda-go/events"
 
@@ -63,6 +64,9 @@ func (h *ApiGatewayHandler) Verify(event events.APIGatewayProxyRequest) (events.
 		AuthorizationToken string `json:"authorizationToken"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
+	if err != nil {
+		log.Fatal(err)
+	}
 	encoded, err := h.service.Verify(bodyRequest.AuthorizationToken)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
