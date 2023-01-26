@@ -3,3 +3,5 @@ linters-settings:
     enable-all: true
     disable:
       - composites
+      - fieldalignment
+      - shadow
