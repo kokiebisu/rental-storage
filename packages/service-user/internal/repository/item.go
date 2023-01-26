@@ -69,6 +69,7 @@ func (r *ItemRepository) Save(item domain.Item) error {
 	}
 	id, err := result.LastInsertId()
 	if err != nil {
+		// rollback
 		return err
 	}
 	for _, url := range item.ImageUrls {
@@ -79,10 +80,6 @@ func (r *ItemRepository) Save(item domain.Item) error {
 		if err != nil {
 			log.Fatal(err)
 		}
-	}
-	if err != nil {
-		// rollback
-		return err
 	}
 	return nil
 }
