@@ -11,3 +11,7 @@ prepare: clean build
 .PHONY: test
 test:
 	cd test && go test ./... && cd ../..
+
+.PHONY: lint
+lint:
+	golangci-lint run ./...

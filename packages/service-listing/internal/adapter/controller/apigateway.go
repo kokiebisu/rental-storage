@@ -67,7 +67,7 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (eve
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		sendFailureResponse(err)
+		return sendFailureResponse(err)
 	}
 	listingId, err := h.service.CreateListing(body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.FeeAmount, domain.CurrencyType(body.FeeCurrency), domain.RentalFeeType(body.FeeType))
 	if err != nil {
@@ -87,11 +87,11 @@ func sendResponse(data interface{}) (events.APIGatewayProxyResponse, error) {
 	}, nil
 }
 
-func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 204,
-	}, nil
-}
+// func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
+// 	return events.APIGatewayProxyResponse{
+// 		StatusCode: 204,
+// 	}, nil
+// }
 
 func sendCreatedResponse(listingId string) (events.APIGatewayProxyResponse, error) {
 	encoded, err := json.Marshal(&struct {

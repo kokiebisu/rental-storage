@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"log"
 
 	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	_ "github.com/lib/pq"
@@ -71,10 +72,13 @@ func (r *ItemRepository) Save(item domain.Item) error {
 		return err
 	}
 	for _, url := range item.ImageUrls {
-		r.db.Exec(
+		_, err := r.db.Exec(
 			`INSERT INTO item_images (item_id, image_url) VALUES($1, $2)`,
 			id, url,
 		)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	if err != nil {
 		// rollback
@@ -105,11 +109,17 @@ func (r *ItemRepository) FindOneById(id int64) (domain.Item, error) {
 		`SELECT * FROM item WHERE id = $1`,
 		uid,
 	)
-	row.Scan(&id, &uid, &name, &ownerId, &listingId, &createdAt, &updatedAt)
+	err := row.Scan(&id, &uid, &name, &ownerId, &listingId, &createdAt, &updatedAt)
+	if err != nil {
+		log.Fatal(err)
+	}
 	rows, err := r.db.Query(
 		`SELECT * FROM item_images WHERE item_id = $1`,
 		id,
 	)
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer rows.Close()
 	if err != nil {
 		return domain.Item{}, err

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
@@ -16,7 +18,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		panic(err)
 	}
 	repo := repository.NewListingRepository(db)
-	repo.Setup()
+	err = repo.Setup()
+	if err != nil {
+		log.Fatal(err)
+	}
 	service := service.NewListingService(repo)
 	apigateway := controller.NewApiGatewayHandler(service)
 	return apigateway.AddListing(request)

@@ -100,11 +100,14 @@ func (r *ListingRepository) Save(listing domain.Listing) (string, error) {
 		// ROLLBACK
 	}
 	for _, url := range listing.ImageUrls {
-		r.db.Exec(
+		_, err := r.db.Exec(
 			`INSERT INTO images_listing (url, listing_id) VALUES ($1, $2)`,
 			url,
 			lastInsertedId,
 		)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	_, err = r.db.Exec(
 		`INSERT INTO fees_listing (amount, currency, type, listing_id) VALUES ($1, $2, $3, $4)`,

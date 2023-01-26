@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
@@ -18,7 +20,10 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 	repo := repository.NewUserRepository(db)
 	eventSender := sender.New()
-	repo.Setup()
+	err = repo.Setup()
+	if err != nil {
+		log.Fatal(err)
+	}
 	service := service.NewUserService(repo, eventSender)
 	apigateway := controller.New(service)
 	return apigateway.RemoveUserById(request)
