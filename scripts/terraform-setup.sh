@@ -44,9 +44,24 @@ function setup_terraform_backend() {
     (cp terraform/config/${ENVIRONMENT}/backend.tf terraform/backend.tf)
 }
 
+function remove_terraform_backend() {
+    local FILE="terraform/backend.tf"
+    if [ -f "$FILE" ]; then
+        echo "backend.tf does exist"
+        echo "Removing backend.tf..."
+        (rm terraform/backend.tf)
+    fi
+}
+
 setup_terraform_versions $1
 setup_terraform_providers $1
 setup_terraform_variables $1
+
+if [ "$1" = "local" ]
+then
+    echo "Setting up for local deployment"
+    remove_terraform_backend $1
+fi
 
 if [ "$1" = "dev" ] || [ "$1" = "production" ]
 then
