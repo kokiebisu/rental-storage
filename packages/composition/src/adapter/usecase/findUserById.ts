@@ -16,6 +16,7 @@ export class FindUserByIdUseCase {
   public async execute(command: FindUserByIdCommand) {
     const { userId } = command;
     const userClient = new UserRestClient();
-    return await userClient.findUserById(userId);
+    const response = await userClient.findUserById(userId);
+    return response;
   }
 }
