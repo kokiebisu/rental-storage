@@ -41,6 +41,10 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
+      - name: Get Identity
+        run: aws sts get-caller-identity
+        shell: bash
+
       - name: Terraform init
         id: init
         run: terraform init
