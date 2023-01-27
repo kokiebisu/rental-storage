@@ -7,7 +7,7 @@ interface AddListingCommandConstructor {
   longitude: number;
   imageUrls: string[];
   title: string;
-  fee: any;
+  fee: unknown;
 }
 
 export class AddListingCommand {
@@ -17,7 +17,7 @@ export class AddListingCommand {
   public readonly longitude: number;
   public readonly imageUrls: string[];
   public readonly title: string;
-  public readonly fee: any;
+  public readonly fee: unknown;
 
   public constructor({
     lenderId,
