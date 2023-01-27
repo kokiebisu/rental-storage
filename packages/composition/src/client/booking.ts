@@ -11,7 +11,7 @@ export class BookingRestClient extends BaseRestClient {
     currency: string,
     userId: string,
     listingId: string,
-    items: any
+    items: unknown
   ) {
     const response = await this.client.post("/bookings", {
       amount,

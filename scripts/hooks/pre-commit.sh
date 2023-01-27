@@ -10,8 +10,10 @@ function lint_services() {
 }
 
 function lint_composition() {
+    local package="composition"
     echo "Linting composition service..."
+    (cd "packages/${package}" && make lint)
 }
 
-# lint
 lint_services
+lint_composition

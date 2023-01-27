@@ -8,7 +8,7 @@ export class ListingRestClient extends BaseRestClient {
     longitude: number,
     imageUrls: string[],
     title: string,
-    fee: any
+    fee: unknown
   ) {
     const response = await this.client.post(`/listings`, {
       lenderId,

@@ -5,7 +5,7 @@ interface MakeBookingCommandConstructor {
   amount: number;
   currency: string;
   listingId: string;
-  items: any;
+  items: unknown;
 }
 
 export class MakeBookingCommand {
@@ -13,7 +13,7 @@ export class MakeBookingCommand {
   public readonly amount: number;
   public readonly currency: string;
   public readonly listingId: string;
-  public readonly items: any;
+  public readonly items: unknown;
 
   public constructor({
     userId,
