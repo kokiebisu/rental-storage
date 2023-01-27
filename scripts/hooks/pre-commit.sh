@@ -11,7 +11,7 @@ function lint_services() {
 
 function lint_composition() {
     local package="composition"
-    echo "Linting composition service..."
+    echo -e "\nLinting composition service..."
     (cd "packages/${package}" && make lint)
 }
 
