@@ -17,3 +17,5 @@ function lint_composition() {
 
 lint_services
 lint_composition
+
+echo -e "\n"
