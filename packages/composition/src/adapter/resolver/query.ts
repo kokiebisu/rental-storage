@@ -72,8 +72,9 @@ export const findUserByEmail = async (event: any) => {
 };
 
 export const findUserById = async (event: any) => {
-  const usecase = new FindUserByIdUseCase();
-  return await usecase.execute(
-    new FindUserByIdCommand({ userId: event.identity.resolverContext.uid })
-  );
+    const usecase = new FindUserByIdUseCase();
+    const response = await usecase.execute(
+      new FindUserByIdCommand({ userId: event.arguments.uid })
+    );
+    return response;
 };
