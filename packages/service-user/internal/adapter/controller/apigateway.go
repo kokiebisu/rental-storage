@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 
 	"github.com/aws/aws-lambda-go/events"
+
+	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
+	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
 type ApiGatewayHandler struct {
@@ -17,7 +20,7 @@ func NewApiGatewayHandler(service port.UserService) *ApiGatewayHandler {
 	}
 }
 
-func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
 		FirstName     string `json:"firstName"`
@@ -26,78 +29,36 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (eve
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		panic(err)
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 
 	uid, err := h.service.CreateUser(body.EmailAddresss, body.FirstName, body.LastName, body.Password)
-	if err != nil {
-		return sendFailureResponse(err)
-	}
-	return sendCreatedResponse(uid)
+	return uid, err.(*errors.CustomError)
 }
 
-func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (domain.UserDTO, *errors.CustomError) {
 	emailAddress := event.QueryStringParameters["emailAddress"]
 	user, err := h.service.FindByEmail(emailAddress)
 	if err != nil {
-		return sendFailureResponse(err)
+		return domain.UserDTO{}, errors.ErrorHandler.InternalServerError()
 	}
-	return sendResponse(user.ToDTO())
+	return user.ToDTO(), nil
 }
 
-func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (domain.UserDTO, *errors.CustomError) {
 	uid := event.PathParameters["userId"]
 	user, err := h.service.FindById(uid)
 	if err != nil {
-		return sendFailureResponse(err)
+		return domain.UserDTO{}, errors.ErrorHandler.InternalServerError()
 	}
-	return sendResponse(user.ToDTO())
+	return user.ToDTO(), nil
 }
 
-func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
 	uid := event.PathParameters["userId"]
 	err := h.service.RemoveById(uid)
 	if err != nil {
-		return sendFailureResponse(err)
+		return "", errors.ErrorHandler.InternalServerError()
 	}
-	return sendDeletedResponse()
-}
-
-func sendResponse(data interface{}) (events.APIGatewayProxyResponse, error) {
-	encoded, err := json.Marshal(data)
-	if err != nil {
-		panic(err)
-	}
-	return events.APIGatewayProxyResponse{
-		Body:       string(encoded),
-		StatusCode: 200,
-	}, nil
-}
-
-func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 204,
-	}, nil
-}
-
-func sendCreatedResponse(userId string) (events.APIGatewayProxyResponse, error) {
-	encoded, err := json.Marshal(&struct {
-		Uid string `json:"uid"`
-	}{
-		Uid: userId,
-	})
-	if err != nil {
-		panic(err)
-	}
-	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Body:       string(encoded),
-	}, nil
-}
-
-func sendFailureResponse(err error) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 404,
-		Body:       string(err.Error()),
-	}, nil
+	return uid, nil
 }
