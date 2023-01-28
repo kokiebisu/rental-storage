@@ -8,10 +8,11 @@ import (
 
 	"database/sql"
 
+	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 	_ "github.com/lib/pq"
 )
 
-func NewPostgres() (*sql.DB, error) {
+func NewPostgres() (*sql.DB, *errors.CustomError) {
 	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		log.Fatalln("Unable to convert DB_PORT")

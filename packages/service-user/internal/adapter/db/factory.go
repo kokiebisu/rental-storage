@@ -1,7 +1,11 @@
 package db
 
-import "database/sql"
+import (
+	"database/sql"
 
-func New() (*sql.DB, error) {
+	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
+)
+
+func New() (*sql.DB, *errors.CustomError) {
 	return NewPostgres()
 }
