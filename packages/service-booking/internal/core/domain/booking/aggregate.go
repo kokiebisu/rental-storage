@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
+	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type Entity struct {
@@ -48,7 +49,7 @@ const (
 
 type BookingStatus string
 
-func New(amount amount.Entity, userId string, listingId string, items []item.Entity) (Entity, error) {
+func New(amount amount.Entity, userId string, listingId string, items []item.Entity) (Entity, *errors.CustomError) {
 	return Entity{
 		Id:        uuid.New().String(),
 		Status:    CREATED,
@@ -61,7 +62,7 @@ func New(amount amount.Entity, userId string, listingId string, items []item.Ent
 	}, nil
 }
 
-func (d *DTO) ToEntity() (Entity, error) {
+func (d DTO) ToEntity() (Entity, *errors.CustomError) {
 	amountEntity, err := amount.New(d.Amount.Value, d.Amount.Currency)
 	if err != nil {
 		return Entity{}, err
@@ -84,7 +85,7 @@ func (d *DTO) ToEntity() (Entity, error) {
 	}, nil
 }
 
-func (e *Entity) ToDTO() DTO {
+func (e Entity) ToDTO() DTO {
 	createdAtString := e.CreatedAt.Format("2016-08-19")
 	updatedAtString := e.UpdatedAt.Format("2016-08-19")
 	itemsDTO := []item.DTO{}

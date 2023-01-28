@@ -2,6 +2,8 @@ package item
 
 import (
 	"time"
+
+	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type Entity struct {
@@ -26,14 +28,14 @@ type Raw struct {
 	ImageUrls []string `json:"image_urls"`
 }
 
-func New(name string, imageUrls []string) (Entity, error) {
+func New(name string, imageUrls []string) (Entity, *errors.CustomError) {
 	return Entity{
 		Name:      name,
 		ImageUrls: imageUrls,
 	}, nil
 }
 
-func (d DTO) ToEntity() (Entity, error) {
+func (d DTO) ToEntity() (Entity, *errors.CustomError) {
 	return Entity{
 		Id:        d.Id,
 		Name:      d.Name,

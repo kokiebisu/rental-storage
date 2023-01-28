@@ -1,6 +1,6 @@
 package amount
 
-import "errors"
+import errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 
 type Entity struct {
 	Value    int32
@@ -17,7 +17,7 @@ type Raw struct {
 	Currency string `json:"currency"`
 }
 
-func New(value int32, currency string) (Entity, error) {
+func New(value int32, currency string) (Entity, *errors.CustomError) {
 	err := validateAmountValue(value)
 	if err != nil {
 		return Entity{}, err
@@ -32,14 +32,14 @@ func New(value int32, currency string) (Entity, error) {
 	}, nil
 }
 
-func validateAmountValue(value int32) error {
+func validateAmountValue(value int32) *errors.CustomError {
 	if value < 0 {
-		return errors.New("amount value must be greater than 0")
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }
 
-func validateAmountCurrency(value string) error {
+func validateAmountCurrency(value string) *errors.CustomError {
 	return nil
 }
 
