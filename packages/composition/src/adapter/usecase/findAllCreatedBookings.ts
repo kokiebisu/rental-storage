@@ -1,4 +1,5 @@
-import { BookingRestClient } from "../../client/booking";
+import { BookingRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface FindAllCreatedBookingsCommandConstructor {
   userId: string;
@@ -15,6 +16,9 @@ export class FindAllCreatedBookingsCommand {
 export class FindAllCreatedBookingsUseCase {
   public async execute(command: FindAllCreatedBookingsCommand) {
     const { userId } = command;
+    if (!userId) {
+      throw new InternalServerError();
+    }
     const client = new BookingRestClient();
     return await client.findAllCreatedBookingsByUserId(userId);
   }

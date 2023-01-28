@@ -1,4 +1,5 @@
 import { AppSyncResolverEvent } from "aws-lambda";
+import { isCustomError } from "../../helper";
 import { AddListingCommand, AddListingUseCase } from "../usecase/addListing";
 import { MakeBookingCommand, MakeBookingUseCase } from "../usecase/makeBooking";
 import {
@@ -24,15 +25,23 @@ export const addListing = async (
     unknown
   >
 ) => {
-  const usecase = new AddListingUseCase();
-  return await usecase.execute(new AddListingCommand(event.arguments));
+  try {
+    const usecase = new AddListingUseCase();
+    return await usecase.execute(new AddListingCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const removeListingById = async (
   event: AppSyncResolverEvent<{ listingId: string }, unknown>
 ) => {
-  const usecase = new RemoveListingByIdUseCase();
-  return await usecase.execute(new RemoveListingByIdCommand(event.arguments));
+  try {
+    const usecase = new RemoveListingByIdUseCase();
+    return await usecase.execute(new RemoveListingByIdCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const makeBooking = async (
@@ -47,13 +56,21 @@ export const makeBooking = async (
     unknown
   >
 ) => {
-  const usecase = new MakeBookingUseCase();
-  return await usecase.execute(new MakeBookingCommand(event.arguments));
+  try {
+    const usecase = new MakeBookingUseCase();
+    return await usecase.execute(new MakeBookingCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const removeUserById = async (
   event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
-  const usecase = new RemoveUserByIdUseCase();
-  return await usecase.execute(new RemoveUserByIdCommand(event.arguments));
+  try {
+    const usecase = new RemoveUserByIdUseCase();
+    return await usecase.execute(new RemoveUserByIdCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };

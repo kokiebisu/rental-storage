@@ -1,4 +1,5 @@
-import { UserRestClient } from "../../client/user";
+import { UserRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface RemoveUserByIdCommandConstructor {
   userId: string;
@@ -15,6 +16,9 @@ export class RemoveUserByIdCommand {
 export class RemoveUserByIdUseCase {
   public async execute(command: RemoveUserByIdCommand) {
     const { userId } = command;
+    if (!userId) {
+      throw new InternalServerError();
+    }
     const userClient = new UserRestClient();
     return await userClient.removeUserById(userId);
   }

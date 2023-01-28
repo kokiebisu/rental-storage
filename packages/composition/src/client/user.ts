@@ -1,6 +1,6 @@
 import { BaseRestClient } from "./base";
 
-export class UserRestClient extends BaseRestClient {
+export default class UserRestClient extends BaseRestClient {
   public async findUserById(userId: string) {
     const response = await this.client.get(`/users/${userId}`);
     return response.data;

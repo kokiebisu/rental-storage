@@ -1,4 +1,5 @@
-import { ListingRestClient } from "../../client/listing";
+import { ListingRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface AddListingCommandConstructor {
   lenderId: string;
@@ -49,6 +50,17 @@ export class AddListingUseCase {
       title,
       fee,
     } = command;
+    if (
+      !lenderId ||
+      !streetAddress ||
+      !latitude ||
+      !longitude ||
+      !imageUrls ||
+      !title ||
+      !fee
+    ) {
+      throw new InternalServerError();
+    }
     const listingClient = new ListingRestClient();
     return listingClient.addListing(
       lenderId,

@@ -1,4 +1,5 @@
-import { UserRestClient } from "../../client/user";
+import { UserRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface FindUserByEmailCommandConstructor {
   email: string;
@@ -15,6 +16,9 @@ export class FindUserByEmailCommand {
 export class FindUserByEmailUseCase {
   public async execute(command: FindUserByEmailCommand) {
     const { email } = command;
+    if (!email) {
+      throw new InternalServerError();
+    }
     const userClient = new UserRestClient();
     return await userClient.findByEmail(email);
   }
