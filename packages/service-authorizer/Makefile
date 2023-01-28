@@ -12,7 +12,7 @@ prepare:
 
 .PHONY: test
 test:
-	cd pkg/test && go test ./... && cd ../..
+	cd test && go test ./... && cd ../..
 
 .PHONY: lint
 lint:
