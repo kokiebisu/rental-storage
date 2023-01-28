@@ -1,8 +1,6 @@
 package domain
 
-import (
-	"errors"
-)
+import errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 
 type Fee struct {
 	Amount Amount
@@ -25,7 +23,7 @@ const (
 
 type RentalFeeType string
 
-func NewFee(feeCurrency string, feeAmount int64, feeType string) (Fee, error) {
+func NewFee(feeCurrency string, feeAmount int64, feeType string) (Fee, *errors.CustomError) {
 	err := isValidFeeType(feeType)
 	if err != nil {
 		return Fee{}, err
@@ -40,9 +38,9 @@ func NewFee(feeCurrency string, feeAmount int64, feeType string) (Fee, error) {
 	}, nil
 }
 
-func isValidFeeType(value string) error {
+func isValidFeeType(value string) *errors.CustomError {
 	if value == "" {
-		return errors.New("fee type cannot be empty string")
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }

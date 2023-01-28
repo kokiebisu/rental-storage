@@ -5,6 +5,7 @@ import (
 	"log"
 
 	domain "github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
+	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type ListingRepository struct {
@@ -17,7 +18,7 @@ func NewListingRepository(db *sql.DB) *ListingRepository {
 	}
 }
 
-func (r *ListingRepository) Setup() error {
+func (r *ListingRepository) Setup() *errors.CustomError {
 	_, err := r.db.Exec(`
 		CREATE TABLE IF NOT EXISTS listing (
 			id SERIAL NOT NULL PRIMARY KEY, 
@@ -31,7 +32,7 @@ func (r *ListingRepository) Setup() error {
 	`)
 	if err != nil {
 		log.Fatalf(err.Error())
-		return err
+		return errors.ErrorHandler.InternalServerError()
 		// ROLLBACK
 	}
 	_, err = r.db.Exec(
@@ -50,7 +51,7 @@ func (r *ListingRepository) Setup() error {
 	if err != nil {
 		log.Fatalf(err.Error())
 		// ROLLBACK
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	_, err = r.db.Exec(
 		`
@@ -70,12 +71,12 @@ func (r *ListingRepository) Setup() error {
 	if err != nil {
 		log.Fatalf(err.Error())
 		// ROLLBACK
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }
 
-func (r *ListingRepository) Save(listing domain.Listing) (string, error) {
+func (r *ListingRepository) Save(listing domain.Listing) (string, *errors.CustomError) {
 	var lastInsertedId int64
 	row := r.db.QueryRow(
 		`
@@ -123,25 +124,25 @@ func (r *ListingRepository) Save(listing domain.Listing) (string, error) {
 	return listing.Uid, nil
 }
 
-func (r *ListingRepository) Delete(uid string) error {
+func (r *ListingRepository) Delete(uid string) *errors.CustomError {
 	var removedListingId int32
 	result := r.db.QueryRow(`DELETE FROM listing WHERE uid = $1 RETURNING id`, uid)
 	err := result.Scan(&removedListingId)
 	if err != nil {
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	_, err = r.db.Exec(`DELETE FROM images_listing WHERE listing_id = $1`, removedListingId)
 	if err != nil {
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	_, err = r.db.Exec(`DELETE FROM fees_listing WHERE listing_id = $1 RETURNING *`, removedListingId)
 	if err != nil {
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }
 
-func (r *ListingRepository) FindOneById(uid string) (domain.Listing, error) {
+func (r *ListingRepository) FindOneById(uid string) (domain.Listing, *errors.CustomError) {
 	rows, err := r.db.Query(
 		`
           SELECT listing.*, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type FROM listing 
@@ -153,7 +154,7 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, error) {
 	)
 	if err != nil {
 		log.Fatal(err.Error())
-		return domain.Listing{}, err
+		return domain.Listing{}, errors.ErrorHandler.InternalServerError()
 	}
 	var id string
 	var title string
@@ -173,7 +174,7 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, error) {
 		imageUrls = append(imageUrls, imageUrl)
 	}
 	if err != nil {
-		return domain.Listing{}, err
+		return domain.Listing{}, errors.ErrorHandler.InternalServerError()
 	}
 	listing, err := domain.ListingRaw{
 		Uid:           uid,
@@ -191,14 +192,10 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, error) {
 			Type: feeType,
 		},
 	}.ToEntity()
-	if err != nil {
-		log.Fatalf(err.Error())
-		return domain.Listing{}, nil
-	}
-	return listing, nil
+	return listing, err.(*errors.CustomError)
 }
 
-func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]domain.Listing, error) {
+func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]domain.Listing, *errors.CustomError) {
 	rows, err := r.db.Query(
 		`
 			SELECT * FROM (
@@ -215,7 +212,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		latitude, longitude, distance,
 	)
 	if err != nil {
-		return []domain.Listing{}, err
+		return []domain.Listing{}, errors.ErrorHandler.InternalServerError()
 	}
 	listingsMap := map[string]domain.Listing{}
 	for rows.Next() {
@@ -233,7 +230,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		var feeType string
 		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
 		if err != nil {
-			return []domain.Listing{}, err
+			return []domain.Listing{}, errors.ErrorHandler.InternalServerError()
 		}
 		if entry, ok := listingsMap[uid]; ok {
 			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)

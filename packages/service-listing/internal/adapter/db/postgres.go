@@ -8,10 +8,11 @@ import (
 
 	"database/sql"
 
+	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 	_ "github.com/lib/pq"
 )
 
-func NewPostgres() (*sql.DB, error) {
+func NewPostgres() (*sql.DB, *errors.CustomError) {
 	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		log.Fatalln("Unable to convert DB_PORT")
@@ -23,11 +24,8 @@ func NewPostgres() (*sql.DB, error) {
 	dbPassword := os.Getenv("DB_PASSWORD")
 
 	if err != nil {
-		log.Fatal("configuration error : " + err.Error())
-	}
-
-	if err != nil {
-		log.Fatal("failed to create authentication token: " + err.Error())
+		// log.Fatal("configuration error : " + err.Error())
+		return nil, errors.ErrorHandler.InternalServerError()
 	}
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",

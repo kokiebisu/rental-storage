@@ -1,6 +1,6 @@
 package domain
 
-import "errors"
+import errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 
 type Amount struct {
 	Value    int64
@@ -24,14 +24,14 @@ const (
 
 type CurrencyType string
 
-func NewAmount(value int64, currency string) (Amount, error) {
+func NewAmount(value int64, currency string) (Amount, *errors.CustomError) {
 	err := isValidValue(value)
 	if err != nil {
-		return Amount{}, err
+		return Amount{}, errors.ErrorHandler.InternalServerError()
 	}
 	err = isValidCurrency(currency)
 	if err != nil {
-		return Amount{}, err
+		return Amount{}, errors.ErrorHandler.InternalServerError()
 	}
 	return Amount{
 		Value:    value,
@@ -39,16 +39,16 @@ func NewAmount(value int64, currency string) (Amount, error) {
 	}, nil
 }
 
-func isValidValue(value int64) error {
+func isValidValue(value int64) *errors.CustomError {
 	if value < 0 {
-		return errors.New("amount value cannot be negative")
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }
 
-func isValidCurrency(value string) error {
+func isValidCurrency(value string) *errors.CustomError {
 	if value == "" {
-		return errors.New("amount currency cannot be empty string")
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }

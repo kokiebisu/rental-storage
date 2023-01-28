@@ -17,5 +17,5 @@ func New() (*ApiGatewayHandler, *errors.CustomError) {
 	eventSender := sender.New()
 	err = repo.Setup()
 	service := service.NewUserService(repo, eventSender)
-	return NewApiGatewayHandler(service), err.(*errors.CustomError)
+	return NewApiGatewayHandler(service), err
 }
