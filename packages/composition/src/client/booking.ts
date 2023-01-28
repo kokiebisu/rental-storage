@@ -1,6 +1,6 @@
 import { BaseRestClient } from "./base";
 
-export class BookingRestClient extends BaseRestClient {
+export default class BookingRestClient extends BaseRestClient {
   public async findAllCreatedBookingsByUserId(userId: string) {
     const response = await this.client.get(`/bookings/${userId}`);
     return response.data;

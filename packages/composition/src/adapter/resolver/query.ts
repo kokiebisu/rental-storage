@@ -1,4 +1,5 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
+import { isCustomError } from "../../helper";
 
 import {
   FindAllCreatedBookingsCommand,
@@ -33,8 +34,12 @@ import {
 export const findListingById = async (
   event: AppSyncResolverEvent<{ listingId: string }, unknown>
 ) => {
-  const usecase = new FindListingByIdUseCase();
-  return await usecase.execute(new FindListingByIdCommand(event.arguments));
+  try {
+    const usecase = new FindListingByIdUseCase();
+    return await usecase.execute(new FindListingByIdCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const findListingsWithinLatLng = async (
@@ -43,65 +48,93 @@ export const findListingsWithinLatLng = async (
     unknown
   >
 ) => {
-  const usecase = new FindListingsWithinLatLngUseCase();
-  return await usecase.execute(
-    new FindListingsWithinLatLngCommand(event.arguments)
-  );
+  try {
+    const usecase = new FindListingsWithinLatLngUseCase();
+    return await usecase.execute(
+      new FindListingsWithinLatLngCommand(event.arguments)
+    );
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const findMyListings = async (
   event: AppSyncResolverEvent<{ uid: string }, unknown>
 ) => {
-  const usecase = new FindMyListingsUseCase();
-  return await usecase.execute(
-    new FindMyListingsCommand(
-      (event.identity as AppSyncIdentityLambda).resolverContext
-    )
-  );
+  try {
+    const usecase = new FindMyListingsUseCase();
+    return await usecase.execute(
+      new FindMyListingsCommand(
+        (event.identity as AppSyncIdentityLambda).resolverContext
+      )
+    );
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const getPresignedURL = async (
   event: AppSyncResolverEvent<{ filename: string }, unknown>
 ) => {
-  const usecase = new GetPresignedURLUseCase();
-  return await usecase.execute(new GetPresignedURLCommand(event.arguments));
+  try {
+    const usecase = new GetPresignedURLUseCase();
+    return await usecase.execute(new GetPresignedURLCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const findAllCreatedBookings = async (
   event: AppSyncResolverEvent<Record<string, never>, unknown>
 ) => {
-  const usecase = new FindAllCreatedBookingsUseCase();
-  return await usecase.execute(
-    new FindAllCreatedBookingsCommand(
-      (event.identity as AppSyncIdentityLambda).resolverContext
-    )
-  );
+  try {
+    const usecase = new FindAllCreatedBookingsUseCase();
+    return await usecase.execute(
+      new FindAllCreatedBookingsCommand(
+        (event.identity as AppSyncIdentityLambda).resolverContext
+      )
+    );
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const findMe = async (
   event: AppSyncResolverEvent<Record<string, never>, unknown>
 ) => {
-  const usecase = new FindMeUseCase();
-  return await usecase.execute(
-    new FindMeCommand({
-      userId: (event.identity as AppSyncIdentityLambda).resolverContext.uid,
-    })
-  );
+  try {
+    const usecase = new FindMeUseCase();
+    return await usecase.execute(
+      new FindMeCommand({
+        userId: (event.identity as AppSyncIdentityLambda).resolverContext.uid,
+      })
+    );
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const findUserByEmail = async (
   event: AppSyncResolverEvent<{ email: string }, unknown>
 ) => {
-  const usecase = new FindUserByEmailUseCase();
-  return await usecase.execute(new FindUserByEmailCommand(event.arguments));
+  try {
+    const usecase = new FindUserByEmailUseCase();
+    return await usecase.execute(new FindUserByEmailCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };
 
 export const findUserById = async (
   event: AppSyncResolverEvent<{ uid: string }, unknown>
 ) => {
-  const usecase = new FindUserByIdUseCase();
-  const response = await usecase.execute(
-    new FindUserByIdCommand({ userId: event.arguments.uid })
-  );
-  return response;
+  try {
+    const usecase = new FindUserByIdUseCase();
+    const response = await usecase.execute(
+      new FindUserByIdCommand({ userId: event.arguments.uid })
+    );
+    return response;
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
 };

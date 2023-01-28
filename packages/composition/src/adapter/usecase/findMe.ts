@@ -1,4 +1,5 @@
-import { UserRestClient } from "../../client/user";
+import { UserRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface FindMeCommandConstructor {
   userId: string;
@@ -15,6 +16,9 @@ export class FindMeCommand {
 export class FindMeUseCase {
   public async execute(command: FindMeCommand) {
     const { userId } = command;
+    if (!userId) {
+      throw new InternalServerError();
+    }
     const userClient = new UserRestClient();
     return await userClient.findUserById(userId);
   }

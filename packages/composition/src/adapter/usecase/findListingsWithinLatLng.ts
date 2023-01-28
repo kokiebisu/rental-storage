@@ -1,4 +1,5 @@
-import { ListingRestClient } from "../../client/listing";
+import { ListingRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface FindListingsWithinLatLngCommandConstructor {
   latitude: number;
@@ -25,6 +26,9 @@ export class FindListingsWithinLatLngCommand {
 export class FindListingsWithinLatLngUseCase {
   public async execute(command: FindListingsWithinLatLngCommand) {
     const { latitude, longitude, range } = command;
+    if (!latitude || !longitude || !range) {
+      throw new InternalServerError();
+    }
     const listingClient = new ListingRestClient();
     const response = await listingClient.findListingsWithinLatLng(
       latitude,

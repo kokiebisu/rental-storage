@@ -1,4 +1,5 @@
-import { BookingRestClient } from "../../client/booking";
+import { BookingRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface MakeBookingCommandConstructor {
   userId: string;
@@ -33,6 +34,9 @@ export class MakeBookingCommand {
 export class MakeBookingUseCase {
   public async execute(command: MakeBookingCommand) {
     const { userId, amount, currency, listingId, items } = command;
+    if (!userId || !amount || !currency || !listingId || !items) {
+      throw new InternalServerError();
+    }
     const bookingClient = new BookingRestClient();
     return await bookingClient.makeBooking(
       amount,

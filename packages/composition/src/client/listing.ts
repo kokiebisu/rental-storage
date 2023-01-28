@@ -1,6 +1,6 @@
 import { BaseRestClient } from "./base";
 
-export class ListingRestClient extends BaseRestClient {
+export default class ListingRestClient extends BaseRestClient {
   public async addListing(
     lenderId: string,
     streetAddress: string,

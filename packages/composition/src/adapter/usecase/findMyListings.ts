@@ -1,4 +1,5 @@
-import { ListingRestClient } from "../../client/listing";
+import { ListingRestClient } from "../../client";
+import { InternalServerError } from "../../error";
 
 interface FindMyListingsCommandConstructor {
   userId: string;
@@ -15,6 +16,9 @@ export class FindMyListingsCommand {
 export class FindMyListingsUseCase {
   public async execute(command: FindMyListingsCommand) {
     const { userId } = command;
+    if (!userId) {
+      throw new InternalServerError();
+    }
     const listingClient = new ListingRestClient();
     const response = await listingClient.findListingsByUserId(userId);
     return response.data;
