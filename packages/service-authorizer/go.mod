@@ -1,4 +1,4 @@
-module service-authorizer
+module github.com/kokiebisu/rental-storage/service-authorizer
 
 go 1.19
 
