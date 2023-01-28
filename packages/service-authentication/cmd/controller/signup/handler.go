@@ -1,8 +1,8 @@
 package main
 
 import (
-	"service-authentication/internal/adapter/controller"
-	"service-authentication/internal/core/service"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/adapter/controller"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/service"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

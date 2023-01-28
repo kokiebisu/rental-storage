@@ -6,7 +6,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 
-	"service-authentication/internal/core/port"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 )
 
 type ApiGatewayHandler struct {

@@ -13,8 +13,8 @@ import (
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 
-	"service-authentication/internal/core/domain"
-	"service-authentication/internal/core/port"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 )
 
 type EncryptionService struct{}
