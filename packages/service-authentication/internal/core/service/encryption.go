@@ -3,7 +3,6 @@ package service
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -15,6 +14,8 @@ import (
 
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
+	errors "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/helper"
 )
 
 type EncryptionService struct{}
@@ -28,7 +29,8 @@ func (s *EncryptionService) SignIn(emailAddress string, password string) (string
 	// check if the email address exists in the user db
 	resp, err := http.Get(userEndpoint)
 	if err != nil {
-		return "", errors.New("failed to send request to user service endpoint")
+		// return "", errors.New("failed to send request to user service endpoint")
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 	user := &domain.User{}
 	if err = json.NewDecoder(resp.Body).Decode(&user); err != nil {
@@ -36,11 +38,9 @@ func (s *EncryptionService) SignIn(emailAddress string, password string) (string
 	}
 
 	matched, err := s.verifyPassword(user.Password, password)
-	if err != nil {
-		return "", err
-	}
 	if !matched {
-		return "", errors.New("password didn't match")
+		// return "", errors.New("password didn't match")
+		return "", err
 	}
 	response := &port.GenerateJWTTokenPayload{
 		UId: user.Uid,
@@ -56,7 +56,8 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 	// hash password
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", errors.New("cannot hash password")
+		// return "", errors.New("cannot hash password")
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 
 	updatedUser := struct {
@@ -88,11 +89,11 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 		if err = json.NewDecoder(resp.Body).Decode(&payload); err != nil {
 			return "", err
 		}
-		encodedMessage, err := json.Marshal(payload)
+		_, err := helper.Stringify(payload)
 		if err != nil {
 			return "", err
 		}
-		return "", errors.New(string(encodedMessage))
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 	response := &port.GenerateJWTTokenPayload{}
 	if err = json.NewDecoder(resp.Body).Decode(&response); err != nil {
@@ -155,22 +156,22 @@ func (s *EncryptionService) verifyJWT(tokenString string) (*domain.Claims, error
 		return []byte("secret"), nil
 	})
 	if err != nil {
-		return nil, errors.New("couldn't parse")
+		return nil, errors.ErrorHandler.InternalServerError()
 	}
 	claims, ok := token.Claims.(*domain.Claims)
 	if !ok {
-		return nil, errors.New("Couldn't parse claims")
+		return nil, errors.ErrorHandler.InternalServerError()
 	}
 	if claims.UId == "" {
-		return nil, errors.New("UID is empty")
+		return nil, errors.ErrorHandler.InternalServerError()
 	}
 	if claims.ExpiresAt < time.Now().UTC().Unix() {
-		return nil, errors.New("JWT is expired")
+		return nil, errors.ErrorHandler.InternalServerError()
 	}
 	return claims, nil
 }
 
-func (s *EncryptionService) verifyPassword(hashedPassword string, plainPassword string) (bool, error) {
+func (s *EncryptionService) verifyPassword(hashedPassword string, plainPassword string) (bool, *errors.CustomError) {
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
 	if err != nil {
 		log.Println(err)
