@@ -1,17 +1,20 @@
 package port
 
-import domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+import (
+	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
+)
 
 type ItemRepository interface {
-	Save(domain.Item) error
-	Delete(uid string) error
-	FindOneById(uid string) (domain.Item, error)
+	Save(domain.Item) *errors.CustomError
+	Delete(uid string) *errors.CustomError
+	FindOneById(uid string) (domain.Item, *errors.CustomError)
 }
 
 type UserRepository interface {
-	Setup() error
-	Save(domain.User) (string, error)
-	Delete(uid string) error
-	FindOneById(uid string) (domain.User, error)
-	FindOneByEmail(emailAddress string) (domain.User, error)
+	Setup() *errors.CustomError
+	Save(domain.User) (string, *errors.CustomError)
+	Delete(uid string) *errors.CustomError
+	FindOneById(uid string) (domain.User, *errors.CustomError)
+	FindOneByEmail(emailAddress string) (domain.User, *errors.CustomError)
 }

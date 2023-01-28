@@ -1,32 +1,28 @@
 package main
 
 import (
-	"log"
-
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
+	responses "github.com/kokiebisu/rental-storage/service-user/internal"
 	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/controller"
-	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/db"
-	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/sender"
-	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
-	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
+	"github.com/kokiebisu/rental-storage/service-user/internal/helper"
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	db, err := db.New()
+	controller, err := controller.New()
 	if err != nil {
-		panic(err)
+		return responses.SendFailureResponse(err)
 	}
-	repo := repository.NewUserRepository(db)
-	eventSender := sender.New()
-	err = repo.Setup()
+	user, err := controller.FindUserByEmail(request)
 	if err != nil {
-		log.Fatal(err)
+		return responses.SendFailureResponse(err)
 	}
-	service := service.NewUserService(repo, eventSender)
-	apigateway := controller.New(service)
-	return apigateway.FindUserByEmail(request)
+	result, err := helper.Stringify(user)
+	if err != nil {
+		return responses.SendFailureResponse(err)
+	}
+	return responses.SendSuccessResponse(result)
 }
 
 func main() {

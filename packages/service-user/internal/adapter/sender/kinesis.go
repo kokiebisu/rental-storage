@@ -12,6 +12,7 @@ import (
 	"github.com/google/uuid"
 
 	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
 type KinesisSender struct {
@@ -30,7 +31,7 @@ func New() *KinesisSender {
 	}
 }
 
-func (s *KinesisSender) UserCreated(user domain.UserDTO) error {
+func (s *KinesisSender) UserCreated(user domain.UserDTO) *errors.CustomError {
 	event := map[string]interface{}{
 		"sourceEntity": "User",
 		"eventName":    "created",
@@ -38,12 +39,12 @@ func (s *KinesisSender) UserCreated(user domain.UserDTO) error {
 	}
 	encoded, err := json.Marshal(event)
 	if err != nil {
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return s.publish(encoded)
 }
 
-func (s *KinesisSender) publish(data []byte) error {
+func (s *KinesisSender) publish(data []byte) *errors.CustomError {
 
 	streamName := fmt.Sprintf("%s-EventStream", os.Getenv("STAGE"))
 	partitionKey := uuid.New().String()
@@ -53,5 +54,8 @@ func (s *KinesisSender) publish(data []byte) error {
 		PartitionKey: &partitionKey,
 		Data:         data,
 	})
-	return err
+	if err != nil {
+		return errors.ErrorHandler.InternalServerError()
+	}
+	return nil
 }
