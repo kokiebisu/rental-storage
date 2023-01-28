@@ -1,6 +1,9 @@
 package domain
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+)
 
 type Listing struct {
 	Uid           string
@@ -35,7 +38,7 @@ type ListingRaw struct {
 	Fee           FeeRaw
 }
 
-func NewListing(title string, lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, feeCurrency CurrencyType, feeAmount int64, feeType string) (Listing, error) {
+func NewListing(title string, lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, feeCurrency CurrencyType, feeAmount int64, feeType string) (Listing, *errors.CustomError) {
 	validatedLatitude, err := NewCoordinate(latitude)
 	if err != nil {
 		return Listing{}, err
@@ -64,7 +67,7 @@ func NewListing(title string, lenderId string, streetAddress string, latitude fl
 	}, nil
 }
 
-func (r ListingRaw) ToEntity() (Listing, error) {
+func (r ListingRaw) ToEntity() (Listing, *errors.CustomError) {
 	validatedLatitude, err := NewCoordinate(r.Latitude)
 	if err != nil {
 		return Listing{}, err
@@ -93,7 +96,7 @@ func (r ListingRaw) ToEntity() (Listing, error) {
 	}, nil
 }
 
-func (e Listing) ToDTO() (ListingDTO, error) {
+func (e Listing) ToDTO() (ListingDTO, *errors.CustomError) {
 	return ListingDTO{
 		Uid:           e.Uid,
 		Title:         e.Title,

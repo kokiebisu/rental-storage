@@ -2,13 +2,13 @@ package controller
 
 import (
 	"encoding/json"
-	"errors"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 
 	domain "github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/port"
+	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type ApiGatewayHandler struct {
@@ -21,39 +21,33 @@ func NewApiGatewayHandler(service port.ListingService) *ApiGatewayHandler {
 	}
 }
 
-func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (domain.ListingDTO, *errors.CustomError) {
 	uid := event.PathParameters["listingId"]
 	if uid == "" {
-		return sendFailureResponse(errors.New("listing Id not found"))
+		return domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
 	}
 	listing, err := h.service.FindListingById(uid)
-	if err != nil {
-		return sendFailureResponse(err)
-	}
-	return sendResponse(listing)
+	return listing, err
 }
 
-func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) ([]domain.ListingDTO, *errors.CustomError) {
 	latitude, err := strconv.ParseFloat(event.QueryStringParameters["latitude"], 32)
 	if err != nil {
-		return sendFailureResponse(err)
+		return []domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
 	}
 	longitude, err := strconv.ParseFloat(event.QueryStringParameters["longitude"], 32)
 	if err != nil {
-		return sendFailureResponse(err)
+		return []domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
 	}
 	distance, err := strconv.ParseInt(event.QueryStringParameters["distance"], 10, 32)
 	if err != nil {
-		return sendFailureResponse(err)
+		return []domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
 	}
 	listings, err := h.service.FindListingsWithinLatLng(float32(latitude), float32(longitude), int32(distance))
-	if err != nil {
-		return sendFailureResponse(err)
-	}
-	return sendResponse(listings)
+	return listings, err.(*errors.CustomError)
 }
 
-func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
 	body := struct {
 		LenderId      string   `json:"lenderId"`
 		StreetAddress string   `json:"streetAddress"`
@@ -67,50 +61,8 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (eve
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return sendFailureResponse(err)
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 	listingId, err := h.service.CreateListing(body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.FeeAmount, domain.CurrencyType(body.FeeCurrency), domain.RentalFeeType(body.FeeType))
-	if err != nil {
-		return sendFailureResponse(err)
-	}
-	return sendCreatedResponse(listingId)
-}
-
-func sendResponse(data interface{}) (events.APIGatewayProxyResponse, error) {
-	encoded, err := json.Marshal(data)
-	if err != nil {
-		panic(err)
-	}
-	return events.APIGatewayProxyResponse{
-		Body:       string(encoded),
-		StatusCode: 200,
-	}, nil
-}
-
-// func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
-// 	return events.APIGatewayProxyResponse{
-// 		StatusCode: 204,
-// 	}, nil
-// }
-
-func sendCreatedResponse(listingId string) (events.APIGatewayProxyResponse, error) {
-	encoded, err := json.Marshal(&struct {
-		Uid string `json:"uid"`
-	}{
-		Uid: listingId,
-	})
-	if err != nil {
-		panic(err)
-	}
-	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Body:       string(encoded),
-	}, nil
-}
-
-func sendFailureResponse(err error) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 404,
-		Body:       string(err.Error()),
-	}, nil
+	return listingId, err.(*errors.CustomError)
 }

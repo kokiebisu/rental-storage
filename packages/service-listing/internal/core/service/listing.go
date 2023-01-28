@@ -5,6 +5,7 @@ import (
 
 	domain "github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/port"
+	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type ListingService struct {
@@ -17,7 +18,7 @@ func NewListingService(listingRepository port.ListingRepository) *ListingService
 	}
 }
 
-func (s *ListingService) FindListingsWithinLatLng(latitude float32, longitude float32, distance int32) ([]domain.ListingDTO, error) {
+func (s *ListingService) FindListingsWithinLatLng(latitude float32, longitude float32, distance int32) ([]domain.ListingDTO, *errors.CustomError) {
 	listings, err := s.listingRepository.FindManyByLatLng(latitude, longitude, distance)
 	if err != nil {
 		return []domain.ListingDTO{}, err
@@ -34,7 +35,7 @@ func (s *ListingService) FindListingsWithinLatLng(latitude float32, longitude fl
 	return listingDTOs, nil
 }
 
-func (s *ListingService) FindListingById(uid string) (domain.ListingDTO, error) {
+func (s *ListingService) FindListingById(uid string) (domain.ListingDTO, *errors.CustomError) {
 	listing, err := s.listingRepository.FindOneById(uid)
 	if err != nil {
 		return domain.ListingDTO{}, err
@@ -46,7 +47,7 @@ func (s *ListingService) FindListingById(uid string) (domain.ListingDTO, error) 
 	return listingDTO, nil
 }
 
-func (s *ListingService) CreateListing(lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, title string, feeAmount int32, feeCurrency domain.CurrencyType, feeType domain.RentalFeeType) (string, error) {
+func (s *ListingService) CreateListing(lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, title string, feeAmount int32, feeCurrency domain.CurrencyType, feeType domain.RentalFeeType) (string, *errors.CustomError) {
 	entity, err := domain.NewListing(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, int64(feeAmount), string(feeType))
 	if err != nil {
 		return "", err
@@ -58,7 +59,10 @@ func (s *ListingService) CreateListing(lenderId string, streetAddress string, la
 	return result, nil
 }
 
-func (s *ListingService) RemoveListingById(uid string) error {
+func (s *ListingService) RemoveListingById(uid string) *errors.CustomError {
 	err := s.listingRepository.Delete(uid)
-	return err
+	if err != nil {
+		return errors.ErrorHandler.InternalServerError()
+	}
+	return nil
 }

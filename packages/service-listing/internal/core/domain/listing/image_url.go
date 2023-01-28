@@ -1,12 +1,12 @@
 package domain
 
-import "errors"
+import errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 
 type ImageUrl struct {
 	Value string
 }
 
-func NewImageUrl(url string) (ImageUrl, error) {
+func NewImageUrl(url string) (ImageUrl, *errors.CustomError) {
 	err := isValidImageUrl(url)
 	if err != nil {
 		return ImageUrl{}, err
@@ -16,9 +16,9 @@ func NewImageUrl(url string) (ImageUrl, error) {
 	}, nil
 }
 
-func isValidImageUrl(value string) error {
+func isValidImageUrl(value string) *errors.CustomError {
 	if value == "" {
-		return errors.New("image url cannot be empty")
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }
