@@ -1,7 +1,17 @@
 package controller
 
-import "github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
+import (
+	"github.com/kokiebisu/rental-storage/service-booking/internal/adapter/db"
+	"github.com/kokiebisu/rental-storage/service-booking/internal/core/service"
+	"github.com/kokiebisu/rental-storage/service-booking/internal/repository"
+)
 
-func New(service port.BookingService) *ApiGatewayHandler {
-	return NewApiGatewayHandler(service)
+func New() *ApiGatewayHandler {
+	db, err := db.New()
+	if err != nil {
+		panic(err)
+	}
+	repo := repository.NewBookingRepository(db)
+	s := service.NewBookingService(repo)
+	return NewApiGatewayHandler(s)
 }

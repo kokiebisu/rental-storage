@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"errors"
 
 	"github.com/aws/aws-lambda-go/events"
 
@@ -10,6 +9,7 @@ import (
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
+	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type ApiGatewayHandler struct {
@@ -22,7 +22,7 @@ func NewApiGatewayHandler(service port.BookingService) *ApiGatewayHandler {
 	}
 }
 
-func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
 	body := struct {
 		Amount    amount.DTO `json:"amount"`
 		UserId    string     `json:"userId"`
@@ -31,66 +31,24 @@ func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return sendFailureResponse(err)
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 	bookingId, err := h.service.CreateBooking(body.Amount, body.UserId, body.ListingId, body.Items)
-	if err != nil {
-		return sendFailureResponse(err)
-	}
-	return sendCreatedResponse(bookingId)
+	return bookingId, err.(*errors.CustomError)
 }
 
-func (h *ApiGatewayHandler) FindUserBookings(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) FindUserBookings(event events.APIGatewayProxyRequest) ([]booking.DTO, *errors.CustomError) {
 	userId := event.QueryStringParameters["userId"]
 	if userId == "" {
-		return sendFailureResponse(errors.New("userId not provided"))
+		return []booking.DTO{}, errors.ErrorHandler.InternalServerError()
 	}
 	bookings, err := h.service.FindUserBookings(userId)
 	if err != nil {
-		return sendFailureResponse(err)
+		return []booking.DTO{}, err
 	}
 	bookingDTOs := []booking.DTO{}
 	for _, b := range bookings {
 		bookingDTOs = append(bookingDTOs, b.ToDTO())
 	}
-	return sendResponse(bookingDTOs)
-}
-
-func sendFailureResponse(err error) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 404,
-		Body:       string(err.Error()),
-	}, nil
-}
-
-func sendResponse(data interface{}) (events.APIGatewayProxyResponse, error) {
-	encoded, err := json.Marshal(data)
-	if err != nil {
-		panic(err)
-	}
-	return events.APIGatewayProxyResponse{
-		Body:       string(encoded),
-		StatusCode: 200,
-	}, nil
-}
-
-// func sendDeletedResponse() (events.APIGatewayProxyResponse, error) {
-// 	return events.APIGatewayProxyResponse{
-// 		StatusCode: 204,
-// 	}, nil
-// }
-
-func sendCreatedResponse(bookingId string) (events.APIGatewayProxyResponse, error) {
-	encoded, err := json.Marshal(&struct {
-		Uid string `json:"uid"`
-	}{
-		Uid: bookingId,
-	})
-	if err != nil {
-		panic(err)
-	}
-	return events.APIGatewayProxyResponse{
-		StatusCode: 200,
-		Body:       string(encoded),
-	}, nil
+	return bookingDTOs, nil
 }

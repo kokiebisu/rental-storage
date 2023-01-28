@@ -1,12 +1,11 @@
 package service
 
 import (
-	"errors"
-
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
+	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type BookingService struct {
@@ -19,34 +18,34 @@ func NewBookingService(bookingRepository port.BookingRepository) *BookingService
 	}
 }
 
-func (s *BookingService) CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, error) {
+func (s *BookingService) CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, *errors.CustomError) {
 	itemEntities := []item.Entity{}
 	amountEntity, err := amount.New(amountDTO.Value, amountDTO.Currency)
 	if err != nil {
-		return "", err
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 	for _, i := range itemsDTO {
 		validItem, err := item.New(i.Name, i.ImageUrls)
 		if err != nil {
-			return "", errors.New("something went wrong while mapping")
+			return "", errors.ErrorHandler.InternalServerError()
 		}
 		itemEntities = append(itemEntities, validItem)
 	}
 	bookingEntity, err := booking.New(amountEntity, userId, listingId, itemEntities)
 	if err != nil {
-		return "", err
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 	err = s.bookingRepository.Save(bookingEntity)
 	if err != nil {
-		return "", err
+		return "", errors.ErrorHandler.InternalServerError()
 	}
 	return bookingEntity.Id, nil
 }
 
-func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, error) {
+func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, *errors.CustomError) {
 	bookings, err := s.bookingRepository.FindManyByUserId(userId)
 	if err != nil {
-		return []booking.Entity{}, err
+		return []booking.Entity{}, errors.ErrorHandler.InternalServerError()
 	}
 	return bookings, nil
 }

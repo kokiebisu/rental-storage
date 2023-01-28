@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"errors"
+
 	"log"
 	"os"
 
@@ -13,6 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
+	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type NoSQLClient struct {
@@ -20,7 +21,7 @@ type NoSQLClient struct {
 	tableName string
 }
 
-func NewNoSQLClient() (*NoSQLClient, error) {
+func NewNoSQLClient() (*NoSQLClient, *errors.CustomError) {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
 		o.Region = "us-east-1"
 		return nil
@@ -32,7 +33,7 @@ func NewNoSQLClient() (*NoSQLClient, error) {
 	client := dynamodb.NewFromConfig(cfg)
 	tableName := os.Getenv("TABLE_NAME")
 	if tableName == "" {
-		return nil, errors.New("TABLE_NAME not properly retrieved")
+		return nil, errors.ErrorHandler.InternalServerError()
 	}
 	return &NoSQLClient{
 		client:    client,
@@ -40,11 +41,11 @@ func NewNoSQLClient() (*NoSQLClient, error) {
 	}, nil
 }
 
-func (c *NoSQLClient) Save(booking booking.Entity) error {
+func (c *NoSQLClient) Save(booking booking.Entity) *errors.CustomError {
 	bookingDTO := booking.ToDTO()
 	item, err := attributevalue.MarshalMap(bookingDTO)
 	if err != nil {
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	_, err = c.client.PutItem(context.TODO(), &dynamodb.PutItemInput{
 		TableName:              aws.String(c.tableName),
@@ -52,12 +53,12 @@ func (c *NoSQLClient) Save(booking booking.Entity) error {
 		ReturnConsumedCapacity: "TOTAL",
 	})
 	if err != nil {
-		return err
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }
 
-func (c NoSQLClient) Delete(id string) error {
+func (c NoSQLClient) Delete(id string) *errors.CustomError {
 	_, err := c.client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
 		Key: map[string]types.AttributeValue{
 			"id": &types.AttributeValueMemberS{Value: id},
@@ -65,12 +66,12 @@ func (c NoSQLClient) Delete(id string) error {
 		TableName: &c.tableName,
 	})
 	if err != nil {
-		return errors.New("error occured when deleting from dynamodb")
+		return errors.ErrorHandler.InternalServerError()
 	}
 	return nil
 }
 
-func (c NoSQLClient) FindById(id string) (booking.Entity, error) {
+func (c NoSQLClient) FindById(id string) (booking.Entity, *errors.CustomError) {
 	output, err := c.client.GetItem(context.TODO(), &dynamodb.GetItemInput{
 		Key: map[string]types.AttributeValue{
 			"id": &types.AttributeValueMemberS{Value: id},
@@ -78,17 +79,17 @@ func (c NoSQLClient) FindById(id string) (booking.Entity, error) {
 		TableName: &c.tableName,
 	})
 	if err != nil {
-		return booking.Entity{}, errors.New("error occured when finding item from dynamodb by id")
+		return booking.Entity{}, errors.ErrorHandler.InternalServerError()
 	}
 	target := booking.Entity{}
 	err = attributevalue.UnmarshalMap(output.Item, &target)
 	if err != nil {
-		return booking.Entity{}, errors.New("error occured when unmarshalling from dynamodb")
+		return booking.Entity{}, errors.ErrorHandler.InternalServerError()
 	}
 	return target, nil
 }
 
-func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, error) {
+func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, *errors.CustomError) {
 	shouldScanIndexForward := false
 	indexName := "BookingUserIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
@@ -102,24 +103,24 @@ func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, error) {
 	})
 	if err != nil {
 		log.Fatal(err)
-		return []booking.Entity{}, errors.New("error occured when finding item from dynamodb by id")
+		return []booking.Entity{}, errors.ErrorHandler.InternalServerError()
 	}
 	targets := []booking.Entity{}
 	for _, i := range output.Items {
 		target := booking.DTO{}
 		err = attributevalue.UnmarshalMap(i, &target)
 		if err != nil {
-			return []booking.Entity{}, err
+			return []booking.Entity{}, errors.ErrorHandler.InternalServerError()
 		}
 		entity, err := target.ToEntity()
 		if err != nil {
-			return []booking.Entity{}, err
+			return []booking.Entity{}, errors.ErrorHandler.InternalServerError()
 		}
 		targets = append(targets, entity)
 	}
 
 	if err != nil {
-		return []booking.Entity{}, errors.New("error occured when unmarshalling from dynamodb")
+		return []booking.Entity{}, errors.ErrorHandler.InternalServerError()
 	}
 	return targets, nil
 }
