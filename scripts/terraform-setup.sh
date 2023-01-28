@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 function setup_terraform_versions() {
     local ENVIRONMENT=$1
     local FILE="terraform/versions.tf"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 function deploy_services () {
     local packages=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
     for package in "${packages[@]}"

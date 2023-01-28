@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 function install_dependencies_root() {
     echo "Installing root dependencies...";
     (pnpm install);

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 function lint_services() {
     local packages=("authentication" "authorizer" "booking" "listing" "payment" "user" "slack")
     for package in "${packages[@]}"
