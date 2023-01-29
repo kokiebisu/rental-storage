@@ -6,7 +6,6 @@ import (
 
 	responses "github.com/kokiebisu/rental-storage/service-user/internal"
 	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/controller"
-	"github.com/kokiebisu/rental-storage/service-user/internal/helper"
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -14,15 +13,11 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	user, err := controller.FindUserByEmail(request)
+	payload, err := controller.FindUserByEmail(request)
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	result, err := helper.Stringify(user)
-	if err != nil {
-		return responses.SendFailureResponse(err)
-	}
-	return responses.SendSuccessResponse(result)
+	return responses.SendSuccessResponse(payload)
 }
 
 func main() {

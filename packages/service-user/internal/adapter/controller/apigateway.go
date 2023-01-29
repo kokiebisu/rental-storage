@@ -14,13 +14,29 @@ type ApiGatewayHandler struct {
 	service port.UserService
 }
 
+type CreateUserResponsePayload struct {
+	UId string `json:"uid"`
+}
+
+type FindUserByEmailResponsePayload struct {
+	User domain.UserDTO `json:"user"`
+}
+
+type FindUserByIdResponsePayload struct {
+	User domain.UserDTO `json:"user"`
+}
+
+type RemoveUserByIdResponsePayload struct {
+	UId string `json:"uid"`
+}
+
 func NewApiGatewayHandler(service port.UserService) *ApiGatewayHandler {
 	return &ApiGatewayHandler{
 		service: service,
 	}
 }
 
-func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
+func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (CreateUserResponsePayload, *errors.CustomError) {
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
 		FirstName     string `json:"firstName"`
@@ -29,27 +45,40 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (str
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return "", errors.ErrorHandler.CustomError("unable to unmarshal request body", err)
+		return CreateUserResponsePayload{}, errors.ErrorHandler.CustomError("unable to unmarshal request body", err)
 	}
 
 	uid, err := h.service.CreateUser(body.EmailAddresss, body.FirstName, body.LastName, body.Password)
-	return uid, err.(*errors.CustomError)
+	payload := CreateUserResponsePayload{
+		UId: uid,
+	}
+
+	return payload, err.(*errors.CustomError)
 }
 
-func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (domain.UserDTO, *errors.CustomError) {
+func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (FindUserByEmailResponsePayload, *errors.CustomError) {
 	emailAddress := event.QueryStringParameters["emailAddress"]
 	user, err := h.service.FindByEmail(emailAddress)
-	return user.ToDTO(), err
+	payload := FindUserByEmailResponsePayload{
+		User: user.ToDTO(),
+	}
+	return payload, err
 }
 
-func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (domain.UserDTO, *errors.CustomError) {
+func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (FindUserByIdResponsePayload, *errors.CustomError) {
 	uid := event.PathParameters["userId"]
 	user, err := h.service.FindById(uid)
-	return user.ToDTO(), err
+	payload := FindUserByIdResponsePayload{
+		User: user.ToDTO(),
+	}
+	return payload, err
 }
 
-func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
+func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (RemoveUserByIdResponsePayload, *errors.CustomError) {
 	uid := event.PathParameters["userId"]
 	err := h.service.RemoveById(uid)
-	return uid, err
+	payload := RemoveUserByIdResponsePayload{
+		UId: uid,
+	}
+	return payload, err
 }

@@ -15,9 +15,10 @@ func SendFailureResponse(err *errors.CustomError) (events.APIGatewayProxyRespons
 	}, nil
 }
 
-func SendSuccessResponse(data string) (events.APIGatewayProxyResponse, error) {
+func SendSuccessResponse(payload interface{}) (events.APIGatewayProxyResponse, error) {
+	result, _ := helper.Stringify(payload)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       string(data),
+		Body:       result,
 	}, nil
 }
