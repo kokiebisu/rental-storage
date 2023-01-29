@@ -69,7 +69,7 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 	if err != nil {
 		return "", errors.ErrorHandler.CustomError("Unable to marshal updated user")
 	}
-	if os.Getenv("SERVICE_API_ENDPOINT") != "" {
+	if os.Getenv("SERVICE_API_ENDPOINT") == "" {
 		return "", errors.ErrorHandler.CustomError("user service api endpoint not defined")
 	}
 	userEndpoint := fmt.Sprintf("%s/users", os.Getenv("SERVICE_API_ENDPOINT"))
