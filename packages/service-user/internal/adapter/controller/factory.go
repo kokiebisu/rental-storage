@@ -11,7 +11,7 @@ import (
 func New() (*ApiGatewayHandler, *errors.CustomError) {
 	db, err := db.New()
 	if err != nil {
-		return nil, errors.ErrorHandler.InternalServerError()
+		return nil, err
 	}
 	repo := repository.NewUserRepository(db)
 	eventSender := sender.New()

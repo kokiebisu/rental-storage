@@ -14,11 +14,8 @@ func (s *ItemService) AddItems(items []domain.ItemDTO) *errors.CustomError {
 	for _, i := range items {
 		item := domain.CreateItem(i.Name, i.OwnerId, i.ListingId)
 		err := s.itemRepository.Save(item)
-		if err == nil {
-			if errors.ErrorHandler != nil {
-				return errors.ErrorHandler.InternalServerError()
-			}
-
+		if err != nil {
+			return err
 		}
 	}
 	return nil

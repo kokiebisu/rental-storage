@@ -39,7 +39,7 @@ func (s *KinesisSender) UserCreated(user domain.UserDTO) *errors.CustomError {
 	}
 	encoded, err := json.Marshal(event)
 	if err != nil {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.CustomError("user created event not being created successful", err)
 	}
 	return s.publish(encoded)
 }
@@ -55,7 +55,7 @@ func (s *KinesisSender) publish(data []byte) *errors.CustomError {
 		Data:         data,
 	})
 	if err != nil {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.CustomError("unable to publish event to kinesis stream", err)
 	}
 	return nil
 }
