@@ -41,7 +41,7 @@ func (h *ApiGatewayHandler) SignIn(event events.APIGatewayProxyRequest) (SignInR
 
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
 	if err != nil {
-		return SignInResponsePayload{}, errors.ErrorHandler.CustomError("unable to unmarshal body")
+		return SignInResponsePayload{}, errors.ErrorHandler.UnmarshalError("body")
 	}
 
 	token, err := h.service.SignIn(bodyRequest.EmailAddress, bodyRequest.Password)
@@ -61,7 +61,7 @@ func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (SignUpR
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
 	if err != nil {
-		return SignUpResponsePayload{}, errors.ErrorHandler.CustomError("unable to unmarshal body")
+		return SignUpResponsePayload{}, errors.ErrorHandler.UnmarshalError("body")
 	}
 	token, err := h.service.SignUp(bodyRequest.EmailAddress, bodyRequest.FirstName, bodyRequest.LastName, bodyRequest.Password)
 	payload := SignUpResponsePayload{
@@ -76,7 +76,7 @@ func (h *ApiGatewayHandler) Verify(event events.APIGatewayProxyRequest) (VerifyR
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
 	if err != nil {
-		return VerifyResponsePayload{}, errors.ErrorHandler.CustomError("unable to unmarshal body")
+		return VerifyResponsePayload{}, errors.ErrorHandler.UnmarshalError("body")
 	}
 	token, err := h.service.Verify(bodyRequest.AuthorizationToken)
 	payload := VerifyResponsePayload{
