@@ -1,21 +1,5 @@
 # rent-a-locker
 
-# stack
-
-- go (no domain services (authorizer, authentication, payment, relational database services (domains), nosql database services (transactions))
-- python (data processing (numpy, machine learning eventually?), notification (slack sdk), email sendgrid)
-- serverless framework
-- cloudformation
-- stripe
-- aws (lambda, sqs, sns, s3, cloudformation, kinesis, cloudwatch. rds. dynamodb, systems manager)
-- postgres
-
-# Add query/mutation
-
-1 Add query to mapping-template/datasource/schema.graphql (api)
-2 Add query/mutation to serverless.yml in service package
-3 Add code
-
 # Onboarding
 
 1 Create gmail account
@@ -38,24 +22,26 @@
 
 9 `brew install golangci-lint`
 
-9 Must install latest bash for Mac users
+10 `brew install flake8`
+
+11 Must install latest bash for Mac users
 `brew install bash`
 
-9 `cd terraform && terraform init`
+12 `cd terraform && terraform init`
 
-10 copy/paste ./.terraform.tfvars
+13 copy/paste ./.terraform.tfvars
 
-11 `pnpm run terraform:setup:local` from root
+14 `pnpm run terraform:setup:local` from root
 
-12 `terraform apply`
+15 `terraform apply`
 
-13 Enter 'local', 'rental-storage'
+16 Enter 'local', 'rental-storage'
 
-14 `brew install serverless`
+17 `brew install serverless`
 
-15 `pnpm run deps:install`
+18 `pnpm run deps:install`
 
-16 `pnpm run deploy:local`
+19 `pnpm run deploy:local`
 
 ## Enable Git Hooks
 

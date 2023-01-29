@@ -17,7 +17,12 @@ function lint_composition() {
     (cd "packages/${package}" && make lint)
 }
 
-lint_services
-lint_composition
-
-echo "--------------------------------------------"
+if [[ -z $(git diff --cached --exit-code) ]]; then
+    echo "No commits to be made. Please stage some files...";
+    exit 1
+else
+    echo "Commits to be made..."
+    lint_services
+    lint_composition
+    echo "--------------------------------------------"
+fi
