@@ -8,8 +8,7 @@
     "strict": true /* Enable all strict type-checking options. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "rootDir": "./src",
-    "outDir": "./dist",
-    "noEmit": true
+    "outDir": "./dist"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules/**"]
