@@ -12,3 +12,5 @@ tsconfig.build.json
 tsconfig.build.tsbuildinfo
 tsconfig.docker.tsbuildinfo
 tsconfig.json
+dist
+node_modules
