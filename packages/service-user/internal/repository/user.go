@@ -32,7 +32,7 @@ func (r *UserRepository) Setup() *errors.CustomError {
 		)
 	`)
 	if err != nil {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.CustomError("unable to set up tables", err)
 	}
 	return nil
 }
@@ -42,20 +42,14 @@ func (r *UserRepository) Save(user domain.User) (string, *errors.CustomError) {
 		INSERT INTO user_account (uid, email_address, password, first_name, last_name, created_at, updated_at) 
         VALUES ($1, $2, $3, $4, $5, $6, $7)
 	`, user.Uid, user.EmailAddress.Value, user.Password, user.FirstName.Value, user.LastName.Value, user.CreatedAt.Format("2006-01-02"), user.UpdatedAt.Format("2006-01-02"))
-	if err != nil {
-		return "", errors.ErrorHandler.InternalServerError()
-	}
-	return user.Uid, nil
+	return user.Uid, errors.ErrorHandler.CustomError("unable to insert to user_account", err)
 }
 
 func (r *UserRepository) Delete(uid string) *errors.CustomError {
 	_, err := r.db.Exec(`
 		DELETE FROM user_account WHERE uid = $1
 	`, uid)
-	if err != nil {
-		return errors.ErrorHandler.InternalServerError()
-	}
-	return nil
+	return errors.ErrorHandler.CustomError("unable to delete postgres", err)
 }
 
 func (r *UserRepository) FindOneById(uid string) (domain.User, *errors.CustomError) {
@@ -74,9 +68,6 @@ func (r *UserRepository) FindOneById(uid string) (domain.User, *errors.CustomErr
     `, uid)
 
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
-	if err != nil {
-		return domain.User{}, errors.ErrorHandler.InternalServerError()
-	}
 	user := &domain.UserRaw{
 		Uid:          uid,
 		FirstName:    firstName,
@@ -86,7 +77,7 @@ func (r *UserRepository) FindOneById(uid string) (domain.User, *errors.CustomErr
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}
-	return user.ToEntity(), nil
+	return user.ToEntity(), errors.ErrorHandler.CustomError("unable to scan", err)
 }
 
 func (r *UserRepository) FindOneByEmail(emailAddress string) (domain.User, *errors.CustomError) {
@@ -102,10 +93,6 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (domain.User, *erro
 		WHERE email_address = $1
   	`, emailAddress)
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
-
-	if err != nil {
-		return domain.User{}, errors.ErrorHandler.InternalServerError()
-	}
 	user := &domain.UserRaw{
 		Uid:          uid,
 		FirstName:    firstName,
@@ -115,5 +102,5 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (domain.User, *erro
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}
-	return user.ToEntity(), nil
+	return user.ToEntity(), errors.ErrorHandler.CustomError("unable to scan", err)
 }

@@ -29,7 +29,7 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (str
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", errors.ErrorHandler.CustomError("unable to unmarshal request body", err)
 	}
 
 	uid, err := h.service.CreateUser(body.EmailAddresss, body.FirstName, body.LastName, body.Password)
@@ -39,26 +39,17 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (str
 func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (domain.UserDTO, *errors.CustomError) {
 	emailAddress := event.QueryStringParameters["emailAddress"]
 	user, err := h.service.FindByEmail(emailAddress)
-	if err != nil {
-		return domain.UserDTO{}, errors.ErrorHandler.InternalServerError()
-	}
-	return user.ToDTO(), nil
+	return user.ToDTO(), err
 }
 
 func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (domain.UserDTO, *errors.CustomError) {
 	uid := event.PathParameters["userId"]
 	user, err := h.service.FindById(uid)
-	if err != nil {
-		return domain.UserDTO{}, errors.ErrorHandler.InternalServerError()
-	}
-	return user.ToDTO(), nil
+	return user.ToDTO(), err
 }
 
 func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
 	uid := event.PathParameters["userId"]
 	err := h.service.RemoveById(uid)
-	if err != nil {
-		return "", errors.ErrorHandler.InternalServerError()
-	}
-	return uid, nil
+	return uid, err
 }

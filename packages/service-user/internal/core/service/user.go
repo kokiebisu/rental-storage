@@ -22,33 +22,28 @@ func (s *UserService) CreateUser(emailAddress string, firstName string, lastName
 	user := domain.CreateUser(firstName, lastName, emailAddress, password)
 	uid, err := s.userRepository.Save(user)
 	if err != nil {
-		// message := fmt.Sprintf("failed to create user in db: %s", err.Error())
-		return uid, errors.ErrorHandler.InternalServerError()
+		return uid, err
 	}
 	err = s.eventSender.UserCreated(user.ToDTO())
-	if err != nil {
-		// send to dead letter queue (?)
-		// message := fmt.Sprintf("failed to send user created event: %s", err.Error())
-		return uid, errors.ErrorHandler.InternalServerError()
-	}
-	return uid, nil
+
+	// if err != nil {
+	// TODO: send to dead letter queue (?)
+	// }
+	return uid, err
 }
 
 func (s *UserService) RemoveById(uid string) *errors.CustomError {
 	err := s.userRepository.Delete(uid)
-	if err != nil {
-		// message := fmt.Sprintf("failed to remove account from db: %s", err.Error())
-		return errors.ErrorHandler.InternalServerError()
-	}
-	// user removed event
-	return nil
+	// if err != nil {
+	// TODO: user removed event
+	// }
+	return err
 }
 
 func (s *UserService) FindById(uid string) (domain.User, *errors.CustomError) {
 	user, err := s.userRepository.FindOneById(uid)
 	if err != nil {
-		// message := fmt.Sprintf("failed to find from db: %s", err.Error())
-		return domain.User{}, errors.ErrorHandler.InternalServerError()
+		return domain.User{}, err
 	}
 	return user, nil
 }
@@ -56,8 +51,7 @@ func (s *UserService) FindById(uid string) (domain.User, *errors.CustomError) {
 func (s *UserService) FindByEmail(emailAddress string) (domain.User, *errors.CustomError) {
 	user, err := s.userRepository.FindOneByEmail(emailAddress)
 	if err != nil {
-		// message := fmt.Sprintf("failed to find from db: %s", err)
-		return domain.User{}, errors.ErrorHandler.InternalServerError()
+		return domain.User{}, err
 	}
 	return user, nil
 }
