@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -24,35 +23,30 @@ func NewEncryptionService() *EncryptionService {
 	return &EncryptionService{}
 }
 
-func (s *EncryptionService) SignIn(emailAddress string, password string) (string, error) {
+func (s *EncryptionService) SignIn(emailAddress string, password string) (string, *errors.CustomError) {
 	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", os.Getenv("SERVICE_API_ENDPOINT"), emailAddress)
 	// check if the email address exists in the user db
 	resp, err := http.Get(userEndpoint)
 	if err != nil {
-		// return "", errors.New("failed to send request to user service endpoint")
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", errors.ErrorHandler.CustomError("failed to send request to user service endpoint")
 	}
 	user := &domain.User{}
 	if err = json.NewDecoder(resp.Body).Decode(&user); err != nil {
-		return "", err
+		return "", errors.ErrorHandler.CustomError("unable to decode user service endpoint to user domain")
 	}
 
 	matched, err := s.verifyPassword(user.Password, password)
 	if !matched {
-		// return "", errors.New("password didn't match")
-		return "", err
+		return "", err.(*errors.CustomError)
 	}
 	response := &port.GenerateJWTTokenPayload{
 		UId: user.Uid,
 	}
 	token, err := s.generateJWTToken(response)
-	if err != nil {
-		return "", err
-	}
-	return token, nil
+	return token, err.(*errors.CustomError)
 }
 
-func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastName string, password string) (string, error) {
+func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastName string, password string) (string, *errors.CustomError) {
 	// hash password
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -74,20 +68,23 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 
 	encodedUpdatedUser, err := json.Marshal(&updatedUser)
 	if err != nil {
-		return "", err
+		return "", errors.ErrorHandler.CustomError("Unable to marshal updated user")
+	}
+	if os.Getenv("SERVICE_API_ENDPOINT") != "" {
+		return "", errors.ErrorHandler.CustomError("user service api endpoint not defined")
 	}
 	userEndpoint := fmt.Sprintf("%s/users", os.Getenv("SERVICE_API_ENDPOINT"))
-
 	resp, err := http.Post(userEndpoint, "application/json", bytes.NewBuffer(encodedUpdatedUser))
 	if err != nil {
-		return "", err
+		return "", errors.ErrorHandler.CustomError("response from user service was invalid")
 	}
 	if resp.StatusCode == 500 {
 		payload := struct {
-			Message string `json:"message"`
+			StatusCode uint8  `json:"statusCode"`
+			Message    string `json:"message"`
 		}{}
 		if err = json.NewDecoder(resp.Body).Decode(&payload); err != nil {
-			return "", err
+			return "", errors.ErrorHandler.CustomError("unable to decode statusCode and message from status code 500 response")
 		}
 		_, err := helper.Stringify(payload)
 		if err != nil {
@@ -97,40 +94,25 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 	}
 	response := &port.GenerateJWTTokenPayload{}
 	if err = json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		return "", err
+		return "", errors.ErrorHandler.CustomError("unable to decode jwt payload to response")
 	}
 
-	token, err := s.generateJWTToken(response)
-	if err != nil {
-		return "", err
-	}
+	token, _ := s.generateJWTToken(response)
 
-	tokenPayload := map[string]string{
-		"AuthorizationToken": token,
-	}
-	encoded, err := json.Marshal(tokenPayload)
-	if err != nil {
-		return "", err
-	}
-
-	return string(encoded), nil
+	return token, nil
 }
 
-func (s *EncryptionService) Verify(authorizationToken string) (string, error) {
+func (s *EncryptionService) Verify(authorizationToken string) (string, *errors.CustomError) {
 	claims, err := s.verifyJWT(authorizationToken)
 	if err != nil {
 		return "", err
 	}
-
-	encoded, err := json.Marshal(claims)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(encoded), nil
+	encoded, err := helper.Stringify(claims)
+	return encoded, err
 }
 
 // GenerateToken returns a unique token based on the provided email string
-func (s *EncryptionService) generateJWTToken(payload *port.GenerateJWTTokenPayload) (string, error) {
+func (s *EncryptionService) generateJWTToken(payload *port.GenerateJWTTokenPayload) (string, *errors.CustomError) {
 	claims := domain.Claims{
 		payload.UId,
 		jwt.StandardClaims{
@@ -142,12 +124,12 @@ func (s *EncryptionService) generateJWTToken(payload *port.GenerateJWTTokenPaylo
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte("secret"))
 	if err != nil {
-		return "", err
+		return "", errors.ErrorHandler.CustomError("unable to sign token")
 	}
 	return tokenString, nil
 }
 
-func (s *EncryptionService) verifyJWT(tokenString string) (*domain.Claims, error) {
+func (s *EncryptionService) verifyJWT(tokenString string) (*domain.Claims, *errors.CustomError) {
 	token, err := jwt.ParseWithClaims(tokenString, &domain.Claims{}, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -174,8 +156,7 @@ func (s *EncryptionService) verifyJWT(tokenString string) (*domain.Claims, error
 func (s *EncryptionService) verifyPassword(hashedPassword string, plainPassword string) (bool, *errors.CustomError) {
 	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(plainPassword))
 	if err != nil {
-		log.Println(err)
-		return false, nil
+		return false, errors.ErrorHandler.CustomError("failed when comparing hash and password")
 	}
 	return true, nil
 }

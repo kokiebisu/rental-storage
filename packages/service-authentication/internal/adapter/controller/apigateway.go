@@ -2,15 +2,27 @@ package controller
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/aws/aws-lambda-go/events"
 
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
+	errors "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 )
 
 type ApiGatewayHandler struct {
 	service port.EncryptionService
+}
+
+type SignInResponsePayload struct {
+	AuthorizationToken string `json:"authorizationToken"`
+}
+
+type SignUpResponsePayload struct {
+	AuthorizationToken string `json:"authorizationToken"`
+}
+
+type VerifyResponsePayload struct {
+	AuthorizationToken string `json:"authorizationToken"`
 }
 
 func NewApiGatewayHandler(service port.EncryptionService) *ApiGatewayHandler {
@@ -19,7 +31,7 @@ func NewApiGatewayHandler(service port.EncryptionService) *ApiGatewayHandler {
 	}
 }
 
-func (h *ApiGatewayHandler) SignIn(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) SignIn(event events.APIGatewayProxyRequest) (SignInResponsePayload, *errors.CustomError) {
 
 	// get email address and password from event argument
 	bodyRequest := struct {
@@ -29,18 +41,17 @@ func (h *ApiGatewayHandler) SignIn(event events.APIGatewayProxyRequest) (events.
 
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
 	if err != nil {
-		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 404}, nil
+		return SignInResponsePayload{}, errors.ErrorHandler.BodyRequestParseError()
 	}
 
 	token, err := h.service.SignIn(bodyRequest.EmailAddress, bodyRequest.Password)
-	if err != nil {
-		return sendFailureResponse(err)
+	payload := SignInResponsePayload{
+		AuthorizationToken: token,
 	}
-
-	return sendResponse(token)
+	return payload, err.(*errors.CustomError)
 }
 
-func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (SignUpResponsePayload, *errors.CustomError) {
 	// get email address and password from event argument
 	bodyRequest := struct {
 		EmailAddress string `json:"emailAddress"`
@@ -50,47 +61,26 @@ func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (events.
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
 	if err != nil {
-		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
+		return SignUpResponsePayload{}, errors.ErrorHandler.BodyRequestParseError()
 	}
-	encoded, err := h.service.SignUp(bodyRequest.EmailAddress, bodyRequest.FirstName, bodyRequest.LastName, bodyRequest.Password)
-	if err != nil {
-		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
+	token, err := h.service.SignUp(bodyRequest.EmailAddress, bodyRequest.FirstName, bodyRequest.LastName, bodyRequest.Password)
+	payload := SignUpResponsePayload{
+		AuthorizationToken: token,
 	}
-	return events.APIGatewayProxyResponse{Body: string(encoded), StatusCode: 200}, nil
+	return payload, err.(*errors.CustomError)
 }
 
-func (h *ApiGatewayHandler) Verify(event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func (h *ApiGatewayHandler) Verify(event events.APIGatewayProxyRequest) (VerifyResponsePayload, *errors.CustomError) {
 	bodyRequest := struct {
 		AuthorizationToken string `json:"authorizationToken"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
 	if err != nil {
-		log.Fatal(err)
+		return VerifyResponsePayload{}, errors.ErrorHandler.BodyRequestParseError()
 	}
-	encoded, err := h.service.Verify(bodyRequest.AuthorizationToken)
-	if err != nil {
-		return events.APIGatewayProxyResponse{Body: err.Error(), StatusCode: 500}, nil
-	}
-
-	return events.APIGatewayProxyResponse{Body: string(encoded), StatusCode: 200}, nil
-}
-
-func sendFailureResponse(err error) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{
-		StatusCode: 404,
-		Body:       string(err.Error()),
-	}, nil
-}
-
-func sendResponse(token string) (events.APIGatewayProxyResponse, error) {
-	payload := &struct {
-		AuthorizationToken string `json:"authorizationToken"`
-	}{
+	token, err := h.service.Verify(bodyRequest.AuthorizationToken)
+	payload := VerifyResponsePayload{
 		AuthorizationToken: token,
 	}
-	encoded, _ := json.Marshal(payload)
-	return events.APIGatewayProxyResponse{
-		Body:       string(encoded),
-		StatusCode: 200,
-	}, nil
+	return payload, err.(*errors.CustomError)
 }
