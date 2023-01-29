@@ -4,15 +4,23 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
+	responses "github.com/kokiebisu/rental-storage/service-authentication/internal"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/adapter/controller"
-	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/service"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/helper"
 )
 
 // checks if the authorizationToken in the payload is valid
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	service := service.NewEncryptionService()
-	controller := controller.New(service)
-	return controller.Verify(request)
+	controller := controller.New()
+	payload, err := controller.Verify(request)
+	if err != nil {
+		return responses.SendFailureResponse(err)
+	}
+	result, err := helper.Stringify(payload)
+	if err != nil {
+		return responses.SendFailureResponse(err)
+	}
+	return responses.SendSuccessResponse(result)
 }
 
 func main() {
