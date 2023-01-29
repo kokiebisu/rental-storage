@@ -13,7 +13,7 @@ prepare: clean build
 
 .PHONY: test
 test:
-	cd test && go test ./... && cd ../..
+	cd test && go test ./... -v && cd ../..
 
 .PHONY: lint
 lint:
