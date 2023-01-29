@@ -50,8 +50,7 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 	// hash password
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		// return "", errors.New("cannot hash password")
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", errors.ErrorHandler.CustomError("cannot hash password")
 	}
 
 	updatedUser := struct {
@@ -87,10 +86,7 @@ func (s *EncryptionService) SignUp(emailAddress string, firstName string, lastNa
 			return "", errors.ErrorHandler.CustomError("unable to decode statusCode and message from status code 500 response")
 		}
 		_, err := helper.Stringify(payload)
-		if err != nil {
-			return "", err
-		}
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", err
 	}
 	response := &port.GenerateJWTTokenPayload{}
 	if err = json.NewDecoder(resp.Body).Decode(&response); err != nil {
@@ -138,17 +134,17 @@ func (s *EncryptionService) verifyJWT(tokenString string) (*domain.Claims, *erro
 		return []byte("secret"), nil
 	})
 	if err != nil {
-		return nil, errors.ErrorHandler.InternalServerError()
+		return nil, errors.ErrorHandler.CustomError("unable to parse with claims")
 	}
 	claims, ok := token.Claims.(*domain.Claims)
 	if !ok {
-		return nil, errors.ErrorHandler.InternalServerError()
+		return nil, errors.ErrorHandler.CustomError("unable to cast to domain claims")
 	}
 	if claims.UId == "" {
-		return nil, errors.ErrorHandler.InternalServerError()
+		return nil, errors.ErrorHandler.CustomError("uid property in claims is empty string")
 	}
 	if claims.ExpiresAt < time.Now().UTC().Unix() {
-		return nil, errors.ErrorHandler.InternalServerError()
+		return nil, errors.ErrorHandler.CustomError("claims should have been expired already")
 	}
 	return claims, nil
 }
