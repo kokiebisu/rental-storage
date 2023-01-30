@@ -24,24 +24,26 @@
 
 10 `brew install flake8`
 
-11 Must install latest bash for Mac users
+11 `brew install mockery`
+
+12 Must install latest bash for Mac users
 `brew install bash`
 
-12 `cd terraform && terraform init`
+13 `cd terraform && terraform init`
 
-13 copy/paste ./.terraform.tfvars
+14 copy/paste ./.terraform.tfvars
 
-14 `pnpm run terraform:setup:local` from root
+15 `pnpm run terraform:setup:local` from root
 
-15 `terraform apply`
+16 `terraform apply`
 
-16 Enter 'local', 'rental-storage'
+17 Enter 'local', 'rental-storage'
 
-17 `brew install serverless`
+18 `brew install serverless`
 
-18 `pnpm run deps:install`
+19 `pnpm run deps:install`
 
-19 `pnpm run deploy:local`
+20 `pnpm run deploy:local`
 
 ## Enable Git Hooks
 
