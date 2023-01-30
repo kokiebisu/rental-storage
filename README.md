@@ -10,40 +10,42 @@
 
 4 Create IAM user
 
-5 Set up AWS PROFILE
+5 Make sure you have NodeJS installed locally with version 16. web/storybook requires version 16.
+
+6 Set up AWS PROFILE
 `export AWS_PROFILE=rental-storage`
 `setx AWS_PROFILE rental-storage`
 
-6 Get invited to Slack
+7 Get invited to Slack
 
-7 Clone the repo
+8 Clone the repo
 
-8 `brew install terraform`
+9 `brew install terraform`
 
-9 `brew install golangci-lint`
+10 `brew install golangci-lint`
 
-10 `brew install flake8`
+11 `brew install flake8`
 
-11 `brew install mockery`
+12 `brew install mockery`
 
-12 Must install latest bash for Mac users
+13 Must install latest bash for Mac users
 `brew install bash`
 
-13 `cd terraform && terraform init`
+14 `cd terraform && terraform init`
 
-14 copy/paste ./.terraform.tfvars
+15 copy/paste ./.terraform.tfvars
 
-15 `pnpm run terraform:setup:local` from root
+16 `pnpm run terraform:setup:local` from root
 
-16 `terraform apply`
+17 `terraform apply`
 
-17 Enter 'local', 'rental-storage'
+18 Enter 'local', 'rental-storage'
 
-18 `brew install serverless`
+19 `brew install serverless`
 
-19 `pnpm run deps:install`
+20 `pnpm run deps:install`
 
-20 `pnpm run deploy:local`
+21 `pnpm run deploy:local`
 
 ## Enable Git Hooks
 
