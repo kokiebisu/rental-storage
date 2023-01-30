@@ -1,7 +1,8 @@
 package service
 
 import (
-	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
 	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
@@ -9,17 +10,19 @@ import (
 type UserService struct {
 	userRepository port.UserRepository
 	eventSender    port.EventSender
+	factory        port.Factory
 }
 
-func NewUserService(userRepository port.UserRepository, eventSender port.EventSender) *UserService {
+func NewUserService(userRepository port.UserRepository, eventSender port.EventSender, factory port.Factory) *UserService {
 	return &UserService{
 		userRepository: userRepository,
 		eventSender:    eventSender,
+		factory:        factory,
 	}
 }
 
-func (s *UserService) CreateUser(emailAddress string, firstName string, lastName string, password string) (string, *errors.CustomError) {
-	user := domain.CreateUser(firstName, lastName, emailAddress, password)
+func (s *UserService) CreateUser(uid string, emailAddress string, firstName string, lastName string, password string, items []item.DTO, createdAt string) (string, *errors.CustomError) {
+	user := s.factory.NewUser(uid, firstName, lastName, emailAddress, password, []item.Entity{}, createdAt)
 	uid, err := s.userRepository.Save(user)
 	if err != nil {
 		return uid, err
@@ -40,18 +43,18 @@ func (s *UserService) RemoveById(uid string) *errors.CustomError {
 	return err
 }
 
-func (s *UserService) FindById(uid string) (domain.User, *errors.CustomError) {
-	user, err := s.userRepository.FindOneById(uid)
+func (s *UserService) FindById(uid string) (user.Entity, *errors.CustomError) {
+	u, err := s.userRepository.FindOneById(uid)
 	if err != nil {
-		return domain.User{}, err
+		return user.Entity{}, err
 	}
-	return user, nil
+	return u, nil
 }
 
-func (s *UserService) FindByEmail(emailAddress string) (domain.User, *errors.CustomError) {
-	user, err := s.userRepository.FindOneByEmail(emailAddress)
+func (s *UserService) FindByEmail(emailAddress string) (user.Entity, *errors.CustomError) {
+	u, err := s.userRepository.FindOneByEmail(emailAddress)
 	if err != nil {
-		return domain.User{}, err
+		return user.Entity{}, err
 	}
-	return user, nil
+	return u, nil
 }
