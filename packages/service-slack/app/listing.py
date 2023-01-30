@@ -20,9 +20,9 @@ class SlackListingMessageSenderService:
                 )
         if event_name in ListingEvents:
             message = SlackListingMessageSenderService\
-                 .generate_listing_created_message(
-                     lender_id=listing.lender_id,
-                     street_address=listing.street_address)
+                .generate_listing_created_message(
+                    lender_id=listing.lender_id,
+                    street_address=listing.street_address)
             self.bot.send_chat_message(channel_name=channel_name,
                                        message=message)
         else:
