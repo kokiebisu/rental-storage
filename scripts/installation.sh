@@ -29,7 +29,18 @@ function install_dependencies_appsync() {
     (cd appsync && pnpm install);
 }
 
+function install_dependencies_platforms() {
+    local packages=("web")
+    
+    for package in "${packages[@]}"
+    do
+        echo "Installing ${package^} dependencies...";
+        (cd "${package}" && pnpm install);
+    done
+}
+
 install_dependencies_root
 install_dependencies_services
 install_dependencies_composition
 install_dependencies_appsync
+install_dependencies_platforms
