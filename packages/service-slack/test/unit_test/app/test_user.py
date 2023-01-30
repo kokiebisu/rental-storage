@@ -17,4 +17,14 @@ def test_success__user_created():
         f'Name: {mock_data["first_name"]} {mock_data["last_name"]}\n'
         f'Email Address: {mock_data["email_address"]}'
     )
+    message = SlackUserMessageSenderService\
+        .generate_user_account_deleted_message(
+            first_name=mock_data['first_name'],
+            last_name=mock_data['last_name'],
+            email_address=mock_data['email_address'])
+    expected_message = (
+        f'User has deleted the account! :tada:\n'
+        f'Name: {mock_data["first_name"]}{mock_data["last_name"]}\n'
+        f'Email Address: {mock_data["email_address"]}\n'
+    )
     assert message == expected_message

@@ -8,4 +8,3 @@ class UserEvents(Enum):
 
 class ListingEvents(Enum):
     LISTING_CREATED = 'listing_created'
-    LISTING_DELETED = 'listing_deleted'

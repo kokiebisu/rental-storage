@@ -15,13 +15,4 @@ def test_success__listing_created():
         f'Lender Id: {mock_data["lender_id"]}\n'
         f'Street Address: {mock_data["street_address"]}\n'
     )
-    message = SlackListingMessageSenderService.\
-        generate_listing_deleted_message(
-            lender_id=mock_data['lender_id'],
-            street_address=mock_data['street_address'])
-    expected_message = (
-        f'User has deleted the account!:\n'
-        f'Lender Id: {mock_data["lender_id"]}\n'
-        f'Street Address: {mock_data["street_address"]}\n'
-    )
     assert message == expected_message

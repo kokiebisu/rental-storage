@@ -24,11 +24,6 @@ class SlackListingMessageSenderService:
                     .generate_listing_created_message(
                         lender_id=listing.lender_id,
                         street_address=listing.street_address)
-            elif event_name == ListingEvents.LISTING_DELETED:
-                message = SlackListingMessageSenderService\
-                    .generate_listing_deleted_message(
-                        lender_id=listing.lender_id,
-                        street_address=listing.street_address)
             self.bot.send_chat_message(channel_name=channel_name,
                                        message=message)
         else:
@@ -43,15 +38,6 @@ class SlackListingMessageSenderService:
                                          street_address: str):
         return (
             f'Listing was posted! :tada:\n'
-            f'Lender Id: {lender_id}\n'
-            f'Street Address: {street_address}\n'
-        )
-
-    @classmethod
-    def generate_listing_deleted_message(cls, lender_id: str,
-                                         street_address: str):
-        return (
-            f'User has deleted the account!:\n'
             f'Lender Id: {lender_id}\n'
             f'Street Address: {street_address}\n'
         )
