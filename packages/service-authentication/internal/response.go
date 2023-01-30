@@ -3,12 +3,15 @@ package responses
 import (
 	"github.com/aws/aws-lambda-go/events"
 	errors "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/helper"
 )
 
 func SendFailureResponse(err *errors.CustomError) (events.APIGatewayProxyResponse, error) {
+	payload := err.GetPayload()
+	result, _ := helper.Stringify(payload)
 	return events.APIGatewayProxyResponse{
 		StatusCode: int(err.StatusCode),
-		Body:       string(err.Error()),
+		Body:       result,
 	}, nil
 }
 

@@ -14,3 +14,10 @@ type ErrorResponsePayload struct {
 func (e *CustomError) Error() string {
 	return e.Reason.Error()
 }
+
+func (e *CustomError) GetPayload() ErrorResponsePayload {
+	return ErrorResponsePayload{
+		Message: e.Message,
+		Reason: e.Reason,
+	}
+}
