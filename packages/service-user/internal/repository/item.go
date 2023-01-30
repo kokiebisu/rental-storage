@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	_ "github.com/lib/pq"
 )
 
@@ -57,7 +57,7 @@ func (r *ItemRepository) Setup() error {
 	return nil
 }
 
-func (r *ItemRepository) Save(item domain.Item) error {
+func (r *ItemRepository) Save(item item.Entity) error {
 	// begin transaction
 	result, err := r.db.Exec(
 		`INSERT INTO item (name, owner_id, listing_id, created_at) VALUES($1, $2, $3, $4)`,
@@ -95,7 +95,7 @@ func (r *ItemRepository) Delete(uid string) error {
 	return nil
 }
 
-func (r *ItemRepository) FindOneById(id int64) (domain.Item, error) {
+func (r *ItemRepository) FindOneById(id int64) (item.Entity, error) {
 	var uid string
 	var name string
 	var ownerId string
@@ -119,19 +119,19 @@ func (r *ItemRepository) FindOneById(id int64) (domain.Item, error) {
 	}
 	defer rows.Close()
 	if err != nil {
-		return domain.Item{}, err
+		return item.Entity{}, err
 	}
 	var imageUrls []string
 	for rows.Next() {
 		var imageUrl string
 		err := rows.Scan(&imageUrl)
 		if err != nil {
-			return domain.Item{}, err
+			return item.Entity{}, err
 		}
 		imageUrls = append(imageUrls, imageUrl)
 	}
 
-	item := domain.ItemRaw{
+	item := item.Raw{
 		Uid:       uid,
 		Name:      name,
 		ImageUrls: imageUrls,

@@ -5,7 +5,8 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 
-	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
 	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
@@ -19,11 +20,11 @@ type CreateUserResponsePayload struct {
 }
 
 type FindUserByEmailResponsePayload struct {
-	User domain.UserDTO `json:"user"`
+	User user.DTO `json:"user"`
 }
 
 type FindUserByIdResponsePayload struct {
-	User domain.UserDTO `json:"user"`
+	User user.DTO `json:"user"`
 }
 
 type RemoveUserByIdResponsePayload struct {
@@ -48,7 +49,7 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (Cre
 		return CreateUserResponsePayload{}, errors.ErrorHandler.CustomError("unable to unmarshal request body", err)
 	}
 
-	uid, err := h.service.CreateUser(body.EmailAddresss, body.FirstName, body.LastName, body.Password)
+	uid, err := h.service.CreateUser("", body.EmailAddresss, body.FirstName, body.LastName, body.Password, []item.DTO{}, "")
 	payload := CreateUserResponsePayload{
 		UId: uid,
 	}
