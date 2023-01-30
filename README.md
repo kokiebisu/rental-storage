@@ -1,6 +1,6 @@
 # rent-a-locker
 
-# Onboarding (macOS)
+# Onboarding (MacOS)
 
 1 Create gmail account
 
