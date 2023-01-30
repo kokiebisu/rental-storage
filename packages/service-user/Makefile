@@ -19,3 +19,7 @@ test:
 .PHONY: lint
 lint:
 	golangci-lint run ./...
+
+.PHONY: generate-mock
+generate-mock:
+	mockery --all
