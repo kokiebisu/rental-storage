@@ -11,7 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/kinesis"
 	"github.com/google/uuid"
 
-	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
@@ -31,11 +31,11 @@ func New() *KinesisSender {
 	}
 }
 
-func (s *KinesisSender) UserCreated(user domain.UserDTO) *errors.CustomError {
+func (s *KinesisSender) UserCreated(u user.DTO) *errors.CustomError {
 	event := map[string]interface{}{
 		"sourceEntity": "User",
 		"eventName":    "created",
-		"data":         user,
+		"data":         u,
 	}
 	encoded, err := json.Marshal(event)
 	if err != nil {

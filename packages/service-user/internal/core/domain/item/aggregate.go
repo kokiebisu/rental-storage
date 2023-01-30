@@ -1,12 +1,10 @@
-package domain
+package item
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
-type Item struct {
+type Entity struct {
 	Uid       string
 	Name      string
 	ImageUrls []string
@@ -16,7 +14,7 @@ type Item struct {
 	ListingId string
 }
 
-type ItemDTO struct {
+type DTO struct {
 	Uid       string   `json:"uid"`
 	Name      string   `json:"name"`
 	ImageUrls []string `json:"imageUrls"`
@@ -26,7 +24,7 @@ type ItemDTO struct {
 	ListingId string   `json:"listingId"`
 }
 
-type ItemRaw struct {
+type Raw struct {
 	Uid       string   `json:"uid"`
 	Name      string   `json:"name"`
 	ImageUrls []string `json:"image_urls"`
@@ -36,22 +34,10 @@ type ItemRaw struct {
 	ListingId string   `json:"listing_id"`
 }
 
-func CreateItem(name string, ownerId string, listingId string) Item {
-	return Item{
-		Uid:       uuid.New().String(),
-		Name:      name,
-		ImageUrls: []string{},
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Time{},
-		OwnerId:   ownerId,
-		ListingId: listingId,
-	}
-}
-
-func (r ItemRaw) ToEntity() Item {
+func (r Raw) ToEntity() Entity {
 	createdAt, _ := time.Parse("YYYY-MM-DD", r.CreatedAt)
 	updatedAt, _ := time.Parse("YYYY-MM-DD", r.UpdatedAt)
-	return Item{
+	return Entity{
 		Uid:       r.Uid,
 		Name:      r.Name,
 		ImageUrls: r.ImageUrls,
