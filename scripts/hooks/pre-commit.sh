@@ -2,6 +2,15 @@
 
 set -e
 
+function lint_platforms() {
+    local packages=("web")
+    for package in "${packages[@]}"
+    do
+        echo -e "\nLinting ${package}..."
+        (cd "${package}" && make lint)
+    done
+}
+
 function lint_services() {
     local packages=("authentication" "authorizer" "booking" "listing" "payment" "user" "slack")
     for package in "${packages[@]}"
@@ -24,5 +33,6 @@ else
     echo "Commits to be made..."
     lint_services
     lint_composition
+    lint_platforms
     echo "--------------------------------------------"
 fi
