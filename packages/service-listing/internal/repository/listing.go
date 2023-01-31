@@ -129,15 +129,15 @@ func (r *ListingRepository) Delete(uid string) *errors.CustomError {
 	result := r.db.QueryRow(`DELETE FROM listing WHERE uid = $1 RETURNING id`, uid)
 	err := result.Scan(&removedListingId)
 	if err != nil {
-		return errors.ErrorHandler.DeleteListingError("listing", err)
+		return errors.ErrorHandler.DeleteListingRowError("listing", err)
 	}
 	_, err = r.db.Exec(`DELETE FROM images_listing WHERE listing_id = $1`, removedListingId)
 	if err != nil {
-		return errors.ErrorHandler.DeleteListingError("images_listing", err)
+		return errors.ErrorHandler.DeleteListingRowError("images_listing", err)
 	}
 	_, err = r.db.Exec(`DELETE FROM fees_listing WHERE listing_id = $1 RETURNING *`, removedListingId)
 	if err != nil {
-		return errors.ErrorHandler.DeleteListingError("fees_listing", err)
+		return errors.ErrorHandler.DeleteListingRowError("fees_listing", err)
 	}
 	return nil
 }
@@ -154,7 +154,7 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, *errors.Cus
 	)
 	if err != nil {
 		log.Fatal(err.Error())
-		return domain.Listing{}, errors.ErrorHandler.FindListingError(err)
+		return domain.Listing{}, errors.ErrorHandler.FindListingsRowError(err)
 	}
 	var id string
 	var title string
@@ -212,7 +212,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		latitude, longitude, distance,
 	)
 	if err != nil {
-		return []domain.Listing{}, errors.ErrorHandler.FindListingError(err)
+		return []domain.Listing{}, errors.ErrorHandler.FindListingsRowError(err)
 	}
 	listingsMap := map[string]domain.Listing{}
 	for rows.Next() {

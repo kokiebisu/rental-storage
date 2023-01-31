@@ -67,7 +67,7 @@ func (e *Handler) CreateTableError(target string, err error) *CustomError {
 	}
 }
 
-func (e *Handler) DeleteListingError(target string, err error) *CustomError {
+func (e *Handler) DeleteListingRowError(target string, err error) *CustomError {
 	msg := "deleting listing from table " + target + " failed"
 	return &CustomError{
 		StatusCode: 500,
@@ -76,7 +76,7 @@ func (e *Handler) DeleteListingError(target string, err error) *CustomError {
 	}
 }
 
-func (e *Handler) FindListingError(err error) *CustomError {
+func (e *Handler) FindListingsRowError(err error) *CustomError {
 	msg := "unable to find a listing"
 	return &CustomError{
 		StatusCode: 500,
