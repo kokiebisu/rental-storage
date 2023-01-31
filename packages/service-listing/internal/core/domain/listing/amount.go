@@ -41,14 +41,14 @@ func NewAmount(value int64, currency string) (Amount, *errors.CustomError) {
 
 func isValidValue(value int64) *errors.CustomError {
 	if value < 0 {
-		return errors.ErrorHandler.InvalidValueError("amount")
+		return errors.ErrorHandler.InvalidValueError("amount", "the value should be positive")
 	}
 	return nil
 }
 
 func isValidCurrency(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("currency")
+		return errors.ErrorHandler.InvalidValueError("currency", "the currency cannot be empty")
 	}
 	return nil
 }

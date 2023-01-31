@@ -40,7 +40,7 @@ func NewFee(feeCurrency string, feeAmount int64, feeType string) (Fee, *errors.C
 
 func isValidFeeType(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("fee type")
+		return errors.ErrorHandler.InvalidValueError("fee type", "fee type cannot be empty")
 	}
 	return nil
 }

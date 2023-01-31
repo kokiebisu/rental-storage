@@ -18,7 +18,7 @@ func NewImageUrl(url string) (ImageUrl, *errors.CustomError) {
 
 func isValidImageUrl(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("image url")
+		return errors.ErrorHandler.InvalidValueError("image url", "image url cannot be empty")
 	}
 	return nil
 }

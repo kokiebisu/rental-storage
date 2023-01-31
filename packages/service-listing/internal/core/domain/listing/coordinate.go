@@ -18,7 +18,7 @@ func NewCoordinate(coordinate float32) (Coordinate, *errors.CustomError) {
 
 func isValidCoordinate(value float32) *errors.CustomError {
 	if value < -180 {
-		return errors.ErrorHandler.InvalidValueError("coordinate")
+		return errors.ErrorHandler.InvalidValueError("coordinate", "coordinate cannot be less than -180")
 	}
 	return nil
 }

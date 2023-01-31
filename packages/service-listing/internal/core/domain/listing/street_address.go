@@ -20,7 +20,7 @@ func isValidCity(value string) *errors.CustomError {
 	// validation here
 	if value == "" {
 		// city name
-		return errors.ErrorHandler.InvalidValueError("street address")
+		return errors.ErrorHandler.InvalidValueError("street address", "street address cannot be empty")
 	}
 
 	return nil
