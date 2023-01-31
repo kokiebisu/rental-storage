@@ -12,8 +12,8 @@ func (e *Handler) GetParameterError() *CustomError {
 	}
 }
 
-func (e *Handler) StringConvertError(target string, err error) *CustomError {
-	msg := "unable to convert string value of " + target + " to a number"
+func (e *Handler) ConvertError(target string, dataType string, err error) *CustomError {
+	msg := "unable to convert " +  dataType + " value of " + target
 	return &CustomError{
 		StatusCode: 500,
 		Message:	msg,

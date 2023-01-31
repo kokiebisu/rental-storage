@@ -33,15 +33,15 @@ func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest)
 func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) ([]domain.ListingDTO, *errors.CustomError) {
 	latitude, err := strconv.ParseFloat(event.QueryStringParameters["latitude"], 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("latitude", err)
+		return []domain.ListingDTO{}, errors.ErrorHandler.ConvertError("latitude", "String", err)
 	}
 	longitude, err := strconv.ParseFloat(event.QueryStringParameters["longitude"], 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("longitude", err)
+		return []domain.ListingDTO{}, errors.ErrorHandler.ConvertError("longitude", "String", err)
 	}
 	distance, err := strconv.ParseInt(event.QueryStringParameters["distance"], 10, 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("distance", err)
+		return []domain.ListingDTO{}, errors.ErrorHandler.ConvertError("distance", "String", err)
 	}
 	listings, err := h.service.FindListingsWithinLatLng(float32(latitude), float32(longitude), int32(distance))
 	return listings, err.(*errors.CustomError)
