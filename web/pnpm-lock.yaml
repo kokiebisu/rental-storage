@@ -4,7 +4,9 @@ overrides:
   '@storybook/react-docgen-typescript-plugin': npm:react-docgen-typescript-plugin@1.0.2
 
 specifiers:
+  '@heroicons/react': 2.0.14
   '@next/font': 13.1.6
+  '@next/swc-darwin-arm64': 13.1.6
   '@storybook/addon-essentials': ^7.0.0-beta.36
   '@storybook/addon-interactions': ^7.0.0-beta.36
   '@storybook/addon-links': ^7.0.0-beta.36
@@ -12,6 +14,7 @@ specifiers:
   '@storybook/nextjs': ^7.0.0-beta.36
   '@storybook/react': ^7.0.0-beta.36
   '@storybook/testing-library': ^0.0.13
+  '@tailwindcss/forms': 0.5.3
   '@types/node': 18.11.18
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
@@ -30,7 +33,9 @@ specifiers:
   typescript: 4.9.4
 
 dependencies:
+  '@heroicons/react': 2.0.14_react@18.2.0
   '@next/font': 13.1.6
+  '@next/swc-darwin-arm64': 13.1.6
   next: 13.1.6_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -43,6 +48,7 @@ devDependencies:
   '@storybook/nextjs': 7.0.0-beta.36_q2zzmld5jqez2mjobedztlgawa
   '@storybook/react': 7.0.0-beta.36_o4scbtliisanygemawej7x2d6i
   '@storybook/testing-library': 0.0.13_biqbaboplfbrettd7655fr4n2y
+  '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.4
   '@types/node': 18.11.18
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
@@ -1665,6 +1671,14 @@ packages:
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
     dev: true
 
+  /@heroicons/react/2.0.14_react@18.2.0:
+    resolution: {integrity: sha512-eFL4if6L7woL1fUvk/jjXx4z9NxVESHHrQnEd2qKVelTFTIr/3VLGWdPb0biia9ZVe26P0JSs/xmOlRNur3SrQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
     engines: {node: '>=10.10.0'}
@@ -1843,7 +1857,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    optional: true
 
   /@next/swc-darwin-x64/13.1.6:
     resolution: {integrity: sha512-/uOky5PaZDoaU99ohjtNcDTJ6ks/gZ5ykTQDvNZDjIoCxFe3+t06bxsTPY6tAO6uEAw5f6vVFX5H5KLwhrkZCA==}
@@ -3193,6 +3206,15 @@ packages:
     resolution: {integrity: sha512-4C7nX/dvpzB7za4Ql9K81xK3HPxCpHMgwTZVyf+9JQ6VUbn9jjZVN7/Nkdz/Ugzs2CSjqnL/UPXroiVBVHUWUw==}
     dependencies:
       tslib: 2.5.0
+
+  /@tailwindcss/forms/0.5.3_tailwindcss@3.2.4:
+    resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
+    dependencies:
+      mini-svg-data-uri: 1.4.4
+      tailwindcss: 3.2.4_postcss@8.4.21
+    dev: true
 
   /@testing-library/dom/8.20.0:
     resolution: {integrity: sha512-d9ULIT+a4EXLX3UU8FBjauG9NnsZHkHztXoIcTsOKoOw030fyjheN9svkTULjJxtYag9DZz5Jz5qkWZDPxTFwA==}
@@ -7296,6 +7318,11 @@ packages:
   /min-indent/1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
+    dev: true
+
+  /mini-svg-data-uri/1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: true
 
   /minimatch/3.1.2:
