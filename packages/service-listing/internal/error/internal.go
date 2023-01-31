@@ -2,14 +2,6 @@ package errors
 
 import "errors"
 
-func (e *Handler) InternalServerError() *CustomError {
-	msg := "something went wrong"
-	return &CustomError{
-		StatusCode: 500,
-		Err:        errors.New(msg),
-	}
-}
-
 func (e *Handler) GetParameterError() *CustomError {
 	msg := "unable to find a parameter"
 	return &CustomError{
