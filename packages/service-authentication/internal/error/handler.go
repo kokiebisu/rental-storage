@@ -1,6 +1,6 @@
 package errors
 
-import "errors"
+
 
 type Handler struct{}
 
@@ -10,95 +10,110 @@ func init() {
 	ErrorHandler = &Handler{}
 }
 
-func (e *Handler) CustomError(msg string) *CustomError {
-	return &CustomError{
-		StatusCode: 500,
-		Err:        errors.New(msg),
-	}
-}
-
-func (e *Handler) UnmarshalError(target string) *CustomError {
+func (e *Handler) UnmarshalError(target string, err error) *CustomError {
 	msg := "unable to unmarshal " + target
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New(msg),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) RequestFailError() *CustomError {
+func (e *Handler) RequestFailError(err error) *CustomError {
+	msg := "failed to send request to user service endpoint"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("failed to send request to user service endpoint"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) DecodeError(target string) *CustomError {
+func (e *Handler) DecodeError(target string, err error) *CustomError {
 	msg := "unable to decode " + target
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New(msg),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) PasswordHashError() *CustomError {
+func (e *Handler) PasswordHashError(err error) *CustomError {
+	msg := "cannot hash password"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("cannot hash password"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) UndefinedEndPointError() *CustomError {
+func (e *Handler) UndefinedEndPointError(err error) *CustomError {
+	msg := "user service api endpoint not defined"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("user service api endpoint not defined"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) ResponseInvalidError() *CustomError {
+func (e *Handler) ResponseInvalidError(err error) *CustomError {
+	msg := "response from user service was invalid"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("response from user service was invalid"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) SignTokenError() *CustomError {
+func (e *Handler) SignTokenError(err error) *CustomError {
+	msg := "unable to sign token"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("unable to sign token"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) ClaimParseError() *CustomError {
+func (e *Handler) ClaimParseError(err error) *CustomError {
+	msg := "unable to parse with claims"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("unable to parse with claims"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) ClaimCastError() *CustomError {
+func (e *Handler) ClaimCastError(err error) *CustomError {
+	msg := "unable to cast to domain claims"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("unable to cast to domain claims"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) ClaimUidEmptyError() *CustomError {
+func (e *Handler) ClaimUidEmptyError(err error) *CustomError {
+	msg := "uid property in claims is empty string"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("uid property in claims is empty string"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) ClaimExpiredError() *CustomError {
+func (e *Handler) ClaimExpiredError(err error) *CustomError {
+	msg := "claims should have been expired already"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("claims should have been expired already"),
+		Message:    msg,
+		Reason:		err,
 	}
 }
 
-func (e *Handler) CompareHashError() *CustomError {
+func (e *Handler) CompareHashError(err error) *CustomError {
+	msg := "failed when comparing hash and password"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("failed when comparing hash and password"),
+		Message:    msg,
+		Reason:		err,
 	}
 }

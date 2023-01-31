@@ -12,8 +12,8 @@ function install_dependencies_services() {
     
     for package in "${packages[@]}"
     do
-        echo "Installing ${service^} service dependencies...";
-        (cd "packages/service-${service}" && pnpm install);
+        echo "Installing ${package^} service dependencies...";
+        (cd "packages/service-${package}" && pnpm install);
     done
 }
 
