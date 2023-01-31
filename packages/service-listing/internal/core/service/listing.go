@@ -61,8 +61,5 @@ func (s *ListingService) CreateListing(lenderId string, streetAddress string, la
 
 func (s *ListingService) RemoveListingById(uid string) *errors.CustomError {
 	err := s.listingRepository.Delete(uid)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
