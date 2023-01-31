@@ -1,4 +1,9 @@
-export const Button = ({ onClick, label }) => (
+export interface ButtonProps {
+  onClick: () => void;
+  label: string;
+}
+
+export const Button = ({ onClick, label }: ButtonProps) => (
   <button
     onClick={onClick}
     type="button"
