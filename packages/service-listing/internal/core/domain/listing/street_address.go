@@ -19,7 +19,8 @@ func NewStreetAddress(value string) (StreetAddress, *errors.CustomError) {
 func isValidCity(value string) *errors.CustomError {
 	// validation here
 	if value == "" {
-		return errors.ErrorHandler.InternalServerError()
+		// city name
+		return errors.ErrorHandler.InvalidValueError("street address")
 	}
 
 	return nil

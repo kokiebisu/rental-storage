@@ -24,7 +24,7 @@ func NewApiGatewayHandler(service port.ListingService) *ApiGatewayHandler {
 func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (domain.ListingDTO, *errors.CustomError) {
 	uid := event.PathParameters["listingId"]
 	if uid == "" {
-		return domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
+		return domain.ListingDTO{}, errors.ErrorHandler.GetParameterError()
 	}
 	listing, err := h.service.FindListingById(uid)
 	return listing, err
@@ -33,15 +33,15 @@ func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest)
 func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) ([]domain.ListingDTO, *errors.CustomError) {
 	latitude, err := strconv.ParseFloat(event.QueryStringParameters["latitude"], 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
+		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("latitude")
 	}
 	longitude, err := strconv.ParseFloat(event.QueryStringParameters["longitude"], 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
+		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("longitude")
 	}
 	distance, err := strconv.ParseInt(event.QueryStringParameters["distance"], 10, 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.InternalServerError()
+		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("distance")
 	}
 	listings, err := h.service.FindListingsWithinLatLng(float32(latitude), float32(longitude), int32(distance))
 	return listings, err.(*errors.CustomError)
@@ -61,7 +61,7 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (str
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", errors.ErrorHandler.UnmarshalError("listing body")
 	}
 	listingId, err := h.service.CreateListing(body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.FeeAmount, domain.CurrencyType(body.FeeCurrency), domain.RentalFeeType(body.FeeType))
 	return listingId, err.(*errors.CustomError)

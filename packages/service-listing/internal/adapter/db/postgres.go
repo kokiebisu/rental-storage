@@ -24,8 +24,7 @@ func NewPostgres() (*sql.DB, *errors.CustomError) {
 	dbPassword := os.Getenv("DB_PASSWORD")
 
 	if err != nil {
-		// log.Fatal("configuration error : " + err.Error())
-		return nil, errors.ErrorHandler.InternalServerError()
+		return nil, errors.ErrorHandler.DbConfigurationError()
 	}
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",

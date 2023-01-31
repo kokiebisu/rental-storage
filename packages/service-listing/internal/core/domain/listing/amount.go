@@ -27,11 +27,11 @@ type CurrencyType string
 func NewAmount(value int64, currency string) (Amount, *errors.CustomError) {
 	err := isValidValue(value)
 	if err != nil {
-		return Amount{}, errors.ErrorHandler.InternalServerError()
+		return Amount{}, err
 	}
 	err = isValidCurrency(currency)
 	if err != nil {
-		return Amount{}, errors.ErrorHandler.InternalServerError()
+		return Amount{}, err
 	}
 	return Amount{
 		Value:    value,
@@ -41,14 +41,14 @@ func NewAmount(value int64, currency string) (Amount, *errors.CustomError) {
 
 func isValidValue(value int64) *errors.CustomError {
 	if value < 0 {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.InvalidValueError("amount")
 	}
 	return nil
 }
 
 func isValidCurrency(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.InvalidValueError("currency")
 	}
 	return nil
 }
