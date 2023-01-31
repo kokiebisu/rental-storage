@@ -9,7 +9,7 @@ import (
 func Stringify(data interface{}) (string, *errors.CustomError) {
 	result, err := json.Marshal(data)
 	if err != nil {
-		return "", errors.ErrorHandler.MarshalError()
+		return "", errors.ErrorHandler.MarshalError(err)
 	}
 	return string(result), nil
 }

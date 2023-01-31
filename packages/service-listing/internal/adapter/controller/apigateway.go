@@ -33,15 +33,15 @@ func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest)
 func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) ([]domain.ListingDTO, *errors.CustomError) {
 	latitude, err := strconv.ParseFloat(event.QueryStringParameters["latitude"], 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("latitude")
+		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("latitude", err)
 	}
 	longitude, err := strconv.ParseFloat(event.QueryStringParameters["longitude"], 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("longitude")
+		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("longitude", err)
 	}
 	distance, err := strconv.ParseInt(event.QueryStringParameters["distance"], 10, 32)
 	if err != nil {
-		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("distance")
+		return []domain.ListingDTO{}, errors.ErrorHandler.StringConvertError("distance", err)
 	}
 	listings, err := h.service.FindListingsWithinLatLng(float32(latitude), float32(longitude), int32(distance))
 	return listings, err.(*errors.CustomError)
@@ -61,7 +61,7 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (str
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return "", errors.ErrorHandler.UnmarshalError("listing body")
+		return "", errors.ErrorHandler.UnmarshalError("listing body", err)
 	}
 	listingId, err := h.service.CreateListing(body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.FeeAmount, domain.CurrencyType(body.FeeCurrency), domain.RentalFeeType(body.FeeType))
 	return listingId, err.(*errors.CustomError)

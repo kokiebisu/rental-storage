@@ -2,7 +2,8 @@ package errors
 
 type CustomError struct {
 	StatusCode uint16
-	Err        error
+	Message    string
+	Reason     error
 }
 
 type Handler struct{}
@@ -10,7 +11,7 @@ type Handler struct{}
 var ErrorHandler *Handler
 
 func (e *CustomError) Error() string {
-	return e.Err.Error()
+	return e.Reason.Error()
 }
 
 func init() {
