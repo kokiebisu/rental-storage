@@ -4,13 +4,15 @@ import (
 	"time"
 
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
+	emailaddress "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user/email_address"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user/name"
 )
 
 type Entity struct {
 	Uid          string
-	FirstName    Name
-	LastName     Name
-	EmailAddress EmailAddress
+	FirstName    name.ValueObject
+	LastName     name.ValueObject
+	EmailAddress emailaddress.ValueObject
 	Password     string
 	Items        []item.Entity
 	CreatedAt    time.Time
@@ -55,10 +57,16 @@ func (r *Raw) ToEntity() Entity {
 	createdAt, _ := time.Parse("YYYY-MM-DD", r.CreatedAt)
 	updatedAt, _ := time.Parse("YYYY-MM-DD", r.UpdatedAt)
 	return Entity{
-		Uid:          r.Uid,
-		FirstName:    CreateName(FirstName, r.FirstName),
-		LastName:     CreateName(LastName, r.LastName),
-		EmailAddress: CreateEmailAddress(r.EmailAddress),
+		Uid: r.Uid,
+		FirstName: name.ValueObject{
+			Value:    r.FirstName,
+			NameType: name.FirstName,
+		},
+		LastName: name.ValueObject{
+			Value:    r.LastName,
+			NameType: name.LastName,
+		},
+		EmailAddress: emailaddress.ValueObject{Value: r.EmailAddress},
 		Password:     r.Password,
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,

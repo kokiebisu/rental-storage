@@ -1,21 +1,23 @@
-package domain
+package user
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
-	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
-	domain "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
+	emailaddress "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user/email_address"
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user/name"
+)
+
+var (
+	nameFactory = &name.Factory{}
 )
 
 type Factory struct{}
 
 const TimeLayout = "2006-01-02 03:04:05"
 
-func (f *Factory) NewUser(uid string, firstName string, lastName string, emailAddress string, password string, items []item.Entity, createdAt string) user.Entity {
-	fmt.Println("INSIDE UID: ", uid)
+func (f *Factory) New(uid string, firstName string, lastName string, emailAddress string, password string, items []item.Entity, createdAt string) Entity {
 	var CreatedAt time.Time
 	if uid == "" {
 		uid = uuid.New().String()
@@ -26,11 +28,11 @@ func (f *Factory) NewUser(uid string, firstName string, lastName string, emailAd
 		c, _ := time.Parse(TimeLayout, createdAt)
 		CreatedAt = c
 	}
-	return user.Entity{
+	return Entity{
 		Uid:          uid,
-		FirstName:    domain.CreateName(domain.FirstName, firstName),
-		LastName:     domain.CreateName(domain.LastName, lastName),
-		EmailAddress: domain.CreateEmailAddress(emailAddress),
+		FirstName:    nameFactory.New(name.FirstName, firstName),
+		LastName:     nameFactory.New(name.LastName, lastName),
+		EmailAddress: emailaddress.New(emailAddress),
 		Password:     password,
 		Items:        items,
 		CreatedAt:    CreatedAt,
