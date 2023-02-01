@@ -1,17 +1,15 @@
-package domain
+package imageurl
 
 import errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 
-type ImageUrl struct {
-	Value string
-}
+type Factory struct{}
 
-func NewImageUrl(url string) (ImageUrl, *errors.CustomError) {
+func (f *Factory) New(url string) (ValueObject, *errors.CustomError) {
 	err := isValidImageUrl(url)
 	if err != nil {
-		return ImageUrl{}, err
+		return ValueObject{}, err
 	}
-	return ImageUrl{
+	return ValueObject{
 		Value: url,
 	}, nil
 }
