@@ -97,7 +97,7 @@ const months = [
   },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -160,7 +160,7 @@ export const Calendar = () => {
                       "mx-auto flex h-7 w-7 items-center justify-center rounded-full"
                     )}
                   >
-                    {day.date.split("-").pop().replace(/^0/, "")}
+                    {day.date.split("-").pop()?.replace(/^0/, "") || ""}
                   </time>
                 </button>
               ))}
