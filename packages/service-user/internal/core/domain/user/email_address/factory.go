@@ -1,20 +1,16 @@
-package user
+package emailaddress
 
 import (
 	"errors"
 	"net/mail"
 )
 
-type EmailAddress struct {
-	Value string
-}
-
-func CreateEmailAddress(value string) EmailAddress {
+func New(value string) ValueObject {
 	err := validateEmailAddress(value)
 	if err != nil {
 		panic(err)
 	}
-	return EmailAddress{
+	return ValueObject{
 		Value: value,
 	}
 }
