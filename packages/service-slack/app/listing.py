@@ -1,8 +1,8 @@
 from typing import Any
 
 from constants.events import ListingEvents
-from domain.listing import Listing
 from domain.error import EventNameNotFoundException
+from domain.listing import Listing
 from adapter.bot import SlackBotAdapter
 
 
