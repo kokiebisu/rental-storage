@@ -42,31 +42,21 @@ type Raw struct {
 }
 
 func (r Raw) ToEntity() (Entity, *errors.CustomError) {
-	validatedLatitude, err := coordinateFactory.New(r.Latitude)
-	if err != nil {
-		return Entity{}, err
-	}
-	validatedLongitude, err := coordinateFactory.New(r.Longitude)
-	if err != nil {
-		return Entity{}, err
-	}
-	validatedFee, err := feeFactory.New(r.Fee.Amount.Currency, r.Fee.Amount.Value, r.Fee.Type)
-	if err != nil {
-		return Entity{}, err
-	}
-	validatedStreetAddress, err := streetAddressFactory.New(r.StreetAddress)
-	if err != nil {
-		return Entity{}, err
-	}
 	return Entity{
 		Uid:           r.Uid,
 		Title:         r.Title,
 		LenderId:      r.LenderId,
-		StreetAddress: validatedStreetAddress,
-		Latitude:      validatedLatitude,
-		Longitude:     validatedLongitude,
+		StreetAddress: streetaddress.ValueObject{Value: r.StreetAddress},
+		Latitude:      coordinate.ValueObject{Value: r.Latitude},
+		Longitude:     coordinate.ValueObject{Value: r.Longitude},
 		ImageUrls:     r.ImageUrls,
-		Fee:           validatedFee,
+		Fee: fee.ValueObject{
+			Amount: amount.ValueObject{
+				Value:    r.Fee.Amount.Value,
+				Currency: amount.CurrencyType(r.Fee.Amount.Currency),
+			},
+			Type: fee.RentalFeeType(r.Fee.Type),
+		},
 	}, nil
 }
 
