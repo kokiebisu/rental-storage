@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"log"
 
-	domain "github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
+	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
+	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/amount"
+	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/fee"
 	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
@@ -76,7 +78,7 @@ func (r *ListingRepository) Setup() *errors.CustomError {
 	return nil
 }
 
-func (r *ListingRepository) Save(listing domain.Listing) (string, *errors.CustomError) {
+func (r *ListingRepository) Save(listing listing.Entity) (string, *errors.CustomError) {
 	var lastInsertedId int64
 	row := r.db.QueryRow(
 		`
@@ -142,7 +144,7 @@ func (r *ListingRepository) Delete(uid string) *errors.CustomError {
 	return nil
 }
 
-func (r *ListingRepository) FindOneById(uid string) (domain.Listing, *errors.CustomError) {
+func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *errors.CustomError) {
 	rows, err := r.db.Query(
 		`
           SELECT listing.*, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type FROM listing 
@@ -154,7 +156,7 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, *errors.Cus
 	)
 	if err != nil {
 		log.Fatal(err.Error())
-		return domain.Listing{}, errors.ErrorHandler.FindListingsRowError(err)
+		return listing.Entity{}, errors.ErrorHandler.FindListingsRowError(err)
 	}
 	var id string
 	var title string
@@ -174,9 +176,9 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, *errors.Cus
 		imageUrls = append(imageUrls, imageUrl)
 	}
 	if err != nil {
-		return domain.Listing{}, errors.ErrorHandler.ScanRowError(err)
+		return listing.Entity{}, errors.ErrorHandler.ScanRowError(err)
 	}
-	listing, err := domain.ListingRaw{
+	listing, err := listing.Raw{
 		Uid:           uid,
 		Title:         title,
 		LenderId:      lenderId,
@@ -184,8 +186,8 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, *errors.Cus
 		Latitude:      latitude,
 		Longitude:     longitude,
 		ImageUrls:     imageUrls,
-		Fee: domain.FeeRaw{
-			Amount: domain.AmountRaw{
+		Fee: fee.Raw{
+			Amount: amount.Raw{
 				Value:    feeAmount,
 				Currency: feeCurrency,
 			},
@@ -195,7 +197,7 @@ func (r *ListingRepository) FindOneById(uid string) (domain.Listing, *errors.Cus
 	return listing, err.(*errors.CustomError)
 }
 
-func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]domain.Listing, *errors.CustomError) {
+func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *errors.CustomError) {
 	rows, err := r.db.Query(
 		`
 			SELECT * FROM (
@@ -212,9 +214,9 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		latitude, longitude, distance,
 	)
 	if err != nil {
-		return []domain.Listing{}, errors.ErrorHandler.FindListingsRowError(err)
+		return []listing.Entity{}, errors.ErrorHandler.FindListingsRowError(err)
 	}
-	listingsMap := map[string]domain.Listing{}
+	listingsMap := map[string]listing.Entity{}
 	for rows.Next() {
 		var id string
 		var uid string
@@ -230,12 +232,12 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		var feeType string
 		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
 		if err != nil {
-			return []domain.Listing{}, errors.ErrorHandler.ScanRowError(err)
+			return []listing.Entity{}, errors.ErrorHandler.ScanRowError(err)
 		}
 		if entry, ok := listingsMap[uid]; ok {
 			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)
 		} else {
-			listing, err := domain.ListingRaw{
+			l, err := listing.Raw{
 				Uid:           uid,
 				Title:         title,
 				LenderId:      lenderId,
@@ -243,8 +245,8 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 				Latitude:      latitude,
 				Longitude:     longitude,
 				ImageUrls:     append([]string{}, imageUrl),
-				Fee: domain.FeeRaw{
-					Amount: domain.AmountRaw{
+				Fee: fee.Raw{
+					Amount: amount.Raw{
 						Value:    feeAmount,
 						Currency: feeCurrency,
 					},
@@ -253,12 +255,12 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 			}.ToEntity()
 			if err != nil {
 				log.Fatalf(err.Error())
-				return []domain.Listing{}, err
+				return []listing.Entity{}, err
 			}
-			listingsMap[uid] = listing
+			listingsMap[uid] = l
 		}
 	}
-	listings := []domain.Listing{}
+	listings := []listing.Entity{}
 	for _, value := range listingsMap {
 		listings = append(listings, value)
 	}

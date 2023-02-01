@@ -6,38 +6,43 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "storybook:start": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:start": "start-storybook -p 6006",
+    "storybook:build": "build-storybook"
   },
   "dependencies": {
+    "@headlessui/react": "1.7.8",
+    "@heroicons/react": "2.0.14",
     "@next/font": "13.1.6",
+    "@next/swc-darwin-arm64": "13.1.6",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.0.0-beta.36",
-    "@storybook/addon-interactions": "^7.0.0-beta.36",
-    "@storybook/addon-links": "^7.0.0-beta.36",
-    "@storybook/blocks": "^7.0.0-beta.36",
-    "@storybook/nextjs": "^7.0.0-beta.36",
-    "@storybook/react": "^7.0.0-beta.36",
-    "@storybook/testing-library": "^0.0.13",
+    "@babel/core": "7.20.12",
+    "@storybook/addon-actions": "6.5.16",
+    "@storybook/addon-essentials": "6.5.16",
+    "@storybook/addon-interactions": "6.5.16",
+    "@storybook/addon-links": "6.5.16",
+    "@storybook/builder-webpack5": "6.5.16",
+    "@storybook/manager-webpack5": "6.5.16",
+    "@storybook/react": "6.5.16",
+    "@storybook/testing-library": "0.0.13",
+    "@tailwindcss/forms": "0.5.3",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "autoprefixer": "10.4.13",
+    "babel-loader": "8.3.0",
     "css-loader": "6.7.3",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "eslint-plugin-storybook": "0.6.10",
     "postcss": "8.4.21",
     "postcss-loader": "7.0.2",
-    "storybook": "^7.0.0-beta.36",
     "style-loader": "3.3.1",
     "tailwindcss": "3.2.4",
-    "typescript": "4.9.4"
-  },
-  "resolutions": {
-    "@storybook/react-docgen-typescript-plugin": "npm:react-docgen-typescript-plugin@1.0.2"
+    "typescript": "4.9.4",
+    "webpack": "5"
   }
 }
