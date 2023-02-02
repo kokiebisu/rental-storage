@@ -1,6 +1,8 @@
 package streetaddress
 
 import (
+	err "errors"
+
 	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
@@ -19,7 +21,7 @@ func (f *Factory) New(value string) (ValueObject, *errors.CustomError) {
 func isValidCity(value string) *errors.CustomError {
 	// validation here
 	if value == "" {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.InternalServerError(err.New("city cannot be empty value"))
 	}
 
 	return nil

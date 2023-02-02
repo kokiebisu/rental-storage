@@ -1,6 +1,8 @@
 package fee
 
 import (
+	err "errors"
+
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/amount"
 	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
@@ -28,7 +30,7 @@ func (f *Factory) New(feeCurrency string, feeAmount int64, feeType string) (Valu
 
 func isValidFeeType(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.InternalServerError(err.New("fee type cannot be empty string"))
 	}
 	return nil
 }

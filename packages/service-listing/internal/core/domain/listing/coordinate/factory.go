@@ -1,6 +1,8 @@
 package coordinate
 
 import (
+	err "errors"
+
 	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
@@ -18,7 +20,7 @@ func (f *Factory) New(coordinate float32) (ValueObject, *errors.CustomError) {
 
 func isValidCoordinate(value float32) *errors.CustomError {
 	if value < -180 {
-		return errors.ErrorHandler.InternalServerError()
+		return errors.ErrorHandler.InternalServerError(err.New("coordinate cannot be smaller than 180"))
 	}
 	return nil
 }
