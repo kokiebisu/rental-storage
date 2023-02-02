@@ -1,10 +1,10 @@
 package errors
 
-import "errors"
-
-func (e *Handler) InternalServerError() *CustomError {
+func (e *Handler) InternalServerError(err error) *CustomError {
+	msg := "something went wrong"
 	return &CustomError{
 		StatusCode: 500,
-		Err:        errors.New("something went wrong"),
+		Message:    msg,
+		Reason:     err,
 	}
 }

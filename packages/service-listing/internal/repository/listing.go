@@ -2,12 +2,13 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 	"log"
 
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/amount"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/fee"
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type ListingRepository struct {
@@ -20,7 +21,7 @@ func NewListingRepository(db *sql.DB) *ListingRepository {
 	}
 }
 
-func (r *ListingRepository) Setup() *errors.CustomError {
+func (r *ListingRepository) Setup() *customerror.CustomError {
 	_, err := r.db.Exec(`
 		CREATE TABLE IF NOT EXISTS listing (
 			id SERIAL NOT NULL PRIMARY KEY, 
@@ -34,7 +35,7 @@ func (r *ListingRepository) Setup() *errors.CustomError {
 	`)
 	if err != nil {
 		log.Fatalf(err.Error())
-		return errors.ErrorHandler.InternalServerError()
+		return customerror.ErrorHandler.InternalServerError(errors.New("cannot create table"))
 		// ROLLBACK
 	}
 	_, err = r.db.Exec(
@@ -53,7 +54,7 @@ func (r *ListingRepository) Setup() *errors.CustomError {
 	if err != nil {
 		log.Fatalf(err.Error())
 		// ROLLBACK
-		return errors.ErrorHandler.InternalServerError()
+		return customerror.ErrorHandler.InternalServerError(errors.New("unable to create images_listing table"))
 	}
 	_, err = r.db.Exec(
 		`
@@ -73,12 +74,12 @@ func (r *ListingRepository) Setup() *errors.CustomError {
 	if err != nil {
 		log.Fatalf(err.Error())
 		// ROLLBACK
-		return errors.ErrorHandler.InternalServerError()
+		return customerror.ErrorHandler.InternalServerError(errors.New("unable to create fees_listing table"))
 	}
 	return nil
 }
 
-func (r *ListingRepository) Save(listing listing.Entity) (string, *errors.CustomError) {
+func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.CustomError) {
 	var lastInsertedId int64
 	row := r.db.QueryRow(
 		`
@@ -126,25 +127,25 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *errors.Custom
 	return listing.Uid, nil
 }
 
-func (r *ListingRepository) Delete(uid string) *errors.CustomError {
+func (r *ListingRepository) Delete(uid string) *customerror.CustomError {
 	var removedListingId int32
 	result := r.db.QueryRow(`DELETE FROM listing WHERE uid = $1 RETURNING id`, uid)
 	err := result.Scan(&removedListingId)
 	if err != nil {
-		return errors.ErrorHandler.InternalServerError()
+		return customerror.ErrorHandler.InternalServerError(errors.New("unable to delete row from listing table"))
 	}
 	_, err = r.db.Exec(`DELETE FROM images_listing WHERE listing_id = $1`, removedListingId)
 	if err != nil {
-		return errors.ErrorHandler.InternalServerError()
+		return customerror.ErrorHandler.InternalServerError(errors.New("unable to delete row from images_listing table"))
 	}
 	_, err = r.db.Exec(`DELETE FROM fees_listing WHERE listing_id = $1 RETURNING *`, removedListingId)
 	if err != nil {
-		return errors.ErrorHandler.InternalServerError()
+		return customerror.ErrorHandler.InternalServerError(errors.New("unable to delete row from fees_listing table"))
 	}
 	return nil
 }
 
-func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *errors.CustomError) {
+func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
           SELECT listing.*, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type FROM listing 
@@ -156,7 +157,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *errors.Cus
 	)
 	if err != nil {
 		log.Fatal(err.Error())
-		return listing.Entity{}, errors.ErrorHandler.InternalServerError()
+		return listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to select rows from listing table"))
 	}
 	var id string
 	var title string
@@ -176,7 +177,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *errors.Cus
 		imageUrls = append(imageUrls, imageUrl)
 	}
 	if err != nil {
-		return listing.Entity{}, errors.ErrorHandler.InternalServerError()
+		return listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to scan"))
 	}
 	listing, err := listing.Raw{
 		Uid:           uid,
@@ -194,10 +195,10 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *errors.Cus
 			Type: feeType,
 		},
 	}.ToEntity()
-	return listing, err.(*errors.CustomError)
+	return listing, err.(*customerror.CustomError)
 }
 
-func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *errors.CustomError) {
+func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
 			SELECT * FROM (
@@ -214,7 +215,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		latitude, longitude, distance,
 	)
 	if err != nil {
-		return []listing.Entity{}, errors.ErrorHandler.InternalServerError()
+		return []listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to select rows"))
 	}
 	listingsMap := map[string]listing.Entity{}
 	for rows.Next() {
@@ -232,7 +233,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		var feeType string
 		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
 		if err != nil {
-			return []listing.Entity{}, errors.ErrorHandler.InternalServerError()
+			return []listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to scan"))
 		}
 		if entry, ok := listingsMap[uid]; ok {
 			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)
