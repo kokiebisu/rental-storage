@@ -22,4 +22,4 @@ lint:
 
 .PHONY: generate-mock
 generate-mock:
-	mockery --all
+	mockery --all --case snake
