@@ -9,8 +9,6 @@ import (
 	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
 )
 
-var ()
-
 func New() (*ApiGatewayHandler, *errors.CustomError) {
 	db, err := db.New()
 	if err != nil {
@@ -21,5 +19,7 @@ func New() (*ApiGatewayHandler, *errors.CustomError) {
 	err = repo.Setup()
 	factory := &user.Factory{}
 	service := service.NewUserService(repo, eventSender, factory)
-	return NewApiGatewayHandler(service), err
+	return &ApiGatewayHandler{
+		service: service,
+	}, err
 }

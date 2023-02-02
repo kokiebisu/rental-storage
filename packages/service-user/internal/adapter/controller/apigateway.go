@@ -31,12 +31,6 @@ type RemoveUserByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-func NewApiGatewayHandler(service port.UserService) *ApiGatewayHandler {
-	return &ApiGatewayHandler{
-		service: service,
-	}
-}
-
 func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (CreateUserResponsePayload, *errors.CustomError) {
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
