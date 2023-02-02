@@ -49,7 +49,7 @@ func (e *Handler) DbConfigurationError(err error) *CustomError {
 }
 
 func (e *Handler) InvalidValueError(target string, reason string) *CustomError {
-	msg := "value of " + target + " is invalid. " + reason
+	msg := "value of " + target + " is invalid. " + target + " " + reason
 	err := errors.New(msg)
 	return &CustomError{
 		StatusCode: 500,

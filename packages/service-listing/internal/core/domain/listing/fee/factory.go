@@ -28,7 +28,7 @@ func (f *Factory) New(feeCurrency string, feeAmount int64, feeType string) (Valu
 
 func isValidFeeType(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("fee type", "fee type cannot be empty")
+		return errors.ErrorHandler.InvalidValueError("fee type", "cannot be empty")
 	}
 	return nil
 }

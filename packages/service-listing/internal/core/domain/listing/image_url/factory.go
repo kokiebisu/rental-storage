@@ -16,7 +16,7 @@ func (f *Factory) New(url string) (ValueObject, *errors.CustomError) {
 
 func isValidImageUrl(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("image url", "image url cannot be empty")
+		return errors.ErrorHandler.InvalidValueError("image url", "cannot be empty")
 	}
 	return nil
 }

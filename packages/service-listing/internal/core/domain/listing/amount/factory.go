@@ -8,14 +8,14 @@ type Factory struct{}
 
 func isValidAmountValue(value int64) *errors.CustomError {
 	if value < 0 {
-		return errors.ErrorHandler.InvalidValueError("amount", "the value should be positive")
+		return errors.ErrorHandler.InvalidValueError("amount", "should be positive")
 	}
 	return nil
 }
 
 func isValidAmountCurrency(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("currency", "the currency cannot be empty")
+		return errors.ErrorHandler.InvalidValueError("currency", "cannot be empty")
 	}
 	return nil
 }

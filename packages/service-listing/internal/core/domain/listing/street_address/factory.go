@@ -19,7 +19,7 @@ func (f *Factory) New(value string) (ValueObject, *errors.CustomError) {
 func isValidCity(value string) *errors.CustomError {
 	// validation here
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("street address", "street address cannot be empty")
+		return errors.ErrorHandler.InvalidValueError("street address", "cannot be empty")
 	}
 
 	return nil
