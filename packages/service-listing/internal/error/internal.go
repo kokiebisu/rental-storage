@@ -40,7 +40,7 @@ func (e *Handler) MarshalError(err error) *CustomError {
 }
 
 func (e *Handler) DbConfigurationError(err error) *CustomError {
-	msg := "configuration error"
+	msg := "unable to configure database"
 	return &CustomError{
 		StatusCode: 500,
 		Message:	msg,
@@ -59,7 +59,7 @@ func (e *Handler) InvalidValueError(target string, reason string) *CustomError {
 }
 
 func (e *Handler) CreateTableError(target string, err error) *CustomError {
-	msg := "creating table " + target + " failed"
+	msg := "unable to create table " + target
 	return &CustomError{
 		StatusCode: 500,
 		Message:	msg,
@@ -68,7 +68,7 @@ func (e *Handler) CreateTableError(target string, err error) *CustomError {
 }
 
 func (e *Handler) DeleteListingRowError(target string, err error) *CustomError {
-	msg := "deleting listing from table " + target + " failed"
+	msg := "unable to delete table " + target
 	return &CustomError{
 		StatusCode: 500,
 		Message:	msg,
@@ -77,7 +77,7 @@ func (e *Handler) DeleteListingRowError(target string, err error) *CustomError {
 }
 
 func (e *Handler) FindListingsRowError(err error) *CustomError {
-	msg := "unable to find a listing"
+	msg := "unable to find the listing"
 	return &CustomError{
 		StatusCode: 500,
 		Message:	msg,
@@ -86,7 +86,7 @@ func (e *Handler) FindListingsRowError(err error) *CustomError {
 }
 
 func (e *Handler) ScanRowError(err error) *CustomError {
-	msg := "unable to scan a row"
+	msg := "unable to scan the row"
 	return &CustomError{
 		StatusCode: 500,
 		Message:	msg,
