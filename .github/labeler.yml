@@ -24,5 +24,7 @@ terraform:
   - terraform/**
 mobile:
   - mobile/**
+web:
+  - web/**
 github-workflows:
   - .github/**
