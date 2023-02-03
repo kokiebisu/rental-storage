@@ -43,8 +43,8 @@ func setupTest(t *testing.T) (string, *errors.CustomError) {
 
 // CreateUser
 func TestCreateUserSuccess(t *testing.T) {
-	token, err := setupTest(t)
-	assert.Greater(t, len(token), 0, "should return valid token where the length of the string is greater than 0")
+	uid, err := setupTest(t)
+	assert.Greater(t, len(uid), 0, "should return valid uid where the length is greater than 0")
 	assert.Nil(t, err, "should not throw error")
 }
 
