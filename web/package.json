@@ -10,10 +10,18 @@
     "storybook:build": "build-storybook"
   },
   "dependencies": {
+    "@apollo/client": "3.6.9",
     "@headlessui/react": "1.7.8",
     "@heroicons/react": "2.0.14",
     "@next/font": "13.1.6",
     "@next/swc-darwin-arm64": "13.1.6",
+    "aws-appsync-auth-link": "3.0.7",
+    "aws-appsync-react": "4.0.13",
+    "aws-appsync-subscription-link": "3.1.0",
+    "aws-appsync": "^4.1.4",
+    "cross-fetch": "^3.1.4",
+    "graphql": "^15.7.0",
+    "graphql-tag": "^2.12.5",
     "next": "13.1.6",
     "react": "18.2.0",
     "react-dom": "18.2.0"
