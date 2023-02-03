@@ -4,7 +4,6 @@ from enum import Enum
 class UserEvents(Enum):
     USER_CREATED = 'user_created'
     USER_DELETED = 'user_deleted'
-    USER_BOOKED = 'user_booked'
 
 
 class ListingEvents(Enum):

@@ -6,8 +6,8 @@ def test_success__listing_created():
         'lender_id': '123',
         'street_address': 'Random Street'
     }
-    message = SlackListingMessageSenderService\
-        .generate_listing_created_message(
+    message = SlackListingMessageSenderService.\
+        generate_listing_created_message(
             lender_id=mock_data['lender_id'],
             street_address=mock_data['street_address'])
     expected_message = (
