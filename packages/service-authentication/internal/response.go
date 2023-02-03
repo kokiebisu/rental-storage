@@ -18,6 +18,10 @@ func SendFailureResponse(err *errors.CustomError) (events.APIGatewayProxyRespons
 func SendSuccessResponse(data string) (events.APIGatewayProxyResponse, error) {
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       string(data),
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":      "*",
+			"Access-Control-Allow-Credentials": "true",
+		},
+		Body: string(data),
 	}, nil
 }

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"errors"
 	"log"
 
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
@@ -35,7 +34,7 @@ func (r *ListingRepository) Setup() *customerror.CustomError {
 	`)
 	if err != nil {
 		log.Fatalf(err.Error())
-		return customerror.ErrorHandler.InternalServerError(errors.New("cannot create table"))
+		return customerror.ErrorHandler.CreateTableError("listing", err)
 		// ROLLBACK
 	}
 	_, err = r.db.Exec(
@@ -54,7 +53,7 @@ func (r *ListingRepository) Setup() *customerror.CustomError {
 	if err != nil {
 		log.Fatalf(err.Error())
 		// ROLLBACK
-		return customerror.ErrorHandler.InternalServerError(errors.New("unable to create images_listing table"))
+		return customerror.ErrorHandler.CreateTableError("images_listing", err)
 	}
 	_, err = r.db.Exec(
 		`
@@ -74,7 +73,7 @@ func (r *ListingRepository) Setup() *customerror.CustomError {
 	if err != nil {
 		log.Fatalf(err.Error())
 		// ROLLBACK
-		return customerror.ErrorHandler.InternalServerError(errors.New("unable to create fees_listing table"))
+		return customerror.ErrorHandler.CreateTableError("fees_listing", err)
 	}
 	return nil
 }
@@ -132,15 +131,15 @@ func (r *ListingRepository) Delete(uid string) *customerror.CustomError {
 	result := r.db.QueryRow(`DELETE FROM listing WHERE uid = $1 RETURNING id`, uid)
 	err := result.Scan(&removedListingId)
 	if err != nil {
-		return customerror.ErrorHandler.InternalServerError(errors.New("unable to delete row from listing table"))
+		return customerror.ErrorHandler.DeleteListingRowError("listing", err)
 	}
 	_, err = r.db.Exec(`DELETE FROM images_listing WHERE listing_id = $1`, removedListingId)
 	if err != nil {
-		return customerror.ErrorHandler.InternalServerError(errors.New("unable to delete row from images_listing table"))
+		return customerror.ErrorHandler.DeleteListingRowError("images_listing", err)
 	}
 	_, err = r.db.Exec(`DELETE FROM fees_listing WHERE listing_id = $1 RETURNING *`, removedListingId)
 	if err != nil {
-		return customerror.ErrorHandler.InternalServerError(errors.New("unable to delete row from fees_listing table"))
+		return customerror.ErrorHandler.DeleteListingRowError("fees_listing", err)
 	}
 	return nil
 }
@@ -157,7 +156,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 	)
 	if err != nil {
 		log.Fatal(err.Error())
-		return listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to select rows from listing table"))
+		return listing.Entity{}, customerror.ErrorHandler.FindListingsRowError(err)
 	}
 	var id string
 	var title string
@@ -177,7 +176,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 		imageUrls = append(imageUrls, imageUrl)
 	}
 	if err != nil {
-		return listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to scan"))
+		return listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 	}
 	listing, err := listing.Raw{
 		Uid:           uid,
@@ -215,7 +214,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		latitude, longitude, distance,
 	)
 	if err != nil {
-		return []listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to select rows"))
+		return []listing.Entity{}, customerror.ErrorHandler.FindListingsRowError(err)
 	}
 	listingsMap := map[string]listing.Entity{}
 	for rows.Next() {
@@ -233,7 +232,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		var feeType string
 		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
 		if err != nil {
-			return []listing.Entity{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to scan"))
+			return []listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
 		if entry, ok := listingsMap[uid]; ok {
 			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)

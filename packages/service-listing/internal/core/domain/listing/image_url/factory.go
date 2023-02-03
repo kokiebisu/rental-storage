@@ -1,8 +1,6 @@
 package imageurl
 
 import (
-	"errors"
-
 	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
@@ -20,7 +18,7 @@ func (f *Factory) New(url string) (ValueObject, *customerror.CustomError) {
 
 func isValidImageUrl(value string) *customerror.CustomError {
 	if value == "" {
-		return customerror.ErrorHandler.InternalServerError(errors.New("image url cannot be empty"))
+		return customerror.ErrorHandler.InvalidValueError("image url", "cannot be empty")
 	}
 	return nil
 }

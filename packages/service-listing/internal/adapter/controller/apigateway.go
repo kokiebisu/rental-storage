@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"errors"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -33,7 +32,7 @@ type AddListingResponsePayload struct {
 func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (listing.DTO, *customerror.CustomError) {
 	uid := event.PathParameters["listingId"]
 	if uid == "" {
-		return listing.DTO{}, customerror.ErrorHandler.InternalServerError(errors.New("listingId not available"))
+		return listing.DTO{}, customerror.ErrorHandler.GetParameterError()
 	}
 	listing, err := h.service.FindListingById(uid)
 	return listing, err
@@ -42,15 +41,15 @@ func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest)
 func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) (FindListingsWithinLatLngResponsePayload, *customerror.CustomError) {
 	latitude, err := strconv.ParseFloat(event.QueryStringParameters["latitude"], 32)
 	if err != nil {
-		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to parse latitude"))
+		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("latitude", "String", err)
 	}
 	longitude, err := strconv.ParseFloat(event.QueryStringParameters["longitude"], 32)
 	if err != nil {
-		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to parse longitude"))
+		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("longitude", "String", err)
 	}
 	distance, err := strconv.ParseInt(event.QueryStringParameters["distance"], 10, 32)
 	if err != nil {
-		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to parse distance"))
+		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
 	}
 	listings, err := h.service.FindListingsWithinLatLng(float32(latitude), float32(longitude), int32(distance))
 	return FindListingsWithinLatLngResponsePayload{
@@ -72,7 +71,7 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (Add
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return AddListingResponsePayload{}, customerror.ErrorHandler.InternalServerError(errors.New("unable to unmarshal"))
+		return AddListingResponsePayload{}, customerror.ErrorHandler.UnmarshalError("listing body", err)
 	}
 	listingId, err := h.service.CreateListing(body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.FeeAmount, amount.CurrencyType(body.FeeCurrency), fee.RentalFeeType(body.FeeType))
 	return AddListingResponsePayload{
