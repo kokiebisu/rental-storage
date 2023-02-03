@@ -57,7 +57,7 @@ export default function Map() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100%" }} className="">
+    <div className="h-screen w-full">
       <GoogleMapReact
         bootstrapURLKeys={{ key: googleMapAPIKey }}
         defaultCenter={defaultProps.center}
@@ -68,7 +68,7 @@ export default function Map() {
             renderMarkers(map, maps, marker);
           });
         }}
-      ></GoogleMapReact>
+      />
     </div>
   );
 }
