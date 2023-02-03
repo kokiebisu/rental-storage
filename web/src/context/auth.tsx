@@ -110,7 +110,7 @@ export const AuthContextProvider = ({ children }: any) => {
   );
 
   return (
-    <AuthContext.Provider value={{ ...authContext, authState: state } as any}>
+    <AuthContext.Provider value={{ ...authContext } as any}>
       {children}
     </AuthContext.Provider>
   );
