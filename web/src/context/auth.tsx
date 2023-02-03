@@ -1,12 +1,13 @@
 import * as React from "react";
 import axios from "axios";
-import { createContext, useMemo, useReducer } from "react";
+import { createContext, useMemo } from "react";
 
 export const AuthContext = createContext({
   // authState: {
   //   isLoading: false,
   // },
   signUp: (_: any) => Promise<void>,
+  signOut: () => Promise<void>,
 });
 
 export const AuthContextProvider = ({ children }: any) => {
@@ -103,6 +104,15 @@ export const AuthContextProvider = ({ children }: any) => {
           return authorizationToken;
         } catch (err) {
           console.error(err);
+        }
+      },
+      signOut: async () => {
+        try {
+          await localStorage.removeItem("authorizationToken");
+          return true;
+        } catch (err) {
+          alert("Somethign went wrong");
+          return false;
         }
       },
     }),
