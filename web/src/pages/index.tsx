@@ -2,26 +2,27 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/auth";
 import { useRouter } from "next/router";
 import { Button } from "@/components/button";
+import { useQuery } from "@apollo/client";
+import { QUERY_FIND_ME } from "@/graphql";
 
 const HomePage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { signOut } = useContext(AuthContext);
+  const { logout, isAuthenticated } = useContext(AuthContext);
 
   const handleSignOut = async () => {
-    const isSuccess = await signOut();
-    if (isSuccess) {
+    try {
+      await logout();
       router.push("/login");
-    } else {
+    } catch (err) {
       alert("something failed");
     }
   };
 
   useEffect(() => {
     setIsLoading(true);
-    const isSignedIn = !!localStorage.getItem("authorizationToken");
     if (
-      !isSignedIn &&
+      !isAuthenticated &&
       router.pathname !== "/login" &&
       router.pathname !== "/signup"
     ) {
@@ -29,6 +30,16 @@ const HomePage = () => {
     }
     setIsLoading(false);
   }, []);
+
+  const { data, error, loading } = useQuery(QUERY_FIND_ME);
+
+  if (!loading) {
+    return <div>loading...</div>;
+  }
+
+  if (error) {
+    return <div>error</div>;
+  }
 
   if (isLoading) {
     return <div>is loading...</div>;

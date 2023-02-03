@@ -1,7 +1,8 @@
 import { CustomApolloProvider } from "./apollo";
+import { AuthContextProvider } from "./auth";
 
 export const ContextProvider = ({ children }: any) => (
-    <CustomApolloProvider>
-        {children}
-    </CustomApolloProvider>
+  <CustomApolloProvider>
+    <AuthContextProvider>{children}</AuthContextProvider>
+  </CustomApolloProvider>
 );

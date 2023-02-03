@@ -1,17 +1,25 @@
 import { AuthContext } from "@/context/auth";
+import { SignUpParams } from "@/hooks/useAuth";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 
-export default function SignUpPage() {
+const SignupPage = () => {
   const router = useRouter();
-  const { signUp } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState({});
+  const { signup } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState<SignUpParams>({
+    firstName: "",
+    lastName: "",
+    password: "",
+    emailAddress: "",
+  });
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const token = await signUp(userInfo);
-    if (token) {
-      router.push("/");
+    try {
+      await signup(userInfo);
+      router.replace("/");
+    } catch (err) {
+      alert("do something");
     }
   };
 
@@ -209,4 +217,6 @@ export default function SignUpPage() {
       </div>
     </div>
   );
-}
+};
+
+export default SignupPage;
