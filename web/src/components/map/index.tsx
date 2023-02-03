@@ -31,6 +31,11 @@ const markers = [
     name: "New York, New York",
     position: { lat: 40.712776, lng: -74.005974 },
   },
+  {
+    id: 5,
+    name: "Hometown",
+    position: { lat: 35.52389, lng: 139.69294 },
+  },
 ];
 
 export default function SimpleMap() {
