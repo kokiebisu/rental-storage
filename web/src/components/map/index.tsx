@@ -38,7 +38,7 @@ const markers = [
   },
 ];
 
-export default function SimpleMap() {
+export default function Map() {
   // first focus (user's location)
   const defaultProps = {
     center: {
