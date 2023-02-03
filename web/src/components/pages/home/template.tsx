@@ -1,21 +1,16 @@
-import { SpaceCard } from "@/components/card";
 import { Header } from "@/components/header";
 import SimpleMap from "@/components/map";
-import { Space } from "@/types/interface";
-import Link from "next/link";
+import { Sidebar } from "@/components/sidebar";
 
-export interface HomePageTemplateProps {
-  spaces: Space[];
-}
-
-const HomePageTemplate = ({ spaces }: HomePageTemplateProps) => (
+const HomePageTemplate = () => (
   <>
     <div className="min-h-full">
       <Header />
-      <main>
+      <main className="relative">
         <div className="">
           <SimpleMap />
         </div>
+        <Sidebar />
       </main>
     </div>
   </>

@@ -14,7 +14,7 @@ export default () => {
   };
   // temporary data
   const generateMockSpaces = () => {
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 3; i++) {
       spaces.push(space);
     }
   };
