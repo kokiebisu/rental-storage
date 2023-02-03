@@ -8,6 +8,7 @@ SignInRest:
     - http:
         path: /auth/signin
         method: post
+        cors: true
 
 SignUpRest:
   image:
@@ -19,6 +20,7 @@ SignUpRest:
     - http:
         path: /auth/signup
         method: post
+        cors: true
 
 VerifyRest:
   image:
@@ -30,3 +32,4 @@ VerifyRest:
     - http:
         path: /auth/verify
         method: post
+        cors: true
