@@ -9,7 +9,7 @@ import {
 import { AuthOptions, createAuthLink } from "aws-appsync-auth-link";
 import { createSubscriptionHandshakeLink } from "aws-appsync-subscription-link";
 
-import { appsyncConfig } from "../env";
+import { appsyncConfig } from "../config";
 
 export const CustomApolloProvider = ({ children }: any) => {
   const url = appsyncConfig.GRAPHQL_ENDPOINT;
