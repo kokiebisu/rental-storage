@@ -1,29 +1,19 @@
-package user
+package name
 
 import (
 	"errors"
 	"strings"
 )
 
-type NameType string
+type Factory struct{}
 
-const (
-	FirstName NameType = "firstName"
-	LastName  NameType = "lastName"
-)
-
-type Name struct {
-	Value    string
-	NameType NameType
-}
-
-func CreateName(nameType NameType, value string) Name {
+func (f *Factory) New(nameType NameType, value string) ValueObject {
 	err := validateName(value)
 	if err != nil {
 		panic(err)
 	}
 
-	return Name{
+	return ValueObject{
 		Value:    capitalize(value),
 		NameType: nameType,
 	}

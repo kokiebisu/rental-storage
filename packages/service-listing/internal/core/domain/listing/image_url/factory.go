@@ -1,10 +1,12 @@
 package imageurl
 
-import errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+import (
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+)
 
 type Factory struct{}
 
-func (f *Factory) New(url string) (ValueObject, *errors.CustomError) {
+func (f *Factory) New(url string) (ValueObject, *customerror.CustomError) {
 	err := isValidImageUrl(url)
 	if err != nil {
 		return ValueObject{}, err
@@ -14,9 +16,9 @@ func (f *Factory) New(url string) (ValueObject, *errors.CustomError) {
 	}, nil
 }
 
-func isValidImageUrl(value string) *errors.CustomError {
+func isValidImageUrl(value string) *customerror.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("image url", "cannot be empty")
+		return customerror.ErrorHandler.InvalidValueError("image url", "cannot be empty")
 	}
 	return nil
 }

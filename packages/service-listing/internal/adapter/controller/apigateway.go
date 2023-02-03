@@ -10,46 +10,54 @@ import (
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/amount"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/fee"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/port"
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type ApiGatewayHandler struct {
 	service port.ListingService
 }
 
-func NewApiGatewayHandler(service port.ListingService) *ApiGatewayHandler {
-	return &ApiGatewayHandler{
-		service: service,
-	}
+type FindListingByIdResponsePayload struct {
+	Listing listing.DTO `json:"listing"`
 }
 
-func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (listing.DTO, *errors.CustomError) {
+type FindListingsWithinLatLngResponsePayload struct {
+	Listings []listing.DTO `json:"listings"`
+}
+
+type AddListingResponsePayload struct {
+	UId string `json:"uid"`
+}
+
+func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (listing.DTO, *customerror.CustomError) {
 	uid := event.PathParameters["listingId"]
 	if uid == "" {
-		return listing.DTO{}, errors.ErrorHandler.GetParameterError()
+		return listing.DTO{}, customerror.ErrorHandler.GetParameterError()
 	}
 	listing, err := h.service.FindListingById(uid)
 	return listing, err
 }
 
-func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) ([]listing.DTO, *errors.CustomError) {
+func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) (FindListingsWithinLatLngResponsePayload, *customerror.CustomError) {
 	latitude, err := strconv.ParseFloat(event.QueryStringParameters["latitude"], 32)
 	if err != nil {
-		return []listing.DTO{}, errors.ErrorHandler.ConvertError("latitude", "String", err)
+		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("latitude", "String", err)
 	}
 	longitude, err := strconv.ParseFloat(event.QueryStringParameters["longitude"], 32)
 	if err != nil {
-		return []listing.DTO{}, errors.ErrorHandler.ConvertError("longitude", "String", err)
+		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("longitude", "String", err)
 	}
 	distance, err := strconv.ParseInt(event.QueryStringParameters["distance"], 10, 32)
 	if err != nil {
-		return []listing.DTO{}, errors.ErrorHandler.ConvertError("distance", "String", err)
+		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
 	}
 	listings, err := h.service.FindListingsWithinLatLng(float32(latitude), float32(longitude), int32(distance))
-	return listings, err.(*errors.CustomError)
+	return FindListingsWithinLatLngResponsePayload{
+		Listings: listings,
+	}, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (string, *errors.CustomError) {
+func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (AddListingResponsePayload, *customerror.CustomError) {
 	body := struct {
 		LenderId      string   `json:"lenderId"`
 		StreetAddress string   `json:"streetAddress"`
@@ -63,8 +71,10 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (str
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return "", errors.ErrorHandler.UnmarshalError("listing body", err)
+		return AddListingResponsePayload{}, customerror.ErrorHandler.UnmarshalError("listing body", err)
 	}
 	listingId, err := h.service.CreateListing(body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.FeeAmount, amount.CurrencyType(body.FeeCurrency), fee.RentalFeeType(body.FeeType))
-	return listingId, err.(*errors.CustomError)
+	return AddListingResponsePayload{
+		UId: listingId,
+	}, err.(*customerror.CustomError)
 }

@@ -6,29 +6,14 @@ import (
 
 	responses "github.com/kokiebisu/rental-storage/service-listing/internal"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/adapter/controller"
-	"github.com/kokiebisu/rental-storage/service-listing/internal/adapter/db"
-	"github.com/kokiebisu/rental-storage/service-listing/internal/core/service"
-	"github.com/kokiebisu/rental-storage/service-listing/internal/helper"
-	"github.com/kokiebisu/rental-storage/service-listing/internal/repository"
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	db, err := db.New()
+	c, err := controller.New()
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	repo := repository.NewListingRepository(db)
-	err = repo.Setup()
-	if err != nil {
-		return responses.SendFailureResponse(err)
-	}
-	service := service.NewListingService(repo)
-	apigateway := controller.NewApiGatewayHandler(service)
-	listing, err := apigateway.FindListingById(request)
-	if err != nil {
-		return responses.SendFailureResponse(err)
-	}
-	result, err := helper.Stringify(listing)
+	result, err := c.FindListingById(request)
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
