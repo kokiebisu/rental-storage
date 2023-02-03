@@ -1,8 +1,6 @@
 package amount
 
 import (
-	err "errors"
-
 	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
@@ -10,14 +8,14 @@ type Factory struct{}
 
 func isValidAmountValue(value int64) *errors.CustomError {
 	if value < 0 {
-		return errors.ErrorHandler.InternalServerError(err.New("amount must be greater than 0"))
+		return errors.ErrorHandler.InvalidValueError("amount", "should be positive")
 	}
 	return nil
 }
 
 func isValidAmountCurrency(value string) *errors.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InternalServerError(err.New("currency must not be empty string"))
+		return errors.ErrorHandler.InvalidValueError("currency", "cannot be empty")
 	}
 	return nil
 }

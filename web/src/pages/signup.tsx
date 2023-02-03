@@ -1,4 +1,20 @@
+import { AuthContext } from "@/context/auth";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+
 export default function SignUpPage() {
+  const router = useRouter();
+  const { signUp } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState({});
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const token = await signUp(userInfo);
+    if (token) {
+      router.push("/");
+    }
+  };
+
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-xl space-y-8">
@@ -13,7 +29,7 @@ export default function SignUpPage() {
           </h2>
         </div>
         <div className="mt-5 md:col-span-2 md:mt-0">
-          <form action="#" method="POST">
+          <div>
             <div className="overflow-hidden shadow sm:rounded-md">
               <div className="bg-white px-4 py-5 sm:p-6">
                 <div className="grid grid-cols-6 gap-6">
@@ -26,8 +42,12 @@ export default function SignUpPage() {
                     </label>
                     <input
                       type="text"
-                      name="first-name"
-                      id="first-name"
+                      onChange={(e) =>
+                        setUserInfo({
+                          ...userInfo,
+                          firstName: e.target.value,
+                        })
+                      }
                       autoComplete="given-name"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
@@ -42,8 +62,12 @@ export default function SignUpPage() {
                     </label>
                     <input
                       type="text"
-                      name="last-name"
-                      id="last-name"
+                      onChange={(e) =>
+                        setUserInfo({
+                          ...userInfo,
+                          lastName: e.target.value,
+                        })
+                      }
                       autoComplete="family-name"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
@@ -58,14 +82,38 @@ export default function SignUpPage() {
                     </label>
                     <input
                       type="text"
-                      name="email-address"
-                      id="email-address"
+                      onChange={(e) =>
+                        setUserInfo({
+                          ...userInfo,
+                          emailAddress: e.target.value,
+                        })
+                      }
                       autoComplete="email"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
                   </div>
 
-                  <div className="col-span-6 sm:col-span-3">
+                  <div className="col-span-6 sm:col-span-4">
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Password
+                    </label>
+                    <input
+                      type="text"
+                      onChange={(e) =>
+                        setUserInfo({
+                          ...userInfo,
+                          password: e.target.value,
+                        })
+                      }
+                      autoComplete="password"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+
+                  {/* <div className="col-span-6 sm:col-span-3">
                     <label
                       htmlFor="country"
                       className="block text-sm font-medium text-gray-700"
@@ -144,19 +192,19 @@ export default function SignUpPage() {
                       autoComplete="postal-code"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <button
-                  type="submit"
+                  onClick={handleSubmit}
                   className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   Save
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
