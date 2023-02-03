@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { User } from "../hooks/useUser";
 
 interface AuthContext {
-  user?: User;
+  user?: User | null;
   login: (user: any) => Promise<void>;
   logout: () => void;
   signup: (data: SignUpParams) => Promise<void>;
@@ -11,7 +11,7 @@ interface AuthContext {
 }
 
 export const AuthContext = createContext<AuthContext>({
-  user: undefined,
+  user: null,
   login: async () => {},
   logout: () => {},
   signup: async () => {},
