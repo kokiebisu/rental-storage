@@ -3,6 +3,8 @@ import GoogleMapReact from "google-map-react";
 
 const googleMapAPIKey = process.env.GOOGLE_MAP_API_KEY as string;
 
+// fetch listings latitude and longitude
+// should use interface later
 const markers = [
   {
     id: 0,
@@ -11,8 +13,8 @@ const markers = [
   },
   {
     id: 1,
-    name: "Chicago, Illinois",
-    position: { lat: 41.881832, lng: -87.623177 },
+    name: "Whatever",
+    position: { lat: 50.381832, lng: -120.623177 },
   },
   {
     id: 2,
@@ -32,7 +34,7 @@ const markers = [
 ];
 
 export default function SimpleMap() {
-  // user's lat and lng
+  // first focus (user's location)
   const defaultProps = {
     center: {
       lat: 49.2827,
@@ -43,7 +45,6 @@ export default function SimpleMap() {
 
   const renderMarkers = (map: any, maps: any, mark: any) => {
     let marker = new maps.Marker({
-      // Langara College lat: 49.2244, lng: -123.1089
       position: mark.position,
       map,
     });
@@ -56,6 +57,7 @@ export default function SimpleMap() {
         bootstrapURLKeys={{ key: googleMapAPIKey }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
+        // put markers on a map
         onGoogleApiLoaded={({ map, maps }) => {
           markers.map((marker) => {
             renderMarkers(map, maps, marker);
