@@ -46,9 +46,10 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Generate env files
+        # TODO: remove eventually... pnpm run generate:env:dev
         run: |
           cd packages/composition
-          pnpm run generate:env:dev
+          sls export-env --stage dev
         shell: bash
         if: steps.changes.outputs.package == 'true'
 

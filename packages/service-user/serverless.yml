@@ -3,7 +3,6 @@ variablesResolutionMode: 20210326
 
 plugins:
   - serverless-deployment-bucket
-  - serverless-export-env
 
 provider:
   name: aws
@@ -23,24 +22,23 @@ provider:
       app:
         path: ./
   environment:
-    NAMESPACE: ${self:custom.namespace}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     STAGE: ${self:provider.stage}
+    ACCOUNT_ID: ${aws:accountId}
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
 
 custom:
   namespace: app
   service: user
-  DB_NAME: ${ssm:/terraform/rds/user-db-name}
-  DB_USERNAME: ${ssm:/terraform/rds/user-db-username}
-  DB_PASSWORD: ${ssm:/terraform/rds/user-db-password}
-  DB_HOST: ${ssm:/terraform/rds/user-db-host}
-  DB_PORT: ${ssm:/terraform/rds/user-db-port}
+  # DB_NAME: ${ssm:/terraform/rds/user-db-name}
+  # DB_USERNAME: ${ssm:/terraform/rds/user-db-username}
+  # DB_PASSWORD: ${ssm:/terraform/rds/user-db-password}
+  # DB_HOST: ${ssm:/terraform/rds/user-db-host}
+  # DB_PORT: ${ssm:/terraform/rds/user-db-port}
   SERVICE_API_ENDPOINT:
     Fn::Join:
       - ""
