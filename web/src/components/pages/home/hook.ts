@@ -17,7 +17,7 @@ export default () => {
     },
     {
       id: 2,
-      name: "Whatever",
+      name: "Second",
       href: "#",
       imageSrc:
         "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
@@ -29,27 +29,27 @@ export default () => {
     },
     {
       id: 3,
-      name: "Los Angeles",
+      name: "Third Space",
       href: "#",
       imageSrc:
         "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
       imageAlt: "Front of men's Basic Tee in black.",
       price: "$35",
       color: "Black",
-      lat: 34.052235,
+      lat: 48.052235,
       lng: -118.243683,
     },
     {
       id: 4,
-      name: "Home",
+      name: "Biggest Space",
       href: "#",
       imageSrc:
         "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
       imageAlt: "Front of men's Basic Tee in black.",
       price: "$35",
       color: "Black",
-      lat: 35.52389,
-      lng: 139.69294,
+      lat: 52.52389,
+      lng: -119.69294,
     },
   ];
   return { spaces };

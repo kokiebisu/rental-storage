@@ -18,13 +18,13 @@ const markers = [
   },
   {
     id: 3,
-    name: "Los Angeles, California",
-    position: { lat: 34.052235, lng: -118.243683 },
+    name: "Third Space",
+    position: { lat: 48.052235, lng: -118.243683 },
   },
   {
     id: 4,
-    name: "Hometown",
-    position: { lat: 35.52389, lng: 139.69294 },
+    name: "Biggest Space",
+    position: { lat: 52.52389, lng: -119.69294 },
   },
 ];
 
@@ -49,7 +49,6 @@ export default function Map() {
   };
 
   const handleMove = (): void => {
-    console.log(center);
     const randomPos =
       markers[Math.floor(Math.random() * markers.length)].position;
     setCenter(randomPos);
