@@ -9,7 +9,7 @@ import (
 )
 
 type Entity struct {
-	Uid          string
+	UId          string
 	FirstName    name.ValueObject
 	LastName     name.ValueObject
 	EmailAddress emailaddress.ValueObject
@@ -20,7 +20,7 @@ type Entity struct {
 }
 
 type DTO struct {
-	Uid          string     `json:"uid"`
+	UId          string     `json:"uid"`
 	FirstName    string     `json:"firstName"`
 	LastName     string     `json:"lastName"`
 	EmailAddress string     `json:"emailAddress"`
@@ -31,7 +31,7 @@ type DTO struct {
 }
 
 type Raw struct {
-	Uid          string     `json:"uid"`
+	UId          string     `json:"uid"`
 	FirstName    string     `json:"first_name"`
 	LastName     string     `json:"last_name"`
 	EmailAddress string     `json:"email_address"`
@@ -43,7 +43,7 @@ type Raw struct {
 
 func (e *Entity) ToDTO() DTO {
 	return DTO{
-		Uid:          e.Uid,
+		UId:          e.UId,
 		FirstName:    e.FirstName.Value,
 		LastName:     e.LastName.Value,
 		EmailAddress: e.EmailAddress.Value,
@@ -57,7 +57,7 @@ func (r *Raw) ToEntity() Entity {
 	createdAt, _ := time.Parse("YYYY-MM-DD", r.CreatedAt)
 	updatedAt, _ := time.Parse("YYYY-MM-DD", r.UpdatedAt)
 	return Entity{
-		Uid: r.Uid,
+		UId: r.UId,
 		FirstName: name.ValueObject{
 			Value:    r.FirstName,
 			NameType: name.FirstName,

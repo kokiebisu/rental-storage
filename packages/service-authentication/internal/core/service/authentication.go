@@ -45,7 +45,7 @@ func (s *AuthenticationService) SignIn(emailAddress string, password string) (st
 	if !matched {
 		return "", err.(*customerror.CustomError)
 	}
-	token, err := s.tokenService.GenerateToken(payload.User.Uid)
+	token, err := s.tokenService.GenerateToken(payload.User.UId)
 	return token, err.(*customerror.CustomError)
 }
 

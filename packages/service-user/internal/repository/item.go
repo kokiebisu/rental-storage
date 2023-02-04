@@ -132,7 +132,7 @@ func (r *ItemRepository) FindOneById(id int64) (item.Entity, error) {
 	}
 
 	item := item.Raw{
-		Uid:       uid,
+		UId:       uid,
 		Name:      name,
 		ImageUrls: imageUrls,
 		CreatedAt: createdAt,

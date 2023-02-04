@@ -51,7 +51,7 @@ func (s *TokenService) VerifyToken(tokenString string) (*domain.Claims, *errors.
 		return nil, errors.ErrorHandler.ClaimCastError(err)
 	}
 	if claims.UId == "" {
-		return nil, errors.ErrorHandler.ClaimUidEmptyError(err)
+		return nil, errors.ErrorHandler.ClaimUIdEmptyError(err)
 	}
 	if claims.ExpiresAt < time.Now().UTC().Unix() {
 		return nil, errors.ErrorHandler.ClaimExpiredError(err)
