@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": "."
   },
+  "files": ["src/types/global.d.ts"],
   "include": ["**/*"],
   "exclude": ["node_modules/**"]
 }
