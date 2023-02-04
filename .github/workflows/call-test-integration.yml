@@ -53,13 +53,6 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      # TODO: to be removed eventually
-      - name: Check directories
-        run: |
-          cd packages/composition
-          ls -a
-        shell: bash
-
       - uses: actions/upload-artifact@v3
         with:
           name: env-composition-${{ github.sha }}
@@ -122,6 +115,12 @@ jobs:
         run: |
           cd packages/composition
           ls -a
+        shell: bash
+
+      - name: Check env file
+        run: |
+          cd packages/composition
+          cat .env
         shell: bash
 
       - name: Configure AWS credentials
