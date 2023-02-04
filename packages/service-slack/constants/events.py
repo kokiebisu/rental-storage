@@ -8,3 +8,7 @@ class UserEvents(Enum):
 
 class ListingEvents(Enum):
     LISTING_CREATED = 'listing_created'
+
+
+class BookingEvents(Enum):
+    BOOKING_CREATED = 'booking_created'
