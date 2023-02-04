@@ -31,6 +31,5 @@ const registerUser = async function () {
     mockLastName,
     mockPassword
   );
-  console.debug("RESPONSE: ", responseData);
   return responseData.uid;
 };

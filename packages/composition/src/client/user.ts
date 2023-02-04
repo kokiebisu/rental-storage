@@ -38,10 +38,8 @@ export default class UserRestClient extends BaseRestClient {
         lastName,
         password,
       });
-      console.debug("RESPONSE CREATE USER: ", response);
       return response.data;
     } catch (err) {
-      console.debug("ERROR: ", err);
       console.error(err);
     }
   }
