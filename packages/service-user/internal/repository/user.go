@@ -71,6 +71,9 @@ func (r *UserRepository) FindOneById(uid string) (user.Entity, *errors.CustomErr
     `, uid)
 
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
+	if err != nil {
+		return user.Entity{}, errors.ErrorHandler.CustomError("unable to scan", err)
+	}
 	u := &user.Raw{
 		UId:          uid,
 		FirstName:    firstName,
@@ -80,7 +83,7 @@ func (r *UserRepository) FindOneById(uid string) (user.Entity, *errors.CustomErr
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}
-	return u.ToEntity(), errors.ErrorHandler.CustomError("unable to scan", err)
+	return u.ToEntity(), nil
 }
 
 func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *errors.CustomError) {
