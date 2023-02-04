@@ -10,4 +10,5 @@ module.exports = {
   coverageDirectory: "coverage",
   setupFiles: ["dotenv/config"],
   testTimeout: 100000,
+  globalSetup: "./test/setup.ts",
 };
