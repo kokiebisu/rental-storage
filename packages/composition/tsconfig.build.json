@@ -4,5 +4,6 @@
     "rootDir": "./src",
     "outDir": "./dist"
   },
+  "files": ["src/types/global.d.ts"],
   "exclude": ["**/*.test.ts", "**/jest.config.ts"]
 }
