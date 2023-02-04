@@ -2,11 +2,12 @@
   "name": "@rental-storage-project/api-client",
   "scripts": {
     "build": "rimraf dist && tsc -b tsconfig.build.json",
+    "build:test": "tsc -b tsconfig.test.json",
     "build:docker": "tsc -b tsconfig.docker.json",
     "deploy": "sls deploy --config serverless.yml --stage local",
     "remove": "sls remove --config serverless.yml --stage local",
     "generate:env": "sls export-env --stage local",
-    "test:integration": "jest --coverage false"
+    "test:integration": "jest"
   },
   "dependencies": {
     "axios": "1.1.3",

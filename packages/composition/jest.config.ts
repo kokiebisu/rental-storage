@@ -8,7 +8,6 @@ module.exports = {
   collectCoverage: true,
   clearMocks: true,
   coverageDirectory: "coverage",
-  setupFiles: ["dotenv/config"],
+  setupFiles: ["dotenv/config", "./test/setup.ts"],
   testTimeout: 100000,
-  globalSetup: "./test/setup.ts",
 };

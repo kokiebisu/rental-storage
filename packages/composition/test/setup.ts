@@ -11,10 +11,10 @@ let mockFirstName = faker.name.firstName();
 let mockLastName = faker.name.lastName();
 let mockPassword = faker.internet.password();
 
-module.exports = async function (globalConfig: any) {
+module.exports = async function () {
   const uid = await registerUser();
 
-  (global as any).data = {
+  global.data = {
     uid,
     mockEmailAddress,
     mockFirstName,

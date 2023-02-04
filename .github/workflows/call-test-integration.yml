@@ -49,7 +49,7 @@ jobs:
         # TODO: remove eventually... pnpm run generate:env:dev
         run: |
           cd packages/composition
-          sls export-env --stage dev
+          sls export-env --config serverless.dev.yml --stage dev
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
@@ -110,6 +110,18 @@ jobs:
         with:
           name: env-composition-${{ github.sha }}
         if: steps.changes.outputs.package == 'true'
+
+      - name: Check directories
+        run: |
+          cd packages/composition
+          ls -a
+        shell: bash
+
+      - name: Check env file
+        run: |
+          cd packages/composition
+          cat .env
+        shell: bash
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
