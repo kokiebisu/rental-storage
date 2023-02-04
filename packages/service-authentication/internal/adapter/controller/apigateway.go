@@ -10,7 +10,7 @@ import (
 )
 
 type ApiGatewayHandler struct {
-	service port.EncryptionService
+	service port.AuthenticationService
 }
 
 type SignInResponsePayload struct {
@@ -25,7 +25,7 @@ type VerifyResponsePayload struct {
 	AuthorizationToken string `json:"authorizationToken"`
 }
 
-func NewApiGatewayHandler(service port.EncryptionService) *ApiGatewayHandler {
+func NewApiGatewayHandler(service port.AuthenticationService) *ApiGatewayHandler {
 	return &ApiGatewayHandler{
 		service: service,
 	}

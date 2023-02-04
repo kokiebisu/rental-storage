@@ -1,4 +1,4 @@
-package errors
+package customerror
 
 type CustomError struct {
 	StatusCode uint16
@@ -20,7 +20,7 @@ func (e *CustomError) Error() string {
 func (e *CustomError) GetPayload() ErrorResponsePayload {
 	return ErrorResponsePayload{
 		ErrorCode: e.ErrorCode,
-		Message: e.Message,
-		Reason: e.Reason,
+		Message:   e.Message,
+		Reason:    e.Reason,
 	}
 }
