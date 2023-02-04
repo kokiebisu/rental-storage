@@ -49,7 +49,7 @@ jobs:
         # TODO: remove eventually... pnpm run generate:env:dev
         run: |
           cd packages/composition
-          sls export-env --stage dev
+          sls export-env --config serverless.dev.yml --stage dev
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
