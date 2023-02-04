@@ -111,6 +111,10 @@ jobs:
           name: env-composition-${{ github.sha }}
         if: steps.changes.outputs.package == 'true'
 
+      - name: Check env
+        run: |
+          cat ./.env
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:

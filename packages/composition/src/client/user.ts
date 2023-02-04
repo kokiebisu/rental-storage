@@ -2,8 +2,13 @@ import { BaseRestClient } from "./base";
 
 export default class UserRestClient extends BaseRestClient {
   public async findUserById(userId: string) {
-    const response = await this.client.get(`/users/${userId}`);
-    return response.data;
+    const endpoint = `/users/${userId}`;
+    try {
+      const response = await this.client.get(endpoint);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async findByEmail(email: string) {
@@ -33,8 +38,10 @@ export default class UserRestClient extends BaseRestClient {
         lastName,
         password,
       });
+      console.debug("RESPONSE CREATE USER: ", response);
       return response.data;
     } catch (err) {
+      console.debug("ERROR: ", err);
       console.error(err);
     }
   }
