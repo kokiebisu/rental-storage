@@ -2,6 +2,7 @@
   "name": "@rental-storage-project/api-client",
   "scripts": {
     "build": "rimraf dist && tsc -b tsconfig.build.json",
+    "build:test": "tsc -b tsconfig.test.json",
     "build:docker": "tsc -b tsconfig.docker.json",
     "deploy": "sls deploy --config serverless.yml --stage local",
     "remove": "sls remove --config serverless.yml --stage local",

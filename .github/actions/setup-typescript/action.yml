@@ -30,7 +30,7 @@ runs:
     - name: Build
       run: |
         cd packages/${{ inputs.package }}
-        pnpm run build
+        pnpm run build:test
       shell: bash
       if: steps.changes.outputs.package == 'true'
 
