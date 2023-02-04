@@ -1,5 +1,5 @@
 declare global {
-  const data: JestMockData;
+  var data: JestMockData;
 }
 
 interface JestMockData {
