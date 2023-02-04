@@ -56,7 +56,9 @@ jobs:
       # TODO: to be removed eventually
       - name: Check directories
         run: |
+          cd packages/composition
           ls -a
+        shell: bash
 
       - uses: actions/upload-artifact@v3
         with:
@@ -116,9 +118,11 @@ jobs:
           name: env-composition-${{ github.sha }}
         if: steps.changes.outputs.package == 'true'
 
-      - name: Check env
+      - name: Check directories
         run: |
-          cat ./.env
+          cd packages/composition
+          ls -a
+        shell: bash
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
