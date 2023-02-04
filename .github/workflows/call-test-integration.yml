@@ -110,12 +110,6 @@ jobs:
           name: env-composition-${{ github.sha }}
         if: steps.changes.outputs.package == 'true'
 
-      - name: Check directories
-        run: |
-          cd packages/composition
-          ls -a
-        shell: bash
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
