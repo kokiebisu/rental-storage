@@ -37,7 +37,7 @@ var (
 		Type: "MONTHLY",
 	}
 	l = listing.DTO{
-		Uid:           uid,
+		UId:           uid,
 		Title:         title,
 		LenderId:      lenderId,
 		StreetAddress: streetAddress,

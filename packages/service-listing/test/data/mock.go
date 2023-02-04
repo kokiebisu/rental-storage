@@ -25,7 +25,7 @@ var (
 	MockFeeAmount   = int64(50)
 	MockFeeType     = "MONTHLY"
 	MockListing     = listing.Entity{
-		Uid:           MockUId,
+		UId:           MockUId,
 		Title:         MockTitle,
 		LenderId:      MockLenderId,
 		StreetAddress: streetaddress.ValueObject{Value: MockStreetAddress},

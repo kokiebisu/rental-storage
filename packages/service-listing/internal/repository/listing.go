@@ -87,7 +87,7 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.C
           ) VALUES ($1, $2, $3, $4, $5)
 		  RETURNING id
 		`,
-		listing.Uid,
+		listing.UId,
 		listing.LenderId,
 		listing.StreetAddress.Value,
 		listing.Latitude.Value,
@@ -123,7 +123,7 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.C
 		log.Fatal(err.Error())
 		// ROLLBACK
 	}
-	return listing.Uid, nil
+	return listing.UId, nil
 }
 
 func (r *ListingRepository) Delete(uid string) *customerror.CustomError {
@@ -179,7 +179,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 		return listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 	}
 	listing, err := listing.Raw{
-		Uid:           uid,
+		UId:           uid,
 		Title:         title,
 		LenderId:      lenderId,
 		StreetAddress: streetAddress,
@@ -238,7 +238,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)
 		} else {
 			l, err := listing.Raw{
-				Uid:           uid,
+				UId:           uid,
 				Title:         title,
 				LenderId:      lenderId,
 				StreetAddress: streetAddress,

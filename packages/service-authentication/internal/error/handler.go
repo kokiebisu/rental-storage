@@ -98,7 +98,7 @@ func (e *Handler) ClaimCastError(err error) *CustomError {
 	}
 }
 
-func (e *Handler) ClaimUidEmptyError(err error) *CustomError {
+func (e *Handler) ClaimUIdEmptyError(err error) *CustomError {
 	msg := "uid property in claims is empty string"
 	return &CustomError{
 		StatusCode: 500,

@@ -5,7 +5,7 @@ import (
 )
 
 type Entity struct {
-	Uid       string
+	UId       string
 	Name      string
 	ImageUrls []string
 	CreatedAt time.Time
@@ -15,7 +15,7 @@ type Entity struct {
 }
 
 type DTO struct {
-	Uid       string   `json:"uid"`
+	UId       string   `json:"uid"`
 	Name      string   `json:"name"`
 	ImageUrls []string `json:"imageUrls"`
 	CreatedAt string   `json:"createdAt"`
@@ -25,7 +25,7 @@ type DTO struct {
 }
 
 type Raw struct {
-	Uid       string   `json:"uid"`
+	UId       string   `json:"uid"`
 	Name      string   `json:"name"`
 	ImageUrls []string `json:"image_urls"`
 	CreatedAt string   `json:"created_at"`
@@ -38,7 +38,7 @@ func (r Raw) ToEntity() Entity {
 	createdAt, _ := time.Parse("YYYY-MM-DD", r.CreatedAt)
 	updatedAt, _ := time.Parse("YYYY-MM-DD", r.UpdatedAt)
 	return Entity{
-		Uid:       r.Uid,
+		UId:       r.UId,
 		Name:      r.Name,
 		ImageUrls: r.ImageUrls,
 		CreatedAt: createdAt,

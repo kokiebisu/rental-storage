@@ -37,7 +37,7 @@ func (f *Factory) New(title string, lenderId string, streetAddress string, latit
 		return Entity{}, err
 	}
 	return Entity{
-		Uid:           uuid.New().String(),
+		UId:           uuid.New().String(),
 		Title:         title,
 		LenderId:      lenderId,
 		StreetAddress: validatedStreetAddress,
