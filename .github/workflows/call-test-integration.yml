@@ -53,6 +53,11 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
+      # TODO: to be removed eventually
+      - name: Check directories
+        run: |
+          ls -a
+
       - uses: actions/upload-artifact@v3
         with:
           name: env-composition-${{ github.sha }}
