@@ -122,9 +122,10 @@ func TestVerify_Success(t *testing.T) {
 
 	mockTokenService := mocks.NewTokenService(t)
 	mockCryptoService := mocks.NewCryptoService(t)
-	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
 
-	mockTokenService.On("VerifyToken", data.MockToken).Return(data.MockClaims)
+	mockTokenService.On("VerifyToken", data.MockToken).Return(data.MockClaims, nil)
+
+	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
 
 	payload, err := authenticationService.Verify(data.MockToken)
 	assert.Greater(t, len(payload), 0, "token should have a length greater than 0")
