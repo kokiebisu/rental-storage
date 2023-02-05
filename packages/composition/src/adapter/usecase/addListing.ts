@@ -8,7 +8,9 @@ interface AddListingCommandConstructor {
   longitude: number;
   imageUrls: string[];
   title: string;
-  fee: unknown;
+  feeAmount: number;
+  feeCurrency: string;
+  feeType: string;
 }
 
 export class AddListingCommand {
@@ -18,7 +20,9 @@ export class AddListingCommand {
   public readonly longitude: number;
   public readonly imageUrls: string[];
   public readonly title: string;
-  public readonly fee: unknown;
+  public readonly feeAmount: number;
+  public readonly feeCurrency: string;
+  public readonly feeType: string;
 
   public constructor({
     lenderId,
@@ -27,7 +31,9 @@ export class AddListingCommand {
     longitude,
     imageUrls,
     title,
-    fee,
+    feeAmount,
+    feeCurrency,
+    feeType,
   }: AddListingCommandConstructor) {
     this.lenderId = lenderId;
     this.streetAddress = streetAddress;
@@ -35,7 +41,9 @@ export class AddListingCommand {
     this.longitude = longitude;
     this.imageUrls = imageUrls;
     this.title = title;
-    this.fee = fee;
+    this.feeAmount = feeAmount;
+    this.feeCurrency = feeCurrency;
+    this.feeType = feeType;
   }
 }
 
@@ -48,7 +56,9 @@ export class AddListingUseCase {
       longitude,
       imageUrls,
       title,
-      fee,
+      feeAmount,
+      feeCurrency,
+      feeType,
     } = command;
     if (
       !lenderId ||
@@ -57,7 +67,9 @@ export class AddListingUseCase {
       !longitude ||
       !imageUrls ||
       !title ||
-      !fee
+      !feeAmount ||
+      !feeCurrency ||
+      !feeType
     ) {
       throw new InternalServerError();
     }
@@ -69,7 +81,9 @@ export class AddListingUseCase {
       longitude,
       imageUrls,
       title,
-      fee
+      feeAmount,
+      feeCurrency,
+      feeType
     );
   }
 }
