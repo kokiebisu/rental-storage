@@ -15,7 +15,8 @@ import (
 	"github.com/kokiebisu/rental-storage/service-authentication/test/data"
 )
 
-func TestSignUpSuccess(t *testing.T) {
+// SignUp
+func TestSignUp_Success(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		response := fmt.Sprintf(`{"uid":"%s"}`, data.MockUId)
@@ -38,7 +39,8 @@ func TestSignUpSuccess(t *testing.T) {
 	assert.Nil(t, err, "should be no errors")
 }
 
-func TestSignInSuccess(t *testing.T) {
+// SignIn
+func TestSignIn_Success(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		body := fmt.Sprintf(`{"user":{"uid":"%s","firstName":"%s","lastName": "%s","emailAddress":"%s","password":"%s","items":"%s","createdAt":"%s","updatedAt":"%s"}}}`,
@@ -72,7 +74,8 @@ func TestSignInSuccess(t *testing.T) {
 	assert.Nil(t, err, "should be no errors")
 }
 
-func TestVerifySuccess(t *testing.T) {
+// Verify
+func TestVerify_Success(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		_, err := w.Write([]byte(`{"uid":"1234-5678-9123"}`))

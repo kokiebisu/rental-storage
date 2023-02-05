@@ -8,7 +8,7 @@ import (
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/service"
 )
 
-func TestHashPasswordSuccess(t *testing.T) {
+func TestHashPassword_Success(t *testing.T) {
 	cryptoService := service.NewCryptoService()
 	password := "random"
 	token, err := cryptoService.HashPassword(password)
@@ -16,7 +16,7 @@ func TestHashPasswordSuccess(t *testing.T) {
 	assert.Greater(t, len(token), 0, "token should have a length greater than 0")
 }
 
-func TestVerifyPasswordSuccess(t *testing.T) {
+func TestVerifyPassword_Success(t *testing.T) {
 	cryptoService := service.NewCryptoService()
 	password := "random"
 	hashed, err := cryptoService.HashPassword(password)
@@ -27,5 +27,6 @@ func TestVerifyPasswordSuccess(t *testing.T) {
 		panic("something went wrong")
 	}
 	assert.True(t, result, "token should have a length greater than 0")
+}
 
 }
