@@ -41,7 +41,7 @@ type Raw struct {
 	Fee           fee.Raw
 }
 
-func (r Raw) ToEntity() (Entity, *errors.CustomError) {
+func (r Raw) ToEntity() Entity {
 	return Entity{
 		UId:           r.UId,
 		Title:         r.Title,
@@ -57,7 +57,7 @@ func (r Raw) ToEntity() (Entity, *errors.CustomError) {
 			},
 			Type: fee.RentalFeeType(r.Fee.Type),
 		},
-	}, nil
+	}
 }
 
 func (e Entity) ToDTO() (DTO, *errors.CustomError) {

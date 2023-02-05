@@ -173,12 +173,12 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 		var uid string
 		var imageUrl string
 		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		if err != nil {
+			return listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
+		}
 		imageUrls = append(imageUrls, imageUrl)
 	}
-	if err != nil {
-		return listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
-	}
-	listing, err := listing.Raw{
+	l := listing.Raw{
 		UId:           uid,
 		Title:         title,
 		LenderId:      lenderId,
@@ -194,7 +194,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 			Type: feeType,
 		},
 	}.ToEntity()
-	return listing, err.(*customerror.CustomError)
+	return l, nil
 }
 
 func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *customerror.CustomError) {
@@ -237,7 +237,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		if entry, ok := listingsMap[uid]; ok {
 			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)
 		} else {
-			l, err := listing.Raw{
+			l := listing.Raw{
 				UId:           uid,
 				Title:         title,
 				LenderId:      lenderId,
@@ -253,10 +253,6 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 					Type: feeType,
 				},
 			}.ToEntity()
-			if err != nil {
-				log.Fatalf(err.Error())
-				return []listing.Entity{}, err
-			}
 			listingsMap[uid] = l
 		}
 	}
