@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 	_ "github.com/lib/pq"
@@ -99,14 +100,18 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *erro
 		WHERE email_address = $1
   	`, emailAddress)
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
-	user := &user.Raw{
+	u := &user.Raw{
 		UId:          uid,
 		FirstName:    firstName,
 		LastName:     lastName,
 		EmailAddress: emailAddress,
 		Password:     password,
+		Items:        []item.Raw{},
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}
-	return user.ToEntity(), errors.ErrorHandler.CustomError("unable to scan", err)
+	if err != nil {
+		return user.Entity{}, errors.ErrorHandler.CustomError("unable to scan", err)
+	}
+	return u.ToEntity(), nil
 }

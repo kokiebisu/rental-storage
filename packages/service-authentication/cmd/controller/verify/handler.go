@@ -6,7 +6,6 @@ import (
 
 	responses "github.com/kokiebisu/rental-storage/service-authentication/internal"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/adapter/controller"
-	"github.com/kokiebisu/rental-storage/service-authentication/internal/helper"
 )
 
 // checks if the authorizationToken in the payload is valid
@@ -16,11 +15,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	result, err := helper.Stringify(payload)
-	if err != nil {
-		return responses.SendFailureResponse(err)
-	}
-	return responses.SendSuccessResponse(result)
+	return responses.SendSuccessResponse(payload)
 }
 
 func main() {

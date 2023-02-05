@@ -1,56 +1,72 @@
-import React from "react";
+import { MapContext } from "@/context/map";
+import { Space } from "@/types/interface";
 import GoogleMapReact from "google-map-react";
+import React, { useContext, useEffect } from "react";
 
 const googleMapAPIKey = process.env.GOOGLE_MAP_API_KEY as string;
 
 // fetch listings latitude and longitude
-// should use interface later
-const markers = [
-  {
-    id: 0,
-    name: "Langara College",
-    position: { lat: 49.2244, lng: -123.1089 },
-  },
+const spaceData: Space[] = [
   {
     id: 1,
-    name: "Whatever",
-    position: { lat: 50.381832, lng: -120.623177 },
+    name: "Langara",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 49.2244,
+    lng: -123.1089,
   },
   {
     id: 2,
-    name: "Denver, Colorado",
-    position: { lat: 39.739235, lng: -104.99025 },
+    name: "Second",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 50.381832,
+    lng: -120.623177,
   },
   {
     id: 3,
-    name: "Los Angeles, California",
-    position: { lat: 34.052235, lng: -118.243683 },
+    name: "Third Space",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 48.052235,
+    lng: -118.243683,
   },
   {
     id: 4,
-    name: "New York, New York",
-    position: { lat: 40.712776, lng: -74.005974 },
-  },
-  {
-    id: 5,
-    name: "Hometown",
-    position: { lat: 35.52389, lng: 139.69294 },
+    name: "Biggest Space",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 52.52389,
+    lng: -119.69294,
   },
 ];
 
 export default function Map() {
   // first focus (user's location)
-  const defaultProps = {
-    center: {
-      lat: 49.2827,
-      lng: -123.1207,
-    },
-    zoom: 8,
-  };
+  const { spaces, setSpaces, center } = useContext(MapContext);
+  useEffect(() => {
+    setSpaces(spaceData);
+  }, []);
 
-  const renderMarkers = (map: any, maps: any, mark: any) => {
+  const renderMarkers = (map: any, maps: any, space: Space) => {
     let marker = new maps.Marker({
-      position: mark.position,
+      position: { lat: space.lat, lng: space.lng },
       map,
     });
     return marker;
@@ -60,12 +76,12 @@ export default function Map() {
     <div className="h-screen w-full">
       <GoogleMapReact
         bootstrapURLKeys={{ key: googleMapAPIKey }}
-        defaultCenter={defaultProps.center}
-        defaultZoom={defaultProps.zoom}
+        center={center}
+        zoom={8}
         // put markers on a map
         onGoogleApiLoaded={({ map, maps }) => {
-          markers.map((marker) => {
-            renderMarkers(map, maps, marker);
+          spaces?.map((space) => {
+            renderMarkers(map, maps, space);
           });
         }}
       />

@@ -28,6 +28,16 @@ func (e *Handler) RequestFailError(err error) *CustomError {
 	}
 }
 
+func (e *Handler) RequestInternalError(err error) *CustomError {
+	msg := "request returned an internal server error"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "REQUEST_INTERNAL_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}
+
 func (e *Handler) DecodeError(target string, err error) *CustomError {
 	msg := "unable to decode " + target
 	return &CustomError{
@@ -123,6 +133,16 @@ func (e *Handler) CompareHashError(err error) *CustomError {
 	return &CustomError{
 		StatusCode: 500,
 		ErrorCode:  "COMPARE_HASH_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}
+
+func (e *Handler) PasswordGenerationError(err error) *CustomError {
+	msg := "unable to generate password"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "PASSWORD_GENERATION_ERROR",
 		Message:    msg,
 		Reason:     err,
 	}

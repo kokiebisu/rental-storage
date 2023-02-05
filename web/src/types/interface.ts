@@ -6,4 +6,6 @@ export interface Space {
   name: string;
   color: string;
   price: string;
+  lat: number;
+  lng: number;
 }
