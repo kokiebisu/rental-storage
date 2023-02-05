@@ -29,13 +29,15 @@ type AddListingResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (listing.DTO, *customerror.CustomError) {
+func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (FindListingByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["listingId"]
 	if uid == "" {
-		return listing.DTO{}, customerror.ErrorHandler.GetParameterError()
+		return FindListingByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError()
 	}
 	listing, err := h.service.FindListingById(uid)
-	return listing, err
+	return FindListingByIdResponsePayload{
+		Listing: listing,
+	}, err
 }
 
 func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) (FindListingsWithinLatLngResponsePayload, *customerror.CustomError) {

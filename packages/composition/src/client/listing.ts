@@ -31,8 +31,12 @@ export default class ListingRestClient extends BaseRestClient {
   }
 
   public async findListingById(listingId: string) {
-    const response = await this.client.get(`/listings?uid=${listingId}`);
-    return response.data;
+    try {
+      const response = await this.client.get(`/listings/${listingId}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async findListingsWithinLatLng(

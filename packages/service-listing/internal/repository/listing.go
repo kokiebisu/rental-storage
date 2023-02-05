@@ -83,11 +83,12 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.C
 	row := r.db.QueryRow(
 		`
           INSERT INTO listing (
-          uid, lender_id, street_address, latitude, longitude
-          ) VALUES ($1, $2, $3, $4, $5)
+          uid, title, lender_id, street_address, latitude, longitude
+          ) VALUES ($1, $2, $3, $4, $5, $6)
 		  RETURNING id
 		`,
 		listing.UId,
+		listing.Title,
 		listing.LenderId,
 		listing.StreetAddress.Value,
 		listing.Latitude.Value,
@@ -155,7 +156,6 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 		uid,
 	)
 	if err != nil {
-		log.Fatal(err.Error())
 		return listing.Entity{}, customerror.ErrorHandler.FindListingsRowError(err)
 	}
 	var id string
