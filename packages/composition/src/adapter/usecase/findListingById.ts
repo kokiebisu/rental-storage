@@ -23,3 +23,5 @@ export class FindListingByIdUseCase {
     return client.findListingById(listingId);
   }
 }
+
+// test
