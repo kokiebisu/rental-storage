@@ -105,6 +105,7 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *erro
 		LastName:     lastName,
 		EmailAddress: emailAddress,
 		Password:     password,
+		Items:        []item.Raw{},
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}

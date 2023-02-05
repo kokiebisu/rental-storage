@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 
@@ -39,7 +39,7 @@ func (s *AuthenticationService) SignIn(emailAddress string, password string) (st
 		return "", customerror.ErrorHandler.RequestInternalError(err)
 	}
 	payload := struct {
-		User domain.User `json:"user"`
+		User user.DTO `json:"user"`
 	}{}
 	if err = json.NewDecoder(resp.Body).Decode(&payload); err != nil {
 		return "", customerror.ErrorHandler.DecodeError("user service endpoint to user domain", err)
