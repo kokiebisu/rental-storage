@@ -14,8 +14,8 @@ const mockStreetAddress = faker.address.streetAddress();
 const mockLatitude = faker.address.latitude();
 const mockLongitude = faker.address.longitude();
 const mockImageUrls = [
-  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(20)}`,
-  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(20)}`,
+  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
+  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
 ];
 const mockTitle = faker.company.name();
 const mockFeeAmount = faker.commerce.price();
@@ -44,6 +44,9 @@ const registerUser = async function () {
     mockLastName,
     mockPassword
   );
+  if (!responseData) {
+    throw new Error("register user request failed");
+  }
   return responseData.uid;
 };
 
@@ -60,5 +63,8 @@ const registerListing = async function (userId: string) {
     mockFeeCurrency,
     mockFeeType
   );
+  if (!responseData) {
+    throw new Error("register listing request failed");
+  }
   return responseData.uid;
 };
