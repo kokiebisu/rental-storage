@@ -8,18 +8,26 @@ export default class ListingRestClient extends BaseRestClient {
     longitude: number,
     imageUrls: string[],
     title: string,
-    fee: unknown
+    feeAmount: number,
+    feeCurrency: string,
+    feeType: string
   ) {
-    const response = await this.client.post(`/listings`, {
-      lenderId,
-      streetAddress,
-      latitude,
-      longitude,
-      imageUrls,
-      title,
-      fee,
-    });
-    return response.data;
+    try {
+      const response = await this.client.post(`/listings`, {
+        lenderId,
+        streetAddress,
+        latitude,
+        longitude,
+        imageUrls,
+        title,
+        feeAmount,
+        feeCurrency,
+        feeType,
+      });
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async findListingById(listingId: string) {

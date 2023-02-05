@@ -4,6 +4,7 @@ declare global {
 
 interface JestMockData {
   uid?: string;
+  listingId?: string;
   mockFirstName: string;
   mockLastName: string;
   mockEmailAddress: string;
