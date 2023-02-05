@@ -73,36 +73,29 @@ export const useAuth = () => {
 
   const login = async (data: LoginParams) => {
     if (!data.emailAddress || !data.password) {
-      alert("Input missing");
-      return;
+      throw new Error("input missing");
     }
 
     if (!process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT) {
-      alert("endpoint missing");
-      return;
+      throw new Error("endpoint missing");
     }
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/auth/signin`,
-        {
-          emailAddress: data.emailAddress,
-          password: data.password,
-        }
-      );
-      if (response.status !== 200) {
-        alert("Something went wrong");
-        return;
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/auth/signin`,
+      {
+        emailAddress: data.emailAddress,
+        password: data.password,
       }
-      const { authorizationToken } = response.data;
-
-      // in a production app, we need to send some data (usually username, password) to server and get a token
-      // we will also need to handle errors if sign in faield
-
-      setItem("authorizationToken", authorizationToken);
-    } catch (err) {
-      alert("something went wrong");
+    );
+    if (response.status !== 200) {
+      throw new Error("something went wrong");
     }
+    const { authorizationToken } = response.data;
+
+    // in a production app, we need to send some data (usually username, password) to server and get a token
+    // we will also need to handle errors if sign in faield
+
+    setItem("authorizationToken", authorizationToken);
   };
 
   const logout = () => {
