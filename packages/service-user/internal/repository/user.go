@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 
+	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 	_ "github.com/lib/pq"
