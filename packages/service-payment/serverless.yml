@@ -3,7 +3,6 @@ variablesResolutionMode: 20210326
 
 plugins:
   - serverless-deployment-bucket
-  - serverless-export-env
 
 provider:
   name: aws
@@ -26,15 +25,17 @@ provider:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     STAGE: ${self:provider.stage}
     ACCOUNT_ID: ${aws:accountId}
-    DB_HOST: ${self:custom.DB_HOST}
-    DB_NAME: ${self:custom.DB_NAME}
-    DB_USERNAME: ${self:custom.DB_USERNAME}
-    DB_PASSWORD: ${self:custom.DB_PASSWORD}
-    DB_PORT: ${self:custom.DB_PORT}
+    # temporarily commenting this out
+    # DB_HOST: ${self:custom.DB_HOST}
+    # DB_NAME: ${self:custom.DB_NAME}
+    # DB_USERNAME: ${self:custom.DB_USERNAME}
+    # DB_PASSWORD: ${self:custom.DB_PASSWORD}
+    # DB_PORT: ${self:custom.DB_PORT}
 
 custom:
   namespace: app
   service: payment
+  # temporarily commenting this out
   # DB_HOST: ${ssm:/terraform/rds/payment-db-host}
   # DB_NAME: ${ssm:/terraform/rds/payment-db-name}
   # DB_USERNAME: ${ssm:/terraform/rds/payment-db-username}
@@ -49,7 +50,6 @@ custom:
         - ${self:provider.region}
         - ".amazonaws.com/"
         - ${self:provider.stage}
-
   export-env:
     filename: .env
     overwrite: true

@@ -87,7 +87,7 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.C
           ) VALUES ($1, $2, $3, $4, $5)
 		  RETURNING id
 		`,
-		listing.Uid,
+		listing.UId,
 		listing.LenderId,
 		listing.StreetAddress.Value,
 		listing.Latitude.Value,
@@ -123,7 +123,7 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.C
 		log.Fatal(err.Error())
 		// ROLLBACK
 	}
-	return listing.Uid, nil
+	return listing.UId, nil
 }
 
 func (r *ListingRepository) Delete(uid string) *customerror.CustomError {
@@ -173,13 +173,13 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 		var uid string
 		var imageUrl string
 		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		if err != nil {
+			return listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
+		}
 		imageUrls = append(imageUrls, imageUrl)
 	}
-	if err != nil {
-		return listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
-	}
-	listing, err := listing.Raw{
-		Uid:           uid,
+	l := listing.Raw{
+		UId:           uid,
 		Title:         title,
 		LenderId:      lenderId,
 		StreetAddress: streetAddress,
@@ -194,7 +194,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 			Type: feeType,
 		},
 	}.ToEntity()
-	return listing, err.(*customerror.CustomError)
+	return l, nil
 }
 
 func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *customerror.CustomError) {
@@ -237,8 +237,8 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		if entry, ok := listingsMap[uid]; ok {
 			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)
 		} else {
-			l, err := listing.Raw{
-				Uid:           uid,
+			l := listing.Raw{
+				UId:           uid,
 				Title:         title,
 				LenderId:      lenderId,
 				StreetAddress: streetAddress,
@@ -253,10 +253,6 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 					Type: feeType,
 				},
 			}.ToEntity()
-			if err != nil {
-				log.Fatalf(err.Error())
-				return []listing.Entity{}, err
-			}
 			listingsMap[uid] = l
 		}
 	}

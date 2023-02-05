@@ -48,7 +48,7 @@ jobs:
       - name: Generate env files
         run: |
           cd packages/composition
-          pnpm run generate:env:dev
+          sls export-env --config serverless.dev.yml --stage dev
         shell: bash
         if: steps.changes.outputs.package == 'true'
 

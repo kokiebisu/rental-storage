@@ -9,7 +9,7 @@ import (
 )
 
 type Entity struct {
-	Uid           string
+	UId           string
 	Title         string
 	LenderId      string
 	StreetAddress streetaddress.ValueObject
@@ -20,7 +20,7 @@ type Entity struct {
 }
 
 type DTO struct {
-	Uid           string   `json:"uid"`
+	UId           string   `json:"uid"`
 	Title         string   `json:"title"`
 	LenderId      string   `json:"lenderId"`
 	StreetAddress string   `json:"streetAddress"`
@@ -31,7 +31,7 @@ type DTO struct {
 }
 
 type Raw struct {
-	Uid           string
+	UId           string
 	Title         string
 	LenderId      string
 	StreetAddress string
@@ -41,9 +41,9 @@ type Raw struct {
 	Fee           fee.Raw
 }
 
-func (r Raw) ToEntity() (Entity, *errors.CustomError) {
+func (r Raw) ToEntity() Entity {
 	return Entity{
-		Uid:           r.Uid,
+		UId:           r.UId,
 		Title:         r.Title,
 		LenderId:      r.LenderId,
 		StreetAddress: streetaddress.ValueObject{Value: r.StreetAddress},
@@ -57,12 +57,12 @@ func (r Raw) ToEntity() (Entity, *errors.CustomError) {
 			},
 			Type: fee.RentalFeeType(r.Fee.Type),
 		},
-	}, nil
+	}
 }
 
 func (e Entity) ToDTO() (DTO, *errors.CustomError) {
 	return DTO{
-		Uid:           e.Uid,
+		UId:           e.UId,
 		Title:         e.Title,
 		LenderId:      e.LenderId,
 		StreetAddress: e.StreetAddress.Value,

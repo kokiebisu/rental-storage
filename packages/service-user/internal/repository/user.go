@@ -41,11 +41,11 @@ func (r *UserRepository) Save(u user.Entity) (string, *errors.CustomError) {
 	_, err := r.db.Exec(`
 		INSERT INTO user_account (uid, email_address, password, first_name, last_name, created_at, updated_at) 
         VALUES ($1, $2, $3, $4, $5, $6, $7)
-	`, u.Uid, u.EmailAddress.Value, u.Password, u.FirstName.Value, u.LastName.Value, u.CreatedAt.Format("2006-01-02"), u.UpdatedAt.Format("2006-01-02"))
+	`, u.UId, u.EmailAddress.Value, u.Password, u.FirstName.Value, u.LastName.Value, u.CreatedAt.Format("2006-01-02"), u.UpdatedAt.Format("2006-01-02"))
 	if err != nil {
-		return u.Uid, errors.ErrorHandler.CustomError("unable to insert to user_account", err)
+		return u.UId, errors.ErrorHandler.CustomError("unable to insert to user_account", err)
 	}
-	return u.Uid, nil
+	return u.UId, nil
 }
 
 func (r *UserRepository) Delete(uid string) *errors.CustomError {
@@ -71,8 +71,11 @@ func (r *UserRepository) FindOneById(uid string) (user.Entity, *errors.CustomErr
     `, uid)
 
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
+	if err != nil {
+		return user.Entity{}, errors.ErrorHandler.CustomError("unable to scan", err)
+	}
 	u := &user.Raw{
-		Uid:          uid,
+		UId:          uid,
 		FirstName:    firstName,
 		LastName:     lastName,
 		EmailAddress: emailAddress,
@@ -80,7 +83,7 @@ func (r *UserRepository) FindOneById(uid string) (user.Entity, *errors.CustomErr
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}
-	return u.ToEntity(), errors.ErrorHandler.CustomError("unable to scan", err)
+	return u.ToEntity(), nil
 }
 
 func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *errors.CustomError) {
@@ -97,7 +100,7 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *erro
   	`, emailAddress)
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
 	user := &user.Raw{
-		Uid:          uid,
+		UId:          uid,
 		FirstName:    firstName,
 		LastName:     lastName,
 		EmailAddress: emailAddress,

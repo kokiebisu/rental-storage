@@ -3,60 +3,40 @@ package test
 import (
 	"testing"
 
-	"github.com/bxcodec/faker/v3"
-
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
-	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
 	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
 	"github.com/kokiebisu/rental-storage/service-user/mocks"
+	"github.com/kokiebisu/rental-storage/service-user/test/data"
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	factory         = &user.Factory{}
-	uid             = faker.UUIDDigit()
-	emailAddress    = faker.Email()
-	firstName       = faker.FirstName()
-	lastName        = faker.LastName()
-	password        = faker.Password()
-	timeString      = faker.TimeString()
-	u               = factory.New(uid, firstName, lastName, emailAddress, password, []item.Entity{}, timeString)
-	s               *service.UserService
-	mockRepo        *mocks.UserRepository
-	mockEventSender *mocks.EventSender
-	mockFactory     *mocks.UserFactory
-)
-
 func setupTest(t *testing.T) (string, *errors.CustomError) {
-	mockRepo = mocks.NewUserRepository(t)
-	mockEventSender = mocks.NewEventSender(t)
-	mockFactory = mocks.NewUserFactory(t)
-	mockRepo.On("Save", u).Return(uid, nil)
+	data.MockUserRepo = mocks.NewUserRepository(t)
+	data.MockEventSender = mocks.NewEventSender(t)
+	data.MockUserRepo.On("Save", data.MockUser).Return(data.MockUId, nil)
 
-	mockEventSender.On("UserCreated", u.ToDTO()).Return(nil)
-	mockFactory.On("New", uid, firstName, lastName, emailAddress, password, []item.Entity{}, timeString).Return(u)
-	s = service.NewUserService(mockRepo, mockEventSender, mockFactory)
-	token, err := s.CreateUser(uid, emailAddress, firstName, lastName, password, []item.DTO{}, timeString)
+	data.MockEventSender.On("UserCreated", data.MockUser.ToDTO()).Return(nil)
+	data.UserService = service.NewUserService(data.MockUserRepo, data.MockEventSender)
+	token, err := data.UserService.CreateUser(data.MockUId, data.MockEmailAddress, data.MockFirstName, data.MockLastName, data.MockPassword, []item.DTO{}, data.MockTimeString)
 	return token, err
 }
 
 // CreateUser
 func TestCreateUserSuccess(t *testing.T) {
 	uid, err := setupTest(t)
-	assert.Greater(t, len(uid), 0, "should return valid uid where the length is greater than 0")
 	assert.Nil(t, err, "should not throw error")
+	assert.Greater(t, len(uid), 0, "should return valid uid where the length is greater than 0")
 }
 
 // RemoveById
 func TestRemoveByIdSuccess(t *testing.T) {
 	_, err := setupTest(t)
-	if err != nil {
-		panic("setupTest failed")
-	}
-	mockRepo.On("Delete", uid).Return(nil)
+	assert.Nil(t, err, "should not throw error")
 
-	err = s.RemoveById(uid)
+	data.MockUserRepo.On("Delete", data.MockUId).Return(nil)
+
+	err = data.UserService.RemoveById(data.MockUId)
 	assert.Nil(t, err, "should not throw error")
 }
 
@@ -66,10 +46,10 @@ func TestFindByIdSuccess(t *testing.T) {
 	if err != nil {
 		panic("setupTest failed")
 	}
-	mockRepo.On("FindOneById", uid).Return(u, nil)
+	data.MockUserRepo.On("FindOneById", data.MockUId).Return(data.MockUser, nil)
 
-	result, err := s.FindById(uid)
-	assert.Equal(t, u, result, "user should be found")
+	result, err := data.UserService.FindById(data.MockUId)
+	assert.Equal(t, data.MockUser, result, "user should be found")
 	assert.Nil(t, err, "should not throw error")
 }
 
@@ -79,9 +59,9 @@ func TestFindByEmail(t *testing.T) {
 	if err != nil {
 		panic("setupTest failed")
 	}
-	mockRepo.On("FindOneByEmail", emailAddress).Return(u, nil)
+	data.MockUserRepo.On("FindOneByEmail", data.MockEmailAddress).Return(data.MockUser, nil)
 
-	result, err := s.FindByEmail(emailAddress)
-	assert.Equal(t, u, result, "user should be found")
+	result, err := data.UserService.FindByEmail(data.MockEmailAddress)
+	assert.Equal(t, data.MockUser, result, "user should be found")
 	assert.Nil(t, err, "should not throw error")
 }

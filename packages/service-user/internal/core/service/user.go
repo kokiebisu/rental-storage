@@ -10,19 +10,17 @@ import (
 type UserService struct {
 	userRepository port.UserRepository
 	eventSender    port.EventSender
-	factory        port.UserFactory
 }
 
-func NewUserService(userRepository port.UserRepository, eventSender port.EventSender, factory port.UserFactory) *UserService {
+func NewUserService(userRepository port.UserRepository, eventSender port.EventSender) *UserService {
 	return &UserService{
 		userRepository: userRepository,
 		eventSender:    eventSender,
-		factory:        factory,
 	}
 }
 
 func (s *UserService) CreateUser(uid string, emailAddress string, firstName string, lastName string, password string, items []item.DTO, createdAt string) (string, *errors.CustomError) {
-	user := s.factory.New(uid, firstName, lastName, emailAddress, password, []item.Entity{}, createdAt)
+	user := user.New(uid, firstName, lastName, emailAddress, password, []item.Entity{}, createdAt)
 	uid, err := s.userRepository.Save(user)
 	if err != nil {
 		return uid, err

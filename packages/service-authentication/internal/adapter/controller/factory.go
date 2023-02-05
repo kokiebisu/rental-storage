@@ -5,6 +5,8 @@ import (
 )
 
 func New() *ApiGatewayHandler {
-	service := service.NewEncryptionService()
-	return NewApiGatewayHandler(service)
+	e := service.NewTokenService()
+	c := service.NewCryptoService()
+	a := service.NewAuthenticationService(e, c)
+	return NewApiGatewayHandler(a)
 }

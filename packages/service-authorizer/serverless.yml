@@ -3,7 +3,6 @@ variablesResolutionMode: 20210326
 
 plugins:
   - serverless-deployment-bucket
-  - serverless-export-env
 
 provider:
   name: aws

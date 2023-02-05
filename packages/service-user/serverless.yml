@@ -3,7 +3,6 @@ variablesResolutionMode: 20210326
 
 plugins:
   - serverless-deployment-bucket
-  - serverless-export-env
 
 provider:
   name: aws
@@ -23,15 +22,14 @@ provider:
       app:
         path: ./
   environment:
-    NAMESPACE: ${self:custom.namespace}
+    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     STAGE: ${self:provider.stage}
+    ACCOUNT_ID: ${aws:accountId}
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}
     DB_PASSWORD: ${self:custom.DB_PASSWORD}
     DB_PORT: ${self:custom.DB_PORT}
-    SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
-    ACCOUNT_ID: ${aws:accountId}
 
 custom:
   namespace: app

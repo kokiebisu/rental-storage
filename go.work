@@ -1,0 +1,10 @@
+go 1.19
+
+use (
+	./packages/service-authentication
+	./packages/service-authorizer
+	./packages/service-booking
+	./packages/service-listing
+	./packages/service-payment
+	./packages/service-user
+)
