@@ -6,22 +6,21 @@ import { Button } from "@/components/button";
 const HomePage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { signOut } = useContext(AuthContext);
+  const { logout, isAuthenticated } = useContext(AuthContext);
 
   const handleSignOut = async () => {
-    const isSuccess = await signOut();
-    if (isSuccess) {
+    try {
+      await logout();
       router.push("/login");
-    } else {
+    } catch (err) {
       alert("something failed");
     }
   };
 
   useEffect(() => {
     setIsLoading(true);
-    const isSignedIn = !!localStorage.getItem("authorizationToken");
     if (
-      !isSignedIn &&
+      !isAuthenticated &&
       router.pathname !== "/login" &&
       router.pathname !== "/signup"
     ) {
