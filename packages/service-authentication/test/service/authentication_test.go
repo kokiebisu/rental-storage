@@ -11,6 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/service"
+	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 	"github.com/kokiebisu/rental-storage/service-authentication/mocks"
 	"github.com/kokiebisu/rental-storage/service-authentication/test/data"
 )
@@ -67,9 +68,9 @@ func TestSignIn_Success(t *testing.T) {
 	mockCryptoService.On("VerifyPassword", data.MockPassword, data.MockPassword).Return(true, nil)
 	mockTokenService.On("GenerateToken", data.MockUId).Return(data.MockToken, nil)
 
-	tokenService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
+	authService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
 
-	payload, err := tokenService.SignIn(data.MockEmailAddress, data.MockPassword)
+	payload, err := authService.SignIn(data.MockEmailAddress, data.MockPassword)
 	assert.Greater(t, len(payload), 0, "token should have a length greater than 0")
 	assert.Nil(t, err, "should be no errors")
 }
@@ -106,6 +107,7 @@ func TestSignIn_Failure_InvalidPassword(t *testing.T) {
 	assert.NotNil(t, err, "should be an error")
 	assert.Equal(t, len(payload), 0, "token should have a length greater than 0")
 }
+
 // Verify
 func TestVerify_Success(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -122,7 +124,7 @@ func TestVerify_Success(t *testing.T) {
 	mockCryptoService := mocks.NewCryptoService(t)
 	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
 
-	mockTokenService.On("VerifyToken", data.MockToken).Return(data.MockClaims, nil)
+	mockTokenService.On("VerifyToken", data.MockToken).Return(data.MockClaims)
 
 	payload, err := authenticationService.Verify(data.MockToken)
 	assert.Greater(t, len(payload), 0, "token should have a length greater than 0")

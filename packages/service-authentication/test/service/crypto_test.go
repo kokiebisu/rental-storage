@@ -23,13 +23,10 @@ func TestVerifyPassword_Success(t *testing.T) {
 	assert.Nil(t, err, "should be no errors")
 	result, err := cryptoService.VerifyPassword(hashed, password)
 	assert.Nil(t, err, "should be no errors")
-	if err != nil {
-		panic("something went wrong")
-	}
 	assert.True(t, result, "token should have a length greater than 0")
 }
 
-func TestVerifyPassword_InvalidPassword(t *testing.T) {
+func TestVerifyPassword_Failure_InvalidPassword(t *testing.T) {
 	cryptoService := service.NewCryptoService()
 	password := "password"
 	hashed, err := cryptoService.HashPassword(password)
