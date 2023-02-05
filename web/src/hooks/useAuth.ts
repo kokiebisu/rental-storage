@@ -33,37 +33,31 @@ export const useAuth = () => {
       !data.firstName ||
       !data.lastName
     ) {
-      alert("Input missing");
-      return;
+      throw new Error("input misssing");
     }
 
     if (!process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT) {
-      alert("endpoint missing");
-      return;
+      throw new Error("endpoint misssing");
     }
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/auth/signup`,
-        {
-          emailAddress: data.emailAddress,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          password: data.password,
-        }
-      );
-      if (response.status !== 200) {
-        alert("Something went wrong");
-        return;
+
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/auth/signup`,
+      {
+        emailAddress: data.emailAddress,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        password: data.password,
       }
-      const { authorizationToken } = response.data;
-
-      // in a production app, we need to send some data (usually username, password) to server and get a token
-      // we will also need to handle errors if sign in faield
-
-      setItem("authorizationToken", authorizationToken);
-    } catch (err) {
-      alert("something went wrong");
+    );
+    if (response.status !== 200) {
+      throw new Error("internal server error");
     }
+    const { authenticationToken } = response.data;
+
+    // in a production app, we need to send some data (usually username, password) to server and get a token
+    // we will also need to handle errors if sign in faield
+
+    setItem("authenticationToken", authenticationToken);
   };
 
   const isAuthenticated = () => {
@@ -95,16 +89,11 @@ export const useAuth = () => {
     // in a production app, we need to send some data (usually username, password) to server and get a token
     // we will also need to handle errors if sign in faield
 
-    setItem("authorizationToken", authorizationToken);
+    setItem("authenticationToken", authorizationToken);
   };
 
   const logout = () => {
-    try {
-      removeItem("authenticationToken");
-    } catch (err) {
-      alert("Somethign went wrong");
-      return false;
-    }
+    removeItem("authenticationToken");
     removeUser();
   };
 
