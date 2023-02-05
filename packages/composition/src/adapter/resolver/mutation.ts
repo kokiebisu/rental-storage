@@ -20,7 +20,9 @@ export const addListing = async (
       longitude: number;
       imageUrls: string[];
       title: string;
-      fee: unknown;
+      feeAmount: number;
+      feeCurrency: string;
+      feeType: string;
     },
     unknown
   >
