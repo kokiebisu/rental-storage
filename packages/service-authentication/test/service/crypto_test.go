@@ -29,4 +29,14 @@ func TestVerifyPassword_Success(t *testing.T) {
 	assert.True(t, result, "token should have a length greater than 0")
 }
 
+func TestVerifyPassword_InvalidPassword(t *testing.T) {
+	cryptoService := service.NewCryptoService()
+	password := "password"
+	hashed, err := cryptoService.HashPassword(password)
+	assert.Nil(t, err, "should be no error")
+	result, err := cryptoService.VerifyPassword(hashed, "invalid")
+	assert.NotNil(t, err, "should be error")
+	assert.False(t, result, "result of verify password should be false")
+	assert.Equal(t, err.StatusCode, uint16(500))
+	assert.Equal(t, err.ErrorCode, "COMPARE_HASH_ERROR")
 }
