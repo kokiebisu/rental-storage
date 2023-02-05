@@ -28,6 +28,16 @@ func (e *Handler) RequestFailError(err error) *CustomError {
 	}
 }
 
+func (e *Handler) RequestInternalError(err error) *CustomError {
+	msg := "request returned an internal server error"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "REQUEST_INTERNAL_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}
+
 func (e *Handler) DecodeError(target string, err error) *CustomError {
 	msg := "unable to decode " + target
 	return &CustomError{
