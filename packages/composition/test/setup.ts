@@ -46,3 +46,19 @@ const registerUser = async function () {
   );
   return responseData.uid;
 };
+
+const registerListing = async function (userId: string) {
+  const listingClient = new ListingRestClient();
+  const responseData = await listingClient.addListing(
+    userId,
+    mockStreetAddress,
+    Number(mockLatitude),
+    Number(mockLongitude),
+    mockImageUrls,
+    mockTitle,
+    Number(mockFeeAmount),
+    mockFeeCurrency,
+    mockFeeType
+  );
+  return responseData.uid;
+};
