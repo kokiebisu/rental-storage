@@ -24,7 +24,7 @@ func (s *CryptoService) VerifyPassword(hashedPassword string, plainPassword stri
 func (s *CryptoService) HashPassword(password string) (string, *customerror.CustomError) {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", customerror.ErrorHandler.CompareHashError(err)
+		return "", customerror.ErrorHandler.PasswordGenerationError(err)
 	}
 	return string(hashed), nil
 }
