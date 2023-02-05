@@ -127,3 +127,13 @@ func (e *Handler) CompareHashError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) PasswordGenerationError(err error) *CustomError {
+	msg := "unable to generate password"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "PASSWORD_GENERATION_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}

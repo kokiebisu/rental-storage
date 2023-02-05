@@ -78,9 +78,11 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 	if err != nil {
 		return "", customerror.ErrorHandler.ResponseInvalidError(err)
 	}
-	if resp.StatusCode == 500 {
+	if resp.StatusCode != 200 {
 		payload := struct {
 			StatusCode uint8  `json:"statusCode"`
+			ErrorCode  string `json:"errorCode"`
+			Reason     string `json:"reason"`
 			Message    string `json:"message"`
 		}{}
 		if err := json.NewDecoder(resp.Body).Decode(&payload); err != nil {

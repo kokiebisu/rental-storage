@@ -9,7 +9,8 @@ import (
 	"github.com/kokiebisu/rental-storage/service-authentication/test/data"
 )
 
-func TestGenerateTokenSuccess(t *testing.T) {
+// Generate Token
+func TestGenerateToken_Success(t *testing.T) {
 	tokenService := service.NewTokenService()
 	token, err := tokenService.GenerateToken(data.MockUId)
 	if err != nil {
@@ -19,7 +20,8 @@ func TestGenerateTokenSuccess(t *testing.T) {
 	assert.Nil(t, err, "should be no errors")
 }
 
-func TestVerifyTokenSuccess(t *testing.T) {
+// VerifyToken
+func TestVerifyToken_Success(t *testing.T) {
 	tokenService := service.NewTokenService()
 	token, err := tokenService.GenerateToken(data.MockUId)
 	assert.Nil(t, err, "should be no errors")

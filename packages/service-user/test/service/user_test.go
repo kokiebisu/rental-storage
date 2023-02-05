@@ -23,14 +23,14 @@ func setupTest(t *testing.T) (string, *errors.CustomError) {
 }
 
 // CreateUser
-func TestCreateUserSuccess(t *testing.T) {
+func TestCreateUser_Success(t *testing.T) {
 	uid, err := setupTest(t)
 	assert.Nil(t, err, "should not throw error")
 	assert.Greater(t, len(uid), 0, "should return valid uid where the length is greater than 0")
 }
 
 // RemoveById
-func TestRemoveByIdSuccess(t *testing.T) {
+func TestRemoveById_Success(t *testing.T) {
 	_, err := setupTest(t)
 	assert.Nil(t, err, "should not throw error")
 
@@ -41,7 +41,7 @@ func TestRemoveByIdSuccess(t *testing.T) {
 }
 
 // FindById
-func TestFindByIdSuccess(t *testing.T) {
+func TestFindById_Success(t *testing.T) {
 	_, err := setupTest(t)
 	if err != nil {
 		panic("setupTest failed")
@@ -54,7 +54,7 @@ func TestFindByIdSuccess(t *testing.T) {
 }
 
 // FindByEmail
-func TestFindByEmail(t *testing.T) {
+func TestFindByEmail_Success(t *testing.T) {
 	_, err := setupTest(t)
 	if err != nil {
 		panic("setupTest failed")
