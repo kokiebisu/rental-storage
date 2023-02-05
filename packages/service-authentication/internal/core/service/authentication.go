@@ -35,6 +35,9 @@ func (s *AuthenticationService) SignIn(emailAddress string, password string) (st
 	if err != nil {
 		return "", customerror.ErrorHandler.RequestFailError(err)
 	}
+	if resp.StatusCode != 200 {
+		return "", customerror.ErrorHandler.RequestInternalError(err)
+	}
 	payload := struct {
 		User domain.User `json:"user"`
 	}{}
