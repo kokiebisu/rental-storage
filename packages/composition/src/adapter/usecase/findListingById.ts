@@ -1,5 +1,4 @@
 import { ListingRestClient } from "../../client";
-import { InternalServerError } from "../../error";
 
 interface FindListingByIdCommandConstructor {
   listingId: string;
