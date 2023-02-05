@@ -1,57 +1,75 @@
-import React, { useState } from "react";
+import { MapContext } from "@/context/map";
+import { Space } from "@/types/interface";
 import GoogleMapReact from "google-map-react";
+import React, { useContext, useEffect } from "react";
 
 const googleMapAPIKey = process.env.GOOGLE_MAP_API_KEY as string;
 
 // fetch listings latitude and longitude
-// should use interface later
-const markers = [
+const spaceData: Space[] = [
   {
     id: 1,
-    name: "Langara College",
-    position: { lat: 49.2244, lng: -123.1089 },
+    name: "Langara",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 49.2244,
+    lng: -123.1089,
   },
   {
     id: 2,
-    name: "Whatever",
-    position: { lat: 50.381832, lng: -120.623177 },
+    name: "Second",
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 50.381832,
+    lng: -120.623177,
   },
   {
     id: 3,
     name: "Third Space",
-    position: { lat: 48.052235, lng: -118.243683 },
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 48.052235,
+    lng: -118.243683,
   },
   {
     id: 4,
     name: "Biggest Space",
-    position: { lat: 52.52389, lng: -119.69294 },
+    href: "#",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg",
+    imageAlt: "Front of men's Basic Tee in black.",
+    price: "$35",
+    color: "Black",
+    lat: 52.52389,
+    lng: -119.69294,
   },
 ];
 
 export default function Map() {
   // first focus (user's location)
-  const [center, setCenter] = useState({
-    lat: 49.2827,
-    lng: -123.1207,
-  });
-  const [zoom, setZoom] = useState(8);
+  const { spaces, setSpaces, center } = useContext(MapContext);
+  useEffect(() => {
+    setSpaces(spaceData);
+  }, []);
 
-  const renderMarkers = (map: any, maps: any, mark: any) => {
+  const renderMarkers = (map: any, maps: any, space: Space) => {
     let marker = new maps.Marker({
-      position: mark.position,
+      position: { lat: space.lat, lng: space.lng },
       map,
     });
     return marker;
-  };
-
-  const handleClick = (): void => {
-    setZoom(zoom + 0.5);
-  };
-
-  const handleMove = (): void => {
-    const randomPos =
-      markers[Math.floor(Math.random() * markers.length)].position;
-    setCenter(randomPos);
   };
 
   return (
@@ -59,27 +77,14 @@ export default function Map() {
       <GoogleMapReact
         bootstrapURLKeys={{ key: googleMapAPIKey }}
         center={center}
-        zoom={zoom}
+        zoom={8}
         // put markers on a map
         onGoogleApiLoaded={({ map, maps }) => {
-          markers.map((marker) => {
-            renderMarkers(map, maps, marker);
+          spaces?.map((space) => {
+            renderMarkers(map, maps, space);
           });
         }}
-      >
-        <button
-          onClick={handleClick}
-          className="text-red-500 font-bold text-2xl"
-        >
-          Click ME
-        </button>
-        <button
-          onClick={handleMove}
-          className="text-blue-500 font-bold text-2xl mx-5"
-        >
-          Move Random
-        </button>
-      </GoogleMapReact>
+      />
     </div>
   );
 }
