@@ -100,7 +100,7 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *erro
 		WHERE email_address = $1
   	`, emailAddress)
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
-	user := &user.Raw{
+	u := &user.Raw{
 		UId:          uid,
 		FirstName:    firstName,
 		LastName:     lastName,
@@ -110,5 +110,8 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *erro
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}
-	return user.ToEntity(), errors.ErrorHandler.CustomError("unable to scan", err)
+	if err != nil {
+		return user.Entity{}, errors.ErrorHandler.CustomError("unable to scan", err)
+	}
+	return u.ToEntity(), nil
 }
