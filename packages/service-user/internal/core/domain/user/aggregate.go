@@ -68,6 +68,7 @@ func (r *Raw) ToEntity() Entity {
 		},
 		EmailAddress: emailaddress.ValueObject{Value: r.EmailAddress},
 		Password:     r.Password,
+		Items:        []item.Entity{},
 		CreatedAt:    createdAt,
 		UpdatedAt:    updatedAt,
 	}
