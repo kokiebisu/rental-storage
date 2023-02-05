@@ -4,18 +4,31 @@ require("ts-node").register({
 });
 
 import { faker } from "@faker-js/faker";
-import { UserRestClient } from "../src/client";
+import { ListingRestClient, UserRestClient } from "../src/client";
 
-let mockEmailAddress = faker.internet.email();
-let mockFirstName = faker.name.firstName();
-let mockLastName = faker.name.lastName();
-let mockPassword = faker.internet.password();
+const mockEmailAddress = faker.internet.email();
+const mockFirstName = faker.name.firstName();
+const mockLastName = faker.name.lastName();
+const mockPassword = faker.internet.password();
+const mockStreetAddress = faker.address.streetAddress();
+const mockLatitude = faker.address.latitude();
+const mockLongitude = faker.address.longitude();
+const mockImageUrls = [
+  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(20)}`,
+  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(20)}`,
+];
+const mockTitle = faker.company.name();
+const mockFeeAmount = faker.commerce.price();
+const mockFeeCurrency = faker.finance.currencyCode();
+const mockFeeType = "MONTHLY";
 
 module.exports = async function () {
   const uid = await registerUser();
+  const listingId = await registerListing(uid);
 
   global.data = {
     uid,
+    listingId,
     mockEmailAddress,
     mockFirstName,
     mockLastName,
