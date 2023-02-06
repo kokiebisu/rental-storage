@@ -14,13 +14,12 @@ type UserContextType = {
   setCenter: React.Dispatch<React.SetStateAction<Position>>;
 };
 
+const defaultPosition = { lat: 38.8977, lng: -77.0365 };
+
 const iUserContextState = {
   spaces: [],
   setSpaces: () => {},
-  center: {
-    lat: 38.8977,
-    lng: -77.0365,
-  },
+  center: defaultPosition,
   setCenter: () => {},
 };
 
@@ -28,11 +27,7 @@ export const MapContext = createContext<UserContextType>(iUserContextState);
 
 export const MapContextProvider = ({ children }: any) => {
   const [spaces, setSpaces] = useState<Space[] | null>([]);
-  const [center, setCenter] = useState<Position>({
-    // This default position is used when a user's does not allow location access
-    lat: 38.8977,
-    lng: -77.0365,
-  });
+  const [center, setCenter] = useState<Position>(defaultPosition);
   return (
     <MapContext.Provider value={{ spaces, setSpaces, center, setCenter }}>
       {children}

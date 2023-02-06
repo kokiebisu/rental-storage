@@ -100,7 +100,7 @@ export default function Map() {
             renderMarkers(map, maps, space);
           });
         }}
-      ></GoogleMapReact>
+      />
     </div>
   );
 }
