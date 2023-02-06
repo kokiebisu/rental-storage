@@ -51,8 +51,12 @@ export default class ListingRestClient extends BaseRestClient {
   }
 
   public async removeListingById(uid: string) {
-    const response = await this.client.delete(`/listings?uid=${uid}`);
-    return response.data;
+    try {
+      const response = await this.client.delete(`/listings/${uid}`);
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async findListingsByUserId(userId: string) {

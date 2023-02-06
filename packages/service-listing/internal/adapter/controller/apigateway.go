@@ -78,3 +78,12 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (Add
 		UId: listingId,
 	}, err.(*customerror.CustomError)
 }
+
+func (h *ApiGatewayHandler) RemoveListingById(event events.APIGatewayProxyRequest) *customerror.CustomError {
+	uid := event.PathParameters["listingId"]
+	if uid == "" {
+		return customerror.ErrorHandler.GetParameterError("listingId")
+	}
+	err := h.service.RemoveListingById(uid)
+	return err
+}
