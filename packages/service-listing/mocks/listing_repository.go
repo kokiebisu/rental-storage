@@ -31,11 +31,11 @@ func (_m *ListingRepository) Delete(uid string) *errors.CustomError {
 }
 
 // FindManyByLatLng provides a mock function with given fields: latitude, longitude, distance
-func (_m *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *errors.CustomError) {
+func (_m *ListingRepository) FindManyByLatLng(latitude float64, longitude float64, distance int32) ([]listing.Entity, *errors.CustomError) {
 	ret := _m.Called(latitude, longitude, distance)
 
 	var r0 []listing.Entity
-	if rf, ok := ret.Get(0).(func(float32, float32, int32) []listing.Entity); ok {
+	if rf, ok := ret.Get(0).(func(float64, float64, int32) []listing.Entity); ok {
 		r0 = rf(latitude, longitude, distance)
 	} else {
 		if ret.Get(0) != nil {
@@ -44,7 +44,7 @@ func (_m *ListingRepository) FindManyByLatLng(latitude float32, longitude float3
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(float32, float32, int32) *errors.CustomError); ok {
+	if rf, ok := ret.Get(1).(func(float64, float64, int32) *errors.CustomError); ok {
 		r1 = rf(latitude, longitude, distance)
 	} else {
 		if ret.Get(1) != nil {
