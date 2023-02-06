@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 
@@ -35,8 +35,11 @@ func (s *AuthenticationService) SignIn(emailAddress string, password string) (st
 	if err != nil {
 		return "", customerror.ErrorHandler.RequestFailError(err)
 	}
+	if resp.StatusCode != 200 {
+		return "", customerror.ErrorHandler.RequestInternalError(err)
+	}
 	payload := struct {
-		User domain.User `json:"user"`
+		User user.DTO `json:"user"`
 	}{}
 	if err = json.NewDecoder(resp.Body).Decode(&payload); err != nil {
 		return "", customerror.ErrorHandler.DecodeError("user service endpoint to user domain", err)
@@ -78,9 +81,11 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 	if err != nil {
 		return "", customerror.ErrorHandler.ResponseInvalidError(err)
 	}
-	if resp.StatusCode == 500 {
+	if resp.StatusCode != 200 {
 		payload := struct {
 			StatusCode uint8  `json:"statusCode"`
+			ErrorCode  string `json:"errorCode"`
+			Reason     string `json:"reason"`
 			Message    string `json:"message"`
 		}{}
 		if err := json.NewDecoder(resp.Body).Decode(&payload); err != nil {

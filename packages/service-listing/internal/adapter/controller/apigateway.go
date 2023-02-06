@@ -34,10 +34,8 @@ func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest)
 	if uid == "" {
 		return FindListingByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError()
 	}
-	listing, err := h.service.FindListingById(uid)
-	return FindListingByIdResponsePayload{
-		Listing: listing,
-	}, err
+	l, err := h.service.FindListingById(uid)
+	return FindListingByIdResponsePayload{Listing: l}, err
 }
 
 func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) (FindListingsWithinLatLngResponsePayload, *customerror.CustomError) {
@@ -53,7 +51,7 @@ func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProx
 	if err != nil {
 		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
 	}
-	listings, err := h.service.FindListingsWithinLatLng(float32(latitude), float32(longitude), int32(distance))
+	listings, err := h.service.FindListingsWithinLatLng(latitude, longitude, int32(distance))
 	return FindListingsWithinLatLngResponsePayload{
 		Listings: listings,
 	}, err.(*customerror.CustomError)
@@ -63,8 +61,8 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (Add
 	body := struct {
 		LenderId      string   `json:"lenderId"`
 		StreetAddress string   `json:"streetAddress"`
-		Latitude      float32  `json:"latitude"`
-		Longitude     float32  `json:"longitude"`
+		Latitude      float64  `json:"latitude"`
+		Longitude     float64  `json:"longitude"`
 		ImageUrls     []string `json:"imageUrls"`
 		Title         string   `json:"title"`
 		FeeAmount     int32    `json:"feeAmount"`

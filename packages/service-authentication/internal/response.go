@@ -11,17 +11,22 @@ func SendFailureResponse(err *errors.CustomError) (events.APIGatewayProxyRespons
 	result, _ := helper.Stringify(payload)
 	return events.APIGatewayProxyResponse{
 		StatusCode: int(err.StatusCode),
-		Body:       result,
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":      "*",
+			"Access-Control-Allow-Credentials": "true",
+		},
+		Body: result,
 	}, nil
 }
 
-func SendSuccessResponse(data string) (events.APIGatewayProxyResponse, error) {
+func SendSuccessResponse(payload interface{}) (events.APIGatewayProxyResponse, error) {
+	result, _ := helper.Stringify(payload)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Headers: map[string]string{
 			"Access-Control-Allow-Origin":      "*",
 			"Access-Control-Allow-Credentials": "true",
 		},
-		Body: string(data),
+		Body: result,
 	}, nil
 }

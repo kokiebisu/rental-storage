@@ -1,6 +1,6 @@
-package domain
+package user
 
-type User struct {
+type DTO struct {
 	Id           int64  `json:"id"`
 	UId          string `json:"uid"`
 	EmailAddress string `json:"emailAddress"`

@@ -7,5 +7,5 @@ import (
 )
 
 type ListingFactory interface {
-	New(title string, lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, feeCurrency amount.CurrencyType, feeAmount int64, feeType string) (listing.Entity, *errors.CustomError)
+	New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, feeCurrency amount.CurrencyType, feeAmount int64, feeType string) (listing.Entity, *errors.CustomError)
 }

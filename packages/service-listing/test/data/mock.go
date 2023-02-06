@@ -14,8 +14,8 @@ var (
 	MockTitle         = "A beautiful garage"
 	MockLenderId      = faker.UUIDDigit()
 	MockStreetAddress = faker.FirstName()
-	MockLatitude      = float32(faker.Latitude())
-	MockLongitude     = float32(faker.Longitude())
+	MockLatitude      = faker.Latitude()
+	MockLongitude     = faker.Longitude()
 	MockDistance      = int32(5)
 	MockImageUrls     = []string{
 		faker.URL(),

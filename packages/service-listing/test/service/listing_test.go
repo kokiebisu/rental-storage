@@ -13,7 +13,7 @@ import (
 )
 
 // CreateListing
-func TestCreateListingSuccess(t *testing.T) {
+func TestCreateListing_Success(t *testing.T) {
 	mockRepo := mocks.NewListingRepository(t)
 	mockFactory := mocks.NewListingFactory(t)
 	mockFactory.On("New", data.MockTitle, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockFeeCurrency, data.MockFeeAmount, data.MockFeeType).Return(data.MockListing, nil)
@@ -26,7 +26,7 @@ func TestCreateListingSuccess(t *testing.T) {
 }
 
 // FindListingsWithinLatLng
-func TestFindListingsWithinLatLngSuccess(t *testing.T) {
+func TestFindListingsWithinLatLng_Success(t *testing.T) {
 	mockRepo := mocks.NewListingRepository(t)
 	mockFactory := mocks.NewListingFactory(t)
 	mockFactory.On("New", data.MockTitle, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockFeeCurrency, data.MockFeeAmount, data.MockFeeType).Return(data.MockListing, nil)
@@ -46,7 +46,7 @@ func TestFindListingsWithinLatLngSuccess(t *testing.T) {
 }
 
 // FindListingById
-func TestFindListingByIdSuccess(t *testing.T) {
+func TestFindListingById_Success(t *testing.T) {
 	mockRepo := mocks.NewListingRepository(t)
 	mockFactory := mocks.NewListingFactory(t)
 	mockFactory.On("New", data.MockTitle, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockFeeCurrency, data.MockFeeAmount, data.MockFeeType).Return(data.MockListing, nil)
@@ -65,7 +65,7 @@ func TestFindListingByIdSuccess(t *testing.T) {
 }
 
 // RemoveListingById
-func TestRemoveListingByIdSuccess(t *testing.T) {
+func TestRemoveListingById_Success(t *testing.T) {
 	mockRepo := mocks.NewListingRepository(t)
 	mockFactory := mocks.NewListingFactory(t)
 	mockFactory.On("New", data.MockTitle, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockFeeCurrency, data.MockFeeAmount, data.MockFeeType).Return(data.MockListing, nil)
