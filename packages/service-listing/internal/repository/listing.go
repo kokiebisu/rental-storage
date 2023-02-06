@@ -196,6 +196,8 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 	return l, nil
 }
 
+// deprecating this for now
+// not sure if this is valid
 func (r *ListingRepository) FindManyByLatLng(latitude float64, longitude float64, distance int32) ([]listing.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
@@ -207,7 +209,7 @@ func (r *ListingRepository) FindManyByLatLng(latitude float64, longitude float64
 						LEFT JOIN fees_listing ON listing.id = fees_listing.listing_id
 						GROUP BY id, uid, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type
 			) 
-			x GROUP BY x.id, x.uid, x.title, x.lender_id, x.street_address, x.latitude, x.longitude, x.url, x.amount, x.currency, x.type, x.distance 
+			x GROUP BY x.id, x.uid, x.title, x.lender_id, x.street_address, x.coordinate, x.url, x.amount, x.currency, x.type, x.distance 
 			HAVING x.distance < $3 ORDER BY x.distance LIMIT 10
 		`,
 		latitude, longitude, distance,
@@ -222,14 +224,13 @@ func (r *ListingRepository) FindManyByLatLng(latitude float64, longitude float64
 		var title string
 		var lenderId string
 		var streetAddress string
-		var latitude float64
-		var longitude float64
+		var coordinate helper.Point
 		var distance float32
 		var imageUrl string
 		var feeAmount int64
 		var feeCurrency string
 		var feeType string
-		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
 		if err != nil {
 			return []listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
