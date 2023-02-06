@@ -8,6 +8,7 @@ import (
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/amount"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/fee"
 	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	"github.com/kokiebisu/rental-storage/service-listing/internal/helper"
 )
 
 type ListingRepository struct {
@@ -28,8 +29,7 @@ func (r *ListingRepository) Setup() *customerror.CustomError {
 			title VARCHAR(64),
 			lender_id VARCHAR(64), 
 			street_address VARCHAR(100) NOT NULL, 
-			latitude DECIMAL(16,14) NOT NULL, 
-			longitude DECIMAL(16,14) NOT NULL
+			coordinate point
 	  	)
 	`)
 	if err != nil {
@@ -83,11 +83,12 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.C
 	row := r.db.QueryRow(
 		`
           INSERT INTO listing (
-          uid, lender_id, street_address, latitude, longitude
-          ) VALUES ($1, $2, $3, $4, $5)
+          uid, title, lender_id, street_address, coordinate
+          ) VALUES ($1, $2, $3, $4, point($5, $6))
 		  RETURNING id
 		`,
 		listing.UId,
+		listing.Title,
 		listing.LenderId,
 		listing.StreetAddress.Value,
 		listing.Latitude.Value,
@@ -162,8 +163,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 	var title string
 	var lenderId string
 	var streetAddress string
-	var latitude float32
-	var longitude float32
+	var coordinate helper.Point
 	var feeAmount int64
 	var feeCurrency string
 	var feeType string
@@ -172,7 +172,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 	for rows.Next() {
 		var uid string
 		var imageUrl string
-		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &latitude, &longitude, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &imageUrl, &feeAmount, &feeCurrency, &feeType)
 		if err != nil {
 			return listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -183,8 +183,8 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 		Title:         title,
 		LenderId:      lenderId,
 		StreetAddress: streetAddress,
-		Latitude:      latitude,
-		Longitude:     longitude,
+		Latitude:      coordinate.X,
+		Longitude:     coordinate.Y,
 		ImageUrls:     imageUrls,
 		Fee: fee.Raw{
 			Amount: amount.Raw{
