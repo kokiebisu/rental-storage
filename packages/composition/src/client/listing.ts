@@ -31,8 +31,12 @@ export default class ListingRestClient extends BaseRestClient {
   }
 
   public async findListingById(listingId: string) {
-    const response = await this.client.get(`/listings?uid=${listingId}`);
-    return response.data;
+    try {
+      const response = await this.client.get(`/listings/${listingId}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async findListingsWithinLatLng(
@@ -40,19 +44,31 @@ export default class ListingRestClient extends BaseRestClient {
     longitude: number,
     range: number
   ) {
-    const response = await this.client.get(
-      `/listings?lat=${latitude}&lng=${longitude}&range=${range}`
-    );
-    return response.data;
+    try {
+      const response = await this.client.get(
+        `/listings?lat=${latitude}&lng=${longitude}&range=${range}`
+      );
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async removeListingById(uid: string) {
-    const response = await this.client.delete(`/listings?uid=${uid}`);
-    return response.data;
+    try {
+      const response = await this.client.delete(`/listings/${uid}`);
+      return response;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public async findListingsByUserId(userId: string) {
-    const response = await this.client.get(`/listings?userId=${userId}`);
-    return response.data;
+    try {
+      const response = await this.client.get(`/listings?userId=${userId}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

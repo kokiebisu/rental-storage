@@ -30,3 +30,14 @@ AddListingRest:
     - http:
         path: /listings
         method: post
+
+RemoveListingByIdRest:
+  image:
+    name: app
+    command:
+      - bin/remove-listing-by-id
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-remove-listing-by-id
+  events:
+    - http:
+        path: /listings/{listingId}
+        method: delete

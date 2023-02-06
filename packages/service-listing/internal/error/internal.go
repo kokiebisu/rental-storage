@@ -2,8 +2,8 @@ package errors
 
 import "errors"
 
-func (e *Handler) GetParameterError() *CustomError {
-	msg := "unable to find a parameter"
+func (e *Handler) GetParameterError(parameter string) *CustomError {
+	msg := "unable to find a parameter " + parameter
 	err := errors.New(msg)
 	return &CustomError{
 		StatusCode: 500,
