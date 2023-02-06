@@ -197,7 +197,7 @@ func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerro
 	return l, nil
 }
 
-func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *customerror.CustomError) {
+func (r *ListingRepository) FindManyByLatLng(latitude float64, longitude float64, distance int32) ([]listing.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
 			SELECT * FROM (
@@ -223,8 +223,8 @@ func (r *ListingRepository) FindManyByLatLng(latitude float32, longitude float32
 		var title string
 		var lenderId string
 		var streetAddress string
-		var latitude float32
-		var longitude float32
+		var latitude float64
+		var longitude float64
 		var distance float32
 		var imageUrl string
 		var feeAmount int64
