@@ -1,7 +1,8 @@
 import { MapContext } from "@/context/map";
 import { Space } from "@/types/interface";
 import GoogleMapReact from "google-map-react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useGeolocated } from "react-geolocated";
 
 const googleMapAPIKey = process.env.GOOGLE_MAP_API_KEY as string;
 
@@ -58,11 +59,24 @@ const spaceData: Space[] = [
 ];
 
 export default function Map() {
-  // first focus (user's location)
-  const { spaces, setSpaces, center } = useContext(MapContext);
+  const { spaces, setSpaces, center, setCenter } = useContext(MapContext);
+  const { coords, isGeolocationEnabled } = useGeolocated({
+    positionOptions: {
+      enableHighAccuracy: false,
+    },
+    userDecisionTimeout: 50000,
+    isOptimisticGeolocationEnabled: false,
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     setSpaces(spaceData);
-  }, []);
+    if (coords) {
+      setCenter({ lat: coords?.latitude, lng: coords?.longitude });
+      setIsLoading(false);
+      // isGeolocationEnabled will be true here
+    }
+  }, [coords]);
 
   const renderMarkers = (map: any, maps: any, space: Space) => {
     let marker = new maps.Marker({
@@ -72,19 +86,21 @@ export default function Map() {
     return marker;
   };
 
+  if (isLoading && isGeolocationEnabled)
+    return <div>Sorry, We could not find you</div>;
+
   return (
     <div className="h-screen w-full">
       <GoogleMapReact
         bootstrapURLKeys={{ key: googleMapAPIKey }}
         center={center}
-        zoom={8}
-        // put markers on a map
+        zoom={10}
         onGoogleApiLoaded={({ map, maps }) => {
           spaces?.map((space) => {
             renderMarkers(map, maps, space);
           });
         }}
-      />
+      ></GoogleMapReact>
     </div>
   );
 }
