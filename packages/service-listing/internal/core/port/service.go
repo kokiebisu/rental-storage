@@ -8,8 +8,8 @@ import (
 )
 
 type ListingService interface {
-	FindListingsWithinLatLng(latitude float32, longitude float32, distance int32) ([]listing.DTO, *errors.CustomError)
+	FindListingsWithinLatLng(latitude float64, longitude float64, distance int32) ([]listing.DTO, *errors.CustomError)
 	FindListingById(uid string) (listing.DTO, *errors.CustomError)
-	CreateListing(lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *errors.CustomError)
+	CreateListing(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *errors.CustomError)
 	RemoveListingById(uid string) *errors.CustomError
 }

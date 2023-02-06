@@ -17,18 +17,18 @@ type ListingFactory struct {
 }
 
 // New provides a mock function with given fields: title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType
-func (_m *ListingFactory) New(title string, lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, feeCurrency amount.CurrencyType, feeAmount int64, feeType string) (listing.Entity, *errors.CustomError) {
+func (_m *ListingFactory) New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, feeCurrency amount.CurrencyType, feeAmount int64, feeType string) (listing.Entity, *errors.CustomError) {
 	ret := _m.Called(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType)
 
 	var r0 listing.Entity
-	if rf, ok := ret.Get(0).(func(string, string, string, float32, float32, []string, amount.CurrencyType, int64, string) listing.Entity); ok {
+	if rf, ok := ret.Get(0).(func(string, string, string, float64, float64, []string, amount.CurrencyType, int64, string) listing.Entity); ok {
 		r0 = rf(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType)
 	} else {
 		r0 = ret.Get(0).(listing.Entity)
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(string, string, string, float32, float32, []string, amount.CurrencyType, int64, string) *errors.CustomError); ok {
+	if rf, ok := ret.Get(1).(func(string, string, string, float64, float64, []string, amount.CurrencyType, int64, string) *errors.CustomError); ok {
 		r1 = rf(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType)
 	} else {
 		if ret.Get(1) != nil {

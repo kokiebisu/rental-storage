@@ -23,8 +23,8 @@ var (
 	title         = faker.Name()
 	lenderId      = faker.FirstName()
 	streetAddress = faker.Word()
-	latitude      = float32(faker.Longitude())
-	longitude     = float32(faker.Latitude())
+	latitude      = faker.Longitude()
+	longitude     = faker.Latitude()
 	imageUrls     = []string{
 		faker.URL(),
 		faker.URL(),

@@ -24,8 +24,8 @@ type DTO struct {
 	Title         string   `json:"title"`
 	LenderId      string   `json:"lenderId"`
 	StreetAddress string   `json:"streetAddress"`
-	Latitude      float32  `json:"latitude"`
-	Longitude     float32  `json:"longitude"`
+	Latitude      float64  `json:"latitude"`
+	Longitude     float64  `json:"longitude"`
 	ImageUrls     []string `json:"imageUrls"`
 	Fee           fee.DTO  `json:"fee"`
 }
@@ -35,8 +35,8 @@ type Raw struct {
 	Title         string
 	LenderId      string
 	StreetAddress string
-	Latitude      float32
-	Longitude     float32
+	Latitude      float64
+	Longitude     float64
 	ImageUrls     []string
 	Fee           fee.Raw
 }

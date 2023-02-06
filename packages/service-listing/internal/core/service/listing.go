@@ -22,7 +22,7 @@ func NewListingService(listingRepository port.ListingRepository, listingFactory 
 	}
 }
 
-func (s *ListingService) FindListingsWithinLatLng(latitude float32, longitude float32, distance int32) ([]listing.DTO, *errors.CustomError) {
+func (s *ListingService) FindListingsWithinLatLng(latitude float64, longitude float64, distance int32) ([]listing.DTO, *errors.CustomError) {
 	listings, err := s.ListingRepository.FindManyByLatLng(latitude, longitude, distance)
 	if err != nil {
 		return []listing.DTO{}, err
@@ -51,7 +51,7 @@ func (s *ListingService) FindListingById(uid string) (listing.DTO, *errors.Custo
 	return listingDTO, nil
 }
 
-func (s *ListingService) CreateListing(lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *errors.CustomError) {
+func (s *ListingService) CreateListing(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *errors.CustomError) {
 	entity, err := s.ListingFactory.New(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, int64(feeAmount), string(feeType))
 	if err != nil {
 		return "", err

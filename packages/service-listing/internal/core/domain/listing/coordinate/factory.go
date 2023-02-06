@@ -6,7 +6,7 @@ import (
 
 type Factory struct{}
 
-func (f *Factory) New(coordinate float32) (ValueObject, *errors.CustomError) {
+func (f *Factory) New(coordinate float64) (ValueObject, *errors.CustomError) {
 	err := isValidCoordinate(coordinate)
 	if err != nil {
 		return ValueObject{}, err
@@ -16,7 +16,7 @@ func (f *Factory) New(coordinate float32) (ValueObject, *errors.CustomError) {
 	}, nil
 }
 
-func isValidCoordinate(value float32) *errors.CustomError {
+func isValidCoordinate(value float64) *errors.CustomError {
 	if value < -180 {
 		return errors.ErrorHandler.InvalidValueError("coordinate", "cannot be less than -180")
 	}

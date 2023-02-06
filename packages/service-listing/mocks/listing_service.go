@@ -19,18 +19,18 @@ type ListingService struct {
 }
 
 // CreateListing provides a mock function with given fields: lenderId, streetAddress, latitude, longitude, imageUrls, title, feeAmount, feeCurrency, feeType
-func (_m *ListingService) CreateListing(lenderId string, streetAddress string, latitude float32, longitude float32, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *errors.CustomError) {
+func (_m *ListingService) CreateListing(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *errors.CustomError) {
 	ret := _m.Called(lenderId, streetAddress, latitude, longitude, imageUrls, title, feeAmount, feeCurrency, feeType)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, string, float32, float32, []string, string, int32, amount.CurrencyType, fee.RentalFeeType) string); ok {
+	if rf, ok := ret.Get(0).(func(string, string, float64, float64, []string, string, int32, amount.CurrencyType, fee.RentalFeeType) string); ok {
 		r0 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title, feeAmount, feeCurrency, feeType)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(string, string, float32, float32, []string, string, int32, amount.CurrencyType, fee.RentalFeeType) *errors.CustomError); ok {
+	if rf, ok := ret.Get(1).(func(string, string, float64, float64, []string, string, int32, amount.CurrencyType, fee.RentalFeeType) *errors.CustomError); ok {
 		r1 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title, feeAmount, feeCurrency, feeType)
 	} else {
 		if ret.Get(1) != nil {
@@ -65,11 +65,11 @@ func (_m *ListingService) FindListingById(uid string) (listing.DTO, *errors.Cust
 }
 
 // FindListingsWithinLatLng provides a mock function with given fields: latitude, longitude, distance
-func (_m *ListingService) FindListingsWithinLatLng(latitude float32, longitude float32, distance int32) ([]listing.DTO, *errors.CustomError) {
+func (_m *ListingService) FindListingsWithinLatLng(latitude float64, longitude float64, distance int32) ([]listing.DTO, *errors.CustomError) {
 	ret := _m.Called(latitude, longitude, distance)
 
 	var r0 []listing.DTO
-	if rf, ok := ret.Get(0).(func(float32, float32, int32) []listing.DTO); ok {
+	if rf, ok := ret.Get(0).(func(float64, float64, int32) []listing.DTO); ok {
 		r0 = rf(latitude, longitude, distance)
 	} else {
 		if ret.Get(0) != nil {
@@ -78,7 +78,7 @@ func (_m *ListingService) FindListingsWithinLatLng(latitude float32, longitude f
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(float32, float32, int32) *errors.CustomError); ok {
+	if rf, ok := ret.Get(1).(func(float64, float64, int32) *errors.CustomError); ok {
 		r1 = rf(latitude, longitude, distance)
 	} else {
 		if ret.Get(1) != nil {

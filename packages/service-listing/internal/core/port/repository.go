@@ -10,5 +10,5 @@ type ListingRepository interface {
 	Save(listing.Entity) (string, *errors.CustomError)
 	Delete(uid string) *errors.CustomError
 	FindOneById(uid string) (listing.Entity, *errors.CustomError)
-	FindManyByLatLng(latitude float32, longitude float32, distance int32) ([]listing.Entity, *errors.CustomError)
+	FindManyByLatLng(latitude float64, longitude float64, distance int32) ([]listing.Entity, *errors.CustomError)
 }
