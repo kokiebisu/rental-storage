@@ -42,10 +42,16 @@ func (s *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId s
 	return bookingEntity.Id, nil
 }
 
+// @deprecated not used
 func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, *customerror.CustomError) {
 	bookings, err := s.bookingRepository.FindManyByUserId(userId)
 	if err != nil {
 		return []booking.Entity{}, err
 	}
 	return bookings, nil
+}
+
+func (s *BookingService) FindById(uid string) (booking.Entity, *customerror.CustomError) {
+	booking, err := s.bookingRepository.FindOneById(uid)
+	return booking, err
 }

@@ -17,27 +17,17 @@ func NewBookingRepository(db *db.NoSQLClient) *BookingRepository {
 }
 
 func (r *BookingRepository) Save(booking booking.Entity) *customerror.CustomError {
-	err := r.db.Save(booking)
-	return err
+	return r.db.Save(booking)
 }
 
 func (r *BookingRepository) Delete(id string) *customerror.CustomError {
-	err := r.db.Delete(id)
-	return err
+	return r.db.Delete(id)
 }
 
 func (r *BookingRepository) FindOneById(id string) (booking.Entity, *customerror.CustomError) {
-	entity, err := r.db.FindById(id)
-	if err != nil {
-		return booking.Entity{}, err
-	}
-	return entity, nil
+	return r.db.FindById(id)
 }
 
 func (r *BookingRepository) FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError) {
-	entities, err := r.db.FindManyByUserId(userId)
-	if err != nil {
-		return []booking.Entity{}, err
-	}
-	return entities, nil
+	return r.db.FindManyByUserId(userId)
 }
