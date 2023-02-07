@@ -28,7 +28,6 @@ var (
 	MockBookingEntity = booking.DTO{
 		Id:        MockUId,
 		Status:    "PENDING",
-		Amount:    MockAmount,
 		UserId:    MockUserId,
 		ListingId: MockListingId,
 		Items:     []item.DTO{MockItem},

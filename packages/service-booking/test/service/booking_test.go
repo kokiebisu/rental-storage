@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"testing"
 
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
@@ -15,7 +14,6 @@ import (
 
 func setupTest(t *testing.T) (string, *customerror.CustomError) {
 	data.MockBookingRepo = mocks.NewBookingRepository(t)
-	fmt.Println("ENTITY: ", data.MockBookingEntity)
 	data.MockBookingRepo.On("Save", data.MockBookingEntity).Return(nil)
 
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)

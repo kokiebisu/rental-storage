@@ -1,7 +1,6 @@
 package booking
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -13,7 +12,6 @@ import (
 type Entity struct {
 	Id        string
 	Status    BookingStatus
-	Amount    amount.ValueObject
 	UserId    string
 	ListingId string
 	Items     []item.Entity
@@ -24,7 +22,6 @@ type Entity struct {
 type DTO struct {
 	Id        string     `json:"id"`
 	Status    string     `json:"status"`
-	Amount    amount.DTO `json:"amount"`
 	UserId    string     `json:"userId"`
 	ListingId string     `json:"listingId"`
 	Items     []item.DTO `json:"items"`
@@ -75,11 +72,9 @@ func New(id string, amount amount.ValueObject, userId string, listingId string, 
 			return Entity{}, customerror.ErrorHandler.InternalServerError("provided updatedAt string cannot be parsed", nil)
 		}
 	}
-	fmt.Println("YOYO2: ", updatedAt)
 	return Entity{
 		Id:        id,
 		Status:    PENDING,
-		Amount:    amount,
 		UserId:    userId,
 		ListingId: listingId,
 		Items:     items,
@@ -89,10 +84,6 @@ func New(id string, amount amount.ValueObject, userId string, listingId string, 
 }
 
 func (d DTO) ToEntity() Entity {
-	amountEntity := amount.ValueObject{
-		Value:    d.Amount.Value,
-		Currency: d.Amount.Currency,
-	}
 	items := []item.Entity{}
 	for _, i := range d.Items {
 		itemEntity := i.ToEntity()
@@ -103,7 +94,6 @@ func (d DTO) ToEntity() Entity {
 	return Entity{
 		Id:        d.Id,
 		Status:    BookingStatus(d.Status),
-		Amount:    amountEntity,
 		UserId:    d.UserId,
 		ListingId: d.ListingId,
 		Items:     items,
@@ -122,7 +112,6 @@ func (e Entity) ToDTO() DTO {
 	return DTO{
 		Id:        e.Id,
 		Status:    string(e.Status),
-		Amount:    e.Amount.ToDTO(),
 		UserId:    e.UserId,
 		ListingId: e.ListingId,
 		Items:     itemsDTO,
