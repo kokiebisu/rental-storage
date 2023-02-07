@@ -5,7 +5,7 @@ import (
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
-	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type BookingService struct {
@@ -18,34 +18,34 @@ func NewBookingService(bookingRepository port.BookingRepository) *BookingService
 	}
 }
 
-func (s *BookingService) CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, *errors.CustomError) {
+func (s *BookingService) CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, *customerror.CustomError) {
 	itemEntities := []item.Entity{}
 	amountEntity, err := amount.New(amountDTO.Value, amountDTO.Currency)
 	if err != nil {
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", err
 	}
 	for _, i := range itemsDTO {
 		validItem, err := item.New(i.Name, i.ImageUrls)
 		if err != nil {
-			return "", errors.ErrorHandler.InternalServerError()
+			return "", err
 		}
 		itemEntities = append(itemEntities, validItem)
 	}
-	bookingEntity, err := booking.New(amountEntity, userId, listingId, itemEntities)
+	bookingEntity, err := booking.New("", amountEntity, userId, listingId, itemEntities, "", "")
 	if err != nil {
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", err
 	}
 	err = s.bookingRepository.Save(bookingEntity)
 	if err != nil {
-		return "", errors.ErrorHandler.InternalServerError()
+		return "", err
 	}
 	return bookingEntity.Id, nil
 }
 
-func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, *errors.CustomError) {
+func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, *customerror.CustomError) {
 	bookings, err := s.bookingRepository.FindManyByUserId(userId)
 	if err != nil {
-		return []booking.Entity{}, errors.ErrorHandler.InternalServerError()
+		return []booking.Entity{}, err
 	}
 	return bookings, nil
 }

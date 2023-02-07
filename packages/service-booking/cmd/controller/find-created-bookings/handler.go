@@ -9,7 +9,10 @@ import (
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	apigateway := controller.New()
+	apigateway, err := controller.New()
+	if err != nil {
+		return responses.SendFailureResponse(err)
+	}
 	bookings, err := apigateway.FindUserBookings(request)
 	if err != nil {
 		return responses.SendFailureResponse(err)

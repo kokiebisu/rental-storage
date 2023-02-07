@@ -6,13 +6,13 @@ import (
 	"github.com/google/uuid"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
-	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type Entity struct {
 	Id        string
 	Status    BookingStatus
-	Amount    amount.Entity
+	Amount    amount.ValueObject
 	UserId    string
 	ListingId string
 	Items     []item.Entity
@@ -43,36 +43,57 @@ type Raw struct {
 }
 
 const (
-	CREATED   BookingStatus = "CREATED"
+	PENDING   BookingStatus = "PENDING"
 	COMPLETED BookingStatus = "COMPLETED"
+)
+
+const (
+	layoutISO = "2006-01-02"
+	layoutUS  = "January 2, 2006"
 )
 
 type BookingStatus string
 
-func New(amount amount.Entity, userId string, listingId string, items []item.Entity) (Entity, *errors.CustomError) {
+func New(id string, amount amount.ValueObject, userId string, listingId string, items []item.Entity, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
+	if id == "" {
+		id = uuid.New().String()
+	}
+	if createdAtString == "" {
+		createdAtString = time.Now().Format(layoutISO)
+	}
+	createdAt, err := time.Parse(layoutISO, createdAtString)
+	if err != nil {
+		return Entity{}, customerror.ErrorHandler.InternalServerError("provided createdAt string cannot be parsed", nil)
+	}
+	var updatedAt time.Time
+	if updatedAtString == "" {
+		updatedAt = time.Time{}
+	} else {
+		updatedAt, err = time.Parse(layoutISO, updatedAtString)
+		if err != nil {
+			return Entity{}, customerror.ErrorHandler.InternalServerError("provided updatedAt string cannot be parsed", nil)
+		}
+	}
 	return Entity{
-		Id:        uuid.New().String(),
-		Status:    CREATED,
+		Id:        id,
+		Status:    PENDING,
 		Amount:    amount,
 		UserId:    userId,
 		ListingId: listingId,
 		Items:     items,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Time{},
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
 	}, nil
 }
 
-func (d DTO) ToEntity() (Entity, *errors.CustomError) {
+func (d DTO) ToEntity() (Entity, *customerror.CustomError) {
 	amountEntity, err := amount.New(d.Amount.Value, d.Amount.Currency)
 	if err != nil {
 		return Entity{}, err
 	}
 	items := []item.Entity{}
 	for _, i := range d.Items {
-		itemEntity, err := i.ToEntity()
-		if err != nil {
-			return Entity{}, err
-		}
+		itemEntity := i.ToEntity()
 		items = append(items, itemEntity)
 	}
 	return Entity{

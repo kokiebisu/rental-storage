@@ -2,19 +2,23 @@ package responses
 
 import (
 	"github.com/aws/aws-lambda-go/events"
-	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
+	"github.com/kokiebisu/rental-storage/service-booking/internal/helper"
 )
 
-func SendFailureResponse(err *errors.CustomError) (events.APIGatewayProxyResponse, error) {
+func SendFailureResponse(err *customerror.CustomError) (events.APIGatewayProxyResponse, error) {
+	payload := err.GetPayload()
+	result, _ := helper.Stringify(payload)
 	return events.APIGatewayProxyResponse{
 		StatusCode: int(err.StatusCode),
-		Body:       string(err.Error()),
+		Body:       result,
 	}, nil
 }
 
-func SendSuccessResponse(data string) (events.APIGatewayProxyResponse, error) {
+func SendSuccessResponse(payload interface{}) (events.APIGatewayProxyResponse, error) {
+	result, _ := helper.Stringify(payload)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
-		Body:       string(data),
+		Body:       result,
 	}, nil
 }
