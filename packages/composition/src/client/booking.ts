@@ -1,3 +1,4 @@
+import { BookingItem } from "../adapter/usecase/makeBooking";
 import { BaseRestClient } from "./base";
 
 export default class BookingRestClient extends BaseRestClient {
@@ -6,7 +7,11 @@ export default class BookingRestClient extends BaseRestClient {
     return response.data;
   }
 
-  public async makeBooking(userId: string, listingId: string, items: unknown) {
+  public async makeBooking(
+    userId: string,
+    listingId: string,
+    items: BookingItem[]
+  ) {
     try {
       const response = await this.client.post("/bookings", {
         userId,

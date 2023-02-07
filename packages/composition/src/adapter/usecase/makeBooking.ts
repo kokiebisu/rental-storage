@@ -3,29 +3,26 @@ import { InternalServerError } from "../../error";
 
 interface MakeBookingCommandConstructor {
   userId: string;
-  amount: number;
-  currency: string;
   listingId: string;
-  items: unknown;
+  items: BookingItem[];
+}
+
+export interface BookingItem {
+  name: string;
+  imageUrls: string[];
 }
 
 export class MakeBookingCommand {
   public readonly userId: string;
-  public readonly amount: number;
-  public readonly currency: string;
   public readonly listingId: string;
-  public readonly items: unknown;
+  public readonly items: BookingItem[];
 
   public constructor({
     userId,
-    amount,
-    currency,
     listingId,
     items,
   }: MakeBookingCommandConstructor) {
     this.userId = userId;
-    this.amount = amount;
-    this.currency = currency;
     this.listingId = listingId;
     this.items = items;
   }
@@ -33,17 +30,11 @@ export class MakeBookingCommand {
 
 export class MakeBookingUseCase {
   public async execute(command: MakeBookingCommand) {
-    const { userId, amount, currency, listingId, items } = command;
-    if (!userId || !amount || !currency || !listingId || !items) {
+    const { userId, listingId, items } = command;
+    if (!userId || !listingId || !items) {
       throw new InternalServerError();
     }
     const bookingClient = new BookingRestClient();
-    return await bookingClient.makeBooking(
-      amount,
-      currency,
-      userId,
-      listingId,
-      items
-    );
+    return await bookingClient.makeBooking(userId, listingId, items);
   }
 }
