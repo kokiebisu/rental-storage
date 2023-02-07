@@ -5,13 +5,12 @@ import (
 	"io"
 
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
-	errors "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 )
 
-func Stringify(data interface{}) (string, *errors.CustomError) {
+func Stringify(data interface{}) (string, *customerror.CustomError) {
 	result, err := json.Marshal(data)
 	if err != nil {
-		return "", errors.ErrorHandler.UnmarshalError("data in stringify", err)
+		return "", customerror.ErrorHandler.UnmarshalError("data in stringify", err)
 	}
 	return string(result), nil
 }

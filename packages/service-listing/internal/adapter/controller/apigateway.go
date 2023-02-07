@@ -39,7 +39,6 @@ func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest)
 }
 
 func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) (FindListingsWithinLatLngResponsePayload, *customerror.CustomError) {
-
 	latitude, err := strconv.ParseFloat(event.QueryStringParameters["lat"], 32)
 	if err != nil {
 		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("latitude", "String", err)

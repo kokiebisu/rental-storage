@@ -3,19 +3,19 @@ package port
 import (
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
-	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
 type ItemRepository interface {
-	Save(i item.Entity) *errors.CustomError
-	Delete(uid string) *errors.CustomError
-	FindOneById(uid string) (item.Entity, *errors.CustomError)
+	Save(i item.Entity) *customerror.CustomError
+	Delete(uid string) *customerror.CustomError
+	FindOneById(uid string) (item.Entity, *customerror.CustomError)
 }
 
 type UserRepository interface {
-	Setup() *errors.CustomError
-	Save(u user.Entity) (string, *errors.CustomError)
-	Delete(uid string) *errors.CustomError
-	FindOneById(uid string) (user.Entity, *errors.CustomError)
-	FindOneByEmail(emailAddress string) (user.Entity, *errors.CustomError)
+	Setup() *customerror.CustomError
+	Save(u user.Entity) (string, *customerror.CustomError)
+	Delete(uid string) *customerror.CustomError
+	FindOneById(uid string) (user.Entity, *customerror.CustomError)
+	FindOneByEmail(emailAddress string) (user.Entity, *customerror.CustomError)
 }

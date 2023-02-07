@@ -1,26 +1,26 @@
 package amount
 
 import (
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type Factory struct{}
 
-func isValidAmountValue(value int64) *errors.CustomError {
+func isValidAmountValue(value int64) *customerror.CustomError {
 	if value < 0 {
-		return errors.ErrorHandler.InvalidValueError("amount", "should be positive")
+		return customerror.ErrorHandler.InvalidValueError("amount", "should be positive")
 	}
 	return nil
 }
 
-func isValidAmountCurrency(value string) *errors.CustomError {
+func isValidAmountCurrency(value string) *customerror.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("currency", "cannot be empty")
+		return customerror.ErrorHandler.InvalidValueError("currency", "cannot be empty")
 	}
 	return nil
 }
 
-func (f *Factory) New(value int64, currency string) (ValueObject, *errors.CustomError) {
+func (f *Factory) New(value int64, currency string) (ValueObject, *customerror.CustomError) {
 	err := isValidAmountValue(value)
 	if err != nil {
 		return ValueObject{}, err

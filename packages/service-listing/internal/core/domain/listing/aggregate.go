@@ -5,7 +5,7 @@ import (
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/coordinate"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/fee"
 	streetaddress "github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/street_address"
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type Entity struct {
@@ -60,7 +60,7 @@ func (r Raw) ToEntity() Entity {
 	}
 }
 
-func (e Entity) ToDTO() (DTO, *errors.CustomError) {
+func (e Entity) ToDTO() (DTO, *customerror.CustomError) {
 	return DTO{
 		UId:           e.UId,
 		Title:         e.Title,

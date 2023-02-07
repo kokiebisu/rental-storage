@@ -3,9 +3,9 @@ package db
 import (
 	"database/sql"
 
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
-func New() (*sql.DB, *errors.CustomError) {
+func New() (*sql.DB, *customerror.CustomError) {
 	return NewPostgres()
 }
