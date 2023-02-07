@@ -5,13 +5,13 @@ import (
 
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
-	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 	"github.com/kokiebisu/rental-storage/service-user/mocks"
 	"github.com/kokiebisu/rental-storage/service-user/test/data"
 	"github.com/stretchr/testify/assert"
 )
 
-func setupTest(t *testing.T) (string, *errors.CustomError) {
+func setupTest(t *testing.T) (string, *customerror.CustomError) {
 	data.MockUserRepo = mocks.NewUserRepository(t)
 	data.MockEventSender = mocks.NewEventSender(t)
 	data.MockUserRepo.On("Save", data.MockUser).Return(data.MockUId, nil)

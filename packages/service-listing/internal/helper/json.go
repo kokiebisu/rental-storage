@@ -3,13 +3,13 @@ package helper
 import (
 	"encoding/json"
 
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
-func Stringify(data interface{}) (string, *errors.CustomError) {
+func Stringify(data interface{}) (string, *customerror.CustomError) {
 	result, err := json.Marshal(data)
 	if err != nil {
-		return "", errors.ErrorHandler.MarshalError(err)
+		return "", customerror.ErrorHandler.MarshalError(err)
 	}
 	return string(result), nil
 }

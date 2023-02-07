@@ -2,7 +2,7 @@ package fee
 
 import (
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing/amount"
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 var (
@@ -11,7 +11,7 @@ var (
 
 type Factory struct{}
 
-func (f *Factory) New(feeCurrency string, feeAmount int64, feeType string) (ValueObject, *errors.CustomError) {
+func (f *Factory) New(feeCurrency string, feeAmount int64, feeType string) (ValueObject, *customerror.CustomError) {
 	err := isValidFeeType(feeType)
 	if err != nil {
 		return ValueObject{}, err
@@ -26,9 +26,9 @@ func (f *Factory) New(feeCurrency string, feeAmount int64, feeType string) (Valu
 	}, nil
 }
 
-func isValidFeeType(value string) *errors.CustomError {
+func isValidFeeType(value string) *customerror.CustomError {
 	if value == "" {
-		return errors.ErrorHandler.InvalidValueError("fee type", "cannot be empty")
+		return customerror.ErrorHandler.InvalidValueError("fee type", "cannot be empty")
 	}
 	return nil
 }

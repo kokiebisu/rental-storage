@@ -1,12 +1,12 @@
 package coordinate
 
 import (
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 )
 
 type Factory struct{}
 
-func (f *Factory) New(coordinate float64) (ValueObject, *errors.CustomError) {
+func (f *Factory) New(coordinate float64) (ValueObject, *customerror.CustomError) {
 	err := isValidCoordinate(coordinate)
 	if err != nil {
 		return ValueObject{}, err
@@ -16,9 +16,9 @@ func (f *Factory) New(coordinate float64) (ValueObject, *errors.CustomError) {
 	}, nil
 }
 
-func isValidCoordinate(value float64) *errors.CustomError {
+func isValidCoordinate(value float64) *customerror.CustomError {
 	if value < -180 {
-		return errors.ErrorHandler.InvalidValueError("coordinate", "cannot be less than -180")
+		return customerror.ErrorHandler.InvalidValueError("coordinate", "cannot be less than -180")
 	}
 	return nil
 }

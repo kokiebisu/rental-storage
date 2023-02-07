@@ -12,7 +12,7 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
-	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
 type KinesisSender struct {
@@ -31,7 +31,7 @@ func New() *KinesisSender {
 	}
 }
 
-func (s *KinesisSender) UserCreated(u user.DTO) *errors.CustomError {
+func (s *KinesisSender) UserCreated(u user.DTO) *customerror.CustomError {
 	event := map[string]interface{}{
 		"sourceEntity": "User",
 		"eventName":    "created",
@@ -39,12 +39,12 @@ func (s *KinesisSender) UserCreated(u user.DTO) *errors.CustomError {
 	}
 	encoded, err := json.Marshal(event)
 	if err != nil {
-		return errors.ErrorHandler.CustomError("user created event not being created successful", err)
+		return customerror.ErrorHandler.CustomError("user created event not being created successful", err)
 	}
 	return s.publish(encoded)
 }
 
-func (s *KinesisSender) publish(data []byte) *errors.CustomError {
+func (s *KinesisSender) publish(data []byte) *customerror.CustomError {
 
 	streamName := fmt.Sprintf("%s-EventStream", os.Getenv("STAGE"))
 	partitionKey := uuid.New().String()
@@ -55,7 +55,7 @@ func (s *KinesisSender) publish(data []byte) *errors.CustomError {
 		Data:         data,
 	})
 	if err != nil {
-		return errors.ErrorHandler.CustomError("unable to publish event to kinesis stream", err)
+		return customerror.ErrorHandler.CustomError("unable to publish event to kinesis stream", err)
 	}
 	return nil
 }

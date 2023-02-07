@@ -4,11 +4,11 @@ import (
 	"github.com/kokiebisu/rental-storage/service-listing/internal/adapter/db"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/service"
-	errors "github.com/kokiebisu/rental-storage/service-listing/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-listing/internal/error"
 	"github.com/kokiebisu/rental-storage/service-listing/internal/repository"
 )
 
-func New() (*ApiGatewayHandler, *errors.CustomError) {
+func New() (*ApiGatewayHandler, *customerror.CustomError) {
 	db, err := db.New()
 	if err != nil {
 		return nil, err

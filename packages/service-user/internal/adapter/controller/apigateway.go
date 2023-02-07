@@ -8,7 +8,7 @@ import (
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
-	errors "github.com/kokiebisu/rental-storage/service-user/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
 type ApiGatewayHandler struct {
@@ -31,7 +31,7 @@ type RemoveUserByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (CreateUserResponsePayload, *errors.CustomError) {
+func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (CreateUserResponsePayload, *customerror.CustomError) {
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
 		FirstName     string `json:"firstName"`
@@ -40,7 +40,7 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (Cre
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return CreateUserResponsePayload{}, errors.ErrorHandler.CustomError("unable to unmarshal request body", err)
+		return CreateUserResponsePayload{}, customerror.ErrorHandler.CustomError("unable to unmarshal request body", err)
 	}
 
 	uid, err := h.service.CreateUser("", body.EmailAddresss, body.FirstName, body.LastName, body.Password, []item.DTO{}, "")
@@ -48,10 +48,10 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (Cre
 		UId: uid,
 	}
 
-	return payload, err.(*errors.CustomError)
+	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (FindUserByEmailResponsePayload, *errors.CustomError) {
+func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (FindUserByEmailResponsePayload, *customerror.CustomError) {
 	emailAddress := event.QueryStringParameters["emailAddress"]
 	user, err := h.service.FindByEmail(emailAddress)
 	payload := FindUserByEmailResponsePayload{
@@ -60,7 +60,7 @@ func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest)
 	return payload, err
 }
 
-func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (FindUserByIdResponsePayload, *errors.CustomError) {
+func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (FindUserByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["userId"]
 	user, err := h.service.FindById(uid)
 	payload := FindUserByIdResponsePayload{
@@ -69,7 +69,7 @@ func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (F
 	return payload, err
 }
 
-func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (RemoveUserByIdResponsePayload, *errors.CustomError) {
+func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (RemoveUserByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["userId"]
 	err := h.service.RemoveById(uid)
 	payload := RemoveUserByIdResponsePayload{
