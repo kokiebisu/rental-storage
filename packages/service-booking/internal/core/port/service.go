@@ -8,6 +8,6 @@ import (
 )
 
 type BookingService interface {
-	CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, *customerror.CustomError)
+	CreateBooking(id string, amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO, createdAt string, updatedAt string) (string, *customerror.CustomError)
 	FindUserBookings(userId string) ([]booking.Entity, *customerror.CustomError)
 }

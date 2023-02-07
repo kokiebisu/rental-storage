@@ -37,7 +37,7 @@ func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	bookingId, err := h.service.CreateBooking(body.Amount, body.UserId, body.ListingId, body.Items)
+	bookingId, err := h.service.CreateBooking("", body.Amount, body.UserId, body.ListingId, body.Items, "", "")
 	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
 }
 

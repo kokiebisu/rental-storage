@@ -112,10 +112,7 @@ func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, *custome
 		if err != nil {
 			return []booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot unmarshal map", err)
 		}
-		entity, err := target.ToEntity()
-		if err != nil {
-			return []booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot convert to entity", err)
-		}
+		entity := target.ToEntity()
 		targets = append(targets, entity)
 	}
 	return targets, nil

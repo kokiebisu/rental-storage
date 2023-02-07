@@ -18,20 +18,20 @@ func NewBookingService(bookingRepository port.BookingRepository) *BookingService
 	}
 }
 
-func (s *BookingService) CreateBooking(amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO) (string, *customerror.CustomError) {
+func (s *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO, createdAt string, updatedAt string) (string, *customerror.CustomError) {
 	itemEntities := []item.Entity{}
 	amountEntity, err := amount.New(amountDTO.Value, amountDTO.Currency)
 	if err != nil {
 		return "", err
 	}
 	for _, i := range itemsDTO {
-		validItem, err := item.New(i.Name, i.ImageUrls)
+		validItem, err := item.New(i.Id, i.Name, i.ImageUrls)
 		if err != nil {
 			return "", err
 		}
 		itemEntities = append(itemEntities, validItem)
 	}
-	bookingEntity, err := booking.New("", amountEntity, userId, listingId, itemEntities, "", "")
+	bookingEntity, err := booking.New(id, amountEntity, userId, listingId, itemEntities, createdAt, updatedAt)
 	if err != nil {
 		return "", err
 	}

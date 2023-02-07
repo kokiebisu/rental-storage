@@ -12,7 +12,7 @@ type BookingRepository struct {
 
 func NewBookingRepository(db *db.NoSQLClient) *BookingRepository {
 	return &BookingRepository{
-		db: db,
+		db,
 	}
 }
 
