@@ -76,7 +76,9 @@ const registerListing = async function (userId: string) {
     mockFeeType
   );
   if (!responseData) {
-    throw new Error("register listing request failed");
+    throw new Error(
+      `register listing request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
+    );
   }
   return responseData.uid;
 };
