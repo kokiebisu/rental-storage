@@ -1,7 +1,11 @@
 import { AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
 import { AddListingCommand, AddListingUseCase } from "../usecase/addListing";
-import { MakeBookingCommand, MakeBookingUseCase } from "../usecase/makeBooking";
+import {
+  BookingItem,
+  MakeBookingCommand,
+  MakeBookingUseCase,
+} from "../usecase/makeBooking";
 import {
   RemoveListingByIdCommand,
   RemoveListingByIdUseCase,
@@ -50,10 +54,8 @@ export const makeBooking = async (
   event: AppSyncResolverEvent<
     {
       userId: string;
-      amount: number;
-      currency: string;
       listingId: string;
-      items: unknown;
+      items: BookingItem[];
     },
     unknown
   >
