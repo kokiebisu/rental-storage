@@ -1,8 +1,8 @@
 package amount
 
-import errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
+import customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 
-type Entity struct {
+type ValueObject struct {
 	Value    int32
 	Currency string
 }
@@ -17,36 +17,36 @@ type Raw struct {
 	Currency string `json:"currency"`
 }
 
-func New(value int32, currency string) (Entity, *errors.CustomError) {
+func New(value int32, currency string) (ValueObject, *customerror.CustomError) {
 	err := validateAmountValue(value)
 	if err != nil {
-		return Entity{}, err
+		return ValueObject{}, err
 	}
 	err = validateAmountCurrency(currency)
 	if err != nil {
-		return Entity{}, err
+		return ValueObject{}, err
 	}
-	return Entity{
+	return ValueObject{
 		Value:    value,
 		Currency: currency,
 	}, nil
 }
 
-func validateAmountValue(value int32) *errors.CustomError {
+func validateAmountValue(value int32) *customerror.CustomError {
 	if value < 0 {
-		return errors.ErrorHandler.InternalServerError()
+		return customerror.ErrorHandler.InternalServerError("amount should be greater than 0", nil)
 	}
 	return nil
 }
 
-func validateAmountCurrency(value string) *errors.CustomError {
+func validateAmountCurrency(value string) *customerror.CustomError {
 	return nil
 }
 
-func (d DTO) ToEntity() Entity {
-	return Entity(d)
+func (d DTO) ToEntity() ValueObject {
+	return ValueObject(d)
 }
 
-func (e Entity) ToDTO() DTO {
+func (e ValueObject) ToDTO() DTO {
 	return DTO(e)
 }

@@ -4,7 +4,11 @@ require("ts-node").register({
 });
 
 import { faker } from "@faker-js/faker";
-import { ListingRestClient, UserRestClient } from "../src/client";
+import {
+  BookingRestClient,
+  ListingRestClient,
+  UserRestClient,
+} from "../src/client";
 
 const mockEmailAddress = faker.internet.email();
 const mockFirstName = faker.name.firstName();
@@ -21,14 +25,22 @@ const mockTitle = faker.company.name();
 const mockFeeAmount = faker.commerce.price();
 const mockFeeCurrency = faker.finance.currencyCode();
 const mockFeeType = "MONTHLY";
+const mockItems = [
+  {
+    name: faker.commerce.product(),
+    imageUrls: mockImageUrls,
+  },
+];
 
 module.exports = async function () {
-  const uid = await registerUser();
-  const listingId = await registerListing(uid);
+  const userId = await registerUser();
+  const listingId = await registerListing(userId);
+  const bookingId = await registerBooking(userId, listingId);
 
   global.data = {
-    uid,
+    userId,
     listingId,
+    bookingId,
     mockEmailAddress,
     mockFirstName,
     mockLastName,
@@ -65,6 +77,19 @@ const registerListing = async function (userId: string) {
   );
   if (!responseData) {
     throw new Error("register listing request failed");
+  }
+  return responseData.uid;
+};
+
+const registerBooking = async function (userId: string, listingId: string) {
+  const bookingClient = new BookingRestClient();
+  const responseData = await bookingClient.makeBooking(
+    userId,
+    listingId,
+    mockItems
+  );
+  if (!responseData) {
+    throw new Error("register booking request failed");
   }
   return responseData.uid;
 };

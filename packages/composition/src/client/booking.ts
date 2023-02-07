@@ -6,20 +6,16 @@ export default class BookingRestClient extends BaseRestClient {
     return response.data;
   }
 
-  public async makeBooking(
-    amount: number,
-    currency: string,
-    userId: string,
-    listingId: string,
-    items: unknown
-  ) {
-    const response = await this.client.post("/bookings", {
-      amount,
-      currency,
-      userId,
-      listingId,
-      items,
-    });
-    return response.data;
+  public async makeBooking(userId: string, listingId: string, items: unknown) {
+    try {
+      const response = await this.client.post("/bookings", {
+        userId,
+        listingId,
+        items,
+      });
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

@@ -8,12 +8,15 @@ import (
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	apigateway := controller.New()
-	bookingId, err := apigateway.CreateBooking(request)
+	apigateway, err := controller.New()
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	return responses.SendSuccessResponse(bookingId)
+	payload, err := apigateway.CreateBooking(request)
+	if err != nil {
+		return responses.SendFailureResponse(err)
+	}
+	return responses.SendSuccessResponse(payload)
 }
 
 func main() {

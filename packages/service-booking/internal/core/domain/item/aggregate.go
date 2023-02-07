@@ -1,52 +1,39 @@
 package item
 
 import (
-	"time"
-
-	errors "github.com/kokiebisu/rental-storage/service-booking/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
 type Entity struct {
-	Id        int32
+	Id        uint32
 	Name      string
 	ImageUrls []string
-	UserId    string
-	ListingId string
-	CreatedAt time.Time
-	UpdatedAt time.Time
 }
 
 type DTO struct {
-	Id        int32    `json:"id"`
+	Id        uint32   `json:"id"`
 	Name      string   `json:"name"`
 	ImageUrls []string `json:"imageUrls"`
 }
 
 type Raw struct {
-	Id        int32    `json:"id"`
+	Id        uint32   `json:"id"`
 	Name      string   `json:"name"`
 	ImageUrls []string `json:"image_urls"`
 }
 
-func New(name string, imageUrls []string) (Entity, *errors.CustomError) {
+func New(id uint32, name string, imageUrls []string) (Entity, *customerror.CustomError) {
 	return Entity{
+		Id:        id,
 		Name:      name,
 		ImageUrls: imageUrls,
 	}, nil
 }
 
-func (d DTO) ToEntity() (Entity, *errors.CustomError) {
-	return Entity{
-		Id:        d.Id,
-		Name:      d.Name,
-		ImageUrls: d.ImageUrls,
-	}, nil
+func (d DTO) ToEntity() Entity {
+	return Entity(d)
 }
 
 func (e Entity) ToDTO() DTO {
-	return DTO{
-		Id:        e.Id,
-		Name:      e.Name,
-		ImageUrls: e.ImageUrls,
-	}
+	return DTO(e)
 }
