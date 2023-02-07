@@ -3,7 +3,7 @@ name: Develop Pipeline
 on:
   workflow_dispatch:
   push:
-    branches: "dev"
+    branches: ["dev"]
 
 jobs:
   setup-build:
@@ -17,7 +17,7 @@ jobs:
 
   deploy-dev:
     name: Deploy Services
-    needs: [check-core-infra]
+    needs: [setup-build, check-core-infra]
     uses: ./.github/workflows/call-deploy-dev.yml
     secrets: inherit
 

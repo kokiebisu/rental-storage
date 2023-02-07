@@ -21,7 +21,8 @@ provider:
     images:
       app:
         path: ./
-
+        file: Dockerfile
+        buildArgs:
 custom:
   namespace: app
   service: image
