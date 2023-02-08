@@ -1,4 +1,3 @@
-import { BookingItem } from "../adapter/usecase/makeBooking";
 import { BaseRestClient } from "./base";
 
 export default class BookingRestClient extends BaseRestClient {

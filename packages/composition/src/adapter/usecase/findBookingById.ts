@@ -16,6 +16,7 @@ export class FindBookingByIdUseCase {
   public async execute(command: FindBookingByIdCommand) {
     const { bookingId } = command;
     const client = new BookingRestClient();
-    return await client.findBookingById(bookingId);
+    const result = await client.findBookingById(bookingId);
+    return result?.booking;
   }
 }

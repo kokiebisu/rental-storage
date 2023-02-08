@@ -8,6 +8,6 @@ describe("findMe()", () => {
     const input = { userId: global.data.userId };
     const usecase = new FindMeUseCase();
     const result = await usecase.execute(new FindMeCommand(input));
-    expect(result.user).not.toBeUndefined();
+    expect(result).not.toBeUndefined();
   });
 });

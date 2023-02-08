@@ -11,6 +11,6 @@ describe("findBookingById()", () => {
     const input = { bookingId: global.data.bookingId };
     const usecase = new FindBookingByIdUseCase();
     const result = await usecase.execute(new FindBookingByIdCommand(input));
-    expect(result.booking).not.toBeUndefined();
+    expect(result).not.toBeUndefined();
   });
 });
