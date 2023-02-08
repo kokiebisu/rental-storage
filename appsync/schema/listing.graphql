@@ -4,13 +4,25 @@ schema {
 }
 
 type Query {
-  findListingById(uid: ID!): Listing
+  findListingById(uid: ID!): FindListingByIdResponse
   findListingsWithinLatLng(
     latitude: Float!
     longitude: Float!
     range: Int!
-  ): [Listing]
-  findMyListings: [Listing]
+  ): FindListingsWithinLatLngResponse
+  findMyListings: FindMyListingsResponse
+}
+
+type FindListingByIdResponse {
+  listing: Listing
+}
+
+type FindListingsWithinLatLngResponse {
+  listing: Listing
+}
+
+type FindMyListingsResponse {
+  listings: [Listing]
 }
 
 type Mutation {

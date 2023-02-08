@@ -3,14 +3,20 @@ schema {
   mutation: Mutation
 }
 
+type Query {
+  findBookingById(bookingId: ID!): FindBookingByIdResponse
+}
+
+type FindBookingByIdResponse {
+  booking: Booking
+}
+
 type Mutation {
-  makeBooking(
-    amount: Int!
-    currency: String!
-    userId: ID!
-    listingId: ID!
-    items: [Item]
-  ): Boolean
+  makeBooking(userId: ID!, listingId: ID!, items: [Item]): MakeBookingResponse
+}
+
+type MakeBookingResponse {
+  
 }
 
 input Item {

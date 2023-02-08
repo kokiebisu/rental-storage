@@ -49,9 +49,16 @@ GetPresignedURL:
     ACCOUNT_ID: ${aws:accountId}
     STAGE: ${self:provider.stage}
 
-FindAllCreatedBookings:
+# FindAllCreatedBookings:
+#   image:
+#     name: app
+#     command:
+#       - dist/adapter/resolver/query.findAllCreatedBookings
+#   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-all-created-bookings
+
+FindBookingById:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findAllCreatedBookings
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-all-created-bookings
+      - dist/adapter/resolver/query.findBookingById
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-booking-by-id
