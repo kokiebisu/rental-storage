@@ -20,6 +20,10 @@ type CreateBookingResponsePayload struct {
 	UId string `json:"uid"`
 }
 
+type FindBookingByIdResponsePayload struct {
+	Booking booking.DTO `json:"booking"`
+}
+
 func NewApiGatewayHandler(service port.BookingService) *ApiGatewayHandler {
 	return &ApiGatewayHandler{
 		service: service,
@@ -39,6 +43,15 @@ func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (
 	}
 	bookingId, err := h.service.CreateBooking("", body.Amount, body.UserId, body.ListingId, body.Items, "", "")
 	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
+}
+
+func (h *ApiGatewayHandler) FindBookingById(event events.APIGatewayProxyRequest) (FindBookingByIdResponsePayload, *customerror.CustomError) {
+	bookingId := event.PathParameters["bookingId"]
+	if bookingId == "" {
+		return FindBookingByIdResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
+	}
+	booking, err := h.service.FindById(bookingId)
+	return FindBookingByIdResponsePayload{Booking: booking.ToDTO()}, err
 }
 
 func (h *ApiGatewayHandler) FindUserBookings(event events.APIGatewayProxyRequest) ([]booking.DTO, *customerror.CustomError) {
