@@ -11,7 +11,7 @@ export default class ListingRestClient extends BaseRestClient {
     feeAmount: number,
     feeCurrency: string,
     feeType: string
-  ) {
+  ): Promise<{ uid: string } | undefined> {
     try {
       const response = await this.client.post(`/listings`, {
         lenderId,
@@ -24,13 +24,15 @@ export default class ListingRestClient extends BaseRestClient {
         feeCurrency,
         feeType,
       });
-      return response.data;
+      return response.data as { uid: string };
     } catch (err) {
       console.error(err);
     }
   }
 
-  public async findListingById(listingId: string) {
+  public async findListingById(
+    listingId: string
+  ): Promise<{ listing: Listing } | undefined> {
     try {
       const response = await this.client.get(`/listings/${listingId}`);
       return response.data;
@@ -43,7 +45,7 @@ export default class ListingRestClient extends BaseRestClient {
     latitude: number,
     longitude: number,
     range: number
-  ) {
+  ): Promise<{ listings: Listing[] } | undefined> {
     try {
       const response = await this.client.get(
         `/listings?lat=${latitude}&lng=${longitude}&range=${range}`
@@ -54,16 +56,17 @@ export default class ListingRestClient extends BaseRestClient {
     }
   }
 
-  public async removeListingById(uid: string) {
+  public async removeListingById(uid: string): Promise<void> {
     try {
-      const response = await this.client.delete(`/listings/${uid}`);
-      return response;
+      await this.client.delete(`/listings/${uid}`);
     } catch (err) {
       console.error(err);
     }
   }
 
-  public async findListingsByUserId(userId: string) {
+  public async findListingsByUserId(
+    userId: string
+  ): Promise<{ listings: Listing[] } | undefined> {
     try {
       const response = await this.client.get(`/listings?userId=${userId}`);
       return response.data;

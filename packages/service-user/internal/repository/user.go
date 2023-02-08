@@ -53,7 +53,10 @@ func (r *UserRepository) Delete(uid string) *customerror.CustomError {
 	_, err := r.db.Exec(`
 		DELETE FROM user_account WHERE uid = $1
 	`, uid)
-	return customerror.ErrorHandler.CustomError("unable to delete postgres", err)
+	if err != nil {
+		return customerror.ErrorHandler.CustomError("unable to delete postgres", err)
+	}
+	return nil
 }
 
 func (r *UserRepository) FindOneById(uid string) (user.Entity, *customerror.CustomError) {

@@ -1,11 +1,7 @@
 import { AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
 import { AddListingCommand, AddListingUseCase } from "../usecase/addListing";
-import {
-  BookingItem,
-  MakeBookingCommand,
-  MakeBookingUseCase,
-} from "../usecase/makeBooking";
+import { MakeBookingCommand, MakeBookingUseCase } from "../usecase/makeBooking";
 import {
   RemoveListingByIdCommand,
   RemoveListingByIdUseCase,

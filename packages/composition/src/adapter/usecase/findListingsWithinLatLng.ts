@@ -30,11 +30,11 @@ export class FindListingsWithinLatLngUseCase {
       throw new InternalServerError();
     }
     const listingClient = new ListingRestClient();
-    const response = await listingClient.findListingsWithinLatLng(
+    const data = await listingClient.findListingsWithinLatLng(
       latitude,
       longitude,
       range
     );
-    return response.data;
+    return data?.listings;
   }
 }

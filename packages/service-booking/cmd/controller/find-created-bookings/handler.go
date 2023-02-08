@@ -8,6 +8,7 @@ import (
 	"github.com/kokiebisu/rental-storage/service-booking/internal/helper"
 )
 
+// @deprecated
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	apigateway, err := controller.New()
 	if err != nil {

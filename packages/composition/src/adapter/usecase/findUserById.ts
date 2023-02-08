@@ -20,7 +20,7 @@ export class FindUserByIdUseCase {
       throw new InternalServerError();
     }
     const userClient = new UserRestClient();
-    const response = await userClient.findUserById(userId);
-    return response;
+    const data = await userClient.findUserById(userId);
+    return data?.user;
   }
 }
