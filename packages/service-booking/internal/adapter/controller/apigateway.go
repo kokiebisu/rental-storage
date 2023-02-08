@@ -47,6 +47,9 @@ func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (
 
 func (h *ApiGatewayHandler) FindBookingById(event events.APIGatewayProxyRequest) (FindBookingByIdResponsePayload, *customerror.CustomError) {
 	bookingId := event.PathParameters["bookingId"]
+	if bookingId == "" {
+		return FindBookingByIdResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
+	}
 	booking, err := h.service.FindById(bookingId)
 	return FindBookingByIdResponsePayload{Booking: booking.ToDTO()}, err
 }

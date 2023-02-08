@@ -14,7 +14,7 @@ type BookingService struct {
 
 func NewBookingService(bookingRepository port.BookingRepository) *BookingService {
 	return &BookingService{
-		bookingRepository: bookingRepository,
+		bookingRepository,
 	}
 }
 
@@ -44,14 +44,9 @@ func (s *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId s
 
 // @deprecated not used
 func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, *customerror.CustomError) {
-	bookings, err := s.bookingRepository.FindManyByUserId(userId)
-	if err != nil {
-		return []booking.Entity{}, err
-	}
-	return bookings, nil
+	return s.bookingRepository.FindManyByUserId(userId)
 }
 
 func (s *BookingService) FindById(uid string) (booking.Entity, *customerror.CustomError) {
-	booking, err := s.bookingRepository.FindOneById(uid)
-	return booking, err
+	return s.bookingRepository.FindOneById(uid)
 }

@@ -74,19 +74,19 @@ func (c NoSQLClient) Delete(id string) *customerror.CustomError {
 func (c NoSQLClient) FindById(id string) (booking.Entity, *customerror.CustomError) {
 	output, err := c.client.GetItem(context.TODO(), &dynamodb.GetItemInput{
 		Key: map[string]types.AttributeValue{
-			"id": &types.AttributeValueMemberS{Value: id},
+			"Id": &types.AttributeValueMemberS{Value: id},
 		},
 		TableName: &c.tableName,
 	})
 	if err != nil {
 		return booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot perform FindById operation", err)
 	}
-	target := booking.Entity{}
+	target := booking.DTO{}
 	err = attributevalue.UnmarshalMap(output.Item, &target)
 	if err != nil {
-		return booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot unmarshap map", err)
+		return booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot unmarshal map", err)
 	}
-	return target, nil
+	return target.ToEntity(), nil
 }
 
 func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError) {
