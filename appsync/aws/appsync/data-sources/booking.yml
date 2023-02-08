@@ -3,3 +3,9 @@
   name: MakeBookingFunction
   config:
     lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-make-booking
+
+## Query
+- type: AWS_LAMBDA
+  name: FindBookingByIdFunction
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-booking-by-id

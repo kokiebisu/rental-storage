@@ -19,3 +19,14 @@ CreateBooking:
     - http:
         path: /bookings
         method: post
+
+FindBookingById:
+  image:
+    name: app
+    command:
+      - bin/find-booking-by-id
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-find-booking-by-id
+  events:
+    - http:
+        path: /bookings/{bookingId}
+        method: get

@@ -9,8 +9,9 @@ type Query {
   findMe: User
 }
 
+# Mutation Response
 type Mutation {
-  removeUserById(uid: ID!): Boolean
+  removeUserById(uid: ID!): ID
 }
 
 type User {

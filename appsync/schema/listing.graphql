@@ -4,7 +4,7 @@ schema {
 }
 
 type Query {
-  findListingById(uid: ID!): Listing
+  findListingById(listingId: ID!): Listing
   findListingsWithinLatLng(
     latitude: Float!
     longitude: Float!
@@ -20,31 +20,18 @@ type Mutation {
     latitude: Float!
     longitude: Float!
     imageUrls: [String]
-    fee: FeeInput!
   ): Boolean!
   removeListingById(uid: ID!): Boolean!
 }
 
 type Listing {
-  uid: String!
+  id: String!
   title: String!
   lenderId: String!
   streetAddress: String!
   latitude: Float!
   longitude: Float!
   imageUrls: [String]
-  fee: Fee!
-}
-
-type Fee {
-  amount: Int!
-  currency: CurrencyType!
-}
-
-input FeeInput {
-  amount: Int!
-  currency: CurrencyType!
-  type: FeeType!
 }
 
 enum FeeType {

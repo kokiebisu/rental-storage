@@ -6,6 +6,10 @@ import {
   FindAllCreatedBookingsUseCase,
 } from "../usecase/findAllCreatedBookings";
 import {
+  FindBookingByIdCommand,
+  FindBookingByIdUseCase,
+} from "../usecase/findBookingById";
+import {
   FindListingByIdCommand,
   FindListingByIdUseCase,
 } from "../usecase/findListingById";
@@ -30,6 +34,17 @@ import {
   GetPresignedURLCommand,
   GetPresignedURLUseCase,
 } from "../usecase/getPresignedURL";
+
+export const findBookingById = async (
+  event: AppSyncResolverEvent<{ bookingId: string }, unknown>
+) => {
+  try {
+    const usecase = new FindBookingByIdUseCase();
+    return await usecase.execute(new FindBookingByIdCommand(event.arguments));
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
+};
 
 export const findListingById = async (
   event: AppSyncResolverEvent<{ listingId: string }, unknown>

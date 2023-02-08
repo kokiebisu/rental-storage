@@ -27,3 +27,15 @@ func TestCreateBooking_Success(t *testing.T) {
 	assert.Nil(t, err, "should not throw error")
 	assert.Greater(t, len(uid), 0, "should return valid uid where the length is greater than 0")
 }
+
+// FindBookingById
+func TestFindBookingById_Success(t *testing.T) {
+	uid, err := setupTest(t)
+	data.MockBookingRepo.On("FindOneById", uid).Return(data.MockBookingEntity, nil)
+	data.BookingService = service.NewBookingService(data.MockBookingRepo)
+	assert.Nil(t, err, "should not throw error")
+
+	b, err := data.BookingService.FindById(uid)
+	assert.Nil(t, err, "should not throw error")
+	assert.Equal(t, b.Id, b.Id)
+}

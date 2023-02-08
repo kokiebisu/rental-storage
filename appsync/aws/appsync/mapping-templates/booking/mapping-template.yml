@@ -2,5 +2,12 @@
 - type: Mutation
   field: makeBooking
   dataSource: MakeBookingFunction
-  request: ./booking/query.makeBooking.vtl
+  request: ./booking/mutation.makeBooking.vtl
+  response: false
+
+## Query
+- type: Query
+  field: findBookingById
+  dataSource: FindBookingByIdFunction
+  request: ./booking/query.findBookingById.vtl
   response: false
