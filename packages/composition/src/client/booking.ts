@@ -23,4 +23,13 @@ export default class BookingRestClient extends BaseRestClient {
       console.error(err);
     }
   }
+
+  public async findBookingById(bookingId: string) {
+    try {
+      const response = await this.client.get(`/bookings/${bookingId}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }
