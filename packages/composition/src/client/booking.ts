@@ -2,7 +2,9 @@ import { BookingItem } from "../adapter/usecase/makeBooking";
 import { BaseRestClient } from "./base";
 
 export default class BookingRestClient extends BaseRestClient {
-  public async findAllCreatedBookingsByUserId(userId: string) {
+  public async findAllCreatedBookingsByUserId(
+    userId: string
+  ): Promise<{ bookings: Booking[] } | undefined> {
     const response = await this.client.get(`/bookings/${userId}`);
     return response.data;
   }
@@ -18,6 +20,17 @@ export default class BookingRestClient extends BaseRestClient {
         listingId,
         items,
       });
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  public async findBookingById(
+    bookingId: string
+  ): Promise<{ booking: Booking } | undefined> {
+    try {
+      const response = await this.client.get(`/bookings/${bookingId}`);
       return response.data;
     } catch (err) {
       console.error(err);

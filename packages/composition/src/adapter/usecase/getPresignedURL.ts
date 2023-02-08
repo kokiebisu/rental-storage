@@ -20,6 +20,6 @@ export class GetPresignedURLUseCase {
       throw new InternalServerError();
     }
     const client = new ImageRestClient();
-    return client.getPresignedURL(filename);
+    return await client.getPresignedURL(filename);
   }
 }

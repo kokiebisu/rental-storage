@@ -20,7 +20,7 @@ export class FindMyListingsUseCase {
       throw new InternalServerError();
     }
     const listingClient = new ListingRestClient();
-    const response = await listingClient.findListingsByUserId(userId);
-    return response.data;
+    const data = await listingClient.findListingsByUserId(userId);
+    return data?.listings;
   }
 }

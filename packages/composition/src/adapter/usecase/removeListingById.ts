@@ -20,6 +20,6 @@ export class RemoveListingByIdUseCase {
       throw new InternalServerError();
     }
     const listingClient = new ListingRestClient();
-    return listingClient.removeListingById(listingId);
+    await listingClient.removeListingById(listingId);
   }
 }

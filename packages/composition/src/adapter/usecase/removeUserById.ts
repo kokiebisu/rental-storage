@@ -20,6 +20,6 @@ export class RemoveUserByIdUseCase {
       throw new InternalServerError();
     }
     const userClient = new UserRestClient();
-    return await userClient.removeUserById(userId);
+    await userClient.removeUserById(userId);
   }
 }

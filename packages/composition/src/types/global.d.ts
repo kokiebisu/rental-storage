@@ -1,5 +1,40 @@
+import { BookingItem } from "../adapter/usecase/makeBooking";
+
 declare global {
   var data: JestMockData;
+
+  interface Listing {
+    lenderId: string;
+    streetAddress: string;
+    latitude: number;
+    longitude: number;
+    imageUrls: string[];
+    feeAmount: number[];
+    feeCurrency: number[];
+    feeType: number[];
+  }
+
+  interface Booking {
+    id: string;
+    status: string;
+    userId: string;
+    listingId: string;
+    items: BookingItem;
+    createdAt: string;
+    updatedAt: string;
+  }
+
+  interface BookingItem {
+    name: string;
+    imageUrls: string[];
+  }
+
+  interface User {
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+    streetAddress: string;
+  }
 }
 
 interface JestMockData {

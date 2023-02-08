@@ -7,11 +7,6 @@ interface MakeBookingCommandConstructor {
   items: BookingItem[];
 }
 
-export interface BookingItem {
-  name: string;
-  imageUrls: string[];
-}
-
 export class MakeBookingCommand {
   public readonly userId: string;
   public readonly listingId: string;
@@ -35,6 +30,6 @@ export class MakeBookingUseCase {
       throw new InternalServerError();
     }
     const bookingClient = new BookingRestClient();
-    return await bookingClient.makeBooking(userId, listingId, items);
+    await bookingClient.makeBooking(userId, listingId, items);
   }
 }

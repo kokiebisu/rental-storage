@@ -74,7 +74,7 @@ export class AddListingUseCase {
       throw new InternalServerError();
     }
     const listingClient = new ListingRestClient();
-    return listingClient.addListing(
+    return await listingClient.addListing(
       lenderId,
       streetAddress,
       latitude,

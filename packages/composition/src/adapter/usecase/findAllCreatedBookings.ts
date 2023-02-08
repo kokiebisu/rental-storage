@@ -20,6 +20,7 @@ export class FindAllCreatedBookingsUseCase {
       throw new InternalServerError();
     }
     const client = new BookingRestClient();
-    return await client.findAllCreatedBookingsByUserId(userId);
+    const data = await client.findAllCreatedBookingsByUserId(userId);
+    return data?.bookings;
   }
 }

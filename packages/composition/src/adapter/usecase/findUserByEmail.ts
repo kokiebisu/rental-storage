@@ -20,6 +20,7 @@ export class FindUserByEmailUseCase {
       throw new InternalServerError();
     }
     const userClient = new UserRestClient();
-    return await userClient.findByEmail(email);
+    const data = await userClient.findByEmail(email);
+    return data?.user;
   }
 }

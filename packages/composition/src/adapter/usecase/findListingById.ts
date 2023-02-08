@@ -16,6 +16,7 @@ export class FindListingByIdUseCase {
   public async execute(command: FindListingByIdCommand) {
     const { listingId } = command;
     const client = new ListingRestClient();
-    return await client.findListingById(listingId);
+    const data = await client.findListingById(listingId);
+    return data?.listing;
   }
 }
