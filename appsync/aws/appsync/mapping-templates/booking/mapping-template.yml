@@ -7,7 +7,7 @@
 
 ## Query
 - type: Query
-  field: findListingById
-  dataSource: FindListingByIdFunction
-  request: ./booking/query.findListingById.vtl
+  field: findBookingById
+  dataSource: FindBookingByIdFunction
+  request: ./booking/query.findBookingById.vtl
   response: false

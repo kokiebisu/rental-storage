@@ -4,32 +4,14 @@ schema {
 }
 
 type Query {
-  findUserById(uid: ID!): FindUserByIdResponse # admin priviledge
+  findUserById(uid: ID!): User # admin priviledge
   findUserByEmail(email: String!): User
   findMe: User
 }
 
-# Query Response
-type FindUserByIdResponse {
-  user: User
-}
-
-type FindUserByEmail {
-  user: User
-}
-
-type FindMe {
-  user: User
-}
-
 # Mutation Response
 type Mutation {
-  removeUserById(uid: ID!): RemoveUserByResponse
-}
-
-# Mutation Response
-type RemoveUserByResponse {
-
+  removeUserById(uid: ID!): ID
 }
 
 type User {

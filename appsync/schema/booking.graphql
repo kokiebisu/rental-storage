@@ -4,22 +4,29 @@ schema {
 }
 
 type Query {
-  findBookingById(bookingId: ID!): FindBookingByIdResponse
-}
-
-type FindBookingByIdResponse {
-  booking: Booking
+  findBookingById(bookingId: ID!): Booking
 }
 
 type Mutation {
-  makeBooking(userId: ID!, listingId: ID!, items: [Item]): MakeBookingResponse
+  makeBooking(userId: ID!, listingId: ID!, items: [ItemInput]): ID
 }
 
-type MakeBookingResponse {
-  
+type Booking {
+  id: ID
+  status: String
+  userId: String
+  listingId: String
+  items: [Item]
+  createdAt: String
+  updatedAt: String
 }
 
-input Item {
+input ItemInput {
+  name: String
+  imageUrls: [String]
+}
+
+type Item {
   name: String
   imageUrls: [String]
 }
