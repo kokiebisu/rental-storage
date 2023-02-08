@@ -3,6 +3,7 @@
 package mocks
 
 import (
+	domain "github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 	mock "github.com/stretchr/testify/mock"
 )
@@ -59,14 +60,16 @@ func (_m *AuthenticationService) SignUp(emailAddress string, firstName string, l
 }
 
 // Verify provides a mock function with given fields: authenticationToken
-func (_m *AuthenticationService) Verify(authenticationToken string) (string, *customerror.CustomError) {
+func (_m *AuthenticationService) Verify(authenticationToken string) (*domain.Claims, *customerror.CustomError) {
 	ret := _m.Called(authenticationToken)
 
-	var r0 string
-	if rf, ok := ret.Get(0).(func(string) string); ok {
+	var r0 *domain.Claims
+	if rf, ok := ret.Get(0).(func(string) *domain.Claims); ok {
 		r0 = rf(authenticationToken)
 	} else {
-		r0 = ret.Get(0).(string)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*domain.Claims)
+		}
 	}
 
 	var r1 *customerror.CustomError

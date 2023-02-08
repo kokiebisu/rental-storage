@@ -22,7 +22,8 @@ type SignUpResponsePayload struct {
 }
 
 type VerifyResponsePayload struct {
-	AuthorizationToken string `json:"authorizationToken"`
+	UId string `json:"uid"`
+	Exp int64  `json:"exp"`
 }
 
 func NewApiGatewayHandler(service port.AuthenticationService) *ApiGatewayHandler {
@@ -80,7 +81,8 @@ func (h *ApiGatewayHandler) Verify(event events.APIGatewayProxyRequest) (VerifyR
 	}
 	token, err := h.service.Verify(bodyRequest.AuthorizationToken)
 	payload := VerifyResponsePayload{
-		AuthorizationToken: token,
+		UId: token.UId,
+		Exp: token.ExpiresAt,
 	}
 	return payload, err.(*customerror.CustomError)
 }

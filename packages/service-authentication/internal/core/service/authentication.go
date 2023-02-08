@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
@@ -105,11 +106,6 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 	return token, nil
 }
 
-func (s *AuthenticationService) Verify(authorizationToken string) (string, *customerror.CustomError) {
-	claims, err := s.tokenService.VerifyToken(authorizationToken)
-	if err != nil {
-		return "", err
-	}
-	encoded, err := helper.Stringify(claims)
-	return encoded, err
+func (s *AuthenticationService) Verify(authorizationToken string) (*domain.Claims, *customerror.CustomError) {
+	return s.tokenService.VerifyToken(authorizationToken)
 }

@@ -8,7 +8,7 @@ import (
 type AuthenticationService interface {
 	SignIn(emailAddress string, password string) (string, *customerror.CustomError)
 	SignUp(emailAddress string, firstName string, lastName string, password string) (string, *customerror.CustomError)
-	Verify(authenticationToken string) (string, *customerror.CustomError)
+	Verify(authenticationToken string) (*domain.Claims, *customerror.CustomError)
 }
 
 type TokenService interface {
