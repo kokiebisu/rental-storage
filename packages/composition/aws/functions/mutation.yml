@@ -9,7 +9,7 @@ AddListing:
   image:
     name: app
     command:
-      - dist/adapter/resolver/mutation.addListingMutation
+      - dist/adapter/resolver/mutation.addListing
   name: ${self:provider.stage}-app-${self:custom.service}-add-listing
 
 RemoveListingById:

@@ -19,12 +19,6 @@ type User {
   firstName: String!
   lastName: String!
   emailAddress: String!
-  payment: PaymentInfo
   createdAt: String!
   updatedAt: String
-}
-
-type PaymentInfo {
-  providerId: String!
-  providerType: String!
 }
