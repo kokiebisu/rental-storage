@@ -34,11 +34,11 @@ type RemoveListingByIdResponsePayload struct {
 }
 
 func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (FindListingByIdResponsePayload, *customerror.CustomError) {
-	uid := event.PathParameters["listingId"]
-	if uid == "" {
+	listingId := event.PathParameters["listingId"]
+	if listingId == "" {
 		return FindListingByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("listingId")
 	}
-	l, err := h.service.FindListingById(uid)
+	l, err := h.service.FindListingById(listingId)
 	return FindListingByIdResponsePayload{Listing: l}, err
 }
 
@@ -84,10 +84,10 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (Add
 }
 
 func (h *ApiGatewayHandler) RemoveListingById(event events.APIGatewayProxyRequest) (RemoveListingByIdResponsePayload, *customerror.CustomError) {
-	uid := event.PathParameters["listingId"]
-	if uid == "" {
+	listingId := event.PathParameters["listingId"]
+	if listingId == "" {
 		return RemoveListingByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("listingId")
 	}
-	uid, err := h.service.RemoveListingById(uid)
+	uid, err := h.service.RemoveListingById(listingId)
 	return RemoveListingByIdResponsePayload{UId: uid}, err
 }

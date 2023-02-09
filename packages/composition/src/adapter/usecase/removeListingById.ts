@@ -14,12 +14,14 @@ export class RemoveListingByIdCommand {
 }
 
 export class RemoveListingByIdUseCase {
-  public async execute(command: RemoveListingByIdCommand) {
+  public async execute(
+    command: RemoveListingByIdCommand
+  ): Promise<{ uid: string }> {
     const { listingId } = command;
     if (!listingId) {
       throw new InternalServerError();
     }
     const listingClient = new ListingRestClient();
-    await listingClient.removeListingById(listingId);
+    return await listingClient.removeListingById(listingId);
   }
 }
