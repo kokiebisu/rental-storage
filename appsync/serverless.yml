@@ -25,6 +25,7 @@ custom:
       lambdaFunctionArn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-authorizer
       authorizerResultTtlInSeconds: 0
     schema:
+      - schema/common.graphql
       - schema/booking.graphql
       - schema/image.graphql
       - schema/listing.graphql
