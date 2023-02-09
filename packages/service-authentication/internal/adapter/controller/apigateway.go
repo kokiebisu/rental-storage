@@ -79,10 +79,11 @@ func (h *ApiGatewayHandler) Verify(event events.APIGatewayProxyRequest) (VerifyR
 	if err != nil {
 		return VerifyResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}
-	token, err := h.service.Verify(bodyRequest.AuthorizationToken)
+	claims, err := h.service.Verify(bodyRequest.AuthorizationToken)
+
 	payload := VerifyResponsePayload{
-		UId: token.UId,
-		Exp: token.ExpiresAt,
+		UId: claims.UId,
+		Exp: claims.ExpiresAt,
 	}
 	return payload, err.(*customerror.CustomError)
 }

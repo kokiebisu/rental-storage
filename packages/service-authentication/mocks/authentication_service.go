@@ -5,6 +5,7 @@ package mocks
 import (
 	domain "github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
+
 	mock "github.com/stretchr/testify/mock"
 )
 
