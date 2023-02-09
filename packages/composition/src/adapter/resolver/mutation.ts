@@ -52,7 +52,6 @@ export const removeListingById = async (
 export const makeBooking = async (
   event: AppSyncResolverEvent<
     {
-      userId: string;
       listingId: string;
       items: BookingItem[];
     },
@@ -61,7 +60,7 @@ export const makeBooking = async (
 ) => {
   try {
     const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
-    const input = { ...event.arguments, lenderId: uid };
+    const input = { ...event.arguments, userId: uid };
     const usecase = new MakeBookingUseCase();
     return await usecase.execute(new MakeBookingCommand(input));
   } catch (err: unknown) {
