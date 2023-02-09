@@ -11,6 +11,6 @@ describe("removeUserById()", () => {
     const input = { userId: global.data.userId };
     const usecase = new RemoveUserByIdUseCase();
     const result = await usecase.execute(new RemoveUserByIdCommand(input));
-    expect(result?.userId).not.toBeUndefined();
+    expect(result?.uid).not.toBeUndefined();
   });
 });
