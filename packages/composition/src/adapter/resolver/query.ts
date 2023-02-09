@@ -141,12 +141,12 @@ export const findUserByEmail = async (
 };
 
 export const findUserById = async (
-  event: AppSyncResolverEvent<{ uid: string }, unknown>
+  event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
   try {
     const usecase = new FindUserByIdUseCase();
     const response = await usecase.execute(
-      new FindUserByIdCommand({ userId: event.arguments.uid })
+      new FindUserByIdCommand({ userId: event.arguments.userId })
     );
     return response;
   } catch (err: unknown) {
