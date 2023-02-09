@@ -24,7 +24,7 @@ type Mutation {
     feeAmount: Int
     feeCurrency: Currency
   ): UId
-  removeListingById(uid: ID!): UId
+  removeListingById(listingId: ID!): UId
 }
 
 type Listing {
