@@ -76,6 +76,7 @@ func TestRemoveListingById_Success(t *testing.T) {
 	_, err := listingService.CreateListing(data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, int32(data.MockFeeAmount), data.MockFeeCurrency, fee.RentalFeeType(data.MockFeeType))
 	assert.Nil(t, err, "should not throw error")
 
-	err = listingService.RemoveListingById(data.MockUId)
+	uid, err := listingService.RemoveListingById(data.MockUId)
+	assert.Greater(t, len(uid), 0, "greater than 0")
 	assert.Nil(t, err, "should not throw error")
 }

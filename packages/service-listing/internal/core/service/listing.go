@@ -63,7 +63,7 @@ func (s *ListingService) CreateListing(lenderId string, streetAddress string, la
 	return result, nil
 }
 
-func (s *ListingService) RemoveListingById(uid string) *customerror.CustomError {
+func (s *ListingService) RemoveListingById(uid string) (string, *customerror.CustomError) {
 	err := s.ListingRepository.Delete(uid)
-	return err
+	return uid, err
 }

@@ -29,6 +29,10 @@ type AddListingResponsePayload struct {
 	UId string `json:"uid"`
 }
 
+type RemoveListingByIdResponsePayload struct {
+	UId string `json:"uid"`
+}
+
 func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest) (FindListingByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["listingId"]
 	if uid == "" {
@@ -79,11 +83,11 @@ func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (Add
 	}, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayHandler) RemoveListingById(event events.APIGatewayProxyRequest) *customerror.CustomError {
+func (h *ApiGatewayHandler) RemoveListingById(event events.APIGatewayProxyRequest) (RemoveListingByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["listingId"]
 	if uid == "" {
-		return customerror.ErrorHandler.GetParameterError("listingId")
+		return RemoveListingByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("listingId")
 	}
-	err := h.service.RemoveListingById(uid)
-	return err
+	uid, err := h.service.RemoveListingById(uid)
+	return RemoveListingByIdResponsePayload{UId: uid}, err
 }
