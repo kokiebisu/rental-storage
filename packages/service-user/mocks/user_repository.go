@@ -15,19 +15,26 @@ type UserRepository struct {
 }
 
 // Delete provides a mock function with given fields: uid
-func (_m *UserRepository) Delete(uid string) *errors.CustomError {
+func (_m *UserRepository) Delete(uid string) (string, *errors.CustomError) {
 	ret := _m.Called(uid)
 
-	var r0 *errors.CustomError
-	if rf, ok := ret.Get(0).(func(string) *errors.CustomError); ok {
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string) string); ok {
 		r0 = rf(uid)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*errors.CustomError)
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
+		r1 = rf(uid)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
 		}
 	}
 
-	return r0
+	return r0, r1
 }
 
 // FindOneByEmail provides a mock function with given fields: emailAddress
