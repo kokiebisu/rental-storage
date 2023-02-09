@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
@@ -101,15 +102,9 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
 		return "", customerror.ErrorHandler.DecodeError("jwt payload to response", err)
 	}
-	token, _ := s.tokenService.GenerateToken(response.UId)
-	return token, nil
+	return s.tokenService.GenerateToken(response.UId)
 }
 
-func (s *AuthenticationService) Verify(authorizationToken string) (string, *customerror.CustomError) {
-	claims, err := s.tokenService.VerifyToken(authorizationToken)
-	if err != nil {
-		return "", err
-	}
-	encoded, err := helper.Stringify(claims)
-	return encoded, err
+func (s *AuthenticationService) Verify(authorizationToken string) (*domain.Claims, *customerror.CustomError) {
+	return s.tokenService.VerifyToken(authorizationToken)
 }

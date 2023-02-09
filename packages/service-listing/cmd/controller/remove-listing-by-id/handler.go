@@ -13,11 +13,11 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	err = c.RemoveListingById(request)
+	payload, err := c.RemoveListingById(request)
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	return responses.SendSuccessResponse(nil)
+	return responses.SendSuccessResponse(payload)
 }
 
 func main() {

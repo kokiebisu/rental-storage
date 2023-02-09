@@ -24,13 +24,9 @@ export default class UserRestClient extends BaseRestClient {
     }
   }
 
-  public async removeUserById(userId: string): Promise<void> {
-    try {
-      const response = await this.client.delete(`/users/${userId}`);
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+  public async removeUserById(userId: string): Promise<{ uid: string }> {
+    const response = await this.client.delete(`/users/${userId}`);
+    return response.data;
   }
 
   // WARNING: THIS WILL NOT BE EXPOSED ON APPSYNC

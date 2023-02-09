@@ -1,4 +1,4 @@
-import { AppSyncResolverEvent } from "aws-lambda";
+import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
 import { AddListingCommand, AddListingUseCase } from "../usecase/addListing";
 import { MakeBookingCommand, MakeBookingUseCase } from "../usecase/makeBooking";
@@ -14,7 +14,6 @@ import {
 export const addListing = async (
   event: AppSyncResolverEvent<
     {
-      lenderId: string;
       streetAddress: string;
       latitude: number;
       longitude: number;
@@ -28,8 +27,11 @@ export const addListing = async (
   >
 ) => {
   try {
+    const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
+    const input = { ...event.arguments, lenderId: uid };
     const usecase = new AddListingUseCase();
-    return await usecase.execute(new AddListingCommand(event.arguments));
+    const result = await usecase.execute(new AddListingCommand(input));
+    return result;
   } catch (err: unknown) {
     return isCustomError(err) ? err.serializeError() : err;
   }
@@ -39,8 +41,9 @@ export const removeListingById = async (
   event: AppSyncResolverEvent<{ listingId: string }, unknown>
 ) => {
   try {
+    const input = event.arguments;
     const usecase = new RemoveListingByIdUseCase();
-    return await usecase.execute(new RemoveListingByIdCommand(event.arguments));
+    return await usecase.execute(new RemoveListingByIdCommand(input));
   } catch (err: unknown) {
     return isCustomError(err) ? err.serializeError() : err;
   }
@@ -57,8 +60,10 @@ export const makeBooking = async (
   >
 ) => {
   try {
+    const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
+    const input = { ...event.arguments, lenderId: uid };
     const usecase = new MakeBookingUseCase();
-    return await usecase.execute(new MakeBookingCommand(event.arguments));
+    return await usecase.execute(new MakeBookingCommand(input));
   } catch (err: unknown) {
     return isCustomError(err) ? err.serializeError() : err;
   }
@@ -68,8 +73,9 @@ export const removeUserById = async (
   event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
   try {
+    const input = { ...event.arguments };
     const usecase = new RemoveUserByIdUseCase();
-    return await usecase.execute(new RemoveUserByIdCommand(event.arguments));
+    return await usecase.execute(new RemoveUserByIdCommand(input));
   } catch (err: unknown) {
     return isCustomError(err) ? err.serializeError() : err;
   }

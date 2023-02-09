@@ -14,12 +14,17 @@ export class RemoveUserByIdCommand {
 }
 
 export class RemoveUserByIdUseCase {
-  public async execute(command: RemoveUserByIdCommand) {
+  public async execute(
+    command: RemoveUserByIdCommand
+  ): Promise<{ uid: string } | undefined> {
     const { userId } = command;
     if (!userId) {
       throw new InternalServerError();
     }
     const userClient = new UserRestClient();
-    await userClient.removeUserById(userId);
+    // TODO: must remove all listings associated with the user
+    const data = await userClient.removeUserById(userId);
+    console.log("DATA: ", data);
+    return { uid: data.uid };
   }
 }

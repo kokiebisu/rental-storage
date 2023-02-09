@@ -11,13 +11,15 @@ type ItemService struct {
 	factory        port.ItemFactory
 }
 
-func (s *ItemService) AddItems(items []item.DTO) *customerror.CustomError {
+func (s *ItemService) AddItems(items []item.DTO) ([]string, *customerror.CustomError) {
+	uids := []string{}
 	for _, i := range items {
 		item := s.factory.New(i.Name, i.OwnerId, i.ListingId)
-		err := s.itemRepository.Save(item)
+		uid, err := s.itemRepository.Save(item)
 		if err != nil {
-			return err
+			return []string{}, err
 		}
+		uids = append(uids, uid)
 	}
-	return nil
+	return uids, nil
 }

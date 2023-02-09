@@ -34,10 +34,11 @@ func TestRemoveById_Success(t *testing.T) {
 	_, err := setupTest(t)
 	assert.Nil(t, err, "should not throw error")
 
-	data.MockUserRepo.On("Delete", data.MockUId).Return(nil)
+	data.MockUserRepo.On("Delete", data.MockUId).Return(data.MockUId, nil)
 
-	err = data.UserService.RemoveById(data.MockUId)
+	uid, err := data.UserService.RemoveById(data.MockUId)
 	assert.Nil(t, err, "should not throw error")
+	assert.Greater(t, len(uid), 0, "greater than 0")
 }
 
 // FindById

@@ -20,8 +20,11 @@ type Mutation {
     latitude: Float!
     longitude: Float!
     imageUrls: [String]
-  ): Boolean!
-  removeListingById(uid: ID!): Boolean!
+    feeType: FeeType
+    feeAmount: Int
+    feeCurrency: Currency
+  ): UId
+  removeListingById(uid: ID!): UId
 }
 
 type Listing {
@@ -32,8 +35,15 @@ type Listing {
   latitude: Float!
   longitude: Float!
   imageUrls: [String]
+  feeType: FeeType
+  feeAmount: Int
+  feeCurrency: Currency
 }
 
 enum FeeType {
   MONTHLY
+}
+
+enum Currency {
+  CAD
 }

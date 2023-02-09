@@ -53,6 +53,9 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (Cre
 
 func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (FindUserByEmailResponsePayload, *customerror.CustomError) {
 	emailAddress := event.QueryStringParameters["emailAddress"]
+	if emailAddress == "" {
+		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.CustomError("cannot extract emailAddress", nil)
+	}
 	user, err := h.service.FindByEmail(emailAddress)
 	payload := FindUserByEmailResponsePayload{
 		User: user.ToDTO(),
@@ -62,6 +65,9 @@ func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest)
 
 func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (FindUserByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["userId"]
+	if uid == "" {
+		return FindUserByIdResponsePayload{}, customerror.ErrorHandler.CustomError("cannot extract userId", nil)
+	}
 	user, err := h.service.FindById(uid)
 	payload := FindUserByIdResponsePayload{
 		User: user.ToDTO(),
@@ -71,7 +77,10 @@ func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (F
 
 func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (RemoveUserByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["userId"]
-	err := h.service.RemoveById(uid)
+	if uid == "" {
+		return RemoveUserByIdResponsePayload{}, customerror.ErrorHandler.CustomError("userId cannot be extracted", nil)
+	}
+	uid, err := h.service.RemoveById(uid)
 	payload := RemoveUserByIdResponsePayload{
 		UId: uid,
 	}

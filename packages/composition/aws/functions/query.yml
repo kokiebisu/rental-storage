@@ -4,6 +4,7 @@ FindMe:
     command:
       - dist/adapter/resolver/query.findMe
   name: ${self:provider.stage}-app-${self:custom.service}-find-me
+
 FindUserById:
   image:
     name: app

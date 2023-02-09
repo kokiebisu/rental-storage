@@ -48,7 +48,9 @@ export class AddListingCommand {
 }
 
 export class AddListingUseCase {
-  public async execute(command: AddListingCommand) {
+  public async execute(
+    command: AddListingCommand
+  ): Promise<{ uid: string } | undefined> {
     const {
       lenderId,
       streetAddress,
@@ -81,9 +83,9 @@ export class AddListingUseCase {
       longitude,
       imageUrls,
       title,
+      feeType,
       feeAmount,
-      feeCurrency,
-      feeType
+      feeCurrency
     );
   }
 }

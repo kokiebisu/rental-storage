@@ -13,11 +13,11 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	result, err := c.FindListingsWithinLatLng(request)
+	payload, err := c.FindListingsWithinLatLng(request)
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	return responses.SendSuccessResponse(result)
+	return responses.SendSuccessResponse(payload)
 }
 
 func main() {

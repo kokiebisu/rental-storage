@@ -71,9 +71,9 @@ const registerListing = async function (userId: string) {
     Number(mockLongitude),
     mockImageUrls,
     mockTitle,
+    mockFeeType,
     Number(mockFeeAmount),
-    mockFeeCurrency,
-    mockFeeType
+    mockFeeCurrency
   );
   if (!responseData) {
     throw new Error(

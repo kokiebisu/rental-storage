@@ -128,6 +128,6 @@ func TestVerify_Success(t *testing.T) {
 	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
 
 	payload, err := authenticationService.Verify(data.MockToken)
-	assert.Greater(t, len(payload), 0, "token should have a length greater than 0")
+	assert.Greater(t, len(payload.UId), 0, "token should have a length greater than 0")
 	assert.Nil(t, err, "should be no errors")
 }
