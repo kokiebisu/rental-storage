@@ -23,7 +23,6 @@ export default class ListingRestClient extends BaseRestClient {
       feeAmount,
       feeCurrency,
     });
-    console.log("RESPONSE: ", response);
     return response.data;
   }
 

@@ -33,12 +33,12 @@ func (s *UserService) CreateUser(uid string, emailAddress string, firstName stri
 	return uid, err
 }
 
-func (s *UserService) RemoveById(uid string) *customerror.CustomError {
-	err := s.userRepository.Delete(uid)
+func (s *UserService) RemoveById(uid string) (string, *customerror.CustomError) {
+	uid, err := s.userRepository.Delete(uid)
 	// if err != nil {
 	// TODO: user removed event
 	// }
-	return err
+	return uid, err
 }
 
 func (s *UserService) FindById(uid string) (user.Entity, *customerror.CustomError) {
