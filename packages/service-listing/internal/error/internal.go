@@ -93,3 +93,12 @@ func (e *Handler) ScanRowError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) InvalidParamError(err error) *CustomError {
+	msg := "unable to extract any param"
+	return &CustomError{
+		StatusCode: 500,
+		Message:    msg,
+		Reason:     err,
+	}
+}

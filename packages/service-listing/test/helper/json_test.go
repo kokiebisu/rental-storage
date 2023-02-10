@@ -68,7 +68,7 @@ var stringifyResults = []StringifyResult{
 		),
 	},
 	{
-		controller.FindListingsWithinLatLngResponsePayload{
+		controller.FindListingsResponsePayload{
 			Listings: []listing.DTO{
 				l,
 				l,

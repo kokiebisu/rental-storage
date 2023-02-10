@@ -64,6 +64,31 @@ func (_m *ListingService) FindListingById(uid string) (listing.DTO, *errors.Cust
 	return r0, r1
 }
 
+// FindListingsByUserId provides a mock function with given fields: userId
+func (_m *ListingService) FindListingsByUserId(userId string) ([]listing.DTO, *errors.CustomError) {
+	ret := _m.Called(userId)
+
+	var r0 []listing.DTO
+	if rf, ok := ret.Get(0).(func(string) []listing.DTO); ok {
+		r0 = rf(userId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]listing.DTO)
+		}
+	}
+
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
+		r1 = rf(userId)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
 // FindListingsWithinLatLng provides a mock function with given fields: latitude, longitude, distance
 func (_m *ListingService) FindListingsWithinLatLng(latitude float64, longitude float64, distance int32) ([]listing.DTO, *errors.CustomError) {
 	ret := _m.Called(latitude, longitude, distance)

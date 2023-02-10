@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -21,7 +22,7 @@ type FindListingByIdResponsePayload struct {
 	Listing listing.DTO `json:"listing"`
 }
 
-type FindListingsWithinLatLngResponsePayload struct {
+type FindListingsResponsePayload struct {
 	Listings []listing.DTO `json:"listings"`
 }
 
@@ -42,23 +43,38 @@ func (h *ApiGatewayHandler) FindListingById(event events.APIGatewayProxyRequest)
 	return FindListingByIdResponsePayload{Listing: l}, err
 }
 
-func (h *ApiGatewayHandler) FindListingsWithinLatLng(event events.APIGatewayProxyRequest) (FindListingsWithinLatLngResponsePayload, *customerror.CustomError) {
-	latitude, err := strconv.ParseFloat(event.QueryStringParameters["lat"], 32)
-	if err != nil {
-		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("latitude", "String", err)
+func (h *ApiGatewayHandler) FindListings(event events.APIGatewayProxyRequest) (FindListingsResponsePayload, *customerror.CustomError) {
+	userId := event.QueryStringParameters["userId"]
+	if userId != "" {
+		fmt.Println("FIND LISTINGS BY USER ID")
+		ls, err := h.service.FindListingsByUserId(userId)
+		return FindListingsResponsePayload{Listings: ls}, err
 	}
-	longitude, err := strconv.ParseFloat(event.QueryStringParameters["lng"], 32)
-	if err != nil {
-		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("longitude", "String", err)
+	latitudeString := event.QueryStringParameters["lat"]
+	longitudeString := event.QueryStringParameters["lng"]
+	distanceString := event.QueryStringParameters["range"]
+
+	if latitudeString != "" && longitudeString != "" && distanceString != "" {
+
+		latitude, err := strconv.ParseFloat(latitudeString, 32)
+		if err != nil {
+			return FindListingsResponsePayload{}, customerror.ErrorHandler.ConvertError("latitude", "String", err)
+		}
+		longitude, err := strconv.ParseFloat(longitudeString, 32)
+		if err != nil {
+			return FindListingsResponsePayload{}, customerror.ErrorHandler.ConvertError("longitude", "String", err)
+		}
+		distance, err := strconv.ParseInt(distanceString, 10, 32)
+		if err != nil {
+			return FindListingsResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
+		}
+		fmt.Println("FindListingsWithinLatLng ", latitude, longitude, distance)
+		listings, err := h.service.FindListingsWithinLatLng(latitude, longitude, int32(distance))
+		return FindListingsResponsePayload{
+			Listings: listings,
+		}, err.(*customerror.CustomError)
 	}
-	distance, err := strconv.ParseInt(event.QueryStringParameters["range"], 10, 32)
-	if err != nil {
-		return FindListingsWithinLatLngResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
-	}
-	listings, err := h.service.FindListingsWithinLatLng(latitude, longitude, int32(distance))
-	return FindListingsWithinLatLngResponsePayload{
-		Listings: listings,
-	}, err.(*customerror.CustomError)
+	return FindListingsResponsePayload{}, customerror.ErrorHandler.InvalidParamError(nil)
 }
 
 func (h *ApiGatewayHandler) AddListing(event events.APIGatewayProxyRequest) (AddListingResponsePayload, *customerror.CustomError) {

@@ -15,19 +15,26 @@ type ListingRepository struct {
 }
 
 // Delete provides a mock function with given fields: uid
-func (_m *ListingRepository) Delete(uid string) *errors.CustomError {
+func (_m *ListingRepository) Delete(uid string) (string, *errors.CustomError) {
 	ret := _m.Called(uid)
 
-	var r0 *errors.CustomError
-	if rf, ok := ret.Get(0).(func(string) *errors.CustomError); ok {
+	var r0 string
+	if rf, ok := ret.Get(0).(func(string) string); ok {
 		r0 = rf(uid)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*errors.CustomError)
+		r0 = ret.Get(0).(string)
+	}
+
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
+		r1 = rf(uid)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
 		}
 	}
 
-	return r0
+	return r0, r1
 }
 
 // FindManyByLatLng provides a mock function with given fields: latitude, longitude, distance
@@ -46,6 +53,31 @@ func (_m *ListingRepository) FindManyByLatLng(latitude float64, longitude float6
 	var r1 *errors.CustomError
 	if rf, ok := ret.Get(1).(func(float64, float64, int32) *errors.CustomError); ok {
 		r1 = rf(latitude, longitude, distance)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
+// FindManyByUserId provides a mock function with given fields: userId
+func (_m *ListingRepository) FindManyByUserId(userId string) ([]listing.Entity, *errors.CustomError) {
+	ret := _m.Called(userId)
+
+	var r0 []listing.Entity
+	if rf, ok := ret.Get(0).(func(string) []listing.Entity); ok {
+		r0 = rf(userId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]listing.Entity)
+		}
+	}
+
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
+		r1 = rf(userId)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

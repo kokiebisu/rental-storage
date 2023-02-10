@@ -22,6 +22,23 @@ func NewListingService(listingRepository port.ListingRepository, listingFactory 
 	}
 }
 
+func (s *ListingService) FindListingsByUserId(userId string) ([]listing.DTO, *customerror.CustomError) {
+	ls, err := s.ListingRepository.FindManyByUserId(userId)
+	if err != nil {
+		return []listing.DTO{}, err
+	}
+	listingDTOs := []listing.DTO{}
+	for _, l := range ls {
+		listingDTO, err := l.ToDTO()
+		if err != nil {
+			log.Fatalf(err.Error())
+			return []listing.DTO{}, err
+		}
+		listingDTOs = append(listingDTOs, listingDTO)
+	}
+	return listingDTOs, nil
+}
+
 func (s *ListingService) FindListingsWithinLatLng(latitude float64, longitude float64, distance int32) ([]listing.DTO, *customerror.CustomError) {
 	listings, err := s.ListingRepository.FindManyByLatLng(latitude, longitude, distance)
 	if err != nil {
@@ -64,6 +81,5 @@ func (s *ListingService) CreateListing(lenderId string, streetAddress string, la
 }
 
 func (s *ListingService) RemoveListingById(uid string) (string, *customerror.CustomError) {
-	err := s.ListingRepository.Delete(uid)
-	return uid, err
+	return s.ListingRepository.Delete(uid)
 }

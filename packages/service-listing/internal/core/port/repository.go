@@ -8,7 +8,8 @@ import (
 type ListingRepository interface {
 	Setup() *customerror.CustomError
 	Save(listing.Entity) (string, *customerror.CustomError)
-	Delete(uid string) *customerror.CustomError
+	Delete(uid string) (string, *customerror.CustomError)
 	FindOneById(uid string) (listing.Entity, *customerror.CustomError)
 	FindManyByLatLng(latitude float64, longitude float64, distance int32) ([]listing.Entity, *customerror.CustomError)
+	FindManyByUserId(userId string) ([]listing.Entity, *customerror.CustomError)
 }

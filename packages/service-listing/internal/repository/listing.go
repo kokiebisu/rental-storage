@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	"github.com/kokiebisu/rental-storage/service-listing/internal/core/domain/listing"
@@ -127,22 +128,22 @@ func (r *ListingRepository) Save(listing listing.Entity) (string, *customerror.C
 	return listing.UId, nil
 }
 
-func (r *ListingRepository) Delete(uid string) *customerror.CustomError {
+func (r *ListingRepository) Delete(uid string) (string, *customerror.CustomError) {
 	var removedListingId int32
 	result := r.db.QueryRow(`DELETE FROM listing WHERE uid = $1 RETURNING id`, uid)
 	err := result.Scan(&removedListingId)
 	if err != nil {
-		return customerror.ErrorHandler.DeleteListingRowError("listing", err)
+		return "", customerror.ErrorHandler.DeleteListingRowError("listing", err)
 	}
 	_, err = r.db.Exec(`DELETE FROM images_listing WHERE listing_id = $1`, removedListingId)
 	if err != nil {
-		return customerror.ErrorHandler.DeleteListingRowError("images_listing", err)
+		return "", customerror.ErrorHandler.DeleteListingRowError("images_listing", err)
 	}
 	_, err = r.db.Exec(`DELETE FROM fees_listing WHERE listing_id = $1 RETURNING *`, removedListingId)
 	if err != nil {
-		return customerror.ErrorHandler.DeleteListingRowError("fees_listing", err)
+		return "", customerror.ErrorHandler.DeleteListingRowError("fees_listing", err)
 	}
-	return nil
+	return uid, nil
 }
 
 func (r *ListingRepository) FindOneById(uid string) (listing.Entity, *customerror.CustomError) {
@@ -244,6 +245,65 @@ func (r *ListingRepository) FindManyByLatLng(latitude float64, longitude float64
 				StreetAddress: streetAddress,
 				Latitude:      latitude,
 				Longitude:     longitude,
+				ImageUrls:     append([]string{}, imageUrl),
+				Fee: fee.Raw{
+					Amount: amount.Raw{
+						Value:    feeAmount,
+						Currency: feeCurrency,
+					},
+					Type: feeType,
+				},
+			}.ToEntity()
+			listingsMap[uid] = l
+		}
+	}
+	listings := []listing.Entity{}
+	for _, value := range listingsMap {
+		listings = append(listings, value)
+	}
+	return listings, nil
+}
+
+func (r *ListingRepository) FindManyByUserId(userId string) ([]listing.Entity, *customerror.CustomError) {
+	fmt.Println("ENTERED1")
+	rows, err := r.db.Query(
+		`
+		SELECT listing.*, images_listing.url, fees_listing.amount, fees_listing.currency, fees_listing.type FROM listing 
+		LEFT JOIN images_listing ON listing.id = images_listing.listing_id
+		LEFT JOIN fees_listing ON listing.id = fees_listing.listing_id
+		WHERE listing.lender_id = $1
+		`,
+		userId,
+	)
+	if err != nil {
+		return []listing.Entity{}, customerror.ErrorHandler.FindListingsRowError(err)
+	}
+	listingsMap := map[string]listing.Entity{}
+	for rows.Next() {
+		var id string
+		var uid string
+		var title string
+		var lenderId string
+		var streetAddress string
+		var coordinate helper.Point
+		var imageUrl string
+		var feeAmount int64
+		var feeCurrency string
+		var feeType string
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		if err != nil {
+			return []listing.Entity{}, customerror.ErrorHandler.ScanRowError(err)
+		}
+		if entry, ok := listingsMap[uid]; ok {
+			entry.ImageUrls = append(listingsMap[uid].ImageUrls, imageUrl)
+		} else {
+			l := listing.Raw{
+				UId:           uid,
+				Title:         title,
+				LenderId:      lenderId,
+				StreetAddress: streetAddress,
+				Latitude:      coordinate.X,
+				Longitude:     coordinate.Y,
 				ImageUrls:     append([]string{}, imageUrl),
 				Fee: fee.Raw{
 					Amount: amount.Raw{
