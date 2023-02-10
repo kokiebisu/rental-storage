@@ -17,6 +17,12 @@
   request: ./listing/query.findMyListings.vtl
   response: false
 
+- type: Query
+  field: findListingsByUserId
+  dataSource: FindListingsByUserIdFunction
+  request: ./listing/query.findListingsByUserId.vtl
+  response: false
+
 ## Mutation
 - type: Mutation
   field: addListing

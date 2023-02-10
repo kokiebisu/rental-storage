@@ -33,6 +33,13 @@ FindListingsWithinLatLng:
       - dist/adapter/resolver/query.findListingsWithinLatLng
   name: ${self:provider.stage}-app-${self:custom.service}-find-listings-within-lat-lng
 
+FindListingsByUserId:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findListingsByUserId
+  name: ${self:provider.stage}-app-${self:custom.service}-find-listings-by-user-id
+
 FindMyListings:
   image:
     name: app

@@ -4,6 +4,7 @@ declare global {
   var data: JestMockData;
 
   interface Listing {
+    uid: string;
     lenderId: string;
     streetAddress: string;
     latitude: number;

@@ -13,7 +13,9 @@ export class FindListingsByUserIdCommand {
 }
 
 export class FindListingsByUserIdUseCase {
-  public async execute(command: FindListingsByUserIdCommand) {
+  public async execute(
+    command: FindListingsByUserIdCommand
+  ): Promise<Listing[]> {
     const { userId } = command;
     const client = new ListingRestClient();
     const data = await client.findListingsByUserId(userId);
