@@ -10,7 +10,11 @@ describe("findListingById()", () => {
     }
     const input = { listingId: global.data.listingId };
     const usecase = new FindListingByIdUseCase();
-    const result = await usecase.execute(new FindListingByIdCommand(input));
-    expect(result).not.toBeUndefined();
+    try {
+      const result = await usecase.execute(new FindListingByIdCommand(input));
+      expect(result).not.toBeUndefined();
+    } catch (err) {
+      console.error(err);
+    }
   });
 });

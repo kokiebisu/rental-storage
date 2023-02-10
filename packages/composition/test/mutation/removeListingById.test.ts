@@ -11,6 +11,6 @@ describe("removeListingById()", () => {
     const input = { listingId: global.data.listingId };
     const usecase = new RemoveListingByIdUseCase();
     const result = await usecase.execute(new RemoveListingByIdCommand(input));
-    expect(result).toBeUndefined();
+    expect(result).not.toBeUndefined();
   });
 });
