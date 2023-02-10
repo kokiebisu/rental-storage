@@ -58,10 +58,10 @@ func (c *NoSQLClient) Save(booking booking.Entity) *customerror.CustomError {
 	return nil
 }
 
-func (c NoSQLClient) Delete(id string) *customerror.CustomError {
+func (c NoSQLClient) Delete(uid string) *customerror.CustomError {
 	_, err := c.client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
 		Key: map[string]types.AttributeValue{
-			"id": &types.AttributeValueMemberS{Value: id},
+			"UId": &types.AttributeValueMemberS{Value: uid},
 		},
 		TableName: &c.tableName,
 	})
@@ -71,10 +71,10 @@ func (c NoSQLClient) Delete(id string) *customerror.CustomError {
 	return nil
 }
 
-func (c NoSQLClient) FindById(id string) (booking.Entity, *customerror.CustomError) {
+func (c NoSQLClient) FindById(uid string) (booking.Entity, *customerror.CustomError) {
 	output, err := c.client.GetItem(context.TODO(), &dynamodb.GetItemInput{
 		Key: map[string]types.AttributeValue{
-			"Id": &types.AttributeValueMemberS{Value: id},
+			"UId": &types.AttributeValueMemberS{Value: uid},
 		},
 		TableName: &c.tableName,
 	})
