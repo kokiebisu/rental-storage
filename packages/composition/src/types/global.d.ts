@@ -15,7 +15,7 @@ declare global {
   }
 
   interface Booking {
-    id: string;
+    uid: string;
     status: string;
     userId: string;
     listingId: string;

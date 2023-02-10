@@ -12,7 +12,7 @@ type Mutation {
 }
 
 type Booking {
-  id: ID
+  uid: ID
   status: String
   userId: String
   listingId: String

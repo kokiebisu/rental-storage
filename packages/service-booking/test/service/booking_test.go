@@ -37,5 +37,5 @@ func TestFindBookingById_Success(t *testing.T) {
 
 	b, err := data.BookingService.FindById(uid)
 	assert.Nil(t, err, "should not throw error")
-	assert.Equal(t, b.Id, b.Id)
+	assert.Equal(t, b.UId, b.UId)
 }
