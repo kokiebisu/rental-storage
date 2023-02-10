@@ -31,6 +31,7 @@ declare global {
   }
 
   interface User {
+    uid: string;
     firstName: string;
     lastName: string;
     emailAddress: string;

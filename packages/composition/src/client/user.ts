@@ -1,27 +1,13 @@
 import { BaseRestClient } from "./base";
 
 export default class UserRestClient extends BaseRestClient {
-  public async findUserById(
-    userId: string
-  ): Promise<{ user: User } | undefined> {
-    const endpoint = `/users/${userId}`;
-    try {
-      const response = await this.client.get(endpoint);
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+  public async findUserById(userId: string): Promise<{ user: User }> {
+    return (await this.client.get(`/users/${userId}`)).data;
   }
 
-  public async findByEmail(email: string): Promise<{ user: User } | undefined> {
-    try {
-      const response = await this.client.get(
-        `/users/find-by-email?emailAddress=${email}`
-      );
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+  public async findByEmail(email: string): Promise<{ user: User }> {
+    return (await this.client.get(`/users/find-by-email?emailAddress=${email}`))
+      .data;
   }
 
   public async removeUserById(userId: string): Promise<{ uid: string }> {
