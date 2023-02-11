@@ -1,4 +1,4 @@
-import { BookingItem } from "../adapter/usecase/makeBooking";
+import { BookingItem } from "../adapter/usecase/createBooking";
 import { AppSyncResolverEvent } from "aws-lambda";
 
 declare global {
@@ -17,7 +17,7 @@ declare global {
   }
 
   interface Booking {
-    uid: string;
+    id: string;
     status: string;
     userId: string;
     listingId: string;

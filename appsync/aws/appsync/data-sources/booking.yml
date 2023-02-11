@@ -1,11 +1,11 @@
 ## Mutation
 - type: AWS_LAMBDA
-  name: MakeBookingFunction
+  name: CreateBookingFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-make-booking
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-create-booking
 
 ## Query
 - type: AWS_LAMBDA
-  name: FindBookingByIdFunction
+  name: FindBookingFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-booking-by-id
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-booking

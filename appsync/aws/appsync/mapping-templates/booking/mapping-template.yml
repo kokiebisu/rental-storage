@@ -1,13 +1,13 @@
 ## Mutation
 - type: Mutation
-  field: makeBooking
-  dataSource: MakeBookingFunction
-  request: ./booking/mutation.makeBooking.vtl
+  field: bookingCreate
+  dataSource: CreateBookingFn
+  request: ./booking/mutation.bookingCreate.vtl
   response: false
 
 ## Query
 - type: Query
-  field: findBookingById
-  dataSource: FindBookingByIdFunction
-  request: ./booking/query.findBookingById.vtl
+  field: booking
+  dataSource: FindBookingFn
+  request: ./booking/query.booking.vtl
   response: false

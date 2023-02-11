@@ -19,9 +19,9 @@ RemoveListingById:
       - dist/adapter/resolver/mutation.removeListingById
   name: ${self:provider.stage}-app-${self:custom.service}-remove-listing-by-id
 
-MakeBooking:
+CreateBooking:
   image:
     name: app
     command:
-      - dist/adapter/resolver/mutation.makeBooking
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-make-booking
+      - dist/adapter/resolver/mutation.createBooking
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-create-booking

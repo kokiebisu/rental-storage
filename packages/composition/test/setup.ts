@@ -85,7 +85,7 @@ const registerListing = async function (userId: string) {
 
 const registerBooking = async function (userId: string, listingId: string) {
   const bookingClient = new BookingRestClient();
-  const responseData = await bookingClient.makeBooking(
+  const responseData = await bookingClient.createBooking(
     userId,
     listingId,
     mockItems

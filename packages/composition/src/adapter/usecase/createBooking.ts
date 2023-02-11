@@ -1,13 +1,13 @@
 import { BookingRestClient } from "../../client";
 import { InternalServerError } from "../../error";
 
-interface MakeBookingCommandConstructor {
+interface CreateBookingCommandConstructor {
   userId: string;
   listingId: string;
   items: BookingItem[];
 }
 
-export class MakeBookingCommand {
+export class CreateBookingCommand {
   public readonly userId: string;
   public readonly listingId: string;
   public readonly items: BookingItem[];
@@ -16,20 +16,22 @@ export class MakeBookingCommand {
     userId,
     listingId,
     items,
-  }: MakeBookingCommandConstructor) {
+  }: CreateBookingCommandConstructor) {
     this.userId = userId;
     this.listingId = listingId;
     this.items = items;
   }
 }
 
-export class MakeBookingUseCase {
-  public async execute(command: MakeBookingCommand): Promise<{ uid: string }> {
+export class CreateBookingUseCase {
+  public async execute(
+    command: CreateBookingCommand
+  ): Promise<{ uid: string }> {
     const { userId, listingId, items } = command;
     if (!userId || !listingId || !items) {
       throw new InternalServerError();
     }
     const bookingClient = new BookingRestClient();
-    return await bookingClient.makeBooking(userId, listingId, items);
+    return await bookingClient.createBooking(userId, listingId, items);
   }
 }
