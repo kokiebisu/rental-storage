@@ -139,7 +139,7 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-        if: github.event_name == 'pull_request' && steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Plan Status
         run: exit 1
