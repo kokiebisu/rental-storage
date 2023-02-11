@@ -10,7 +10,7 @@ import (
 )
 
 type Entity struct {
-	Id        string
+	UId       string
 	Status    BookingStatus
 	UserId    string
 	ListingId string
@@ -20,7 +20,7 @@ type Entity struct {
 }
 
 type DTO struct {
-	Id        string     `json:"id"`
+	UId       string     `json:"uid"`
 	Status    string     `json:"status"`
 	UserId    string     `json:"userId"`
 	ListingId string     `json:"listingId"`
@@ -73,7 +73,7 @@ func New(id string, amount amount.ValueObject, userId string, listingId string, 
 		}
 	}
 	return Entity{
-		Id:        id,
+		UId:       id,
 		Status:    PENDING,
 		UserId:    userId,
 		ListingId: listingId,
@@ -92,7 +92,7 @@ func (d DTO) ToEntity() Entity {
 	createdAt, _ := time.Parse(layoutISO, d.CreatedAt)
 	updatedAt, _ := time.Parse(layoutISO, d.UpdatedAt)
 	return Entity{
-		Id:        d.Id,
+		UId:       d.UId,
 		Status:    BookingStatus(d.Status),
 		UserId:    d.UserId,
 		ListingId: d.ListingId,
@@ -110,7 +110,7 @@ func (e Entity) ToDTO() DTO {
 		itemsDTO = append(itemsDTO, i.ToDTO())
 	}
 	return DTO{
-		Id:        e.Id,
+		UId:       e.UId,
 		Status:    string(e.Status),
 		UserId:    e.UserId,
 		ListingId: e.ListingId,

@@ -45,6 +45,25 @@ func TestFindListingsWithinLatLng_Success(t *testing.T) {
 
 }
 
+// FindListingsByUserId
+func TestFindListingsByUserId_Success(t *testing.T) {
+	mockRepo := mocks.NewListingRepository(t)
+	mockFactory := mocks.NewListingFactory(t)
+	mockFactory.On("New", data.MockTitle, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockFeeCurrency, data.MockFeeAmount, data.MockFeeType).Return(data.MockListing, nil)
+	mockRepo.On("Save", data.MockListing).Return(data.MockUId, nil)
+
+	listingService := service.NewListingService(mockRepo, mockFactory)
+	_, err := listingService.CreateListing(data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, int32(data.MockFeeAmount), data.MockFeeCurrency, fee.RentalFeeType(data.MockFeeType))
+	assert.Nil(t, err, "should not throw error")
+	mockRepo.On("FindManyByUserId", data.MockLenderId).Return([]listing.Entity{data.MockListing}, nil)
+
+	result, err := listingService.FindListingsByUserId(data.MockLenderId)
+	assert.Nil(t, err, "should not throw error")
+	assert.Greater(t, len(result), 0, "should return listings greater than 0")
+	listingDTO, _ := data.MockListing.ToDTO()
+	assert.Equal(t, listingDTO, result[0])
+}
+
 // FindListingById
 func TestFindListingById_Success(t *testing.T) {
 	mockRepo := mocks.NewListingRepository(t)
@@ -70,7 +89,7 @@ func TestRemoveListingById_Success(t *testing.T) {
 	mockFactory := mocks.NewListingFactory(t)
 	mockFactory.On("New", data.MockTitle, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockFeeCurrency, data.MockFeeAmount, data.MockFeeType).Return(data.MockListing, nil)
 	mockRepo.On("Save", data.MockListing).Return(data.MockUId, nil)
-	mockRepo.On("Delete", data.MockUId).Return(nil)
+	mockRepo.On("Delete", data.MockUId).Return(data.MockUId, nil)
 
 	listingService := service.NewListingService(mockRepo, mockFactory)
 	_, err := listingService.CreateListing(data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, int32(data.MockFeeAmount), data.MockFeeCurrency, fee.RentalFeeType(data.MockFeeType))

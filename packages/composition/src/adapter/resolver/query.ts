@@ -14,14 +14,14 @@ import {
   FindListingByIdUseCase,
 } from "../usecase/findListingById";
 import {
+  FindListingsByUserIdCommand,
+  FindListingsByUserIdUseCase,
+} from "../usecase/findListingsByUserId";
+import {
   FindListingsWithinLatLngCommand,
   FindListingsWithinLatLngUseCase,
 } from "../usecase/findListingsWithinLatLng";
 import { FindMeCommand, FindMeUseCase } from "../usecase/findMe";
-import {
-  FindMyListingsCommand,
-  FindMyListingsUseCase,
-} from "../usecase/findMyListings";
 import {
   FindUserByEmailCommand,
   FindUserByEmailUseCase,
@@ -74,14 +74,29 @@ export const findListingsWithinLatLng = async (
 };
 
 export const findMyListings = async (
-  event: AppSyncResolverEvent<{ uid: string }, unknown>
+  event: AppSyncResolverEvent<Record<string, never>, unknown>
 ) => {
   try {
-    const usecase = new FindMyListingsUseCase();
+    const usecase = new FindListingsByUserIdUseCase();
     return await usecase.execute(
-      new FindMyListingsCommand(
-        (event.identity as AppSyncIdentityLambda).resolverContext
-      )
+      new FindListingsByUserIdCommand({
+        userId: (event.identity as AppSyncIdentityLambda).resolverContext,
+      })
+    );
+  } catch (err: unknown) {
+    return isCustomError(err) ? err.serializeError() : err;
+  }
+};
+
+export const findListingsByUserId = async (
+  event: AppSyncResolverEvent<{ userId: string }, unknown>
+) => {
+  try {
+    const usecase = new FindListingsByUserIdUseCase();
+    return await usecase.execute(
+      new FindListingsByUserIdCommand({
+        userId: event.arguments.userId,
+      })
     );
   } catch (err: unknown) {
     return isCustomError(err) ? err.serializeError() : err;
@@ -141,12 +156,12 @@ export const findUserByEmail = async (
 };
 
 export const findUserById = async (
-  event: AppSyncResolverEvent<{ uid: string }, unknown>
+  event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
   try {
     const usecase = new FindUserByIdUseCase();
     const response = await usecase.execute(
-      new FindUserByIdCommand({ userId: event.arguments.uid })
+      new FindUserByIdCommand({ userId: event.arguments.userId })
     );
     return response;
   } catch (err: unknown) {

@@ -12,17 +12,13 @@ export default class BookingRestClient extends BaseRestClient {
     userId: string,
     listingId: string,
     items: BookingItem[]
-  ) {
-    try {
-      const response = await this.client.post("/bookings", {
-        userId,
-        listingId,
-        items,
-      });
-      return response.data;
-    } catch (err) {
-      console.error(err);
-    }
+  ): Promise<{ uid: string }> {
+    const response = await this.client.post("/bookings", {
+      userId,
+      listingId,
+      items,
+    });
+    return response.data;
   }
 
   public async findBookingById(

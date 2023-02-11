@@ -9,12 +9,12 @@ FindListingByIdRest:
         path: /listings/{listingId}
         method: get
 
-FindListingsWithinLatLngRest:
+FindListings:
   image:
     name: app
     command:
-      - bin/find-listings-within-lat-lng
-  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-listings-within-lat-lng
+      - bin/find-listings
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-listings
   events:
     - http:
         path: /listings

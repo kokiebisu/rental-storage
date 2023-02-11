@@ -24,12 +24,12 @@ export class MakeBookingCommand {
 }
 
 export class MakeBookingUseCase {
-  public async execute(command: MakeBookingCommand) {
+  public async execute(command: MakeBookingCommand): Promise<{ uid: string }> {
     const { userId, listingId, items } = command;
     if (!userId || !listingId || !items) {
       throw new InternalServerError();
     }
     const bookingClient = new BookingRestClient();
-    await bookingClient.makeBooking(userId, listingId, items);
+    return await bookingClient.makeBooking(userId, listingId, items);
   }
 }

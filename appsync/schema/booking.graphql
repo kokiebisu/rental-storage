@@ -8,11 +8,11 @@ type Query {
 }
 
 type Mutation {
-  makeBooking(userId: ID!, listingId: ID!, items: [ItemInput]): UId
+  makeBooking(listingId: ID!, items: [ItemInput]): UId
 }
 
 type Booking {
-  id: ID
+  uid: ID
   status: String
   userId: String
   listingId: String

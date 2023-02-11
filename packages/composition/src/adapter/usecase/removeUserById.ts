@@ -24,7 +24,6 @@ export class RemoveUserByIdUseCase {
     const userClient = new UserRestClient();
     // TODO: must remove all listings associated with the user
     const data = await userClient.removeUserById(userId);
-    console.log("DATA: ", data);
     return { uid: data.uid };
   }
 }

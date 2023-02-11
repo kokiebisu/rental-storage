@@ -39,7 +39,7 @@ func (s *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId s
 	if err != nil {
 		return "", err
 	}
-	return bookingEntity.Id, nil
+	return bookingEntity.UId, nil
 }
 
 // @deprecated not used

@@ -26,7 +26,7 @@ var (
 		ImageUrls: []string{faker.URL(), faker.URL()},
 	}
 	MockBookingEntity = booking.DTO{
-		Id:        MockUId,
+		UId:       MockUId,
 		Status:    "PENDING",
 		UserId:    MockUserId,
 		ListingId: MockListingId,

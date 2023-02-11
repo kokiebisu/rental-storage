@@ -11,6 +11,7 @@ type Query {
     range: Int!
   ): [Listing]
   findMyListings: [Listing]
+  findListingsByUserId(userId: ID!): [Listing]
 }
 
 type Mutation {
@@ -24,11 +25,11 @@ type Mutation {
     feeAmount: Int
     feeCurrency: Currency
   ): UId
-  removeListingById(uid: ID!): UId
+  removeListingById(listingId: ID!): UId
 }
 
 type Listing {
-  id: String!
+  uid: String!
   title: String!
   lenderId: String!
   streetAddress: String!
