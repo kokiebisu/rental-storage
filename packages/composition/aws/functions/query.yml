@@ -64,9 +64,9 @@ GetPresignedURL:
 #       - dist/adapter/resolver/query.findAllCreatedBookings
 #   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-all-created-bookings
 
-FindBookingById:
+FindBooking:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findBookingById
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-booking-by-id
+      - dist/adapter/resolver/query.findBooking
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-booking

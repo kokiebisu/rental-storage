@@ -4,15 +4,15 @@ schema {
 }
 
 type Query {
-  findBookingById(bookingId: ID!): Booking
+  booking(id: ID!): Booking
 }
 
 type Mutation {
-  makeBooking(listingId: ID!, items: [ItemInput]): UId
+  bookingCreate(listingId: ID!, items: [ItemInput]): UId
 }
 
 type Booking {
-  uid: ID
+  id: ID
   status: String
   userId: String
   listingId: String

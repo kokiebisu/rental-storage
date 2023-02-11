@@ -1,7 +1,10 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
 import { AddListingCommand, AddListingUseCase } from "../usecase/addListing";
-import { MakeBookingCommand, MakeBookingUseCase } from "../usecase/makeBooking";
+import {
+  CreateBookingCommand,
+  CreateBookingUseCase,
+} from "../usecase/createBooking";
 import {
   RemoveListingByIdCommand,
   RemoveListingByIdUseCase,
@@ -44,7 +47,7 @@ export const removeListingById = async (
   }
 };
 
-export const makeBooking = async (
+export const createBooking = async (
   event: AppSyncResolverEvent<
     {
       listingId: string;
@@ -55,8 +58,8 @@ export const makeBooking = async (
 ) => {
   const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
   const input = { ...event.arguments, userId: uid };
-  const usecase = new MakeBookingUseCase();
-  return await usecase.execute(new MakeBookingCommand(input));
+  const usecase = new CreateBookingUseCase();
+  return await usecase.execute(new CreateBookingCommand(input));
 };
 
 export const removeUserById = async (

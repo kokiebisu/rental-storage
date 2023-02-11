@@ -1,14 +1,7 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
 
-import {
-  FindAllCreatedBookingsCommand,
-  FindAllCreatedBookingsUseCase,
-} from "../usecase/findAllCreatedBookings";
-import {
-  FindBookingByIdCommand,
-  FindBookingByIdUseCase,
-} from "../usecase/findBookingById";
+import { FindBookingCommand, FindBookingUseCase } from "../usecase/findBooking";
 import {
   FindListingByIdCommand,
   FindListingByIdUseCase,
@@ -35,11 +28,11 @@ import {
   GetPresignedURLUseCase,
 } from "../usecase/getPresignedURL";
 
-export const findBookingById = async (
-  event: AppSyncResolverEvent<{ bookingId: string }, unknown>
+export const findBooking = async (
+  event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
-  const usecase = new FindBookingByIdUseCase();
-  return await usecase.execute(new FindBookingByIdCommand(event.arguments));
+  const usecase = new FindBookingUseCase();
+  return await usecase.execute(new FindBookingCommand(event.arguments));
 };
 
 export const findListingById = async (
@@ -97,21 +90,6 @@ export const getPresignedURL = async (
   try {
     const usecase = new GetPresignedURLUseCase();
     return await usecase.execute(new GetPresignedURLCommand(event.arguments));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
-};
-
-export const findAllCreatedBookings = async (
-  event: AppSyncResolverEvent<Record<string, never>, unknown>
-) => {
-  try {
-    const usecase = new FindAllCreatedBookingsUseCase();
-    return await usecase.execute(
-      new FindAllCreatedBookingsCommand(
-        (event.identity as AppSyncIdentityLambda).resolverContext
-      )
-    );
   } catch (err: unknown) {
     return isCustomError(err) ? err.serializeError() : err;
   }
