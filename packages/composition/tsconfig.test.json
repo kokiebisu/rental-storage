@@ -5,5 +5,5 @@
     "outDir": "./dist"
   },
   "files": ["src/types/global.d.ts"],
-  "include": ["**/*", "./src/mock/**/*.json"]
+  "include": ["**/*", "**/*.json"]
 }
