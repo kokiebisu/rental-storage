@@ -26,15 +26,10 @@ export const addListing = async (
     unknown
   >
 ) => {
-  try {
-    const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
-    const input = { ...event.arguments, lenderId: uid };
-    const usecase = new AddListingUseCase();
-    const result = await usecase.execute(new AddListingCommand(input));
-    return result;
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
+  const input = { ...event.arguments, lenderId: uid };
+  const usecase = new AddListingUseCase();
+  return await usecase.execute(new AddListingCommand(input));
 };
 
 export const removeListingById = async (
@@ -58,24 +53,16 @@ export const makeBooking = async (
     unknown
   >
 ) => {
-  try {
-    const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
-    const input = { ...event.arguments, userId: uid };
-    const usecase = new MakeBookingUseCase();
-    return await usecase.execute(new MakeBookingCommand(input));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
+  const input = { ...event.arguments, userId: uid };
+  const usecase = new MakeBookingUseCase();
+  return await usecase.execute(new MakeBookingCommand(input));
 };
 
 export const removeUserById = async (
   event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
-  try {
-    const input = { ...event.arguments };
-    const usecase = new RemoveUserByIdUseCase();
-    return await usecase.execute(new RemoveUserByIdCommand(input));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const input = { ...event.arguments };
+  const usecase = new RemoveUserByIdUseCase();
+  return await usecase.execute(new RemoveUserByIdCommand(input));
 };

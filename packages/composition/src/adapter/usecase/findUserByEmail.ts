@@ -2,25 +2,25 @@ import { UserRestClient } from "../../client";
 import { InternalServerError } from "../../error";
 
 interface FindUserByEmailCommandConstructor {
-  email: string;
+  emailAddress: string;
 }
 
 export class FindUserByEmailCommand {
-  public readonly email: string;
+  public readonly emailAddress: string;
 
-  public constructor({ email }: FindUserByEmailCommandConstructor) {
-    this.email = email;
+  public constructor({ emailAddress }: FindUserByEmailCommandConstructor) {
+    this.emailAddress = emailAddress;
   }
 }
 
 export class FindUserByEmailUseCase {
   public async execute(command: FindUserByEmailCommand) {
-    const { email } = command;
-    if (!email) {
+    const { emailAddress } = command;
+    if (!emailAddress) {
       throw new InternalServerError();
     }
     const userClient = new UserRestClient();
-    const data = await userClient.findByEmail(email);
+    const data = await userClient.findByEmail(emailAddress);
     return data?.user;
   }
 }
