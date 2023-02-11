@@ -1,22 +1,28 @@
-import {
-  FindListingsByUserIdCommand,
-  FindListingsByUserIdUseCase,
-} from "../../src/adapter/usecase/findListingsByUserId";
+import { findListingsByUserId } from "../../src/adapter/resolver/query";
+import * as mockEvent from "../event.json";
 
 describe("findListingsByUserId()", () => {
   it("should work with valid input", async () => {
     if (!global.data.userId) {
       throw new Error("data.userId is empty");
     }
-    const input = { userId: global.data.userId };
-    const usecase = new FindListingsByUserIdUseCase();
-    try {
-      const result = await usecase.execute(
-        new FindListingsByUserIdCommand(input)
-      );
-      expect(result).not.toBeUndefined();
-    } catch (err) {
-      console.error(err);
-    }
+    const event = createEvent({ ...mockEvent });
+    const result = await findListingsByUserId(event);
+    expect(result.listings.length).toBeGreaterThan(0);
   });
 });
+
+const createEvent = (event: any) => {
+  return {
+    ...event,
+    arguments: {
+      userId: global.data.userId,
+    },
+    identity: {
+      ...event.identity,
+      resolverContext: {
+        uid: global.data.userId,
+      },
+    },
+  };
+};

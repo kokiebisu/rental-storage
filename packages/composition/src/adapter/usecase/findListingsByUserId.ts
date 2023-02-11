@@ -15,10 +15,10 @@ export class FindListingsByUserIdCommand {
 export class FindListingsByUserIdUseCase {
   public async execute(
     command: FindListingsByUserIdCommand
-  ): Promise<Listing[]> {
+  ): Promise<{ listings: Listing[] }> {
     const { userId } = command;
     const client = new ListingRestClient();
     const data = await client.findListingsByUserId(userId);
-    return data?.listings;
+    return data;
   }
 }

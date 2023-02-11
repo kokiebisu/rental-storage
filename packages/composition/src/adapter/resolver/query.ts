@@ -38,23 +38,15 @@ import {
 export const findBookingById = async (
   event: AppSyncResolverEvent<{ bookingId: string }, unknown>
 ) => {
-  try {
-    const usecase = new FindBookingByIdUseCase();
-    return await usecase.execute(new FindBookingByIdCommand(event.arguments));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const usecase = new FindBookingByIdUseCase();
+  return await usecase.execute(new FindBookingByIdCommand(event.arguments));
 };
 
 export const findListingById = async (
   event: AppSyncResolverEvent<{ listingId: string }, unknown>
 ) => {
-  try {
-    const usecase = new FindListingByIdUseCase();
-    return await usecase.execute(new FindListingByIdCommand(event.arguments));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const usecase = new FindListingByIdUseCase();
+  return await usecase.execute(new FindListingByIdCommand(event.arguments));
 };
 
 export const findListingsWithinLatLng = async (
@@ -91,16 +83,12 @@ export const findMyListings = async (
 export const findListingsByUserId = async (
   event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
-  try {
-    const usecase = new FindListingsByUserIdUseCase();
-    return await usecase.execute(
-      new FindListingsByUserIdCommand({
-        userId: event.arguments.userId,
-      })
-    );
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const usecase = new FindListingsByUserIdUseCase();
+  return await usecase.execute(
+    new FindListingsByUserIdCommand({
+      userId: event.arguments.userId,
+    })
+  );
 };
 
 export const getPresignedURL = async (
@@ -132,27 +120,19 @@ export const findAllCreatedBookings = async (
 export const findMe = async (
   event: AppSyncResolverEvent<Record<string, never>, unknown>
 ) => {
-  try {
-    const usecase = new FindMeUseCase();
-    return await usecase.execute(
-      new FindMeCommand({
-        userId: (event.identity as AppSyncIdentityLambda).resolverContext.uid,
-      })
-    );
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const usecase = new FindMeUseCase();
+  return await usecase.execute(
+    new FindMeCommand({
+      userId: (event.identity as AppSyncIdentityLambda).resolverContext.uid,
+    })
+  );
 };
 
 export const findUserByEmail = async (
-  event: AppSyncResolverEvent<{ email: string }, unknown>
+  event: AppSyncResolverEvent<{ emailAddress: string }, unknown>
 ) => {
-  try {
-    const usecase = new FindUserByEmailUseCase();
-    return await usecase.execute(new FindUserByEmailCommand(event.arguments));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const usecase = new FindUserByEmailUseCase();
+  return await usecase.execute(new FindUserByEmailCommand(event.arguments));
 };
 
 export const findUserById = async (

@@ -11,7 +11,7 @@ export default class ListingRestClient extends BaseRestClient {
     feeType: string,
     feeAmount: number,
     feeCurrency: string
-  ): Promise<{ uid: string } | undefined> {
+  ): Promise<{ uid: string }> {
     const response = await this.client.post(`/listings`, {
       lenderId,
       streetAddress,
@@ -28,7 +28,7 @@ export default class ListingRestClient extends BaseRestClient {
 
   public async findListingById(
     listingId: string
-  ): Promise<{ listing: Listing } | undefined> {
+  ): Promise<{ listing: Listing }> {
     return (await this.client.get(`/listings/${listingId}`)).data;
   }
 
