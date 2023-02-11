@@ -2,6 +2,7 @@ name: Terraform Manual Deployment Pipeline
 
 on:
   workflow_dispatch:
+  pull_request:
 
 jobs:
   run-terraform:
