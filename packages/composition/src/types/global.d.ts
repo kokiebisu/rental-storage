@@ -1,4 +1,5 @@
 import { BookingItem } from "../adapter/usecase/makeBooking";
+import { AppSyncResolverEvent } from "aws-lambda";
 
 declare global {
   var data: JestMockData;
@@ -48,5 +49,3 @@ interface JestMockData {
   mockEmailAddress: string;
   mockPassword: string;
 }
-
-export {};

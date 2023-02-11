@@ -5,7 +5,7 @@ schema {
 
 type Query {
   findUserById(userId: ID!): User # admin priviledge
-  findUserByEmail(email: String!): User
+  findUserByEmail(emailAddress: String!): User
   findMe: User
 }
 

@@ -48,9 +48,7 @@ export class AddListingCommand {
 }
 
 export class AddListingUseCase {
-  public async execute(
-    command: AddListingCommand
-  ): Promise<{ uid: string } | undefined> {
+  public async execute(command: AddListingCommand): Promise<{ uid: string }> {
     const {
       lenderId,
       streetAddress,
