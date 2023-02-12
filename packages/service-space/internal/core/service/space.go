@@ -1,8 +1,6 @@
 package service
 
 import (
-	"log"
-
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
@@ -27,12 +25,7 @@ func (s *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *customer
 	}
 	spaceDTOs := []space.DTO{}
 	for _, l := range ls {
-		spaceDTO, err := l.ToDTO()
-		if err != nil {
-			log.Fatalf(err.Error())
-			return []space.DTO{}, err
-		}
-		spaceDTOs = append(spaceDTOs, spaceDTO)
+		spaceDTOs = append(spaceDTOs, l.ToDTO())
 	}
 	return spaceDTOs, nil
 }
@@ -44,12 +37,7 @@ func (s *SpaceService) FindSpacesWithinLatLng(latitude float64, longitude float6
 	}
 	spaceDTOs := []space.DTO{}
 	for _, l := range spaces {
-		spaceDTO, err := l.ToDTO()
-		if err != nil {
-			log.Fatalf(err.Error())
-			return []space.DTO{}, err
-		}
-		spaceDTOs = append(spaceDTOs, spaceDTO)
+		spaceDTOs = append(spaceDTOs, l.ToDTO())
 	}
 	return spaceDTOs, nil
 }
@@ -59,15 +47,11 @@ func (s *SpaceService) FindSpaceById(uid string) (space.DTO, *customerror.Custom
 	if err != nil {
 		return space.DTO{}, err
 	}
-	spaceDTO, err := l.ToDTO()
-	if err != nil {
-		return space.DTO{}, err
-	}
-	return spaceDTO, nil
+	return l.ToDTO(), nil
 }
 
-func (s *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string) (string, *customerror.CustomError) {
-	entity, err := s.SpaceFactory.New(title, lenderId, streetAddress, latitude, longitude, imageUrls)
+func (s *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string) (string, *customerror.CustomError) {
+	entity, err := s.SpaceFactory.New(title, lenderId, streetAddress, latitude, longitude, imageUrls, description)
 	if err != nil {
 		return "", err
 	}

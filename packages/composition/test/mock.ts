@@ -22,4 +22,5 @@ export const mock = {
       ],
     },
   ],
+  description: faker.lorem.paragraphs(),
 };

@@ -11,10 +11,8 @@ declare global {
     latitude: number;
     longitude: number;
     imageUrls: string[];
-    feeAmount: number[];
-    feeCurrency: number[];
-    feeType: number[];
     title: string;
+    description: string;
   }
 
   interface Booking {

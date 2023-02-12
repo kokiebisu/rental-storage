@@ -19,7 +19,8 @@ var (
 		faker.URL(),
 		faker.URL(),
 	}
-	MockSpace = space.Entity{
+	MockDescription = "BLAH BLAH"
+	MockSpace       = space.Entity{
 		UId:           MockUId,
 		Title:         MockTitle,
 		LenderId:      MockLenderId,
@@ -27,5 +28,6 @@ var (
 		Latitude:      coordinate.ValueObject{Value: MockLatitude},
 		Longitude:     coordinate.ValueObject{Value: MockLongitude},
 		ImageUrls:     MockImageUrls,
+		Description:   MockDescription,
 	}
 )

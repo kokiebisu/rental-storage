@@ -2,8 +2,8 @@ FindSpaceByIdRest:
   image:
     name: app
     command:
-      - bin/find-space-by-id
-  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-space-by-id
+      - bin/find-space
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-find-space
   events:
     - http:
         path: /spaces/{spaceId}
@@ -20,23 +20,23 @@ FindSpaces:
         path: /spaces
         method: get
 
-AddSpaceRest:
+CreateSpaceRest:
   image:
     name: app
     command:
-      - bin/add-space
-  name: ${self:provider.stage}-app-${self:custom.service}-rest-add-space
+      - bin/create-space
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-create-space
   events:
     - http:
         path: /spaces
         method: post
 
-RemoveSpaceByIdRest:
+DeleteSpaceByIdRest:
   image:
     name: app
     command:
-      - bin/remove-space-by-id
-  name: ${self:provider.stage}-app-${self:custom.service}-rest-remove-space-by-id
+      - bin/delete-space
+  name: ${self:provider.stage}-app-${self:custom.service}-rest-delete-space
   events:
     - http:
         path: /spaces/{spaceId}

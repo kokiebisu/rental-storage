@@ -14,20 +14,20 @@ type SpaceService struct {
 	mock.Mock
 }
 
-// CreateSpace provides a mock function with given fields: lenderId, streetAddress, latitude, longitude, imageUrls, title
-func (_m *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string) (string, *errors.CustomError) {
-	ret := _m.Called(lenderId, streetAddress, latitude, longitude, imageUrls, title)
+// CreateSpace provides a mock function with given fields: lenderId, streetAddress, latitude, longitude, imageUrls, title, description
+func (_m *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string) (string, *errors.CustomError) {
+	ret := _m.Called(lenderId, streetAddress, latitude, longitude, imageUrls, title, description)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, string, float64, float64, []string, string) string); ok {
-		r0 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title)
+	if rf, ok := ret.Get(0).(func(string, string, float64, float64, []string, string, string) string); ok {
+		r0 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title, description)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(string, string, float64, float64, []string, string) *errors.CustomError); ok {
-		r1 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title)
+	if rf, ok := ret.Get(1).(func(string, string, float64, float64, []string, string, string) *errors.CustomError); ok {
+		r1 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title, description)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

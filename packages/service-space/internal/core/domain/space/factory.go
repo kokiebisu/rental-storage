@@ -15,7 +15,7 @@ var (
 
 type Factory struct{}
 
-func (f *Factory) New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string) (Entity, *customerror.CustomError) {
+func (f *Factory) New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string) (Entity, *customerror.CustomError) {
 
 	validatedLatitude, err := coordinateFactory.New(latitude)
 	if err != nil {
@@ -37,5 +37,6 @@ func (f *Factory) New(title string, lenderId string, streetAddress string, latit
 		Latitude:      validatedLatitude,
 		Longitude:     validatedLongitude,
 		ImageUrls:     imageUrls,
+		Description:   description,
 	}, nil
 }

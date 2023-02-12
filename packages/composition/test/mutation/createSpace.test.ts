@@ -20,6 +20,7 @@ const createEvent = (event: any) => {
       longitude: mock.longitude,
       imageUrls: mock.imageUrls,
       title: mock.title,
+      description: mock.description,
     },
     identity: {
       ...event.identity,

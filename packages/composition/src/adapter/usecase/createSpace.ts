@@ -8,6 +8,7 @@ interface CreateSpaceCommandConstructor {
   longitude: number;
   imageUrls: string[];
   title: string;
+  description: string;
 }
 
 export class CreateSpaceCommand {
@@ -17,6 +18,7 @@ export class CreateSpaceCommand {
   public readonly longitude: number;
   public readonly imageUrls: string[];
   public readonly title: string;
+  public readonly description: string;
 
   public constructor({
     lenderId,
@@ -25,6 +27,7 @@ export class CreateSpaceCommand {
     longitude,
     imageUrls,
     title,
+    description,
   }: CreateSpaceCommandConstructor) {
     this.lenderId = lenderId;
     this.streetAddress = streetAddress;
@@ -32,20 +35,29 @@ export class CreateSpaceCommand {
     this.longitude = longitude;
     this.imageUrls = imageUrls;
     this.title = title;
+    this.description = description;
   }
 }
 
 export class CreateSpaceUseCase {
   public async execute(command: CreateSpaceCommand): Promise<{ uid: string }> {
-    const { lenderId, streetAddress, latitude, longitude, imageUrls, title } =
-      command;
+    const {
+      lenderId,
+      streetAddress,
+      latitude,
+      longitude,
+      imageUrls,
+      title,
+      description,
+    } = command;
     if (
       !lenderId ||
       !streetAddress ||
       !latitude ||
       !longitude ||
       !imageUrls ||
-      !title
+      !title ||
+      !description
     ) {
       throw new InternalServerError();
     }
@@ -56,7 +68,8 @@ export class CreateSpaceUseCase {
       latitude,
       longitude,
       imageUrls,
-      title
+      title,
+      description
     );
   }
 }
