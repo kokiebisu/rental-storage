@@ -1,7 +1,7 @@
 import { BaseRestClient } from "./base";
 
 export default class ListingRestClient extends BaseRestClient {
-  public async addListing(
+  public async createListing(
     lenderId: string,
     streetAddress: string,
     latitude: number,
@@ -11,46 +11,31 @@ export default class ListingRestClient extends BaseRestClient {
     feeType: string,
     feeAmount: number,
     feeCurrency: string
-  ): Promise<{ uid: string }> {
-    const response = await this.client.post(`/listings`, {
-      lenderId,
-      streetAddress,
-      latitude,
-      longitude,
-      imageUrls,
-      title,
-      feeType,
-      feeAmount,
-      feeCurrency,
-    });
-    return response.data;
-  }
-
-  public async findListingById(
-    listingId: string
-  ): Promise<{ listing: Listing }> {
-    return (await this.client.get(`/listings/${listingId}`)).data;
-  }
-
-  public async removeListingById(listingId: string): Promise<{ uid: string }> {
-    return (await this.client.delete(`/listings/${listingId}`)).data;
-  }
-
-  public async findListingsWithinLatLng(
-    latitude: number,
-    longitude: number,
-    range: number
-  ): Promise<{ listings: Listing[] } | undefined> {
+  ) {
     return (
-      await this.client.get(
-        `/listings?lat=${latitude}&lng=${longitude}&range=${range}`
-      )
+      await this.client.post(`/listings`, {
+        lenderId,
+        streetAddress,
+        latitude,
+        longitude,
+        imageUrls,
+        title,
+        feeType,
+        feeAmount,
+        feeCurrency,
+      })
     ).data;
   }
 
-  public async findListingsByUserId(
-    userId: string
-  ): Promise<{ listings: Listing[] }> {
+  public async findListing(id: string) {
+    return (await this.client.get(`/listings/${id}`)).data;
+  }
+
+  public async deleteListing(id: string) {
+    return (await this.client.delete(`/listings/${id}`)).data;
+  }
+
+  public async findListings(userId: string) {
     return (await this.client.get(`/listings?userId=${userId}`)).data;
   }
 }

@@ -1,13 +1,13 @@
-import { findListingsByUserId } from "../../src/adapter/resolver/query";
+import { findListings } from "../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
-describe("findListingsByUserId()", () => {
+describe("findListings()", () => {
   it("should work with valid input", async () => {
     if (!global.data.userId) {
       throw new Error("data.userId is empty");
     }
     const event = createEvent({ ...mockEvent });
-    const result = await findListingsByUserId(event);
+    const result = await findListings(event);
     expect(result.listings.length).toBeGreaterThan(0);
   });
 });

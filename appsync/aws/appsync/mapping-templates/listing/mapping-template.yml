@@ -1,37 +1,25 @@
 ## Query
 - type: Query
-  field: findListingById
-  dataSource: FindListingByIdFunction
-  request: ./listing/query.findListingById.vtl
+  field: listing
+  dataSource: FindListingFn
+  request: ./listing/query.listing.vtl
   response: false
 
 - type: Query
-  field: findListingsWithinLatLng
-  dataSource: FindListingsWithinLatLngFunction
-  request: ./listing/query.findListingsWithinLatLng.vtl
-  response: false
-
-- type: Query
-  field: findMyListings
-  dataSource: FindMyListingsFunction
-  request: ./listing/query.findMyListings.vtl
-  response: false
-
-- type: Query
-  field: findListingsByUserId
-  dataSource: FindListingsByUserIdFunction
-  request: ./listing/query.findListingsByUserId.vtl
+  field: listings
+  dataSource: FindListingsFn
+  request: ./listing/query.listings.vtl
   response: false
 
 ## Mutation
 - type: Mutation
-  field: addListing
-  dataSource: AddListingFunction
-  request: ./listing/mutation.addListing.vtl
+  field: listingCreate
+  dataSource: CreateListingFn
+  request: ./listing/mutation.listingCreate.vtl
   response: false
 
 - type: Mutation
-  field: removeListingById
-  dataSource: RemoveListingByIdFunction
-  request: ./listing/mutation.removeListingById.vtl
+  field: listingDelete
+  dataSource: DeleteListingFn
+  request: ./listing/mutation.listingDelete.vtl
   response: false

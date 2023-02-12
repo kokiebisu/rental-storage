@@ -1,17 +1,19 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
-import { isCustomError } from "../../helper";
-import { AddListingCommand, AddListingUseCase } from "../usecase/addListing";
+import {
+  CreateListingCommand,
+  CreateListingUseCase,
+} from "../usecase/createListing";
 import {
   CreateBookingCommand,
   CreateBookingUseCase,
 } from "../usecase/createBooking";
 import {
-  RemoveListingByIdCommand,
-  RemoveListingByIdUseCase,
-} from "../usecase/removeListingById";
+  DeleteListingCommand,
+  DeleteListingUseCase,
+} from "../usecase/deleteListing";
 import { DeleteUserCommand, DeleteUserUseCase } from "../usecase/deleteUser";
 
-export const addListing = async (
+export const createListing = async (
   event: AppSyncResolverEvent<
     {
       streetAddress: string;
@@ -28,20 +30,15 @@ export const addListing = async (
 ) => {
   const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
   const input = { ...event.arguments, lenderId: uid };
-  const usecase = new AddListingUseCase();
-  return await usecase.execute(new AddListingCommand(input));
+  const usecase = new CreateListingUseCase();
+  return await usecase.execute(new CreateListingCommand(input));
 };
 
-export const removeListingById = async (
-  event: AppSyncResolverEvent<{ listingId: string }, unknown>
+export const deleteListing = async (
+  event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
-  try {
-    const input = event.arguments;
-    const usecase = new RemoveListingByIdUseCase();
-    return await usecase.execute(new RemoveListingByIdCommand(input));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const usecase = new DeleteListingUseCase();
+  return await usecase.execute(new DeleteListingCommand(event.arguments));
 };
 
 export const createBooking = async (

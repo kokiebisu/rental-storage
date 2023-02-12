@@ -5,7 +5,7 @@ declare global {
   var data: JestMockData;
 
   interface Listing {
-    uid: string;
+    id: string;
     lenderId: string;
     streetAddress: string;
     latitude: number;
@@ -14,6 +14,7 @@ declare global {
     feeAmount: number[];
     feeCurrency: number[];
     feeType: number[];
+    title: string;
   }
 
   interface Booking {

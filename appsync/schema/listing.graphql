@@ -4,37 +4,31 @@ schema {
 }
 
 type Query {
-  findListingById(listingId: ID!): Listing
-  findListingsWithinLatLng(
-    latitude: Float!
-    longitude: Float!
-    range: Int!
-  ): [Listing]
-  findMyListings: [Listing]
-  findListingsByUserId(userId: ID!): [Listing]
+  listing(id: ID!): Listing
+  listings(userId: ID): [Listing]
 }
 
 type Mutation {
-  addListing(
-    title: String!
-    streetAddress: String!
-    latitude: Float!
-    longitude: Float!
+  listingCreate(
+    title: String
+    streetAddress: String
+    latitude: Float
+    longitude: Float
     imageUrls: [String]
     feeType: FeeType
     feeAmount: Int
     feeCurrency: Currency
   ): UId
-  removeListingById(listingId: ID!): UId
+  listingDelete(id: ID): UId
 }
 
 type Listing {
-  uid: String!
-  title: String!
-  lenderId: String!
-  streetAddress: String!
-  latitude: Float!
-  longitude: Float!
+  id: String
+  title: String
+  lenderId: String
+  streetAddress: String
+  latitude: Float
+  longitude: Float
   imageUrls: [String]
   feeType: FeeType
   feeAmount: Int
