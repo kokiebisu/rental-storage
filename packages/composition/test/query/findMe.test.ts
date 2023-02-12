@@ -8,7 +8,7 @@ describe("findMe()", () => {
     }
     const event = createEvent({ ...mockEvent });
     const result = await findMe(event);
-    expect(result.uid).not.toBeUndefined();
+    expect(result.id).not.toBeUndefined();
   });
 });
 

@@ -1,25 +1,19 @@
 ## Query
 - type: Query
-  field: findMe
-  dataSource: FindMeFunction
-  request: ./user/query.findMe.vtl
+  field: profile
+  dataSource: FindMeFn
+  request: ./user/query.profile.vtl
   response: false
 
 - type: Query
-  field: findUserById
-  dataSource: FindUserByIdFunction
-  request: ./user/query.findUserById.vtl
-  response: false
-
-- type: Query
-  field: findUserByEmail
-  dataSource: FindUserByEmailFunction
-  request: ./user/query.findUserByEmail.vtl
+  field: user
+  dataSource: FindUserFn
+  request: ./user/query.user.vtl
   response: false
 
 ## Mutation
 - type: Mutation
-  field: removeUserById
-  dataSource: RemoveUserByIdFunction
-  request: ./user/mutation.removeUserById.vtl
+  field: userDelete
+  dataSource: DeleteUserFn
+  request: ./user/mutation.userDelete.vtl
   response: false

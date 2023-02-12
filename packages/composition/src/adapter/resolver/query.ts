@@ -1,6 +1,5 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
-
 import { FindBookingCommand, FindBookingUseCase } from "../usecase/findBooking";
 import {
   FindListingByIdCommand,
@@ -15,14 +14,7 @@ import {
   FindListingsWithinLatLngUseCase,
 } from "../usecase/findListingsWithinLatLng";
 import { FindMeCommand, FindMeUseCase } from "../usecase/findMe";
-import {
-  FindUserByEmailCommand,
-  FindUserByEmailUseCase,
-} from "../usecase/findUserByEmail";
-import {
-  FindUserByIdCommand,
-  FindUserByIdUseCase,
-} from "../usecase/findUserById";
+import { FindUserCommand, FindUserUseCase } from "../usecase/findUser";
 import {
   GetPresignedURLCommand,
   GetPresignedURLUseCase,
@@ -101,28 +93,17 @@ export const findMe = async (
   const usecase = new FindMeUseCase();
   return await usecase.execute(
     new FindMeCommand({
-      userId: (event.identity as AppSyncIdentityLambda).resolverContext.uid,
+      id: (event.identity as AppSyncIdentityLambda).resolverContext.uid,
     })
   );
 };
 
-export const findUserByEmail = async (
-  event: AppSyncResolverEvent<{ emailAddress: string }, unknown>
+export const findUser = async (
+  event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
-  const usecase = new FindUserByEmailUseCase();
-  return await usecase.execute(new FindUserByEmailCommand(event.arguments));
-};
-
-export const findUserById = async (
-  event: AppSyncResolverEvent<{ userId: string }, unknown>
-) => {
-  try {
-    const usecase = new FindUserByIdUseCase();
-    const response = await usecase.execute(
-      new FindUserByIdCommand({ userId: event.arguments.userId })
-    );
-    return response;
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  const usecase = new FindUserUseCase();
+  const response = await usecase.execute(
+    new FindUserCommand({ id: event.arguments.id })
+  );
+  return response;
 };

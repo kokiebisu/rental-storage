@@ -9,10 +9,7 @@ import {
   RemoveListingByIdCommand,
   RemoveListingByIdUseCase,
 } from "../usecase/removeListingById";
-import {
-  RemoveUserByIdCommand,
-  RemoveUserByIdUseCase,
-} from "../usecase/removeUserById";
+import { DeleteUserCommand, DeleteUserUseCase } from "../usecase/deleteUser";
 
 export const addListing = async (
   event: AppSyncResolverEvent<
@@ -62,10 +59,10 @@ export const createBooking = async (
   return await usecase.execute(new CreateBookingCommand(input));
 };
 
-export const removeUserById = async (
-  event: AppSyncResolverEvent<{ userId: string }, unknown>
+export const deleteUser = async (
+  event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
   const input = { ...event.arguments };
-  const usecase = new RemoveUserByIdUseCase();
-  return await usecase.execute(new RemoveUserByIdCommand(input));
+  const usecase = new DeleteUserUseCase();
+  return await usecase.execute(new DeleteUserCommand(input));
 };
