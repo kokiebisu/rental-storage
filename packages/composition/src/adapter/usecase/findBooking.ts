@@ -18,13 +18,8 @@ export class FindBookingUseCase {
     const client = new BookingRestClient();
     const result = await client.findBooking(id);
     return {
+      ...result.booking,
       id: result?.booking.uid,
-      status: result?.booking.status,
-      userId: result?.booking.userId,
-      spaceId: result?.booking.spaceId,
-      items: result?.booking.items,
-      createdAt: result?.booking.createdAt,
-      updatedAt: result?.booking.updatedAt,
     };
   }
 }

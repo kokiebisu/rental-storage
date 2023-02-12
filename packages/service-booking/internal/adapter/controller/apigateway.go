@@ -2,13 +2,10 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 
-	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
-	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
@@ -37,16 +34,14 @@ func NewApiGatewayHandler(service port.BookingService) *ApiGatewayHandler {
 
 func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (CreateBookingResponsePayload, *customerror.CustomError) {
 	body := struct {
-		Amount  amount.DTO `json:"amount"`
-		UserId  string     `json:"userId"`
-		SpaceId string     `json:"spaceId"`
-		Items   []item.DTO `json:"items"`
+		UserId  string `json:"userId"`
+		SpaceId string `json:"spaceId"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	bookingId, err := h.service.CreateBooking("", body.Amount, body.UserId, body.SpaceId, body.Items, "", "")
+	bookingId, err := h.service.CreateBooking("", body.UserId, body.SpaceId, "", "")
 	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
 }
 
@@ -60,9 +55,7 @@ func (h *ApiGatewayHandler) FindBookingById(event events.APIGatewayProxyRequest)
 }
 
 func (h *ApiGatewayHandler) FindBookings(event events.APIGatewayProxyRequest) (FindBookingsResponsePayload, *customerror.CustomError) {
-	fmt.Println("ENTERED1")
 	spaceId := event.QueryStringParameters["spaceId"]
-	fmt.Println("ENTERED2", spaceId)
 	if spaceId == "" {
 		return FindBookingsResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
 	}

@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 
 	"log"
 	"os"
@@ -120,7 +119,6 @@ func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, *custome
 }
 
 func (c NoSQLClient) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
-	fmt.Println("ENTERED4: ", spaceId)
 	shouldScanIndexForward := false
 	indexName := "BookingSpaceIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{

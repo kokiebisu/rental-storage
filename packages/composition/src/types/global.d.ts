@@ -20,14 +20,8 @@ declare global {
     status: string;
     userId: string;
     spaceId: string;
-    items: BookingItem;
     createdAt: string;
     updatedAt: string;
-  }
-
-  interface BookingItem {
-    name: string;
-    imageUrls: string[];
   }
 
   interface User {

@@ -2,7 +2,6 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -44,7 +43,6 @@ func (h *ApiGatewayHandler) FindSpaceById(event events.APIGatewayProxyRequest) (
 func (h *ApiGatewayHandler) FindSpaces(event events.APIGatewayProxyRequest) (FindSpacesResponsePayload, *customerror.CustomError) {
 	userId := event.QueryStringParameters["userId"]
 	if userId != "" {
-		fmt.Println("FIND SPACES BY USER ID")
 		ls, err := h.service.FindSpacesByUserId(userId)
 		return FindSpacesResponsePayload{Spaces: ls}, err
 	}
@@ -66,7 +64,6 @@ func (h *ApiGatewayHandler) FindSpaces(event events.APIGatewayProxyRequest) (Fin
 		if err != nil {
 			return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
 		}
-		fmt.Println("FindSpacesWithinLatLng ", latitude, longitude, distance)
 		spaces, err := h.service.FindSpacesWithinLatLng(latitude, longitude, int32(distance))
 		return FindSpacesResponsePayload{
 			Spaces: spaces,

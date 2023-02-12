@@ -16,7 +16,6 @@ const createEvent = (event: any) => {
     ...event,
     arguments: {
       spaceId: global.data.spaceId,
-      items: mock.items,
     },
     identity: {
       ...event.identity,
