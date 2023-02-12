@@ -12,22 +12,7 @@ type Mutation {
   bookingCreate(spaceId: ID!, items: [ItemInput]): UId
 }
 
-type Booking {
-  id: ID
-  status: String
-  userId: String
-  spaceId: String
-  items: [Item]
-  createdAt: String
-  updatedAt: String
-}
-
 input ItemInput {
-  name: String
-  imageUrls: [String]
-}
-
-type Item {
   name: String
   imageUrls: [String]
 }
