@@ -6,7 +6,7 @@ import { useGeolocated } from "react-geolocated";
 
 const googleMapAPIKey = process.env.GOOGLE_MAP_API_KEY as string;
 
-// fetch listings latitude and longitude
+// fetch spaces latitude and longitude
 const spaceData: Space[] = [
   {
     id: 1,
