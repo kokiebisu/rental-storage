@@ -1,7 +1,7 @@
 import { ListingRestClient } from "../../client";
 import { InternalServerError } from "../../error";
 
-interface AddListingCommandConstructor {
+interface CreateListingCommandConstructor {
   lenderId: string;
   streetAddress: string;
   latitude: number;
@@ -13,7 +13,7 @@ interface AddListingCommandConstructor {
   feeType: string;
 }
 
-export class AddListingCommand {
+export class CreateListingCommand {
   public readonly lenderId: string;
   public readonly streetAddress: string;
   public readonly latitude: number;
@@ -34,7 +34,7 @@ export class AddListingCommand {
     feeAmount,
     feeCurrency,
     feeType,
-  }: AddListingCommandConstructor) {
+  }: CreateListingCommandConstructor) {
     this.lenderId = lenderId;
     this.streetAddress = streetAddress;
     this.latitude = latitude;
@@ -47,8 +47,10 @@ export class AddListingCommand {
   }
 }
 
-export class AddListingUseCase {
-  public async execute(command: AddListingCommand): Promise<{ uid: string }> {
+export class CreateListingUseCase {
+  public async execute(
+    command: CreateListingCommand
+  ): Promise<{ uid: string }> {
     const {
       lenderId,
       streetAddress,
@@ -74,7 +76,7 @@ export class AddListingUseCase {
       throw new InternalServerError();
     }
     const listingClient = new ListingRestClient();
-    return await listingClient.addListing(
+    return await listingClient.createListing(
       lenderId,
       streetAddress,
       latitude,

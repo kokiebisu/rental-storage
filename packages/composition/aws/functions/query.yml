@@ -12,33 +12,26 @@ FindUser:
       - dist/adapter/resolver/query.findUser
   name: ${self:provider.stage}-app-${self:custom.service}-find-user
 
-FindListingById:
+FindListing:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findListingById
-  name: ${self:provider.stage}-app-${self:custom.service}-find-listing-by-id
+      - dist/adapter/resolver/query.findListing
+  name: ${self:provider.stage}-app-${self:custom.service}-find-listing
 
-FindListingsWithinLatLng:
+FindListings:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findListingsWithinLatLng
-  name: ${self:provider.stage}-app-${self:custom.service}-find-listings-within-lat-lng
+      - dist/adapter/resolver/query.findListings
+  name: ${self:provider.stage}-app-${self:custom.service}-find-listings
 
-FindListingsByUserId:
+FindBooking:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findListingsByUserId
-  name: ${self:provider.stage}-app-${self:custom.service}-find-listings-by-user-id
-
-FindMyListings:
-  image:
-    name: app
-    command:
-      - dist/adapter/resolver/query.findMyListings
-  name: ${self:provider.stage}-app-${self:custom.service}-find-my-listings
+      - dist/adapter/resolver/query.findBooking
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-booking
 
 GetPresignedURL:
   image:
@@ -49,17 +42,9 @@ GetPresignedURL:
   environment:
     ACCOUNT_ID: ${aws:accountId}
     STAGE: ${self:provider.stage}
-
 # FindAllCreatedBookings:
 #   image:
 #     name: app
 #     command:
 #       - dist/adapter/resolver/query.findAllCreatedBookings
 #   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-all-created-bookings
-
-FindBooking:
-  image:
-    name: app
-    command:
-      - dist/adapter/resolver/query.findBooking
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-booking

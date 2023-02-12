@@ -1,12 +1,12 @@
 import * as mockEvent from "../event.json";
-import { addListing } from "../../src/adapter/resolver/mutation";
+import { createListing } from "../../src/adapter/resolver/mutation";
 import { mock } from "../mock";
 
-describe("addListing()", () => {
+describe("createListing()", () => {
   it("should work with valid input", async () => {
     expect(global.data.userId).not.toBeUndefined();
     const event = createEvent({ ...mockEvent });
-    const result = await addListing(event);
+    const result = await createListing(event);
     expect(result.uid).not.toBeUndefined();
   });
 });

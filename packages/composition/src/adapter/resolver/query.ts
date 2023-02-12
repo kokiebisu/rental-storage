@@ -1,18 +1,11 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
 import { FindBookingCommand, FindBookingUseCase } from "../usecase/findBooking";
+import { FindListingCommand, FindListingUseCase } from "../usecase/findListing";
 import {
-  FindListingByIdCommand,
-  FindListingByIdUseCase,
-} from "../usecase/findListingById";
-import {
-  FindListingsByUserIdCommand,
-  FindListingsByUserIdUseCase,
-} from "../usecase/findListingsByUserId";
-import {
-  FindListingsWithinLatLngCommand,
-  FindListingsWithinLatLngUseCase,
-} from "../usecase/findListingsWithinLatLng";
+  FindListingsCommand,
+  FindListingsUseCase,
+} from "../usecase/findListings";
 import { FindMeCommand, FindMeUseCase } from "../usecase/findMe";
 import { FindUserCommand, FindUserUseCase } from "../usecase/findUser";
 import {
@@ -27,50 +20,19 @@ export const findBooking = async (
   return await usecase.execute(new FindBookingCommand(event.arguments));
 };
 
-export const findListingById = async (
-  event: AppSyncResolverEvent<{ listingId: string }, unknown>
+export const findListing = async (
+  event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
-  const usecase = new FindListingByIdUseCase();
-  return await usecase.execute(new FindListingByIdCommand(event.arguments));
+  const usecase = new FindListingUseCase();
+  return await usecase.execute(new FindListingCommand(event.arguments));
 };
 
-export const findListingsWithinLatLng = async (
-  event: AppSyncResolverEvent<
-    { latitude: number; longitude: number; range: number },
-    unknown
-  >
-) => {
-  try {
-    const usecase = new FindListingsWithinLatLngUseCase();
-    return await usecase.execute(
-      new FindListingsWithinLatLngCommand(event.arguments)
-    );
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
-};
-
-export const findMyListings = async (
-  event: AppSyncResolverEvent<Record<string, never>, unknown>
-) => {
-  try {
-    const usecase = new FindListingsByUserIdUseCase();
-    return await usecase.execute(
-      new FindListingsByUserIdCommand({
-        userId: (event.identity as AppSyncIdentityLambda).resolverContext,
-      })
-    );
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
-};
-
-export const findListingsByUserId = async (
+export const findListings = async (
   event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
-  const usecase = new FindListingsByUserIdUseCase();
+  const usecase = new FindListingsUseCase();
   return await usecase.execute(
-    new FindListingsByUserIdCommand({
+    new FindListingsCommand({
       userId: event.arguments.userId,
     })
   );
