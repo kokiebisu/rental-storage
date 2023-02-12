@@ -14,7 +14,6 @@
 
 6 Set up AWS PROFILE
 `export AWS_PROFILE=rental-storage`
-`setx AWS_PROFILE rental-storage`
 
 7 Get invited to Slack
 

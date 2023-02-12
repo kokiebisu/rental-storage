@@ -8,7 +8,7 @@ describe("findListings()", () => {
     }
     const event = createEvent({ ...mockEvent });
     const result = await findListings(event);
-    expect(result.listings.length).toBeGreaterThan(0);
+    expect(result.length).toBeGreaterThan(0);
   });
 });
 
