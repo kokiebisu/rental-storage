@@ -5,19 +5,19 @@ DeleteUser:
       - dist/adapter/resolver/mutation.deleteUser
   name: ${self:provider.stage}-app-${self:custom.service}-delete-user
 
-CreateListing:
+CreateSpace:
   image:
     name: app
     command:
-      - dist/adapter/resolver/mutation.createListing
-  name: ${self:provider.stage}-app-${self:custom.service}-create-listing
+      - dist/adapter/resolver/mutation.createSpace
+  name: ${self:provider.stage}-app-${self:custom.service}-create-space
 
-DeleteListing:
+DeleteSpace:
   image:
     name: app
     command:
-      - dist/adapter/resolver/mutation.deleteListing
-  name: ${self:provider.stage}-app-${self:custom.service}-delete-listing
+      - dist/adapter/resolver/mutation.deleteSpace
+  name: ${self:provider.stage}-app-${self:custom.service}-delete-space
 
 CreateBooking:
   image:

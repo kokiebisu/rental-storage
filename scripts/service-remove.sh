@@ -3,7 +3,7 @@
 set -e
 
 function remove_services() {
-    local packages=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
+    local packages=("image" "space" "booking" "slack" "user" "authentication" "authorizer")
     for package in "${packages[@]}"
     do
         echo "Removing ${package^} service...";

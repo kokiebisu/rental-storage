@@ -21,7 +21,7 @@ export class FindBookingUseCase {
       id: result?.booking.uid,
       status: result?.booking.status,
       userId: result?.booking.userId,
-      listingId: result?.booking.listingId,
+      spaceId: result?.booking.spaceId,
       items: result?.booking.items,
       createdAt: result?.booking.createdAt,
       updatedAt: result?.booking.updatedAt,

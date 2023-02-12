@@ -11,13 +11,13 @@ export default class BookingRestClient extends BaseRestClient {
 
   public async createBooking(
     userId: string,
-    listingId: string,
+    spaceId: string,
     items: BookingItem[]
   ): Promise<{ uid: string }> {
     return (
       await this.client.post("/bookings", {
         userId,
-        listingId,
+        spaceId,
         items,
       })
     ).data;

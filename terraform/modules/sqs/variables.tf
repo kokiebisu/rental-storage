@@ -14,7 +14,7 @@ variable "booking_topic_arn" {
     type = string
 }
 
-variable "listing_topic_arn" {
+variable "space_topic_arn" {
     type = string
 }
 

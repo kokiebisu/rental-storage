@@ -7,7 +7,7 @@ import (
 )
 
 type ItemService interface {
-	AddItem(name string, imageUrls []string, ownerId string, listingId string) *customerror.CustomError
+	AddItem(name string, imageUrls []string, ownerId string, spaceId string) *customerror.CustomError
 }
 
 type UserService interface {

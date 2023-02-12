@@ -18,20 +18,20 @@ type BookingService struct {
 	mock.Mock
 }
 
-// CreateBooking provides a mock function with given fields: id, amountDTO, userId, listingId, itemsDTO, createdAt, updatedAt
-func (_m *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId string, listingId string, itemsDTO []item.DTO, createdAt string, updatedAt string) (string, *errors.CustomError) {
-	ret := _m.Called(id, amountDTO, userId, listingId, itemsDTO, createdAt, updatedAt)
+// CreateBooking provides a mock function with given fields: id, amountDTO, userId, spaceId, itemsDTO, createdAt, updatedAt
+func (_m *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId string, spaceId string, itemsDTO []item.DTO, createdAt string, updatedAt string) (string, *errors.CustomError) {
+	ret := _m.Called(id, amountDTO, userId, spaceId, itemsDTO, createdAt, updatedAt)
 
 	var r0 string
 	if rf, ok := ret.Get(0).(func(string, amount.DTO, string, string, []item.DTO, string, string) string); ok {
-		r0 = rf(id, amountDTO, userId, listingId, itemsDTO, createdAt, updatedAt)
+		r0 = rf(id, amountDTO, userId, spaceId, itemsDTO, createdAt, updatedAt)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 *errors.CustomError
 	if rf, ok := ret.Get(1).(func(string, amount.DTO, string, string, []item.DTO, string, string) *errors.CustomError); ok {
-		r1 = rf(id, amountDTO, userId, listingId, itemsDTO, createdAt, updatedAt)
+		r1 = rf(id, amountDTO, userId, spaceId, itemsDTO, createdAt, updatedAt)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

@@ -12,13 +12,13 @@ type ItemFactory struct {
 	mock.Mock
 }
 
-// New provides a mock function with given fields: name, ownerId, listingId
-func (_m *ItemFactory) New(name string, ownerId string, listingId string) item.Entity {
-	ret := _m.Called(name, ownerId, listingId)
+// New provides a mock function with given fields: name, ownerId, spaceId
+func (_m *ItemFactory) New(name string, ownerId string, spaceId string) item.Entity {
+	ret := _m.Called(name, ownerId, spaceId)
 
 	var r0 item.Entity
 	if rf, ok := ret.Get(0).(func(string, string, string) item.Entity); ok {
-		r0 = rf(name, ownerId, listingId)
+		r0 = rf(name, ownerId, spaceId)
 	} else {
 		r0 = ret.Get(0).(item.Entity)
 	}

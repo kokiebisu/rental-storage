@@ -6,7 +6,7 @@ require("ts-node").register({
 import { faker } from "@faker-js/faker";
 import {
   BookingRestClient,
-  ListingRestClient,
+  SpaceRestClient,
   UserRestClient,
 } from "../src/client";
 
@@ -34,12 +34,12 @@ const mockItems = [
 
 module.exports = async function () {
   const userId = await registerUser();
-  const listingId = await registerListing(userId);
-  const bookingId = await registerBooking(userId, listingId);
+  const spaceId = await registerSpace(userId);
+  const bookingId = await registerBooking(userId, spaceId);
 
   global.data = {
     userId,
-    listingId,
+    spaceId,
     bookingId,
     mockEmailAddress,
     mockFirstName,
@@ -62,9 +62,9 @@ const registerUser = async function () {
   return responseData.uid;
 };
 
-const registerListing = async function (userId: string) {
-  const listingClient = new ListingRestClient();
-  const responseData = await listingClient.createListing(
+const registerSpace = async function (userId: string) {
+  const spaceClient = new SpaceRestClient();
+  const responseData = await spaceClient.createSpace(
     userId,
     mockStreetAddress,
     Number(mockLatitude),
@@ -77,17 +77,17 @@ const registerListing = async function (userId: string) {
   );
   if (!responseData) {
     throw new Error(
-      `register listing request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
+      `register space request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
     );
   }
   return responseData.uid;
 };
 
-const registerBooking = async function (userId: string, listingId: string) {
+const registerBooking = async function (userId: string, spaceId: string) {
   const bookingClient = new BookingRestClient();
   const responseData = await bookingClient.createBooking(
     userId,
-    listingId,
+    spaceId,
     mockItems
   );
   if (!responseData) {

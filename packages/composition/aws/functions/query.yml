@@ -12,19 +12,19 @@ FindUser:
       - dist/adapter/resolver/query.findUser
   name: ${self:provider.stage}-app-${self:custom.service}-find-user
 
-FindListing:
+FindSpace:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findListing
-  name: ${self:provider.stage}-app-${self:custom.service}-find-listing
+      - dist/adapter/resolver/query.findSpace
+  name: ${self:provider.stage}-app-${self:custom.service}-find-space
 
-FindListings:
+FindSpaces:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findListings
-  name: ${self:provider.stage}-app-${self:custom.service}-find-listings
+      - dist/adapter/resolver/query.findSpaces
+  name: ${self:provider.stage}-app-${self:custom.service}-find-spaces
 
 FindBooking:
   image:

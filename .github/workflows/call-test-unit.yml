@@ -59,7 +59,7 @@ jobs:
           - authorizer
           - authentication
           - booking
-          - listing
+          - space
           - payment
           - user
     steps:

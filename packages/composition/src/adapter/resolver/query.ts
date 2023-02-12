@@ -1,11 +1,8 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
 import { isCustomError } from "../../helper";
 import { FindBookingCommand, FindBookingUseCase } from "../usecase/findBooking";
-import { FindListingCommand, FindListingUseCase } from "../usecase/findListing";
-import {
-  FindListingsCommand,
-  FindListingsUseCase,
-} from "../usecase/findListings";
+import { FindSpaceCommand, FindSpaceUseCase } from "../usecase/findSpace";
+import { FindSpacesCommand, FindSpacesUseCase } from "../usecase/findSpaces";
 import { FindMeCommand, FindMeUseCase } from "../usecase/findMe";
 import { FindUserCommand, FindUserUseCase } from "../usecase/findUser";
 import {
@@ -20,19 +17,19 @@ export const findBooking = async (
   return await usecase.execute(new FindBookingCommand(event.arguments));
 };
 
-export const findListing = async (
+export const findSpace = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
-  const usecase = new FindListingUseCase();
-  return await usecase.execute(new FindListingCommand(event.arguments));
+  const usecase = new FindSpaceUseCase();
+  return await usecase.execute(new FindSpaceCommand(event.arguments));
 };
 
-export const findListings = async (
+export const findSpaces = async (
   event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
-  const usecase = new FindListingsUseCase();
+  const usecase = new FindSpacesUseCase();
   return await usecase.execute(
-    new FindListingsCommand({
+    new FindSpacesCommand({
       userId: event.arguments.userId,
     })
   );

@@ -18,9 +18,9 @@ var (
 		Value:    50,
 		Currency: faker.Currency(),
 	}
-	MockUserId    = faker.UUIDDigit()
-	MockListingId = faker.UUIDDigit()
-	MockItem      = item.DTO{
+	MockUserId  = faker.UUIDDigit()
+	MockSpaceId = faker.UUIDDigit()
+	MockItem    = item.DTO{
 		Id:        111111,
 		Name:      faker.Name(),
 		ImageUrls: []string{faker.URL(), faker.URL()},
@@ -29,7 +29,7 @@ var (
 		UId:       MockUId,
 		Status:    "PENDING",
 		UserId:    MockUserId,
-		ListingId: MockListingId,
+		SpaceId:   MockSpaceId,
 		Items:     []item.DTO{MockItem},
 		CreatedAt: MockDateString,
 		UpdatedAt: MockDateString,
