@@ -13,7 +13,7 @@ type Entity struct {
 	UId       string
 	Status    BookingStatus
 	UserId    string
-	ListingId string
+	SpaceId   string
 	Items     []item.Entity
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -23,7 +23,7 @@ type DTO struct {
 	UId       string     `json:"uid"`
 	Status    string     `json:"status"`
 	UserId    string     `json:"userId"`
-	ListingId string     `json:"listingId"`
+	SpaceId   string     `json:"spaceId"`
 	Items     []item.DTO `json:"items"`
 	CreatedAt string     `json:"createdAt"`
 	UpdatedAt string     `json:"updatedAt"`
@@ -34,7 +34,7 @@ type Raw struct {
 	Status    string     `json:"Status"`
 	Amount    amount.Raw `json:"Amount"`
 	UserId    string     `json:"UserId"`
-	ListingId string     `json:"ListingId"`
+	SpaceId   string     `json:"SpaceId"`
 	Items     []item.Raw `json:"Items"`
 	CreatedAt string     `json:"CreatedAt"`
 	UpdatedAt string     `json:"UpdatedAt"`
@@ -52,7 +52,7 @@ const (
 
 type BookingStatus string
 
-func New(id string, amount amount.ValueObject, userId string, listingId string, items []item.Entity, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
+func New(id string, amount amount.ValueObject, userId string, spaceId string, items []item.Entity, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
 	if id == "" {
 		id = uuid.New().String()
 	}
@@ -76,7 +76,7 @@ func New(id string, amount amount.ValueObject, userId string, listingId string, 
 		UId:       id,
 		Status:    PENDING,
 		UserId:    userId,
-		ListingId: listingId,
+		SpaceId:   spaceId,
 		Items:     items,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
@@ -95,7 +95,7 @@ func (d DTO) ToEntity() Entity {
 		UId:       d.UId,
 		Status:    BookingStatus(d.Status),
 		UserId:    d.UserId,
-		ListingId: d.ListingId,
+		SpaceId:   d.SpaceId,
 		Items:     items,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
@@ -113,7 +113,7 @@ func (e Entity) ToDTO() DTO {
 		UId:       e.UId,
 		Status:    string(e.Status),
 		UserId:    e.UserId,
-		ListingId: e.ListingId,
+		SpaceId:   e.SpaceId,
 		Items:     itemsDTO,
 		CreatedAt: createdAtString,
 		UpdatedAt: updatedAtString,

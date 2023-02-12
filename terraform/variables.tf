@@ -23,15 +23,15 @@ variable "environment" {
   type        = string
 }
 
-variable "listing_db_username" {
+variable "space_db_username" {
   type = string
 }
 
-variable "listing_db_password" {
+variable "space_db_password" {
   type = string
 }
 
-variable "listing_db_name" {
+variable "space_db_name" {
   type = string
 }
 

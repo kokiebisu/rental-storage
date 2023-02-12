@@ -1,0 +1,44 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  space(id: ID!): Space
+  spaces(userId: ID): [Space]
+}
+
+type Mutation {
+  spaceCreate(
+    title: String
+    streetAddress: String
+    latitude: Float
+    longitude: Float
+    imageUrls: [String]
+    feeType: FeeType
+    feeAmount: Int
+    feeCurrency: Currency
+  ): UId
+  spaceDelete(id: ID): UId
+}
+
+type Space {
+  id: String
+  title: String
+  lenderId: String
+  streetAddress: String
+  latitude: Float
+  longitude: Float
+  imageUrls: [String]
+  feeType: FeeType
+  feeAmount: Int
+  feeCurrency: Currency
+}
+
+enum FeeType {
+  MONTHLY
+}
+
+enum Currency {
+  CAD
+}

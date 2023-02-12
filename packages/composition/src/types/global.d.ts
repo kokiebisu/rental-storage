@@ -4,7 +4,7 @@ import { AppSyncResolverEvent } from "aws-lambda";
 declare global {
   var data: JestMockData;
 
-  interface Listing {
+  interface Space {
     id: string;
     lenderId: string;
     streetAddress: string;
@@ -21,7 +21,7 @@ declare global {
     id: string;
     status: string;
     userId: string;
-    listingId: string;
+    spaceId: string;
     items: BookingItem;
     createdAt: string;
     updatedAt: string;
@@ -45,7 +45,7 @@ declare global {
 
 interface JestMockData {
   userId?: string;
-  listingId?: string;
+  spaceId?: string;
   bookingId?: string;
   mockFirstName: string;
   mockLastName: string;

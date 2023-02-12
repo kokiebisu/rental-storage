@@ -4,7 +4,7 @@ use (
 	./packages/service-authentication
 	./packages/service-authorizer
 	./packages/service-booking
-	./packages/service-listing
+	./packages/service-space
 	./packages/service-payment
 	./packages/service-user
 )

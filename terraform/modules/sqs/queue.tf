@@ -13,19 +13,19 @@ resource "aws_sqs_queue" "booking_dead_letter" {
     name = "${var.environment}-${var.namespace}-booking-dead-letter-queue"
 }
 
-resource "aws_sqs_queue" "listing" {
-    name = "${var.environment}-${var.namespace}-listing-queue"
+resource "aws_sqs_queue" "space" {
+    name = "${var.environment}-${var.namespace}-space-queue"
     depends_on = [
-      aws_sqs_queue.listing_dead_letter
+      aws_sqs_queue.space_dead_letter
     ]
     redrive_policy = jsonencode({
-        deadLetterTargetArn = aws_sqs_queue.listing_dead_letter.arn
+        deadLetterTargetArn = aws_sqs_queue.space_dead_letter.arn
         maxReceiveCount = 3
     })
 }
 
-resource "aws_sqs_queue" "listing_dead_letter" {
-    name = "${var.environment}-${var.namespace}-listing-dead-letter-queue"
+resource "aws_sqs_queue" "space_dead_letter" {
+    name = "${var.environment}-${var.namespace}-space-dead-letter-queue"
 }
 
 resource "aws_sqs_queue" "payment" {

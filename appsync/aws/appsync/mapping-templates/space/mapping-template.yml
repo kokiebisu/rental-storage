@@ -1,0 +1,25 @@
+## Query
+- type: Query
+  field: space
+  dataSource: FindSpaceFn
+  request: ./space/query.space.vtl
+  response: false
+
+- type: Query
+  field: spaces
+  dataSource: FindSpacesFn
+  request: ./space/query.spaces.vtl
+  response: false
+
+## Mutation
+- type: Mutation
+  field: spaceCreate
+  dataSource: CreateSpaceFn
+  request: ./space/mutation.spaceCreate.vtl
+  response: false
+
+- type: Mutation
+  field: spaceDelete
+  dataSource: DeleteSpaceFn
+  request: ./space/mutation.spaceDelete.vtl
+  response: false

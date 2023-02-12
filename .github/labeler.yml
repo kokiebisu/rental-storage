@@ -8,8 +8,8 @@ service:booking:
   - packages/service-booking/**
 service:image:
   - packages/service-image/**
-service:listing:
-  - packages/service-listing/**
+service:space:
+  - packages/service-space/**
 service:payment:
   - packages/service-payment/**
 service:slack:

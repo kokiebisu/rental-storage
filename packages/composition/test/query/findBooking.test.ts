@@ -10,10 +10,10 @@ describe("findBooking()", () => {
     const result = await findBooking(event);
     expect(result?.id).not.toBeUndefined();
     expect(result?.items).not.toBeUndefined();
-    expect(result?.listingId).not.toBeUndefined();
+    expect(result?.spaceId).not.toBeUndefined();
 
     expect(result?.id.length).toBeGreaterThan(0);
-    expect(result?.listingId.length).toBeGreaterThan(0);
+    expect(result?.spaceId.length).toBeGreaterThan(0);
   });
 });
 

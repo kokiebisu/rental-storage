@@ -2,8 +2,8 @@ output "booking_queue_arn" {
   value = aws_sqs_queue.booking.arn
 }
 
-output "listing_queue_arn" {
-    value = aws_sqs_queue.listing.arn
+output "space_queue_arn" {
+    value = aws_sqs_queue.space.arn
 }
 
 output "payment_queue_arn" {

@@ -1,19 +1,13 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
-import {
-  CreateListingCommand,
-  CreateListingUseCase,
-} from "../usecase/createListing";
+import { CreateSpaceCommand, CreateSpaceUseCase } from "../usecase/createSpace";
 import {
   CreateBookingCommand,
   CreateBookingUseCase,
 } from "../usecase/createBooking";
-import {
-  DeleteListingCommand,
-  DeleteListingUseCase,
-} from "../usecase/deleteListing";
+import { DeleteSpaceCommand, DeleteSpaceUseCase } from "../usecase/deleteSpace";
 import { DeleteUserCommand, DeleteUserUseCase } from "../usecase/deleteUser";
 
-export const createListing = async (
+export const createSpace = async (
   event: AppSyncResolverEvent<
     {
       streetAddress: string;
@@ -30,21 +24,21 @@ export const createListing = async (
 ) => {
   const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
   const input = { ...event.arguments, lenderId: uid };
-  const usecase = new CreateListingUseCase();
-  return await usecase.execute(new CreateListingCommand(input));
+  const usecase = new CreateSpaceUseCase();
+  return await usecase.execute(new CreateSpaceCommand(input));
 };
 
-export const deleteListing = async (
+export const deleteSpace = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
-  const usecase = new DeleteListingUseCase();
-  return await usecase.execute(new DeleteListingCommand(event.arguments));
+  const usecase = new DeleteSpaceUseCase();
+  return await usecase.execute(new DeleteSpaceCommand(event.arguments));
 };
 
 export const createBooking = async (
   event: AppSyncResolverEvent<
     {
-      listingId: string;
+      spaceId: string;
       items: BookingItem[];
     },
     unknown

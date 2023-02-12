@@ -42,9 +42,9 @@ module "rds" {
   serverless_security_group_id = module.ec2.serverless_security_group_id
   db_subnet_group_name         = module.ec2.db_subnet_group_name
 
-  listing_db_username = var.listing_db_username
-  listing_db_password = var.listing_db_password
-  listing_db_name     = var.listing_db_name
+  space_db_username = var.space_db_username
+  space_db_password = var.space_db_password
+  space_db_name     = var.space_db_name
 
   user_db_username = var.user_db_username
   user_db_password = var.user_db_password
@@ -65,7 +65,7 @@ module "sqs" {
   environment              = var.environment
   authentication_topic_arn = module.sns.authentication_topic_arn
   booking_topic_arn        = module.sns.booking_topic_arn
-  listing_topic_arn        = module.sns.listing_topic_arn
+  space_topic_arn        = module.sns.space_topic_arn
   payment_topic_arn        = module.sns.payment_topic_arn
   user_topic_arn           = module.sns.user_topic_arn
 }
@@ -76,7 +76,7 @@ module "sns" {
   namespace         = var.namespace
   environment       = var.environment
   booking_queue_arn = module.sqs.booking_queue_arn
-  listing_queue_arn = module.sqs.listing_queue_arn
+  space_queue_arn = module.sqs.space_queue_arn
   payment_queue_arn = module.sqs.payment_queue_arn
   user_queue_arn    = module.sqs.user_queue_arn
 }

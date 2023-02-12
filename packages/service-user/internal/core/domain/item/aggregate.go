@@ -11,7 +11,7 @@ type Entity struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	OwnerId   string
-	ListingId string
+	SpaceId   string
 }
 
 type DTO struct {
@@ -21,7 +21,7 @@ type DTO struct {
 	CreatedAt string   `json:"createdAt"`
 	UpdatedAt string   `json:"updatedAt"`
 	OwnerId   string   `json:"ownerId"`
-	ListingId string   `json:"listingId"`
+	SpaceId   string   `json:"spaceId"`
 }
 
 type Raw struct {
@@ -31,7 +31,7 @@ type Raw struct {
 	CreatedAt string   `json:"created_at"`
 	UpdatedAt string   `json:"updated_at"`
 	OwnerId   string   `json:"owner_id"`
-	ListingId string   `json:"listing_id"`
+	SpaceId   string   `json:"space_id"`
 }
 
 func (r Raw) ToEntity() Entity {
@@ -44,6 +44,6 @@ func (r Raw) ToEntity() Entity {
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 		OwnerId:   r.OwnerId,
-		ListingId: r.ListingId,
+		SpaceId:   r.SpaceId,
 	}
 }

@@ -25,8 +25,8 @@ resource "aws_sqs_queue_policy" "booking" {
     POLICY
 } 
 
-resource "aws_sqs_queue_policy" "listing" {
-    queue_url = aws_sqs_queue.listing.id
+resource "aws_sqs_queue_policy" "space" {
+    queue_url = aws_sqs_queue.space.id
 
     policy = <<POLICY
     {
@@ -37,11 +37,11 @@ resource "aws_sqs_queue_policy" "listing" {
                 "Sid": "allow-sns-messages",
                 "Effect": "Allow",
                 "Principal": "*",
-                "Resource": "${aws_sqs_queue.listing.arn}",
+                "Resource": "${aws_sqs_queue.space.arn}",
                 "Condition": {
                     "ArnEquals": {
                         "aws:SourceArn": [
-                            "${var.listing_topic_arn}"
+                            "${var.space_topic_arn}"
                         ]
                     }
                 }

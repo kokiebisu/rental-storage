@@ -15,7 +15,7 @@ const createEvent = (event: any) => {
   return {
     ...event,
     arguments: {
-      listingId: global.data.listingId,
+      spaceId: global.data.spaceId,
       items: mock.items,
     },
     identity: {
