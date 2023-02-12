@@ -7,8 +7,8 @@ describe("findListingsByUserId()", () => {
       throw new Error("data.userId is empty");
     }
     const event = createEvent({ ...mockEvent });
-    const result = await findListingsByUserId(event);
-    expect(result.listings.length).toBeGreaterThan(0);
+    const result = await findListings(event);
+    expect(result.length).toBeGreaterThan(0);
   });
 });
 
