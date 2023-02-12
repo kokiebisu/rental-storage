@@ -13,9 +13,6 @@ export const mock = {
     `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
     `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
   ],
-  feeAmount: Number(faker.commerce.price()),
-  feeCurrency: faker.finance.currencyCode(),
-  feeType: "MONTHLY",
   items: [
     {
       name: faker.commerce.product(),

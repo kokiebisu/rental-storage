@@ -6,13 +6,9 @@ describe("findBookings()", () => {
     if (!global.data.spaceId) {
       throw new Error("data.spaceId is empty");
     }
-    try {
-      const event = createEvent({ ...mockEvent });
-      const result = await findBookings(event);
-      expect(result?.length).toBeGreaterThan(0);
-    } catch (err) {
-      console.error(err);
-    }
+    const event = createEvent({ ...mockEvent });
+    const result = await findBookings(event);
+    expect(result?.length).toBeGreaterThan(0);
   });
 });
 

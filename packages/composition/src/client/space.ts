@@ -7,10 +7,7 @@ export default class SpaceRestClient extends BaseRestClient {
     latitude: number,
     longitude: number,
     imageUrls: string[],
-    title: string,
-    feeType: string,
-    feeAmount: number,
-    feeCurrency: string
+    title: string
   ) {
     return (
       await this.client.post(`/spaces`, {
@@ -20,9 +17,6 @@ export default class SpaceRestClient extends BaseRestClient {
         longitude,
         imageUrls,
         title,
-        feeType,
-        feeAmount,
-        feeCurrency,
       })
     ).data;
   }
