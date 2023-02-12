@@ -9,3 +9,8 @@
   name: FindBookingFn
   config:
     lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-booking
+
+- type: AWS_LAMBDA
+  name: FindBookingsFn
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-bookings

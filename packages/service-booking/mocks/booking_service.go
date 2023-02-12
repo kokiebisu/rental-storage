@@ -41,6 +41,54 @@ func (_m *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId 
 	return r0, r1
 }
 
+// FindById provides a mock function with given fields: uid
+func (_m *BookingService) FindById(uid string) (booking.Entity, *errors.CustomError) {
+	ret := _m.Called(uid)
+
+	var r0 booking.Entity
+	if rf, ok := ret.Get(0).(func(string) booking.Entity); ok {
+		r0 = rf(uid)
+	} else {
+		r0 = ret.Get(0).(booking.Entity)
+	}
+
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
+		r1 = rf(uid)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
+// FindManyBySpaceId provides a mock function with given fields: spaceId
+func (_m *BookingService) FindManyBySpaceId(spaceId string) ([]booking.Entity, *errors.CustomError) {
+	ret := _m.Called(spaceId)
+
+	var r0 []booking.Entity
+	if rf, ok := ret.Get(0).(func(string) []booking.Entity); ok {
+		r0 = rf(spaceId)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]booking.Entity)
+		}
+	}
+
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
+		r1 = rf(spaceId)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
 // FindUserBookings provides a mock function with given fields: userId
 func (_m *BookingService) FindUserBookings(userId string) ([]booking.Entity, *errors.CustomError) {
 	ret := _m.Called(userId)

@@ -6,6 +6,7 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 	"github.com/kokiebisu/rental-storage/service-booking/mocks"
 
+	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/service"
 	"github.com/kokiebisu/rental-storage/service-booking/test/data"
@@ -38,4 +39,17 @@ func TestFindBookingById_Success(t *testing.T) {
 	b, err := data.BookingService.FindById(uid)
 	assert.Nil(t, err, "should not throw error")
 	assert.Equal(t, b.UId, b.UId)
+}
+
+// FindBookingById
+func TestFindBookings_Success(t *testing.T) {
+	_, err := setupTest(t)
+	expected := []booking.Entity{data.MockBookingEntity}
+	data.MockBookingRepo.On("FindManyBySpaceId", data.MockSpaceId).Return(expected, nil)
+	data.BookingService = service.NewBookingService(data.MockBookingRepo)
+	assert.Nil(t, err, "should not throw error")
+
+	b, err := data.BookingService.FindManyBySpaceId(data.MockSpaceId)
+	assert.Nil(t, err, "should not throw error")
+	assert.Equal(t, b[0].UId, expected[0].UId)
 }

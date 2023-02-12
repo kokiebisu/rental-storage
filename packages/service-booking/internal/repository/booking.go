@@ -31,3 +31,7 @@ func (r *BookingRepository) FindOneById(id string) (booking.Entity, *customerror
 func (r *BookingRepository) FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError) {
 	return r.db.FindManyByUserId(userId)
 }
+
+func (r *BookingRepository) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
+	return r.db.FindManyBySpaceId(spaceId)
+}

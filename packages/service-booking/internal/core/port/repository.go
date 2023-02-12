@@ -10,4 +10,5 @@ type BookingRepository interface {
 	Delete(id string) *customerror.CustomError
 	FindOneById(id string) (booking.Entity, *customerror.CustomError)
 	FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError)
+	FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError)
 }

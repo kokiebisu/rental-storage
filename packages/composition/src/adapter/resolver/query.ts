@@ -9,12 +9,23 @@ import {
   GetPresignedURLCommand,
   GetPresignedURLUseCase,
 } from "../usecase/getPresignedURL";
+import {
+  FindBookingsCommand,
+  FindBookingsUseCase,
+} from "../usecase/findBookings";
 
 export const findBooking = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
   const usecase = new FindBookingUseCase();
   return await usecase.execute(new FindBookingCommand(event.arguments));
+};
+
+export const findBookings = async (
+  event: AppSyncResolverEvent<{ spaceId: string }, unknown>
+) => {
+  const usecase = new FindBookingsUseCase();
+  return await usecase.execute(new FindBookingsCommand(event.arguments));
 };
 
 export const findSpace = async (

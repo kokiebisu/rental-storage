@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 
@@ -22,6 +23,10 @@ type CreateBookingResponsePayload struct {
 
 type FindBookingByIdResponsePayload struct {
 	Booking booking.DTO `json:"booking"`
+}
+
+type FindBookingsResponsePayload struct {
+	Bookings []booking.DTO `json:"bookings"`
 }
 
 func NewApiGatewayHandler(service port.BookingService) *ApiGatewayHandler {
@@ -52,6 +57,21 @@ func (h *ApiGatewayHandler) FindBookingById(event events.APIGatewayProxyRequest)
 	}
 	booking, err := h.service.FindById(bookingId)
 	return FindBookingByIdResponsePayload{Booking: booking.ToDTO()}, err
+}
+
+func (h *ApiGatewayHandler) FindBookings(event events.APIGatewayProxyRequest) (FindBookingsResponsePayload, *customerror.CustomError) {
+	fmt.Println("ENTERED1")
+	spaceId := event.QueryStringParameters["spaceId"]
+	fmt.Println("ENTERED2", spaceId)
+	if spaceId == "" {
+		return FindBookingsResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
+	}
+	b, err := h.service.FindManyBySpaceId(spaceId)
+	bs := []booking.DTO{}
+	for _, i := range b {
+		bs = append(bs, i.ToDTO())
+	}
+	return FindBookingsResponsePayload{Bookings: bs}, err
 }
 
 func (h *ApiGatewayHandler) FindUserBookings(event events.APIGatewayProxyRequest) ([]booking.DTO, *customerror.CustomError) {
