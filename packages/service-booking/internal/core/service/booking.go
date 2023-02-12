@@ -50,3 +50,7 @@ func (s *BookingService) FindUserBookings(userId string) ([]booking.Entity, *cus
 func (s *BookingService) FindById(uid string) (booking.Entity, *customerror.CustomError) {
 	return s.bookingRepository.FindOneById(uid)
 }
+
+func (s *BookingService) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
+	return s.bookingRepository.FindManyBySpaceId(spaceId)
+}

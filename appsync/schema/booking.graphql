@@ -5,6 +5,7 @@ schema {
 
 type Query {
   booking(id: ID!): Booking
+  bookings(spaceId: ID!): [Booking]
 }
 
 type Mutation {

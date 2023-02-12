@@ -19,3 +19,14 @@ FindBookingById:
     - http:
         path: /bookings/{bookingId}
         method: get
+
+FindBookings:
+  image:
+    name: app
+    command:
+      - bin/find-bookings
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-find-bookings
+  events:
+    - http:
+        path: /bookings
+        method: get

@@ -33,6 +33,13 @@ FindBooking:
       - dist/adapter/resolver/query.findBooking
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-booking
 
+FindBookings:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/query.findBookings
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-bookings
+
 GetPresignedURL:
   image:
     name: app
@@ -42,9 +49,3 @@ GetPresignedURL:
   environment:
     ACCOUNT_ID: ${aws:accountId}
     STAGE: ${self:provider.stage}
-# FindAllCreatedBookings:
-#   image:
-#     name: app
-#     command:
-#       - dist/adapter/resolver/query.findAllCreatedBookings
-#   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-find-all-created-bookings

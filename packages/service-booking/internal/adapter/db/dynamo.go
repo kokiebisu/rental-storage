@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 
 	"log"
 	"os"
@@ -104,6 +105,36 @@ func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, *custome
 	if err != nil {
 		log.Fatal(err)
 		return []booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot perform Query operation by userId", err)
+	}
+	targets := []booking.Entity{}
+	for _, i := range output.Items {
+		target := booking.DTO{}
+		err = attributevalue.UnmarshalMap(i, &target)
+		if err != nil {
+			return []booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot unmarshal map", err)
+		}
+		entity := target.ToEntity()
+		targets = append(targets, entity)
+	}
+	return targets, nil
+}
+
+func (c NoSQLClient) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
+	fmt.Println("ENTERED4: ", spaceId)
+	shouldScanIndexForward := false
+	indexName := "BookingSpaceIdIndex"
+	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
+		TableName:              &c.tableName,
+		IndexName:              &indexName,
+		KeyConditionExpression: aws.String("SpaceId = :hashKey"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":hashKey": &types.AttributeValueMemberS{Value: spaceId},
+		},
+		ScanIndexForward: &shouldScanIndexForward,
+	})
+	if err != nil {
+		log.Fatal(err)
+		return []booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot perform Query operation by spaceId", err)
 	}
 	targets := []booking.Entity{}
 	for _, i := range output.Items {

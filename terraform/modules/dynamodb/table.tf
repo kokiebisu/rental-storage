@@ -26,9 +26,9 @@ resource "aws_dynamodb_table" "booking" {
   }
 
   global_secondary_index {
-    name = "BookingUserIdIndex"
-    hash_key = "UserId"
-    range_key = "SpaceId"
+    name = "BookingSpaceIdIndex"
+    hash_key = "SpaceId"
+    range_key = "CreatedAt"
     projection_type = "ALL"
   }
 

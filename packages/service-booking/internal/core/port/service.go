@@ -11,4 +11,5 @@ type BookingService interface {
 	CreateBooking(id string, amountDTO amount.DTO, userId string, spaceId string, itemsDTO []item.DTO, createdAt string, updatedAt string) (string, *customerror.CustomError)
 	FindUserBookings(userId string) ([]booking.Entity, *customerror.CustomError)
 	FindById(uid string) (booking.Entity, *customerror.CustomError)
+	FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError)
 }

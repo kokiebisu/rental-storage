@@ -11,3 +11,9 @@
   dataSource: FindBookingFn
   request: ./booking/query.booking.vtl
   response: false
+
+- type: Query
+  field: bookings
+  dataSource: FindBookingsFn
+  request: ./booking/query.bookings.vtl
+  response: false
