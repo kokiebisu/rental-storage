@@ -15,9 +15,6 @@ export const createSpace = async (
       longitude: number;
       imageUrls: string[];
       title: string;
-      feeAmount: number;
-      feeCurrency: string;
-      feeType: string;
     },
     unknown
   >

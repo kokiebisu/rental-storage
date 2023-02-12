@@ -22,9 +22,6 @@ const mockImageUrls = [
   `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
 ];
 const mockTitle = faker.company.name();
-const mockFeeAmount = faker.commerce.price();
-const mockFeeCurrency = faker.finance.currencyCode();
-const mockFeeType = "MONTHLY";
 const mockItems = [
   {
     name: faker.commerce.product(),
@@ -70,10 +67,7 @@ const registerSpace = async function (userId: string) {
     Number(mockLatitude),
     Number(mockLongitude),
     mockImageUrls,
-    mockTitle,
-    mockFeeType,
-    Number(mockFeeAmount),
-    mockFeeCurrency
+    mockTitle
   );
   if (!responseData) {
     throw new Error(

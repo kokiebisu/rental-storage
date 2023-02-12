@@ -4,8 +4,6 @@ import (
 	"log"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/amount"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/fee"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
@@ -68,8 +66,8 @@ func (s *SpaceService) FindSpaceById(uid string) (space.DTO, *customerror.Custom
 	return spaceDTO, nil
 }
 
-func (s *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *customerror.CustomError) {
-	entity, err := s.SpaceFactory.New(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, int64(feeAmount), string(feeType))
+func (s *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string) (string, *customerror.CustomError) {
+	entity, err := s.SpaceFactory.New(title, lenderId, streetAddress, latitude, longitude, imageUrls)
 	if err != nil {
 		return "", err
 	}

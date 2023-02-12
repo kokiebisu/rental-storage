@@ -21,6 +21,6 @@ func New() (*ApiGatewayHandler, *customerror.CustomError) {
 	factory := &space.Factory{}
 	service := service.NewSpaceService(repo, factory)
 	return &ApiGatewayHandler{
-		service: service,
+		service,
 	}, nil
 }
