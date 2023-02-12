@@ -34,11 +34,3 @@ type Space {
   feeAmount: Int
   feeCurrency: Currency
 }
-
-enum FeeType {
-  MONTHLY
-}
-
-enum Currency {
-  CAD
-}

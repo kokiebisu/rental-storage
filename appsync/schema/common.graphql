@@ -1,3 +1,18 @@
+# Objects
 type UId {
   uid: String
+}
+
+type Item {
+  name: String
+  imageUrls: [String]
+}
+
+# Enum
+enum FeeType {
+  MONTHLY
+}
+
+enum Currency {
+  CAD
 }

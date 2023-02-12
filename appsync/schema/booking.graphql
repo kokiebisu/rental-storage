@@ -26,8 +26,3 @@ input ItemInput {
   name: String
   imageUrls: [String]
 }
-
-type Item {
-  name: String
-  imageUrls: [String]
-}
