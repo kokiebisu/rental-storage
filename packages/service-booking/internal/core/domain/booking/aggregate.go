@@ -4,8 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
-	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
@@ -14,30 +12,26 @@ type Entity struct {
 	Status    BookingStatus
 	UserId    string
 	SpaceId   string
-	Items     []item.Entity
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
 
 type DTO struct {
-	UId       string     `json:"uid"`
-	Status    string     `json:"status"`
-	UserId    string     `json:"userId"`
-	SpaceId   string     `json:"spaceId"`
-	Items     []item.DTO `json:"items"`
-	CreatedAt string     `json:"createdAt"`
-	UpdatedAt string     `json:"updatedAt"`
+	UId       string `json:"uid"`
+	Status    string `json:"status"`
+	UserId    string `json:"userId"`
+	SpaceId   string `json:"spaceId"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
 }
 
 type Raw struct {
-	Id        string     `json:"Id"`
-	Status    string     `json:"Status"`
-	Amount    amount.Raw `json:"Amount"`
-	UserId    string     `json:"UserId"`
-	SpaceId   string     `json:"SpaceId"`
-	Items     []item.Raw `json:"Items"`
-	CreatedAt string     `json:"CreatedAt"`
-	UpdatedAt string     `json:"UpdatedAt"`
+	Id        string `json:"Id"`
+	Status    string `json:"Status"`
+	UserId    string `json:"UserId"`
+	SpaceId   string `json:"SpaceId"`
+	CreatedAt string `json:"CreatedAt"`
+	UpdatedAt string `json:"UpdatedAt"`
 }
 
 const (
@@ -52,7 +46,7 @@ const (
 
 type BookingStatus string
 
-func New(id string, amount amount.ValueObject, userId string, spaceId string, items []item.Entity, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
+func New(id string, userId string, spaceId string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
 	if id == "" {
 		id = uuid.New().String()
 	}
@@ -77,18 +71,12 @@ func New(id string, amount amount.ValueObject, userId string, spaceId string, it
 		Status:    PENDING,
 		UserId:    userId,
 		SpaceId:   spaceId,
-		Items:     items,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 	}, nil
 }
 
 func (d DTO) ToEntity() Entity {
-	items := []item.Entity{}
-	for _, i := range d.Items {
-		itemEntity := i.ToEntity()
-		items = append(items, itemEntity)
-	}
 	createdAt, _ := time.Parse(layoutISO, d.CreatedAt)
 	updatedAt, _ := time.Parse(layoutISO, d.UpdatedAt)
 	return Entity{
@@ -96,7 +84,6 @@ func (d DTO) ToEntity() Entity {
 		Status:    BookingStatus(d.Status),
 		UserId:    d.UserId,
 		SpaceId:   d.SpaceId,
-		Items:     items,
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 	}
@@ -105,16 +92,11 @@ func (d DTO) ToEntity() Entity {
 func (e Entity) ToDTO() DTO {
 	createdAtString := e.CreatedAt.Format("2016-08-19")
 	updatedAtString := e.UpdatedAt.Format("2016-08-19")
-	itemsDTO := []item.DTO{}
-	for _, i := range e.Items {
-		itemsDTO = append(itemsDTO, i.ToDTO())
-	}
 	return DTO{
 		UId:       e.UId,
 		Status:    string(e.Status),
 		UserId:    e.UserId,
 		SpaceId:   e.SpaceId,
-		Items:     itemsDTO,
 		CreatedAt: createdAtString,
 		UpdatedAt: updatedAtString,
 	}

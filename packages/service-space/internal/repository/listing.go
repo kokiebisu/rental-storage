@@ -2,7 +2,6 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
 
 	"log"
 
@@ -61,13 +60,6 @@ func (r *SpaceRepository) Setup() *customerror.CustomError {
 
 func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomError) {
 	var lastInsertedId int64
-	fmt.Println(space.UId,
-		space.Title,
-		space.LenderId,
-		space.StreetAddress.Value,
-		space.Latitude.Value,
-		space.Longitude.Value,
-		space.Description)
 	row := r.db.QueryRow(
 		`
           INSERT INTO space (

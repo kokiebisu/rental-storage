@@ -13,14 +13,5 @@ export const mock = {
     `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
     `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
   ],
-  items: [
-    {
-      name: faker.commerce.product(),
-      imageUrls: [
-        `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-        `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-      ],
-    },
-  ],
   description: faker.lorem.paragraphs(),
 };
