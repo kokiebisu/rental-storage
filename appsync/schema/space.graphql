@@ -21,3 +21,16 @@ type Mutation {
   ): UId
   spaceDelete(id: ID): UId
 }
+
+type Space {
+  id: String
+  title: String
+  lenderId: String
+  streetAddress: String
+  latitude: Float
+  longitude: Float
+  imageUrls: [String]
+  feeType: FeeType
+  feeAmount: Int
+  feeCurrency: Currency
+}

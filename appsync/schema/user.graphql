@@ -12,3 +12,12 @@ type Query {
 type Mutation {
   userDelete(id: ID!): UId
 }
+
+type User {
+  id: ID
+  firstName: String
+  lastName: String
+  emailAddress: String
+  createdAt: String
+  updatedAt: String
+}

@@ -3,38 +3,6 @@ type UId {
   uid: String
 }
 
-type Booking {
-  id: ID
-  status: String
-  userId: String
-  spaceId: String
-  items: [Item]
-  createdAt: String
-  updatedAt: String
-}
-
-type User {
-  id: ID
-  firstName: String
-  lastName: String
-  emailAddress: String
-  createdAt: String
-  updatedAt: String
-}
-
-type Space {
-  id: String
-  title: String
-  lenderId: String
-  streetAddress: String
-  latitude: Float
-  longitude: Float
-  imageUrls: [String]
-  feeType: FeeType
-  feeAmount: Int
-  feeCurrency: Currency
-}
-
 type Item {
   name: String
   imageUrls: [String]
