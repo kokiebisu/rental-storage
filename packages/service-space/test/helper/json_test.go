@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/bxcodec/faker/v3"
 	"github.com/kokiebisu/rental-storage/service-space/internal/adapter/controller"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
 	"github.com/kokiebisu/rental-storage/service-space/internal/helper"
+	"github.com/kokiebisu/rental-storage/service-space/test/data"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,75 +16,56 @@ type StringifyResult struct {
 	expected string
 }
 
-var (
-	uid           = faker.UUIDDigit()
-	title         = faker.Name()
-	lenderId      = faker.FirstName()
-	streetAddress = faker.Word()
-	latitude      = faker.Longitude()
-	longitude     = faker.Latitude()
-	imageUrls     = []string{
-		faker.URL(),
-		faker.URL(),
-	}
-	l = space.DTO{
-		UId:           uid,
-		Title:         title,
-		LenderId:      lenderId,
-		StreetAddress: streetAddress,
-		Latitude:      latitude,
-		Longitude:     longitude,
-		ImageUrls:     imageUrls,
-	}
-)
-
 var stringifyResults = []StringifyResult{
 	{
 		controller.FindSpaceByIdResponsePayload{
-			Space: l,
+			Space: data.MockSpace.ToDTO(),
 		},
-		fmt.Sprintf(`{"space":{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"]}}`,
-			uid,
-			title,
-			lenderId,
-			streetAddress,
-			latitude,
-			longitude,
-			imageUrls[0],
-			imageUrls[1],
+		fmt.Sprintf(`{"space":{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"}}`,
+			data.MockUId,
+			data.MockTitle,
+			data.MockLenderId,
+			data.MockStreetAddress,
+			data.MockLatitude,
+			data.MockLongitude,
+			data.MockImageUrls[0],
+			data.MockImageUrls[1],
+			data.MockDescription,
 		),
 	},
 	{
 		controller.FindSpacesResponsePayload{
 			Spaces: []space.DTO{
-				l,
-				l,
+				data.MockSpace.ToDTO(),
+				data.MockSpace.ToDTO(),
 			},
 		},
-		fmt.Sprintf(`{"spaces":[{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"]},{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"]}]}`,
-			uid,
-			title,
-			lenderId,
-			streetAddress,
-			latitude,
-			longitude,
-			imageUrls[0],
-			imageUrls[1],
-			uid,
-			title,
-			lenderId,
-			streetAddress,
-			latitude,
-			longitude,
-			imageUrls[0],
-			imageUrls[1],
+		fmt.Sprintf(`{"spaces":[{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"},{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"}]}`,
+			data.MockUId,
+			data.MockTitle,
+			data.MockLenderId,
+			data.MockStreetAddress,
+			data.MockLatitude,
+			data.MockLongitude,
+			data.MockImageUrls[0],
+			data.MockImageUrls[1],
+			data.MockDescription,
+			data.MockUId,
+			data.MockTitle,
+			data.MockLenderId,
+			data.MockStreetAddress,
+			data.MockLatitude,
+			data.MockLongitude,
+			data.MockImageUrls[0],
+			data.MockImageUrls[1],
+			data.MockDescription,
 		),
 	},
 	{
 		controller.AddSpaceResponsePayload{
-			UId: uid,
+			UId: data.MockUId,
 		},
-		fmt.Sprintf(`{"uid":"%s"}`, uid),
+		fmt.Sprintf(`{"uid":"%s"}`, data.MockUId),
 	},
 }
 

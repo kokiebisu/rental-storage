@@ -21,6 +21,7 @@ const mockImageUrls = [
   `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
   `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
 ];
+const mockDescription = faker.lorem.paragraph();
 const mockTitle = faker.company.name();
 const mockItems = [
   {
@@ -61,20 +62,25 @@ const registerUser = async function () {
 
 const registerSpace = async function (userId: string) {
   const spaceClient = new SpaceRestClient();
-  const responseData = await spaceClient.createSpace(
-    userId,
-    mockStreetAddress,
-    Number(mockLatitude),
-    Number(mockLongitude),
-    mockImageUrls,
-    mockTitle
-  );
-  if (!responseData) {
-    throw new Error(
-      `register space request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
+  try {
+    const responseData = await spaceClient.createSpace(
+      userId,
+      mockStreetAddress,
+      Number(mockLatitude),
+      Number(mockLongitude),
+      mockImageUrls,
+      mockTitle,
+      mockDescription
     );
+    if (!responseData) {
+      throw new Error(
+        `register space request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
+      );
+    }
+    return responseData.uid;
+  } catch (err) {
+    console.error(err);
   }
-  return responseData.uid;
 };
 
 const registerBooking = async function (userId: string, spaceId: string) {

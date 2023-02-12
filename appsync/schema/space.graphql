@@ -15,6 +15,7 @@ type Mutation {
     latitude: Float
     longitude: Float
     imageUrls: [String]
+    description: String
   ): UId
   spaceDelete(id: ID): UId
 }
@@ -27,4 +28,5 @@ type Space {
   latitude: Float
   longitude: Float
   imageUrls: [String]
+  description: String
 }

@@ -3,6 +3,7 @@ package repository
 import (
 	"database/sql"
 	"fmt"
+
 	"log"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
@@ -28,7 +29,8 @@ func (r *SpaceRepository) Setup() *customerror.CustomError {
 			title VARCHAR(64),
 			lender_id VARCHAR(64), 
 			street_address VARCHAR(100) NOT NULL, 
-			coordinate point
+			coordinate point,
+			description TEXT
 	  	)
 	`)
 	if err != nil {
@@ -59,11 +61,18 @@ func (r *SpaceRepository) Setup() *customerror.CustomError {
 
 func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomError) {
 	var lastInsertedId int64
+	fmt.Println(space.UId,
+		space.Title,
+		space.LenderId,
+		space.StreetAddress.Value,
+		space.Latitude.Value,
+		space.Longitude.Value,
+		space.Description)
 	row := r.db.QueryRow(
 		`
           INSERT INTO space (
-          uid, title, lender_id, street_address, coordinate
-          ) VALUES ($1, $2, $3, $4, point($5, $6))
+          uid, title, lender_id, street_address, coordinate, description
+          ) VALUES ($1, $2, $3, $4, point($5, $6), $7)
 		  RETURNING id
 		`,
 		space.UId,
@@ -72,6 +81,7 @@ func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomE
 		space.StreetAddress.Value,
 		space.Latitude.Value,
 		space.Longitude.Value,
+		space.Description,
 	)
 	err := row.Scan(&lastInsertedId)
 	if err != nil {
@@ -130,12 +140,13 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 	var lenderId string
 	var streetAddress string
 	var coordinate helper.Point
+	var description string
 	var imageUrls []string
 
 	for rows.Next() {
 		var uid string
 		var imageUrl string
-		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &imageUrl)
+		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &imageUrl)
 		if err != nil {
 			return space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -148,6 +159,7 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 		StreetAddress: streetAddress,
 		Latitude:      coordinate.X,
 		Longitude:     coordinate.Y,
+		Description:   description,
 		ImageUrls:     imageUrls,
 	}.ToEntity()
 	return l, nil
@@ -181,9 +193,10 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 		var lenderId string
 		var streetAddress string
 		var coordinate helper.Point
+		var description string
 		var distance float32
 		var imageUrl string
-		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &distance, &imageUrl)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &distance, &imageUrl)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -210,7 +223,6 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 }
 
 func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *customerror.CustomError) {
-	fmt.Println("ENTERED1")
 	rows, err := r.db.Query(
 		`
 		SELECT space.*, images_space.url FROM space 
@@ -230,8 +242,9 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 		var lenderId string
 		var streetAddress string
 		var coordinate helper.Point
+		var description string
 		var imageUrl string
-		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &imageUrl)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &imageUrl)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -245,6 +258,7 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 				StreetAddress: streetAddress,
 				Latitude:      coordinate.X,
 				Longitude:     coordinate.Y,
+				Description:   description,
 				ImageUrls:     append([]string{}, imageUrl),
 			}.ToEntity()
 			spacesMap[uid] = l

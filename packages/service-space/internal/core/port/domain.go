@@ -6,5 +6,5 @@ import (
 )
 
 type SpaceFactory interface {
-	New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string) (space.Entity, *customerror.CustomError)
+	New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string) (space.Entity, *customerror.CustomError)
 }

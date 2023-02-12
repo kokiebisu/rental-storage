@@ -15,6 +15,7 @@ export const createSpace = async (
       longitude: number;
       imageUrls: string[];
       title: string;
+      description: string;
     },
     unknown
   >
