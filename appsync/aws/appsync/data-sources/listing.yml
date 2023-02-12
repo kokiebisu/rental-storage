@@ -1,31 +1,21 @@
 ## Query
 - type: AWS_LAMBDA
-  name: FindListingByIdFunction
+  name: FindListingFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-listing-by-id
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-listing
 
 - type: AWS_LAMBDA
-  name: FindListingsWithinLatLngFunction
+  name: FindListingsFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-listings-within-lat-lng
-
-- type: AWS_LAMBDA
-  name: FindMyListingsFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-my-listings
-
-- type: AWS_LAMBDA
-  name: FindListingsByUserIdFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-listings-by-user-id
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-listings
 
 ## Mutation
 - type: AWS_LAMBDA
-  name: AddListingFunction
+  name: CreateListingFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-add-listing
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-create-listing
 
 - type: AWS_LAMBDA
-  name: RemoveListingByIdFunction
+  name: DeleteListingFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-remove-listing-by-id
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-delete-listing

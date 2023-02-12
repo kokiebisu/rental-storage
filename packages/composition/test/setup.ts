@@ -64,7 +64,7 @@ const registerUser = async function () {
 
 const registerListing = async function (userId: string) {
   const listingClient = new ListingRestClient();
-  const responseData = await listingClient.addListing(
+  const responseData = await listingClient.createListing(
     userId,
     mockStreetAddress,
     Number(mockLatitude),
