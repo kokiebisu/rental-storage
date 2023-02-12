@@ -1,0 +1,21 @@
+## Query
+- type: AWS_LAMBDA
+  name: FindSpaceFn
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-space
+
+- type: AWS_LAMBDA
+  name: FindSpacesFn
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-spaces
+
+## Mutation
+- type: AWS_LAMBDA
+  name: CreateSpaceFn
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-create-space
+
+- type: AWS_LAMBDA
+  name: DeleteSpaceFn
+  config:
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-delete-space

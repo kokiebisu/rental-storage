@@ -17,7 +17,7 @@ func setupTest(t *testing.T) (string, *customerror.CustomError) {
 	data.MockBookingRepo.On("Save", data.MockBookingEntity).Return(nil)
 
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
-	token, err := data.BookingService.CreateBooking(data.MockUId, data.MockAmount, data.MockUserId, data.MockListingId, []item.DTO{data.MockItem}, data.MockDateString, data.MockDateString)
+	token, err := data.BookingService.CreateBooking(data.MockUId, data.MockAmount, data.MockUserId, data.MockSpaceId, []item.DTO{data.MockItem}, data.MockDateString, data.MockDateString)
 	return token, err
 }
 

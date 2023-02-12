@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func New(name string, ownerId string, listingId string) Entity {
+func New(name string, ownerId string, spaceId string) Entity {
 	return Entity{
 		UId:       uuid.New().String(),
 		Name:      name,
@@ -14,6 +14,6 @@ func New(name string, ownerId string, listingId string) Entity {
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Time{},
 		OwnerId:   ownerId,
-		ListingId: listingId,
+		SpaceId:   spaceId,
 	}
 }

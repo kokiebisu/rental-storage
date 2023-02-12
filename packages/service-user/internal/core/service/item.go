@@ -14,7 +14,7 @@ type ItemService struct {
 func (s *ItemService) AddItems(items []item.DTO) ([]string, *customerror.CustomError) {
 	uids := []string{}
 	for _, i := range items {
-		item := s.factory.New(i.Name, i.OwnerId, i.ListingId)
+		item := s.factory.New(i.Name, i.OwnerId, i.SpaceId)
 		uid, err := s.itemRepository.Save(item)
 		if err != nil {
 			return []string{}, err

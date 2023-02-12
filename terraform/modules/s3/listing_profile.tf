@@ -1,10 +1,10 @@
-resource "aws_s3_bucket" "listing_profile" {
-  bucket = "${var.environment}-${var.account_id}-listing-profile"
+resource "aws_s3_bucket" "space_profile" {
+  bucket = "${var.environment}-${var.account_id}-space-profile"
 
 }
 
-resource "aws_s3_bucket_cors_configuration" "listing_profile" {
-  bucket = aws_s3_bucket.listing_profile.id
+resource "aws_s3_bucket_cors_configuration" "space_profile" {
+  bucket = aws_s3_bucket.space_profile.id
 
   cors_rule {
     allowed_methods = ["GET", "PUT", "POST", "HEAD"]
@@ -13,17 +13,17 @@ resource "aws_s3_bucket_cors_configuration" "listing_profile" {
   }
 }
 
-resource "aws_s3_bucket_acl" "listing_profile" {
-  bucket = aws_s3_bucket.listing_profile.id
+resource "aws_s3_bucket_acl" "space_profile" {
+  bucket = aws_s3_bucket.space_profile.id
   acl    = "public-read-write"
 }
 
-resource "aws_s3_bucket_policy" "listing_profile" {
-  bucket = aws_s3_bucket.listing_profile.id
-  policy = data.aws_iam_policy_document.listing_profile.json
+resource "aws_s3_bucket_policy" "space_profile" {
+  bucket = aws_s3_bucket.space_profile.id
+  policy = data.aws_iam_policy_document.space_profile.json
 }
 
-data "aws_iam_policy_document" "listing_profile" {
+data "aws_iam_policy_document" "space_profile" {
   statement {
     sid    = "PublicReadForGetBucketObjects"
     effect = "Allow"
@@ -35,6 +35,6 @@ data "aws_iam_policy_document" "listing_profile" {
 
     actions = ["s3:GetObject", "s3:PutObject"]
 
-    resources = ["${aws_s3_bucket.listing_profile.arn}/*"]
+    resources = ["${aws_s3_bucket.space_profile.arn}/*"]
   }
 }

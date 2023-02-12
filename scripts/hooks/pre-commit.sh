@@ -12,7 +12,7 @@ function lint_platforms() {
 }
 
 function lint_services() {
-    local packages=("authentication" "authorizer" "booking" "listing" "payment" "user" "slack")
+    local packages=("authentication" "authorizer" "booking" "space" "payment" "user" "slack")
     for package in "${packages[@]}"
     do
         echo -e "\nLinting ${package} service..."

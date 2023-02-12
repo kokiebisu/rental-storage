@@ -3,22 +3,22 @@ import { InternalServerError } from "../../error";
 
 interface CreateBookingCommandConstructor {
   userId: string;
-  listingId: string;
+  spaceId: string;
   items: BookingItem[];
 }
 
 export class CreateBookingCommand {
   public readonly userId: string;
-  public readonly listingId: string;
+  public readonly spaceId: string;
   public readonly items: BookingItem[];
 
   public constructor({
     userId,
-    listingId,
+    spaceId,
     items,
   }: CreateBookingCommandConstructor) {
     this.userId = userId;
-    this.listingId = listingId;
+    this.spaceId = spaceId;
     this.items = items;
   }
 }
@@ -27,11 +27,11 @@ export class CreateBookingUseCase {
   public async execute(
     command: CreateBookingCommand
   ): Promise<{ uid: string }> {
-    const { userId, listingId, items } = command;
-    if (!userId || !listingId || !items) {
+    const { userId, spaceId, items } = command;
+    if (!userId || !spaceId || !items) {
       throw new InternalServerError();
     }
     const bookingClient = new BookingRestClient();
-    return await bookingClient.createBooking(userId, listingId, items);
+    return await bookingClient.createBooking(userId, spaceId, items);
   }
 }

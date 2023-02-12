@@ -10,7 +10,7 @@ variable booking_queue_arn {
     type = string
 }
 
-variable listing_queue_arn {
+variable space_queue_arn {
     type = string
 }
 

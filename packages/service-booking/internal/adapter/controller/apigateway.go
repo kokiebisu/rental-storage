@@ -32,16 +32,16 @@ func NewApiGatewayHandler(service port.BookingService) *ApiGatewayHandler {
 
 func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (CreateBookingResponsePayload, *customerror.CustomError) {
 	body := struct {
-		Amount    amount.DTO `json:"amount"`
-		UserId    string     `json:"userId"`
-		ListingId string     `json:"listingId"`
-		Items     []item.DTO `json:"items"`
+		Amount  amount.DTO `json:"amount"`
+		UserId  string     `json:"userId"`
+		SpaceId string     `json:"spaceId"`
+		Items   []item.DTO `json:"items"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	bookingId, err := h.service.CreateBooking("", body.Amount, body.UserId, body.ListingId, body.Items, "", "")
+	bookingId, err := h.service.CreateBooking("", body.Amount, body.UserId, body.SpaceId, body.Items, "", "")
 	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
 }
 

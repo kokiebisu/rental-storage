@@ -26,7 +26,7 @@ func (r *ItemRepository) Setup() error {
 			uid VARCHAR(64) NOT NULL,
 			name VARCHAR(20) NOT NULL, 
 			owner_id VARCHAR(30) NOT NULL, 
-			listing_id VARCHAR(30) NOT NULL,
+			space_id VARCHAR(30) NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
 			updated_at TIMESTAMP,
 			CONSTRAINT fk_user
@@ -60,8 +60,8 @@ func (r *ItemRepository) Setup() error {
 func (r *ItemRepository) Save(item item.Entity) error {
 	// begin transaction
 	result, err := r.db.Exec(
-		`INSERT INTO item (name, owner_id, listing_id, created_at) VALUES($1, $2, $3, $4)`,
-		item.Name, item.OwnerId, item.ListingId, item.CreatedAt,
+		`INSERT INTO item (name, owner_id, space_id, created_at) VALUES($1, $2, $3, $4)`,
+		item.Name, item.OwnerId, item.SpaceId, item.CreatedAt,
 	)
 	if err != nil {
 		// rollback
@@ -99,14 +99,14 @@ func (r *ItemRepository) FindOneById(id int64) (item.Entity, error) {
 	var uid string
 	var name string
 	var ownerId string
-	var listingId string
+	var spaceId string
 	var createdAt string
 	var updatedAt string
 	row := r.db.QueryRow(
 		`SELECT * FROM item WHERE id = $1`,
 		uid,
 	)
-	err := row.Scan(&id, &uid, &name, &ownerId, &listingId, &createdAt, &updatedAt)
+	err := row.Scan(&id, &uid, &name, &ownerId, &spaceId, &createdAt, &updatedAt)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -138,7 +138,7 @@ func (r *ItemRepository) FindOneById(id int64) (item.Entity, error) {
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 		OwnerId:   ownerId,
-		ListingId: listingId,
+		SpaceId:   spaceId,
 	}
 	return item.ToEntity(), nil
 

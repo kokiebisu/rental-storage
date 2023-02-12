@@ -1,31 +1,31 @@
-resource "aws_ssm_parameter" "listing_db_host" {
-    name = "/terraform/rds/listing-db-host"
+resource "aws_ssm_parameter" "space_db_host" {
+    name = "/terraform/rds/space-db-host"
     type = "String"
-    value = aws_db_instance.listing.address
+    value = aws_db_instance.space.address
 }
 
-resource "aws_ssm_parameter" "listing_db_port" {
-    name = "/terraform/rds/listing-db-port"
+resource "aws_ssm_parameter" "space_db_port" {
+    name = "/terraform/rds/space-db-port"
     type = "String"
-    value = aws_db_instance.listing.port
+    value = aws_db_instance.space.port
 }
 
-resource "aws_ssm_parameter" "listing_db_name" {
-    name = "/terraform/rds/listing-db-name"
+resource "aws_ssm_parameter" "space_db_name" {
+    name = "/terraform/rds/space-db-name"
     type = "String"
-    value = aws_db_instance.listing.name
+    value = aws_db_instance.space.name
 }
 
-resource "aws_ssm_parameter" "listing_db_username" {
-    name = "/terraform/rds/listing-db-username"
+resource "aws_ssm_parameter" "space_db_username" {
+    name = "/terraform/rds/space-db-username"
     type = "String"
-    value = aws_db_instance.listing.username
+    value = aws_db_instance.space.username
 }
 
-resource "aws_ssm_parameter" "listing_db_password" {
-    name = "/terraform/rds/listing-db-password"
+resource "aws_ssm_parameter" "space_db_password" {
+    name = "/terraform/rds/space-db-password"
     type = "String"
-    value = aws_db_instance.listing.password
+    value = aws_db_instance.space.password
 }
 
 resource "aws_ssm_parameter" "user_db_host" {

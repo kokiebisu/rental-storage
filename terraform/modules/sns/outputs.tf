@@ -6,8 +6,8 @@ output "booking_topic_arn" {
   value = aws_sns_topic.booking.arn
 }
 
-output "listing_topic_arn" {
-  value = aws_sns_topic.listing.arn
+output "space_topic_arn" {
+  value = aws_sns_topic.space.arn
 }
 
 output "payment_topic_arn" {

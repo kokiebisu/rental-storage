@@ -63,7 +63,7 @@ jobs:
           - authorizer
           - booking
           - image
-          - listing
+          - space
           - payment
           - slack
           - user

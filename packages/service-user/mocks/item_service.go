@@ -12,13 +12,13 @@ type ItemService struct {
 	mock.Mock
 }
 
-// AddItem provides a mock function with given fields: name, imageUrls, ownerId, listingId
-func (_m *ItemService) AddItem(name string, imageUrls []string, ownerId string, listingId string) *errors.CustomError {
-	ret := _m.Called(name, imageUrls, ownerId, listingId)
+// AddItem provides a mock function with given fields: name, imageUrls, ownerId, spaceId
+func (_m *ItemService) AddItem(name string, imageUrls []string, ownerId string, spaceId string) *errors.CustomError {
+	ret := _m.Called(name, imageUrls, ownerId, spaceId)
 
 	var r0 *errors.CustomError
 	if rf, ok := ret.Get(0).(func(string, []string, string, string) *errors.CustomError); ok {
-		r0 = rf(name, imageUrls, ownerId, listingId)
+		r0 = rf(name, imageUrls, ownerId, spaceId)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*errors.CustomError)

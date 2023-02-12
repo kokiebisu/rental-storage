@@ -16,7 +16,7 @@ resource "aws_dynamodb_table" "booking" {
   }
 
   attribute {
-    name = "ListingId"
+    name = "SpaceId"
     type = "S"
   }
 
@@ -28,7 +28,7 @@ resource "aws_dynamodb_table" "booking" {
   global_secondary_index {
     name = "BookingUserIdIndex"
     hash_key = "UserId"
-    range_key = "ListingId"
+    range_key = "SpaceId"
     projection_type = "ALL"
   }
 

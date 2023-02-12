@@ -8,7 +8,7 @@ function install_dependencies_root() {
 }
 
 function install_dependencies_services() {
-    local packages=("image" "listing" "booking" "slack" "user" "authentication" "authorizer")
+    local packages=("image" "space" "booking" "slack" "user" "authentication" "authorizer")
     
     for package in "${packages[@]}"
     do

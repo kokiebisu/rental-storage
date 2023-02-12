@@ -20,7 +20,7 @@ export class DeleteUserUseCase {
       throw new InternalServerError();
     }
     const userClient = new UserRestClient();
-    // TODO: must remove all listings associated with the user
+    // TODO: must remove all spaces associated with the user
     const data = await userClient.deleteUser(id);
     return { id: data.uid };
   }

@@ -10,5 +10,5 @@ type UserFactory interface {
 }
 
 type ItemFactory interface {
-	New(name string, ownerId string, listingId string) item.Entity
+	New(name string, ownerId string, spaceId string) item.Entity
 }
