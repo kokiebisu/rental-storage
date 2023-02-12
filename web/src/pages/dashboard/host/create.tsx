@@ -8,15 +8,15 @@ export default function Dashboard() {
   const [longitude, setLongitude] = useState<number>();
   const [address, setAddress] = useState<string>("");
 
-  // POST AddListing
-  const createNewListing = (e: any): void => {
+  // POST AddSpace
+  const createNewSpace = (e: any): void => {
     e.preventDefault();
-    showListingInfo();
+    showSpaceInfo();
     Router.push("/dashboard/host");
   };
 
   // Modal or Message
-  const showListingInfo = (): void => {
+  const showSpaceInfo = (): void => {
     let info: string = "title: " + title;
     info += "\ndescription: " + description;
     info += "\nlat: " + latitude + ", lng: " + longitude;
@@ -85,7 +85,7 @@ export default function Dashboard() {
             <button
               type="submit"
               className="inline-flex items-center px-5 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={createNewListing}
+              onClick={createNewSpace}
             >
               Create
             </button>
