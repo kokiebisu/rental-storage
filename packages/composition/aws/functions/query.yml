@@ -5,19 +5,12 @@ FindMe:
       - dist/adapter/resolver/query.findMe
   name: ${self:provider.stage}-app-${self:custom.service}-find-me
 
-FindUserById:
+FindUser:
   image:
     name: app
     command:
-      - dist/adapter/resolver/query.findUserById
-  name: ${self:provider.stage}-app-${self:custom.service}-find-user-by-id
-
-FindUserByEmail:
-  image:
-    name: app
-    command:
-      - dist/adapter/resolver/query.findUserByEmail
-  name: ${self:provider.stage}-app-${self:custom.service}-find-user-by-email
+      - dist/adapter/resolver/query.findUser
+  name: ${self:provider.stage}-app-${self:custom.service}-find-user
 
 FindListingById:
   image:

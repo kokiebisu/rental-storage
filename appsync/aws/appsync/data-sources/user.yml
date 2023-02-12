@@ -1,21 +1,16 @@
 ## Query
 - type: AWS_LAMBDA
-  name: FindMeFunction
+  name: FindMeFn
   config:
     lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-me
 
 - type: AWS_LAMBDA
-  name: FindUserByIdFunction
+  name: FindUserFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-user-by-id
-
-- type: AWS_LAMBDA
-  name: FindUserByEmailFunction
-  config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-user-by-email
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-user
 
 ## Mutation
 - type: AWS_LAMBDA
-  name: RemoveUserByIdFunction
+  name: DeleteUserFn
   config:
-    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-remove-user-by-id
+    lambdaFunctionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-delete-user

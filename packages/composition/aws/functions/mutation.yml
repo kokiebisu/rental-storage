@@ -1,9 +1,9 @@
-RemoveUserById:
+DeleteUser:
   image:
     name: app
     command:
-      - dist/adapter/resolver/mutation.removeUserById
-  name: ${self:provider.stage}-app-${self:custom.service}-remove-user-by-id
+      - dist/adapter/resolver/mutation.deleteUser
+  name: ${self:provider.stage}-app-${self:custom.service}-delete-user
 
 AddListing:
   image:
