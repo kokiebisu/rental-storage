@@ -23,6 +23,8 @@ const mockImageUrls = [
 ];
 const mockDescription = faker.lorem.paragraph();
 const mockTitle = faker.company.name();
+const mockStartDate = faker.date.past();
+const mockEndDate = faker.date.soon();
 
 module.exports = async function () {
   const userId = await registerUser();
@@ -79,7 +81,12 @@ const registerSpace = async function (userId: string) {
 
 const registerBooking = async function (userId: string, spaceId: string) {
   const bookingClient = new BookingRestClient();
-  const responseData = await bookingClient.createBooking(userId, spaceId);
+  const responseData = await bookingClient.createBooking(
+    userId,
+    spaceId,
+    mockStartDate.toISOString(),
+    mockEndDate.toISOString()
+  );
   if (!responseData) {
     throw new Error("register booking request failed");
   }

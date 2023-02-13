@@ -19,4 +19,6 @@ type Booking {
   spaceId: String
   createdAt: String
   updatedAt: String
+  startDate: String
+  endDate: String
 }

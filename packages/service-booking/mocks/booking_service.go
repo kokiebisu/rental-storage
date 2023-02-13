@@ -14,20 +14,20 @@ type BookingService struct {
 	mock.Mock
 }
 
-// CreateBooking provides a mock function with given fields: id, userId, spaceId, createdAt, updatedAt
-func (_m *BookingService) CreateBooking(id string, userId string, spaceId string, createdAt string, updatedAt string) (string, *errors.CustomError) {
-	ret := _m.Called(id, userId, spaceId, createdAt, updatedAt)
+// CreateBooking provides a mock function with given fields: id, userId, spaceId, startDate, endDate, createdAt, updatedAt
+func (_m *BookingService) CreateBooking(id string, userId string, spaceId string, startDate string, endDate string, createdAt string, updatedAt string) (string, *errors.CustomError) {
+	ret := _m.Called(id, userId, spaceId, startDate, endDate, createdAt, updatedAt)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, string, string, string, string) string); ok {
-		r0 = rf(id, userId, spaceId, createdAt, updatedAt)
+	if rf, ok := ret.Get(0).(func(string, string, string, string, string, string, string) string); ok {
+		r0 = rf(id, userId, spaceId, startDate, endDate, createdAt, updatedAt)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(string, string, string, string, string) *errors.CustomError); ok {
-		r1 = rf(id, userId, spaceId, createdAt, updatedAt)
+	if rf, ok := ret.Get(1).(func(string, string, string, string, string, string, string) *errors.CustomError); ok {
+		r1 = rf(id, userId, spaceId, startDate, endDate, createdAt, updatedAt)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)
