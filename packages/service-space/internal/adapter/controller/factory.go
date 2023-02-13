@@ -2,7 +2,6 @@ package controller
 
 import (
 	"github.com/kokiebisu/rental-storage/service-space/internal/adapter/db"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/service"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 	"github.com/kokiebisu/rental-storage/service-space/internal/repository"
@@ -18,8 +17,7 @@ func New() (*ApiGatewayHandler, *customerror.CustomError) {
 	if err != nil {
 		return nil, err
 	}
-	factory := &space.Factory{}
-	service := service.NewSpaceService(repo, factory)
+	service := service.NewSpaceService(repo)
 	return &ApiGatewayHandler{
 		service,
 	}, nil

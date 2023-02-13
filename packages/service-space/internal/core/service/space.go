@@ -8,13 +8,11 @@ import (
 
 type SpaceService struct {
 	SpaceRepository port.SpaceRepository
-	SpaceFactory    port.SpaceFactory
 }
 
-func NewSpaceService(spaceRepository port.SpaceRepository, spaceFactory port.SpaceFactory) *SpaceService {
+func NewSpaceService(spaceRepository port.SpaceRepository) *SpaceService {
 	return &SpaceService{
 		SpaceRepository: spaceRepository,
-		SpaceFactory:    spaceFactory,
 	}
 }
 
@@ -50,8 +48,8 @@ func (s *SpaceService) FindSpaceById(uid string) (space.DTO, *customerror.Custom
 	return l.ToDTO(), nil
 }
 
-func (s *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string) (string, *customerror.CustomError) {
-	entity, err := s.SpaceFactory.New(title, lenderId, streetAddress, latitude, longitude, imageUrls, description)
+func (s *SpaceService) CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string) (string, *customerror.CustomError) {
+	entity, err := space.New(uid, title, lenderId, streetAddress, latitude, longitude, imageUrls, description, createdAt)
 	if err != nil {
 		return "", err
 	}

@@ -29,4 +29,5 @@ type Space {
   longitude: Float
   imageUrls: [String]
   description: String
+  createdAt: String
 }

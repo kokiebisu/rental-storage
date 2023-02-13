@@ -4,9 +4,7 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
-type Factory struct{}
-
-func (f *Factory) New(value string) (ValueObject, *customerror.CustomError) {
+func New(value string) (ValueObject, *customerror.CustomError) {
 	err := isValidCity(value)
 	if err != nil {
 		return ValueObject{}, err

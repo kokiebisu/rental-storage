@@ -19,7 +19,7 @@ type StringifyResult struct {
 var stringifyResults = []StringifyResult{
 	{
 		controller.FindSpaceByIdResponsePayload{
-			Space: data.MockSpace.ToDTO(),
+			Space: data.MockSpace,
 		},
 		fmt.Sprintf(`{"space":{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"}}`,
 			data.MockUId,
@@ -36,8 +36,8 @@ var stringifyResults = []StringifyResult{
 	{
 		controller.FindSpacesResponsePayload{
 			Spaces: []space.DTO{
-				data.MockSpace.ToDTO(),
-				data.MockSpace.ToDTO(),
+				data.MockSpace,
+				data.MockSpace,
 			},
 		},
 		fmt.Sprintf(`{"spaces":[{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"},{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"}]}`,

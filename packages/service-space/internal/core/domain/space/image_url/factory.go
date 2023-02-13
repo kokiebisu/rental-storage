@@ -6,7 +6,7 @@ import (
 
 type Factory struct{}
 
-func (f *Factory) New(url string) (ValueObject, *customerror.CustomError) {
+func New(url string) (ValueObject, *customerror.CustomError) {
 	err := isValidImageUrl(url)
 	if err != nil {
 		return ValueObject{}, err
