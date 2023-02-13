@@ -9,7 +9,6 @@ describe("findSpace()", () => {
     try {
       const event = createEvent({ ...mockEvent });
       const result = await findSpace(event);
-      console.log("RESULT: ", result);
       expect(result.id).not.toBeUndefined();
       expect(result.lenderId).not.toBeUndefined();
       expect(result.streetAddress).not.toBeUndefined();

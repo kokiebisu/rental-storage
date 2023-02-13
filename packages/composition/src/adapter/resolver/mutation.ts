@@ -37,6 +37,8 @@ export const createBooking = async (
   event: AppSyncResolverEvent<
     {
       spaceId: string;
+      startDate: string;
+      endDate: string;
     },
     unknown
   >

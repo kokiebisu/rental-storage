@@ -16,8 +16,8 @@ func NewBookingService(bookingRepository port.BookingRepository) *BookingService
 	}
 }
 
-func (s *BookingService) CreateBooking(id string, userId string, spaceId string, createdAt string, updatedAt string) (string, *customerror.CustomError) {
-	bookingEntity, err := booking.New(id, userId, spaceId, createdAt, updatedAt)
+func (s *BookingService) CreateBooking(id string, userId string, spaceId string, startDate string, endDate string, createdAt string, updatedAt string) (string, *customerror.CustomError) {
+	bookingEntity, err := booking.New(id, userId, spaceId, startDate, endDate, createdAt, updatedAt)
 	if err != nil {
 		return "", err
 	}
