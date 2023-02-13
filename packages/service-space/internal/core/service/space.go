@@ -48,8 +48,8 @@ func (s *SpaceService) FindSpaceById(uid string) (space.DTO, *customerror.Custom
 	return l.ToDTO(), nil
 }
 
-func (s *SpaceService) CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string) (string, *customerror.CustomError) {
-	entity, err := space.New(uid, title, lenderId, streetAddress, latitude, longitude, imageUrls, description, createdAt)
+func (s *SpaceService) CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string, updatedAt string) (string, *customerror.CustomError) {
+	entity, err := space.New(uid, title, lenderId, streetAddress, latitude, longitude, imageUrls, description, createdAt, updatedAt)
 	if err != nil {
 		return "", err
 	}

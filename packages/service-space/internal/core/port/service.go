@@ -9,6 +9,6 @@ type SpaceService interface {
 	FindSpacesWithinLatLng(latitude float64, longitude float64, distance int32) ([]space.DTO, *customerror.CustomError)
 	FindSpaceById(uid string) (space.DTO, *customerror.CustomError)
 	FindSpacesByUserId(userId string) ([]space.DTO, *customerror.CustomError)
-	CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string) (string, *customerror.CustomError)
+	CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string, updatedAt string) (string, *customerror.CustomError)
 	RemoveSpaceById(uid string) (string, *customerror.CustomError)
 }

@@ -1,7 +1,6 @@
 package space
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
@@ -18,6 +17,7 @@ type Entity struct {
 	ImageUrls     []string
 	Description   string
 	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 type DTO struct {
@@ -30,6 +30,7 @@ type DTO struct {
 	ImageUrls     []string `json:"imageUrls"`
 	Description   string   `json:"description"`
 	CreatedAt     string   `json:"createdAt"`
+	UpdatedAt     string   `json:"updatedAt"`
 }
 
 type Raw struct {
@@ -42,6 +43,7 @@ type Raw struct {
 	ImageUrls     []string
 	Description   string
 	CreatedAt     string
+	UpdatedAt     string
 }
 
 const (
@@ -50,11 +52,8 @@ const (
 )
 
 func (r Raw) ToEntity() Entity {
-	fmt.Println("CreatedAt: ", r.CreatedAt)
-	createdAt, err := time.Parse(layoutISO, r.CreatedAt)
-	if err != nil {
-		fmt.Println("ERROR: ", err)
-	}
+	createdAt, _ := time.Parse(layoutISO, r.CreatedAt)
+	updatedAt, _ := time.Parse(layoutISO, r.UpdatedAt)
 	return Entity{
 		UId:           r.UId,
 		Title:         r.Title,
@@ -65,6 +64,7 @@ func (r Raw) ToEntity() Entity {
 		ImageUrls:     r.ImageUrls,
 		Description:   r.Description,
 		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}
 }
 
@@ -79,11 +79,13 @@ func (e Entity) ToDTO() DTO {
 		ImageUrls:     e.ImageUrls,
 		Description:   e.Description,
 		CreatedAt:     e.CreatedAt.Format(layoutISO),
+		UpdatedAt:     e.UpdatedAt.Format(layoutISO),
 	}
 }
 
 func (d DTO) ToEntity() Entity {
 	createdAt, _ := time.Parse(layoutISO, d.CreatedAt)
+	updatedAt, _ := time.Parse(layoutISO, d.UpdatedAt)
 	return Entity{
 		UId:           d.UId,
 		Title:         d.Title,
@@ -94,5 +96,6 @@ func (d DTO) ToEntity() Entity {
 		ImageUrls:     d.ImageUrls,
 		Description:   d.Description,
 		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}
 }

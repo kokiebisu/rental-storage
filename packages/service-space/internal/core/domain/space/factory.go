@@ -8,7 +8,7 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
-func New(uid string, title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string, createdAtString string) (Entity, *customerror.CustomError) {
+func New(uid string, title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
 	validatedLatitude, err := coordinate.New(latitude)
 	if err != nil {
 		return Entity{}, err
@@ -31,6 +31,16 @@ func New(uid string, title string, lenderId string, streetAddress string, latitu
 		}
 		createdAt = validatedCreatedAt
 	}
+	var updatedAt time.Time
+	if updatedAtString == "" {
+		updatedAt = time.Now()
+	} else {
+		validatedUpdatedAt, rawerr := time.Parse(layoutISO, updatedAtString)
+		if rawerr != nil {
+			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", err)
+		}
+		updatedAt = validatedUpdatedAt
+	}
 	return Entity{
 		UId:           uid,
 		Title:         title,
@@ -41,5 +51,6 @@ func New(uid string, title string, lenderId string, streetAddress string, latitu
 		ImageUrls:     imageUrls,
 		Description:   description,
 		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}, nil
 }

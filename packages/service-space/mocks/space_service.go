@@ -14,20 +14,20 @@ type SpaceService struct {
 	mock.Mock
 }
 
-// CreateSpace provides a mock function with given fields: lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt
-func (_m *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string) (string, *errors.CustomError) {
-	ret := _m.Called(lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt)
+// CreateSpace provides a mock function with given fields: uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt
+func (_m *SpaceService) CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string, updatedAt string) (string, *errors.CustomError) {
+	ret := _m.Called(uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, string, float64, float64, []string, string, string, string) string); ok {
-		r0 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt)
+	if rf, ok := ret.Get(0).(func(string, string, string, float64, float64, []string, string, string, string, string) string); ok {
+		r0 = rf(uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(string, string, float64, float64, []string, string, string, string) *errors.CustomError); ok {
-		r1 = rf(lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt)
+	if rf, ok := ret.Get(1).(func(string, string, string, float64, float64, []string, string, string, string, string) *errors.CustomError); ok {
+		r1 = rf(uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

@@ -28,6 +28,7 @@ var (
 		ImageUrls:     MockImageUrls,
 		Description:   MockDescription,
 		CreatedAt:     MockDate,
+		UpdatedAt:     MockDate,
 	}
 	MockDate = faker.Date()
 )
