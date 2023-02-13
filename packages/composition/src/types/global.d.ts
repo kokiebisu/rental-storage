@@ -14,6 +14,7 @@ declare global {
     title: string;
     description: string;
     createdAt: string;
+    updatedAt: string;
   }
 
   interface Booking {

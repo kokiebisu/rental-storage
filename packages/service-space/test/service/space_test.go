@@ -18,7 +18,7 @@ func TestCreateSpace_Success(t *testing.T) {
 	mockRepo.On("Save", data.MockSpace.ToEntity()).Return(data.MockUId, nil)
 
 	spaceService := service.NewSpaceService(mockRepo)
-	token, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate)
+	token, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate, data.MockDate)
 	assert.Nil(t, err, "should not throw error")
 	assert.Greater(t, len(token), 0, "should return valid uid where the length is greater than 0")
 }
@@ -29,7 +29,7 @@ func TestFindSpacesWithinLatLng_Success(t *testing.T) {
 	mockRepo.On("Save", data.MockSpace.ToEntity()).Return(data.MockUId, nil)
 
 	spaceService := service.NewSpaceService(mockRepo)
-	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate)
+	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate, data.MockDate)
 	assert.Nil(t, err, "should not throw error")
 	mockRepo.On("FindManyByLatLng", data.MockLatitude, data.MockLongitude, data.MockDistance).Return([]space.Entity{data.MockSpace.ToEntity()}, nil)
 
@@ -46,7 +46,7 @@ func TestFindSpacesByUserId_Success(t *testing.T) {
 	mockRepo.On("Save", data.MockSpace.ToEntity()).Return(data.MockUId, nil)
 
 	spaceService := service.NewSpaceService(mockRepo)
-	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate)
+	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate, data.MockDate)
 	assert.Nil(t, err, "should not throw error")
 	mockRepo.On("FindManyByUserId", data.MockLenderId).Return([]space.Entity{data.MockSpace.ToEntity()}, nil)
 
@@ -62,7 +62,7 @@ func TestFindSpaceById_Success(t *testing.T) {
 	mockRepo.On("Save", data.MockSpace.ToEntity()).Return(data.MockUId, nil)
 
 	spaceService := service.NewSpaceService(mockRepo)
-	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate)
+	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate, data.MockDate)
 	assert.Nil(t, err, "should not throw error")
 
 	mockRepo.On("FindOneById", data.MockUId).Return(data.MockSpace.ToEntity(), nil)
@@ -79,7 +79,7 @@ func TestRemoveSpaceById_Success(t *testing.T) {
 	mockRepo.On("Delete", data.MockUId).Return(data.MockUId, nil)
 
 	spaceService := service.NewSpaceService(mockRepo)
-	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate)
+	_, err := spaceService.CreateSpace(data.MockUId, data.MockLenderId, data.MockStreetAddress, data.MockLatitude, data.MockLongitude, data.MockImageUrls, data.MockTitle, data.MockDescription, data.MockDate, data.MockDate)
 	assert.Nil(t, err, "should not throw error")
 
 	uid, err := spaceService.RemoveSpaceById(data.MockUId)

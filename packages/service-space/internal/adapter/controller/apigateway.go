@@ -87,7 +87,7 @@ func (h *ApiGatewayHandler) AddSpace(event events.APIGatewayProxyRequest) (AddSp
 	if err != nil {
 		return AddSpaceResponsePayload{}, customerror.ErrorHandler.UnmarshalError("space body", err)
 	}
-	spaceId, err := h.service.CreateSpace(uuid.New().String(), body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.Description, "")
+	spaceId, err := h.service.CreateSpace(uuid.New().String(), body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.Description, "", "")
 	return AddSpaceResponsePayload{
 		UId: spaceId,
 	}, err.(*customerror.CustomError)

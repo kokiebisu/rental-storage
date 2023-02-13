@@ -30,7 +30,8 @@ func (r *SpaceRepository) Setup() *customerror.CustomError {
 			street_address VARCHAR(100) NOT NULL, 
 			coordinate point,
 			description TEXT,
-			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP
 	  	)
 	`)
 	if err != nil {
@@ -64,8 +65,8 @@ func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomE
 	row := r.db.QueryRow(
 		`
           INSERT INTO space (
-          uid, title, lender_id, street_address, coordinate, description, created_at
-          ) VALUES ($1, $2, $3, $4, point($5, $6), $7, $8)
+          uid, title, lender_id, street_address, coordinate, description, created_at, updated_at
+          ) VALUES ($1, $2, $3, $4, point($5, $6), $7, $8, $9)
 		  RETURNING id
 		`,
 		space.UId,
@@ -76,6 +77,7 @@ func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomE
 		space.Longitude.Value,
 		space.Description,
 		space.CreatedAt,
+		space.UpdatedAt,
 	)
 	err := row.Scan(&lastInsertedId)
 	if err != nil {
@@ -136,12 +138,13 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 	var coordinate helper.Point
 	var description string
 	var createdAt string
+	var updatedAt string
 	var imageUrls []string
 
 	for rows.Next() {
 		var uid string
 		var imageUrl string
-		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &imageUrl)
+		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &updatedAt, &imageUrl)
 		if err != nil {
 			return space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -157,6 +160,7 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 		Description:   description,
 		ImageUrls:     imageUrls,
 		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}.ToEntity()
 	return l, nil
 }
@@ -191,9 +195,10 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 		var coordinate helper.Point
 		var description string
 		var createdAt string
+		var updatedAt string
 		var distance float32
 		var imageUrl string
-		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &distance, &imageUrl)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &updatedAt, &distance, &imageUrl)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -210,6 +215,7 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 				ImageUrls:     append([]string{}, imageUrl),
 				Description:   description,
 				CreatedAt:     createdAt,
+				UpdatedAt:     updatedAt,
 			}.ToEntity()
 			spacesMap[uid] = l
 		}
@@ -243,8 +249,9 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 		var coordinate helper.Point
 		var description string
 		var createdAt string
+		var updatedAt string
 		var imageUrl string
-		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &imageUrl)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &updatedAt, &imageUrl)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -261,6 +268,7 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 				Description:   description,
 				ImageUrls:     append([]string{}, imageUrl),
 				CreatedAt:     createdAt,
+				UpdatedAt:     updatedAt,
 			}.ToEntity()
 			spacesMap[uid] = l
 		}
