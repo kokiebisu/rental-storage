@@ -13,6 +13,7 @@ declare global {
     imageUrls: string[];
     title: string;
     description: string;
+    createdAt: string;
   }
 
   interface Booking {

@@ -3,8 +3,6 @@ package data
 import (
 	"github.com/bxcodec/faker/v3"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
-	streetaddress "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/street_address"
 )
 
 var (
@@ -20,14 +18,16 @@ var (
 		faker.URL(),
 	}
 	MockDescription = "BLAH BLAH"
-	MockSpace       = space.Entity{
+	MockSpace       = space.DTO{
 		UId:           MockUId,
 		Title:         MockTitle,
 		LenderId:      MockLenderId,
-		StreetAddress: streetaddress.ValueObject{Value: MockStreetAddress},
-		Latitude:      coordinate.ValueObject{Value: MockLatitude},
-		Longitude:     coordinate.ValueObject{Value: MockLongitude},
+		StreetAddress: MockStreetAddress,
+		Latitude:      MockLatitude,
+		Longitude:     MockLongitude,
 		ImageUrls:     MockImageUrls,
 		Description:   MockDescription,
+		CreatedAt:     MockDate,
 	}
+	MockDate = faker.Date()
 )

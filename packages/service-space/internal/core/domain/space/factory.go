@@ -1,36 +1,38 @@
 package space
 
 import (
-	"github.com/google/uuid"
+	"time"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
 	streetaddress "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/street_address"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
-var (
-	coordinateFactory    = &coordinate.Factory{}
-	streetAddressFactory = &streetaddress.Factory{}
-)
-
-type Factory struct{}
-
-func (f *Factory) New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string) (Entity, *customerror.CustomError) {
-
-	validatedLatitude, err := coordinateFactory.New(latitude)
+func New(uid string, title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string, createdAtString string) (Entity, *customerror.CustomError) {
+	validatedLatitude, err := coordinate.New(latitude)
 	if err != nil {
 		return Entity{}, err
 	}
-	validatedLongitude, err := coordinateFactory.New(longitude)
+	validatedLongitude, err := coordinate.New(longitude)
 	if err != nil {
 		return Entity{}, err
 	}
-	validatedStreetAddress, err := streetAddressFactory.New(streetAddress)
+	validatedStreetAddress, err := streetaddress.New(streetAddress)
 	if err != nil {
 		return Entity{}, err
+	}
+	var createdAt time.Time
+	if createdAtString == "" {
+		createdAt = time.Now()
+	} else {
+		validatedCreatedAt, rawerr := time.Parse(layoutISO, createdAtString)
+		if rawerr != nil {
+			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", err)
+		}
+		createdAt = validatedCreatedAt
 	}
 	return Entity{
-		UId:           uuid.New().String(),
+		UId:           uid,
 		Title:         title,
 		LenderId:      lenderId,
 		StreetAddress: validatedStreetAddress,
@@ -38,5 +40,6 @@ func (f *Factory) New(title string, lenderId string, streetAddress string, latit
 		Longitude:     validatedLongitude,
 		ImageUrls:     imageUrls,
 		Description:   description,
+		CreatedAt:     createdAt,
 	}, nil
 }

@@ -19,9 +19,9 @@ type StringifyResult struct {
 var stringifyResults = []StringifyResult{
 	{
 		controller.FindSpaceByIdResponsePayload{
-			Space: data.MockSpace.ToDTO(),
+			Space: data.MockSpace,
 		},
-		fmt.Sprintf(`{"space":{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"}}`,
+		fmt.Sprintf(`{"space":{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s","createdAt":"%s"}}`,
 			data.MockUId,
 			data.MockTitle,
 			data.MockLenderId,
@@ -31,16 +31,17 @@ var stringifyResults = []StringifyResult{
 			data.MockImageUrls[0],
 			data.MockImageUrls[1],
 			data.MockDescription,
+			data.MockDate,
 		),
 	},
 	{
 		controller.FindSpacesResponsePayload{
 			Spaces: []space.DTO{
-				data.MockSpace.ToDTO(),
-				data.MockSpace.ToDTO(),
+				data.MockSpace,
+				data.MockSpace,
 			},
 		},
-		fmt.Sprintf(`{"spaces":[{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"},{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s"}]}`,
+		fmt.Sprintf(`{"spaces":[{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s","createdAt":"%s"},{"uid":"%s","title":"%s","lenderId":"%s","streetAddress":"%s","latitude":%g,"longitude":%g,"imageUrls":["%s","%s"],"description":"%s","createdAt":"%s"}]}`,
 			data.MockUId,
 			data.MockTitle,
 			data.MockLenderId,
@@ -50,6 +51,7 @@ var stringifyResults = []StringifyResult{
 			data.MockImageUrls[0],
 			data.MockImageUrls[1],
 			data.MockDescription,
+			data.MockDate,
 			data.MockUId,
 			data.MockTitle,
 			data.MockLenderId,
@@ -59,6 +61,7 @@ var stringifyResults = []StringifyResult{
 			data.MockImageUrls[0],
 			data.MockImageUrls[1],
 			data.MockDescription,
+			data.MockDate,
 		),
 	},
 	{
