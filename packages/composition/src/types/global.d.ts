@@ -20,6 +20,7 @@ declare global {
   interface Booking {
     id: string;
     status: string;
+    imageUrls: string[];
     userId: string;
     spaceId: string;
     createdAt: string;
@@ -47,4 +48,5 @@ interface JestMockData {
   mockLastName: string;
   mockEmailAddress: string;
   mockPassword: string;
+  mockImageUrls: string[];
 }

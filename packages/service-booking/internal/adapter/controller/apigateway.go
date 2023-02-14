@@ -35,16 +35,17 @@ func NewApiGatewayHandler(service port.BookingService) *ApiGatewayHandler {
 
 func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (CreateBookingResponsePayload, *customerror.CustomError) {
 	body := struct {
-		UserId    string `json:"userId"`
-		SpaceId   string `json:"spaceId"`
-		StartDate string `json:"startDate"`
-		EndDate   string `json:"endDate"`
+		UserId    string   `json:"userId"`
+		SpaceId   string   `json:"spaceId"`
+		ImageUrls []string `json:"imageUrls"`
+		StartDate string   `json:"startDate"`
+		EndDate   string   `json:"endDate"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	bookingId, err := h.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.StartDate, body.EndDate, "", "")
+	bookingId, err := h.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, body.StartDate, body.EndDate, "", "")
 	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
 }
 
@@ -68,20 +69,4 @@ func (h *ApiGatewayHandler) FindBookings(event events.APIGatewayProxyRequest) (F
 		bs = append(bs, i.ToDTO())
 	}
 	return FindBookingsResponsePayload{Bookings: bs}, err
-}
-
-func (h *ApiGatewayHandler) FindUserBookings(event events.APIGatewayProxyRequest) ([]booking.DTO, *customerror.CustomError) {
-	userId := event.QueryStringParameters["userId"]
-	if userId == "" {
-		return []booking.DTO{}, customerror.ErrorHandler.InternalServerError("unable to extract userId", nil)
-	}
-	bookings, err := h.service.FindUserBookings(userId)
-	if err != nil {
-		return []booking.DTO{}, err
-	}
-	bookingDTOs := []booking.DTO{}
-	for _, b := range bookings {
-		bookingDTOs = append(bookingDTOs, b.ToDTO())
-	}
-	return bookingDTOs, nil
 }

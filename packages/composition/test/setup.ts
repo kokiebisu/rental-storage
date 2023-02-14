@@ -39,6 +39,7 @@ module.exports = async function () {
     mockFirstName,
     mockLastName,
     mockPassword,
+    mockImageUrls,
   };
 };
 
@@ -84,6 +85,7 @@ const registerBooking = async function (userId: string, spaceId: string) {
   const responseData = await bookingClient.createBooking(
     userId,
     spaceId,
+    mockImageUrls,
     mockStartDate.toISOString(),
     mockEndDate.toISOString()
   );
