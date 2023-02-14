@@ -2,9 +2,9 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/google/uuid"
 
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
@@ -38,13 +38,14 @@ func (h *ApiGatewayHandler) CreateBooking(event events.APIGatewayProxyRequest) (
 		UserId    string   `json:"userId"`
 		SpaceId   string   `json:"spaceId"`
 		ImageUrls []string `json:"imageUrls"`
+		StartDate string   `json:"startDate"`
+		EndDate   string   `json:"endDate"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	fmt.Println("ENTERED1: ", body.ImageUrls[0], body.ImageUrls[1])
-	bookingId, err := h.service.CreateBooking("", body.UserId, body.SpaceId, body.ImageUrls, "", "")
+	bookingId, err := h.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, body.StartDate, body.EndDate, "", "")
 	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
 }
 

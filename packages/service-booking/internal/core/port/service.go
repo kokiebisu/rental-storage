@@ -6,7 +6,7 @@ import (
 )
 
 type BookingService interface {
-	CreateBooking(id string, userId string, spaceId string, imageUrls []string, createdAt string, updatedAt string) (string, *customerror.CustomError)
+	CreateBooking(id string, userId string, spaceId string, imageUrls []string, startDate string, endDate string, createdAt string, updatedAt string) (string, *customerror.CustomError)
 	FindUserBookings(userId string) ([]booking.Entity, *customerror.CustomError)
 	FindById(uid string) (booking.Entity, *customerror.CustomError)
 	FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError)

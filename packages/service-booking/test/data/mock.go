@@ -11,7 +11,10 @@ var (
 	MockFirstName     = faker.FirstName()
 	MockLastName      = faker.LastName()
 	MockPassword      = faker.Password()
-	MockDateString    = faker.Date()
+	MockStartDate     = faker.Date()
+	MockEndDate       = faker.Date()
+	MockCreatedAt     = faker.Date()
+	MockUpdatedAt     = faker.Date()
 	MockUserId        = faker.UUIDDigit()
 	MockSpaceId       = faker.UUIDDigit()
 	MockImageUrls     = []string{faker.URL(), faker.URL()}
@@ -21,7 +24,9 @@ var (
 		ImageUrls: MockImageUrls,
 		UserId:    MockUserId,
 		SpaceId:   MockSpaceId,
-		CreatedAt: MockDateString,
-		UpdatedAt: MockDateString,
+		StartDate: MockStartDate,
+		EndDate:   MockEndDate,
+		CreatedAt: MockCreatedAt,
+		UpdatedAt: MockUpdatedAt,
 	}.ToEntity()
 )

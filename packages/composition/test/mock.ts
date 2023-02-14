@@ -14,4 +14,6 @@ export const mock = {
     "${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}",
   ]`,
   description: faker.lorem.paragraphs(),
+  startDate: faker.date.past(),
+  endDate: faker.date.soon(),
 };

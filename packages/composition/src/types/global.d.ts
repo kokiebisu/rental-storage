@@ -25,6 +25,8 @@ declare global {
     spaceId: string;
     createdAt: string;
     updatedAt: string;
+    startDate: string;
+    endDate: string;
   }
 
   interface User {

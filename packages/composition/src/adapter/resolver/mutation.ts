@@ -38,6 +38,8 @@ export const createBooking = async (
     {
       spaceId: string;
       imageUrls: string[];
+      startDate: string;
+      endDate: string;
     },
     unknown
   >
