@@ -2,12 +2,3 @@
 type UId {
   uid: String
 }
-
-# Enum
-enum FeeType {
-  MONTHLY
-}
-
-enum Currency {
-  CAD
-}
