@@ -21,6 +21,8 @@ provider:
     images:
       app:
         path: ./
+        file: Dockerfile
+        buildArgs:
   environment:
     NAMESPACE: ${self:custom.namespace}
     STAGE: ${self:provider.stage}

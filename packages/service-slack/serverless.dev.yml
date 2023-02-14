@@ -18,6 +18,8 @@ provider:
     images:
       app:
         path: ./
+        file: Dockerfile
+        buildArgs:
   environment:
     ACCOUNT_ID: ${aws:accountId}
     STAGE: ${self:provider.stage}

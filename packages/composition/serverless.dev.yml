@@ -22,6 +22,8 @@ provider:
     images:
       app:
         path: ./
+        file: Dockerfile
+        buildArgs:
   environment:
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
