@@ -9,13 +9,20 @@ type Query {
 }
 
 type Mutation {
-  bookingCreate(spaceId: ID!, imageUrls: [String!]!): UId
+  bookingCreate(
+    spaceId: ID!
+    imageUrls: [String!]!
+    description: String!
+    startDate: String!
+    endDate: String!
+  ): UId
 }
 
 type Booking {
   id: ID
   status: String
   imageUrls: [String]
+  description: String
   userId: String
   spaceId: String
   createdAt: String

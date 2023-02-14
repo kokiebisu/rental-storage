@@ -40,6 +40,7 @@ module.exports = async function () {
     mockLastName,
     mockPassword,
     mockImageUrls,
+    mockDescription,
   };
 };
 
@@ -86,6 +87,7 @@ const registerBooking = async function (userId: string, spaceId: string) {
     userId,
     spaceId,
     mockImageUrls,
+    mockDescription,
     mockStartDate.toISOString(),
     mockEndDate.toISOString()
   );

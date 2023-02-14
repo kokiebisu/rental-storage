@@ -21,6 +21,7 @@ declare global {
     id: string;
     status: string;
     imageUrls: string[];
+    description: string;
     userId: string;
     spaceId: string;
     createdAt: string;
@@ -49,4 +50,5 @@ interface JestMockData {
   mockEmailAddress: string;
   mockPassword: string;
   mockImageUrls: string[];
+  mockDescription: string;
 }
