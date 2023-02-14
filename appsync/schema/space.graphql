@@ -15,9 +15,7 @@ type Mutation {
     latitude: Float
     longitude: Float
     imageUrls: [String]
-    feeType: FeeType
-    feeAmount: Int
-    feeCurrency: Currency
+    description: String
   ): UId
   spaceDelete(id: ID): UId
 }
@@ -30,7 +28,7 @@ type Space {
   latitude: Float
   longitude: Float
   imageUrls: [String]
-  feeType: FeeType
-  feeAmount: Int
-  feeCurrency: Currency
+  description: String
+  createdAt: String
+  updatedAt: String
 }

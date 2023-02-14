@@ -2,14 +2,12 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/google/uuid"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/amount"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/fee"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
@@ -46,7 +44,6 @@ func (h *ApiGatewayHandler) FindSpaceById(event events.APIGatewayProxyRequest) (
 func (h *ApiGatewayHandler) FindSpaces(event events.APIGatewayProxyRequest) (FindSpacesResponsePayload, *customerror.CustomError) {
 	userId := event.QueryStringParameters["userId"]
 	if userId != "" {
-		fmt.Println("FIND SPACES BY USER ID")
 		ls, err := h.service.FindSpacesByUserId(userId)
 		return FindSpacesResponsePayload{Spaces: ls}, err
 	}
@@ -68,7 +65,6 @@ func (h *ApiGatewayHandler) FindSpaces(event events.APIGatewayProxyRequest) (Fin
 		if err != nil {
 			return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
 		}
-		fmt.Println("FindSpacesWithinLatLng ", latitude, longitude, distance)
 		spaces, err := h.service.FindSpacesWithinLatLng(latitude, longitude, int32(distance))
 		return FindSpacesResponsePayload{
 			Spaces: spaces,
@@ -85,15 +81,13 @@ func (h *ApiGatewayHandler) AddSpace(event events.APIGatewayProxyRequest) (AddSp
 		Longitude     float64  `json:"longitude"`
 		ImageUrls     []string `json:"imageUrls"`
 		Title         string   `json:"title"`
-		FeeAmount     int32    `json:"feeAmount"`
-		FeeCurrency   string   `json:"feeCurrency"`
-		FeeType       string   `json:"feeType"`
+		Description   string   `json:"description"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		return AddSpaceResponsePayload{}, customerror.ErrorHandler.UnmarshalError("space body", err)
 	}
-	spaceId, err := h.service.CreateSpace(body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.FeeAmount, amount.CurrencyType(body.FeeCurrency), fee.RentalFeeType(body.FeeType))
+	spaceId, err := h.service.CreateSpace(uuid.New().String(), body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.Description, "", "")
 	return AddSpaceResponsePayload{
 		UId: spaceId,
 	}, err.(*customerror.CustomError)

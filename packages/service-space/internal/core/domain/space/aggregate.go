@@ -1,11 +1,10 @@
 package space
 
 import (
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/amount"
+	"time"
+
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/fee"
 	streetaddress "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/street_address"
-	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
 type Entity struct {
@@ -16,7 +15,9 @@ type Entity struct {
 	Latitude      coordinate.ValueObject
 	Longitude     coordinate.ValueObject
 	ImageUrls     []string
-	Fee           fee.ValueObject
+	Description   string
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 }
 
 type DTO struct {
@@ -27,7 +28,9 @@ type DTO struct {
 	Latitude      float64  `json:"latitude"`
 	Longitude     float64  `json:"longitude"`
 	ImageUrls     []string `json:"imageUrls"`
-	Fee           fee.DTO  `json:"fee"`
+	Description   string   `json:"description"`
+	CreatedAt     string   `json:"createdAt"`
+	UpdatedAt     string   `json:"updatedAt"`
 }
 
 type Raw struct {
@@ -38,10 +41,19 @@ type Raw struct {
 	Latitude      float64
 	Longitude     float64
 	ImageUrls     []string
-	Fee           fee.Raw
+	Description   string
+	CreatedAt     string
+	UpdatedAt     string
 }
 
+const (
+	layoutISO = "2006-01-02"
+	layoutUS  = "January 2, 2006"
+)
+
 func (r Raw) ToEntity() Entity {
+	createdAt, _ := time.Parse(layoutISO, r.CreatedAt)
+	updatedAt, _ := time.Parse(layoutISO, r.UpdatedAt)
 	return Entity{
 		UId:           r.UId,
 		Title:         r.Title,
@@ -50,17 +62,13 @@ func (r Raw) ToEntity() Entity {
 		Latitude:      coordinate.ValueObject{Value: r.Latitude},
 		Longitude:     coordinate.ValueObject{Value: r.Longitude},
 		ImageUrls:     r.ImageUrls,
-		Fee: fee.ValueObject{
-			Amount: amount.ValueObject{
-				Value:    r.Fee.Amount.Value,
-				Currency: amount.CurrencyType(r.Fee.Amount.Currency),
-			},
-			Type: fee.RentalFeeType(r.Fee.Type),
-		},
+		Description:   r.Description,
+		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}
 }
 
-func (e Entity) ToDTO() (DTO, *customerror.CustomError) {
+func (e Entity) ToDTO() DTO {
 	return DTO{
 		UId:           e.UId,
 		Title:         e.Title,
@@ -69,12 +77,25 @@ func (e Entity) ToDTO() (DTO, *customerror.CustomError) {
 		Latitude:      e.Latitude.Value,
 		Longitude:     e.Longitude.Value,
 		ImageUrls:     e.ImageUrls,
-		Fee: fee.DTO{
-			Amount: amount.DTO{
-				Value:    e.Fee.Amount.Value,
-				Currency: string(e.Fee.Amount.Currency),
-			},
-			Type: string(e.Fee.Type),
-		},
-	}, nil
+		Description:   e.Description,
+		CreatedAt:     e.CreatedAt.Format(layoutISO),
+		UpdatedAt:     e.UpdatedAt.Format(layoutISO),
+	}
+}
+
+func (d DTO) ToEntity() Entity {
+	createdAt, _ := time.Parse(layoutISO, d.CreatedAt)
+	updatedAt, _ := time.Parse(layoutISO, d.UpdatedAt)
+	return Entity{
+		UId:           d.UId,
+		Title:         d.Title,
+		LenderId:      d.LenderId,
+		StreetAddress: streetaddress.ValueObject{Value: d.StreetAddress},
+		Latitude:      coordinate.ValueObject{Value: d.Latitude},
+		Longitude:     coordinate.ValueObject{Value: d.Longitude},
+		ImageUrls:     d.ImageUrls,
+		Description:   d.Description,
+		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
+	}
 }

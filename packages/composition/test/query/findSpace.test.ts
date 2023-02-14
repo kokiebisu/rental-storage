@@ -10,6 +10,14 @@ describe("findSpace()", () => {
       const event = createEvent({ ...mockEvent });
       const result = await findSpace(event);
       expect(result.id).not.toBeUndefined();
+      expect(result.lenderId).not.toBeUndefined();
+      expect(result.streetAddress).not.toBeUndefined();
+      expect(result.latitude).not.toBeUndefined();
+      expect(result.longitude).not.toBeUndefined();
+      expect(result.imageUrls.length).toBeGreaterThan(0);
+      expect(result.title).not.toBeUndefined();
+      expect(result.description).not.toBeUndefined();
+      expect(result.createdAt).not.toBeUndefined();
     } catch (err) {
       console.error(err);
     }

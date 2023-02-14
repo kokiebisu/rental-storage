@@ -8,9 +8,7 @@ interface CreateSpaceCommandConstructor {
   longitude: number;
   imageUrls: string[];
   title: string;
-  feeAmount: number;
-  feeCurrency: string;
-  feeType: string;
+  description: string;
 }
 
 export class CreateSpaceCommand {
@@ -20,9 +18,7 @@ export class CreateSpaceCommand {
   public readonly longitude: number;
   public readonly imageUrls: string[];
   public readonly title: string;
-  public readonly feeAmount: number;
-  public readonly feeCurrency: string;
-  public readonly feeType: string;
+  public readonly description: string;
 
   public constructor({
     lenderId,
@@ -31,9 +27,7 @@ export class CreateSpaceCommand {
     longitude,
     imageUrls,
     title,
-    feeAmount,
-    feeCurrency,
-    feeType,
+    description,
   }: CreateSpaceCommandConstructor) {
     this.lenderId = lenderId;
     this.streetAddress = streetAddress;
@@ -41,9 +35,7 @@ export class CreateSpaceCommand {
     this.longitude = longitude;
     this.imageUrls = imageUrls;
     this.title = title;
-    this.feeAmount = feeAmount;
-    this.feeCurrency = feeCurrency;
-    this.feeType = feeType;
+    this.description = description;
   }
 }
 
@@ -56,9 +48,7 @@ export class CreateSpaceUseCase {
       longitude,
       imageUrls,
       title,
-      feeAmount,
-      feeCurrency,
-      feeType,
+      description,
     } = command;
     if (
       !lenderId ||
@@ -67,9 +57,7 @@ export class CreateSpaceUseCase {
       !longitude ||
       !imageUrls ||
       !title ||
-      !feeAmount ||
-      !feeCurrency ||
-      !feeType
+      !description
     ) {
       throw new InternalServerError();
     }
@@ -81,9 +69,7 @@ export class CreateSpaceUseCase {
       longitude,
       imageUrls,
       title,
-      feeType,
-      feeAmount,
-      feeCurrency
+      description
     );
   }
 }

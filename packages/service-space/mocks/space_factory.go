@@ -3,9 +3,7 @@
 package mocks
 
 import (
-	amount "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/amount"
 	errors "github.com/kokiebisu/rental-storage/service-space/internal/error"
-
 	mock "github.com/stretchr/testify/mock"
 
 	space "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
@@ -16,20 +14,20 @@ type SpaceFactory struct {
 	mock.Mock
 }
 
-// New provides a mock function with given fields: title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType
-func (_m *SpaceFactory) New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, feeCurrency amount.CurrencyType, feeAmount int64, feeType string) (space.Entity, *errors.CustomError) {
-	ret := _m.Called(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType)
+// New provides a mock function with given fields: title, lenderId, streetAddress, latitude, longitude, imageUrls, description
+func (_m *SpaceFactory) New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string) (space.Entity, *errors.CustomError) {
+	ret := _m.Called(title, lenderId, streetAddress, latitude, longitude, imageUrls, description)
 
 	var r0 space.Entity
-	if rf, ok := ret.Get(0).(func(string, string, string, float64, float64, []string, amount.CurrencyType, int64, string) space.Entity); ok {
-		r0 = rf(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType)
+	if rf, ok := ret.Get(0).(func(string, string, string, float64, float64, []string, string) space.Entity); ok {
+		r0 = rf(title, lenderId, streetAddress, latitude, longitude, imageUrls, description)
 	} else {
 		r0 = ret.Get(0).(space.Entity)
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(string, string, string, float64, float64, []string, amount.CurrencyType, int64, string) *errors.CustomError); ok {
-		r1 = rf(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, feeAmount, feeType)
+	if rf, ok := ret.Get(1).(func(string, string, string, float64, float64, []string, string) *errors.CustomError); ok {
+		r1 = rf(title, lenderId, streetAddress, latitude, longitude, imageUrls, description)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

@@ -2,12 +2,10 @@ package repository
 
 import (
 	"database/sql"
-	"fmt"
+
 	"log"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/amount"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/fee"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 	"github.com/kokiebisu/rental-storage/service-space/internal/helper"
 )
@@ -30,7 +28,10 @@ func (r *SpaceRepository) Setup() *customerror.CustomError {
 			title VARCHAR(64),
 			lender_id VARCHAR(64), 
 			street_address VARCHAR(100) NOT NULL, 
-			coordinate point
+			coordinate point,
+			description TEXT,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP
 	  	)
 	`)
 	if err != nil {
@@ -56,26 +57,6 @@ func (r *SpaceRepository) Setup() *customerror.CustomError {
 		// ROLLBACK
 		return customerror.ErrorHandler.CreateTableError("images_space", err)
 	}
-	_, err = r.db.Exec(
-		`
-		CREATE TABLE IF NOT EXISTS fees_space (
-		  amount INT NOT NULL,
-		  currency VARCHAR(6) NOT NULL,
-		  type VARCHAR(10) NOT NULL,
-		  space_id INT NOT NULL,
-		  PRIMARY KEY(space_id, type),
-		  CONSTRAINT fk_space
-			FOREIGN KEY(space_id) 
-			  REFERENCES space(id)
-			  ON DELETE CASCADE
-		)
-	  `,
-	)
-	if err != nil {
-		log.Fatalf(err.Error())
-		// ROLLBACK
-		return customerror.ErrorHandler.CreateTableError("fees_space", err)
-	}
 	return nil
 }
 
@@ -84,8 +65,8 @@ func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomE
 	row := r.db.QueryRow(
 		`
           INSERT INTO space (
-          uid, title, lender_id, street_address, coordinate
-          ) VALUES ($1, $2, $3, $4, point($5, $6))
+          uid, title, lender_id, street_address, coordinate, description, created_at, updated_at
+          ) VALUES ($1, $2, $3, $4, point($5, $6), $7, $8, $9)
 		  RETURNING id
 		`,
 		space.UId,
@@ -94,6 +75,9 @@ func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomE
 		space.StreetAddress.Value,
 		space.Latitude.Value,
 		space.Longitude.Value,
+		space.Description,
+		space.CreatedAt,
+		space.UpdatedAt,
 	)
 	err := row.Scan(&lastInsertedId)
 	if err != nil {
@@ -114,13 +98,6 @@ func (r *SpaceRepository) Save(space space.Entity) (string, *customerror.CustomE
 			log.Fatal(err)
 		}
 	}
-	_, err = r.db.Exec(
-		`INSERT INTO fees_space (amount, currency, type, space_id) VALUES ($1, $2, $3, $4)`,
-		space.Fee.Amount.Value,
-		space.Fee.Amount.Currency,
-		space.Fee.Type,
-		lastInsertedId,
-	)
 	if err != nil {
 		log.Fatal(err.Error())
 		// ROLLBACK
@@ -139,19 +116,14 @@ func (r *SpaceRepository) Delete(uid string) (string, *customerror.CustomError) 
 	if err != nil {
 		return "", customerror.ErrorHandler.DeleteSpaceRowError("images_space", err)
 	}
-	_, err = r.db.Exec(`DELETE FROM fees_space WHERE space_id = $1 RETURNING *`, removedSpaceId)
-	if err != nil {
-		return "", customerror.ErrorHandler.DeleteSpaceRowError("fees_space", err)
-	}
 	return uid, nil
 }
 
 func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
-          SELECT space.*, images_space.url, fees_space.amount, fees_space.currency, fees_space.type FROM space 
+          SELECT space.*, images_space.url FROM space 
           LEFT JOIN images_space ON space.id = images_space.space_id
-          LEFT JOIN fees_space ON space.id = fees_space.space_id
           WHERE space.uid = $1
         `,
 		uid,
@@ -164,15 +136,15 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 	var lenderId string
 	var streetAddress string
 	var coordinate helper.Point
-	var feeAmount int64
-	var feeCurrency string
-	var feeType string
+	var description string
+	var createdAt string
+	var updatedAt string
 	var imageUrls []string
 
 	for rows.Next() {
 		var uid string
 		var imageUrl string
-		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		err = rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &updatedAt, &imageUrl)
 		if err != nil {
 			return space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -185,14 +157,10 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 		StreetAddress: streetAddress,
 		Latitude:      coordinate.X,
 		Longitude:     coordinate.Y,
+		Description:   description,
 		ImageUrls:     imageUrls,
-		Fee: fee.Raw{
-			Amount: amount.Raw{
-				Value:    feeAmount,
-				Currency: feeCurrency,
-			},
-			Type: feeType,
-		},
+		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}.ToEntity()
 	return l, nil
 }
@@ -205,10 +173,9 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 			SELECT * FROM (
 				SELECT space.*, 
 						( 3959 * acos( cos( radians($1) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians($2) ) + sin( radians(1) ) * sin( radians( latitude ) ) ) ) 
-						AS distance, images_space.url, fees_space.amount, fees_space.currency, fees_space.type FROM space 
+						AS distance, images_space.url FROM space 
 						LEFT JOIN images_space ON space.id = images_space.space_id
-						LEFT JOIN fees_space ON space.id = fees_space.space_id
-						GROUP BY id, uid, images_space.url, fees_space.amount, fees_space.currency, fees_space.type
+						GROUP BY id, uid, images_space.url
 			) 
 			x GROUP BY x.id, x.uid, x.title, x.lender_id, x.street_address, x.coordinate, x.url, x.amount, x.currency, x.type, x.distance 
 			HAVING x.distance < $3 ORDER BY x.distance LIMIT 10
@@ -226,12 +193,12 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 		var lenderId string
 		var streetAddress string
 		var coordinate helper.Point
+		var description string
+		var createdAt string
+		var updatedAt string
 		var distance float32
 		var imageUrl string
-		var feeAmount int64
-		var feeCurrency string
-		var feeType string
-		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &distance, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &updatedAt, &distance, &imageUrl)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -246,13 +213,9 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 				Latitude:      latitude,
 				Longitude:     longitude,
 				ImageUrls:     append([]string{}, imageUrl),
-				Fee: fee.Raw{
-					Amount: amount.Raw{
-						Value:    feeAmount,
-						Currency: feeCurrency,
-					},
-					Type: feeType,
-				},
+				Description:   description,
+				CreatedAt:     createdAt,
+				UpdatedAt:     updatedAt,
 			}.ToEntity()
 			spacesMap[uid] = l
 		}
@@ -265,12 +228,10 @@ func (r *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, 
 }
 
 func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *customerror.CustomError) {
-	fmt.Println("ENTERED1")
 	rows, err := r.db.Query(
 		`
-		SELECT space.*, images_space.url, fees_space.amount, fees_space.currency, fees_space.type FROM space 
+		SELECT space.*, images_space.url FROM space 
 		LEFT JOIN images_space ON space.id = images_space.space_id
-		LEFT JOIN fees_space ON space.id = fees_space.space_id
 		WHERE space.lender_id = $1
 		`,
 		userId,
@@ -286,11 +247,11 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 		var lenderId string
 		var streetAddress string
 		var coordinate helper.Point
+		var description string
+		var createdAt string
+		var updatedAt string
 		var imageUrl string
-		var feeAmount int64
-		var feeCurrency string
-		var feeType string
-		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &imageUrl, &feeAmount, &feeCurrency, &feeType)
+		err := rows.Scan(&id, &uid, &title, &lenderId, &streetAddress, &coordinate, &description, &createdAt, &updatedAt, &imageUrl)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
@@ -304,14 +265,10 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 				StreetAddress: streetAddress,
 				Latitude:      coordinate.X,
 				Longitude:     coordinate.Y,
+				Description:   description,
 				ImageUrls:     append([]string{}, imageUrl),
-				Fee: fee.Raw{
-					Amount: amount.Raw{
-						Value:    feeAmount,
-						Currency: feeCurrency,
-					},
-					Type: feeType,
-				},
+				CreatedAt:     createdAt,
+				UpdatedAt:     updatedAt,
 			}.ToEntity()
 			spacesMap[uid] = l
 		}

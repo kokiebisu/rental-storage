@@ -4,13 +4,18 @@ export default class BookingRestClient extends BaseRestClient {
   public async createBooking(
     userId: string,
     spaceId: string,
-    items: BookingItem[]
+    imageUrls: string[],
+    startDate: string,
+    endDate: string
   ): Promise<{ uid: string }> {
+    console.log("IMAGE URLS: ", imageUrls[0], imageUrls[1]);
     return (
       await this.client.post("/bookings", {
         userId,
         spaceId,
-        items,
+        imageUrls,
+        startDate,
+        endDate,
       })
     ).data;
   }

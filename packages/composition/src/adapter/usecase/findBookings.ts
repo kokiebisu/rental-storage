@@ -17,10 +17,10 @@ export class FindBookingsUseCase {
     const { spaceId } = command;
     const client = new BookingRestClient();
     const result = await client.findBookings(spaceId);
-    return result.listings.map((listing: any) => {
+    return result.bookings.map((booking: any) => {
       return {
-        ...listing,
-        id: result?.booking.uid,
+        ...booking,
+        id: booking.uid,
       };
     });
   }

@@ -1,9 +1,7 @@
 package service
 
 import (
-	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/amount"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
-	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
@@ -18,20 +16,8 @@ func NewBookingService(bookingRepository port.BookingRepository) *BookingService
 	}
 }
 
-func (s *BookingService) CreateBooking(id string, amountDTO amount.DTO, userId string, spaceId string, itemsDTO []item.DTO, createdAt string, updatedAt string) (string, *customerror.CustomError) {
-	itemEntities := []item.Entity{}
-	amountEntity, err := amount.New(amountDTO.Value, amountDTO.Currency)
-	if err != nil {
-		return "", err
-	}
-	for _, i := range itemsDTO {
-		validItem, err := item.New(i.Id, i.Name, i.ImageUrls)
-		if err != nil {
-			return "", err
-		}
-		itemEntities = append(itemEntities, validItem)
-	}
-	bookingEntity, err := booking.New(id, amountEntity, userId, spaceId, itemEntities, createdAt, updatedAt)
+func (s *BookingService) CreateBooking(id string, userId string, spaceId string, imageUrls []string, startDate string, endDate string, createdAt string, updatedAt string) (string, *customerror.CustomError) {
+	bookingEntity, err := booking.New(id, userId, spaceId, imageUrls, startDate, endDate, createdAt, updatedAt)
 	if err != nil {
 		return "", err
 	}

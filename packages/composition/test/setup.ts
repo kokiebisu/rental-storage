@@ -21,16 +21,10 @@ const mockImageUrls = [
   `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
   `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
 ];
+const mockDescription = faker.lorem.paragraph();
 const mockTitle = faker.company.name();
-const mockFeeAmount = faker.commerce.price();
-const mockFeeCurrency = faker.finance.currencyCode();
-const mockFeeType = "MONTHLY";
-const mockItems = [
-  {
-    name: faker.commerce.product(),
-    imageUrls: mockImageUrls,
-  },
-];
+const mockStartDate = faker.date.past();
+const mockEndDate = faker.date.soon();
 
 module.exports = async function () {
   const userId = await registerUser();
@@ -45,6 +39,7 @@ module.exports = async function () {
     mockFirstName,
     mockLastName,
     mockPassword,
+    mockImageUrls,
   };
 };
 
@@ -64,23 +59,25 @@ const registerUser = async function () {
 
 const registerSpace = async function (userId: string) {
   const spaceClient = new SpaceRestClient();
-  const responseData = await spaceClient.createSpace(
-    userId,
-    mockStreetAddress,
-    Number(mockLatitude),
-    Number(mockLongitude),
-    mockImageUrls,
-    mockTitle,
-    mockFeeType,
-    Number(mockFeeAmount),
-    mockFeeCurrency
-  );
-  if (!responseData) {
-    throw new Error(
-      `register space request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
+  try {
+    const responseData = await spaceClient.createSpace(
+      userId,
+      mockStreetAddress,
+      Number(mockLatitude),
+      Number(mockLongitude),
+      mockImageUrls,
+      mockTitle,
+      mockDescription
     );
+    if (!responseData) {
+      throw new Error(
+        `register space request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
+      );
+    }
+    return responseData.uid;
+  } catch (err) {
+    console.error(err);
   }
-  return responseData.uid;
 };
 
 const registerBooking = async function (userId: string, spaceId: string) {
@@ -88,7 +85,9 @@ const registerBooking = async function (userId: string, spaceId: string) {
   const responseData = await bookingClient.createBooking(
     userId,
     spaceId,
-    mockItems
+    mockImageUrls,
+    mockStartDate.toISOString(),
+    mockEndDate.toISOString()
   );
   if (!responseData) {
     throw new Error("register booking request failed");

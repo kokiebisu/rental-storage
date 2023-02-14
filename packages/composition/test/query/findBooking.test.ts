@@ -9,7 +9,6 @@ describe("findBooking()", () => {
     const event = createEvent({ ...mockEvent });
     const result = await findBooking(event);
     expect(result?.id).not.toBeUndefined();
-    expect(result?.items).not.toBeUndefined();
     expect(result?.spaceId).not.toBeUndefined();
 
     expect(result?.id.length).toBeGreaterThan(0);

@@ -6,7 +6,7 @@ import (
 
 type Factory struct{}
 
-func (f *Factory) New(coordinate float64) (ValueObject, *customerror.CustomError) {
+func New(coordinate float64) (ValueObject, *customerror.CustomError) {
 	err := isValidCoordinate(coordinate)
 	if err != nil {
 		return ValueObject{}, err

@@ -9,20 +9,11 @@ export const mock = {
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
   title: faker.company.name(),
-  imageUrls: [
-    `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-    `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-  ],
-  feeAmount: Number(faker.commerce.price()),
-  feeCurrency: faker.finance.currencyCode(),
-  feeType: "MONTHLY",
-  items: [
-    {
-      name: faker.commerce.product(),
-      imageUrls: [
-        `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-        `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-      ],
-    },
-  ],
+  imageUrls: `[
+    "${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}",
+    "${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}",
+  ]`,
+  description: faker.lorem.paragraphs(),
+  startDate: faker.date.past(),
+  endDate: faker.date.soon(),
 };

@@ -1,49 +1,56 @@
 package space
 
 import (
-	"github.com/google/uuid"
+	"time"
 
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/amount"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/fee"
 	streetaddress "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/street_address"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
-var (
-	coordinateFactory    = &coordinate.Factory{}
-	feeFactory           = &fee.Factory{}
-	streetAddressFactory = &streetaddress.Factory{}
-)
-
-type Factory struct{}
-
-func (f *Factory) New(title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, feeCurrency amount.CurrencyType, feeAmount int64, feeType string) (Entity, *customerror.CustomError) {
-
-	validatedLatitude, err := coordinateFactory.New(latitude)
+func New(uid string, title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
+	validatedLatitude, err := coordinate.New(latitude)
 	if err != nil {
 		return Entity{}, err
 	}
-	validatedLongitude, err := coordinateFactory.New(longitude)
+	validatedLongitude, err := coordinate.New(longitude)
 	if err != nil {
 		return Entity{}, err
 	}
-	validatedFee, err := feeFactory.New(string(feeCurrency), feeAmount, feeType)
+	validatedStreetAddress, err := streetaddress.New(streetAddress)
 	if err != nil {
 		return Entity{}, err
 	}
-	validatedStreetAddress, err := streetAddressFactory.New(streetAddress)
-	if err != nil {
-		return Entity{}, err
+	var createdAt time.Time
+	if createdAtString == "" {
+		createdAt = time.Now()
+	} else {
+		validatedCreatedAt, rawerr := time.Parse(layoutISO, createdAtString)
+		if rawerr != nil {
+			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", err)
+		}
+		createdAt = validatedCreatedAt
+	}
+	var updatedAt time.Time
+	if updatedAtString == "" {
+		updatedAt = time.Now()
+	} else {
+		validatedUpdatedAt, rawerr := time.Parse(layoutISO, updatedAtString)
+		if rawerr != nil {
+			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", err)
+		}
+		updatedAt = validatedUpdatedAt
 	}
 	return Entity{
-		UId:           uuid.New().String(),
+		UId:           uid,
 		Title:         title,
 		LenderId:      lenderId,
 		StreetAddress: validatedStreetAddress,
 		Latitude:      validatedLatitude,
 		Longitude:     validatedLongitude,
 		ImageUrls:     imageUrls,
-		Fee:           validatedFee,
+		Description:   description,
+		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}, nil
 }

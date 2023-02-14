@@ -1,24 +1,18 @@
 package service
 
 import (
-	"log"
-
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/amount"
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/fee"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
 type SpaceService struct {
 	SpaceRepository port.SpaceRepository
-	SpaceFactory    port.SpaceFactory
 }
 
-func NewSpaceService(spaceRepository port.SpaceRepository, spaceFactory port.SpaceFactory) *SpaceService {
+func NewSpaceService(spaceRepository port.SpaceRepository) *SpaceService {
 	return &SpaceService{
 		SpaceRepository: spaceRepository,
-		SpaceFactory:    spaceFactory,
 	}
 }
 
@@ -29,12 +23,7 @@ func (s *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *customer
 	}
 	spaceDTOs := []space.DTO{}
 	for _, l := range ls {
-		spaceDTO, err := l.ToDTO()
-		if err != nil {
-			log.Fatalf(err.Error())
-			return []space.DTO{}, err
-		}
-		spaceDTOs = append(spaceDTOs, spaceDTO)
+		spaceDTOs = append(spaceDTOs, l.ToDTO())
 	}
 	return spaceDTOs, nil
 }
@@ -46,12 +35,7 @@ func (s *SpaceService) FindSpacesWithinLatLng(latitude float64, longitude float6
 	}
 	spaceDTOs := []space.DTO{}
 	for _, l := range spaces {
-		spaceDTO, err := l.ToDTO()
-		if err != nil {
-			log.Fatalf(err.Error())
-			return []space.DTO{}, err
-		}
-		spaceDTOs = append(spaceDTOs, spaceDTO)
+		spaceDTOs = append(spaceDTOs, l.ToDTO())
 	}
 	return spaceDTOs, nil
 }
@@ -61,15 +45,11 @@ func (s *SpaceService) FindSpaceById(uid string) (space.DTO, *customerror.Custom
 	if err != nil {
 		return space.DTO{}, err
 	}
-	spaceDTO, err := l.ToDTO()
-	if err != nil {
-		return space.DTO{}, err
-	}
-	return spaceDTO, nil
+	return l.ToDTO(), nil
 }
 
-func (s *SpaceService) CreateSpace(lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, feeAmount int32, feeCurrency amount.CurrencyType, feeType fee.RentalFeeType) (string, *customerror.CustomError) {
-	entity, err := s.SpaceFactory.New(title, lenderId, streetAddress, latitude, longitude, imageUrls, feeCurrency, int64(feeAmount), string(feeType))
+func (s *SpaceService) CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string, updatedAt string) (string, *customerror.CustomError) {
+	entity, err := space.New(uid, title, lenderId, streetAddress, latitude, longitude, imageUrls, description, createdAt, updatedAt)
 	if err != nil {
 		return "", err
 	}

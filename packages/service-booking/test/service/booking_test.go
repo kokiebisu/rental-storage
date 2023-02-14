@@ -7,7 +7,6 @@ import (
 	"github.com/kokiebisu/rental-storage/service-booking/mocks"
 
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
-	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/service"
 	"github.com/kokiebisu/rental-storage/service-booking/test/data"
 	"github.com/stretchr/testify/assert"
@@ -18,7 +17,7 @@ func setupTest(t *testing.T) (string, *customerror.CustomError) {
 	data.MockBookingRepo.On("Save", data.MockBookingEntity).Return(nil)
 
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
-	token, err := data.BookingService.CreateBooking(data.MockUId, data.MockAmount, data.MockUserId, data.MockSpaceId, []item.DTO{data.MockItem}, data.MockDateString, data.MockDateString)
+	token, err := data.BookingService.CreateBooking(data.MockUId, data.MockUserId, data.MockSpaceId, data.MockImageUrls, data.MockStartDate, data.MockEndDate, data.MockCreatedAt, data.MockUpdatedAt)
 	return token, err
 }
 

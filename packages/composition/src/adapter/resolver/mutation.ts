@@ -15,9 +15,7 @@ export const createSpace = async (
       longitude: number;
       imageUrls: string[];
       title: string;
-      feeAmount: number;
-      feeCurrency: string;
-      feeType: string;
+      description: string;
     },
     unknown
   >
@@ -39,7 +37,9 @@ export const createBooking = async (
   event: AppSyncResolverEvent<
     {
       spaceId: string;
-      items: BookingItem[];
+      imageUrls: string[];
+      startDate: string;
+      endDate: string;
     },
     unknown
   >

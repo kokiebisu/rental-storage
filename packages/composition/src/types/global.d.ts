@@ -11,25 +11,22 @@ declare global {
     latitude: number;
     longitude: number;
     imageUrls: string[];
-    feeAmount: number[];
-    feeCurrency: number[];
-    feeType: number[];
     title: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
   }
 
   interface Booking {
     id: string;
     status: string;
+    imageUrls: string[];
     userId: string;
     spaceId: string;
-    items: BookingItem;
     createdAt: string;
     updatedAt: string;
-  }
-
-  interface BookingItem {
-    name: string;
-    imageUrls: string[];
+    startDate: string;
+    endDate: string;
   }
 
   interface User {
@@ -51,4 +48,5 @@ interface JestMockData {
   mockLastName: string;
   mockEmailAddress: string;
   mockPassword: string;
+  mockImageUrls: string[];
 }

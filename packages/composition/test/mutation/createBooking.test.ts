@@ -16,7 +16,9 @@ const createEvent = (event: any) => {
     ...event,
     arguments: {
       spaceId: global.data.spaceId,
-      items: mock.items,
+      imageUrls: global.data.mockImageUrls,
+      startDate: mock.startDate.toISOString(),
+      endDate: mock.endDate.toISOString(),
     },
     identity: {
       ...event.identity,
