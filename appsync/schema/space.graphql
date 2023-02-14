@@ -24,9 +24,7 @@ type Space {
   id: String
   title: String
   lenderId: String
-  streetAddress: String
-  latitude: Float
-  longitude: Float
+  address: Location
   imageUrls: [String]
   description: String
   createdAt: String

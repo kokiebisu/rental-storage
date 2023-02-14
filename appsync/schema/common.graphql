@@ -11,3 +11,16 @@ enum FeeType {
 enum Currency {
   CAD
 }
+
+type Location {
+  address: String
+  city: String
+  country: String
+  countryCode: String
+  phone: String
+  province: String
+  provinceCode: String
+  zip: String
+  latitude: Float
+  longitude: Float
+}
