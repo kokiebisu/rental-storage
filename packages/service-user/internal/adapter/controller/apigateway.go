@@ -40,7 +40,7 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (Cre
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return CreateUserResponsePayload{}, customerror.ErrorHandler.CustomError("unable to unmarshal request body", err)
+		return CreateUserResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}
 
 	uid, err := h.service.CreateUser("", body.EmailAddresss, body.FirstName, body.LastName, body.Password, []item.DTO{}, "")
@@ -54,7 +54,7 @@ func (h *ApiGatewayHandler) CreateUser(event events.APIGatewayProxyRequest) (Cre
 func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest) (FindUserByEmailResponsePayload, *customerror.CustomError) {
 	emailAddress := event.QueryStringParameters["emailAddress"]
 	if emailAddress == "" {
-		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.CustomError("cannot extract emailAddress", nil)
+		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.GetParameterError("emailAddress")
 	}
 	user, err := h.service.FindByEmail(emailAddress)
 	payload := FindUserByEmailResponsePayload{
@@ -66,7 +66,7 @@ func (h *ApiGatewayHandler) FindUserByEmail(event events.APIGatewayProxyRequest)
 func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (FindUserByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["userId"]
 	if uid == "" {
-		return FindUserByIdResponsePayload{}, customerror.ErrorHandler.CustomError("cannot extract userId", nil)
+		return FindUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")
 	}
 	user, err := h.service.FindById(uid)
 	payload := FindUserByIdResponsePayload{
@@ -78,7 +78,7 @@ func (h *ApiGatewayHandler) FindUserById(event events.APIGatewayProxyRequest) (F
 func (h *ApiGatewayHandler) RemoveUserById(event events.APIGatewayProxyRequest) (RemoveUserByIdResponsePayload, *customerror.CustomError) {
 	uid := event.PathParameters["userId"]
 	if uid == "" {
-		return RemoveUserByIdResponsePayload{}, customerror.ErrorHandler.CustomError("userId cannot be extracted", nil)
+		return RemoveUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")
 	}
 	uid, err := h.service.RemoveById(uid)
 	payload := RemoveUserByIdResponsePayload{

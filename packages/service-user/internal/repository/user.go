@@ -33,7 +33,7 @@ func (r *UserRepository) Setup() *customerror.CustomError {
 		)
 	`)
 	if err != nil {
-		return customerror.ErrorHandler.CustomError("unable to set up tables", err)
+		return customerror.ErrorHandler.CreateTableError("user_account", err)
 	}
 	return nil
 }
@@ -44,7 +44,7 @@ func (r *UserRepository) Save(u user.Entity) (string, *customerror.CustomError) 
         VALUES ($1, $2, $3, $4, $5, $6, $7)
 	`, u.UId, u.EmailAddress.Value, u.Password, u.FirstName.Value, u.LastName.Value, u.CreatedAt.Format("2006-01-02"), u.UpdatedAt.Format("2006-01-02"))
 	if err != nil {
-		return u.UId, customerror.ErrorHandler.CustomError("unable to insert to user_account", err)
+		return u.UId, customerror.ErrorHandler.InsertRowError("user_account", err)
 	}
 	return u.UId, nil
 }
@@ -54,7 +54,7 @@ func (r *UserRepository) Delete(uid string) (string, *customerror.CustomError) {
 		DELETE FROM user_account WHERE uid = $1
 	`, uid)
 	if err != nil {
-		return "", customerror.ErrorHandler.CustomError("unable to delete postgres", err)
+		return "", customerror.ErrorHandler.DeleteRowError("uid", err)
 	}
 	return uid, nil
 }
@@ -76,7 +76,7 @@ func (r *UserRepository) FindOneById(uid string) (user.Entity, *customerror.Cust
 
 	err := row.Scan(&id, &uid, &firstName, &lastName, &emailAddress, &password, &createdAt, &updatedAt)
 	if err != nil {
-		return user.Entity{}, customerror.ErrorHandler.CustomError("unable to scan", err)
+		return user.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 	}
 	u := &user.Raw{
 		UId:          uid,
@@ -114,7 +114,7 @@ func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *cust
 		UpdatedAt:    updatedAt,
 	}
 	if err != nil {
-		return user.Entity{}, customerror.ErrorHandler.CustomError("unable to scan", err)
+		return user.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 	}
 	return u.ToEntity(), nil
 }
