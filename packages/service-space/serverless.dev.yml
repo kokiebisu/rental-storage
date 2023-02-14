@@ -21,6 +21,8 @@ provider:
     images:
       app:
         path: ./
+        file: Dockerfile
+        buildArgs:
   environment:
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
