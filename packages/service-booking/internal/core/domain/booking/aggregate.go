@@ -10,6 +10,7 @@ import (
 type Entity struct {
 	UId       string
 	Status    BookingStatus
+	ImageUrls []string
 	UserId    string
 	SpaceId   string
 	CreatedAt time.Time
@@ -17,21 +18,23 @@ type Entity struct {
 }
 
 type DTO struct {
-	UId       string `json:"uid"`
-	Status    string `json:"status"`
-	UserId    string `json:"userId"`
-	SpaceId   string `json:"spaceId"`
-	CreatedAt string `json:"createdAt"`
-	UpdatedAt string `json:"updatedAt"`
+	UId       string   `json:"uid"`
+	Status    string   `json:"status"`
+	ImageUrls []string `json:"imageUrls"`
+	UserId    string   `json:"userId"`
+	SpaceId   string   `json:"spaceId"`
+	CreatedAt string   `json:"createdAt"`
+	UpdatedAt string   `json:"updatedAt"`
 }
 
 type Raw struct {
-	Id        string `json:"Id"`
-	Status    string `json:"Status"`
-	UserId    string `json:"UserId"`
-	SpaceId   string `json:"SpaceId"`
-	CreatedAt string `json:"CreatedAt"`
-	UpdatedAt string `json:"UpdatedAt"`
+	Id        string   `json:"Id"`
+	Status    string   `json:"Status"`
+	ImageUrls []string `json:"imageUrls"`
+	UserId    string   `json:"UserId"`
+	SpaceId   string   `json:"SpaceId"`
+	CreatedAt string   `json:"CreatedAt"`
+	UpdatedAt string   `json:"UpdatedAt"`
 }
 
 const (
@@ -46,7 +49,7 @@ const (
 
 type BookingStatus string
 
-func New(id string, userId string, spaceId string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
+func New(id string, userId string, spaceId string, imageUrls []string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
 	if id == "" {
 		id = uuid.New().String()
 	}
@@ -69,6 +72,7 @@ func New(id string, userId string, spaceId string, createdAtString string, updat
 	return Entity{
 		UId:       id,
 		Status:    PENDING,
+		ImageUrls: imageUrls,
 		UserId:    userId,
 		SpaceId:   spaceId,
 		CreatedAt: createdAt,
@@ -82,6 +86,7 @@ func (d DTO) ToEntity() Entity {
 	return Entity{
 		UId:       d.UId,
 		Status:    BookingStatus(d.Status),
+		ImageUrls: d.ImageUrls,
 		UserId:    d.UserId,
 		SpaceId:   d.SpaceId,
 		CreatedAt: createdAt,
@@ -95,6 +100,7 @@ func (e Entity) ToDTO() DTO {
 	return DTO{
 		UId:       e.UId,
 		Status:    string(e.Status),
+		ImageUrls: e.ImageUrls,
 		UserId:    e.UserId,
 		SpaceId:   e.SpaceId,
 		CreatedAt: createdAtString,

@@ -14,9 +14,11 @@ var (
 	MockDateString    = faker.Date()
 	MockUserId        = faker.UUIDDigit()
 	MockSpaceId       = faker.UUIDDigit()
+	MockImageUrls     = []string{faker.URL(), faker.URL()}
 	MockBookingEntity = booking.DTO{
 		UId:       MockUId,
 		Status:    "PENDING",
+		ImageUrls: MockImageUrls,
 		UserId:    MockUserId,
 		SpaceId:   MockSpaceId,
 		CreatedAt: MockDateString,

@@ -9,9 +9,9 @@ export const mock = {
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
   title: faker.company.name(),
-  imageUrls: [
-    `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-    `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-  ],
+  imageUrls: `[
+    "${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}",
+    "${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}",
+  ]`,
   description: faker.lorem.paragraphs(),
 };

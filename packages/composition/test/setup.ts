@@ -37,6 +37,7 @@ module.exports = async function () {
     mockFirstName,
     mockLastName,
     mockPassword,
+    mockImageUrls,
   };
 };
 
@@ -79,7 +80,11 @@ const registerSpace = async function (userId: string) {
 
 const registerBooking = async function (userId: string, spaceId: string) {
   const bookingClient = new BookingRestClient();
-  const responseData = await bookingClient.createBooking(userId, spaceId);
+  const responseData = await bookingClient.createBooking(
+    userId,
+    spaceId,
+    mockImageUrls
+  );
   if (!responseData) {
     throw new Error("register booking request failed");
   }

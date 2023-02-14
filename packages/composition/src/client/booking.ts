@@ -3,12 +3,15 @@ import { BaseRestClient } from "./base";
 export default class BookingRestClient extends BaseRestClient {
   public async createBooking(
     userId: string,
-    spaceId: string
+    spaceId: string,
+    imageUrls: string[]
   ): Promise<{ uid: string }> {
+    console.log("IMAGE URLS: ", imageUrls[0], imageUrls[1]);
     return (
       await this.client.post("/bookings", {
         userId,
         spaceId,
+        imageUrls,
       })
     ).data;
   }

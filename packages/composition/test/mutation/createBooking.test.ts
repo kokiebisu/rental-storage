@@ -16,6 +16,7 @@ const createEvent = (event: any) => {
     ...event,
     arguments: {
       spaceId: global.data.spaceId,
+      imageUrls: global.data.mockImageUrls,
     },
     identity: {
       ...event.identity,
