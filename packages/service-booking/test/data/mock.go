@@ -18,15 +18,17 @@ var (
 	MockUserId        = faker.UUIDDigit()
 	MockSpaceId       = faker.UUIDDigit()
 	MockImageUrls     = []string{faker.URL(), faker.URL()}
+	MockDescription   = "BLAH BLAH BLAH"
 	MockBookingEntity = booking.DTO{
-		UId:       MockUId,
-		Status:    "PENDING",
-		ImageUrls: MockImageUrls,
-		UserId:    MockUserId,
-		SpaceId:   MockSpaceId,
-		StartDate: MockStartDate,
-		EndDate:   MockEndDate,
-		CreatedAt: MockCreatedAt,
-		UpdatedAt: MockUpdatedAt,
+		UId:         MockUId,
+		Status:      "PENDING",
+		ImageUrls:   MockImageUrls,
+		UserId:      MockUserId,
+		SpaceId:     MockSpaceId,
+		Description: MockDescription,
+		StartDate:   MockStartDate,
+		EndDate:     MockEndDate,
+		CreatedAt:   MockCreatedAt,
+		UpdatedAt:   MockUpdatedAt,
 	}.ToEntity()
 )
