@@ -6,8 +6,9 @@ class UserEvents(Enum):
     USER_DELETED = 'user_deleted'
 
 
-class ListingEvents(Enum):
-    LISTING_CREATED = 'listing_created'
+class SpaceEvents(Enum):
+    SPACE_CREATED = 'space_created'
+    SPACE_DELETED = 'space_deleted'
 
 
 class BookingEvents(Enum):
