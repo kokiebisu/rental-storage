@@ -17,12 +17,12 @@ jobs:
 
   deploy-serverless:
     name: Deploy Services
-    needs: [setup-build, check-validate-terraform]
+    needs: [setup-build, validate-terraform]
     uses: ./.github/workflows/call-deploy-serverless.yml
     secrets: inherit
 
   test-integration:
     name: Integration Test
-    needs: [setup-build, check-validate-terraform, deploy-dev]
+    needs: [setup-build, validate-terraform, deploy-dev]
     uses: ./.github/workflows/call-test-integration.yml
     secrets: inherit
