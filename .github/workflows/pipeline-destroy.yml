@@ -2,13 +2,15 @@ name: Destroy
 
 on:
   workflow_dispatch:
-  pull_request:
 
 jobs:
   destroy-serverless:
     name: Serverless
     uses: ./.github/workflows/call-destroy-serverless.yml
+    secrets: inherit
+
   destroy-terraform:
     name: Terraform
     needs: [destroy-serverless]
     uses: ./.github/workflows/call-destroy-terraform.yml
+    secrets: inherit
