@@ -7,7 +7,7 @@ on:
 jobs:
   destory-serverless:
     name: Serverless
-    uses: ./.github/workflows/call-destory-serverless.yml
+    uses: ./.github/workflows/call-destroy-serverless.yml
   destroy-terraform:
     name: Terraform
     needs: [destroy-serverless]
