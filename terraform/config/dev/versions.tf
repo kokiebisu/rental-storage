@@ -5,8 +5,6 @@ terraform {
     bucket = "rental-storage-terraform"
     key = "dev/terraform.tfstate"
     region = "us-east-1"
-    encrypt = true
-    kms_key_id = "alias/terraform-bucket-key"
   }
 
   required_providers {
