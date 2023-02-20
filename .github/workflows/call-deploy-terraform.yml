@@ -1,11 +1,8 @@
-name: Infra Destroy
-
 on:
-  workflow_dispatch:
-  pull_request:
+  workflow_call:
 
 jobs:
-  run-terraform:
+  run:
     name: Terraform
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -139,8 +136,8 @@ jobs:
         run: exit 1
         if: steps.plan.outcome == 'failure' && steps.changes.outputs.package == 'true'
 
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve -input=false
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

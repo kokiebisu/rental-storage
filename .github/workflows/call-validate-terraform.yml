@@ -1,10 +1,8 @@
-name: Infra Deployment
-
 on:
-  workflow_dispatch:
+  workflow_call:
 
 jobs:
-  run-terraform:
+  run:
     name: Terraform
     timeout-minutes: 15
     runs-on: ubuntu-latest
@@ -132,28 +130,15 @@ jobs:
             </details>
 
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-        if: steps.changes.outputs.package == 'true'
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+        if: github.event_name == 'pull_request' && steps.changes.outputs.package == 'true'
 
       - name: Terraform Plan Status
         run: exit 1
         if: steps.plan.outcome == 'failure' && steps.changes.outputs.package == 'true'
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
-          TF_VAR_namespace: rental-storage
-          TF_VAR_environment: dev
-          TF_VAR_region: us-east-1
-          TF_VAR_booking_table_name: booking
-          TF_VAR_space_db_username: postgres
-          TF_VAR_space_db_password: password
-          TF_VAR_space_db_name: spaces
-          TF_VAR_user_db_username: postgres
-          TF_VAR_user_db_password: password
-          TF_VAR_user_db_name: users
-        shell: bash
-        working-directory: ./terraform
-        if: steps.changes.outputs.package == 'true'

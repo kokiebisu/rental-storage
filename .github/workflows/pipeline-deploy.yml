@@ -1,0 +1,13 @@
+name: Infra Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-terraform:
+    name: Terraform
+    uses: ./.github/workflows/call-deploy-terraform.yml
+  deploy-serverless:
+    name: Serverless
+    needs: [deploy-terraform]
+    uses: ./.github/workflows/call-deploy-serverless.yml

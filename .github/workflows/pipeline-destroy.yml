@@ -1,0 +1,13 @@
+name: Destroy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destory-serverless:
+    name: Serverless
+    uses: ./.github/workflows/call-destory-serverless.yml
+  destroy-terraform:
+    name: Terraform
+    needs: [destroy-serverless]
+    uses: ./.github/workflows/call-destroy-terraform.yml
