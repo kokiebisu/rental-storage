@@ -23,6 +23,6 @@ jobs:
 
   test-integration:
     name: Integration Test
-    needs: [setup-build, validate-terraform, deploy-dev]
+    needs: [setup-build, validate-terraform, deploy-serverless]
     uses: ./.github/workflows/call-test-integration.yml
     secrets: inherit
