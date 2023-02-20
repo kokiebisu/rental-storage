@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  destory-serverless:
+  destroy-serverless:
     name: Serverless
     uses: ./.github/workflows/call-destroy-serverless.yml
   destroy-terraform:
