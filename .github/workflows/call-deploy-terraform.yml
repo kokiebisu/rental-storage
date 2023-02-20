@@ -1,10 +1,7 @@
-name: Infra Deployment
-
-on:
-  workflow_dispatch:
+on: workflow_call
 
 jobs:
-  run-terraform:
+  run:
     name: Terraform
     timeout-minutes: 15
     runs-on: ubuntu-latest

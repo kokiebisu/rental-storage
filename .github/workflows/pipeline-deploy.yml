@@ -1,0 +1,16 @@
+name: Infrastructure Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy-terraform:
+    name: Terraform
+    uses: ./.github/workflows/call-deploy-terraform.yml
+    secrets: inherit
+
+  deploy-serverless:
+    name: Serverless
+    needs: [deploy-terraform]
+    uses: ./.github/workflows/call-deploy-serverless.yml
+    secrets: inherit

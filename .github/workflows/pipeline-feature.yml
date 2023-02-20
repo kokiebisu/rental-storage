@@ -1,7 +1,6 @@
 name: PR Pipeline
 
-on:
-  pull_request:
+on: pull_request
 
 jobs:
   label-by-branch:
@@ -20,7 +19,7 @@ jobs:
     name: Unit Test
     uses: ./.github/workflows/call-test-unit.yml
 
-  check-core-infra:
+  validate-terraform:
     name: Core Infrastructure
-    uses: ./.github/workflows/call-core-infra.yml
+    uses: ./.github/workflows/call-validate-terraform.yml
     secrets: inherit
