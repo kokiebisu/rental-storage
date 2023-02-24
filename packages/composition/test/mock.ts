@@ -5,9 +5,6 @@ export const mock = {
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),
   password: faker.internet.password(),
-  streetAddress: faker.address.streetAddress(),
-  latitude: Number(faker.address.latitude()),
-  longitude: Number(faker.address.longitude()),
   title: faker.company.name(),
   imageUrls: `[
     "${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}",
@@ -16,4 +13,17 @@ export const mock = {
   description: faker.lorem.paragraphs(),
   startDate: faker.date.past(),
   endDate: faker.date.soon(),
+  location: {
+    address: faker.address.streetAddress(),
+    city: faker.address.cityName(),
+    country: faker.address.country(),
+    countryCode: faker.address.countryCode(),
+    phone: faker.phone.number(),
+    province: "CA",
+    zip: faker.address.zipCode(),
+    coordinate: {
+      latitude: Number(faker.address.latitude()),
+      longitude: Number(faker.address.longitude()),
+    },
+  },
 };

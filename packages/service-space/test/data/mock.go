@@ -3,32 +3,35 @@ package data
 import (
 	"github.com/bxcodec/faker/v3"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
+	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
+	location "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/location"
 )
 
 var (
-	MockUId           = faker.UUIDDigit()
-	MockTitle         = "A beautiful garage"
-	MockLenderId      = faker.UUIDDigit()
-	MockStreetAddress = faker.FirstName()
-	MockLatitude      = faker.Latitude()
-	MockLongitude     = faker.Longitude()
-	MockDistance      = int32(5)
-	MockImageUrls     = []string{
-		faker.URL(),
-		faker.URL(),
+	MockSpace = space.DTO{
+		UId:         faker.UUIDDigit(),
+		Title:       "A beautiful garage",
+		Description: "BLAH BLAH",
+		LenderId:    faker.UUIDDigit(),
+		Location: location.DTO{
+			Address:      "Blah Blah",
+			City:         "Vancouver",
+			Country:      "Canada",
+			CountryCode:  "CA",
+			Phone:        "123-456-7891",
+			Province:     "British Columbia",
+			ProvinceCode: "BC",
+			Zip:          "V193XA",
+			Coordinate: coordinate.DTO{
+				Latitude:  faker.Latitude(),
+				Longitude: faker.Longitude(),
+			},
+		},
+		ImageUrls: []string{
+			faker.URL(),
+			faker.URL(),
+		},
+		CreatedAt: faker.Date(),
+		UpdatedAt: faker.Date(),
 	}
-	MockDescription = "BLAH BLAH"
-	MockSpace       = space.DTO{
-		UId:           MockUId,
-		Title:         MockTitle,
-		LenderId:      MockLenderId,
-		StreetAddress: MockStreetAddress,
-		Latitude:      MockLatitude,
-		Longitude:     MockLongitude,
-		ImageUrls:     MockImageUrls,
-		Description:   MockDescription,
-		CreatedAt:     MockDate,
-		UpdatedAt:     MockDate,
-	}
-	MockDate = faker.Date()
 )

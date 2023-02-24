@@ -14,7 +14,7 @@ export class FindMeCommand {
 }
 
 export class FindMeUseCase {
-  public async execute(command: FindMeCommand): Promise<User> {
+  public async execute(command: FindMeCommand): Promise<IUser> {
     const { id } = command;
     if (!id) {
       throw new InternalServerError();

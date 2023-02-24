@@ -4,7 +4,19 @@ import { AppSyncResolverEvent } from "aws-lambda";
 declare global {
   var data: JestMockData;
 
-  interface Space {
+  interface JestMockData {
+    userId?: string;
+    spaceId?: string;
+    bookingId?: string;
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+    password: string;
+    imageUrls: string[];
+    description: string;
+  }
+
+  interface ISpace {
     id: string;
     lenderId: string;
     streetAddress: string;
@@ -17,7 +29,7 @@ declare global {
     updatedAt: string;
   }
 
-  interface Booking {
+  interface IBooking {
     id: string;
     status: string;
     imageUrls: string[];
@@ -30,7 +42,7 @@ declare global {
     endDate: string;
   }
 
-  interface User {
+  interface IUser {
     id: string;
     firstName: string;
     lastName: string;
@@ -39,16 +51,21 @@ declare global {
     createdAt: string;
     updatedAt: string;
   }
-}
 
-interface JestMockData {
-  userId?: string;
-  spaceId?: string;
-  bookingId?: string;
-  mockFirstName: string;
-  mockLastName: string;
-  mockEmailAddress: string;
-  mockPassword: string;
-  mockImageUrls: string[];
-  mockDescription: string;
+  interface ILocation {
+    address: string;
+    city: string;
+    country: string;
+    countryCode: string;
+    phone: string;
+    province: string;
+    provinceCode: string;
+    zip: string;
+    coordinate: Coordinate;
+  }
+
+  interface ICoordinate {
+    latitude: number;
+    longitude: number;
+  }
 }

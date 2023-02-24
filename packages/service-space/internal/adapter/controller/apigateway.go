@@ -2,12 +2,12 @@ package controller
 
 import (
 	"encoding/json"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/google/uuid"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
+	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/location"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
@@ -47,47 +47,46 @@ func (h *ApiGatewayHandler) FindSpaces(event events.APIGatewayProxyRequest) (Fin
 		ls, err := h.service.FindSpacesByUserId(userId)
 		return FindSpacesResponsePayload{Spaces: ls}, err
 	}
-	latitudeString := event.QueryStringParameters["lat"]
-	longitudeString := event.QueryStringParameters["lng"]
-	distanceString := event.QueryStringParameters["range"]
+	// @deprecated
+	// latitudeString := event.QueryStringParameters["lat"]
+	// longitudeString := event.QueryStringParameters["lng"]
+	// distanceString := event.QueryStringParameters["range"]
 
-	if latitudeString != "" && longitudeString != "" && distanceString != "" {
+	// if latitudeString != "" && longitudeString != "" && distanceString != "" {
 
-		latitude, err := strconv.ParseFloat(latitudeString, 32)
-		if err != nil {
-			return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("latitude", "String", err)
-		}
-		longitude, err := strconv.ParseFloat(longitudeString, 32)
-		if err != nil {
-			return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("longitude", "String", err)
-		}
-		distance, err := strconv.ParseInt(distanceString, 10, 32)
-		if err != nil {
-			return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
-		}
-		spaces, err := h.service.FindSpacesWithinLatLng(latitude, longitude, int32(distance))
-		return FindSpacesResponsePayload{
-			Spaces: spaces,
-		}, err.(*customerror.CustomError)
-	}
+	// 	latitude, err := strconv.ParseFloat(latitudeString, 32)
+	// 	if err != nil {
+	// 		return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("latitude", "String", err)
+	// 	}
+	// 	longitude, err := strconv.ParseFloat(longitudeString, 32)
+	// 	if err != nil {
+	// 		return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("longitude", "String", err)
+	// 	}
+	// 	distance, err := strconv.ParseInt(distanceString, 10, 32)
+	// 	if err != nil {
+	// 		return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("distance", "String", err)
+	// 	}
+	// 	spaces, err := h.service.FindSpacesWithinLatLng(latitude, longitude, int32(distance))
+	// 	return FindSpacesResponsePayload{
+	// 		Spaces: spaces,
+	// 	}, err.(*customerror.CustomError)
+	// }
 	return FindSpacesResponsePayload{}, customerror.ErrorHandler.InvalidParamError(nil)
 }
 
 func (h *ApiGatewayHandler) AddSpace(event events.APIGatewayProxyRequest) (AddSpaceResponsePayload, *customerror.CustomError) {
 	body := struct {
-		LenderId      string   `json:"lenderId"`
-		StreetAddress string   `json:"streetAddress"`
-		Latitude      float64  `json:"latitude"`
-		Longitude     float64  `json:"longitude"`
-		ImageUrls     []string `json:"imageUrls"`
-		Title         string   `json:"title"`
-		Description   string   `json:"description"`
+		LenderId    string       `json:"lenderId"`
+		Location    location.DTO `json:"location"`
+		ImageUrls   []string     `json:"imageUrls"`
+		Title       string       `json:"title"`
+		Description string       `json:"description"`
 	}{}
 	err := json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		return AddSpaceResponsePayload{}, customerror.ErrorHandler.UnmarshalError("space body", err)
 	}
-	spaceId, err := h.service.CreateSpace(uuid.New().String(), body.LenderId, body.StreetAddress, body.Latitude, body.Longitude, body.ImageUrls, body.Title, body.Description, "", "")
+	spaceId, err := h.service.CreateSpace(uuid.New().String(), body.LenderId, body.Location, body.ImageUrls, body.Title, body.Description, "", "")
 	return AddSpaceResponsePayload{
 		UId: spaceId,
 	}, err.(*customerror.CustomError)

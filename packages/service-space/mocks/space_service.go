@@ -3,6 +3,7 @@
 package mocks
 
 import (
+	location "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/location"
 	errors "github.com/kokiebisu/rental-storage/service-space/internal/error"
 	mock "github.com/stretchr/testify/mock"
 
@@ -14,20 +15,20 @@ type SpaceService struct {
 	mock.Mock
 }
 
-// CreateSpace provides a mock function with given fields: uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt
-func (_m *SpaceService) CreateSpace(uid string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, title string, description string, createdAt string, updatedAt string) (string, *errors.CustomError) {
-	ret := _m.Called(uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt)
+// CreateSpace provides a mock function with given fields: uid, lenderId, _a2, imageUrls, title, description, createdAt, updatedAt
+func (_m *SpaceService) CreateSpace(uid string, lenderId string, _a2 location.DTO, imageUrls []string, title string, description string, createdAt string, updatedAt string) (string, *errors.CustomError) {
+	ret := _m.Called(uid, lenderId, _a2, imageUrls, title, description, createdAt, updatedAt)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(string, string, string, float64, float64, []string, string, string, string, string) string); ok {
-		r0 = rf(uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt)
+	if rf, ok := ret.Get(0).(func(string, string, location.DTO, []string, string, string, string, string) string); ok {
+		r0 = rf(uid, lenderId, _a2, imageUrls, title, description, createdAt, updatedAt)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(string, string, string, float64, float64, []string, string, string, string, string) *errors.CustomError); ok {
-		r1 = rf(uid, lenderId, streetAddress, latitude, longitude, imageUrls, title, description, createdAt, updatedAt)
+	if rf, ok := ret.Get(1).(func(string, string, location.DTO, []string, string, string, string, string) *errors.CustomError); ok {
+		r1 = rf(uid, lenderId, _a2, imageUrls, title, description, createdAt, updatedAt)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)
@@ -76,31 +77,6 @@ func (_m *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *errors.
 	var r1 *errors.CustomError
 	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
 		r1 = rf(userId)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*errors.CustomError)
-		}
-	}
-
-	return r0, r1
-}
-
-// FindSpacesWithinLatLng provides a mock function with given fields: latitude, longitude, distance
-func (_m *SpaceService) FindSpacesWithinLatLng(latitude float64, longitude float64, distance int32) ([]space.DTO, *errors.CustomError) {
-	ret := _m.Called(latitude, longitude, distance)
-
-	var r0 []space.DTO
-	if rf, ok := ret.Get(0).(func(float64, float64, int32) []space.DTO); ok {
-		r0 = rf(latitude, longitude, distance)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]space.DTO)
-		}
-	}
-
-	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(float64, float64, int32) *errors.CustomError); ok {
-		r1 = rf(latitude, longitude, distance)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

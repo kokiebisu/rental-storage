@@ -3,22 +3,18 @@ import { BaseRestClient } from "./base";
 export default class SpaceRestClient extends BaseRestClient {
   public async createSpace(
     lenderId: string,
-    streetAddress: string,
-    latitude: number,
-    longitude: number,
     imageUrls: string[],
     title: string,
-    description: string
+    description: string,
+    location: ILocation
   ) {
     return (
       await this.client.post(`/spaces`, {
         lenderId,
-        streetAddress,
-        latitude,
-        longitude,
         imageUrls,
         title,
         description,
+        location,
       })
     ).data;
   }

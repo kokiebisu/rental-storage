@@ -13,7 +13,7 @@ export class FindSpacesCommand {
 }
 
 export class FindSpacesUseCase {
-  public async execute(command: FindSpacesCommand): Promise<Space[]> {
+  public async execute(command: FindSpacesCommand): Promise<ISpace[]> {
     const { userId } = command;
     const client = new SpaceRestClient();
     const data = await client.findSpaces(userId);

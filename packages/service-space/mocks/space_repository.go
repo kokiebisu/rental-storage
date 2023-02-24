@@ -37,31 +37,6 @@ func (_m *SpaceRepository) Delete(uid string) (string, *errors.CustomError) {
 	return r0, r1
 }
 
-// FindManyByLatLng provides a mock function with given fields: latitude, longitude, distance
-func (_m *SpaceRepository) FindManyByLatLng(latitude float64, longitude float64, distance int32) ([]space.Entity, *errors.CustomError) {
-	ret := _m.Called(latitude, longitude, distance)
-
-	var r0 []space.Entity
-	if rf, ok := ret.Get(0).(func(float64, float64, int32) []space.Entity); ok {
-		r0 = rf(latitude, longitude, distance)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]space.Entity)
-		}
-	}
-
-	var r1 *errors.CustomError
-	if rf, ok := ret.Get(1).(func(float64, float64, int32) *errors.CustomError); ok {
-		r1 = rf(latitude, longitude, distance)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*errors.CustomError)
-		}
-	}
-
-	return r0, r1
-}
-
 // FindManyByUserId provides a mock function with given fields: userId
 func (_m *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *errors.CustomError) {
 	ret := _m.Called(userId)
