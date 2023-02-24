@@ -1,0 +1,142 @@
+on: workflow_call
+
+jobs:
+  remove-composition:
+    name: Composition
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    environment: dev
+    strategy:
+      matrix:
+        package:
+          - composition
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - 'packages/composition/**'
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Install global dependencies
+        run: pnpm install -g serverless@2.72.3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install dependencies
+        run: |
+          cd packages/${{ matrix.package }}
+          pnpm install --frozen-lockfile
+
+      - name: Remove
+        run: |
+          cd packages/${{ matrix.package }}
+          serverless remove --config serverless.dev.yml --stage dev
+
+  remove-service:
+    name: Service
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    environment: dev
+    strategy:
+      matrix:
+        package:
+          - authentication
+          - authorizer
+          - booking
+          - image
+          - space
+          - payment
+          - slack
+          - user
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - 'packages/service-${{ matrix.package }}/**'
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Install global dependencies
+        run: pnpm install -g serverless@2.72.3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install dependencies
+        run: |
+          cd packages/service-${{ matrix.package }}
+          pnpm install --frozen-lockfile
+
+      - name: Remove
+        run: |
+          cd packages/service-${{ matrix.package }}
+          serverless remove --config serverless.dev.yml --stage dev
+
+  remove-appsync:
+    name: AppSync
+    needs: [remove-composition, remove-service]
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    environment: dev
+    strategy:
+      matrix:
+        package:
+          - appsync
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            package:
+              - 'appsync/**'
+
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 6.0.2
+
+      - name: Install global dependencies
+        run: pnpm install -g serverless@2.72.3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install dependencies
+        run: |
+          cd ${{ matrix.package }}
+          pnpm install --frozen-lockfile
+
+      - name: Remove
+        run: |
+          cd ${{ matrix.package }}
+          serverless remove --config serverless.dev.yml --stage dev

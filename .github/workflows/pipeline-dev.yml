@@ -10,19 +10,19 @@ jobs:
     name: Setup
     uses: ./.github/workflows/call-setup-build.yml
 
-  check-core-infra:
+  validate-terraform:
     name: Core Infrastructure
-    uses: ./.github/workflows/call-core-infra.yml
+    uses: ./.github/workflows/call-validate-terraform.yml
     secrets: inherit
 
-  deploy-dev:
+  deploy-serverless:
     name: Deploy Services
-    needs: [setup-build, check-core-infra]
-    uses: ./.github/workflows/call-deploy-dev.yml
+    needs: [setup-build, validate-terraform]
+    uses: ./.github/workflows/call-deploy-serverless.yml
     secrets: inherit
 
   test-integration:
     name: Integration Test
-    needs: [setup-build, check-core-infra, deploy-dev]
+    needs: [setup-build, validate-terraform, deploy-serverless]
     uses: ./.github/workflows/call-test-integration.yml
     secrets: inherit
