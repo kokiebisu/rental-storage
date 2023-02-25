@@ -30,7 +30,7 @@ export const findBookings = async (
 
 export const findSpace = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
-) => {
+): Promise<ISpace> => {
   const usecase = new FindSpaceUseCase();
   return await usecase.execute(new FindSpaceCommand(event.arguments));
 };

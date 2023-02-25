@@ -10,12 +10,10 @@ import { DeleteUserCommand, DeleteUserUseCase } from "../usecase/deleteUser";
 export const createSpace = async (
   event: AppSyncResolverEvent<
     {
-      streetAddress: string;
-      latitude: number;
-      longitude: number;
-      imageUrls: string[];
       title: string;
       description: string;
+      imageUrls: string[];
+      location: ILocation;
     },
     unknown
   >

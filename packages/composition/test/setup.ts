@@ -10,21 +10,34 @@ import {
   UserRestClient,
 } from "../src/client";
 
-const mockEmailAddress = faker.internet.email();
-const mockFirstName = faker.name.firstName();
-const mockLastName = faker.name.lastName();
-const mockPassword = faker.internet.password();
-const mockStreetAddress = faker.address.streetAddress();
-const mockLatitude = faker.address.latitude();
-const mockLongitude = faker.address.longitude();
-const mockImageUrls = [
-  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-  `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
-];
-const mockDescription = faker.lorem.paragraph();
-const mockTitle = faker.company.name();
-const mockStartDate = faker.date.past();
-const mockEndDate = faker.date.soon();
+const mock = {
+  emailAddress: faker.internet.email(),
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
+  password: faker.internet.password(),
+  location: {
+    address: faker.address.streetAddress(),
+    city: faker.address.cityName(),
+    country: faker.address.country(),
+    countryCode: faker.address.countryCode(),
+    phone: faker.phone.number("##########"),
+    province: "British Columbia",
+    provinceCode: "BC",
+    zip: faker.address.zipCode(),
+    coordinate: {
+      latitude: Number(faker.address.latitude()),
+      longitude: Number(faker.address.longitude()),
+    },
+  },
+  imageUrls: [
+    `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
+    `${faker.image.imageUrl()}/${faker.random.alphaNumeric(15)}`,
+  ],
+  description: faker.lorem.paragraph(),
+  title: faker.commerce.productName(),
+  startDate: faker.date.past().toISOString(),
+  endDate: faker.date.soon().toISOString(),
+};
 
 module.exports = async function () {
   const userId = await registerUser();
@@ -35,22 +48,22 @@ module.exports = async function () {
     userId,
     spaceId,
     bookingId,
-    mockEmailAddress,
-    mockFirstName,
-    mockLastName,
-    mockPassword,
-    mockImageUrls,
-    mockDescription,
+    emailAddress: mock.emailAddress,
+    firstName: mock.firstName,
+    lastName: mock.lastName,
+    password: mock.password,
+    imageUrls: mock.imageUrls,
+    description: mock.description,
   };
 };
 
 const registerUser = async function () {
   const userClient = new UserRestClient();
   const responseData = await userClient.createUser(
-    mockEmailAddress,
-    mockFirstName,
-    mockLastName,
-    mockPassword
+    mock.emailAddress,
+    mock.firstName,
+    mock.lastName,
+    mock.password
   );
   if (!responseData) {
     throw new Error("register user request failed");
@@ -60,25 +73,20 @@ const registerUser = async function () {
 
 const registerSpace = async function (userId: string) {
   const spaceClient = new SpaceRestClient();
-  try {
-    const responseData = await spaceClient.createSpace(
-      userId,
-      mockStreetAddress,
-      Number(mockLatitude),
-      Number(mockLongitude),
-      mockImageUrls,
-      mockTitle,
-      mockDescription
+
+  const responseData = await spaceClient.createSpace(
+    userId,
+    mock.imageUrls,
+    mock.title,
+    mock.description,
+    mock.location
+  );
+  if (!responseData) {
+    throw new Error(
+      `register space request failed with latitude: ${mock.location.coordinate.latitude}, longitude: ${mock.location.coordinate.longitude}`
     );
-    if (!responseData) {
-      throw new Error(
-        `register space request failed with latitude: ${mockLatitude}, longitude: ${mockLongitude}`
-      );
-    }
-    return responseData.uid;
-  } catch (err) {
-    console.error(err);
   }
+  return responseData.uid;
 };
 
 const registerBooking = async function (userId: string, spaceId: string) {
@@ -86,10 +94,10 @@ const registerBooking = async function (userId: string, spaceId: string) {
   const responseData = await bookingClient.createBooking(
     userId,
     spaceId,
-    mockImageUrls,
-    mockDescription,
-    mockStartDate.toISOString(),
-    mockEndDate.toISOString()
+    mock.imageUrls,
+    mock.description,
+    mock.startDate,
+    mock.endDate
   );
   if (!responseData) {
     throw new Error("register booking request failed");

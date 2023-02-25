@@ -11,9 +11,7 @@ type Query {
 type Mutation {
   spaceCreate(
     title: String
-    streetAddress: String
-    latitude: Float
-    longitude: Float
+    location: LocationInput
     imageUrls: [String]
     description: String
   ): UId
@@ -24,9 +22,7 @@ type Space {
   id: String
   title: String
   lenderId: String
-  streetAddress: String
-  latitude: Float
-  longitude: Float
+  location: Location
   imageUrls: [String]
   description: String
   createdAt: String

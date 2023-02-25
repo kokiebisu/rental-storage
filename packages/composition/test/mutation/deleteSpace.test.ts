@@ -6,13 +6,10 @@ describe("deleteSpace()", () => {
     if (!global.data.spaceId) {
       throw new Error("data.spaceId is empty");
     }
-    try {
-      const event = createEvent({ ...mockEvent });
-      const result = await deleteSpace(event);
-      expect(result).not.toBeUndefined();
-    } catch (err) {
-      console.error(err);
-    }
+
+    const event = createEvent({ ...mockEvent });
+    const result = await deleteSpace(event);
+    expect(result).not.toBeUndefined();
   });
 });
 

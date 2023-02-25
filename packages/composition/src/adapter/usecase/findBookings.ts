@@ -13,7 +13,7 @@ export class FindBookingsCommand {
 }
 
 export class FindBookingsUseCase {
-  public async execute(command: FindBookingsCommand): Promise<Booking[]> {
+  public async execute(command: FindBookingsCommand): Promise<IBooking[]> {
     const { spaceId } = command;
     const client = new BookingRestClient();
     const result = await client.findBookings(spaceId);

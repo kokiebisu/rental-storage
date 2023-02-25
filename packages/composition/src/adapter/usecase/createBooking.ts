@@ -51,15 +51,6 @@ export class CreateBookingUseCase {
     ) {
       throw new InternalServerError();
     }
-    console.log(
-      "ENTERED1: ",
-      userId,
-      spaceId,
-      imageUrls,
-      description,
-      startDate,
-      endDate
-    );
     const bookingClient = new BookingRestClient();
     return await bookingClient.createBooking(
       userId,

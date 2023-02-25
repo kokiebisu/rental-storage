@@ -3,31 +3,19 @@ package space
 import (
 	"time"
 
-	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
-	streetaddress "github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/street_address"
+	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/location"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
-func New(uid string, title string, lenderId string, streetAddress string, latitude float64, longitude float64, imageUrls []string, description string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
-	validatedLatitude, err := coordinate.New(latitude)
-	if err != nil {
-		return Entity{}, err
-	}
-	validatedLongitude, err := coordinate.New(longitude)
-	if err != nil {
-		return Entity{}, err
-	}
-	validatedStreetAddress, err := streetaddress.New(streetAddress)
-	if err != nil {
-		return Entity{}, err
-	}
+func New(uid string, title string, lenderId string, location location.DTO, imageUrls []string, description string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
+	locationEntity := location.ToValueObject()
 	var createdAt time.Time
 	if createdAtString == "" {
 		createdAt = time.Now()
 	} else {
 		validatedCreatedAt, rawerr := time.Parse(layoutISO, createdAtString)
 		if rawerr != nil {
-			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", err)
+			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", nil)
 		}
 		createdAt = validatedCreatedAt
 	}
@@ -37,20 +25,18 @@ func New(uid string, title string, lenderId string, streetAddress string, latitu
 	} else {
 		validatedUpdatedAt, rawerr := time.Parse(layoutISO, updatedAtString)
 		if rawerr != nil {
-			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", err)
+			return Entity{}, customerror.ErrorHandler.ConvertError("createdAt", "time", nil)
 		}
 		updatedAt = validatedUpdatedAt
 	}
 	return Entity{
-		UId:           uid,
-		Title:         title,
-		LenderId:      lenderId,
-		StreetAddress: validatedStreetAddress,
-		Latitude:      validatedLatitude,
-		Longitude:     validatedLongitude,
-		ImageUrls:     imageUrls,
-		Description:   description,
-		CreatedAt:     createdAt,
-		UpdatedAt:     updatedAt,
+		UId:         uid,
+		Title:       title,
+		LenderId:    lenderId,
+		Location:    locationEntity,
+		ImageUrls:   imageUrls,
+		Description: description,
+		CreatedAt:   createdAt,
+		UpdatedAt:   updatedAt,
 	}, nil
 }
