@@ -20,7 +20,7 @@ const mock = {
     city: faker.address.cityName(),
     country: faker.address.country(),
     countryCode: faker.address.countryCode(),
-    phone: faker.phone.number(),
+    phone: faker.phone.number("##########"),
     province: "British Columbia",
     provinceCode: "BC",
     zip: faker.address.zipCode(),
@@ -73,6 +73,7 @@ const registerUser = async function () {
 
 const registerSpace = async function (userId: string) {
   const spaceClient = new SpaceRestClient();
+
   const responseData = await spaceClient.createSpace(
     userId,
     mock.imageUrls,

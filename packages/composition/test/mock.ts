@@ -18,7 +18,7 @@ export const mock = {
     city: faker.address.cityName(),
     country: faker.address.country(),
     countryCode: faker.address.countryCode(),
-    phone: faker.phone.number(),
+    phone: faker.phone.number("##########"),
     province: "CA",
     zip: faker.address.zipCode(),
     coordinate: {
