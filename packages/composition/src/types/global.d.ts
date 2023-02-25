@@ -19,9 +19,7 @@ declare global {
   interface ISpace {
     id: string;
     lenderId: string;
-    streetAddress: string;
-    latitude: number;
-    longitude: number;
+    location: ILocation;
     imageUrls: string[];
     title: string;
     description: string;

@@ -153,17 +153,16 @@ func (r *SpaceRepository) Delete(uid string) (string, *customerror.CustomError) 
 func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
-          SELECT spaces.*, images.url, locations.*, FROM spaces
-          LEFT JOIN images ON spaces.id = images.space_id
-		  LEFT JOIN locations ON spaces.id = locations.space_id
-          WHERE spaces.uid = $1
+		SELECT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, i.url, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate FROM spaces AS s
+		LEFT JOIN images AS i ON s.id = i.space_id
+		LEFT JOIN locations AS l ON s.location_id = l.id
+        WHERE s.uid = $1
         `,
 		uid,
 	)
 	if err != nil {
 		return space.Entity{}, customerror.ErrorHandler.FindSpacesRowError(err)
 	}
-	var id string
 	var title string
 	var lenderId string
 	var description string
@@ -183,13 +182,14 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 	for rows.Next() {
 		var uid string
 		var imageUrl string
-		err = rows.Scan(&id, &uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrl, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
+		err = rows.Scan(&uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrl, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
+
 		if err != nil {
 			return space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
 		imageUrls = append(imageUrls, imageUrl)
 	}
-	l := space.Raw{
+	s := space.Raw{
 		UId:      uid,
 		Title:    title,
 		LenderId: lenderId,
@@ -212,7 +212,7 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 		CreatedAt:   createdAt,
 		UpdatedAt:   updatedAt,
 	}.ToEntity()
-	return l, nil
+	return s, nil
 }
 
 func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *customerror.CustomError) {
@@ -220,7 +220,7 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 		`
 		SELECT spaces.*, images.url, locations.* FROM spaces 
 		LEFT JOIN images ON spaces.id = spaces.space_id
-		LEFT JOIN locations ON spaces.id = locations.space_id
+		LEFT JOIN locations ON spaces.location_id = locations.id
 		WHERE spaces.lender_id = $1
 		`,
 		userId,
