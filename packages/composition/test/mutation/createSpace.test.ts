@@ -7,13 +7,8 @@ describe("createSpace()", () => {
   it("should work with valid input", async () => {
     expect(global.data.userId).not.toBeUndefined();
     const event = createEvent({ ...mockEvent });
-
-    try {
-      const result = await createSpace(event);
-      expect(result.uid).not.toBeUndefined();
-    } catch (err) {
-      console.error(err);
-    }
+    const result = await createSpace(event);
+    expect(result.uid).not.toBeUndefined();
   });
 });
 
