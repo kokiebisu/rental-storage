@@ -218,10 +218,10 @@ func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.Cu
 func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
-		SELECT spaces.*, images.url, locations.* FROM spaces 
-		LEFT JOIN images ON spaces.id = spaces.space_id
-		LEFT JOIN locations ON spaces.location_id = locations.id
-		WHERE spaces.lender_id = $1
+		SELECT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, i.url, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate FROM spaces AS s
+		LEFT JOIN images AS i ON s.id = i.space_id
+		LEFT JOIN locations AS l ON s.location_id = l.id
+        WHERE s.lender_id = $1
 		`,
 		userId,
 	)
@@ -229,26 +229,25 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 		return []space.Entity{}, customerror.ErrorHandler.FindSpacesRowError(err)
 	}
 	spacesMap := map[string]space.Entity{}
+	var title string
+	var lenderId string
+	var description string
+	var createdAt string
+	var updatedAt string
+	var address string
+	var city string
+	var country string
+	var countryCode string
+	var phoneNumber string
+	var province string
+	var provinceCode string
+	var zip string
+	var point helper.Point
 	for rows.Next() {
-		var id string
 		var uid string
-		var title string
-		var lenderId string
-		var description string
-		var createdAt string
-		var updatedAt string
 		var imageUrl string
-		var address string
-		var city string
-		var country string
-		var countryCode string
-		var phoneNumber string
-		var province string
-		var provinceCode string
-		var zip string
-		var point helper.Point
 
-		err := rows.Scan(&id, &uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrl, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
+		err = rows.Scan(&uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrl, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
