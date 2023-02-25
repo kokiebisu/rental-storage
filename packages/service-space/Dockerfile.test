@@ -1,0 +1,9 @@
+FROM golang:latest
+
+WORKDIR /app
+
+COPY . .
+
+WORKDIR /app/test/integration
+
+CMD go test -v
