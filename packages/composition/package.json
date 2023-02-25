@@ -7,7 +7,7 @@
     "deploy": "sls deploy --config serverless.yml --stage local",
     "remove": "sls remove --config serverless.yml --stage local",
     "generate:env": "sls export-env --stage local",
-    "test:integration": "jest"
+    "test:api": "jest"
   },
   "dependencies": {
     "axios": "1.1.3",
