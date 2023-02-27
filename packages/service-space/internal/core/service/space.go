@@ -49,6 +49,6 @@ func (s *SpaceService) CreateSpace(uid string, lenderId string, location locatio
 	return result, nil
 }
 
-func (s *SpaceService) RemoveSpaceById(uid string) (string, *customerror.CustomError) {
+func (s *SpaceService) DeleteSpaceById(uid string) (string, *customerror.CustomError) {
 	return s.SpaceRepository.Delete(uid)
 }

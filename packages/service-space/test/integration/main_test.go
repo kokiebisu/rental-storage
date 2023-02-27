@@ -39,7 +39,28 @@ func setup() {
 	}
 }
 
+
+func dropTables() {
+	var err error
+	_, err = dbInstance.Exec("DELETE FROM images")
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	_, err = dbInstance.Exec("DELETE FROM spaces")
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	_, err = dbInstance.Exec("DELETE FROM locations")
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+}
+
 // Close the database connection
 func teardown() {
+	dropTables()
 	dbInstance.Close()
 }

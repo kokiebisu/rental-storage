@@ -55,8 +55,8 @@ func TestFindSpaceById_Success(t *testing.T) {
 	assert.Nil(t, err, "should not throw error")
 }
 
-// RemoveSpaceById
-func TestRemoveSpaceById_Success(t *testing.T) {
+// DeleteSpaceById
+func TestDeleteSpaceById_Success(t *testing.T) {
 	mockRepo := mocks.NewSpaceRepository(t)
 	mockRepo.On("Save", data.MockSpace.ToEntity()).Return(data.MockSpace.UId, nil)
 	mockRepo.On("Delete", data.MockSpace.UId).Return(data.MockSpace.UId, nil)
@@ -65,7 +65,7 @@ func TestRemoveSpaceById_Success(t *testing.T) {
 	_, err := spaceService.CreateSpace(data.MockSpace.UId, data.MockSpace.LenderId, data.MockSpace.Location, data.MockSpace.ImageUrls, data.MockSpace.Title, data.MockSpace.Description, data.MockSpace.CreatedAt, data.MockSpace.UpdatedAt)
 	assert.Nil(t, err, "should not throw error")
 
-	uid, err := spaceService.RemoveSpaceById(data.MockSpace.UId)
+	uid, err := spaceService.DeleteSpaceById(data.MockSpace.UId)
 	assert.Greater(t, len(uid), 0, "greater than 0")
 	assert.Nil(t, err, "should not throw error")
 }
