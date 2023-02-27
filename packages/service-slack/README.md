@@ -10,7 +10,7 @@
 
 #### Set up Virtual Environment
 
-`which python`
+`which python3` (Mac)
 /usr/bin/python or /usr/bin/python3
 -> there is something wrong if nothing is displayed
 
@@ -28,6 +28,9 @@ Pyenv’s main job is to install different python versions into their own enviro
 Using the pyenv-installer
 
 `curl https://pyenv.run | bash`
+
+If you are using Mac
+`brew install pyenv`
 
 ### Add to the end of .zshrc/.bashrc
 
