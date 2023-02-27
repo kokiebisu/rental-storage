@@ -13,7 +13,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}
-	space, err := c.RemoveSpaceById(request)
+	space, err := c.DeleteSpaceById(request)
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}

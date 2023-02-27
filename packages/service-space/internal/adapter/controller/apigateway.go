@@ -28,7 +28,7 @@ type AddSpaceResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-type RemoveSpaceByIdResponsePayload struct {
+type DeleteSpaceByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
@@ -92,11 +92,11 @@ func (h *ApiGatewayHandler) AddSpace(event events.APIGatewayProxyRequest) (AddSp
 	}, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayHandler) RemoveSpaceById(event events.APIGatewayProxyRequest) (RemoveSpaceByIdResponsePayload, *customerror.CustomError) {
+func (h *ApiGatewayHandler) DeleteSpaceById(event events.APIGatewayProxyRequest) (DeleteSpaceByIdResponsePayload, *customerror.CustomError) {
 	spaceId := event.PathParameters["spaceId"]
 	if spaceId == "" {
-		return RemoveSpaceByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("spaceId")
+		return DeleteSpaceByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("spaceId")
 	}
-	uid, err := h.service.RemoveSpaceById(spaceId)
-	return RemoveSpaceByIdResponsePayload{UId: uid}, err
+	uid, err := h.service.DeleteSpaceById(spaceId)
+	return DeleteSpaceByIdResponsePayload{UId: uid}, err
 }

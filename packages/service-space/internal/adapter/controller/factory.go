@@ -8,7 +8,7 @@ import (
 )
 
 func New() (*ApiGatewayHandler, *customerror.CustomError) {
-	db, err := db.New()
+	db, err := db.GetInstance()
 	if err != nil {
 		return nil, err
 	}

@@ -86,8 +86,8 @@ func (_m *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *errors.
 	return r0, r1
 }
 
-// RemoveSpaceById provides a mock function with given fields: uid
-func (_m *SpaceService) RemoveSpaceById(uid string) (string, *errors.CustomError) {
+// DeleteSpaceById provides a mock function with given fields: uid
+func (_m *SpaceService) DeleteSpaceById(uid string) (string, *errors.CustomError) {
 	ret := _m.Called(uid)
 
 	var r0 string

@@ -12,7 +12,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func NewPostgres() (*sql.DB, *customerror.CustomError) {
+func NewRDSPostgresDB() (*sql.DB, *customerror.CustomError) {
 	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		log.Fatalln("Unable to convert DB_PORT")
