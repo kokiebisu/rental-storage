@@ -5,7 +5,8 @@ import (
 	"testing"
 
 	"github.com/bxcodec/faker/v3"
-	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/controller"
+
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/helper"
@@ -28,13 +29,13 @@ var (
 
 var stringifyResults = []StringifyResult{
 	{
-		controller.CreateUserResponsePayload{
+		adapter.CreateUserResponsePayload{
 			UId: UId,
 		},
 		fmt.Sprintf(`{"uid":"%s"}`, UId),
 	},
 	{
-		controller.FindUserByEmailResponsePayload{
+		adapter.FindUserByEmailResponsePayload{
 			User: user.DTO{
 				FirstName:    FirstName,
 				LastName:     LastName,

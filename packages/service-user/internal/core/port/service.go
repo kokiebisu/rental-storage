@@ -11,7 +11,7 @@ type ItemService interface {
 }
 
 type UserService interface {
-	CreateUser(uid string, emailAddress string, firstName string, lastName string, password string, items []item.DTO, createdAt string) (string, *customerror.CustomError)
+	CreateUser(uid string, emailAddress string, firstName string, lastName string, password string, items []item.DTO, createdAt string, updatedAt string) (string, *customerror.CustomError)
 	RemoveById(uid string) (string, *customerror.CustomError)
 	FindById(uid string) (user.Entity, *customerror.CustomError)
 	FindByEmail(emailAddress string) (user.Entity, *customerror.CustomError)

@@ -15,7 +15,7 @@ type UserRepository struct {
 
 func NewUserRepository(db *sql.DB) *UserRepository {
 	return &UserRepository{
-		db: db,
+		db,
 	}
 }
 
@@ -42,7 +42,7 @@ func (r *UserRepository) Save(u user.Entity) (string, *customerror.CustomError) 
 	_, err := r.db.Exec(`
 		INSERT INTO user_account (uid, email_address, password, first_name, last_name, created_at, updated_at) 
         VALUES ($1, $2, $3, $4, $5, $6, $7)
-	`, u.UId, u.EmailAddress.Value, u.Password, u.FirstName.Value, u.LastName.Value, u.CreatedAt.Format("2006-01-02"), u.UpdatedAt.Format("2006-01-02"))
+	`, u.UId, u.EmailAddress, u.Password, u.FirstName, u.LastName, u.CreatedAt.Format("2006-01-02"), u.UpdatedAt.Format("2006-01-02"))
 	if err != nil {
 		return u.UId, customerror.ErrorHandler.InsertRowError("user_account", err)
 	}

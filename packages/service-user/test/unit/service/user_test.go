@@ -3,7 +3,6 @@ package test
 import (
 	"testing"
 
-	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 	"github.com/kokiebisu/rental-storage/service-user/mocks"
@@ -14,11 +13,11 @@ import (
 func setupTest(t *testing.T) (string, *customerror.CustomError) {
 	data.MockUserRepo = mocks.NewUserRepository(t)
 	data.MockEventSender = mocks.NewEventSender(t)
-	data.MockUserRepo.On("Save", data.MockUser).Return(data.MockUId, nil)
+	data.MockUserRepo.On("Save", data.MockUser.ToEntity()).Return(data.MockUser.UId, nil)
 
-	data.MockEventSender.On("UserCreated", data.MockUser.ToDTO()).Return(nil)
+	data.MockEventSender.On("UserCreated", data.MockUser).Return(nil)
 	data.UserService = service.NewUserService(data.MockUserRepo, data.MockEventSender)
-	token, err := data.UserService.CreateUser(data.MockUId, data.MockEmailAddress, data.MockFirstName, data.MockLastName, data.MockPassword, []item.DTO{}, data.MockTimeString)
+	token, err := data.UserService.CreateUser(data.MockUser.UId, data.MockUser.EmailAddress, data.MockUser.FirstName, data.MockUser.LastName, data.MockUser.Password, data.MockUser.Items, data.MockUser.CreatedAt, data.MockUser.UpdatedAt)
 	return token, err
 }
 
@@ -34,9 +33,9 @@ func TestRemoveById_Success(t *testing.T) {
 	_, err := setupTest(t)
 	assert.Nil(t, err, "should not throw error")
 
-	data.MockUserRepo.On("Delete", data.MockUId).Return(data.MockUId, nil)
+	data.MockUserRepo.On("Delete", data.MockUser.UId).Return(data.MockUser.UId, nil)
 
-	uid, err := data.UserService.RemoveById(data.MockUId)
+	uid, err := data.UserService.RemoveById(data.MockUser.UId)
 	assert.Nil(t, err, "should not throw error")
 	assert.Greater(t, len(uid), 0, "greater than 0")
 }
@@ -44,13 +43,11 @@ func TestRemoveById_Success(t *testing.T) {
 // FindById
 func TestFindById_Success(t *testing.T) {
 	_, err := setupTest(t)
-	if err != nil {
-		panic("setupTest failed")
-	}
-	data.MockUserRepo.On("FindOneById", data.MockUId).Return(data.MockUser, nil)
+	assert.Nil(t, err, "should not throw error")
+	data.MockUserRepo.On("FindOneById", data.MockUser.UId).Return(data.MockUser.ToEntity(), nil)
 
-	result, err := data.UserService.FindById(data.MockUId)
-	assert.Equal(t, data.MockUser, result, "user should be found")
+	result, err := data.UserService.FindById(data.MockUser.UId)
+	assert.Equal(t, data.MockUser.ToEntity(), result, "user should be found")
 	assert.Nil(t, err, "should not throw error")
 }
 
@@ -60,9 +57,9 @@ func TestFindByEmail_Success(t *testing.T) {
 	if err != nil {
 		panic("setupTest failed")
 	}
-	data.MockUserRepo.On("FindOneByEmail", data.MockEmailAddress).Return(data.MockUser, nil)
+	data.MockUserRepo.On("FindOneByEmail", data.MockUser.EmailAddress).Return(data.MockUser.ToEntity(), nil)
 
-	result, err := data.UserService.FindByEmail(data.MockEmailAddress)
-	assert.Equal(t, data.MockUser, result, "user should be found")
+	result, err := data.UserService.FindByEmail(data.MockUser.EmailAddress)
+	assert.Equal(t, data.MockUser.ToEntity(), result, "user should be found")
 	assert.Nil(t, err, "should not throw error")
 }
