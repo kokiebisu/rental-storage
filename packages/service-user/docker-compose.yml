@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:12.6-alpine
+    restart: always
+    user: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_db
+    ports:
+      - "5432:5432"
+  kinesis:
+    image: instructure/kinesalite
+    ports:
+      - "4567:4567"
+    environment:
+      KINESIS_LOCAL_STREAM_CREATION_ENABLED: true
+      KINESIS_LOCAL_SHARD_LIMIT: 10
+      KINESIS_LOCAL_RETENTION_PERIOD_HOURS: 24
+      AWS_PROFILE: rental-storage

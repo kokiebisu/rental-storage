@@ -120,3 +120,21 @@ func (e *Handler) EventPublishError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) CreateStreamError(err error) *CustomError {
+	msg := "unable to create kinesis stream"
+	return &CustomError{
+		StatusCode: 500,
+		Message:    msg,
+		Reason:     err,
+	}
+}
+
+func (e *Handler) PutRecordError(err error) *CustomError {
+	msg := "unable to put record"
+	return &CustomError{
+		StatusCode: 500,
+		Message:    msg,
+		Reason:     err,
+	}
+}

@@ -5,11 +5,11 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 
 	responses "github.com/kokiebisu/rental-storage/service-user/internal"
-	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/controller"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter"
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	controller, err := controller.New()
+	controller, err := adapter.NewControllerAdapter()
 	if err != nil {
 		return responses.SendFailureResponse(err)
 	}

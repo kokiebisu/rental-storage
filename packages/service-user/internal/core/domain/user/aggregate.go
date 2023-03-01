@@ -4,15 +4,16 @@ import (
 	"time"
 
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
-	emailaddress "github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user/email_address"
-	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user/name"
 )
+
+type EmailAddress string
+type Name string
 
 type Entity struct {
 	UId          string
-	FirstName    name.ValueObject
-	LastName     name.ValueObject
-	EmailAddress emailaddress.ValueObject
+	FirstName    Name
+	LastName     Name
+	EmailAddress EmailAddress
 	Password     string
 	Items        []item.Entity
 	CreatedAt    time.Time
@@ -41,32 +42,46 @@ type Raw struct {
 	UpdatedAt    string     `json:"updated_at"`
 }
 
+var layoutISO = "2006-01-02 15:04:05"
+
 func (e *Entity) ToDTO() DTO {
 	return DTO{
 		UId:          e.UId,
-		FirstName:    e.FirstName.Value,
-		LastName:     e.LastName.Value,
-		EmailAddress: e.EmailAddress.Value,
+		FirstName:    string(e.FirstName),
+		LastName:     string(e.LastName),
+		EmailAddress: string(e.EmailAddress),
 		Password:     e.Password,
-		CreatedAt:    e.CreatedAt.Format("YYYY-MM-DD"),
-		UpdatedAt:    e.UpdatedAt.Format("YYYY-MM-DD"),
+		Items:        []item.DTO{},
+		CreatedAt:    e.CreatedAt.Format(layoutISO),
+		UpdatedAt:    e.UpdatedAt.Format(layoutISO),
+	}
+}
+
+func (r *DTO) ToEntity() Entity {
+	createdAt, _ := time.Parse(layoutISO, r.CreatedAt)
+	updatedAt, _ := time.Parse(layoutISO, r.UpdatedAt)
+
+	return Entity{
+		UId:          r.UId,
+		FirstName:    Name(r.FirstName),
+		LastName:     Name(r.LastName),
+		EmailAddress: EmailAddress(r.EmailAddress),
+		Password:     r.Password,
+		Items:        []item.Entity{},
+		CreatedAt:    createdAt,
+		UpdatedAt:    updatedAt,
 	}
 }
 
 func (r *Raw) ToEntity() Entity {
-	createdAt, _ := time.Parse("YYYY-MM-DD", r.CreatedAt)
-	updatedAt, _ := time.Parse("YYYY-MM-DD", r.UpdatedAt)
+	createdAt, _ := time.Parse(layoutISO, r.CreatedAt)
+	updatedAt, _ := time.Parse(layoutISO, r.UpdatedAt)
+
 	return Entity{
-		UId: r.UId,
-		FirstName: name.ValueObject{
-			Value:    r.FirstName,
-			NameType: name.FirstName,
-		},
-		LastName: name.ValueObject{
-			Value:    r.LastName,
-			NameType: name.LastName,
-		},
-		EmailAddress: emailaddress.ValueObject{Value: r.EmailAddress},
+		UId:          r.UId,
+		FirstName:    Name(r.FirstName),
+		LastName:     Name(r.LastName),
+		EmailAddress: EmailAddress(r.EmailAddress),
 		Password:     r.Password,
 		Items:        []item.Entity{},
 		CreatedAt:    createdAt,

@@ -5,6 +5,6 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
-type EventSender interface {
+type UserPublisher interface {
 	UserCreated(u user.DTO) *customerror.CustomError
 }
