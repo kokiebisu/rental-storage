@@ -48,7 +48,7 @@ func TestFindSpaceById_Success(t *testing.T) {
 	_, err := spaceService.CreateSpace(data.MockSpace.UId, data.MockSpace.LenderId, data.MockSpace.Location, data.MockSpace.ImageUrls, data.MockSpace.Title, data.MockSpace.Description, data.MockSpace.CreatedAt, data.MockSpace.UpdatedAt)
 	assert.Nil(t, err, "should not throw error")
 
-	mockRepo.On("FindOneById", data.MockSpace.UId).Return(data.MockSpace.ToEntity(), nil)
+	mockRepo.On("FindById", data.MockSpace.UId).Return(data.MockSpace.ToEntity(), nil)
 
 	result, err := spaceService.FindSpaceById(data.MockSpace.UId)
 	assert.Equal(t, data.MockSpace, result, "should return a space which matches the uid")

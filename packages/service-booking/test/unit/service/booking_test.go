@@ -31,7 +31,7 @@ func TestCreateBooking_Success(t *testing.T) {
 // FindBookingById
 func TestFindBookingById_Success(t *testing.T) {
 	uid, err := setupTest(t)
-	data.MockBookingRepo.On("FindOneById", uid).Return(data.MockBookingEntity, nil)
+	data.MockBookingRepo.On("FindById", uid).Return(data.MockBookingEntity, nil)
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
 	assert.Nil(t, err, "should not throw error")
 

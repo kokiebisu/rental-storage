@@ -29,7 +29,7 @@ func New() (port.Controller, *customerror.CustomError) {
 	}
 	publisher := publisher.NewUserPublisher(kc)
 	service := service.NewUserService(repo, publisher)
-	controllerAdapter, _ := adapter.NewControllerAdapter(service)
+	controllerAdapter, _ := adapter.NewControllerAdapter(service, publisher)
 	return Controller{
 		adptr: controllerAdapter,
 	}, nil

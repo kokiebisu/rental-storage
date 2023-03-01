@@ -11,9 +11,13 @@ clean:
 .PHONY: prepare
 prepare: clean build
 
-.PHONY: test
-test:
-	cd test && go test ./... && cd ../..
+.PHONY: test-unit
+test-unit:
+	cd test/unit && go test ./... && cd ../..
+
+.PHONY: test-integration
+test-integration:
+	cd test/integration && go test ./... && cd ../..
 
 .PHONY: lint
 lint:
@@ -22,3 +26,11 @@ lint:
 .PHONY: generate-mock
 generate-mock:
 	mockery --all --case snake
+
+.PHONY: deps-start
+deps-start:
+	docker-compose up -d --build
+
+.PHONY: deps-end
+deps-stop:
+	docker-compose down --volumes

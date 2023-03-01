@@ -95,7 +95,7 @@ func (r *ItemRepository) Delete(uid string) error {
 	return nil
 }
 
-func (r *ItemRepository) FindOneById(id int64) (item.Entity, error) {
+func (r *ItemRepository) FindById(id int64) (item.Entity, error) {
 	var uid string
 	var name string
 	var ownerId string
