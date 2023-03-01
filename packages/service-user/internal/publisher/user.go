@@ -8,6 +8,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/kinesis"
+	"github.com/google/uuid"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
@@ -44,11 +45,7 @@ func (s *UserPublisher) publish(data []byte) *customerror.CustomError {
 	}
 
 	streamName := fmt.Sprintf("%s-EventStream", environment)
-	partitionKey := "123"
-
-	fmt.Println("STREAM NAME: ", streamName)
-	fmt.Println("PARTITION KEY: ", partitionKey)
-	fmt.Println("DATA: ", data)
+	partitionKey := uuid.New().String()
 
 	_, err := s.client.PutRecord(context.TODO(), &kinesis.PutRecordInput{
 		StreamName:   aws.String(streamName),

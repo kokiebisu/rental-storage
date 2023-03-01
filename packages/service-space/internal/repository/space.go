@@ -252,7 +252,7 @@ func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *cust
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
 		if entry, ok := spacesMap[uid]; ok {
-			entry.ImageUrls = append(spacesMap[uid].ImageUrls, imageUrl)
+			entry.ImageUrls = append(spacesMap[uid].ImageUrls, space.ImageUrl(imageUrl))
 		} else {
 			l := space.Raw{
 				UId:         uid,

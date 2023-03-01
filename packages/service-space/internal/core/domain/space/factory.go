@@ -29,14 +29,28 @@ func New(uid string, title string, lenderId string, location location.DTO, image
 		}
 		updatedAt = validatedUpdatedAt
 	}
+	urls := []ImageUrl{}
+	for _, url := range imageUrls {
+		if err := ImageUrl(url).validate(); err != nil {
+			return Entity{}, err
+		}
+		urls = append(urls, ImageUrl(url))
+	}
 	return Entity{
 		UId:         uid,
 		Title:       title,
 		LenderId:    lenderId,
 		Location:    locationEntity,
-		ImageUrls:   imageUrls,
+		ImageUrls:   urls,
 		Description: description,
 		CreatedAt:   createdAt,
 		UpdatedAt:   updatedAt,
 	}, nil
+}
+
+func (u ImageUrl) validate() *customerror.CustomError {
+	if u == "" {
+		return customerror.ErrorHandler.InvalidValueError("image url", "cannot be empty")
+	}
+	return nil
 }
