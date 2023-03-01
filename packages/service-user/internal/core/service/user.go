@@ -9,23 +9,26 @@ import (
 
 type UserService struct {
 	userRepository port.UserRepository
-	eventSender    port.EventSender
+	userPublisher  port.UserPublisher
 }
 
-func NewUserService(userRepository port.UserRepository, eventSender port.EventSender) *UserService {
+func NewUserService(userRepository port.UserRepository, userPublisher port.UserPublisher) *UserService {
 	return &UserService{
-		userRepository: userRepository,
-		eventSender:    eventSender,
+		userRepository,
+		userPublisher,
 	}
 }
 
-func (s *UserService) CreateUser(uid string, emailAddress string, firstName string, lastName string, password string, items []item.DTO, createdAt string) (string, *customerror.CustomError) {
-	user := user.New(uid, firstName, lastName, emailAddress, password, []item.Entity{}, createdAt)
-	uid, err := s.userRepository.Save(user)
+func (s *UserService) CreateUser(uid string, emailAddress string, firstName string, lastName string, password string, items []item.DTO, createdAt string, updatedAt string) (string, *customerror.CustomError) {
+	user, err := user.New(uid, firstName, lastName, emailAddress, password, []item.Entity{}, createdAt, updatedAt)
+	if err != nil {
+		return "", err
+	}
+	uid, err = s.userRepository.Save(user)
 	if err != nil {
 		return uid, err
 	}
-	err = s.eventSender.UserCreated(user.ToDTO())
+	err = s.userPublisher.UserCreated(user.ToDTO())
 
 	// if err != nil {
 	// TODO: send to dead letter queue (?)
