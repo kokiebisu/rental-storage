@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/kokiebisu/rental-storage/service-space/internal/adapter/controller"
+	"github.com/kokiebisu/rental-storage/service-space/internal/adapter"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
 	"github.com/kokiebisu/rental-storage/service-space/internal/helper"
 	"github.com/kokiebisu/rental-storage/service-space/test/data"
@@ -18,7 +18,7 @@ type StringifyResult struct {
 
 var stringifyResults = []StringifyResult{
 	{
-		controller.FindSpaceByIdResponsePayload{
+		adapter.FindSpaceByIdResponsePayload{
 			Space: data.MockSpace,
 		},
 		fmt.Sprintf(`{"space":{"uid":"%s","title":"%s","lenderId":"%s","location":{"address":"%s","city":"%s","country":"%s","countryCode":"%s","phone":"%s","province":"%s","provinceCode":"%s","zip":"%s","coordinate":{"latitude":%g,"longitude":%g}},"imageUrls":["%s","%s"],"description":"%s","createdAt":"%s","updatedAt":"%s"}}`,
@@ -43,7 +43,7 @@ var stringifyResults = []StringifyResult{
 		),
 	},
 	{
-		controller.FindSpacesResponsePayload{
+		adapter.FindSpacesResponsePayload{
 			Spaces: []space.DTO{
 				data.MockSpace,
 				data.MockSpace,
@@ -89,7 +89,7 @@ var stringifyResults = []StringifyResult{
 		),
 	},
 	{
-		controller.AddSpaceResponsePayload{
+		adapter.AddSpaceResponsePayload{
 			UId: data.MockSpace.UId,
 		},
 		fmt.Sprintf(`{"uid":"%s"}`, data.MockSpace.UId),

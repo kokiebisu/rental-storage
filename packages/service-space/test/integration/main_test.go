@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/kokiebisu/rental-storage/service-space/internal/adapter/db"
+	"github.com/kokiebisu/rental-storage/service-space/internal/adapter"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 	"github.com/kokiebisu/rental-storage/service-space/internal/repository"
 	_ "github.com/lib/pq"
@@ -25,7 +25,7 @@ func TestMain(m *testing.M) {
 func setup() {
 	var err *customerror.CustomError
 	// Start a PostgreSQL container
-	dbInstance, err = db.GetInstance()
+	dbInstance, err = adapter.GetDBAdapter()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -38,7 +38,6 @@ func setup() {
 		os.Exit(1)
 	}
 }
-
 
 func dropTables() {
 	var err error

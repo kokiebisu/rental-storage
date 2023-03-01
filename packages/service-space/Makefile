@@ -30,5 +30,5 @@ deps-start:
 	docker-compose up -d --build
 
 .PHONY: deps-end
-deps-end:
+deps-stop:
 	docker-compose down --volumes
