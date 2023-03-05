@@ -8,8 +8,8 @@ clean:
 
 prepare: clean build
 
-.PHONY: test
-test:
+.PHONY: test-unit
+test-unit:
 	cd test && go test ./... && cd ../..
 
 .PHONY: lint
