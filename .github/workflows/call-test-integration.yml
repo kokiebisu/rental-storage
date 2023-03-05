@@ -50,6 +50,7 @@ jobs:
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile=rental-storage
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile=rental-storage
           aws configure set region us-east-1 --profile=rental-storage
+          aws configure set output json --profile=rental-storage
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
