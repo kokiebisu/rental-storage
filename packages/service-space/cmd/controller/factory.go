@@ -2,10 +2,11 @@ package controller
 
 import (
 	"github.com/kokiebisu/rental-storage/service-space/internal/adapter"
+	"github.com/kokiebisu/rental-storage/service-space/internal/adapter/repository"
+	"github.com/kokiebisu/rental-storage/service-space/internal/client"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/service"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
-	"github.com/kokiebisu/rental-storage/service-space/internal/repository"
 )
 
 type Controller struct {
@@ -13,7 +14,7 @@ type Controller struct {
 }
 
 func New() (port.Controller, *customerror.CustomError) {
-	db, err := adapter.GetDBAdapter()
+	db, err := client.GetPostgresClient()
 	if err != nil {
 		return Controller{}, err
 	}

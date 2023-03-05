@@ -11,7 +11,7 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
-func getProductionClient() (*dynamodb.Client, *customerror.CustomError) {
+func getDynamoDBClient() (*dynamodb.Client, *customerror.CustomError) {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
 		o.Region = "us-east-1"
 		return nil
@@ -24,7 +24,7 @@ func getProductionClient() (*dynamodb.Client, *customerror.CustomError) {
 	return client, nil
 }
 
-func getDockerClient() (*dynamodb.Client, *customerror.CustomError) {
+func getDynamoDBDockerClient() (*dynamodb.Client, *customerror.CustomError) {
 	ctx := context.TODO()
 
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {

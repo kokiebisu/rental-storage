@@ -1,4 +1,4 @@
-package adapter
+package client
 
 import (
 	"context"
@@ -15,27 +15,7 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
-var instance *kinesis.Client
-
-func GetPublisherAdapter() (*kinesis.Client, *customerror.CustomError) {
-	if instance != nil {
-		return instance, nil
-	}
-	env := os.Getenv("ENV")
-	if env == "" {
-		env = os.Getenv("GO_ENV")
-	}
-
-	if env == "production" {
-		// Production mode
-		return NewKinesisAdapter()
-	} else {
-		// Development mode
-		return NewDockerAdapter()
-	}
-}
-
-func NewKinesisAdapter() (*kinesis.Client, *customerror.CustomError) {
+func getKinesisClient() (*kinesis.Client, *customerror.CustomError) {
 	defaultConfig, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		log.Fatalf("failed to load SDK configuration, %v", err)
@@ -45,7 +25,7 @@ func NewKinesisAdapter() (*kinesis.Client, *customerror.CustomError) {
 	return client, nil
 }
 
-func NewDockerAdapter() (*kinesis.Client, *customerror.CustomError) {
+func getKinesisDockerClient() (*kinesis.Client, *customerror.CustomError) {
 	ctx := context.Background()
 
 	customResolver := aws.EndpointResolverWithOptionsFunc(func(service, region string, options ...interface{}) (aws.Endpoint, error) {

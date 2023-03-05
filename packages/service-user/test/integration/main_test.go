@@ -7,18 +7,21 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/kinesis"
-	"github.com/kokiebisu/rental-storage/service-user/internal/adapter"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/publisher"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/repository"
+	"github.com/kokiebisu/rental-storage/service-user/internal/client"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
-	"github.com/kokiebisu/rental-storage/service-user/internal/publisher"
-	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
+
 	_ "github.com/lib/pq"
 )
 
-var dbInstance *sql.DB
-var UserRepo *repository.UserRepository
-var kinesisClient *kinesis.Client
-var UserPublisher port.UserPublisher
+var (
+	dbInstance    *sql.DB
+	UserRepo      *repository.UserRepository
+	kinesisClient *kinesis.Client
+	UserPublisher port.UserPublisher
+)
 
 func TestMain(m *testing.M) {
 	setup()
@@ -30,7 +33,7 @@ func TestMain(m *testing.M) {
 func setup() {
 	var err *customerror.CustomError
 	// Start a PostgreSQL container
-	dbInstance, err = adapter.GetDBAdapter()
+	dbInstance, err = client.GetPostgresClient()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -42,7 +45,7 @@ func setup() {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	kinesisClient, err = adapter.GetPublisherAdapter()
+	kinesisClient, err = client.GetKinesisClient()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)

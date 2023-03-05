@@ -7,11 +7,11 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
-var client *dynamodb.Client
+var dynamodbClient *dynamodb.Client
 
-func GetDBClient() (*dynamodb.Client, *customerror.CustomError) {
-	if client != nil {
-		return client, nil
+func GetDynamoDbClient() (*dynamodb.Client, *customerror.CustomError) {
+	if dynamodbClient != nil {
+		return dynamodbClient, nil
 	}
 
 	env := os.Getenv("ENV")
@@ -21,9 +21,9 @@ func GetDBClient() (*dynamodb.Client, *customerror.CustomError) {
 
 	if env == "production" {
 		// Production mode
-		return getProductionClient()
+		return getDynamoDBClient()
 	} else {
 		// Development mode
-		return getDockerClient()
+		return getDynamoDBDockerClient()
 	}
 }

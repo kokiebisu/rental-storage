@@ -14,11 +14,11 @@ type Controller struct {
 }
 
 func New() (port.Controller, *customerror.CustomError) {
-	dbc, err := client.GetDBClient()
+	ddc, err := client.GetDynamoDbClient()
 	if err != nil {
 		return Controller{}, err
 	}
-	repo, err := repository.NewBookingRepository(dbc)
+	repo, err := repository.NewBookingRepository(ddc)
 	if err != nil {
 		return Controller{}, err
 	}
