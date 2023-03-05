@@ -4,5 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    github:
-      access-token: "${{ secrets.GH_TOKEN }}"
+    environment:
+      aws-access-key-id: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+      GH_TOKEN: "${{ secrets.GH_TOKEN }}"
