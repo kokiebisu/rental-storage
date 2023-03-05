@@ -7,7 +7,7 @@ require (
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/stretchr/testify v1.7.2
-	golang.org/x/crypto v0.5.0
+	golang.org/x/crypto v0.7.0
 )
 
 require (
