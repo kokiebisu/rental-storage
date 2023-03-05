@@ -1,10 +1,34 @@
 on: workflow_call
 
 jobs:
-  run-setup:
-    name: Setup environment
+  # unit-test-python:
+  #   name: Python
+  #   timeout-minutes: 15
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       package:
+  #         - image
+  #         - slack
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - uses: dorny/paths-filter@v2
+  #       id: changes
+  #       with:
+  #         filters: |
+  #           package:
+  #             - 'packages/service-${{ matrix.package }}/**'
+
+  unit-test-go:
+    name: Go
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package:
+          - user
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -14,111 +38,46 @@ jobs:
         with:
           filters: |
             package:
-              - 'packages/composition/**'
+              - 'packages/service-${{ matrix.package }}/**'
 
-      - uses: pnpm/action-setup@v2.2.4
+      - uses: actions/setup-go@v3
         with:
-          version: 6.0.2
-
-      - name: Install global dependencies
-        run: pnpm install -g serverless@2.72.3
-        if: steps.changes.outputs.package == 'true'
-
-      - name: Install root packages
-        run: pnpm install --frozen-lockfile
-        shell: bash
+          go-version: "^1.13.1"
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-        if: steps.changes.outputs.package == 'true'
-
-      - name: Install dependencies
         run: |
-          cd packages/composition
-          pnpm install --frozen-lockfile
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile=rental-storage
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile=rental-storage
+          aws configure set region us-east-1 --profile=rental-storage
+          aws configure set output json --profile=rental-storage
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      - name: Generate env files
+      - name: Check
         run: |
-          cd packages/composition
-          sls export-env --config serverless.dev.yml --stage dev
+          cd ~/.aws
+          cat config
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: env-composition-${{ github.sha }}
-          path: packages/composition/.env
-          retention-days: 1
-        if: steps.changes.outputs.package == 'true'
-
-  run-integration-test:
-    name: Composition
-    needs: [run-setup]
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            package:
-              - 'packages/composition/**'
-
-      - name: Install global dependencies
+      - name: Run Docker-Compose
         run: |
-          npm install -g pnpm
+          cd packages/service-${{ matrix.package }}
+          make deps-start
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      - name: Install dependencies
+      - name: Test service
         run: |
-          cd packages/composition
-          pnpm install --frozen-lockfile
+          cd packages/service-${{ matrix.package }}
+          make test-integration
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist-composition-${{ github.sha }}
-          path: packages/composition/dist
-        if: steps.changes.outputs.package == 'true'
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: dist-composition-${{ github.sha }}
-        if: steps.changes.outputs.package == 'true'
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: env-composition-${{ github.sha }}
-          path: packages/composition
-        if: steps.changes.outputs.package == 'true'
-
-      - uses: geekyeggo/delete-artifact@v2
-        with:
-          name: env-composition-${{ github.sha }}
-        if: steps.changes.outputs.package == 'true'
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1-node16
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-        if: steps.changes.outputs.package == 'true'
-
-      - name: Run test
+      - name: Cleanup
         run: |
-          cd packages/composition
-          pnpm run test:api
+          cd packages/service-${{ matrix.package }}
+          make deps-stop
+        shell: bash
         if: steps.changes.outputs.package == 'true'
