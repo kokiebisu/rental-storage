@@ -1,49 +1,44 @@
-package db
+package repository
 
 import (
 	"context"
-
+	"fmt"
 	"log"
 	"os"
 
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/aws/aws-sdk-go/aws"
-
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
-type NoSQLClient struct {
+type BookingRepository struct {
 	client    *dynamodb.Client
 	tableName string
 }
 
-func NewNoSQLClient() (*NoSQLClient, *customerror.CustomError) {
-	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
-		o.Region = "us-east-1"
-		return nil
-	})
-	if err != nil {
-		log.Fatal(err)
+func NewBookingRepository(client *dynamodb.Client) (*BookingRepository, *customerror.CustomError) {
+	var tableName string
+	if os.Getenv("TABLE_NAME") == "" {
+		tableName = "booking"
+	} else {
+		tableName = os.Getenv("TABLE_NAME")
 	}
-
-	client := dynamodb.NewFromConfig(cfg)
-	tableName := os.Getenv("TABLE_NAME")
 	if tableName == "" {
 		return nil, customerror.ErrorHandler.InternalServerError("cannot retrieve table name", nil)
 	}
-	return &NoSQLClient{
-		client:    client,
-		tableName: tableName,
+	return &BookingRepository{
+		client,
+		tableName,
 	}, nil
 }
 
-func (c *NoSQLClient) Save(booking booking.Entity) *customerror.CustomError {
+func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomError {
 	bookingDTO := booking.ToDTO()
 	item, err := attributevalue.MarshalMap(bookingDTO)
+	fmt.Println("Save 1: ", c.tableName)
 	if err != nil {
 		return customerror.ErrorHandler.InternalServerError("cannot marshal map", err)
 	}
@@ -53,12 +48,13 @@ func (c *NoSQLClient) Save(booking booking.Entity) *customerror.CustomError {
 		ReturnConsumedCapacity: "TOTAL",
 	})
 	if err != nil {
+		fmt.Println("Save 1.5: ", err)
 		return customerror.ErrorHandler.InternalServerError("cannot perform PutItem operation", err)
 	}
 	return nil
 }
 
-func (c NoSQLClient) Delete(uid string) *customerror.CustomError {
+func (c BookingRepository) Delete(uid string) *customerror.CustomError {
 	_, err := c.client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
 		Key: map[string]types.AttributeValue{
 			"UId": &types.AttributeValueMemberS{Value: uid},
@@ -71,7 +67,7 @@ func (c NoSQLClient) Delete(uid string) *customerror.CustomError {
 	return nil
 }
 
-func (c NoSQLClient) FindById(uid string) (booking.Entity, *customerror.CustomError) {
+func (c BookingRepository) FindById(uid string) (booking.Entity, *customerror.CustomError) {
 	output, err := c.client.GetItem(context.TODO(), &dynamodb.GetItemInput{
 		Key: map[string]types.AttributeValue{
 			"UId": &types.AttributeValueMemberS{Value: uid},
@@ -89,7 +85,7 @@ func (c NoSQLClient) FindById(uid string) (booking.Entity, *customerror.CustomEr
 	return target.ToEntity(), nil
 }
 
-func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError) {
+func (c BookingRepository) FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError) {
 	shouldScanIndexForward := false
 	indexName := "BookingUserIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
@@ -118,7 +114,7 @@ func (c NoSQLClient) FindManyByUserId(userId string) ([]booking.Entity, *custome
 	return targets, nil
 }
 
-func (c NoSQLClient) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
+func (c BookingRepository) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
 	shouldScanIndexForward := false
 	indexName := "BookingSpaceIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{

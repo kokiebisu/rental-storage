@@ -12,10 +12,6 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
-func NewControllerAdapter(service port.SpaceService) (port.Controller, *customerror.CustomError) {
-	return NewApiGatewayAdapter(service)
-}
-
 type FindSpaceByIdResponsePayload struct {
 	Space space.DTO `json:"space"`
 }
@@ -32,17 +28,21 @@ type DeleteSpaceByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-type ApiGatewayAdapter struct {
+type ControllerAdapter struct {
 	service port.SpaceService
 }
 
+func NewControllerAdapter(service port.SpaceService) (port.Controller, *customerror.CustomError) {
+	return NewApiGatewayAdapter(service)
+}
+
 func NewApiGatewayAdapter(service port.SpaceService) (port.Controller, *customerror.CustomError) {
-	return &ApiGatewayAdapter{
+	return &ControllerAdapter{
 		service,
 	}, nil
 }
 
-func (h *ApiGatewayAdapter) FindSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) FindSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
 	spaceId := event.(events.APIGatewayProxyRequest).PathParameters["spaceId"]
 	if spaceId == "" {
 		return FindSpaceByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("spaceId")
@@ -51,7 +51,7 @@ func (h *ApiGatewayAdapter) FindSpaceById(event interface{}) (interface{}, *cust
 	return FindSpaceByIdResponsePayload{Space: l}, err
 }
 
-func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) FindSpaces(event interface{}) (interface{}, *customerror.CustomError) {
 	userId := event.(events.APIGatewayProxyRequest).QueryStringParameters["userId"]
 	if userId != "" {
 		ls, err := h.service.FindSpacesByUserId(userId)
@@ -84,7 +84,7 @@ func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *custome
 	return FindSpacesResponsePayload{}, customerror.ErrorHandler.InvalidParamError(nil)
 }
 
-func (h *ApiGatewayAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
 	body := struct {
 		LenderId    string       `json:"lenderId"`
 		Location    location.DTO `json:"location"`
@@ -102,7 +102,7 @@ func (h *ApiGatewayAdapter) AddSpace(event interface{}) (interface{}, *customerr
 	}, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayAdapter) DeleteSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) DeleteSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
 	spaceId := event.(events.APIGatewayProxyRequest).PathParameters["spaceId"]
 	if spaceId == "" {
 		return DeleteSpaceByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("spaceId")

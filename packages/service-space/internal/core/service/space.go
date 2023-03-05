@@ -30,7 +30,7 @@ func (s *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *customer
 }
 
 func (s *SpaceService) FindSpaceById(uid string) (space.DTO, *customerror.CustomError) {
-	l, err := s.SpaceRepository.FindOneById(uid)
+	l, err := s.SpaceRepository.FindById(uid)
 	if err != nil {
 		return space.DTO{}, err
 	}

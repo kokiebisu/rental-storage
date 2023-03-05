@@ -8,15 +8,8 @@ import (
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
-	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
-	"github.com/kokiebisu/rental-storage/service-user/internal/publisher"
-	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
 )
-
-func NewControllerAdapter(service port.UserService) (port.Controller, *customerror.CustomError) {
-	return apiGatewayAdapter()
-}
 
 type CreateUserResponsePayload struct {
 	UId string `json:"uid"`
@@ -34,30 +27,23 @@ type RemoveUserByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-func apiGatewayAdapter() (*ApiGatewayAdapter, *customerror.CustomError) {
-	db, err := GetDBAdapter()
-	if err != nil {
-		return nil, err
-	}
-	repo := repository.NewUserRepository(db)
-	pa, err := GetPublisherAdapter()
-	if err != nil {
-		return nil, err
-	}
-	publisher := publisher.NewUserPublisher(pa)
-	err = repo.Setup()
+func NewControllerAdapter(service port.UserService, publisher port.UserPublisher) (port.Controller, *customerror.CustomError) {
+	return ApiGatewayAdapter(service, publisher)
+}
 
-	service := service.NewUserService(repo, publisher)
-	return &ApiGatewayAdapter{
+func ApiGatewayAdapter(service port.UserService, publisher port.UserPublisher) (port.Controller, *customerror.CustomError) {
+	return &ControllerAdapter{
 		service,
-	}, err
+		publisher,
+	}, nil
 }
 
-type ApiGatewayAdapter struct {
-	service port.UserService
+type ControllerAdapter struct {
+	service   port.UserService
+	publisher port.UserPublisher
 }
 
-func (h *ApiGatewayAdapter) CreateUser(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) CreateUser(event interface{}) (interface{}, *customerror.CustomError) {
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
 		FirstName     string `json:"firstName"`
@@ -77,7 +63,7 @@ func (h *ApiGatewayAdapter) CreateUser(event interface{}) (interface{}, *custome
 	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayAdapter) FindUserByEmail(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) FindUserByEmail(event interface{}) (interface{}, *customerror.CustomError) {
 	emailAddress := event.(events.APIGatewayProxyRequest).QueryStringParameters["emailAddress"]
 	if emailAddress == "" {
 		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.GetParameterError("emailAddress")
@@ -89,7 +75,7 @@ func (h *ApiGatewayAdapter) FindUserByEmail(event interface{}) (interface{}, *cu
 	return payload, err
 }
 
-func (h *ApiGatewayAdapter) FindUserById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) FindUserById(event interface{}) (interface{}, *customerror.CustomError) {
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
 		return FindUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")
@@ -101,7 +87,7 @@ func (h *ApiGatewayAdapter) FindUserById(event interface{}) (interface{}, *custo
 	return payload, err
 }
 
-func (h *ApiGatewayAdapter) RemoveUserById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ControllerAdapter) RemoveUserById(event interface{}) (interface{}, *customerror.CustomError) {
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
 		return RemoveUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")

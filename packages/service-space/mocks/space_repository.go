@@ -68,8 +68,8 @@ func (_m *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *err
 	return r0, r1
 }
 
-// FindOneById provides a mock function with given fields: uid
-func (_m *SpaceRepository) FindOneById(uid string) (space.Entity, *errors.CustomError) {
+// FindById provides a mock function with given fields: uid
+func (_m *SpaceRepository) FindById(uid string) (space.Entity, *errors.CustomError) {
 	ret := _m.Called(uid)
 
 	var r0 space.Entity

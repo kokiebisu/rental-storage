@@ -45,7 +45,7 @@ func (s *UserService) RemoveById(uid string) (string, *customerror.CustomError) 
 }
 
 func (s *UserService) FindById(uid string) (user.Entity, *customerror.CustomError) {
-	u, err := s.userRepository.FindOneById(uid)
+	u, err := s.userRepository.FindById(uid)
 	if err != nil {
 		return user.Entity{}, err
 	}
@@ -53,7 +53,7 @@ func (s *UserService) FindById(uid string) (user.Entity, *customerror.CustomErro
 }
 
 func (s *UserService) FindByEmail(emailAddress string) (user.Entity, *customerror.CustomError) {
-	u, err := s.userRepository.FindOneByEmail(emailAddress)
+	u, err := s.userRepository.FindByEmail(emailAddress)
 	if err != nil {
 		return user.Entity{}, err
 	}

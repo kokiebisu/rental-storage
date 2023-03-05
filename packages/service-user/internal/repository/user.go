@@ -59,7 +59,7 @@ func (r *UserRepository) Delete(uid string) (string, *customerror.CustomError) {
 	return uid, nil
 }
 
-func (r *UserRepository) FindOneById(uid string) (user.Entity, *customerror.CustomError) {
+func (r *UserRepository) FindById(uid string) (user.Entity, *customerror.CustomError) {
 
 	var id int64
 	var emailAddress string
@@ -90,7 +90,7 @@ func (r *UserRepository) FindOneById(uid string) (user.Entity, *customerror.Cust
 	return u.ToEntity(), nil
 }
 
-func (r *UserRepository) FindOneByEmail(emailAddress string) (user.Entity, *customerror.CustomError) {
+func (r *UserRepository) FindByEmail(emailAddress string) (user.Entity, *customerror.CustomError) {
 	var id int64
 	var uid string
 	var firstName string

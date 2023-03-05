@@ -150,7 +150,7 @@ func (r *SpaceRepository) Delete(uid string) (string, *customerror.CustomError) 
 	return uid, nil
 }
 
-func (r *SpaceRepository) FindOneById(uid string) (space.Entity, *customerror.CustomError) {
+func (r *SpaceRepository) FindById(uid string) (space.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
 		SELECT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, i.url, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate FROM spaces AS s

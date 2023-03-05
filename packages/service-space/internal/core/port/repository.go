@@ -9,6 +9,6 @@ type SpaceRepository interface {
 	Setup() *customerror.CustomError
 	Save(space.Entity) (string, *customerror.CustomError)
 	Delete(uid string) (string, *customerror.CustomError)
-	FindOneById(uid string) (space.Entity, *customerror.CustomError)
+	FindById(uid string) (space.Entity, *customerror.CustomError)
 	FindManyByUserId(userId string) ([]space.Entity, *customerror.CustomError)
 }
