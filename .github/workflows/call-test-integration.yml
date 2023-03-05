@@ -28,8 +28,9 @@ jobs:
     strategy:
       matrix:
         package:
-          - user
           - booking
+          - space
+          - user
     steps:
       - name: Checkout
         uses: actions/checkout@v3
