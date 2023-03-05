@@ -2,10 +2,11 @@ package controller
 
 import (
 	"github.com/kokiebisu/rental-storage/service-booking/internal/adapter"
+	"github.com/kokiebisu/rental-storage/service-booking/internal/adapter/repository"
+	"github.com/kokiebisu/rental-storage/service-booking/internal/client"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/service"
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
-	"github.com/kokiebisu/rental-storage/service-booking/internal/repository"
 )
 
 type Controller struct {
@@ -13,11 +14,11 @@ type Controller struct {
 }
 
 func New() (port.Controller, *customerror.CustomError) {
-	db, err := adapter.GetDBAdapter()
+	dbc, err := client.GetDBClient()
 	if err != nil {
 		return Controller{}, err
 	}
-	repo, err := repository.NewBookingRepository(db)
+	repo, err := repository.NewBookingRepository(dbc)
 	if err != nil {
 		return Controller{}, err
 	}

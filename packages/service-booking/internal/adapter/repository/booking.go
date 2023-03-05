@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -19,7 +20,12 @@ type BookingRepository struct {
 }
 
 func NewBookingRepository(client *dynamodb.Client) (*BookingRepository, *customerror.CustomError) {
-	tableName := os.Getenv("TABLE_NAME")
+	var tableName string
+	if os.Getenv("TABLE_NAME") == "" {
+		tableName = "booking"
+	} else {
+		tableName = os.Getenv("TABLE_NAME")
+	}
 	if tableName == "" {
 		return nil, customerror.ErrorHandler.InternalServerError("cannot retrieve table name", nil)
 	}
@@ -29,29 +35,10 @@ func NewBookingRepository(client *dynamodb.Client) (*BookingRepository, *custome
 	}, nil
 }
 
-// func (r *BookingRepository) Save(booking booking.Entity) *customerror.CustomError {
-// 	return r.db.Save(booking)
-// }
-
-// func (r *BookingRepository) Delete(id string) *customerror.CustomError {
-// 	return r.db.Delete(id)
-// }
-
-// func (r *BookingRepository) FindById(id string) (booking.Entity, *customerror.CustomError) {
-// 	return r.db.FindById(id)
-// }
-
-// func (r *BookingRepository) FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError) {
-// 	return r.db.FindManyByUserId(userId)
-// }
-
-// func (r *BookingRepository) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
-// 	return r.db.FindManyBySpaceId(spaceId)
-// }
-
 func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomError {
 	bookingDTO := booking.ToDTO()
 	item, err := attributevalue.MarshalMap(bookingDTO)
+	fmt.Println("Save 1: ", c.tableName)
 	if err != nil {
 		return customerror.ErrorHandler.InternalServerError("cannot marshal map", err)
 	}
@@ -61,6 +48,7 @@ func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomErro
 		ReturnConsumedCapacity: "TOTAL",
 	})
 	if err != nil {
+		fmt.Println("Save 1.5: ", err)
 		return customerror.ErrorHandler.InternalServerError("cannot perform PutItem operation", err)
 	}
 	return nil
