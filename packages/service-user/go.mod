@@ -10,7 +10,7 @@ require (
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.7
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 	github.com/testcontainers/testcontainers-go v0.18.0
 )
 
