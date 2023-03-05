@@ -12,7 +12,7 @@ import (
 
 func TestFindSpaces_Success(t *testing.T) {
 	mockSpace := data.MockSpace
-	s := service.NewSpaceService(Repo)
+	s := service.NewSpaceService(data.SpaceRepository)
 	uid := uuid.New().String()
 	id, err := s.CreateSpace(uid, mockSpace.LenderId, mockSpace.Location, mockSpace.ImageUrls, mockSpace.Title, mockSpace.Description, mockSpace.CreatedAt, mockSpace.UpdatedAt)
 	assert.Nil(t, err, "should not throw error")

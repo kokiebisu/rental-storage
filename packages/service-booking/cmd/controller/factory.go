@@ -14,7 +14,7 @@ type Controller struct {
 }
 
 func New() (port.Controller, *customerror.CustomError) {
-	ddc, err := client.GetDynamoDbClient()
+	ddc, err := client.GetDynamoDBClient()
 	if err != nil {
 		return Controller{}, err
 	}

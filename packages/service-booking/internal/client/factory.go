@@ -9,7 +9,7 @@ import (
 
 var dynamodbClient *dynamodb.Client
 
-func GetDynamoDbClient() (*dynamodb.Client, *customerror.CustomError) {
+func GetDynamoDBClient() (*dynamodb.Client, *customerror.CustomError) {
 	if dynamodbClient != nil {
 		return dynamodbClient, nil
 	}

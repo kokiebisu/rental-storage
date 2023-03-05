@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	dbInstance    *sql.DB
+	pc            *sql.DB
 	UserRepo      *repository.UserRepository
 	kinesisClient *kinesis.Client
 	UserPublisher port.UserPublisher
@@ -33,12 +33,12 @@ func TestMain(m *testing.M) {
 func setup() {
 	var err *customerror.CustomError
 	// Start a PostgreSQL container
-	dbInstance, err = client.GetPostgresClient()
+	pc, err = client.GetPostgresClient()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	UserRepo = repository.NewUserRepository(dbInstance)
+	UserRepo = repository.NewUserRepository(pc)
 	// Set up tables
 	err = UserRepo.Setup()
 	if err != nil {
@@ -56,5 +56,5 @@ func setup() {
 // Close the database connection
 func teardown() {
 	// dropTables()
-	dbInstance.Close()
+	pc.Close()
 }
