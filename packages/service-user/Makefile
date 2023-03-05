@@ -18,7 +18,7 @@ test-unit:
 
 .PHONY: test-integration
 test-integration:
-	cd test/integration && go test ./... -count=1 && cd ../..
+	cd test/integration && go test ./... && cd ../..
 
 .PHONY: lint
 lint:
