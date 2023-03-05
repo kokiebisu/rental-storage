@@ -19,7 +19,14 @@ jobs:
     name: Unit Test
     uses: ./.github/workflows/call-test-unit.yml
 
+  test-integration:
+    name: Integration Test
+    needs: [test-unit]
+    uses: ./.github/workflows/call-test-integration.yml
+    secrets: inherit
+
   validate-terraform:
     name: Core Infrastructure
+    needs: [test-integration]
     uses: ./.github/workflows/call-validate-terraform.yml
     secrets: inherit

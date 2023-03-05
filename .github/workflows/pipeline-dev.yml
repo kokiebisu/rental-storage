@@ -21,8 +21,8 @@ jobs:
     uses: ./.github/workflows/call-deploy-serverless.yml
     secrets: inherit
 
-  test-integration:
-    name: Integration Test
+  test-api:
+    name: API Test
     needs: [setup-build, validate-terraform, deploy-serverless]
-    uses: ./.github/workflows/call-test-integration.yml
+    uses: ./.github/workflows/call-test-api.yml
     secrets: inherit
