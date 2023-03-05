@@ -15,3 +15,5 @@ services:
     image: instructure/kinesalite
     ports:
       - "4567:4567"
+    environment:
+      AWS_PROFILE: rental-storage
