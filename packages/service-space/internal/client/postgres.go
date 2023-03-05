@@ -1,4 +1,4 @@
-package adapter
+package client
 
 import (
 	"context"
@@ -8,32 +8,12 @@ import (
 	"os"
 	"strconv"
 
-	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-var adapter *sql.DB
-
-func GetDBAdapter() (*sql.DB, *customerror.CustomError) {
-	if adapter != nil {
-		return adapter, nil
-	}
-	env := os.Getenv("ENV")
-	if env == "" {
-		env = os.Getenv("GO_ENV")
-	}
-
-	if env == "production" {
-		// Production mode
-		return RDSAdapter()
-	} else {
-		// Development mode
-		return DockerAdapter()
-	}
-}
-
-func RDSAdapter() (*sql.DB, *customerror.CustomError) {
+func getPostgresClient() (*sql.DB, *customerror.CustomError) {
 	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
 	if err != nil {
 		log.Fatalln("Unable to convert DB_PORT")
@@ -45,7 +25,7 @@ func RDSAdapter() (*sql.DB, *customerror.CustomError) {
 	dbPassword := os.Getenv("DB_PASSWORD")
 
 	if err != nil {
-		log.Fatal("configuration error : " + err.Error())
+		return nil, customerror.ErrorHandler.DbConfigurationError(err)
 	}
 
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",
@@ -65,13 +45,13 @@ func RDSAdapter() (*sql.DB, *customerror.CustomError) {
 	return db, nil
 }
 
-func DockerAdapter() (*sql.DB, *customerror.CustomError) {
+func getPostgresDockerClient() (*sql.DB, *customerror.CustomError) {
 	port := "5432"
 	containerPort := port + "/tcp"
 
 	dbUsername := "postgres"
 	dbPassword := "password"
-	dbName := "user_db"
+	dbName := "space_db"
 
 	req := testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
@@ -88,7 +68,7 @@ func DockerAdapter() (*sql.DB, *customerror.CustomError) {
 	}
 	container, err := testcontainers.GenericContainer(context.Background(), req)
 	if err != nil {
-		log.Fatal("Failed to start Postgres container: ", err)
+		log.Fatal(err)
 	}
 	defer func() {
 		err := container.Terminate(context.Background())

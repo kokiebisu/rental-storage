@@ -8,17 +8,17 @@ import (
 )
 
 type CustomerRepository struct {
-	DB *sql.DB
+	db *sql.DB
 }
 
 func NewCustomerRepository(db *sql.DB) *CustomerRepository {
 	return &CustomerRepository{
-		DB: db,
+		db,
 	}
 }
 
 func (r *CustomerRepository) SetupTables() error {
-	_, err := r.DB.Query(`
+	_, err := r.db.Query(`
 		CREATE TABLE IF NOT EXISTS customer (
 			user_id VARCHAR(64) NOT NULL,
 			customer_id VARCHAR(64) NOT NULL,
@@ -33,7 +33,7 @@ func (r *CustomerRepository) SetupTables() error {
 }
 
 func (r *CustomerRepository) Save(pc domain.PaymentCustomer) (domain.PaymentCustomer, error) {
-	_, err := r.DB.Exec(`
+	_, err := r.db.Exec(`
 		INSERT INTO customer (
 			user_id,
 			customer_id, 

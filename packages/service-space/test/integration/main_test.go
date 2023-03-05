@@ -1,19 +1,17 @@
 package integration
 
 import (
-	"database/sql"
 	"log"
 	"os"
 	"testing"
 
-	"github.com/kokiebisu/rental-storage/service-space/internal/adapter"
+	"github.com/kokiebisu/rental-storage/service-space/internal/adapter/repository"
+	"github.com/kokiebisu/rental-storage/service-space/internal/client"
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
-	"github.com/kokiebisu/rental-storage/service-space/internal/repository"
+	"github.com/kokiebisu/rental-storage/service-space/test/data"
+
 	_ "github.com/lib/pq"
 )
-
-var dbInstance *sql.DB
-var Repo *repository.SpaceRepository
 
 func TestMain(m *testing.M) {
 	setup()
@@ -25,14 +23,14 @@ func TestMain(m *testing.M) {
 func setup() {
 	var err *customerror.CustomError
 	// Start a PostgreSQL container
-	dbInstance, err = adapter.GetDBAdapter()
+	data.PostgresClient, err = client.GetPostgresClient()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	Repo = repository.NewSpaceRepository(dbInstance)
+	data.SpaceRepository = repository.NewSpaceRepository(data.PostgresClient)
 	// Set up tables
-	err = Repo.Setup()
+	err = data.SpaceRepository.Setup()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -41,17 +39,17 @@ func setup() {
 
 func dropTables() {
 	var err error
-	_, err = dbInstance.Exec("DELETE FROM images")
+	_, err = data.PostgresClient.Exec("DELETE FROM images")
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	_, err = dbInstance.Exec("DELETE FROM spaces")
+	_, err = data.PostgresClient.Exec("DELETE FROM spaces")
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	_, err = dbInstance.Exec("DELETE FROM locations")
+	_, err = data.PostgresClient.Exec("DELETE FROM locations")
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
@@ -61,5 +59,5 @@ func dropTables() {
 // Close the database connection
 func teardown() {
 	dropTables()
-	dbInstance.Close()
+	data.PostgresClient.Close()
 }

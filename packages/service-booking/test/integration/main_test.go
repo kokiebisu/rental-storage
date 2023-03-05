@@ -30,7 +30,7 @@ func TestMain(m *testing.M) {
 func setup() {
 	var err *customerror.CustomError
 	// Start a PostgreSQL container
-	data.DBClient, err = client.GetDBClient()
+	data.DBClient, err = client.GetDynamoDBClient()
 	if err != nil {
 		log.Fatal(err)
 	}

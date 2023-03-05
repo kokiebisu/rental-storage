@@ -2,11 +2,12 @@ package controller
 
 import (
 	"github.com/kokiebisu/rental-storage/service-user/internal/adapter"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/publisher"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/repository"
+	"github.com/kokiebisu/rental-storage/service-user/internal/client"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/service"
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
-	"github.com/kokiebisu/rental-storage/service-user/internal/publisher"
-	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
 )
 
 type Controller struct {
@@ -14,7 +15,7 @@ type Controller struct {
 }
 
 func New() (port.Controller, *customerror.CustomError) {
-	db, err := adapter.GetDBAdapter()
+	db, err := client.GetPostgresClient()
 	if err != nil {
 		return Controller{}, err
 	}
@@ -23,7 +24,7 @@ func New() (port.Controller, *customerror.CustomError) {
 	if err != nil {
 		return Controller{}, err
 	}
-	kc, err := adapter.NewKinesisAdapter()
+	kc, err := client.GetKinesisClient()
 	if err != nil {
 		return Controller{}, err
 	}

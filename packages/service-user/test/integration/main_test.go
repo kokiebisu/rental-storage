@@ -1,24 +1,18 @@
 package integration
 
 import (
-	"database/sql"
 	"log"
 	"os"
 	"testing"
 
-	"github.com/aws/aws-sdk-go-v2/service/kinesis"
-	"github.com/kokiebisu/rental-storage/service-user/internal/adapter"
-	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/publisher"
+	"github.com/kokiebisu/rental-storage/service-user/internal/adapter/repository"
+	"github.com/kokiebisu/rental-storage/service-user/internal/client"
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
-	"github.com/kokiebisu/rental-storage/service-user/internal/publisher"
-	"github.com/kokiebisu/rental-storage/service-user/internal/repository"
+	"github.com/kokiebisu/rental-storage/service-user/test/data"
+
 	_ "github.com/lib/pq"
 )
-
-var dbInstance *sql.DB
-var UserRepo *repository.UserRepository
-var kinesisClient *kinesis.Client
-var UserPublisher port.UserPublisher
 
 func TestMain(m *testing.M) {
 	setup()
@@ -30,28 +24,28 @@ func TestMain(m *testing.M) {
 func setup() {
 	var err *customerror.CustomError
 	// Start a PostgreSQL container
-	dbInstance, err = adapter.GetDBAdapter()
+	data.PostgresClient, err = client.GetPostgresClient()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	UserRepo = repository.NewUserRepository(dbInstance)
+	data.UserRepository = repository.NewUserRepository(data.PostgresClient)
 	// Set up tables
-	err = UserRepo.Setup()
+	err = data.UserRepository.Setup()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	kinesisClient, err = adapter.GetPublisherAdapter()
+	data.KinesisClient, err = client.GetKinesisClient()
 	if err != nil {
 		log.Fatal(err)
 		os.Exit(1)
 	}
-	UserPublisher = publisher.NewUserPublisher(kinesisClient)
+	data.UserPublisher = publisher.NewUserPublisher(data.KinesisClient)
 }
 
 // Close the database connection
 func teardown() {
 	// dropTables()
-	dbInstance.Close()
+	data.PostgresClient.Close()
 }

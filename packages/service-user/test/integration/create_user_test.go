@@ -11,7 +11,7 @@ import (
 
 func TestCreateUser_Success(t *testing.T) {
 	mockUser := data.MockUser
-	s := service.NewUserService(UserRepo, UserPublisher)
+	s := service.NewUserService(data.UserRepository, data.UserPublisher)
 	id, err := s.CreateUser(mockUser.UId, mockUser.EmailAddress, mockUser.FirstName, mockUser.LastName, mockUser.Password, mockUser.Items, mockUser.CreatedAt, mockUser.UpdatedAt)
 	assert.Nil(t, err, "should not throw error")
 	assert.Greater(t, len(id), 0, "should return valid uid where the lenth is greater than 0")

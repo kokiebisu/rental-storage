@@ -1,4 +1,4 @@
-package adapter
+package client
 
 import (
 	"context"
@@ -8,38 +8,50 @@ import (
 	"os"
 	"strconv"
 
-	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-var instance *sql.DB
-
-func GetDBAdapter() (*sql.DB, *customerror.CustomError) {
-	if instance != nil {
-		return instance, nil
-	}
-	env := os.Getenv("ENV")
-	if env == "" {
-		env = os.Getenv("GO_ENV")
+func getPostgresClient() (*sql.DB, *customerror.CustomError) {
+	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
+	if err != nil {
+		log.Fatalln("Unable to convert DB_PORT")
 	}
 
-	if env == "production" {
-		// Production mode
-		return NewRDSPostgresDB()
-	} else {
-		// Development mode
-		return NewDockerPostgresDB()
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USERNAME")
+	dbHost := os.Getenv("DB_HOST")
+	dbPassword := os.Getenv("DB_PASSWORD")
+
+	if err != nil {
+		log.Fatal("configuration error : " + err.Error())
 	}
+
+	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",
+		dbHost, dbPort, dbUser, dbPassword, dbName,
+	)
+
+	db, err := sql.Open("postgres", dsn)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = db.Ping()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return db, nil
 }
 
-func NewDockerPostgresDB() (*sql.DB, *customerror.CustomError) {
+func getPostgresDockerClient() (*sql.DB, *customerror.CustomError) {
 	port := "5432"
 	containerPort := port + "/tcp"
 
 	dbUsername := "postgres"
 	dbPassword := "password"
-	dbName := "space_db"
+	dbName := "user_db"
 
 	req := testcontainers.GenericContainerRequest{
 		ContainerRequest: testcontainers.ContainerRequest{
@@ -56,7 +68,7 @@ func NewDockerPostgresDB() (*sql.DB, *customerror.CustomError) {
 	}
 	container, err := testcontainers.GenericContainer(context.Background(), req)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Failed to start Postgres container: ", err)
 	}
 	defer func() {
 		err := container.Terminate(context.Background())
@@ -78,38 +90,6 @@ func NewDockerPostgresDB() (*sql.DB, *customerror.CustomError) {
 	connString := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		host, port, dbUsername, dbPassword, dbName)
 	db, err := sql.Open("postgres", connString)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return db, nil
-}
-
-func NewRDSPostgresDB() (*sql.DB, *customerror.CustomError) {
-	dbPort, err := strconv.Atoi(os.Getenv("DB_PORT"))
-	if err != nil {
-		log.Fatalln("Unable to convert DB_PORT")
-	}
-
-	dbName := os.Getenv("DB_NAME")
-	dbUser := os.Getenv("DB_USERNAME")
-	dbHost := os.Getenv("DB_HOST")
-	dbPassword := os.Getenv("DB_PASSWORD")
-
-	if err != nil {
-		return nil, customerror.ErrorHandler.DbConfigurationError(err)
-	}
-
-	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s",
-		dbHost, dbPort, dbUser, dbPassword, dbName,
-	)
-
-	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatal(err)
 	}
