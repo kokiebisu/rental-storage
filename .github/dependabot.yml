@@ -1,9 +1,0 @@
-version: 2
-updates:
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    env:
-      aws-access-key-id: "${{ secrets.AWS_ACCESS_KEY_ID }}"
-      GH_TOKEN: "${{ secrets.GH_TOKEN }}"
