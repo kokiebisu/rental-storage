@@ -29,6 +29,7 @@ jobs:
       matrix:
         package:
           - user
+          - booking
     steps:
       - name: Checkout
         uses: actions/checkout@v3
