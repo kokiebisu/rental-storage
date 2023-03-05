@@ -54,6 +54,13 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
+      - name: Check
+        run: |
+          cd ~/.aws
+          cat config
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
+
       - name: Run Docker-Compose
         run: |
           cd packages/service-${{ matrix.package }}
