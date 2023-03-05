@@ -4,6 +4,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    environment:
+    env:
       aws-access-key-id: "${{ secrets.AWS_ACCESS_KEY_ID }}"
       GH_TOKEN: "${{ secrets.GH_TOKEN }}"
