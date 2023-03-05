@@ -27,5 +27,6 @@ jobs:
 
   validate-terraform:
     name: Core Infrastructure
+    needs: [test-integration]
     uses: ./.github/workflows/call-validate-terraform.yml
     secrets: inherit
