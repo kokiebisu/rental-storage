@@ -44,7 +44,7 @@ func TestRemoveById_Success(t *testing.T) {
 func TestFindById_Success(t *testing.T) {
 	_, err := setupTest(t)
 	assert.Nil(t, err, "should not throw error")
-	data.MockUserRepo.On("FindOneById", data.MockUser.UId).Return(data.MockUser.ToEntity(), nil)
+	data.MockUserRepo.On("FindById", data.MockUser.UId).Return(data.MockUser.ToEntity(), nil)
 
 	result, err := data.UserService.FindById(data.MockUser.UId)
 	assert.Equal(t, data.MockUser.ToEntity(), result, "user should be found")
@@ -57,7 +57,7 @@ func TestFindByEmail_Success(t *testing.T) {
 	if err != nil {
 		panic("setupTest failed")
 	}
-	data.MockUserRepo.On("FindOneByEmail", data.MockUser.EmailAddress).Return(data.MockUser.ToEntity(), nil)
+	data.MockUserRepo.On("FindByEmail", data.MockUser.EmailAddress).Return(data.MockUser.ToEntity(), nil)
 
 	result, err := data.UserService.FindByEmail(data.MockUser.EmailAddress)
 	assert.Equal(t, data.MockUser.ToEntity(), result, "user should be found")

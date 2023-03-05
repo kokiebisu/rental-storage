@@ -23,9 +23,9 @@ func New() (port.Controller, *customerror.CustomError) {
 		return Controller{}, err
 	}
 	service := service.NewSpaceService(repo)
-	controllerAdapter, _ := adapter.NewControllerAdapter(service)
+	adptr, _ := adapter.NewControllerAdapter(service)
 	return Controller{
-		adptr: controllerAdapter,
+		adptr,
 	}, nil
 }
 
