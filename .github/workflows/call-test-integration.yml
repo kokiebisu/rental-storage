@@ -63,3 +63,5 @@ jobs:
         run: |
           cd packages/service-${{ matrix.package }}
           make deps-stop
+        shell: bash
+        if: steps.changes.outputs.package == 'true'

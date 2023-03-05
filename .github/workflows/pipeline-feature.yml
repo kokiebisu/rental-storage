@@ -21,6 +21,7 @@ jobs:
 
   test-integration:
     name: Integration Test
+    needs: [test-unit]
     uses: ./.github/workflows/call-test-integration.yml
 
   validate-terraform:
