@@ -19,6 +19,10 @@ jobs:
     name: Unit Test
     uses: ./.github/workflows/call-test-unit.yml
 
+  test-integration:
+    name: Integration Test
+    uses: ./.github/workflows/call-test-integration.yml
+
   validate-terraform:
     name: Core Infrastructure
     uses: ./.github/workflows/call-validate-terraform.yml
