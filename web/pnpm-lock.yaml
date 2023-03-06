@@ -30,7 +30,7 @@ specifiers:
   css-loader: 6.7.3
   eslint: 8.35.0
   eslint-config-next: 13.2.3
-  eslint-plugin-storybook: 0.6.10
+  eslint-plugin-storybook: 0.6.11
   google-map-react: ^2.2.0
   graphql: ^15.7.0
   graphql-tag: ^2.12.5
@@ -83,7 +83,7 @@ devDependencies:
   css-loader: 6.7.3_webpack@5.75.0
   eslint: 8.35.0
   eslint-config-next: 13.2.3_ddvlikdjy3uujmudifwl7fbpl4
-  eslint-plugin-storybook: 0.6.10_ddvlikdjy3uujmudifwl7fbpl4
+  eslint-plugin-storybook: 0.6.11_ddvlikdjy3uujmudifwl7fbpl4
   google-map-react: 2.2.0_biqbaboplfbrettd7655fr4n2y
   postcss: 8.4.21
   postcss-loader: 7.0.2_6jdsrmfenkuhhw3gx4zvjlznce
@@ -6484,8 +6484,8 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: true
 
-  /eslint-plugin-storybook/0.6.10_ddvlikdjy3uujmudifwl7fbpl4:
-    resolution: {integrity: sha512-3DKXRey06EhwnTKaG6fgMqGTy4C3z6Ikyv6VVixO5BvaExWQe3yGWIAufrC2Et0OaAMIaMwx9KWjqb/Wq+JxPg==}
+  /eslint-plugin-storybook/0.6.11_ddvlikdjy3uujmudifwl7fbpl4:
+    resolution: {integrity: sha512-lIVmCqQgA0bhcuS1yWYBFrnPHBKPEQI+LHPDtlN81UE1/17onCqgwUW7Nyt7gS2OHjCAiOR4npjTGEoe0hssKw==}
     engines: {node: 12.x || 14.x || >= 16}
     peerDependencies:
       eslint: '>=6'
