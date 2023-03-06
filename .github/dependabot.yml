@@ -32,10 +32,6 @@ updates:
     directory: "/packages/composition"
     schedule:
       interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/web"
-    schedule:
-      interval: "daily"
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
