@@ -3,7 +3,7 @@ module github.com/kokiebisu/rental-storage/service-authentication
 go 1.19
 
 require (
-	github.com/aws/aws-lambda-go v1.37.0
+	github.com/aws/aws-lambda-go v1.38.0
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/stretchr/testify v1.7.2
