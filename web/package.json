@@ -45,7 +45,7 @@
     "autoprefixer": "10.4.13",
     "babel-loader": "8.3.0",
     "css-loader": "6.7.3",
-    "eslint": "8.33.0",
+    "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
     "eslint-plugin-storybook": "0.6.10",
     "google-map-react": "^2.2.0",
