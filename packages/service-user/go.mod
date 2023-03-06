@@ -3,14 +3,14 @@ module github.com/kokiebisu/rental-storage/service-user
 go 1.19
 
 require (
-	github.com/aws/aws-lambda-go v1.34.1
+	github.com/aws/aws-lambda-go v1.38.0
 	github.com/aws/aws-sdk-go-v2 v1.17.5
 	github.com/aws/aws-sdk-go-v2/config v1.18.0
 	github.com/aws/aws-sdk-go-v2/service/kinesis v1.15.22
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.7
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 	github.com/testcontainers/testcontainers-go v0.18.0
 )
 
