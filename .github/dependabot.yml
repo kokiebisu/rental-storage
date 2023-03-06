@@ -1,42 +1,38 @@
 version: 2
 updates:
   - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "gomod"
     directory: "/packages/service-authentication"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "gomod"
     directory: "/packages/service-authorizer"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "gomod"
     directory: "/packages/service-booking"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "gomod"
     directory: "/packages/service-space"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "gomod"
     directory: "/packages/service-user"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "pip"
     directory: "/packages/service-slack"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "npm"
     directory: "/packages/composition"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "npm"
     directory: "/web"
     schedule:
-      interval: "daily"
+      interval: "monthly"
   - package-ecosystem: "terraform"
     directory: "/terraform"
     schedule:
-      interval: "daily"
+      interval: "monthly"
