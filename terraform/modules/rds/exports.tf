@@ -13,7 +13,7 @@ resource "aws_ssm_parameter" "space_db_port" {
 resource "aws_ssm_parameter" "space_db_name" {
     name = "/terraform/rds/space-db-name"
     type = "String"
-    value = aws_db_instance.space.name
+    value = aws_db_instance.space.db_name
 }
 
 resource "aws_ssm_parameter" "space_db_username" {

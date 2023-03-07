@@ -21,6 +21,11 @@ resource "aws_dynamodb_table" "booking" {
   }
 
   attribute {
+    name = "BookingStatus"
+    type = "S"
+  }
+
+  attribute {
     name = "CreatedAt"
     type = "S"
   }
