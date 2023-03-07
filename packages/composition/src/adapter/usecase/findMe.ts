@@ -53,20 +53,20 @@ export class FindMeUseCase {
       streetAddress: userResponse.data.user.streetAddress,
       createdAt: userResponse.data.user.createdAt,
       updatedAt: userResponse.data.user.updatedAt,
-      bookings: {
-        pending: pendingBookingsResponse.data.bookings.map((booking) => {
-          return {
-            ...booking,
-            id: booking.uid,
-          };
-        }),
-        approved: approvedBookingsResponse.data.bookings.map((booking) => {
-          return {
-            ...booking,
-            id: booking.uid,
-          };
-        }),
-      },
+      // bookings: {
+      //   pending: pendingBookingsResponse.data.bookings.map((booking) => {
+      //     return {
+      //       ...booking,
+      //       id: booking.uid,
+      //     };
+      //   }),
+      //   approved: approvedBookingsResponse.data.bookings.map((booking) => {
+      //     return {
+      //       ...booking,
+      //       id: booking.uid,
+      //     };
+      //   }),
+      // },
     };
   }
 }

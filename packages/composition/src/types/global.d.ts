@@ -46,10 +46,6 @@ interface IUser {
   streetAddress: string;
   createdAt: string;
   updatedAt: string;
-  bookings: {
-    pending: IBooking[];
-    approved: IBooking[];
-  };
 }
 
 interface ILocation {
