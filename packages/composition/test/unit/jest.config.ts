@@ -1,5 +1,5 @@
 module.exports = {
-  roots: ["<rootDir>/test"],
+  roots: ["<rootDir>/"],
   transform: {
     "^.+\\.ts?$": "ts-jest",
   },
@@ -8,6 +8,6 @@ module.exports = {
   collectCoverage: true,
   clearMocks: true,
   coverageDirectory: "coverage",
-  setupFiles: ["dotenv/config", "./test/setup.ts"],
+  setupFiles: ["dotenv/config", "./setup.ts"],
   testTimeout: 100000,
 };

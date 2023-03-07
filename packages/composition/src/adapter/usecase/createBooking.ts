@@ -1,4 +1,4 @@
-import { BookingRestClient } from "../../client";
+import { BookingResourceURLBuilder, RestAPIClient } from "../../client";
 import { InternalServerError } from "../../error";
 
 interface CreateBookingCommandConstructor {
@@ -51,14 +51,19 @@ export class CreateBookingUseCase {
     ) {
       throw new InternalServerError();
     }
-    const bookingClient = new BookingRestClient();
-    return await bookingClient.createBooking(
-      userId,
-      spaceId,
-      imageUrls,
-      description,
-      startDate,
-      endDate
+    const client = new RestAPIClient();
+    const builder = new BookingResourceURLBuilder();
+    const response = await client.post<{ uid: string }, CreateBookingCommand>(
+      builder.createBooking(),
+      {
+        userId,
+        spaceId,
+        imageUrls,
+        description,
+        startDate,
+        endDate,
+      }
     );
+    return { uid: response.data.uid };
   }
 }

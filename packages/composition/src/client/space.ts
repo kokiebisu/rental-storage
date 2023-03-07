@@ -1,33 +1,39 @@
-import { BaseRestClient } from "./base";
+export default class {
+  public baseURL: string;
 
-export default class SpaceRestClient extends BaseRestClient {
-  public async createSpace(
-    lenderId: string,
-    imageUrls: string[],
-    title: string,
-    description: string,
-    location: ILocation
-  ) {
-    return (
-      await this.client.post(`/spaces`, {
-        lenderId,
-        imageUrls,
-        title,
-        description,
-        location,
-      })
-    ).data;
+  constructor() {
+    const baseURL = process.env.SERVICE_API_ENDPOINT;
+    if (!baseURL) {
+      throw new Error("SERVICE_API_ENDPOINT not being fetched");
+    }
+    this.baseURL = baseURL;
   }
 
-  public async findSpace(id: string) {
-    return (await this.client.get(`/spaces/${id}`)).data;
+  public createSpace() {
+    const url = new URL(`${this.baseURL}/spaces`).toString();
+    return url.toString();
   }
 
-  public async deleteSpace(id: string) {
-    return (await this.client.delete(`/spaces/${id}`)).data;
+  public findSpace(id: string) {
+    const url = new URL(`${this.baseURL}/spaces/${id}`);
+    return url.toString();
   }
 
-  public async findSpaces(userId: string) {
-    return (await this.client.get(`/spaces?userId=${userId}`)).data;
+  public deleteSpace(id: string) {
+    const url = new URL(`${this.baseURL}/spaces/${id}`);
+    return url.toString();
+  }
+
+  public findSpaces({ userId }: { userId: string }) {
+    let url = new URL(`${this.baseURL}/spaces`);
+    url = this.attachQueryParams(url, { userId });
+    return url.toString();
+  }
+
+  private attachQueryParams(url: URL, { userId }: { userId: string }) {
+    if (userId) {
+      url.searchParams.set("userId", userId);
+    }
+    return url;
   }
 }

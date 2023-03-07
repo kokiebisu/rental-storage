@@ -1,4 +1,4 @@
-import { findMe } from "../../src/adapter/resolver/query";
+import { findMe } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
 describe("findMe()", () => {
