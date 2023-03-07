@@ -16,9 +16,10 @@ export class FindBookingsUseCase {
   public async execute(command: FindBookingsCommand): Promise<IBooking[]> {
     const { spaceId } = command;
     const client = new RestAPIClient();
+    const builder = new BookingResourceURLBuilder();
     const response = await client.get<{
       bookings: (Omit<IBooking, "uid"> & { uid: string })[];
-    }>(BookingResourceURLBuilder.findAllBookings({ spaceId }));
+    }>(builder.findAllBookings({ spaceId }));
     return response.data.bookings.map(
       (booking: Omit<IBooking, "uid"> & { uid: string }) => {
         return {

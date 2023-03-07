@@ -16,9 +16,10 @@ export class FindSpacesUseCase {
   public async execute(command: FindSpacesCommand): Promise<ISpace[]> {
     const { userId } = command;
     const client = new RestAPIClient();
+    const builder = new SpaceResourceURLBuilder();
     const response = await client.get<{
       spaces: (Omit<ISpace, "id"> & { uid: string })[];
-    }>(SpaceResourceURLBuilder.findSpaces({ userId }));
+    }>(builder.findSpaces({ userId }));
     return response.data.spaces.map(
       (space: Omit<ISpace, "id"> & { uid: string }) => {
         return {

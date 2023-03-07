@@ -20,6 +20,7 @@ export class GetPresignedURLUseCase {
       throw new InternalServerError();
     }
     const client = new RestAPIClient();
-    return await client.get(ImageResourceURLBuilder.getPresignedURL(filename));
+    const builder = new ImageResourceURLBuilder();
+    return await client.get(builder.getPresignedURL(filename));
   }
 }

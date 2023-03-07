@@ -21,9 +21,10 @@ export class FindUserUseCase {
       throw new InternalServerError();
     }
     const client = new RestAPIClient();
+    const builder = new UserResourceURLBuilder();
     const response = await client.get<{
       user: Omit<IUser, "id"> & { uid: string };
-    }>(UserResourceURLBuilder.findUser(id));
+    }>(builder.findUser(id));
     return {
       ...response.data.user,
       id: response.data.user.uid,

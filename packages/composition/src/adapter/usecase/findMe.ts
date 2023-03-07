@@ -25,21 +25,23 @@ export class FindMeUseCase {
     }
 
     const client = new RestAPIClient();
+    const userResourceBuilder = new UserResourceURLBuilder();
     const userResponse = await client.get<{
       user: Omit<IUser, "id"> & { uid: string };
-    }>(UserResourceURLBuilder.findUser(id));
+    }>(userResourceBuilder.findUser(id));
 
+    const bookingResourceBuilder = new BookingResourceURLBuilder();
     const pendingBookingsResponse = await client.get<{
       bookings: (Omit<IBooking, "id"> & { uid: string })[];
     }>(
-      BookingResourceURLBuilder.findPendingBookings({
+      bookingResourceBuilder.findPendingBookings({
         userId: userResponse.data.user.uid,
       })
     );
     const approvedBookingsResponse = await client.get<{
       bookings: (Omit<IBooking, "id"> & { uid: string })[];
     }>(
-      BookingResourceURLBuilder.findApprovedBookings({
+      bookingResourceBuilder.findApprovedBookings({
         userId: userResponse.data.user.uid,
       })
     );

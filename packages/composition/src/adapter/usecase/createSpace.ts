@@ -38,8 +38,9 @@ export class CreateSpaceUseCase {
       throw new InternalServerError();
     }
     const client = new RestAPIClient();
+    const builder = new SpaceResourceURLBuilder();
     const response = await client.post<{ uid: string }, CreateSpaceCommand>(
-      SpaceResourceURLBuilder.createSpace(),
+      builder.createSpace(),
       {
         lenderId,
         imageUrls,

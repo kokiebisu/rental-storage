@@ -3,13 +3,7 @@ import axios, { AxiosInstance } from "axios";
 export default class {
   protected client: AxiosInstance;
   public constructor() {
-    const baseURL = process.env.SERVICE_API_ENDPOINT;
-    if (!baseURL) {
-      throw new Error("SERVICE_API_ENDPOINT not being fetched");
-    }
-    this.client = axios.create({
-      baseURL,
-    });
+    this.client = axios.create({});
   }
 
   public async get<T>(path: string) {

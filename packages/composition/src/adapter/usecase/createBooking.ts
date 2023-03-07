@@ -52,8 +52,9 @@ export class CreateBookingUseCase {
       throw new InternalServerError();
     }
     const client = new RestAPIClient();
+    const builder = new BookingResourceURLBuilder();
     const response = await client.post<{ uid: string }, CreateBookingCommand>(
-      BookingResourceURLBuilder.createBooking(),
+      builder.createBooking(),
       {
         userId,
         spaceId,

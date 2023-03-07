@@ -1,8 +1,4 @@
-import {
-  RestAPIClient,
-  UserResourceURLBuilder,
-  UserRestClient,
-} from "../../client";
+import { RestAPIClient, UserResourceURLBuilder } from "../../client";
 import { InternalServerError } from "../../error";
 
 interface DeleteUserCommandConstructor {
@@ -24,9 +20,10 @@ export class DeleteUserUseCase {
       throw new InternalServerError();
     }
     const client = new RestAPIClient();
+    const builder = new UserResourceURLBuilder();
     // TODO: must remove all spaces associated with the user
     const response = await client.delete<{ uid: string }>(
-      UserResourceURLBuilder.deleteUser(id)
+      builder.deleteUser(id)
     );
     return { id: response.data.uid };
   }
