@@ -67,7 +67,7 @@ func (c BookingRepository) Delete(uid string) *customerror.CustomError {
 	return nil
 }
 
-func (c BookingRepository) FindById(uid string) (booking.Entity, *customerror.CustomError) {
+func (c BookingRepository) FindOneById(uid string) (booking.Entity, *customerror.CustomError) {
 	output, err := c.client.GetItem(context.TODO(), &dynamodb.GetItemInput{
 		Key: map[string]types.AttributeValue{
 			"UId": &types.AttributeValueMemberS{Value: uid},
@@ -85,15 +85,16 @@ func (c BookingRepository) FindById(uid string) (booking.Entity, *customerror.Cu
 	return target.ToEntity(), nil
 }
 
-func (c BookingRepository) FindManyByUserId(userId string) ([]booking.Entity, *customerror.CustomError) {
+func (c BookingRepository) FindManyByUserId(userId string, status string) ([]booking.Entity, *customerror.CustomError) {
 	shouldScanIndexForward := false
 	indexName := "BookingUserIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:              &c.tableName,
 		IndexName:              &indexName,
-		KeyConditionExpression: aws.String("UserId = :hashKey"),
+		KeyConditionExpression: aws.String("UserId = :userId AND BookingStatus = :bookingStatus"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":hashKey": &types.AttributeValueMemberS{Value: userId},
+			":userId":        &types.AttributeValueMemberS{Value: userId},
+			":bookingStatus": &types.AttributeValueMemberS{Value: status},
 		},
 		ScanIndexForward: &shouldScanIndexForward,
 	})
@@ -114,15 +115,16 @@ func (c BookingRepository) FindManyByUserId(userId string) ([]booking.Entity, *c
 	return targets, nil
 }
 
-func (c BookingRepository) FindManyBySpaceId(spaceId string) ([]booking.Entity, *customerror.CustomError) {
+func (c BookingRepository) FindManyBySpaceId(spaceId string, status string) ([]booking.Entity, *customerror.CustomError) {
 	shouldScanIndexForward := false
 	indexName := "BookingSpaceIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:              &c.tableName,
 		IndexName:              &indexName,
-		KeyConditionExpression: aws.String("SpaceId = :hashKey"),
+		KeyConditionExpression: aws.String("SpaceId = :spaceId AND BookingStatus = :bookingStatus"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
-			":hashKey": &types.AttributeValueMemberS{Value: spaceId},
+			":spaceId":       &types.AttributeValueMemberS{Value: spaceId},
+			":bookingStatus": &types.AttributeValueMemberS{Value: status},
 		},
 		ScanIndexForward: &shouldScanIndexForward,
 	})

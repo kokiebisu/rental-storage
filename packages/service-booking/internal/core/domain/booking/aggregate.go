@@ -46,8 +46,8 @@ type Raw struct {
 }
 
 const (
-	PENDING   BookingStatus = "PENDING"
-	COMPLETED BookingStatus = "COMPLETED"
+	PENDING  BookingStatus = "PENDING"
+	APPROVED BookingStatus = "APPROVED"
 )
 
 const (
