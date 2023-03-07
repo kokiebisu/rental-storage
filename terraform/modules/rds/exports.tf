@@ -43,7 +43,7 @@ resource "aws_ssm_parameter" "user_db_port" {
 resource "aws_ssm_parameter" "user_db_name" {
     name = "/terraform/rds/user-db-name"
     type = "String"
-    value = aws_db_instance.user.name
+    value = aws_db_instance.user.db_name
 }
 
 resource "aws_ssm_parameter" "user_db_username" {
