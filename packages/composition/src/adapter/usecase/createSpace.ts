@@ -1,4 +1,4 @@
-import { SpaceRestClient } from "../../client";
+import { RestAPIClient, SpaceResourceURLBuilder } from "../../client";
 import { InternalServerError } from "../../error";
 
 interface CreateSpaceCommandConstructor {
@@ -37,13 +37,18 @@ export class CreateSpaceUseCase {
     if (!lenderId || !imageUrls || !title || !description || !location) {
       throw new InternalServerError();
     }
-    const spaceClient = new SpaceRestClient();
-    return await spaceClient.createSpace(
-      lenderId,
-      imageUrls,
-      title,
-      description,
-      location
+    const client = new RestAPIClient();
+    const builder = new SpaceResourceURLBuilder();
+    const response = await client.post<{ uid: string }, CreateSpaceCommand>(
+      builder.createSpace(),
+      {
+        lenderId,
+        imageUrls,
+        title,
+        description,
+        location,
+      }
     );
+    return { uid: response.data.uid };
   }
 }

@@ -1,14 +1,13 @@
-import { deleteSpace } from "../../src/adapter/resolver/mutation";
+import { findUser } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
-describe("deleteSpace()", () => {
+describe("findUser()", () => {
   it("should work with valid input", async () => {
-    if (!global.data.spaceId) {
-      throw new Error("data.spaceId is empty");
+    if (!global.data.userId) {
+      throw new Error("data.userId is empty");
     }
-
     const event = createEvent({ ...mockEvent });
-    const result = await deleteSpace(event);
+    const result = await findUser(event);
     expect(result).not.toBeUndefined();
   });
 });
@@ -17,7 +16,7 @@ const createEvent = (event: any) => {
   return {
     ...event,
     arguments: {
-      id: global.data.spaceId,
+      id: global.data.userId,
     },
     identity: {
       ...event.identity,

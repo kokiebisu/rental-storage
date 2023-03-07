@@ -4,11 +4,14 @@ require("ts-node").register({
 });
 
 import { faker } from "@faker-js/faker";
+import { CreateBookingCommand } from "../../src/adapter/usecase/createBooking";
+import { CreateSpaceCommand } from "../../src/adapter/usecase/createSpace";
 import {
-  BookingRestClient,
-  SpaceRestClient,
-  UserRestClient,
-} from "../src/client";
+  BookingResourceURLBuilder,
+  RestAPIClient,
+  SpaceResourceURLBuilder,
+  UserResourceURLBuilder,
+} from "../../src/client";
 
 const mock = {
   emailAddress: faker.internet.email(),
@@ -58,49 +61,66 @@ module.exports = async function () {
 };
 
 const registerUser = async function () {
-  const userClient = new UserRestClient();
-  const responseData = await userClient.createUser(
-    mock.emailAddress,
-    mock.firstName,
-    mock.lastName,
-    mock.password
-  );
-  if (!responseData) {
+  const client = new RestAPIClient();
+  const builder = new UserResourceURLBuilder();
+  const response = await client.post<
+    { uid: string },
+    {
+      emailAddress: string;
+      firstName: string;
+      lastName: string;
+      password: string;
+    }
+  >(builder.createUser(), {
+    emailAddress: mock.emailAddress,
+    firstName: mock.firstName,
+    lastName: mock.lastName,
+    password: mock.password,
+  });
+  if (!response.data) {
     throw new Error("register user request failed");
   }
-  return responseData.uid;
+  return response.data.uid;
 };
 
 const registerSpace = async function (userId: string) {
-  const spaceClient = new SpaceRestClient();
+  const client = new RestAPIClient();
+  const builder = new SpaceResourceURLBuilder();
 
-  const responseData = await spaceClient.createSpace(
-    userId,
-    mock.imageUrls,
-    mock.title,
-    mock.description,
-    mock.location
+  const response = await client.post<{ uid: string }, CreateSpaceCommand>(
+    builder.createSpace(),
+    {
+      lenderId: userId,
+      imageUrls: mock.imageUrls,
+      title: mock.title,
+      description: mock.description,
+      location: mock.location,
+    }
   );
-  if (!responseData) {
+  if (!response.data) {
     throw new Error(
       `register space request failed with latitude: ${mock.location.coordinate.latitude}, longitude: ${mock.location.coordinate.longitude}`
     );
   }
-  return responseData.uid;
+  return response.data.uid;
 };
 
 const registerBooking = async function (userId: string, spaceId: string) {
-  const bookingClient = new BookingRestClient();
-  const responseData = await bookingClient.createBooking(
-    userId,
-    spaceId,
-    mock.imageUrls,
-    mock.description,
-    mock.startDate,
-    mock.endDate
+  const client = new RestAPIClient();
+  const builder = new BookingResourceURLBuilder();
+  const response = await client.post<{ uid: string }, CreateBookingCommand>(
+    builder.createBooking(),
+    {
+      userId,
+      spaceId,
+      imageUrls: mock.imageUrls,
+      description: mock.description,
+      startDate: mock.startDate,
+      endDate: mock.endDate,
+    }
   );
-  if (!responseData) {
+  if (!response.data) {
     throw new Error("register booking request failed");
   }
-  return responseData.uid;
+  return response.data.uid;
 };

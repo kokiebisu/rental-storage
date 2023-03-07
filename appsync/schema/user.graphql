@@ -4,11 +4,10 @@ schema {
 }
 
 type Query {
-  user(id: ID!): User # admin priviledge
+  user(id: ID!): User
   profile: User
 }
 
-# Mutation Response
 type Mutation {
   userDelete(id: ID!): UId
 }
@@ -20,4 +19,10 @@ type User {
   emailAddress: String
   createdAt: String
   updatedAt: String
+  bookings: Bookings
+}
+
+type Bookings {
+  pending: [Booking]
+  approved: [Booking]
 }

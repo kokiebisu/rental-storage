@@ -1,4 +1,4 @@
-import { BookingRestClient } from "../../client";
+import { BookingResourceURLBuilder, RestAPIClient } from "../../client";
 
 interface FindBookingCommandConstructor {
   id: string;
@@ -15,11 +15,14 @@ export class FindBookingCommand {
 export class FindBookingUseCase {
   public async execute(command: FindBookingCommand): Promise<IBooking> {
     const { id } = command;
-    const client = new BookingRestClient();
-    const result = await client.findBooking(id);
+    const client = new RestAPIClient();
+    const builder = new BookingResourceURLBuilder();
+    const response = await client.get<{
+      booking: Omit<IBooking, "id"> & { uid: string };
+    }>(builder.findBooking(id));
     return {
-      ...result.booking,
-      id: result?.booking.uid,
+      ...response.data.booking,
+      id: response.data?.booking.uid,
     };
   }
 }

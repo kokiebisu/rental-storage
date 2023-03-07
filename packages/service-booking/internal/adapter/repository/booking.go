@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
@@ -38,7 +37,6 @@ func NewBookingRepository(client *dynamodb.Client) (*BookingRepository, *custome
 func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomError {
 	bookingDTO := booking.ToDTO()
 	item, err := attributevalue.MarshalMap(bookingDTO)
-	fmt.Println("Save 1: ", c.tableName)
 	if err != nil {
 		return customerror.ErrorHandler.InternalServerError("cannot marshal map", err)
 	}
@@ -48,7 +46,6 @@ func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomErro
 		ReturnConsumedCapacity: "TOTAL",
 	})
 	if err != nil {
-		fmt.Println("Save 1.5: ", err)
 		return customerror.ErrorHandler.InternalServerError("cannot perform PutItem operation", err)
 	}
 	return nil

@@ -1,6 +1,6 @@
 import { mock } from "../mock";
 import * as mockEvent from "../event.json";
-import { createBooking } from "../../src/adapter/resolver/mutation";
+import { createBooking } from "../../../src/adapter/resolver/mutation";
 
 describe("createBooking()", () => {
   it("should work with valid input", async () => {

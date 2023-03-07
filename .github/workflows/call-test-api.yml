@@ -120,5 +120,5 @@ jobs:
       - name: Run test
         run: |
           cd packages/composition
-          pnpm run test:api
+          make test-api
         if: steps.changes.outputs.package == 'true'

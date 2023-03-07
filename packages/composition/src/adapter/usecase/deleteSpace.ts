@@ -1,4 +1,4 @@
-import { SpaceRestClient } from "../../client";
+import { RestAPIClient, SpaceResourceURLBuilder } from "../../client";
 import { InternalServerError } from "../../error";
 
 interface DeleteSpaceCommandConstructor {
@@ -19,7 +19,11 @@ export class DeleteSpaceUseCase {
     if (!id) {
       throw new InternalServerError();
     }
-    const spaceClient = new SpaceRestClient();
-    return await spaceClient.deleteSpace(id);
+    const client = new RestAPIClient();
+    const builder = new SpaceResourceURLBuilder();
+    const response = await client.delete<{ uid: string }>(
+      builder.deleteSpace(id)
+    );
+    return { uid: response.data.uid };
   }
 }

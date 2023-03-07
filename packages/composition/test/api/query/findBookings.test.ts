@@ -1,14 +1,14 @@
-import { findUser } from "../../src/adapter/resolver/query";
+import { findBookings } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
-describe("findUser()", () => {
+describe("findBookings()", () => {
   it("should work with valid input", async () => {
-    if (!global.data.userId) {
-      throw new Error("data.userId is empty");
+    if (!global.data.spaceId) {
+      throw new Error("data.spaceId is empty");
     }
     const event = createEvent({ ...mockEvent });
-    const result = await findUser(event);
-    expect(result).not.toBeUndefined();
+    const result = await findBookings(event);
+    expect(result?.length).toBeGreaterThan(0);
   });
 });
 
@@ -16,7 +16,7 @@ const createEvent = (event: any) => {
   return {
     ...event,
     arguments: {
-      id: global.data.userId,
+      spaceId: global.data.spaceId,
     },
     identity: {
       ...event.identity,
