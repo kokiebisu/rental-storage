@@ -1,4 +1,4 @@
-import { deleteUser } from "../../src/adapter/resolver/mutation";
+import { deleteUser } from "../../../src/adapter/resolver/mutation";
 import * as mockEvent from "../event.json";
 
 describe("deleteUser()", () => {

@@ -1,4 +1,4 @@
-import { deleteSpace } from "../../src/adapter/resolver/mutation";
+import { deleteSpace } from "../../../src/adapter/resolver/mutation";
 import * as mockEvent from "../event.json";
 
 describe("deleteSpace()", () => {

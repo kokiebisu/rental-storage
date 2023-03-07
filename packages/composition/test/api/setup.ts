@@ -8,7 +8,7 @@ import {
   BookingRestClient,
   SpaceRestClient,
   UserRestClient,
-} from "../src/client";
+} from "../../src/client";
 
 const mock = {
   emailAddress: faker.internet.email(),

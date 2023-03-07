@@ -1,5 +1,5 @@
 import * as mockEvent from "../event.json";
-import { createSpace } from "../../src/adapter/resolver/mutation";
+import { createSpace } from "../../../src/adapter/resolver/mutation";
 import { mock } from "../mock";
 
 describe("createSpace()", () => {
