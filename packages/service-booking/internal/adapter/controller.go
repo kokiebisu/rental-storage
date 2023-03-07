@@ -45,7 +45,7 @@ func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *cust
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	bookingId, err := a.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, body.Description, body.StartDate, body.EndDate, "", "")
+	bookingId, err := a.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, "PENDING", body.Description, body.StartDate, body.EndDate, "", "")
 	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
 }
 
@@ -54,19 +54,27 @@ func (a *ApiGatewayAdapter) FindBookingById(event interface{}) (interface{}, *cu
 	if bookingId == "" {
 		return FindBookingByIdResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
 	}
-	booking, err := a.service.FindById(bookingId)
+	booking, err := a.service.FindBookingById(bookingId)
 	return FindBookingByIdResponsePayload{Booking: booking.ToDTO()}, err
 }
 
 func (a *ApiGatewayAdapter) FindBookings(event interface{}) (interface{}, *customerror.CustomError) {
+	var bs []booking.Entity = []booking.Entity{}
+	var err *customerror.CustomError
+	status := event.(events.APIGatewayProxyRequest).QueryStringParameters["status"]
+
 	spaceId := event.(events.APIGatewayProxyRequest).QueryStringParameters["spaceId"]
-	if spaceId == "" {
-		return FindBookingsResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
+	if spaceId != "" {
+		bs, err = a.service.FindBookingsBySpaceId(spaceId, status)
 	}
-	b, err := a.service.FindManyBySpaceId(spaceId)
-	bs := []booking.DTO{}
-	for _, i := range b {
-		bs = append(bs, i.ToDTO())
+
+	userId := event.(events.APIGatewayProxyRequest).QueryStringParameters["userId"]
+	if userId != "" {
+		bs, err = a.service.FindBookingsByUserId(userId, status)
 	}
-	return FindBookingsResponsePayload{Bookings: bs}, err
+	bds := []booking.DTO{}
+	for _, i := range bs {
+		bds = append(bds, i.ToDTO())
+	}
+	return FindBookingsResponsePayload{Bookings: bds}, err
 }

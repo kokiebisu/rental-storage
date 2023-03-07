@@ -16,8 +16,8 @@ func NewBookingService(bookingRepository port.BookingRepository) *BookingService
 	}
 }
 
-func (s *BookingService) CreateBooking(id string, userId string, spaceId string, imageUrls []string, description string, startDate string, endDate string, createdAt string, updatedAt string) (string, *customerror.CustomError) {
-	bookingEntity, err := booking.New(id, userId, spaceId, imageUrls, description, startDate, endDate, createdAt, updatedAt)
+func (s *BookingService) CreateBooking(id string, userId string, spaceId string, imageUrls []string, bookingStatus string, description string, startDate string, endDate string, createdAt string, updatedAt string) (string, *customerror.CustomError) {
+	bookingEntity, err := booking.New(id, userId, spaceId, imageUrls, bookingStatus, description, startDate, endDate, createdAt, updatedAt)
 	if err != nil {
 		return "", err
 	}
@@ -32,11 +32,11 @@ func (s *BookingService) FindBookingById(uid string) (booking.Entity, *customerr
 	return s.bookingRepository.FindOneById(uid)
 }
 
-func (s *BookingService) FindBookingsBySpaceId(spaceId string, status booking.BookingStatus) ([]booking.Entity, *customerror.CustomError) {
+func (s *BookingService) FindBookingsBySpaceId(spaceId string, status string) ([]booking.Entity, *customerror.CustomError) {
 	return s.bookingRepository.FindManyBySpaceId(spaceId, string(status))
 }
 
 // @deprecated not used
-func (s *BookingService) FindBookingsByUserId(userId string, status booking.BookingStatus) ([]booking.Entity, *customerror.CustomError) {
+func (s *BookingService) FindBookingsByUserId(userId string, status string) ([]booking.Entity, *customerror.CustomError) {
 	return s.bookingRepository.FindManyByUserId(userId, string(status))
 }

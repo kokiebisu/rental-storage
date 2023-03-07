@@ -17,7 +17,7 @@ func setupTest(t *testing.T) (string, *customerror.CustomError) {
 	data.MockBookingRepo.On("Save", data.MockBooking.ToEntity()).Return(nil)
 
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
-	token, err := data.BookingService.CreateBooking(data.MockBooking.UId, data.MockBooking.UserId, data.MockBooking.SpaceId, data.MockBooking.ImageUrls, data.MockBooking.Description, data.MockBooking.StartDate, data.MockBooking.EndDate, data.MockBooking.CreatedAt, data.MockBooking.UpdatedAt)
+	token, err := data.BookingService.CreateBooking(data.MockBooking.UId, data.MockBooking.UserId, data.MockBooking.SpaceId, data.MockBooking.ImageUrls, data.MockBooking.BookingStatus, data.MockBooking.Description, data.MockBooking.StartDate, data.MockBooking.EndDate, data.MockBooking.CreatedAt, data.MockBooking.UpdatedAt)
 	return token, err
 }
 
@@ -48,7 +48,7 @@ func TestFindPendingBookings_Success(t *testing.T) {
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
 	assert.Nil(t, err, "should not throw error")
 
-	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, booking.PENDING)
+	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, "PENDING")
 	assert.Nil(t, err, "should not throw error")
 	assert.Equal(t, b[0].UId, expected[0].UId)
 }
@@ -61,7 +61,7 @@ func TestFindApprovedBookings_Success(t *testing.T) {
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
 	assert.Nil(t, err, "should not throw error")
 
-	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, booking.APPROVED)
+	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, "APPROVED")
 	assert.Nil(t, err, "should not throw error")
 	assert.Equal(t, b[0].UId, expected[0].UId)
 }

@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
@@ -38,7 +37,6 @@ func NewBookingRepository(client *dynamodb.Client) (*BookingRepository, *custome
 func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomError {
 	bookingDTO := booking.ToDTO()
 	item, err := attributevalue.MarshalMap(bookingDTO)
-	fmt.Println("Save 1: ", c.tableName)
 	if err != nil {
 		return customerror.ErrorHandler.InternalServerError("cannot marshal map", err)
 	}
@@ -48,7 +46,6 @@ func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomErro
 		ReturnConsumedCapacity: "TOTAL",
 	})
 	if err != nil {
-		fmt.Println("Save 1.5: ", err)
 		return customerror.ErrorHandler.InternalServerError("cannot perform PutItem operation", err)
 	}
 	return nil
@@ -86,17 +83,15 @@ func (c BookingRepository) FindOneById(uid string) (booking.Entity, *customerror
 }
 
 func (c BookingRepository) FindManyByUserId(userId string, status string) ([]booking.Entity, *customerror.CustomError) {
-	shouldScanIndexForward := false
-	indexName := "BookingUserIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
-		TableName:              &c.tableName,
-		IndexName:              &indexName,
+		TableName:              aws.String(c.tableName),
+		IndexName:              aws.String("BookingUserIdBookingStatusIndex"),
 		KeyConditionExpression: aws.String("UserId = :userId AND BookingStatus = :bookingStatus"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":userId":        &types.AttributeValueMemberS{Value: userId},
 			":bookingStatus": &types.AttributeValueMemberS{Value: status},
 		},
-		ScanIndexForward: &shouldScanIndexForward,
+		ScanIndexForward: aws.Bool(false),
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -116,17 +111,15 @@ func (c BookingRepository) FindManyByUserId(userId string, status string) ([]boo
 }
 
 func (c BookingRepository) FindManyBySpaceId(spaceId string, status string) ([]booking.Entity, *customerror.CustomError) {
-	shouldScanIndexForward := false
-	indexName := "BookingSpaceIdIndex"
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
-		TableName:              &c.tableName,
-		IndexName:              &indexName,
-		KeyConditionExpression: aws.String("SpaceId = :spaceId AND BookingStatus = :bookingStatus"),
+		TableName:              aws.String(c.tableName),
+		IndexName:              aws.String("BookingSpaceIdBookingStatusIndex"),
+		KeyConditionExpression: aws.String("SpaceId = :spaceId and BookingStatus = :bookingStatus"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":spaceId":       &types.AttributeValueMemberS{Value: spaceId},
 			":bookingStatus": &types.AttributeValueMemberS{Value: status},
 		},
-		ScanIndexForward: &shouldScanIndexForward,
+		ScanIndexForward: aws.Bool(false),
 	})
 	if err != nil {
 		log.Fatal(err)
