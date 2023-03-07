@@ -1,10 +1,5 @@
-import { BaseRestClient } from "./base";
-
-export default class ImageRestClient extends BaseRestClient {
-  public async getPresignedURL(filename: string) {
-    const response = await this.client.post(`/images`, {
-      filename,
-    });
-    return response.data;
+export default class ImageResourceURLBuilder {
+  public static getPresignedURL(filename: string) {
+    return `/images/${filename}`;
   }
 }

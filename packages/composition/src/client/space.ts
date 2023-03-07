@@ -1,33 +1,26 @@
-import { BaseRestClient } from "./base";
-
-export default class SpaceRestClient extends BaseRestClient {
-  public async createSpace(
-    lenderId: string,
-    imageUrls: string[],
-    title: string,
-    description: string,
-    location: ILocation
-  ) {
-    return (
-      await this.client.post(`/spaces`, {
-        lenderId,
-        imageUrls,
-        title,
-        description,
-        location,
-      })
-    ).data;
+export default class {
+  public static createSpace() {
+    return `/spaces`;
   }
 
-  public async findSpace(id: string) {
-    return (await this.client.get(`/spaces/${id}`)).data;
+  public static findSpace(id: string) {
+    return `/spaces/${id}`;
   }
 
-  public async deleteSpace(id: string) {
-    return (await this.client.delete(`/spaces/${id}`)).data;
+  public static deleteSpace(id: string) {
+    return `/spaces/${id}`;
   }
 
-  public async findSpaces(userId: string) {
-    return (await this.client.get(`/spaces?userId=${userId}`)).data;
+  public static findSpaces({ userId: userId }: { userId: string }) {
+    const queryParams = this.buildQueryParams({ userId });
+    return `/spaces?${queryParams}`;
+  }
+
+  private static buildQueryParams({ userId }: { userId: string }) {
+    const queryParams: string[] = [];
+    if (userId) {
+      queryParams.push(`userId=${userId}`);
+    }
+    return queryParams.join("&");
   }
 }

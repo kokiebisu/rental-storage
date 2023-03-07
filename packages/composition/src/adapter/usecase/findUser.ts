@@ -1,4 +1,5 @@
-import { UserRestClient } from "../../client";
+import { RestAPIClient } from "../../client";
+import UserResourceURLBuilder from "../../client/user";
 import { InternalServerError } from "../../error";
 
 interface FindUserCommandConstructor {
@@ -14,13 +15,18 @@ export class FindUserCommand {
 }
 
 export class FindUserUseCase {
-  public async execute(command: FindUserCommand) {
+  public async execute(command: FindUserCommand): Promise<IUser> {
     const { id } = command;
     if (!id) {
       throw new InternalServerError();
     }
-    const userClient = new UserRestClient();
-    const data = await userClient.findUser(id);
-    return data?.user;
+    const client = new RestAPIClient();
+    const response = await client.get<{
+      user: Omit<IUser, "id"> & { uid: string };
+    }>(UserResourceURLBuilder.findUser(id));
+    return {
+      ...response.data.user,
+      id: response.data.user.uid,
+    };
   }
 }

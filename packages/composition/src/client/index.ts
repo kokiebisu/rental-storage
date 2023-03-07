@@ -1,4 +1,5 @@
-export { default as BookingRestClient } from "./booking";
-export { default as ImageRestClient } from "./image";
-export { default as SpaceRestClient } from "./space";
-export { default as UserRestClient } from "./user";
+export { default as RestAPIClient } from "./base";
+export { default as UserResourceURLBuilder } from "./user";
+export { default as SpaceResourceURLBuilder } from "./space";
+export { default as ImageResourceURLBuilder } from "./image";
+export { default as BookingResourceURLBuilder } from "./booking";

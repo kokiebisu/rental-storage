@@ -1,4 +1,4 @@
-import { ImageRestClient } from "../../client";
+import { ImageResourceURLBuilder, RestAPIClient } from "../../client";
 import { InternalServerError } from "../../error";
 
 interface GetPresignedURLCommandConstructor {
@@ -19,7 +19,7 @@ export class GetPresignedURLUseCase {
     if (!filename) {
       throw new InternalServerError();
     }
-    const client = new ImageRestClient();
-    return await client.getPresignedURL(filename);
+    const client = new RestAPIClient();
+    return await client.get(ImageResourceURLBuilder.getPresignedURL(filename));
   }
 }

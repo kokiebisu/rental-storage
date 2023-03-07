@@ -1,4 +1,4 @@
-import { SpaceRestClient } from "../../client";
+import { RestAPIClient, SpaceResourceURLBuilder } from "../../client";
 
 interface FindSpacesCommandConstructor {
   userId: string;
@@ -15,13 +15,17 @@ export class FindSpacesCommand {
 export class FindSpacesUseCase {
   public async execute(command: FindSpacesCommand): Promise<ISpace[]> {
     const { userId } = command;
-    const client = new SpaceRestClient();
-    const data = await client.findSpaces(userId);
-    return data.spaces.map((space: any) => {
-      return {
-        id: space.uid,
-        ...space,
-      };
-    });
+    const client = new RestAPIClient();
+    const response = await client.get<{
+      spaces: (Omit<ISpace, "id"> & { uid: string })[];
+    }>(SpaceResourceURLBuilder.findSpaces({ userId }));
+    return response.data.spaces.map(
+      (space: Omit<ISpace, "id"> & { uid: string }) => {
+        return {
+          id: space.uid,
+          ...space,
+        };
+      }
+    );
   }
 }

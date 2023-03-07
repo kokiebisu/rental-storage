@@ -1,31 +1,40 @@
-import { BaseRestClient } from "./base";
-
-export default class BookingRestClient extends BaseRestClient {
-  public async createBooking(
-    userId: string,
-    spaceId: string,
-    imageUrls: string[],
-    description: string,
-    startDate: string,
-    endDate: string
-  ): Promise<{ uid: string }> {
-    return (
-      await this.client.post("/bookings", {
-        userId,
-        spaceId,
-        imageUrls,
-        description,
-        startDate,
-        endDate,
-      })
-    ).data;
+export default class {
+  public static createBooking() {
+    return "/bookings";
   }
 
-  public async findBooking(id: string) {
-    return (await this.client.get(`/bookings/${id}`)).data;
+  public static findBooking(id: string) {
+    return `/bookings/${id}`;
   }
 
-  public async findBookings(spaceId: string) {
-    return (await this.client.get(`/bookings?spaceId=${spaceId}`)).data;
+  public static deleteBooking(id: string) {
+    return `/bookings/${id}`;
+  }
+
+  public static findAllBookings(param: { spaceId?: string; userId?: string }) {
+    const queryParam = this.buildQueryParam(param);
+    return `/bookings?${queryParam}`;
+  }
+
+  public static findPendingBookings(param: {
+    spaceId?: string;
+    userId?: string;
+  }) {
+    const queryParam = this.buildQueryParam(param);
+    return `/bookings?${queryParam}&status=pending`;
+  }
+
+  public static findApprovedBookings(param: {
+    spaceId?: string;
+    userId?: string;
+  }) {
+    const queryParam = this.buildQueryParam(param);
+    return `/bookings?${queryParam}&status=approved`;
+  }
+
+  private static buildQueryParam(params: { [key: string]: string }) {
+    return Object.keys(params)
+      .map((key) => `${key}=${params[key]}`)
+      .join("&");
   }
 }
