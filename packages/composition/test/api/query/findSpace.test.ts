@@ -1,4 +1,4 @@
-import { findSpace } from "../../src/adapter/resolver/query";
+import { findSpace } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
 describe("findSpace()", () => {

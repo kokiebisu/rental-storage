@@ -1,4 +1,4 @@
-import { findBookings } from "../../src/adapter/resolver/query";
+import { findBookings } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
 describe("findBookings()", () => {
