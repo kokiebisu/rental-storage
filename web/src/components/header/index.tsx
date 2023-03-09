@@ -1,4 +1,4 @@
-import { Avatar } from "@/components/avatar";
+import { Avatar } from "../";
 import Link from "next/link";
 
 export const Header = () => {
