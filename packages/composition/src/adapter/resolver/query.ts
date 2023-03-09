@@ -22,7 +22,10 @@ export const findBooking = async (
 };
 
 export const findBookings = async (
-  event: AppSyncResolverEvent<{ spaceId: string }, unknown>
+  event: AppSyncResolverEvent<
+    { spaceId: string; bookingStatus: "PENDING" | "APPROVED" },
+    unknown
+  >
 ) => {
   const usecase = new FindBookingsUseCase();
   return await usecase.execute(new FindBookingsCommand(event.arguments));

@@ -46,6 +46,10 @@ interface IUser {
   streetAddress: string;
   createdAt: string;
   updatedAt: string;
+  bookings: {
+    pending: IBooking[];
+    approved: IBooking[];
+  };
 }
 
 interface ILocation {
@@ -63,6 +67,21 @@ interface ILocation {
 interface ICoordinate {
   latitude: number;
   longitude: number;
+}
+
+interface AppsyncResolverMockEvent {
+  arguments: TArguments;
+  identity?: AppSyncIdentity;
+  source: TSource;
+  info: {
+    selectionSetList: string[];
+    selectionSetGraphQL: string;
+    parentTypeName: string;
+    fieldName: string;
+    variables: { [key: string]: any };
+  };
+  prev: { result: { [key: string]: any } } | null;
+  stash: { [key: string]: any };
 }
 
 declare const global: Global;

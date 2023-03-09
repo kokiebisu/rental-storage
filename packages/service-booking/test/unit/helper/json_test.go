@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/kokiebisu/rental-storage/service-authentication/test/data"
+	"github.com/kokiebisu/rental-storage/service-booking/test/data"
 
 	"github.com/kokiebisu/rental-storage/service-booking/internal/adapter"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/helper"
@@ -20,9 +20,9 @@ type StringifyResult struct {
 var stringifyResults = []StringifyResult{
 	{
 		adapter.CreateBookingResponsePayload{
-			UId: data.MockUId,
+			UId: data.MockBooking.UId,
 		},
-		fmt.Sprintf(`{"uid":"%s"}`, data.MockUId),
+		fmt.Sprintf(`{"uid":"%s"}`, data.MockBooking.UId),
 	},
 }
 

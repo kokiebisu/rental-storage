@@ -29,10 +29,10 @@ func (r *SpaceRepository) Setup() *customerror.CustomError {
 		  id SERIAL PRIMARY KEY,
 		  address VARCHAR(255),
 		  city VARCHAR(100),
-		  country VARCHAR(50),
+		  country VARCHAR(100),
 		  country_code VARCHAR(3),
 		  phone_number VARCHAR(20),
-		  province VARCHAR(50),
+		  province VARCHAR(100),
 		  province_code VARCHAR(4),
 		  zip VARCHAR(20),
 		  coordinate point

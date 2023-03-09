@@ -1,4 +1,3 @@
-import { Button } from "@/components/button";
 import { Header } from "@/components/header";
 
 export default function SpaceOverviewPage() {
@@ -40,9 +39,9 @@ export default function SpaceOverviewPage() {
           >
             Add Images
           </button>
-          <div className="flex justify-center mt-4">
+          {/* <div className="flex justify-center mt-4">
             <Button onClick={() => alert("booking")} label="make booking" />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

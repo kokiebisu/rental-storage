@@ -3,7 +3,7 @@ resource "aws_db_instance" "space" {
     password = "${var.space_db_password}"
     allocated_storage = 20
     engine_version = 12.11
-    name = "${var.space_db_name}"
+    db_name = "${var.space_db_name}"
     instance_class = "db.t3.micro"
     identifier = "${var.environment}-${var.namespace}-space-db"
     vpc_security_group_ids = [ "${var.serverless_security_group_id}" ]
@@ -20,7 +20,7 @@ resource "aws_db_instance" "user" {
     password = "${var.user_db_password}"
     allocated_storage = 20
     engine_version = 12.11
-    name = "${var.user_db_name}"
+    db_name = "${var.user_db_name}"
     instance_class = "db.t3.micro"
     identifier = "${var.environment}-${var.namespace}-user-db"
     vpc_security_group_ids = [ "${var.serverless_security_group_id}" ]

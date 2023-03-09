@@ -1,5 +1,5 @@
 service: service-slack
-variablesResolutionMode: 20210326
+frameworkVersion: "3"
 
 plugins:
   - serverless-deployment-bucket
@@ -21,6 +21,7 @@ provider:
         file: Dockerfile
         buildArgs:
   environment:
+    ENV: dev
     ACCOUNT_ID: ${aws:accountId}
     STAGE: ${self:provider.stage}
 
