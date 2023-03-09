@@ -11,15 +11,15 @@ var (
 	MockLastName     = faker.LastName()
 	MockPassword     = faker.Password()
 	MockBooking      = booking.DTO{
-		UId:         faker.UUIDDigit(),
-		Status:      "PENDING",
-		ImageUrls:   []string{faker.URL(), faker.URL()},
-		UserId:      faker.UUIDDigit(),
-		SpaceId:     faker.UUIDDigit(),
-		Description: "BLAH BLAH BLAH",
-		StartDate:   faker.Date(),
-		EndDate:     faker.Date(),
-		CreatedAt:   faker.Date(),
-		UpdatedAt:   faker.Date(),
+		UId:           faker.UUIDDigit(),
+		BookingStatus: "PENDING",
+		ImageUrls:     []string{faker.URL(), faker.URL()},
+		UserId:        faker.UUIDDigit(),
+		SpaceId:       faker.UUIDDigit(),
+		Description:   "BLAH BLAH BLAH",
+		StartDate:     faker.Date(),
+		EndDate:       faker.Date(),
+		CreatedAt:     faker.Date(),
+		UpdatedAt:     faker.Date(),
 	}
 )

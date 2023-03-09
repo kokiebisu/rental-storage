@@ -30,8 +30,64 @@ func (_m *BookingRepository) Delete(id string) *errors.CustomError {
 	return r0
 }
 
-// FindById provides a mock function with given fields: id
-func (_m *BookingRepository) FindById(id string) (booking.Entity, *errors.CustomError) {
+// FindManyBySpaceId provides a mock function with given fields: spaceId, status
+func (_m *BookingRepository) FindManyBySpaceId(spaceId string, status string) ([]booking.Entity, *errors.CustomError) {
+	ret := _m.Called(spaceId, status)
+
+	var r0 []booking.Entity
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(0).(func(string, string) ([]booking.Entity, *errors.CustomError)); ok {
+		return rf(spaceId, status)
+	}
+	if rf, ok := ret.Get(0).(func(string, string) []booking.Entity); ok {
+		r0 = rf(spaceId, status)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]booking.Entity)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string, string) *errors.CustomError); ok {
+		r1 = rf(spaceId, status)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
+// FindManyByUserId provides a mock function with given fields: userId, status
+func (_m *BookingRepository) FindManyByUserId(userId string, status string) ([]booking.Entity, *errors.CustomError) {
+	ret := _m.Called(userId, status)
+
+	var r0 []booking.Entity
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(0).(func(string, string) ([]booking.Entity, *errors.CustomError)); ok {
+		return rf(userId, status)
+	}
+	if rf, ok := ret.Get(0).(func(string, string) []booking.Entity); ok {
+		r0 = rf(userId, status)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]booking.Entity)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string, string) *errors.CustomError); ok {
+		r1 = rf(userId, status)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
+// FindOneById provides a mock function with given fields: id
+func (_m *BookingRepository) FindOneById(id string) (booking.Entity, *errors.CustomError) {
 	ret := _m.Called(id)
 
 	var r0 booking.Entity
@@ -47,62 +103,6 @@ func (_m *BookingRepository) FindById(id string) (booking.Entity, *errors.Custom
 
 	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
 		r1 = rf(id)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*errors.CustomError)
-		}
-	}
-
-	return r0, r1
-}
-
-// FindManyBySpaceId provides a mock function with given fields: spaceId
-func (_m *BookingRepository) FindManyBySpaceId(spaceId string) ([]booking.Entity, *errors.CustomError) {
-	ret := _m.Called(spaceId)
-
-	var r0 []booking.Entity
-	var r1 *errors.CustomError
-	if rf, ok := ret.Get(0).(func(string) ([]booking.Entity, *errors.CustomError)); ok {
-		return rf(spaceId)
-	}
-	if rf, ok := ret.Get(0).(func(string) []booking.Entity); ok {
-		r0 = rf(spaceId)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]booking.Entity)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
-		r1 = rf(spaceId)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*errors.CustomError)
-		}
-	}
-
-	return r0, r1
-}
-
-// FindManyByUserId provides a mock function with given fields: userId
-func (_m *BookingRepository) FindManyByUserId(userId string) ([]booking.Entity, *errors.CustomError) {
-	ret := _m.Called(userId)
-
-	var r0 []booking.Entity
-	var r1 *errors.CustomError
-	if rf, ok := ret.Get(0).(func(string) ([]booking.Entity, *errors.CustomError)); ok {
-		return rf(userId)
-	}
-	if rf, ok := ret.Get(0).(func(string) []booking.Entity); ok {
-		r0 = rf(userId)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]booking.Entity)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
-		r1 = rf(userId)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

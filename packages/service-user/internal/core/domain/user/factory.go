@@ -1,7 +1,6 @@
 package user
 
 import (
-	"fmt"
 	"net/mail"
 	"time"
 
@@ -35,7 +34,6 @@ func New(uid string, firstName string, lastName string, emailAddress string, pas
 			return Entity{}, customerror.ErrorHandler.InvalidValueError("updatedAt", "cannot be parsed")
 		}
 	}
-	fmt.Println()
 	if err := Name(firstName).validate(); err != nil {
 		return Entity{}, err
 	}
