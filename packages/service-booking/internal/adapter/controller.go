@@ -61,16 +61,16 @@ func (a *ApiGatewayAdapter) FindBookingById(event interface{}) (interface{}, *cu
 func (a *ApiGatewayAdapter) FindBookings(event interface{}) (interface{}, *customerror.CustomError) {
 	var bs []booking.Entity = []booking.Entity{}
 	var err *customerror.CustomError
-	status := event.(events.APIGatewayProxyRequest).QueryStringParameters["status"]
+	bookingStatus := event.(events.APIGatewayProxyRequest).QueryStringParameters["bookingStatus"]
 
 	spaceId := event.(events.APIGatewayProxyRequest).QueryStringParameters["spaceId"]
 	if spaceId != "" {
-		bs, err = a.service.FindBookingsBySpaceId(spaceId, status)
+		bs, err = a.service.FindBookingsBySpaceId(spaceId, bookingStatus)
 	}
 
 	userId := event.(events.APIGatewayProxyRequest).QueryStringParameters["userId"]
 	if userId != "" {
-		bs, err = a.service.FindBookingsByUserId(userId, status)
+		bs, err = a.service.FindBookingsByUserId(userId, bookingStatus)
 	}
 	bds := []booking.DTO{}
 	for _, i := range bs {
