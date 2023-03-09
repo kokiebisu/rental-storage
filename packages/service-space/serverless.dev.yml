@@ -24,6 +24,7 @@ provider:
         file: Dockerfile
         buildArgs:
   environment:
+    ENV: dev
     DB_HOST: ${self:custom.DB_HOST}
     DB_NAME: ${self:custom.DB_NAME}
     DB_USERNAME: ${self:custom.DB_USERNAME}

@@ -21,6 +21,7 @@ provider:
         file: Dockerfile
         buildArgs:
   environment:
+    ENV: dev
     ACCOUNT_ID: ${aws:accountId}
     STAGE: ${self:provider.stage}
 

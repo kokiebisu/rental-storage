@@ -44,13 +44,13 @@ const mock = {
 
 module.exports = async function () {
   const userId = await registerUser();
-  // const spaceId = await registerSpace(userId);
-  // const bookingId = await registerBooking(userId, spaceId);
+  const spaceId = await registerSpace(userId);
+  const bookingId = await registerBooking(userId, spaceId);
 
   global.data = {
     userId,
-    // spaceId,
-    // bookingId,
+    spaceId,
+    bookingId,
     emailAddress: mock.emailAddress,
     firstName: mock.firstName,
     lastName: mock.lastName,
@@ -63,28 +63,25 @@ module.exports = async function () {
 const registerUser = async function () {
   const client = new RestAPIClient();
   const builder = new UserResourceURLBuilder();
-  try {
-    const response = await client.post<
-      { uid: string },
-      {
-        emailAddress: string;
-        firstName: string;
-        lastName: string;
-        password: string;
-      }
-    >(builder.createUser(), {
-      emailAddress: mock.emailAddress,
-      firstName: mock.firstName,
-      lastName: mock.lastName,
-      password: mock.password,
-    });
-    if (!response.data) {
-      throw new Error("register user request failed");
+
+  const response = await client.post<
+    { uid: string },
+    {
+      emailAddress: string;
+      firstName: string;
+      lastName: string;
+      password: string;
     }
-    return response.data.uid;
-  } catch (err) {
-    console.error(err);
+  >(builder.createUser(), {
+    emailAddress: mock.emailAddress,
+    firstName: mock.firstName,
+    lastName: mock.lastName,
+    password: mock.password,
+  });
+  if (!response.data) {
+    throw new Error("register user request failed");
   }
+  return response.data.uid;
 };
 
 const registerSpace = async function (userId: string) {
@@ -95,10 +92,10 @@ const registerSpace = async function (userId: string) {
     builder.createSpace(),
     {
       lenderId: userId,
+      location: mock.location,
       imageUrls: mock.imageUrls,
       title: mock.title,
       description: mock.description,
-      location: mock.location,
     }
   );
   if (!response.data) {

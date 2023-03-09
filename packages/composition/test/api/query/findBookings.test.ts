@@ -20,6 +20,7 @@ const createEvent = (event: AppsyncResolverMockEvent) => {
     ...event,
     arguments: {
       spaceId: global.data.spaceId,
+      status: "APPROVED",
     },
     identity: {
       ...event.identity,

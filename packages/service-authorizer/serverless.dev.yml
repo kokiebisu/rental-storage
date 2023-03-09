@@ -24,6 +24,7 @@ provider:
         file: Dockerfile
         buildArgs:
   environment:
+    ENV: dev
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
 custom:

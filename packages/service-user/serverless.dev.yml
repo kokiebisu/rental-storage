@@ -24,6 +24,7 @@ provider:
         file: Dockerfile
         buildArgs:
   environment:
+    ENV: dev
     NAMESPACE: ${self:custom.namespace}
     STAGE: ${self:provider.stage}
     DB_HOST: ${self:custom.DB_HOST}

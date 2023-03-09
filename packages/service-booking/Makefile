@@ -18,19 +18,11 @@ prepare: clean build
 
 .PHONY: test-unit
 test-unit:
-	cd test/unit && go test ./... && cd ../..
+	cd test/unit && export ENV=test && go test ./... && cd ../..
 
 .PHONY: test-integration
 test-integration:
-	cd test/integration && go test ./... && cd ../..
-
-.PHONY: test-integration-service
-test-integration-service:
-	cd test/integration/service && go test ./... && cd ../..
-
-.PHONY: test-integration-controller
-test-integration-controller:
-	cd test/integration/controller && go test ./... && cd ../..
+	cd test/integration && export ENV=test && go test ./... && cd ../..
 
 .PHONY: lint
 lint:
@@ -48,7 +40,7 @@ deps-start:
 deps-stop:
 	docker-compose down --volumes
 
-.PHONY: check-items
+.PHONY: aws-docker-check-items
 check-items: 
 	make profile-set
 	aws dynamodb scan --table-name booking --endpoint-url http://localhost:8000
