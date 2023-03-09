@@ -19,11 +19,11 @@ func GetDynamoDBClient() (*dynamodb.Client, *customerror.CustomError) {
 		env = os.Getenv("GO_ENV")
 	}
 
-	if env == "production" {
-		// Production mode
-		return getDynamoDBClient()
-	} else {
+	if env == "test" {
 		// Development mode
 		return getDynamoDBDockerClient()
+	} else {
+		// Production mode
+		return getDynamoDBClient()
 	}
 }

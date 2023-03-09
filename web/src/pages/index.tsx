@@ -1,7 +1,7 @@
 // import { useContext, useEffect, useState } from "react";
 // import { AuthContext } from "@/context/auth";
 // import { useRouter } from "next/router";
-import { Header, SignInModal } from "@/components";
+// import { Header, SignInModal } from "@/components";
 import { useDisclosure } from "@mantine/hooks";
 
 const HomePage = () => {
@@ -10,12 +10,12 @@ const HomePage = () => {
 
   return (
     <main>
-      <Header links={links} onSignInClicked={open} />
+      {/* <Header links={links} onSignInClicked={open} /> */}
       <div>
         <h3>Near your area</h3>
         <section></section>
       </div>
-      <SignInModal opened={opened} close={close} />
+      {/* <SignInModal opened={opened} close={close} /> */}
     </main>
   );
   // const router = useRouter();

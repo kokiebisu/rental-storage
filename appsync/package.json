@@ -6,7 +6,7 @@
     "remove": "sls remove --config serverless.yml --stage local"
   },
   "devDependencies": {
-    "serverless": "2.72.3",
+    "serverless": "3.28.1",
     "serverless-appsync-plugin": "1.14.0",
     "serverless-deployment-bucket": "1.6.0",
     "serverless-plugin-common-excludes": "4.0.0",

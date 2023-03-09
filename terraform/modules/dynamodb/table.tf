@@ -21,21 +21,40 @@ resource "aws_dynamodb_table" "booking" {
   }
 
   attribute {
+    name = "BookingStatus"
+    type = "S"
+  }
+
+  attribute {
     name = "CreatedAt"
     type = "S"
   }
 
   global_secondary_index {
-    name = "BookingSpaceIdIndex"
+    name = "BookingSpaceIdCreatedAtIndex"
     hash_key = "SpaceId"
     range_key = "CreatedAt"
     projection_type = "ALL"
   }
 
   global_secondary_index {
-    name = "BookingCreatedAtIndex"
+    name = "BookingSpaceIdBookingStatusIndex"
+    hash_key = "SpaceId"
+    range_key = "BookingStatus"
+    projection_type = "ALL"
+  }
+
+  global_secondary_index {
+    name = "BookingUserIdCreatedAtIndex"
     hash_key = "UserId"
     range_key = "CreatedAt"
+    projection_type = "ALL"
+  }
+
+  global_secondary_index {
+    name = "BookingUserIdBookingStatusIndex"
+    hash_key = "UserId"
+    range_key = "BookingStatus"
     projection_type = "ALL"
   }
 }

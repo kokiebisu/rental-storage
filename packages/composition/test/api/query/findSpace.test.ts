@@ -1,3 +1,4 @@
+import { AppSyncResolverEvent } from "aws-lambda";
 import { findSpace } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
@@ -8,7 +9,9 @@ describe("findSpace()", () => {
     }
 
     const event = createEvent({ ...mockEvent });
-    const result = await findSpace(event);
+    const result = await findSpace(
+      event as AppSyncResolverEvent<{ id: string }, unknown>
+    );
     expect(result.id).not.toBeUndefined();
     expect(result.lenderId).not.toBeUndefined();
     expect(result.location).not.toBeUndefined();
@@ -20,7 +23,7 @@ describe("findSpace()", () => {
   });
 });
 
-const createEvent = (event: any) => {
+const createEvent = (event: AppsyncResolverMockEvent) => {
   return {
     ...event,
     arguments: {
