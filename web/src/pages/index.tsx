@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/auth";
 import { useRouter } from "next/router";
-import { Button } from "@/components/button";
+import { Button } from "@/components";
 
 const HomePage = () => {
   const router = useRouter();

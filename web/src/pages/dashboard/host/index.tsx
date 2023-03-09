@@ -1,11 +1,9 @@
-import { Button } from "@/components/button";
-import { Header } from "@/components/header";
+import { Button } from "@/components";
 import Link from "next/link";
 
 export default function Dashboard() {
   return (
     <>
-      <Header />
       <div>
         <div className="mx-auto mt-10 flex justify-center">
           <Link href="/dashboard/host/create">
