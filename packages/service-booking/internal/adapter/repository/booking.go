@@ -110,14 +110,14 @@ func (c BookingRepository) FindManyByUserId(userId string, status string) ([]boo
 	return targets, nil
 }
 
-func (c BookingRepository) FindManyBySpaceId(spaceId string, status string) ([]booking.Entity, *customerror.CustomError) {
+func (c BookingRepository) FindManyBySpaceId(spaceId string, bookingStatus string) ([]booking.Entity, *customerror.CustomError) {
 	output, err := c.client.Query(context.TODO(), &dynamodb.QueryInput{
 		TableName:              aws.String(c.tableName),
 		IndexName:              aws.String("BookingSpaceIdBookingStatusIndex"),
 		KeyConditionExpression: aws.String("SpaceId = :spaceId and BookingStatus = :bookingStatus"),
 		ExpressionAttributeValues: map[string]types.AttributeValue{
 			":spaceId":       &types.AttributeValueMemberS{Value: spaceId},
-			":bookingStatus": &types.AttributeValueMemberS{Value: status},
+			":bookingStatus": &types.AttributeValueMemberS{Value: bookingStatus},
 		},
 		ScanIndexForward: aws.Bool(false),
 	})

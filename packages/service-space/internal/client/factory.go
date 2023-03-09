@@ -18,11 +18,11 @@ func GetPostgresClient() (*sql.DB, *customerror.CustomError) {
 		env = os.Getenv("GO_ENV")
 	}
 
-	if env == "production" {
-		// Production mode
-		return getPostgresClient()
-	} else {
+	if env == "test" {
 		// Development mode
 		return getPostgresDockerClient()
+	} else {
+		// Production mode
+		return getPostgresClient()
 	}
 }

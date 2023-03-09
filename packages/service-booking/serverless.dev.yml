@@ -1,5 +1,5 @@
 service: service-booking
-variablesResolutionMode: 20210326
+frameworkVersion: "3"
 
 plugins:
   - serverless-deployment-bucket
@@ -24,6 +24,7 @@ provider:
         file: Dockerfile
         buildArgs:
   environment:
+    ENV: dev
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     TABLE_NAME: ${self:custom.TABLE_NAME}
     ACCOUNT_ID: ${aws:accountId}

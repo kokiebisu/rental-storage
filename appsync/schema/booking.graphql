@@ -5,7 +5,7 @@ schema {
 
 type Query {
   booking(id: ID!): Booking
-  bookings(spaceId: ID!): [Booking]
+  bookings(spaceId: ID!, bookingStatus: BookingStatus): [Booking]
 }
 
 type Mutation {
@@ -29,4 +29,9 @@ type Booking {
   updatedAt: String
   startDate: String
   endDate: String
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
 }

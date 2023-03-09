@@ -1,3 +1,4 @@
+import { AppSyncResolverEvent } from "aws-lambda";
 import { findSpaces } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
@@ -7,12 +8,14 @@ describe("findSpaces()", () => {
       throw new Error("data.userId is empty");
     }
     const event = createEvent({ ...mockEvent });
-    const result = await findSpaces(event);
+    const result = await findSpaces(
+      event as AppSyncResolverEvent<{ userId: string }, unknown>
+    );
     expect(result.length).toBeGreaterThan(0);
   });
 });
 
-const createEvent = (event: any) => {
+const createEvent = (event: AppsyncResolverMockEvent) => {
   return {
     ...event,
     arguments: {

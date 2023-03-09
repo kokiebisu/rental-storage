@@ -11,6 +11,8 @@ import (
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
+
+	_ "github.com/lib/pq"
 )
 
 func getPostgresClient() (*sql.DB, *customerror.CustomError) {

@@ -32,11 +32,11 @@ func (s *BookingService) FindBookingById(uid string) (booking.Entity, *customerr
 	return s.bookingRepository.FindOneById(uid)
 }
 
-func (s *BookingService) FindBookingsBySpaceId(spaceId string, status string) ([]booking.Entity, *customerror.CustomError) {
-	return s.bookingRepository.FindManyBySpaceId(spaceId, string(status))
+func (s *BookingService) FindBookingsBySpaceId(spaceId string, bookingStatus string) ([]booking.Entity, *customerror.CustomError) {
+	return s.bookingRepository.FindManyBySpaceId(spaceId, bookingStatus)
 }
 
 // @deprecated not used
-func (s *BookingService) FindBookingsByUserId(userId string, status string) ([]booking.Entity, *customerror.CustomError) {
-	return s.bookingRepository.FindManyByUserId(userId, string(status))
+func (s *BookingService) FindBookingsByUserId(userId string, bookingStatus string) ([]booking.Entity, *customerror.CustomError) {
+	return s.bookingRepository.FindManyByUserId(userId, bookingStatus)
 }
