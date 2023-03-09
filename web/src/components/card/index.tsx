@@ -1,27 +1,40 @@
-import { MapContext } from "@/context/map";
-import { Space } from "@/types/interface";
-import Link from "next/link";
-import { useContext } from "react";
+import {
+  Card as MantineCard,
+  Image as MantineImage,
+  Text as MantineText,
+  Badge as MantineBadge,
+  Button as MantineButton,
+  Group as MantineGroup,
+} from "@mantine/core";
 
-export interface SpaceCardProps {
-  space: Space;
-}
-
-export const SpaceCard = ({ space }: SpaceCardProps) => {
-  const { setCenter } = useContext(MapContext);
+const Card = () => {
   return (
-    <Link
-      onMouseEnter={() => setCenter({ lat: space.lat, lng: space.lng })}
-      href={`/spaces/${space.id}`}
-      className="mx-auto w-full my-2 block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-    >
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {space.name}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-        Here are the biggest enterprise technology acquisitions of 2021 so far,
-        in reverse chronological order.
-      </p>
-    </Link>
+    <MantineCard shadow="sm" padding="lg" radius="md" withBorder>
+      <MantineCard.Section>
+        <MantineImage
+          src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+          height={160}
+          alt="Norway"
+        />
+      </MantineCard.Section>
+
+      <MantineGroup position="apart" mt="md" mb="xs">
+        <MantineText weight={500}>Norway Fjord Adventures</MantineText>
+        <MantineBadge color="pink" variant="light">
+          On Sale
+        </MantineBadge>
+      </MantineGroup>
+
+      <MantineText size="sm" color="dimmed">
+        With Fjord Tours you can explore more of the magical fjord landscapes
+        with tours and activities on and around the fjords of Norway
+      </MantineText>
+
+      <MantineButton variant="light" color="blue" fullWidth mt="md" radius="md">
+        Book classic tour now
+      </MantineButton>
+    </MantineCard>
   );
 };
+
+export default Card;
