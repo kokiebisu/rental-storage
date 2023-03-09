@@ -11,18 +11,18 @@ build:
 
 .PHONY: test-unit
 test-unit:
-	cd test/unit && go test ./... && cd ../..
+	cd test/unit && export ENV=test && go test ./... && cd ../..
 
 .PHONY: test-integration
 test-integration:
-	cd test/integration && go test ./... && cd ../..
+	cd test/integration && export ENV=test && go test ./... && cd ../..
 
 .PHONY: lint
 lint:
 	golangci-lint run ./... --timeout=5m
 
-.PHONY: generate-mock
-generate-mock:
+.PHONY: mock-generate
+mock-generate:
 	mockery --all --case snake
 
 .PHONY: deps-start

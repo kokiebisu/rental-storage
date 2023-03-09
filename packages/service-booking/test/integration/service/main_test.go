@@ -68,6 +68,10 @@ func tableSetup() {
 				AttributeType: types.ScalarAttributeTypeS,
 			},
 			{
+				AttributeName: aws.String("BookingStatus"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
 				AttributeName: aws.String("CreatedAt"),
 				AttributeType: types.ScalarAttributeTypeS,
 			},
@@ -79,7 +83,7 @@ func tableSetup() {
 		},
 		GlobalSecondaryIndexes: []types.GlobalSecondaryIndex{
 			{
-				IndexName: aws.String("BookingSpaceIdIndex"),
+				IndexName: aws.String("BookingSpaceIdCreatedAtIndex"),
 				KeySchema: []types.KeySchemaElement{
 					{
 						AttributeName: aws.String("SpaceId"),
@@ -95,7 +99,23 @@ func tableSetup() {
 				},
 			},
 			{
-				IndexName: aws.String("BookingCreatedAtIndex"),
+				IndexName: aws.String("BookingSpaceIdBookingStatusIndex"),
+				KeySchema: []types.KeySchemaElement{
+					{
+						AttributeName: aws.String("SpaceId"),
+						KeyType:       types.KeyTypeHash,
+					},
+					{
+						AttributeName: aws.String("BookingStatus"),
+						KeyType:       types.KeyTypeRange,
+					},
+				},
+				Projection: &types.Projection{
+					ProjectionType: types.ProjectionTypeAll,
+				},
+			},
+			{
+				IndexName: aws.String("BookingUserIdCreatedAtIndex"),
 				KeySchema: []types.KeySchemaElement{
 					{
 						AttributeName: aws.String("UserId"),
@@ -103,6 +123,22 @@ func tableSetup() {
 					},
 					{
 						AttributeName: aws.String("CreatedAt"),
+						KeyType:       types.KeyTypeRange,
+					},
+				},
+				Projection: &types.Projection{
+					ProjectionType: types.ProjectionTypeAll,
+				},
+			},
+			{
+				IndexName: aws.String("BookingUserIdBookingStatusIndex"),
+				KeySchema: []types.KeySchemaElement{
+					{
+						AttributeName: aws.String("UserId"),
+						KeyType:       types.KeyTypeHash,
+					},
+					{
+						AttributeName: aws.String("BookingStatus"),
 						KeyType:       types.KeyTypeRange,
 					},
 				},

@@ -55,9 +55,9 @@ export default class {
       url.searchParams.set("userId", param.userId);
     }
     if (param.approved) {
-      url.searchParams.set("status", "approved");
+      url.searchParams.set("bookingStatus", "APPROVED");
     } else if (param.approved === false) {
-      url.searchParams.set("status", "pending");
+      url.searchParams.set("bookingStatus", "PENDING");
     }
     return url;
   }

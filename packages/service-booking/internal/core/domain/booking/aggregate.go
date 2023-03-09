@@ -7,8 +7,8 @@ import (
 )
 
 type Entity struct {
-	UId         string
-	Status      BookingStatus
+	UId string
+	BookingStatus
 	ImageUrls   []string
 	UserId      string
 	SpaceId     string
@@ -20,34 +20,34 @@ type Entity struct {
 }
 
 type DTO struct {
-	UId         string   `json:"uid"`
-	Status      string   `json:"status"`
-	UserId      string   `json:"userId"`
-	SpaceId     string   `json:"spaceId"`
-	Description string   `json:"description"`
-	ImageUrls   []string `json:"imageUrls"`
-	StartDate   string   `json:"startDate"`
-	EndDate     string   `json:"endDate"`
-	CreatedAt   string   `json:"createdAt"`
-	UpdatedAt   string   `json:"updatedAt"`
+	UId           string   `json:"uid"`
+	BookingStatus string   `json:"bookingStatus"`
+	UserId        string   `json:"userId"`
+	SpaceId       string   `json:"spaceId"`
+	Description   string   `json:"description"`
+	ImageUrls     []string `json:"imageUrls"`
+	StartDate     string   `json:"startDate"`
+	EndDate       string   `json:"endDate"`
+	CreatedAt     string   `json:"createdAt"`
+	UpdatedAt     string   `json:"updatedAt"`
 }
 
 type Raw struct {
-	Id          string   `json:"id"`
-	Status      string   `json:"status"`
-	UserId      string   `json:"user_id"`
-	SpaceId     string   `json:"space_id"`
-	Description string   `json:"description"`
-	ImageUrls   []string `json:"image_urls"`
-	StartDate   string   `json:"start_date"`
-	EndDate     string   `json:"end_date"`
-	CreatedAt   string   `json:"created_at"`
-	UpdatedAt   string   `json:"updated_at"`
+	Id            string   `json:"id"`
+	BookingStatus string   `json:"bookingStatus"`
+	UserId        string   `json:"user_id"`
+	SpaceId       string   `json:"space_id"`
+	Description   string   `json:"description"`
+	ImageUrls     []string `json:"image_urls"`
+	StartDate     string   `json:"start_date"`
+	EndDate       string   `json:"end_date"`
+	CreatedAt     string   `json:"created_at"`
+	UpdatedAt     string   `json:"updated_at"`
 }
 
 const (
-	PENDING   BookingStatus = "PENDING"
-	COMPLETED BookingStatus = "COMPLETED"
+	PENDING  BookingStatus = "PENDING"
+	APPROVED BookingStatus = "APPROVED"
 )
 
 const (
@@ -57,7 +57,7 @@ const (
 
 type BookingStatus string
 
-func New(id string, userId string, spaceId string, imageUrls []string, description string, startDateString string, endDateString string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
+func New(id string, userId string, spaceId string, imageUrls []string, bookingStatus string, description string, startDateString string, endDateString string, createdAtString string, updatedAtString string) (Entity, *customerror.CustomError) {
 	var startDate time.Time
 	var err error
 	if startDateString == "" {
@@ -100,16 +100,16 @@ func New(id string, userId string, spaceId string, imageUrls []string, descripti
 	}
 
 	return Entity{
-		UId:         id,
-		Status:      PENDING,
-		ImageUrls:   imageUrls,
-		Description: description,
-		UserId:      userId,
-		SpaceId:     spaceId,
-		StartDate:   startDate,
-		EndDate:     endDate,
-		CreatedAt:   createdAt,
-		UpdatedAt:   updatedAt,
+		UId:           id,
+		BookingStatus: BookingStatus(bookingStatus),
+		ImageUrls:     imageUrls,
+		Description:   description,
+		UserId:        userId,
+		SpaceId:       spaceId,
+		StartDate:     startDate,
+		EndDate:       endDate,
+		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}, nil
 }
 
@@ -119,16 +119,16 @@ func (d DTO) ToEntity() Entity {
 	createdAt, _ := time.Parse(layoutISO, d.CreatedAt)
 	updatedAt, _ := time.Parse(layoutISO, d.UpdatedAt)
 	return Entity{
-		UId:         d.UId,
-		Status:      BookingStatus(d.Status),
-		ImageUrls:   d.ImageUrls,
-		UserId:      d.UserId,
-		SpaceId:     d.SpaceId,
-		Description: d.Description,
-		StartDate:   startDate,
-		EndDate:     endDate,
-		CreatedAt:   createdAt,
-		UpdatedAt:   updatedAt,
+		UId:           d.UId,
+		BookingStatus: BookingStatus(d.BookingStatus),
+		ImageUrls:     d.ImageUrls,
+		UserId:        d.UserId,
+		SpaceId:       d.SpaceId,
+		Description:   d.Description,
+		StartDate:     startDate,
+		EndDate:       endDate,
+		CreatedAt:     createdAt,
+		UpdatedAt:     updatedAt,
 	}
 }
 
@@ -138,15 +138,15 @@ func (e Entity) ToDTO() DTO {
 	createdAtString := e.CreatedAt.Format(layoutISO)
 	updatedAtString := e.UpdatedAt.Format(layoutISO)
 	return DTO{
-		UId:         e.UId,
-		Status:      string(e.Status),
-		ImageUrls:   e.ImageUrls,
-		UserId:      e.UserId,
-		SpaceId:     e.SpaceId,
-		Description: e.Description,
-		StartDate:   startDateString,
-		EndDate:     endDateString,
-		CreatedAt:   createdAtString,
-		UpdatedAt:   updatedAtString,
+		UId:           e.UId,
+		BookingStatus: string(e.BookingStatus),
+		ImageUrls:     e.ImageUrls,
+		UserId:        e.UserId,
+		SpaceId:       e.SpaceId,
+		Description:   e.Description,
+		StartDate:     startDateString,
+		EndDate:       endDateString,
+		CreatedAt:     createdAtString,
+		UpdatedAt:     updatedAtString,
 	}
 }
