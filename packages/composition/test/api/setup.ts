@@ -63,6 +63,7 @@ module.exports = async function () {
 const registerUser = async function () {
   const client = new RestAPIClient();
   const builder = new UserResourceURLBuilder();
+
   const response = await client.post<
     { uid: string },
     {
@@ -91,10 +92,10 @@ const registerSpace = async function (userId: string) {
     builder.createSpace(),
     {
       lenderId: userId,
+      location: mock.location,
       imageUrls: mock.imageUrls,
       title: mock.title,
       description: mock.description,
-      location: mock.location,
     }
   );
   if (!response.data) {
