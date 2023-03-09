@@ -43,7 +43,7 @@
     "cross-fetch": "^3.1.4",
     "dayjs": "1.11.7",
     "embla-carousel-react": "7.1.0",
-    "graphql": "^15.7.0",
+    "graphql": "^16.6.0",
     "graphql-tag": "^2.12.5",
     "next": "13.1.6",
     "react": "18.2.0",
