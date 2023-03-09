@@ -1,4 +1,4 @@
-export const Avatar = () => (
+const Avatar = () => (
   <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
     <svg
       className="h-full w-full text-gray-300"
@@ -9,3 +9,5 @@ export const Avatar = () => (
     </svg>
   </span>
 );
+
+export default Avatar;

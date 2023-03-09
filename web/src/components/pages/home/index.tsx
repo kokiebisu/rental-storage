@@ -1,10 +1,9 @@
-import useTemplate from "./hook";
-import Template from "./template";
+import { Header } from "@/components";
+import { SignInModal } from "@/components";
+import { useDisclosure } from "@mantine/hooks";
 
 const HomePageComponent = () => {
-  const logic = useTemplate();
-  // return <Template {...logic} />;
-  return <div>Hello world</div>;
+  return <main></main>;
 };
 
 HomePageComponent.displayName = "HomePageComponent";
