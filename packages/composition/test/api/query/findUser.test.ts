@@ -1,3 +1,4 @@
+import { AppSyncResolverEvent } from "aws-lambda";
 import { findUser } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
@@ -7,12 +8,14 @@ describe("findUser()", () => {
       throw new Error("data.userId is empty");
     }
     const event = createEvent({ ...mockEvent });
-    const result = await findUser(event);
+    const result = await findUser(
+      event as AppSyncResolverEvent<{ id: string }, unknown>
+    );
     expect(result).not.toBeUndefined();
   });
 });
 
-const createEvent = (event: any) => {
+const createEvent = (event: AppsyncResolverMockEvent) => {
   return {
     ...event,
     arguments: {

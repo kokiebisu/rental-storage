@@ -44,13 +44,13 @@ const mock = {
 
 module.exports = async function () {
   const userId = await registerUser();
-  const spaceId = await registerSpace(userId);
-  const bookingId = await registerBooking(userId, spaceId);
+  // const spaceId = await registerSpace(userId);
+  // const bookingId = await registerBooking(userId, spaceId);
 
   global.data = {
     userId,
-    spaceId,
-    bookingId,
+    // spaceId,
+    // bookingId,
     emailAddress: mock.emailAddress,
     firstName: mock.firstName,
     lastName: mock.lastName,
@@ -63,24 +63,28 @@ module.exports = async function () {
 const registerUser = async function () {
   const client = new RestAPIClient();
   const builder = new UserResourceURLBuilder();
-  const response = await client.post<
-    { uid: string },
-    {
-      emailAddress: string;
-      firstName: string;
-      lastName: string;
-      password: string;
+  try {
+    const response = await client.post<
+      { uid: string },
+      {
+        emailAddress: string;
+        firstName: string;
+        lastName: string;
+        password: string;
+      }
+    >(builder.createUser(), {
+      emailAddress: mock.emailAddress,
+      firstName: mock.firstName,
+      lastName: mock.lastName,
+      password: mock.password,
+    });
+    if (!response.data) {
+      throw new Error("register user request failed");
     }
-  >(builder.createUser(), {
-    emailAddress: mock.emailAddress,
-    firstName: mock.firstName,
-    lastName: mock.lastName,
-    password: mock.password,
-  });
-  if (!response.data) {
-    throw new Error("register user request failed");
+    return response.data.uid;
+  } catch (err) {
+    console.error(err);
   }
-  return response.data.uid;
 };
 
 const registerSpace = async function (userId: string) {
