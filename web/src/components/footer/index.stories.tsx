@@ -13,15 +13,18 @@ export default meta;
 type Story = StoryObj<typeof Component>;
 
 // More on writing stories with args: https://storybook.js.org/docs/7.0/react/writing-stories/args
-export const Header: Story = {
+export const Footer: Story = {
   args: {
-    links: [
+    data: [
       {
-        link: "/",
-        label: "Borrow",
+        title: "Company",
+        links: [
+          {
+            link: "/",
+            label: "Borrow",
+          },
+        ],
       },
     ],
-    onSignInClicked: () => alert("Sign in clicked!"),
-    onMapScreenNavigate: () => alert("Map screen navigate!"),
   },
 };
