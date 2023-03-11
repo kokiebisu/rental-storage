@@ -5,8 +5,12 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/google/uuid"
+	"go.uber.org/zap"
+
+	"github.com/kokiebisu/rental-storage/service-booking/internal/client"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
+
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
@@ -33,6 +37,14 @@ func NewApiGatewayAdapter(service port.BookingService) (port.Controller, *custom
 }
 
 func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	defer func() {
+		err := logger.Sync()
+		if err != nil {
+			logger.Error("Error syncing logger", zap.Error(err))
+		}
+	}()
+	logger.Info("Event", zap.Any("event", event))
 	body := struct {
 		UserId      string   `json:"userId"`
 		SpaceId     string   `json:"spaceId"`
@@ -46,19 +58,39 @@ func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *cust
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
 	bookingId, err := a.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, "PENDING", body.Description, body.StartDate, body.EndDate, "", "")
-	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
+	payload := CreateBookingResponsePayload{UId: bookingId}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err.(*customerror.CustomError)
 }
 
 func (a *ApiGatewayAdapter) FindBookingById(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	defer func() {
+		err := logger.Sync()
+		if err != nil {
+			logger.Error("Error syncing logger", zap.Error(err))
+		}
+	}()
+	logger.Info("Event", zap.Any("event", event))
 	bookingId := event.(events.APIGatewayProxyRequest).PathParameters["bookingId"]
 	if bookingId == "" {
 		return FindBookingByIdResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
 	}
 	booking, err := a.service.FindBookingById(bookingId)
-	return FindBookingByIdResponsePayload{Booking: booking.ToDTO()}, err
+	payload := FindBookingByIdResponsePayload{Booking: booking.ToDTO()}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
 }
 
 func (a *ApiGatewayAdapter) FindBookings(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	defer func() {
+		err := logger.Sync()
+		if err != nil {
+			logger.Error("Error syncing logger", zap.Error(err))
+		}
+	}()
+	logger.Info("Event", zap.Any("event", event))
 	var bs []booking.Entity = []booking.Entity{}
 	var err *customerror.CustomError
 	bookingStatus := event.(events.APIGatewayProxyRequest).QueryStringParameters["bookingStatus"]
@@ -76,5 +108,7 @@ func (a *ApiGatewayAdapter) FindBookings(event interface{}) (interface{}, *custo
 	for _, i := range bs {
 		bds = append(bds, i.ToDTO())
 	}
-	return FindBookingsResponsePayload{Bookings: bds}, err
+	payload := FindBookingsResponsePayload{Bookings: bds}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
 }

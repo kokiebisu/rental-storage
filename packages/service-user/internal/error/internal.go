@@ -138,3 +138,12 @@ func (e *Handler) PutRecordError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) LoggerConfigurationError(err error) *CustomError {
+	msg := "unable to configure logger"
+	return &CustomError{
+		StatusCode: 500,
+		Message:    msg,
+		Reason:     err,
+	}
+}
