@@ -1,4 +1,4 @@
-package controller
+package adapter
 
 import (
 	"encoding/json"
@@ -8,10 +8,6 @@ import (
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 )
-
-type ApiGatewayHandler struct {
-	service port.AuthenticationService
-}
 
 type SignInResponsePayload struct {
 	AuthorizationToken string `json:"authorizationToken"`
@@ -26,21 +22,24 @@ type VerifyResponsePayload struct {
 	Exp int64  `json:"exp"`
 }
 
-func NewApiGatewayHandler(service port.AuthenticationService) *ApiGatewayHandler {
-	return &ApiGatewayHandler{
-		service: service,
+type ApiGatewayAdapter struct {
+	service port.AuthenticationService
+}
+
+func NewApiGatewayAdapter(service port.AuthenticationService) port.Controller {
+	return &ApiGatewayAdapter{
+		service,
 	}
 }
 
-func (h *ApiGatewayHandler) SignIn(event events.APIGatewayProxyRequest) (SignInResponsePayload, *customerror.CustomError) {
-
+func (h *ApiGatewayAdapter) SignIn(event interface{}) (interface{}, *customerror.CustomError) {
 	// get email address and password from event argument
 	bodyRequest := struct {
 		EmailAddress string `json:"emailAddress"`
 		Password     string `json:"password"`
 	}{}
 
-	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
+	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &bodyRequest)
 	if err != nil {
 		return SignInResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}
@@ -52,7 +51,7 @@ func (h *ApiGatewayHandler) SignIn(event events.APIGatewayProxyRequest) (SignInR
 	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (SignUpResponsePayload, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) SignUp(event interface{}) (interface{}, *customerror.CustomError) {
 	// get email address and password from event argument
 	bodyRequest := struct {
 		EmailAddress string `json:"emailAddress"`
@@ -60,7 +59,7 @@ func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (SignUpR
 		FirstName    string `json:"firstName"`
 		LastName     string `json:"lastName"`
 	}{}
-	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
+	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &bodyRequest)
 	if err != nil {
 		return SignUpResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}
@@ -71,11 +70,11 @@ func (h *ApiGatewayHandler) SignUp(event events.APIGatewayProxyRequest) (SignUpR
 	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ApiGatewayHandler) Verify(event events.APIGatewayProxyRequest) (VerifyResponsePayload, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) Verify(event interface{}) (interface{}, *customerror.CustomError) {
 	bodyRequest := struct {
 		AuthorizationToken string `json:"authorizationToken"`
 	}{}
-	err := json.Unmarshal([]byte(event.Body), &bodyRequest)
+	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &bodyRequest)
 	if err != nil {
 		return VerifyResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}

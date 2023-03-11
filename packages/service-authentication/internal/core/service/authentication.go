@@ -19,7 +19,7 @@ type AuthenticationService struct {
 	cryptoService port.CryptoService
 }
 
-func NewAuthenticationService(tokenService port.TokenService, cryptoService port.CryptoService) *AuthenticationService {
+func NewAuthenticationService(tokenService port.TokenService, cryptoService port.CryptoService) port.AuthenticationService {
 	return &AuthenticationService{
 		tokenService,
 		cryptoService,

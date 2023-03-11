@@ -26,10 +26,10 @@ type ApiGatewayAdapter struct {
 	service port.BookingService
 }
 
-func NewApiGatewayAdapter(service port.BookingService) (port.Controller, *customerror.CustomError) {
+func NewApiGatewayAdapter(service port.BookingService) port.Controller {
 	return &ApiGatewayAdapter{
 		service,
-	}, nil
+	}
 }
 
 func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *customerror.CustomError) {
