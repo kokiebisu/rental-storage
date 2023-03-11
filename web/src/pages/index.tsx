@@ -30,10 +30,10 @@ const HomePage = () => {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
               {Array(5)
-                .fill()
+                .fill(null)
                 .map(() => {
                   return (
-                    <Link href="/spaces/1">
+                    <Link key={null} href="/spaces/1">
                       <Card />
                     </Link>
                   );

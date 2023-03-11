@@ -1,4 +1,5 @@
 import { createStyles, Textarea, Group } from "@mantine/core";
+import { ChangeEventHandler } from "react";
 import { Button, TextInput } from "..";
 
 const useStyles = createStyles((theme) => ({
@@ -28,22 +29,34 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const ContactUs = () => {
+interface BookingFormProps {
+  email: string;
+  name: string;
+  onEmailChange: ChangeEventHandler<HTMLInputElement>;
+  onNameChange: ChangeEventHandler<HTMLInputElement>;
+}
+
+const BookingForm = ({
+  email,
+  name,
+  onEmailChange,
+  onNameChange,
+}: BookingFormProps) => {
   const { classes } = useStyles();
 
   return (
     <div className={classes.form}>
       <TextInput
+        value={email}
         label="Email"
+        onChange={onEmailChange}
         placeholder="your@email.com"
-        required
-        classNames={{ input: classes.input, label: classes.inputLabel }}
       />
       <TextInput
+        value={name}
+        onChange={onNameChange}
         label="Name"
         placeholder="John Doe"
-        mt="md"
-        classNames={{ input: classes.input, label: classes.inputLabel }}
       />
       <Textarea
         required
@@ -55,10 +68,13 @@ const ContactUs = () => {
       />
 
       <Group position="right" mt="md">
-        <Button className={classes.control} label="Send a Booking Request" />
+        <Button
+          label="Send a Booking Request"
+          onClick={() => alert("should make a booking")}
+        />
       </Group>
     </div>
   );
 };
 
-export default ContactUs;
+export default BookingForm;
