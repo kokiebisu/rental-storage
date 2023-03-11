@@ -3,18 +3,16 @@ package main
 import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-
-	responses "github.com/kokiebisu/rental-storage/service-authentication/internal"
-	"github.com/kokiebisu/rental-storage/service-authentication/internal/adapter/controller"
+	"github.com/kokiebisu/rental-storage/service-authentication/cmd/controller"
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	controller := controller.New()
-	payload, err := controller.SignIn(request)
+	c := controller.New()
+	payload, err := c.SignIn(request)
 	if err != nil {
-		return responses.SendFailureResponse(err)
+		return controller.SendFailureResponse(err)
 	}
-	return responses.SendSuccessResponse(payload)
+	return controller.SendSuccessResponse(payload)
 }
 
 func main() {

@@ -27,23 +27,19 @@ type RemoveUserByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-func NewControllerAdapter(service port.UserService, publisher port.UserPublisher) (port.Controller, *customerror.CustomError) {
-	return ApiGatewayAdapter(service, publisher)
-}
-
-func ApiGatewayAdapter(service port.UserService, publisher port.UserPublisher) (port.Controller, *customerror.CustomError) {
-	return &ControllerAdapter{
+func NewApiGatewayAdapter(service port.UserService, publisher port.UserPublisher) port.Controller {
+	return &ApiGatewayAdapter{
 		service,
 		publisher,
-	}, nil
+	}
 }
 
-type ControllerAdapter struct {
+type ApiGatewayAdapter struct {
 	service   port.UserService
 	publisher port.UserPublisher
 }
 
-func (h *ControllerAdapter) CreateUser(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) CreateUser(event interface{}) (interface{}, *customerror.CustomError) {
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
 		FirstName     string `json:"firstName"`
@@ -63,7 +59,7 @@ func (h *ControllerAdapter) CreateUser(event interface{}) (interface{}, *custome
 	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ControllerAdapter) FindUserByEmail(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindUserByEmail(event interface{}) (interface{}, *customerror.CustomError) {
 	emailAddress := event.(events.APIGatewayProxyRequest).QueryStringParameters["emailAddress"]
 	if emailAddress == "" {
 		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.GetParameterError("emailAddress")
@@ -75,7 +71,7 @@ func (h *ControllerAdapter) FindUserByEmail(event interface{}) (interface{}, *cu
 	return payload, err
 }
 
-func (h *ControllerAdapter) FindUserById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindUserById(event interface{}) (interface{}, *customerror.CustomError) {
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
 		return FindUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")
@@ -87,7 +83,7 @@ func (h *ControllerAdapter) FindUserById(event interface{}) (interface{}, *custo
 	return payload, err
 }
 
-func (h *ControllerAdapter) RemoveUserById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) RemoveUserById(event interface{}) (interface{}, *customerror.CustomError) {
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
 		return RemoveUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")

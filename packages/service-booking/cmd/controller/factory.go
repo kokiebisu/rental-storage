@@ -23,7 +23,7 @@ func New() (port.Controller, *customerror.CustomError) {
 		return Controller{}, err
 	}
 	service := service.NewBookingService(repo)
-	adptr, _ := adapter.NewControllerAdapter(service)
+	adptr := adapter.NewApiGatewayAdapter(service)
 	return Controller{
 		adptr,
 	}, nil
