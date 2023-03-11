@@ -31,21 +31,17 @@ type DeleteSpaceByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-type ControllerAdapter struct {
+type ApiGatewayAdapter struct {
 	service port.SpaceService
 }
 
-func NewControllerAdapter(service port.SpaceService) (port.Controller, *customerror.CustomError) {
-	return NewApiGatewayAdapter(service)
-}
-
-func NewApiGatewayAdapter(service port.SpaceService) (port.Controller, *customerror.CustomError) {
-	return &ControllerAdapter{
+func NewApiGatewayAdapter(service port.SpaceService) port.Controller {
+	return &ApiGatewayAdapter{
 		service,
-	}, nil
+	}
 }
 
-func (h *ControllerAdapter) FindSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
 	defer func() {
 		err := logger.Sync()
@@ -64,7 +60,7 @@ func (h *ControllerAdapter) FindSpaceById(event interface{}) (interface{}, *cust
 	return payload, err
 }
 
-func (h *ControllerAdapter) FindSpaces(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
 	defer func() {
 		err := logger.Sync()
@@ -108,7 +104,7 @@ func (h *ControllerAdapter) FindSpaces(event interface{}) (interface{}, *custome
 	return payload, customerror.ErrorHandler.InvalidParamError(nil)
 }
 
-func (h *ControllerAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
 	defer func() {
 		err := logger.Sync()
@@ -137,7 +133,7 @@ func (h *ControllerAdapter) AddSpace(event interface{}) (interface{}, *customerr
 	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ControllerAdapter) DeleteSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) DeleteSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
 	defer func() {
 		err := logger.Sync()
