@@ -1,17 +1,14 @@
 require("dotenv/config");
-require("ts-node").register({
-  transpileOnly: true,
-});
 
 import { faker } from "@faker-js/faker";
 import { CreateBookingCommand } from "../../src/adapter/usecase/createBooking";
 import { CreateSpaceCommand } from "../../src/adapter/usecase/createSpace";
+import { RestAPIClient } from "../../src/client";
 import {
   BookingResourceURLBuilder,
-  RestAPIClient,
   SpaceResourceURLBuilder,
   UserResourceURLBuilder,
-} from "../../src/client";
+} from "../../src/resource";
 
 const mock = {
   emailAddress: faker.internet.email(),

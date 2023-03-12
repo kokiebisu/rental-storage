@@ -1,4 +1,5 @@
-import { RestAPIClient, SpaceResourceURLBuilder } from "../../client";
+import { RestAPIClient } from "../../client";
+import { SpaceResourceURLBuilder } from "../../resource";
 
 interface FindSpacesCommandConstructor {
   userId: string;

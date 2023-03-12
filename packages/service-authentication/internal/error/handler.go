@@ -147,3 +147,13 @@ func (e *Handler) PasswordGenerationError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) LoggerConfigurationError(err error) *CustomError {
+	msg := "Logger configuration error"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "LOGGER_CONFIGURATION_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}

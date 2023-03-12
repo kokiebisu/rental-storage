@@ -1,5 +1,6 @@
-import { RestAPIClient, SpaceResourceURLBuilder } from "../../client";
+import { RestAPIClient } from "../../client";
 import { InternalServerError } from "../../error";
+import { SpaceResourceURLBuilder } from "../../resource";
 
 interface CreateSpaceCommandConstructor {
   lenderId: string;
