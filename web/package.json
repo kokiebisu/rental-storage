@@ -10,7 +10,7 @@
     "storybook:build": "build-storybook"
   },
   "dependencies": {
-    "@apollo/client": "3.6.9",
+    "@apollo/client": "3.7.10",
     "@emotion/react": "11.10.6",
     "@emotion/server": "11.10.0",
     "@headlessui/react": "1.7.13",
