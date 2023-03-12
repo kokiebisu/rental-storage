@@ -5,6 +5,8 @@ export default class {
 
   constructor() {
     this.client = pino({
+      timestamp: pino.stdTimeFunctions.isoTime,
+      time: true,
       serializers: {
         req: pino.stdSerializers.req,
         res: pino.stdSerializers.res,
@@ -12,6 +14,9 @@ export default class {
         // add any additional serializers you need
         // for example:
         payload: (obj) => obj, // just returns the object as is
+      },
+      formatters: {
+        level: (label) => ({ level: label }),
       },
     });
   }
