@@ -1,5 +1,6 @@
-import { BookingResourceURLBuilder, RestAPIClient } from "../../client";
+import { RestAPIClient } from "../../client";
 import { InternalServerError } from "../../error";
+import { BookingResourceURLBuilder } from "../../resource";
 
 interface CreateBookingCommandConstructor {
   userId: string;

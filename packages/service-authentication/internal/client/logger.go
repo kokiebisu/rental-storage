@@ -4,7 +4,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
-	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
+	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 )
 
 func getLoggerClient() (*zap.Logger, *customerror.CustomError) {

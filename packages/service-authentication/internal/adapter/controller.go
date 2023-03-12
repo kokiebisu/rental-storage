@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 
 	"github.com/aws/aws-lambda-go/events"
+	"go.uber.org/zap"
 
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/client"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 )
@@ -33,6 +35,8 @@ func NewApiGatewayAdapter(service port.AuthenticationService) port.Controller {
 }
 
 func (h *ApiGatewayAdapter) SignIn(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	// get email address and password from event argument
 	bodyRequest := struct {
 		EmailAddress string `json:"emailAddress"`
@@ -48,11 +52,14 @@ func (h *ApiGatewayAdapter) SignIn(event interface{}) (interface{}, *customerror
 	payload := SignInResponsePayload{
 		AuthorizationToken: token,
 	}
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err.(*customerror.CustomError)
 }
 
 func (h *ApiGatewayAdapter) SignUp(event interface{}) (interface{}, *customerror.CustomError) {
 	// get email address and password from event argument
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	bodyRequest := struct {
 		EmailAddress string `json:"emailAddress"`
 		Password     string `json:"password"`
@@ -67,10 +74,13 @@ func (h *ApiGatewayAdapter) SignUp(event interface{}) (interface{}, *customerror
 	payload := SignUpResponsePayload{
 		AuthorizationToken: token,
 	}
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err.(*customerror.CustomError)
 }
 
 func (h *ApiGatewayAdapter) Verify(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	bodyRequest := struct {
 		AuthorizationToken string `json:"authorizationToken"`
 	}{}
@@ -84,5 +94,6 @@ func (h *ApiGatewayAdapter) Verify(event interface{}) (interface{}, *customerror
 		UId: claims.UId,
 		Exp: claims.ExpiresAt,
 	}
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err.(*customerror.CustomError)
 }

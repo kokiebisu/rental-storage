@@ -1,4 +1,4 @@
-import { BookingResourceURLBuilder } from "../../../src/client";
+import { BookingResourceURLBuilder } from "../../../src/resource";
 
 describe("BookingResourceURLBuilder", () => {
   const builder = new BookingResourceURLBuilder();

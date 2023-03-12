@@ -38,12 +38,6 @@ func NewApiGatewayAdapter(service port.BookingService) port.Controller {
 
 func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	body := struct {
 		UserId      string   `json:"userId"`
@@ -65,12 +59,6 @@ func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *cust
 
 func (a *ApiGatewayAdapter) FindBookingById(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	bookingId := event.(events.APIGatewayProxyRequest).PathParameters["bookingId"]
 	if bookingId == "" {
@@ -84,12 +72,6 @@ func (a *ApiGatewayAdapter) FindBookingById(event interface{}) (interface{}, *cu
 
 func (a *ApiGatewayAdapter) FindBookings(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	var bs []booking.Entity = []booking.Entity{}
 	var err *customerror.CustomError

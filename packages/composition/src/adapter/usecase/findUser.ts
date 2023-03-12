@@ -1,9 +1,9 @@
+import { RestAPIClient } from "../../client";
+import { InternalServerError } from "../../error";
 import {
-  RestAPIClient,
   BookingResourceURLBuilder,
   UserResourceURLBuilder,
-} from "../../client";
-import { InternalServerError } from "../../error";
+} from "../../resource";
 
 interface FindUserCommandConstructor {
   id: string;

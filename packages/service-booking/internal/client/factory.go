@@ -37,6 +37,7 @@ func GetDynamoDBClient() (*dynamodb.Client, *customerror.CustomError) {
 }
 
 func GetLoggerClient() (*zap.Logger, *customerror.CustomError) {
+	var err *customerror.CustomError
 	if logger != nil {
 		return logger, nil
 	}
@@ -47,11 +48,11 @@ func GetLoggerClient() (*zap.Logger, *customerror.CustomError) {
 
 	if env == "test" {
 		// Development mode
-		logger = getLoggerClient()
-		return logger, nil
+		logger, err = getLoggerDevelopmentClient()
+		return logger, err
 	} else {
 		// Production mode
-		logger = getLoggerClient()
-		return logger, nil
+		logger, err = getLoggerClient()
+		return logger, err
 	}
 }

@@ -1,4 +1,4 @@
-import { SpaceResourceURLBuilder } from "../../../src/client";
+import { SpaceResourceURLBuilder } from "../../../src/resource";
 
 describe("SpaceResourceURLBuilder", () => {
   const builder = new SpaceResourceURLBuilder();

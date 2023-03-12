@@ -43,7 +43,7 @@ func GetLoggerClient() (*zap.Logger, *customerror.CustomError) {
 	}
 	if env == "test" {
 		// Development mode
-		logger, err = getLoggerClient()
+		logger, err = getLoggerDevelopmentClient()
 	} else {
 		// Production mode
 		logger, err = getLoggerClient()

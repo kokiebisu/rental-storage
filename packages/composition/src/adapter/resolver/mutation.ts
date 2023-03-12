@@ -6,6 +6,9 @@ import {
 } from "../usecase/createBooking";
 import { DeleteSpaceCommand, DeleteSpaceUseCase } from "../usecase/deleteSpace";
 import { DeleteUserCommand, DeleteUserUseCase } from "../usecase/deleteUser";
+import { LoggerClient } from "../../client";
+
+const logger = new LoggerClient();
 
 export const createSpace = async (
   event: AppSyncResolverEvent<
@@ -18,17 +21,25 @@ export const createSpace = async (
     unknown
   >
 ) => {
+  logger.info(event.arguments, __filename, 24);
   const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
   const input = { ...event.arguments, lenderId: uid };
   const usecase = new CreateSpaceUseCase();
-  return await usecase.execute(new CreateSpaceCommand(input));
+  const response = await usecase.execute(new CreateSpaceCommand(input));
+  logger.info(response, __filename, 29);
+  return response;
 };
 
 export const deleteSpace = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
+  logger.info(event.arguments, __filename, 36);
   const usecase = new DeleteSpaceUseCase();
-  return await usecase.execute(new DeleteSpaceCommand(event.arguments));
+  const response = await usecase.execute(
+    new DeleteSpaceCommand(event.arguments)
+  );
+  logger.info(response, __filename, 41);
+  return response;
 };
 
 export const createBooking = async (
@@ -43,16 +54,22 @@ export const createBooking = async (
     unknown
   >
 ) => {
+  logger.info(event.arguments, __filename, 57);
   const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
   const input = { ...event.arguments, userId: uid };
   const usecase = new CreateBookingUseCase();
-  return await usecase.execute(new CreateBookingCommand(input));
+  const response = await usecase.execute(new CreateBookingCommand(input));
+  logger.info(response, __filename, 62);
+  return response;
 };
 
 export const deleteUser = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
+  logger.info(event.arguments, __filename, 69);
   const input = { ...event.arguments };
   const usecase = new DeleteUserUseCase();
-  return await usecase.execute(new DeleteUserCommand(input));
+  const response = await usecase.execute(new DeleteUserCommand(input));
+  logger.info(response, __filename, 73);
+  return response;
 };

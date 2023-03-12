@@ -1,5 +1,6 @@
-import { ImageResourceURLBuilder, RestAPIClient } from "../../client";
+import { RestAPIClient } from "../../client";
 import { InternalServerError } from "../../error";
+import { ImageResourceURLBuilder } from "../../resource";
 
 interface GetPresignedURLCommandConstructor {
   filename: string;

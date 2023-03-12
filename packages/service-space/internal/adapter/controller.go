@@ -72,8 +72,9 @@ func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *custome
 	userId := event.(events.APIGatewayProxyRequest).QueryStringParameters["userId"]
 	if userId != "" {
 		ls, err := h.service.FindSpacesByUserId(userId)
-		logger.Info("Payload", zap.Any("payload", ls))
-		return FindSpacesResponsePayload{Spaces: ls}, err
+		payload := FindSpacesResponsePayload{Spaces: ls}
+		logger.Info("Payload", zap.Any("payload", payload))
+		return payload, err
 	}
 	// @deprecated
 	// latitudeString := event.QueryStringParameters["lat"]
@@ -99,9 +100,8 @@ func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *custome
 	// 		Spaces: spaces,
 	// 	}, err.(*customerror.CustomError)
 	// }
-	payload := FindSpacesResponsePayload{}
 	logger.Error("Error", zap.Error(customerror.ErrorHandler.InvalidParamError(nil)))
-	return payload, customerror.ErrorHandler.InvalidParamError(nil)
+	return FindSpacesResponsePayload{}, customerror.ErrorHandler.InvalidParamError(nil)
 }
 
 func (h *ApiGatewayAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
@@ -135,12 +135,6 @@ func (h *ApiGatewayAdapter) AddSpace(event interface{}) (interface{}, *customerr
 
 func (h *ApiGatewayAdapter) DeleteSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	spaceId := event.(events.APIGatewayProxyRequest).PathParameters["spaceId"]
 	if spaceId == "" {
@@ -148,5 +142,7 @@ func (h *ApiGatewayAdapter) DeleteSpaceById(event interface{}) (interface{}, *cu
 		return DeleteSpaceByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("spaceId")
 	}
 	uid, err := h.service.DeleteSpaceById(spaceId)
-	return DeleteSpaceByIdResponsePayload{UId: uid}, err
+	payload := DeleteSpaceByIdResponsePayload{UId: uid}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
 }

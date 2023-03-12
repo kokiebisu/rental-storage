@@ -44,12 +44,6 @@ type ApiGatewayAdapter struct {
 
 func (h *ApiGatewayAdapter) CreateUser(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
@@ -72,20 +66,13 @@ func (h *ApiGatewayAdapter) CreateUser(event interface{}) (interface{}, *custome
 
 func (h *ApiGatewayAdapter) FindUserByEmail(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
+	logger.Info("Event", zap.Any("event", event))
 	emailAddress := event.(events.APIGatewayProxyRequest).QueryStringParameters["emailAddress"]
 	if emailAddress == "" {
 		logger.Error("Email Address not extracted properly")
 		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.GetParameterError("emailAddress")
 	}
-	logger.Info("Email Address", zap.String("emailAddress", emailAddress))
 	user, err := h.service.FindByEmail(emailAddress)
-	logger.Info("Found User", zap.Any("user", user))
 	payload := FindUserByEmailResponsePayload{
 		User: user.ToDTO(),
 	}
@@ -96,12 +83,6 @@ func (h *ApiGatewayAdapter) FindUserByEmail(event interface{}) (interface{}, *cu
 
 func (h *ApiGatewayAdapter) FindUserById(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
@@ -118,12 +99,7 @@ func (h *ApiGatewayAdapter) FindUserById(event interface{}) (interface{}, *custo
 
 func (h *ApiGatewayAdapter) RemoveUserById(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
+	logger.Info("Event", zap.Any("event", event))
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
 		logger.Error("uid not extracted properly")
@@ -133,5 +109,6 @@ func (h *ApiGatewayAdapter) RemoveUserById(event interface{}) (interface{}, *cus
 	payload := RemoveUserByIdResponsePayload{
 		UId: uid,
 	}
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err
 }
