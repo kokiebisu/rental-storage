@@ -1,5 +1,9 @@
+import { useContext, useEffect, useState } from "react";
+
 import { createStyles, Menu, Center, rem } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
+
+import { AuthContext } from "@/context/auth";
 import { Button } from "..";
 
 const useStyles = createStyles((theme) => ({
@@ -35,7 +39,15 @@ interface HeaderSearchProps {
 }
 
 const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { checkIsAuthenticated } = useContext(AuthContext);
   const { classes } = useStyles();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsAuthenticated(checkIsAuthenticated());
+    }
+  }, [checkIsAuthenticated]);
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
@@ -87,7 +99,11 @@ const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
             <div>Rental Storage</div>
             <div className="flex items-center">
               <div className="sm:none flex mx-2 mr-2">{items}</div>
-              <Button label="Sign In" onClick={onSignInClicked} />
+              {isAuthenticated ? (
+                <div>Logged In</div>
+              ) : (
+                <Button label="Sign In" onClick={onSignInClicked} />
+              )}
             </div>
           </div>
           <div className="flex justify-between items-center my-3">

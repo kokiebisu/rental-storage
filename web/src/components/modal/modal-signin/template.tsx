@@ -1,22 +1,27 @@
-import { Stepper, Group, Code } from "@mantine/core";
+import { Stepper, Group } from "@mantine/core";
+
+import { SignUpParams } from "@/hooks/useAuth";
+
 import { Button, TextInput, PasswordInput } from "../..";
 
 export interface SignInModalTemplateProps {
-  usernameProps: any;
+  firstNameProps: any;
+  lastNameProps: any;
   passwordProps: any;
-  nameProps: any;
-  emailProps: any;
+  emailAddressProps: any;
   active: number;
+  handleSignUp: (userInfo: SignUpParams) => void;
   nextStep: () => void;
   prevStep: () => void;
 }
 
 const SignInModalTemplate = ({
-  usernameProps,
+  firstNameProps,
+  lastNameProps,
   passwordProps,
-  nameProps,
-  emailProps,
+  emailAddressProps,
   active,
+  handleSignUp,
   nextStep,
   prevStep,
 }: SignInModalTemplateProps) => {
@@ -25,31 +30,65 @@ const SignInModalTemplate = ({
       <Stepper active={active} breakpoint="sm">
         <Stepper.Step label="First step" description="Profile settings">
           <TextInput
-            label="Username"
-            placeholder="Username"
-            {...usernameProps}
+            label="FirstName"
+            placeholder="First Name"
+            {...firstNameProps}
+          />
+          <div className="mt-2">
+            <TextInput
+              label="Last Name"
+              placeholder="Last Name"
+              {...lastNameProps}
+            />
+          </div>
+        </Stepper.Step>
+
+        <Stepper.Step label="Second step" description="Personal information">
+          <TextInput
+            label="Email Address"
+            placeholder="Email Address"
+            {...emailAddressProps}
           />
           <div className="mt-2">
             <PasswordInput {...passwordProps} />
           </div>
         </Stepper.Step>
 
-        <Stepper.Step label="Second step" description="Personal information">
-          <TextInput label="Name" placeholder="Name" {...nameProps} />
-          <TextInput label="Email" placeholder="Email" {...emailProps} />
-        </Stepper.Step>
-
-        <Stepper.Completed>
-          Completed! Form values:
+        {/* <Stepper.Completed>
+          Completed!
           <Code block mt="xl">
-            {JSON.stringify({ usernameProps }, null, 2)}
+            {JSON.stringify(
+              {
+                firstName: firstNameProps.value,
+                lastName: lastNameProps.value,
+                emailAddress: emailAddressProps.value,
+                password: passwordProps.value,
+              },
+              null,
+              2
+            )}
           </Code>
-        </Stepper.Completed>
+        </Stepper.Completed> */}
       </Stepper>
 
       <Group position="right" mt="xl">
         {active !== 0 && <Button label="Back" onClick={prevStep} />}
-        {active !== 3 && <Button label="Next step" onClick={nextStep} />}
+        {active == 1 && (
+          <Button
+            label="Sign Up"
+            onClick={() =>
+              handleSignUp({
+                firstName: firstNameProps.value,
+                lastName: lastNameProps.value,
+                emailAddress: emailAddressProps.value,
+                password: passwordProps.value,
+              })
+            }
+          />
+        )}
+        {active != 1 && active != 2 && (
+          <Button label="Next Step" onClick={nextStep} />
+        )}
       </Group>
     </>
   );

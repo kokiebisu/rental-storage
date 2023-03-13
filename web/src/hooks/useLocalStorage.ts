@@ -4,19 +4,25 @@ export const useLocalStorage = () => {
   const [value, setValue] = useState<string | null>(null);
 
   const setItem = (key: string, value: string) => {
-    localStorage.setItem(key, value);
-    setValue(value);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(key, value);
+      setValue(value);
+    }
   };
 
   const getItem = (key: string) => {
-    const value = localStorage.getItem(key);
-    setValue(value);
-    return value;
+    if (typeof window !== "undefined") {
+      const value = localStorage.getItem(key);
+      setValue(value);
+      return value;
+    }
   };
 
   const removeItem = (key: string) => {
-    localStorage.removeItem(key);
-    setValue(null);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(key);
+      setValue(null);
+    }
   };
 
   return { value, setItem, getItem, removeItem };
