@@ -1,13 +1,14 @@
-import { SignUpParams, useAuth } from "@/hooks/useAuth";
 import { createContext } from "react";
-import { User } from "../hooks/useUser";
+
+import { SignUpParams, useAuth } from "@/hooks/useAuth";
+import { User } from "@/hooks/useUser";
 
 interface AuthContext {
   user?: User | null;
   login: (user: any) => Promise<void>;
   logout: () => void;
   signup: (data: SignUpParams) => Promise<void>;
-  isAuthenticated: () => boolean;
+  checkIsAuthenticated: () => boolean;
 }
 
 export const AuthContext = createContext<AuthContext>({
@@ -15,14 +16,14 @@ export const AuthContext = createContext<AuthContext>({
   login: async () => {},
   logout: () => {},
   signup: async () => {},
-  isAuthenticated: () => false,
+  checkIsAuthenticated: () => false,
 });
 
 export const AuthContextProvider = ({ children }: any) => {
-  const { user, signup, login, logout, isAuthenticated } = useAuth();
+  const { user, signup, login, logout, checkIsAuthenticated } = useAuth();
   return (
     <AuthContext.Provider
-      value={{ user, signup, login, logout, isAuthenticated }}
+      value={{ user, signup, login, logout, checkIsAuthenticated }}
     >
       {children}
     </AuthContext.Provider>

@@ -8,31 +8,45 @@ import {
 } from "@apollo/client";
 import { AuthOptions, createAuthLink } from "aws-appsync-auth-link";
 import { createSubscriptionHandshakeLink } from "aws-appsync-subscription-link";
-
 import { appsyncConfig } from "../config";
 
 export const CustomApolloProvider = ({ children }: any) => {
   const url = appsyncConfig.GRAPHQL_ENDPOINT;
   const region = appsyncConfig.REGION;
+  const auth: AuthOptions = {
+    type: "AWS_LAMBDA",
+    token:
+      typeof window !== "undefined"
+        ? localStorage.getItem("authorizationToken") || ""
+        : "",
+  };
 
-  const auth = {
-    type: appsyncConfig.AUTHENTICATION_TYPE,
-    token: async () => {
-      try {
-        const token = localStorage.getItem("authorizationToken");
-        return token;
-      } catch (err) {
-        console.error(err);
-      }
+  const authLink = createAuthLink({
+    url,
+    region: appsyncConfig.REGION,
+    auth,
+  });
+
+  const subscriptionLink = createSubscriptionHandshakeLink(
+    {
+      url,
+      region,
+      auth,
     },
-  } as AuthOptions;
+    new HttpLink({ uri: url })
+  );
 
-  const httpLink = new HttpLink({ uri: url });
+  const link = ApolloLink.from([authLink, subscriptionLink]);
 
-  const link = ApolloLink.from([
-    createAuthLink({ url, region: appsyncConfig.REGION, auth }),
-    createSubscriptionHandshakeLink({ url, region, auth }, httpLink),
-  ]);
+  link.request = (operation, forward) => {
+    const token = localStorage.getItem("authorizationToken") || ""; // Get token from local storage
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : null,
+      },
+    });
+    return forward ? forward(operation) : null;
+  };
 
   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     link,
