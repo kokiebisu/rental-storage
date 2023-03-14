@@ -17,7 +17,7 @@ provider:
 
 custom:
   namespace: app
-  service: appsync
+  service: api-appsync
   appSync:
     - name: ${self:custom.namespace}-private-${self:custom.service}
       authenticationType: AWS_LAMBDA
