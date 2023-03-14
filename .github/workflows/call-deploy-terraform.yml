@@ -10,27 +10,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            package:
-              - 'terraform/**'
-              - '.github/**'
-
       - uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
-        if: steps.changes.outputs.package == 'true'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
-        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform config
         run: pnpm run terraform:setup:dev
         shell: bash
-        if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1-node16
@@ -38,14 +27,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform init
         id: init
         run: terraform init
         shell: bash
         working-directory: ./terraform
-        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Format
         id: fmt
@@ -65,7 +52,6 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
-        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Validate
         id: validate
@@ -85,7 +71,6 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
-        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Plan
         id: plan
@@ -106,7 +91,6 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
-        if: steps.changes.outputs.package == 'true'
 
       - name: Update Pull Request
         uses: actions/github-script@v6
@@ -129,11 +113,10 @@ jobs:
             </details>
 
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
-        if: steps.changes.outputs.package == 'true'
 
       - name: Terraform Plan Status
         run: exit 1
-        if: steps.plan.outcome == 'failure' && steps.changes.outputs.package == 'true'
+        if: steps.plan.outcome == 'failure'
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
@@ -153,4 +136,3 @@ jobs:
           TF_VAR_user_db_name: users
         shell: bash
         working-directory: ./terraform
-        if: steps.changes.outputs.package == 'true'
