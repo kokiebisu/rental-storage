@@ -1,21 +1,16 @@
-schema {
-  query: Query
-  mutation: Mutation
+extend type Query {
+  booking(id: ID!): Booking @aws_lambda
+  bookings(spaceId: ID!, bookingStatus: BookingStatus): [Booking] @aws_lambda
 }
 
-type Query {
-  booking(id: ID!): Booking
-  bookings(spaceId: ID!): [Booking]
-}
-
-type Mutation {
+extend type Mutation {
   bookingCreate(
     spaceId: ID!
     imageUrls: [String!]!
     description: String!
     startDate: String!
     endDate: String!
-  ): UId
+  ): UId @aws_lambda
 }
 
 type Booking {
@@ -29,4 +24,9 @@ type Booking {
   updatedAt: String
   startDate: String
   endDate: String
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
 }

@@ -1,4 +1,4 @@
-import { ImageResourceURLBuilder } from "../../../src/client";
+import { ImageResourceURLBuilder } from "../../../src/resource";
 
 describe("ImageResourceURLBuilder", () => {
   const builder = new ImageResourceURLBuilder();

@@ -1,3 +1,4 @@
+import { AppSyncResolverEvent } from "aws-lambda";
 import { findBooking } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
@@ -7,7 +8,9 @@ describe("findBooking()", () => {
       throw new Error("data.bookingId is empty");
     }
     const event = createEvent({ ...mockEvent });
-    const result = await findBooking(event);
+    const result = await findBooking(
+      event as AppSyncResolverEvent<{ id: string }, unknown>
+    );
     expect(result?.id).not.toBeUndefined();
     expect(result?.spaceId).not.toBeUndefined();
 
@@ -16,7 +19,7 @@ describe("findBooking()", () => {
   });
 });
 
-const createEvent = (event: any) => {
+const createEvent = (event: AppsyncResolverMockEvent) => {
   return {
     ...event,
     arguments: {

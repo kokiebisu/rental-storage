@@ -1,13 +1,8 @@
-schema {
-  query: Query
-  mutation: Mutation
+extend type Query {
+  getPresignedURL(filename: String): PresignedURL @aws_lambda
 }
 
-type Query {
-  getPresignedURL(filename: String): PresignedURL
-}
-
-type PresignedURL {
+type PresignedURL @aws_lambda {
   url: String
   filename: String
 }

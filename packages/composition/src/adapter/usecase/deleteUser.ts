@@ -1,5 +1,6 @@
-import { RestAPIClient, UserResourceURLBuilder } from "../../client";
+import { RestAPIClient } from "../../client";
 import { InternalServerError } from "../../error";
+import { UserResourceURLBuilder } from "../../resource";
 
 interface DeleteUserCommandConstructor {
   id: string;

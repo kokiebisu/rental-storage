@@ -1,4 +1,5 @@
-import { BookingResourceURLBuilder, RestAPIClient } from "../../client";
+import { RestAPIClient } from "../../client";
+import { BookingResourceURLBuilder } from "../../resource";
 
 interface FindBookingCommandConstructor {
   id: string;

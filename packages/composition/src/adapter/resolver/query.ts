@@ -1,5 +1,4 @@
 import { AppSyncIdentityLambda, AppSyncResolverEvent } from "aws-lambda";
-import { isCustomError } from "../../helper";
 import { FindBookingCommand, FindBookingUseCase } from "../usecase/findBooking";
 import { FindSpaceCommand, FindSpaceUseCase } from "../usecase/findSpace";
 import { FindSpacesCommand, FindSpacesUseCase } from "../usecase/findSpaces";
@@ -13,67 +12,95 @@ import {
   FindBookingsCommand,
   FindBookingsUseCase,
 } from "../usecase/findBookings";
+import { LoggerClient } from "../../client";
+
+const logger = new LoggerClient();
 
 export const findBooking = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
+  logger.info(event.arguments, __filename, 22);
   const usecase = new FindBookingUseCase();
-  return await usecase.execute(new FindBookingCommand(event.arguments));
+  const response = await usecase.execute(
+    new FindBookingCommand(event.arguments)
+  );
+  logger.info(response, __filename, 27);
+  return response;
 };
 
 export const findBookings = async (
-  event: AppSyncResolverEvent<{ spaceId: string }, unknown>
+  event: AppSyncResolverEvent<
+    { spaceId: string; bookingStatus: "PENDING" | "APPROVED" },
+    unknown
+  >
 ) => {
+  logger.info(event.arguments, __filename, 37);
   const usecase = new FindBookingsUseCase();
-  return await usecase.execute(new FindBookingsCommand(event.arguments));
+  const response = await usecase.execute(
+    new FindBookingsCommand(event.arguments)
+  );
+  logger.info(response, __filename, 42);
+  return response;
 };
 
 export const findSpace = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ): Promise<ISpace> => {
+  logger.info(event.arguments, __filename, 49);
   const usecase = new FindSpaceUseCase();
-  return await usecase.execute(new FindSpaceCommand(event.arguments));
+  const response = await usecase.execute(new FindSpaceCommand(event.arguments));
+  logger.info(response, __filename, 52);
+  return response;
 };
 
 export const findSpaces = async (
   event: AppSyncResolverEvent<{ userId: string }, unknown>
 ) => {
+  logger.info(event.arguments, __filename, 59);
   const usecase = new FindSpacesUseCase();
-  return await usecase.execute(
+  const response = await usecase.execute(
     new FindSpacesCommand({
       userId: event.arguments.userId,
     })
   );
+  logger.info(response, __filename, 66);
+  return response;
 };
 
 export const getPresignedURL = async (
   event: AppSyncResolverEvent<{ filename: string }, unknown>
 ) => {
-  try {
-    const usecase = new GetPresignedURLUseCase();
-    return await usecase.execute(new GetPresignedURLCommand(event.arguments));
-  } catch (err: unknown) {
-    return isCustomError(err) ? err.serializeError() : err;
-  }
+  logger.info(event.arguments, __filename, 73);
+  const usecase = new GetPresignedURLUseCase();
+  const response = await usecase.execute(
+    new GetPresignedURLCommand(event.arguments)
+  );
+  logger.info(response, __filename, 78);
+  return response;
 };
 
 export const findMe = async (
   event: AppSyncResolverEvent<Record<string, never>, unknown>
 ) => {
+  logger.info(event.arguments, __filename, 85);
   const usecase = new FindMeUseCase();
-  return await usecase.execute(
+  const response = await usecase.execute(
     new FindMeCommand({
       id: (event.identity as AppSyncIdentityLambda).resolverContext.uid,
     })
   );
+  logger.info(response, __filename, 92);
+  return response;
 };
 
 export const findUser = async (
   event: AppSyncResolverEvent<{ id: string }, unknown>
 ) => {
+  logger.info(event.arguments, __filename, 99);
   const usecase = new FindUserUseCase();
   const response = await usecase.execute(
     new FindUserCommand({ id: event.arguments.id })
   );
+  logger.info(response, __filename, 104);
   return response;
 };

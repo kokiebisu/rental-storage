@@ -1,0 +1,56 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query
+type Mutation
+
+# Objects
+type UId @aws_lambda {
+  uid: String
+}
+
+type Location @aws_api_key {
+  address: String
+  city: String
+  country: String
+  countryCode: String
+  phone: String
+  province: String
+  provinceCode: String
+  zip: String
+  coordinate: Coordinate
+}
+
+type Coordinate @aws_api_key {
+  latitude: Float
+  longitude: Float
+}
+
+input CoordinateInput {
+  latitude: Float
+  longitude: Float
+}
+
+# Enum
+enum FeeType {
+  MONTHLY
+}
+
+enum Currency {
+  CAD
+}
+
+# Input
+input LocationInput {
+  address: String
+  city: String
+  country: String
+  countryCode: String
+  phone: String
+  province: String
+  provinceCode: String
+  zip: String
+  coordinate: CoordinateInput
+}

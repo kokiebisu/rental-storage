@@ -1,41 +1,56 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "@/context/auth";
-import { useRouter } from "next/router";
-import { Button } from "@/components/button";
+import { useDisclosure } from "@mantine/hooks";
+import { Card, SignInModal, Header } from "@/components";
+import { useQuery } from "@apollo/client";
+import { FIND_SPACES_QUERY } from "@/queries";
+import { apiKeyClient } from "@/apollo";
 
 const HomePage = () => {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const { logout, isAuthenticated } = useContext(AuthContext);
+  const [opened, { open, close }] = useDisclosure(false);
+  const links = [{ label: "Borrow", link: "/borrow" }];
+  const { data, loading, error } = useQuery(FIND_SPACES_QUERY, {
+    client: apiKeyClient,
+    variables: {
+      userId: "0be09cf7-8988-4333-a8b7-466383489d6a",
+    },
+  });
 
-  const handleSignOut = async () => {
-    try {
-      await logout();
-      router.push("/login");
-    } catch (err) {
-      alert("something failed");
-    }
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-    if (
-      !isAuthenticated &&
-      router.pathname !== "/login" &&
-      router.pathname !== "/signup"
-    ) {
-      router.replace("/login");
-    }
-    setIsLoading(false);
-  }, []);
-
-  if (isLoading) {
-    return <div>is loading...</div>;
+  if (loading) {
+    return <div>loading</div>;
+  }
+  if (error) {
+    return <div>error</div>;
   }
 
   return (
     <div>
-      <Button label="sign out" onClick={handleSignOut} />
+      <Header links={links} onSignInClicked={open} />
+      <main>
+        <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
+          <section>
+            <h3 className="text-3xl font-bold">Near your area</h3>
+            <div className="mt-4">
+              <h5>
+                Refine your Canada real estate search by price, bedroom, or type
+                (house, townhouse, or condo). View up-to-date MLS® listings in
+                Canada.
+              </h5>
+            </div>
+            <div className="mt-4">
+              <h5>1 storage available in Canada</h5>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+              {data.spaces.map((space: any) => {
+                return (
+                  <div key={space.id}>
+                    <Card />
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        </div>
+        <SignInModal opened={opened} close={close} />
+      </main>
     </div>
   );
 };

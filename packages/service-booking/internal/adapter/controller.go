@@ -5,8 +5,12 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/google/uuid"
+	"go.uber.org/zap"
+
+	"github.com/kokiebisu/rental-storage/service-booking/internal/client"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/domain/booking"
 	"github.com/kokiebisu/rental-storage/service-booking/internal/core/port"
+
 	customerror "github.com/kokiebisu/rental-storage/service-booking/internal/error"
 )
 
@@ -26,13 +30,15 @@ type ApiGatewayAdapter struct {
 	service port.BookingService
 }
 
-func NewApiGatewayAdapter(service port.BookingService) (port.Controller, *customerror.CustomError) {
+func NewApiGatewayAdapter(service port.BookingService) port.Controller {
 	return &ApiGatewayAdapter{
 		service,
-	}, nil
+	}
 }
 
 func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	body := struct {
 		UserId      string   `json:"userId"`
 		SpaceId     string   `json:"spaceId"`
@@ -45,28 +51,46 @@ func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *cust
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	bookingId, err := a.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, body.Description, body.StartDate, body.EndDate, "", "")
-	return CreateBookingResponsePayload{UId: bookingId}, err.(*customerror.CustomError)
+	bookingId, err := a.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, "PENDING", body.Description, body.StartDate, body.EndDate, "", "")
+	payload := CreateBookingResponsePayload{UId: bookingId}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err.(*customerror.CustomError)
 }
 
 func (a *ApiGatewayAdapter) FindBookingById(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	bookingId := event.(events.APIGatewayProxyRequest).PathParameters["bookingId"]
 	if bookingId == "" {
 		return FindBookingByIdResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
 	}
-	booking, err := a.service.FindById(bookingId)
-	return FindBookingByIdResponsePayload{Booking: booking.ToDTO()}, err
+	booking, err := a.service.FindBookingById(bookingId)
+	payload := FindBookingByIdResponsePayload{Booking: booking.ToDTO()}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
 }
 
 func (a *ApiGatewayAdapter) FindBookings(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
+	var bs []booking.Entity = []booking.Entity{}
+	var err *customerror.CustomError
+	bookingStatus := event.(events.APIGatewayProxyRequest).QueryStringParameters["bookingStatus"]
+
 	spaceId := event.(events.APIGatewayProxyRequest).QueryStringParameters["spaceId"]
-	if spaceId == "" {
-		return FindBookingsResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
+	if spaceId != "" {
+		bs, err = a.service.FindBookingsBySpaceId(spaceId, bookingStatus)
 	}
-	b, err := a.service.FindManyBySpaceId(spaceId)
-	bs := []booking.DTO{}
-	for _, i := range b {
-		bs = append(bs, i.ToDTO())
+
+	userId := event.(events.APIGatewayProxyRequest).QueryStringParameters["userId"]
+	if userId != "" {
+		bs, err = a.service.FindBookingsByUserId(userId, bookingStatus)
 	}
-	return FindBookingsResponsePayload{Bookings: bs}, err
+	bds := []booking.DTO{}
+	for _, i := range bs {
+		bds = append(bds, i.ToDTO())
+	}
+	payload := FindBookingsResponsePayload{Bookings: bds}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
 }

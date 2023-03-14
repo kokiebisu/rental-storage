@@ -1,6 +1,9 @@
 import { RestAPIClient } from "../../client";
-import UserResourceURLBuilder from "../../client/user";
 import { InternalServerError } from "../../error";
+import {
+  BookingResourceURLBuilder,
+  UserResourceURLBuilder,
+} from "../../resource";
 
 interface FindUserCommandConstructor {
   id: string;
@@ -21,13 +24,34 @@ export class FindUserUseCase {
       throw new InternalServerError();
     }
     const client = new RestAPIClient();
-    const builder = new UserResourceURLBuilder();
-    const response = await client.get<{
+    const userResourceBuilder = new UserResourceURLBuilder();
+    const userResponse = await client.get<{
       user: Omit<IUser, "id"> & { uid: string };
-    }>(builder.findUser(id));
+    }>(userResourceBuilder.findUser(id));
+    const bookingResourceBuilder = new BookingResourceURLBuilder();
+    const bookingApprovedResponse = await client.get<{
+      bookings: (Omit<IBooking, "id"> & { uid: string })[];
+    }>(bookingResourceBuilder.findApprovedBookings({ userId: id }));
+    const bookingPendingResponse = await client.get<{
+      bookings: (Omit<IBooking, "id"> & { uid: string })[];
+    }>(bookingResourceBuilder.findPendingBookings({ userId: id }));
     return {
-      ...response.data.user,
-      id: response.data.user.uid,
+      ...userResponse.data.user,
+      id: userResponse.data.user.uid,
+      bookings: {
+        pending: bookingPendingResponse.data.bookings.map((booking) => {
+          return {
+            ...booking,
+            id: booking.uid,
+          };
+        }),
+        approved: bookingApprovedResponse.data.bookings.map((booking) => {
+          return {
+            ...booking,
+            id: booking.uid,
+          };
+        }),
+      },
     };
   }
 }

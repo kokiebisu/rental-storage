@@ -27,7 +27,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: pnpm install -g serverless@2.72.3
+        run: pnpm install -g serverless@3.28.1
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -63,7 +63,6 @@ jobs:
           - booking
           - image
           - space
-          - payment
           - slack
           - user
     steps:
@@ -83,7 +82,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: pnpm install -g serverless@2.72.3
+        run: pnpm install -g serverless@3.28.1
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials
@@ -133,7 +132,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Install global dependencies
-        run: pnpm install -g serverless@2.72.3
+        run: pnpm install -g serverless@3.28.1
         if: steps.changes.outputs.package == 'true'
 
       - name: Configure AWS credentials

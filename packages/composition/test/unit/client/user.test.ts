@@ -1,4 +1,4 @@
-import { UserResourceURLBuilder } from "../../../src/client";
+import { UserResourceURLBuilder } from "../../../src/resource";
 
 describe("UserResourceURLBuilder", () => {
   const builder = new UserResourceURLBuilder();

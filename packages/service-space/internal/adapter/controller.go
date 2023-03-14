@@ -5,10 +5,13 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/google/uuid"
+	"go.uber.org/zap"
 
+	"github.com/kokiebisu/rental-storage/service-space/internal/client"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/location"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
+
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
@@ -28,34 +31,50 @@ type DeleteSpaceByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-type ControllerAdapter struct {
+type ApiGatewayAdapter struct {
 	service port.SpaceService
 }
 
-func NewControllerAdapter(service port.SpaceService) (port.Controller, *customerror.CustomError) {
-	return NewApiGatewayAdapter(service)
-}
-
-func NewApiGatewayAdapter(service port.SpaceService) (port.Controller, *customerror.CustomError) {
-	return &ControllerAdapter{
+func NewApiGatewayAdapter(service port.SpaceService) port.Controller {
+	return &ApiGatewayAdapter{
 		service,
-	}, nil
+	}
 }
 
-func (h *ControllerAdapter) FindSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	defer func() {
+		err := logger.Sync()
+		if err != nil {
+			logger.Error("Error syncing logger", zap.Error(err))
+		}
+	}()
+	logger.Info("Event", zap.Any("event", event))
 	spaceId := event.(events.APIGatewayProxyRequest).PathParameters["spaceId"]
 	if spaceId == "" {
 		return FindSpaceByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("spaceId")
 	}
 	l, err := h.service.FindSpaceById(spaceId)
-	return FindSpaceByIdResponsePayload{Space: l}, err
+	payload := FindSpaceByIdResponsePayload{Space: l}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
 }
 
-func (h *ControllerAdapter) FindSpaces(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	defer func() {
+		err := logger.Sync()
+		if err != nil {
+			logger.Error("Error syncing logger", zap.Error(err))
+		}
+	}()
+	logger.Info("Event", zap.Any("event", event))
 	userId := event.(events.APIGatewayProxyRequest).QueryStringParameters["userId"]
 	if userId != "" {
 		ls, err := h.service.FindSpacesByUserId(userId)
-		return FindSpacesResponsePayload{Spaces: ls}, err
+		payload := FindSpacesResponsePayload{Spaces: ls}
+		logger.Info("Payload", zap.Any("payload", payload))
+		return payload, err
 	}
 	// @deprecated
 	// latitudeString := event.QueryStringParameters["lat"]
@@ -81,10 +100,19 @@ func (h *ControllerAdapter) FindSpaces(event interface{}) (interface{}, *custome
 	// 		Spaces: spaces,
 	// 	}, err.(*customerror.CustomError)
 	// }
+	logger.Error("Error", zap.Error(customerror.ErrorHandler.InvalidParamError(nil)))
 	return FindSpacesResponsePayload{}, customerror.ErrorHandler.InvalidParamError(nil)
 }
 
-func (h *ControllerAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	defer func() {
+		err := logger.Sync()
+		if err != nil {
+			logger.Error("Error syncing logger", zap.Error(err))
+		}
+	}()
+	logger.Info("Event", zap.Any("event", event))
 	body := struct {
 		LenderId    string       `json:"lenderId"`
 		Location    location.DTO `json:"location"`
@@ -94,19 +122,27 @@ func (h *ControllerAdapter) AddSpace(event interface{}) (interface{}, *customerr
 	}{}
 	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &body)
 	if err != nil {
+		logger.Error("Error", zap.Error(err))
 		return AddSpaceResponsePayload{}, customerror.ErrorHandler.UnmarshalError("space body", err)
 	}
 	spaceId, err := h.service.CreateSpace(uuid.New().String(), body.LenderId, body.Location, body.ImageUrls, body.Title, body.Description, "", "")
-	return AddSpaceResponsePayload{
+	payload := AddSpaceResponsePayload{
 		UId: spaceId,
-	}, err.(*customerror.CustomError)
+	}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ControllerAdapter) DeleteSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) DeleteSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	spaceId := event.(events.APIGatewayProxyRequest).PathParameters["spaceId"]
 	if spaceId == "" {
+		logger.Error("Error", zap.Error(customerror.ErrorHandler.GetParameterError("spaceId")))
 		return DeleteSpaceByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("spaceId")
 	}
 	uid, err := h.service.DeleteSpaceById(spaceId)
-	return DeleteSpaceByIdResponsePayload{UId: uid}, err
+	payload := DeleteSpaceByIdResponsePayload{UId: uid}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
 }

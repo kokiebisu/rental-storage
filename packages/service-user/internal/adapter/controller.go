@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 
 	"github.com/aws/aws-lambda-go/events"
+	"go.uber.org/zap"
 
+	"github.com/kokiebisu/rental-storage/service-user/internal/client"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/item"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-user/internal/core/port"
+
 	customerror "github.com/kokiebisu/rental-storage/service-user/internal/error"
 )
 
@@ -27,23 +30,21 @@ type RemoveUserByIdResponsePayload struct {
 	UId string `json:"uid"`
 }
 
-func NewControllerAdapter(service port.UserService, publisher port.UserPublisher) (port.Controller, *customerror.CustomError) {
-	return ApiGatewayAdapter(service, publisher)
-}
-
-func ApiGatewayAdapter(service port.UserService, publisher port.UserPublisher) (port.Controller, *customerror.CustomError) {
-	return &ControllerAdapter{
+func NewApiGatewayAdapter(service port.UserService, publisher port.UserPublisher) port.Controller {
+	return &ApiGatewayAdapter{
 		service,
 		publisher,
-	}, nil
+	}
 }
 
-type ControllerAdapter struct {
+type ApiGatewayAdapter struct {
 	service   port.UserService
 	publisher port.UserPublisher
 }
 
-func (h *ControllerAdapter) CreateUser(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) CreateUser(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	body := struct {
 		EmailAddresss string `json:"emailAddress"`
 		FirstName     string `json:"firstName"`
@@ -52,49 +53,62 @@ func (h *ControllerAdapter) CreateUser(event interface{}) (interface{}, *custome
 	}{}
 	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &body)
 	if err != nil {
+		logger.Error("Error unmarshalling body", zap.Error(err))
 		return CreateUserResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}
-
 	uid, err := h.service.CreateUser("", body.EmailAddresss, body.FirstName, body.LastName, body.Password, []item.DTO{}, "", "")
 	payload := CreateUserResponsePayload{
 		UId: uid,
 	}
-
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err.(*customerror.CustomError)
 }
 
-func (h *ControllerAdapter) FindUserByEmail(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindUserByEmail(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	emailAddress := event.(events.APIGatewayProxyRequest).QueryStringParameters["emailAddress"]
 	if emailAddress == "" {
+		logger.Error("Email Address not extracted properly")
 		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.GetParameterError("emailAddress")
 	}
 	user, err := h.service.FindByEmail(emailAddress)
 	payload := FindUserByEmailResponsePayload{
 		User: user.ToDTO(),
 	}
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err
+
 }
 
-func (h *ControllerAdapter) FindUserById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) FindUserById(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
+		logger.Error("Email Address not extracted properly")
 		return FindUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")
 	}
 	user, err := h.service.FindById(uid)
 	payload := FindUserByIdResponsePayload{
 		User: user.ToDTO(),
 	}
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err
 }
 
-func (h *ControllerAdapter) RemoveUserById(event interface{}) (interface{}, *customerror.CustomError) {
+func (h *ApiGatewayAdapter) RemoveUserById(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
 	uid := event.(events.APIGatewayProxyRequest).PathParameters["userId"]
 	if uid == "" {
+		logger.Error("uid not extracted properly")
 		return RemoveUserByIdResponsePayload{}, customerror.ErrorHandler.GetParameterError("userId")
 	}
 	uid, err := h.service.RemoveById(uid)
 	payload := RemoveUserByIdResponsePayload{
 		UId: uid,
 	}
+	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err
 }

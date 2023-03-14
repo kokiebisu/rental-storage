@@ -1,5 +1,5 @@
 service: service-authorizer
-variablesResolutionMode: 20210326
+frameworkVersion: "3"
 
 plugins:
   - serverless-deployment-bucket
@@ -24,6 +24,7 @@ provider:
         file: Dockerfile
         buildArgs:
   environment:
+    ENV: local
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
 
 custom:
