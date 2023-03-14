@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN cd cmd/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/authorize *.go
+RUN cd cmd/controller/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../../bin/authorize *.go
 
 FROM amazon/aws-lambda-go:latest
 

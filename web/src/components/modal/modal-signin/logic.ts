@@ -1,19 +1,17 @@
 import { useContext, useState } from "react";
 import { useForm } from "@mantine/form";
-import { useRouter } from "next/router";
 
 import { AuthContext } from "@/context/auth";
 import { SignUpParams } from "@/hooks/useAuth";
 
-const useSignInModal = () => {
-  const router = useRouter();
+const useSignInModal = ({ close }: any) => {
   const { signup } = useContext(AuthContext);
   const [active, setActive] = useState(0);
 
   const handleSignUp = async (userInfo: SignUpParams) => {
     try {
       await signup(userInfo);
-      router.reload();
+      close();
     } catch (err) {
       alert(err);
     }

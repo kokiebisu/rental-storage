@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useLocalStorage = () => {
   const [value, setValue] = useState<string | null>(null);
+
+  useEffect(() => {
+    const value = localStorage.getItem("authorizationToken");
+    setValue(value);
+  }, []);
 
   const setItem = (key: string, value: string) => {
     if (typeof window !== "undefined") {

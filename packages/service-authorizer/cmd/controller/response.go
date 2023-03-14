@@ -1,4 +1,4 @@
-package responses
+package controller
 
 import (
 	"github.com/aws/aws-lambda-go/events"
