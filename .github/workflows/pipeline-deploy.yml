@@ -8,6 +8,8 @@ jobs:
     name: Terraform
     uses: ./.github/workflows/call-deploy-terraform.yml
     secrets: inherit
+    with:
+      manual: true
 
   deploy-serverless:
     name: Serverless

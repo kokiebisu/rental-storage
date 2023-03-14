@@ -59,7 +59,6 @@ jobs:
           - authentication
           - booking
           - space
-          - payment
           - user
     steps:
       - name: Checkout
