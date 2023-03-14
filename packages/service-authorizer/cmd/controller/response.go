@@ -7,6 +7,7 @@ import (
 func SendUnAuthorizedResponse() *events.AppSyncLambdaAuthorizerResponse {
 	return &events.AppSyncLambdaAuthorizerResponse{
 		IsAuthorized: false,
+		DeniedFields: []string{},
 	}
 }
 
@@ -16,5 +17,6 @@ func SendAuthorizedResponse(uid string) *events.AppSyncLambdaAuthorizerResponse 
 		ResolverContext: map[string]interface{}{
 			"uid": uid,
 		},
+		DeniedFields: []string{},
 	}
 }

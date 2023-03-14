@@ -1,6 +1,12 @@
 {
   "name": "@rental-storage-project/authorizer",
+  "private": true,
+  "scripts": {
+    "deploy": "sls deploy --config serverless.yml --stage local",
+    "remove": "sls remove --config serverless.yml --stage local"
+  },
   "devDependencies": {
+    "serverless": "3.28.1",
     "serverless-deployment-bucket": "1.6.0"
   }
 }

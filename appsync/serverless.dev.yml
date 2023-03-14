@@ -1,11 +1,8 @@
 service: infrastructure-appsync
-variablesResolutionMode: 20210326
+configValidationMode: error
 
 plugins:
-  - serverless-plugin-common-excludes # this should go before serverless-plugin-include-dependencies
-  - serverless-plugin-include-dependencies
   - serverless-appsync-plugin
-  - serverless-pseudo-parameters
   - serverless-deployment-bucket
 
 provider:
@@ -13,42 +10,181 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-app-sls-infrastructure-appsync
+    name: ${self:provider.stage}-${aws:accountId}-sls-infrastructure-appsync
 
 custom:
   namespace: app
   service: api-appsync
-  appSync:
-    - name: ${self:custom.namespace}-${self:custom.service}
-      authenticationType: AWS_LAMBDA
-      lambdaAuthorizerConfig:
-        lambdaFunctionArn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-authorizer
-        authorizerResultTtlInSeconds: 0
-      schema:
-        - schema/common.graphql
-        - schema/private/*.graphql
-      mappingTemplatesLocation: ./aws/appsync/mapping-templates/private
-      dataSources:
-        - ${file(./aws/appsync/data-sources/booking.yml)}
-        - ${file(./aws/appsync/data-sources/image.yml)}
-        - ${file(./aws/appsync/data-sources/space.yml)}
-        - ${file(./aws/appsync/data-sources/user.yml)}
-      mappingTemplates:
-        - ${file(./aws/appsync/mapping-templates/private/booking/mapping-template.yml)}
-        - ${file(./aws/appsync/mapping-templates/private/image/mapping-template.yml)}
-        - ${file(./aws/appsync/mapping-templates/private/space/mapping-template.yml)}
-        - ${file(./aws/appsync/mapping-templates/private/user/mapping-template.yml)}
 
-    - name: ${self:custom.namespace}-public-${self:custom.service}
-      authenticationType: API_KEY
-      schema:
-        - schema/common.graphql
-        - schema/public/*.graphql
-      mappingTemplatesLocation: ./aws/appsync/mapping-templates/public
-      dataSources:
-        - ${file(./aws/appsync/data-sources/booking.yml)}
-        - ${file(./aws/appsync/data-sources/image.yml)}
-        - ${file(./aws/appsync/data-sources/space.yml)}
-        - ${file(./aws/appsync/data-sources/user.yml)}
-      mappingTemplates:
-        - ${file(./aws/appsync/mapping-templates/public/space/mapping-template.yml)}
+appSync:
+  name: ${self:custom.namespace}-${self:custom.service}
+
+  apiKeys:
+    - name: mobile
+      description: Mobile Client
+      expiresAfter: 365d
+
+  authentication:
+    type: "API_KEY"
+
+  additionalAuthentications:
+    - type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-authorizer
+        authorizerResultTtlInSeconds: 0
+
+  schema:
+    - schema/*.graphql
+
+  dataSources:
+    # Booking
+    FindBookingFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-booking
+    FindBookingsFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-bookings
+    BookingCreateFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-create-booking
+
+    # Space
+    FindSpaceFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-space
+    FindSpacesFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-spaces
+    SpaceCreateFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-create-space
+    SpaceDeleteFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-delete-space
+
+    # Image
+    GetPresignedURLFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-get-presigned-url
+
+    # User
+    ProfileFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-me
+    FindUserFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-find-user
+    DeleteUserFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-delete-user
+
+  pipelineFunctions:
+    # Booking
+    BookingCreateFn:
+      dataSource: BookingCreateFn
+    FindBookingFn:
+      dataSource: FindBookingFn
+    FindBookingsFn:
+      dataSource: FindBookingsFn
+
+    # Space
+    FindSpaceFn:
+      dataSource: FindSpaceFn
+    FindSpacesFn:
+      dataSource: FindSpacesFn
+    SpaceCreateFn:
+      dataSource: SpaceCreateFn
+    SpaceDeleteFn:
+      dataSource: SpaceDeleteFn
+
+    # Image
+    GetPresignedURLFn:
+      dataSource: GetPresignedURLFn
+
+    # User
+    ProfileFn:
+      dataSource: ProfileFn
+    FindUserFn:
+      dataSource: FindUserFn
+    DeleteUserFn:
+      dataSource: DeleteUserFn
+
+  resolvers:
+    # Booking
+    Query.booking:
+      request: ./resolvers/booking/query.booking.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - FindBookingFn
+    Query.bookings:
+      request: ./resolvers/booking/query.bookings.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - FindBookingsFn
+    Mutation.bookingCreate:
+      request: ./resolvers/booking/mutation.bookingCreate.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - BookingCreateFn
+
+    # Space
+    Query.space:
+      request: ./resolvers/space/query.space.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - FindSpaceFn
+
+    Query.spaces:
+      request: ./resolvers/space/query.spaces.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - FindSpacesFn
+
+    Mutation.spaceCreate:
+      request: ./resolvers/space/mutation.spaceCreate.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - SpaceCreateFn
+
+    Mutation.spaceDelete:
+      request: ./resolvers/space/mutation.spaceDelete.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - SpaceDeleteFn
+
+    # Image
+    Query.getPresignedURL:
+      request: ./resolvers/image/query.getPresignedURL.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - GetPresignedURLFn
+
+    Query.profile:
+      request: ./resolvers/user/query.profile.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - ProfileFn
+
+    Query.user:
+      request: ./resolvers/user/query.user.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - FindUserFn
+
+    ## User
+    Mutation.userDelete:
+      request: ./resolvers/user/mutation.userDelete.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - DeleteUserFn

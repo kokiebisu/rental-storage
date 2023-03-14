@@ -1,0 +1,23 @@
+extend type Query {
+  user(id: ID!): User @aws_lambda
+  profile: User @aws_lambda
+}
+
+extend type Mutation {
+  userDelete(id: ID!): UId @aws_lambda
+}
+
+type User @aws_lambda {
+  id: ID
+  firstName: String
+  lastName: String
+  emailAddress: String
+  createdAt: String
+  updatedAt: String
+  bookings: Bookings
+}
+
+type Bookings @aws_lambda {
+  pending: [Booking]
+  approved: [Booking]
+}

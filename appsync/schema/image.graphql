@@ -1,0 +1,8 @@
+extend type Query {
+  getPresignedURL(filename: String): PresignedURL @aws_lambda
+}
+
+type PresignedURL @aws_lambda {
+  url: String
+  filename: String
+}

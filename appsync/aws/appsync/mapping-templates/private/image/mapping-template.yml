@@ -1,6 +1,0 @@
-## Mutation
-- type: Query
-  field: getPresignedURL
-  dataSource: GetPresignedURLFunction
-  request: ./image/query.getPresignedURL.vtl
-  response: false
