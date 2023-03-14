@@ -37,7 +37,4 @@ custom:
       - ${file(./aws/appsync/data-sources/space.yml)}
       - ${file(./aws/appsync/data-sources/user.yml)}
     mappingTemplates:
-      - ${file(./aws/appsync/mapping-templates/booking/mapping-template.yml)}
-      - ${file(./aws/appsync/mapping-templates/image/mapping-template.yml)}
-      - ${file(./aws/appsync/mapping-templates/space/mapping-template.yml)}
-      - ${file(./aws/appsync/mapping-templates/user/mapping-template.yml)}
+      - ${file(./aws/appsync/mapping-templates/public/space/mapping-template.yml)}
