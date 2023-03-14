@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@apollo/client': 3.6.9
+  '@apollo/client': 3.7.10
   '@babel/core': 7.21.0
   '@emotion/react': 11.10.6
   '@emotion/server': 11.10.0
@@ -70,7 +70,7 @@ specifiers:
   webpack: '5'
 
 dependencies:
-  '@apollo/client': 3.6.9_o264z5epwuajru7y4dsijkqr44
+  '@apollo/client': 3.7.10_wxfjnvblbhu4ianu4f2qg722fu
   '@emotion/react': 11.10.6_3stiutgnnbnfnf3uowm5cip22i
   '@emotion/server': 11.10.0
   '@headlessui/react': 1.7.13_biqbaboplfbrettd7655fr4n2y
@@ -96,9 +96,9 @@ dependencies:
   '@tiptap/extension-link': 2.0.0-beta.220
   '@tiptap/react': 2.0.0-beta.220_biqbaboplfbrettd7655fr4n2y
   '@tiptap/starter-kit': 2.0.0-beta.220
-  aws-appsync-auth-link: 3.0.7_@apollo+client@3.6.9
+  aws-appsync-auth-link: 3.0.7_@apollo+client@3.7.10
   aws-appsync-react: 4.0.13_react@18.2.0
-  aws-appsync-subscription-link: 3.1.0_@apollo+client@3.6.9
+  aws-appsync-subscription-link: 3.1.0_@apollo+client@3.7.10
   axios: 1.3.4
   cookie: 0.5.0
   cross-fetch: 3.1.5
@@ -149,23 +149,26 @@ packages:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.17
 
-  /@apollo/client/3.6.9_o264z5epwuajru7y4dsijkqr44:
-    resolution: {integrity: sha512-Y1yu8qa2YeaCUBVuw08x8NHenFi0sw2I3KCu7Kw9mDSu86HmmtHJkCAifKVrN2iPgDTW/BbP3EpSV8/EQCcxZA==}
+  /@apollo/client/3.7.10_wxfjnvblbhu4ianu4f2qg722fu:
+    resolution: {integrity: sha512-/k1MfrqPKYiPNdHcOzdxg9cEx96vhAGxAcSorzfBvV29XtFQcYW2cPNQOTjK/fpSMtqVo8UNmu5vwQAWD1gfCg==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
       graphql-ws:
         optional: true
       react:
         optional: true
+      react-dom:
+        optional: true
       subscriptions-transport-ws:
         optional: true
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
-      '@wry/context': 0.6.1
+      '@wry/context': 0.7.0
       '@wry/equality': 0.5.3
       '@wry/trie': 0.3.2
       graphql: 15.8.0
@@ -174,6 +177,8 @@ packages:
       optimism: 0.16.2
       prop-types: 15.8.1
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      response-iterator: 0.2.6
       symbol-observable: 4.0.0
       ts-invariant: 0.10.3
       tslib: 2.5.0
@@ -4954,13 +4959,6 @@ packages:
       '@xtuc/long': 4.2.2
     dev: true
 
-  /@wry/context/0.6.1:
-    resolution: {integrity: sha512-LOmVnY1iTU2D8tv4Xf6MVMZZ+juIJ87Kt/plMijjN20NMAXGmH4u8bS1t0uT74cZ5gwpocYueV58YwyI8y+GKw==}
-    engines: {node: '>=8'}
-    dependencies:
-      tslib: 2.5.0
-    dev: false
-
   /@wry/context/0.7.0:
     resolution: {integrity: sha512-LcDAiYWRtwAoSOArfk7cuYvFXytxfVrdX7yxoUmK7pPITLk5jYh2F8knCwS7LjgYL8u1eidPlKKV6Ikqq0ODqQ==}
     engines: {node: '>=8'}
@@ -5462,12 +5460,12 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /aws-appsync-auth-link/3.0.7_@apollo+client@3.6.9:
+  /aws-appsync-auth-link/3.0.7_@apollo+client@3.7.10:
     resolution: {integrity: sha512-Jsa53opryGFIOHGok74ICfboxhDN64o11Z+aXoCrAnE0TwzJMMK1F20ha6sYzUuozY9pGYeE+EQ3OVn6waYMog==}
     peerDependencies:
       '@apollo/client': 3.x
     dependencies:
-      '@apollo/client': 3.6.9_o264z5epwuajru7y4dsijkqr44
+      '@apollo/client': 3.7.10_wxfjnvblbhu4ianu4f2qg722fu
       '@aws-crypto/sha256-js': 1.2.2
       '@aws-sdk/types': 3.257.0
       '@aws-sdk/util-hex-encoding': 3.201.0
@@ -5487,13 +5485,13 @@ packages:
       react: 18.2.0
     dev: false
 
-  /aws-appsync-subscription-link/3.1.0_@apollo+client@3.6.9:
+  /aws-appsync-subscription-link/3.1.0_@apollo+client@3.7.10:
     resolution: {integrity: sha512-5gox5uY9Fwjuxc0DZ2n7jiOXAo7Ri7VEd1U+WOc7WlX6zSzuGh0xLPIEQ2dcYL4vGRHttkCp9IJMrv6HGYA/4g==}
     peerDependencies:
       '@apollo/client': 3.x
     dependencies:
-      '@apollo/client': 3.6.9_o264z5epwuajru7y4dsijkqr44
-      aws-appsync-auth-link: 3.0.7_@apollo+client@3.6.9
+      '@apollo/client': 3.7.10_wxfjnvblbhu4ianu4f2qg722fu
+      aws-appsync-auth-link: 3.0.7_@apollo+client@3.7.10
       debug: 2.6.9
       url: 0.11.0
     transitivePeerDependencies:
@@ -11781,6 +11779,11 @@ packages:
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
+
+  /response-iterator/0.2.6:
+    resolution: {integrity: sha512-pVzEEzrsg23Sh053rmDUvLSkGXluZio0qu8VT6ukrYuvtjVfCbDZH9d6PGXb8HZfzdNZt8feXv/jvUzlhRgLnw==}
+    engines: {node: '>=0.8'}
+    dev: false
 
   /ret/0.1.15:
     resolution: {integrity: sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==}
