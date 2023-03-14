@@ -29,7 +29,6 @@ jobs:
           - authorizer
           - booking
           - space
-          - payment
           - user
     steps:
       - name: Checkout

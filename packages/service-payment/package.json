@@ -1,6 +1,0 @@
-{
-  "name": "@rental-storage-project/payment",
-  "devDependencies": {
-    "serverless-deployment-bucket": "1.6.0"
-  }
-}
