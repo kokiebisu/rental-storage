@@ -1,0 +1,24 @@
+schema {
+  mutation: Mutation
+}
+
+type Mutation {
+  spaceCreate(
+    title: String
+    location: LocationInput
+    imageUrls: [String]
+    description: String
+  ): UId
+  spaceDelete(id: ID): UId
+}
+
+type Space {
+  id: String
+  title: String
+  lenderId: String
+  location: Location
+  imageUrls: [String]
+  description: String
+  createdAt: String
+  updatedAt: String
+}

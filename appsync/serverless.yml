@@ -17,27 +17,38 @@ provider:
 
 custom:
   namespace: app
-  service: infrastructure-appsync
+  service: api-appsync
   appSync:
-    name: ${self:custom.namespace}-${self:custom.service}
-    authenticationType: AWS_LAMBDA
-    lambdaAuthorizerConfig:
-      lambdaFunctionArn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-authorizer
-      authorizerResultTtlInSeconds: 0
-    schema:
-      - schema/common.graphql
-      - schema/booking.graphql
-      - schema/image.graphql
-      - schema/space.graphql
-      - schema/user.graphql
-    mappingTemplatesLocation: ./aws/appsync/mapping-templates
-    dataSources:
-      - ${file(./aws/appsync/data-sources/booking.yml)}
-      - ${file(./aws/appsync/data-sources/image.yml)}
-      - ${file(./aws/appsync/data-sources/space.yml)}
-      - ${file(./aws/appsync/data-sources/user.yml)}
-    mappingTemplates:
-      - ${file(./aws/appsync/mapping-templates/booking/mapping-template.yml)}
-      - ${file(./aws/appsync/mapping-templates/image/mapping-template.yml)}
-      - ${file(./aws/appsync/mapping-templates/space/mapping-template.yml)}
-      - ${file(./aws/appsync/mapping-templates/user/mapping-template.yml)}
+    - name: ${self:custom.namespace}-private-${self:custom.service}
+      authenticationType: AWS_LAMBDA
+      lambdaAuthorizerConfig:
+        lambdaFunctionArn: arn:aws:lambda:${aws:region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-authorizer
+        authorizerResultTtlInSeconds: 0
+      schema:
+        - schema/common.graphql
+        - schema/private/*.graphql
+      mappingTemplatesLocation: ./aws/appsync/mapping-templates/private
+      dataSources:
+        - ${file(./aws/appsync/data-sources/booking.yml)}
+        - ${file(./aws/appsync/data-sources/image.yml)}
+        - ${file(./aws/appsync/data-sources/space.yml)}
+        - ${file(./aws/appsync/data-sources/user.yml)}
+      mappingTemplates:
+        - ${file(./aws/appsync/mapping-templates/private/booking/mapping-template.yml)}
+        - ${file(./aws/appsync/mapping-templates/private/image/mapping-template.yml)}
+        - ${file(./aws/appsync/mapping-templates/private/space/mapping-template.yml)}
+        - ${file(./aws/appsync/mapping-templates/private/user/mapping-template.yml)}
+
+    - name: ${self:custom.namespace}-public-${self:custom.service}
+      authenticationType: API_KEY
+      schema:
+        - schema/common.graphql
+        - schema/public/*.graphql
+      mappingTemplatesLocation: ./aws/appsync/mapping-templates/public
+      dataSources:
+        - ${file(./aws/appsync/data-sources/booking.yml)}
+        - ${file(./aws/appsync/data-sources/image.yml)}
+        - ${file(./aws/appsync/data-sources/space.yml)}
+        - ${file(./aws/appsync/data-sources/user.yml)}
+      mappingTemplates:
+        - ${file(./aws/appsync/mapping-templates/public/space/mapping-template.yml)}
