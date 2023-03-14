@@ -2,7 +2,8 @@
   "name": "@rental-storage-project/api-appsync",
   "private": true,
   "devDependencies": {
-    "serverless-appsync-plugin": "1.14.0",
+    "serverless": "3.28.1",
+    "serverless-appsync-plugin": "2.2.0",
     "serverless-deployment-bucket": "1.6.0",
     "serverless-plugin-common-excludes": "4.0.0",
     "serverless-plugin-include-dependencies": "5.0.0",
@@ -10,5 +11,8 @@
   },
   "dependencies": {
     "glob": "9.2.1"
+  },
+  "scripts": {
+    "deploy": "sls deploy --config serverless.yml --stage local"
   }
 }
