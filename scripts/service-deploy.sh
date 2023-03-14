@@ -7,20 +7,20 @@ function deploy_services () {
     for package in "${packages[@]}"
     do
         echo "Deploying ${package^} service...";
-        (cd "packages/service-${package}" && pnpm run deploy);
+        (cd "packages/service-${package}" && make deploy);
     done
 }
 
 function deploy_composition () {
     local package="composition"
     echo "Deploying ${package^}...";
-    (cd "packages/${package}" && pnpm run deploy);
+    (cd "packages/${package}" && make deploy);
 }
 
 function deploy_appsync() {
     local package="appsync"
     echo "Deploying ${package^}...";
-    (cd "${package}" && pnpm run deploy);
+    (cd "${package}" && make deploy);
 }
 
 deploy_services

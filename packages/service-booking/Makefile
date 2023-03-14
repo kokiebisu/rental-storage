@@ -24,14 +24,6 @@ test-unit:
 test-integration:
 	cd test/integration && export ENV=test && go test ./... && cd ../..
 
-.PHONY: test-integration-service
-test-integration-service:
-	cd test/integration/service && go test ./... && cd ../..
-
-.PHONY: test-integration-controller
-test-integration-controller:
-	cd test/integration/controller && go test ./... && cd ../..
-
 .PHONY: lint
 lint:
 	golangci-lint run ./... --timeout=5m
@@ -52,3 +44,11 @@ deps-stop:
 aws-docker-check-items: 
 	make profile-set
 	aws dynamodb scan --table-name booking --endpoint-url http://localhost:8000
+
+.PHONY: remove
+remove:
+	npx -y serverless@3.28.1 remove --config serverless.yml --stage local
+
+.PHONY: deploy
+deploy:
+	npx -y serverless@3.28.1 deploy --config serverless.yml --stage local
