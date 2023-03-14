@@ -1,3 +1,4 @@
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import {
   ApolloClient,
   ApolloLink,
@@ -8,17 +9,26 @@ import {
 } from "@apollo/client";
 import { AuthOptions, createAuthLink } from "aws-appsync-auth-link";
 import { createSubscriptionHandshakeLink } from "aws-appsync-subscription-link";
+import { createContext, useEffect, useState } from "react";
 import { appsyncConfig } from "../config";
 
+export const CustomApollo = createContext({
+  client: new ApolloClient({
+    link: ApolloLink.from([]),
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
+  }),
+});
+
 export const CustomApolloProvider = ({ children }: any) => {
+  const { value } = useLocalStorage();
   const url = appsyncConfig.GRAPHQL_ENDPOINT;
   const region = appsyncConfig.REGION;
   const auth: AuthOptions = {
     type: "AWS_LAMBDA",
     token:
-      typeof window !== "undefined"
-        ? localStorage.getItem("authorizationToken") || ""
-        : "",
+      (typeof window !== "undefined" && localStorage.getItem("bearerToken")) ||
+      "",
   };
 
   const authLink = createAuthLink({
@@ -36,20 +46,8 @@ export const CustomApolloProvider = ({ children }: any) => {
     new HttpLink({ uri: url })
   );
 
-  const link = ApolloLink.from([authLink, subscriptionLink]);
-
-  link.request = (operation, forward) => {
-    const token = localStorage.getItem("authorizationToken") || ""; // Get token from local storage
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : null,
-      },
-    });
-    return forward ? forward(operation) : null;
-  };
-
   const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-    link,
+    link: ApolloLink.from([authLink, subscriptionLink]),
     cache: new InMemoryCache(),
     connectToDevTools: true,
   });

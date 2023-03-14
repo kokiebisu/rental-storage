@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	cd cmd/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../bin/authorize *.go
+	cd cmd/controller/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../../bin/authorize *.go
 
 .PHONY: clean
 clean:
@@ -17,3 +17,11 @@ test-unit:
 .PHONY: lint
 lint:
 	golangci-lint run ./... --timeout=5m
+
+.PHONY: remove
+remove:
+	npx -y serverless@3.28.1 remove --config serverless.yml --stage local
+
+.PHONY: deploy
+deploy:
+	npx -y serverless@3.28.1 deploy --config serverless.yml --stage local
