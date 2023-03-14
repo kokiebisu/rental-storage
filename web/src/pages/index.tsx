@@ -18,8 +18,6 @@ const HomePage = () => {
     return <div>error</div>;
   }
 
-  console.log("DATA: ", data);
-
   return (
     <div>
       <Header links={links} onSignInClicked={open} />

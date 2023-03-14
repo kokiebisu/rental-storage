@@ -24,7 +24,6 @@ export const CustomApolloProvider = ({ children }: any) => {
   const { value } = useLocalStorage();
   const url = appsyncConfig.GRAPHQL_ENDPOINT;
   const region = appsyncConfig.REGION;
-  console.log("VALUE: ", value);
   const auth: AuthOptions = {
     type: "AWS_LAMBDA",
     token:
