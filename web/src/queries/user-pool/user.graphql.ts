@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export default gql`
+export const FIND_PROFILE_QUERY = gql`
   query MyQuery {
     profile {
       createdAt

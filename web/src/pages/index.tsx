@@ -1,15 +1,18 @@
-import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Card, SignInModal, Header } from "@/components";
 import { useQuery } from "@apollo/client";
-import { FIND_PROFILE_QUERY } from "@/queries/user";
-import { useContext } from "react";
-import { CustomApollo } from "@/context/apollo";
+import { FIND_SPACES_QUERY } from "@/queries";
+import { apiKeyClient } from "@/apollo";
 
 const HomePage = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const links = [{ label: "Borrow", link: "/borrow" }];
-  const { data, loading, error } = useQuery(FIND_PROFILE_QUERY);
+  const { data, loading, error } = useQuery(FIND_SPACES_QUERY, {
+    client: apiKeyClient,
+    variables: {
+      userId: "0be09cf7-8988-4333-a8b7-466383489d6a",
+    },
+  });
 
   if (loading) {
     return <div>loading</div>;
@@ -36,15 +39,13 @@ const HomePage = () => {
               <h5>1 storage available in Canada</h5>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-              {Array(5)
-                .fill(null)
-                .map(() => {
-                  return (
-                    <Link key={null} href="/spaces/1">
-                      <Card />
-                    </Link>
-                  );
-                })}
+              {data.spaces.map((space: any) => {
+                return (
+                  <div key={space.id}>
+                    <Card />
+                  </div>
+                );
+              })}
             </div>
           </section>
         </div>
