@@ -1,40 +1,53 @@
+import { useContext, useState } from "react";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
 
-const useSignInModal = () => {
+import { AuthContext } from "@/context/auth";
+import { SignUpParams } from "@/hooks/useAuth";
+
+const useSignInModal = ({ close }: any) => {
+  const { signup } = useContext(AuthContext);
   const [active, setActive] = useState(0);
+
+  const handleSignUp = async (userInfo: SignUpParams) => {
+    try {
+      await signup(userInfo);
+      close();
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   const form = useForm({
     initialValues: {
-      username: "",
+      firstName: "",
+      lastName: "",
       password: "",
-      name: "",
-      email: "",
-      website: "",
-      github: "",
+      emailAddress: "",
     },
 
     validate: (values) => {
       if (active === 0) {
         return {
-          username:
-            values.username.trim().length < 6
-              ? "Username must include at least 6 characters"
+          firstName:
+            values.firstName.trim().length < 2
+              ? "First name must include at least 2 characters"
               : null,
-          password:
-            values.password.length < 6
-              ? "Password must include at least 6 characters"
+          lastName:
+            values.lastName.trim().length < 2
+              ? "Last name must include at least 2 characters"
               : null,
         };
       }
 
       if (active === 1) {
         return {
-          name:
-            values.name.trim().length < 2
-              ? "Name must include at least 2 characters"
+          password:
+            values.password.length < 6
+              ? "Password must include at least 6 characters"
               : null,
-          email: /^\S+@\S+$/.test(values.email) ? null : "Invalid email",
+          emailAddress: /^\S+@\S+$/.test(values.emailAddress)
+            ? null
+            : "Invalid email",
         };
       }
 
@@ -56,10 +69,11 @@ const useSignInModal = () => {
   };
 
   return {
-    usernameProps: form.getInputProps("username"),
+    firstNameProps: form.getInputProps("firstName"),
+    lastNameProps: form.getInputProps("lastName"),
     passwordProps: form.getInputProps("password"),
-    nameProps: form.getInputProps("name"),
-    emailProps: form.getInputProps("email"),
+    emailAddressProps: form.getInputProps("emailAddress"),
+    handleSignUp,
     active,
     nextStep,
     prevStep,

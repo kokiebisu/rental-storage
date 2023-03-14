@@ -1,24 +1,19 @@
-schema {
-  query: Query
-  mutation: Mutation
+extend type Query {
+  space(id: ID!): Space @aws_api_key
+  spaces(userId: ID): [Space] @aws_api_key
 }
 
-type Query {
-  space(id: ID!): Space
-  spaces(userId: ID): [Space]
-}
-
-type Mutation {
+extend type Mutation {
   spaceCreate(
     title: String
     location: LocationInput
     imageUrls: [String]
     description: String
-  ): UId
-  spaceDelete(id: ID): UId
+  ): UId @aws_lambda
+  spaceDelete(id: ID): UId @aws_lambda
 }
 
-type Space {
+type Space @aws_api_key {
   id: String
   title: String
   lenderId: String

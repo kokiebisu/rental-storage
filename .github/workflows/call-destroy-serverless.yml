@@ -58,7 +58,6 @@ jobs:
           - booking
           - image
           - space
-          - payment
           - slack
           - user
     steps:

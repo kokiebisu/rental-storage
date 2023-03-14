@@ -1,9 +1,6 @@
 {
   "name": "@rental-storage-project/user",
   "private": true,
-  "version": "1.0.0",
-  "description": "",
-  "types": "dist/types/index.d.ts",
   "scripts": {
     "deploy": "sls deploy --config serverless.yml --stage local",
     "remove": "sls remove --config serverless.yml --stage local"

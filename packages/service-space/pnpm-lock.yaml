@@ -56,7 +56,7 @@ packages:
     dependencies:
       '@serverless/event-mocks': 1.1.1
       '@serverless/platform-client': 4.3.2_supports-color@8.1.1
-      '@serverless/utils': 6.8.2
+      '@serverless/utils': 6.9.0
       child-process-ext: 2.1.1
       chokidar: 3.5.3
       flat: 5.0.2
@@ -115,8 +115,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@serverless/utils/6.8.2:
-    resolution: {integrity: sha512-FW8zdG8OPoF6qgyutiMhz4m/5SxbQjoQdbaGcW3wU6xe3QzQh41Hif7I3Xuu4J62CvxiWuz19sxNDJz2mTcskw==}
+  /@serverless/utils/6.9.0:
+    resolution: {integrity: sha512-14tJYySFn8UVPZoaFmR8G6upZ+cOrTHrzzPYD9pN/CugarxvwOv4pVd/N66cUDMOqPyGZbV7csqYBPfxKi4qTw==}
     engines: {node: '>=12.0'}
     dependencies:
       archive-type: 4.0.0
@@ -141,6 +141,7 @@ packages:
       log-node: 8.0.3_log@6.3.1
       make-dir: 3.1.0
       memoizee: 0.4.15
+      ms: 2.1.3
       ncjsm: 4.3.2
       node-fetch: 2.6.9
       open: 8.4.2
@@ -176,7 +177,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.13.0
+      '@types/node': 18.15.3
       '@types/responselike': 1.0.0
     dev: true
 
@@ -187,21 +188,21 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.13.0
+      '@types/node': 18.15.3
     dev: true
 
   /@types/lodash/4.14.191:
     resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
     dev: true
 
-  /@types/node/18.13.0:
-    resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
+  /@types/node/18.15.3:
+    resolution: {integrity: sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==}
     dev: true
 
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.13.0
+      '@types/node': 18.15.3
     dev: true
 
   /adm-zip/0.5.10:
@@ -290,7 +291,7 @@ packages:
       lodash.isplainobject: 4.0.6
       lodash.union: 4.6.0
       normalize-path: 3.0.0
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
     dev: true
 
   /archiver/5.3.1:
@@ -300,7 +301,7 @@ packages:
       archiver-utils: 2.1.0
       async: 3.2.4
       buffer-crc32: 0.2.13
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
       readdir-glob: 1.1.2
       tar-stream: 2.2.0
       zip-stream: 4.1.0
@@ -343,8 +344,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /aws-sdk/2.1332.0:
-    resolution: {integrity: sha512-WuzpeiVv+80gPDv+foHTDap0FW0OkBax+wXf8frm1mub0aBOAGJ2rGnTaCbNVPOZ5zbMFSiEuODvlebMdWBnRg==}
+  /aws-sdk/2.1335.0:
+    resolution: {integrity: sha512-cuX3OA9awP1rFEuemqNGF5278u4auFx7aS+C69d+QIwfH6cHE+hLxk660ypTIlionE40nGyYEjLhj6dZeHdWNw==}
     engines: {node: '>= 10.0.0'}
     dependencies:
       buffer: 4.9.2
@@ -383,7 +384,7 @@ packages:
   /bl/1.2.3:
     resolution: {integrity: sha512-pvcNpa0UU69UT341rO6AYy4FVAIkUHuZXRIWbq+zHnsVcRzDDjIAhGuuYoi0d//cwIwtt4pkpKycWEfjdV+vww==}
     dependencies:
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
       safe-buffer: 5.2.1
     dev: true
 
@@ -392,7 +393,7 @@ packages:
     dependencies:
       buffer: 5.7.1
       inherits: 2.0.4
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
     dev: true
 
   /bluebird/3.7.2:
@@ -442,7 +443,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.2.1
+      ieee754: 1.1.13
       isarray: 1.0.0
     dev: true
 
@@ -658,7 +659,7 @@ packages:
       buffer-crc32: 0.2.13
       crc32-stream: 4.0.2
       normalize-path: 3.0.0
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
     dev: true
 
   /concat-map/0.0.1:
@@ -691,7 +692,7 @@ packages:
     engines: {node: '>= 10'}
     dependencies:
       crc-32: 1.2.2
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
     dev: true
 
   /cross-spawn/6.0.5:
@@ -1115,7 +1116,7 @@ packages:
       dezalgo: 1.0.4
       hexoid: 1.0.0
       once: 1.4.0
-      qs: 6.11.0
+      qs: 6.11.1
     dev: true
 
   /fs-constants/1.0.0:
@@ -1570,7 +1571,7 @@ packages:
     dependencies:
       lie: 3.3.0
       pako: 1.0.11
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
       setimmediate: 1.0.5
     dev: true
 
@@ -1592,7 +1593,7 @@ packages:
     resolution: {integrity: sha512-b94GiNHQNy6JNTrt5w6zNyffMrNkXZb3KTkCZJb2V1xaEGCk093vkZ2jk3tpaeP33/OiXC+WvK9AxUebnf5nbw==}
     engines: {node: '>= 0.6.3'}
     dependencies:
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
     dev: true
 
   /lie/3.3.0:
@@ -1778,8 +1779,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /minipass/4.0.3:
-    resolution: {integrity: sha512-OW2r4sQ0sI+z5ckEt5c1Tri4xTgZwYDxpE54eqWlQloQRoWtXjqt9udJ5Z4dSv7wK+nfFI7FRXyCpBSft+gpFw==}
+  /minipass/4.2.5:
+    resolution: {integrity: sha512-+yQl7SX3bIT83Lhb4BVorMAHVuqsskxRdlmO9kTpyukp8vsm2Sn/fUOV9xlnG8/a5JsypJzap21lz/y3FBMJ8Q==}
     engines: {node: '>=8'}
     dev: true
 
@@ -1799,6 +1800,10 @@ packages:
 
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: true
+
+  /ms/2.1.3:
+    resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
 
   /mute-stream/0.0.8:
@@ -2065,8 +2070,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /qs/6.11.0:
-    resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
+  /qs/6.11.1:
+    resolution: {integrity: sha512-0wsrzgTz/kAVIeuxSjnpGC56rzYtr6JT/2BwEvMaPhFIoYa1aGO8LbzuU1R0uUYQkLpWBTOj0l/CLAJB64J6nQ==}
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
@@ -2093,8 +2098,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /readable-stream/2.3.7:
-    resolution: {integrity: sha512-Ebho8K4jIbHAxnuxi7o42OrZgF/ZTNcsZj6nRKyUmkhLFq8CHItp/fy6hQZuZmP/n3yZ9VBUbp4zz/mX8hmYPw==}
+  /readable-stream/2.3.8:
+    resolution: {integrity: sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==}
     dependencies:
       core-util-is: 1.0.3
       inherits: 2.0.4
@@ -2105,8 +2110,8 @@ packages:
       util-deprecate: 1.0.2
     dev: true
 
-  /readable-stream/3.6.0:
-    resolution: {integrity: sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==}
+  /readable-stream/3.6.2:
+    resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
     engines: {node: '>= 6'}
     dependencies:
       inherits: 2.0.4
@@ -2118,7 +2123,7 @@ packages:
     resolution: {integrity: sha512-ePeK6cc1EcKLEhJFt/AebMCLL+GgSKhuygrZ/GLaKZYEecIgIECf4UaUuaByiGtzckwR4ain9VzUh95T1exYGw==}
     engines: {node: '>=8'}
     dependencies:
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
     dev: true
 
   /readdir-glob/1.1.2:
@@ -2240,11 +2245,11 @@ packages:
     dependencies:
       '@serverless/dashboard-plugin': 6.2.3_supports-color@8.1.1
       '@serverless/platform-client': 4.3.2_supports-color@8.1.1
-      '@serverless/utils': 6.8.2
+      '@serverless/utils': 6.9.0
       ajv: 8.12.0
       ajv-formats: 2.1.1
       archiver: 5.3.1
-      aws-sdk: 2.1332.0
+      aws-sdk: 2.1335.0
       bluebird: 3.7.2
       cachedir: 2.3.0
       chalk: 4.1.2
@@ -2358,7 +2363,7 @@ packages:
   /split2/3.2.2:
     resolution: {integrity: sha512-9NThjpgZnifTkJpzTZ7Eue85S49QwpNhZTq6GRJwObb6jnLFNGB7Qm73V5HewTROPyxD0C29xqmaI68bQtV+hg==}
     dependencies:
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
     dev: true
 
   /sprintf-js/1.0.3:
@@ -2441,8 +2446,8 @@ packages:
       formidable: 2.1.1
       methods: 1.1.2
       mime: 2.6.0
-      qs: 6.11.0
-      readable-stream: 3.6.0
+      qs: 6.11.1
+      readable-stream: 3.6.2
       semver: 7.3.8
     transitivePeerDependencies:
       - supports-color
@@ -2484,7 +2489,7 @@ packages:
       buffer-alloc: 1.2.0
       end-of-stream: 1.4.4
       fs-constants: 1.0.0
-      readable-stream: 2.3.7
+      readable-stream: 2.3.8
       to-buffer: 1.1.1
       xtend: 4.0.2
     dev: true
@@ -2497,7 +2502,7 @@ packages:
       end-of-stream: 1.4.4
       fs-constants: 1.0.0
       inherits: 2.0.4
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
     dev: true
 
   /tar/6.1.13:
@@ -2506,7 +2511,7 @@ packages:
     dependencies:
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      minipass: 4.0.3
+      minipass: 4.2.5
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
@@ -2772,5 +2777,5 @@ packages:
     dependencies:
       archiver-utils: 2.1.0
       compress-commons: 4.1.1
-      readable-stream: 3.6.0
+      readable-stream: 3.6.2
     dev: true

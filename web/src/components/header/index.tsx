@@ -1,21 +1,12 @@
-import { createStyles, Menu, Group, Center, Burger, rem } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useContext, useEffect, useState } from "react";
+
+import { createStyles, Menu, Center, rem } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
+
+import { AuthContext } from "@/context/auth";
 import { Button } from "..";
 
 const useStyles = createStyles((theme) => ({
-  links: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
-    },
-  },
-
   link: {
     display: "block",
     lineHeight: 1,
@@ -48,8 +39,15 @@ interface HeaderSearchProps {
 }
 
 const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
-  const [opened, { toggle }] = useDisclosure(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { checkIsAuthenticated } = useContext(AuthContext);
   const { classes } = useStyles();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsAuthenticated(checkIsAuthenticated());
+    }
+  }, [checkIsAuthenticated]);
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
@@ -94,22 +92,26 @@ const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
   });
 
   return (
-    <header className="mb-6 border-b-gray-200 border-b px-4 md:px-0">
-      <div className="max-w-6xl mx-auto w-full">
+    <header className="mb-6 border-b-gray-200 border-b md:px-0">
+      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
         <div>
           <div className="flex justify-between items-center my-3">
             <div>Rental Storage</div>
             <div className="flex items-center">
               <div className="sm:none flex mx-2 mr-2">{items}</div>
-              <Button label="Sign In" onClick={onSignInClicked} />
+              {isAuthenticated ? (
+                <div>Logged In</div>
+              ) : (
+                <Button label="Sign In" onClick={onSignInClicked} />
+              )}
             </div>
           </div>
-          <Burger
-            opened={opened}
-            onClick={toggle}
-            className={classes.burger}
-            size="sm"
-          />
+          <div className="flex justify-between items-center my-3">
+            <div>Sorting Filters here...</div>
+            <div className="flex items-center">
+              <Button label="Map Search" onClick={() => alert()} />
+            </div>
+          </div>
         </div>
       </div>
     </header>

@@ -1,7 +1,8 @@
 import { useEffect } from "react";
+import axios from "axios";
+
 import { useUser } from "./useUser";
 import { useLocalStorage } from "./useLocalStorage";
-import axios from "axios";
 
 export interface SignUpParams {
   firstName: string;
@@ -52,17 +53,17 @@ export const useAuth = () => {
     if (response.status !== 200) {
       throw new Error("internal server error");
     }
-    const { authenticationToken } = response.data;
+    const { authorizationToken } = response.data;
 
     // in a production app, we need to send some data (usually username, password) to server and get a token
     // we will also need to handle errors if sign in faield
 
-    setItem("authenticationToken", authenticationToken);
+    setItem("bearerToken", authorizationToken);
   };
 
-  const isAuthenticated = () => {
-    const authenticationToken = getItem("authenticationToken");
-    return !!authenticationToken;
+  const checkIsAuthenticated = () => {
+    const bearerToken = getItem("bearerToken");
+    return !!bearerToken;
   };
 
   const login = async (data: LoginParams) => {
@@ -84,18 +85,18 @@ export const useAuth = () => {
     if (response.status !== 200) {
       throw new Error("something went wrong");
     }
-    const { authorizationToken } = response.data;
+    const { bearerToken } = response.data;
 
     // in a production app, we need to send some data (usually username, password) to server and get a token
     // we will also need to handle errors if sign in faield
 
-    setItem("authenticationToken", authorizationToken);
+    setItem("bearerToken", bearerToken);
   };
 
   const logout = () => {
-    removeItem("authenticationToken");
+    removeItem("bearerToken");
     removeUser();
   };
 
-  return { user, signup, login, logout, isAuthenticated };
+  return { user, signup, login, logout, checkIsAuthenticated };
 };

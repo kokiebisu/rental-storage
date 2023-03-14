@@ -24,14 +24,6 @@ test-unit:
 test-integration:
 	cd test/integration && export ENV=test && go test ./... && cd ../..
 
-.PHONY: test-integration-service
-test-integration-service:
-	cd test/integration/service && go test ./... && cd ../..
-
-.PHONY: test-integration-controller
-test-integration-controller:
-	cd test/integration/controller && go test ./... && cd ../..
-
 .PHONY: lint
 lint:
 	golangci-lint run ./... --timeout=5m

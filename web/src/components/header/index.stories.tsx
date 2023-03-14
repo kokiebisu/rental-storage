@@ -22,5 +22,6 @@ export const Header: Story = {
       },
     ],
     onSignInClicked: () => alert("Sign in clicked!"),
+    onMapScreenNavigate: () => alert("Map screen navigate!"),
   },
 };

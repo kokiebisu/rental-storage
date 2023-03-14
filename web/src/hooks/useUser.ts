@@ -18,13 +18,11 @@ export const useUser = () => {
   const addUser = (data: AddUserParam) => {
     setUser(user);
     setItem("user", JSON.stringify(user));
-    console.log("added user");
   };
 
   const removeUser = () => {
     setUser(null);
     setItem("user", "");
-    console.log("removed user");
   };
 
   return { user, addUser, removeUser };
