@@ -1,10 +1,24 @@
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 import { Card, SignInModal, Header } from "@/components";
+import { useQuery } from "@apollo/client";
+import { FIND_PROFILE_QUERY } from "@/queries/user";
+import { useContext } from "react";
+import { CustomApollo } from "@/context/apollo";
 
 const HomePage = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const links = [{ label: "Borrow", link: "/borrow" }];
+  const { data, loading, error } = useQuery(FIND_PROFILE_QUERY);
+
+  if (loading) {
+    return <div>loading</div>;
+  }
+  if (error) {
+    return <div>error</div>;
+  }
+
+  console.log("DATA: ", data);
 
   return (
     <div>
