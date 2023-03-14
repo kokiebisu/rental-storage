@@ -3,6 +3,7 @@ configValidationMode: error
 
 plugins:
   - serverless-appsync-plugin
+  - serverless-deployment-bucket
 
 provider:
   name: aws

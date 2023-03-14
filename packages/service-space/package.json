@@ -1,12 +1,12 @@
 {
   "name": "@rental-storage-project/space",
   "private": true,
-  "version": "1.0.0",
-  "description": "",
-  "devDependencies": {
-    "serverless-deployment-bucket": "1.6.0"
+  "scripts": {
+    "deploy": "sls deploy --config serverless.yml --stage local",
+    "remove": "sls remove --config serverless.yml --stage local"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "serverless": "3.28.1",
+    "serverless-deployment-bucket": "1.6.0"
+  }
 }
