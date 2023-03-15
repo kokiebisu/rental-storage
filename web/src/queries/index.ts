@@ -1,2 +1,2 @@
 export * from "./api-key";
-export * from "./user-pool";
+export * from "./aws-lambda";

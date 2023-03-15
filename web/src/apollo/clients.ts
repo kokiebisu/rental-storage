@@ -8,6 +8,7 @@ import {
 import { AuthOptions, createAuthLink } from "aws-appsync-auth-link";
 import { createSubscriptionHandshakeLink } from "aws-appsync-subscription-link";
 import { appsyncConfig } from "../config";
+import { setContext } from "@apollo/client/link/context";
 
 const url = appsyncConfig.GRAPHQL_ENDPOINT;
 const region = appsyncConfig.REGION;
@@ -15,10 +16,7 @@ const getAuthOption = (isAuthorized: boolean): AuthOptions => {
   if (isAuthorized) {
     return {
       type: "AWS_LAMBDA",
-      token:
-        (typeof window !== "undefined" &&
-          localStorage.getItem("bearerToken")) ||
-        "",
+      token: getBearerToken(),
     };
   } else {
     return {
@@ -27,6 +25,25 @@ const getAuthOption = (isAuthorized: boolean): AuthOptions => {
     };
   }
 };
+
+export const getBearerToken = () => {
+  const token =
+    typeof localStorage !== "undefined" && localStorage.getItem("bearerToken");
+  return token || "";
+};
+
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  const token = localStorage.getItem("bearerToken");
+
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token,
+    },
+  };
+});
 
 export const apiKeyClient: ApolloClient<NormalizedCacheObject> =
   new ApolloClient({
@@ -51,21 +68,23 @@ export const apiKeyClient: ApolloClient<NormalizedCacheObject> =
 
 export const awsLambdaClient: ApolloClient<NormalizedCacheObject> =
   new ApolloClient({
-    link: ApolloLink.from([
-      createAuthLink({
-        url,
-        region: appsyncConfig.REGION,
-        auth: getAuthOption(true),
-      }),
-      createSubscriptionHandshakeLink(
-        {
+    link: authLink.concat(
+      ApolloLink.from([
+        createAuthLink({
           url,
-          region,
+          region: appsyncConfig.REGION,
           auth: getAuthOption(true),
-        },
-        new HttpLink({ uri: url })
-      ),
-    ]),
+        }),
+        createSubscriptionHandshakeLink(
+          {
+            url,
+            region,
+            auth: getAuthOption(true),
+          },
+          new HttpLink({ uri: url })
+        ),
+      ])
+    ),
     cache: new InMemoryCache(),
     connectToDevTools: true,
   });

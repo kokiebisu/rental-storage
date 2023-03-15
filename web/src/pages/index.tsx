@@ -9,6 +9,12 @@ const HomePage = () => {
   const links = [{ label: "Borrow", link: "/borrow" }];
   const { data, loading, error } = useQuery(FIND_SPACES_QUERY, {
     client: apiKeyClient,
+    variables: {
+      filter: {
+        offset: 0,
+        limit: 6,
+      },
+    },
   });
 
   if (loading) {
@@ -36,17 +42,19 @@ const HomePage = () => {
               <h5>1 storage available in Canada</h5>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-              {data.spaces.map((space: any) => {
-                return (
-                  <div key={space.id}>
-                    <Card
-                      title={space.title}
-                      address={space.location.address}
-                      imageUrls={space.imageUrls}
-                    />
-                  </div>
-                );
-              })}
+              {data.spaces.length > 0
+                ? data.spaces.map((space: any) => {
+                    return (
+                      <div key={space.id}>
+                        <Card
+                          title={space.title}
+                          address={space.location.address}
+                          imageUrls={space.imageUrls}
+                        />
+                      </div>
+                    );
+                  })
+                : null}
             </div>
           </section>
         </div>

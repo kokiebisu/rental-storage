@@ -13,20 +13,13 @@ interface HeaderSearchProps {
 }
 
 const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { checkIsAuthenticated } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsAuthenticated(checkIsAuthenticated());
-    }
-  }, [checkIsAuthenticated]);
+  const { user } = useContext(AuthContext);
 
   return (
     <HeaderTemplate
       links={links}
       onSignInClicked={onSignInClicked}
-      isAuthenticated={isAuthenticated}
+      isAuthenticated={!!user}
     />
   );
 };
