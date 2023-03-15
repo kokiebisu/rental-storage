@@ -11,4 +11,5 @@ type SpaceRepository interface {
 	Delete(uid string) (string, *customerror.CustomError)
 	FindById(uid string) (space.Entity, *customerror.CustomError)
 	FindManyByUserId(userId string) ([]space.Entity, *customerror.CustomError)
+	FindMany(offset int, limit int) ([]space.Entity, *customerror.CustomError)
 }

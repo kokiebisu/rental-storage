@@ -1,6 +1,6 @@
 extend type Query {
   space(id: ID!): Space @aws_api_key
-  spaces(userId: ID): [Space] @aws_api_key
+  spaces(filter: SpaceFilter): [Space] @aws_api_key
 }
 
 extend type Mutation {
@@ -11,6 +11,13 @@ extend type Mutation {
     description: String
   ): UId @aws_lambda
   spaceDelete(id: ID): UId @aws_lambda
+}
+
+# you can either provide the 'userId' or the combination of 'offset' and 'limit'
+input SpaceFilter {
+  userId: ID
+  offset: Int
+  limit: Int
 }
 
 type Space @aws_api_key {

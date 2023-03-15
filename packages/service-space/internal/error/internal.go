@@ -94,8 +94,8 @@ func (e *Handler) ScanRowError(err error) *CustomError {
 	}
 }
 
-func (e *Handler) InvalidParamError(err error) *CustomError {
-	msg := "unable to extract any param"
+func (e *Handler) OffsetLimitNotProvidedError(err error) *CustomError {
+	msg := "need to provide offset and limit"
 	return &CustomError{
 		StatusCode: 500,
 		Message:    msg,

@@ -20,7 +20,7 @@ describe("BookingResourceURLBuilder", () => {
       spaceId,
     });
     expect(result).toEqual(
-      `${builder.baseURL}/bookings?spaceId=${spaceId}&status=pending`
+      `${builder.baseURL}/bookings?spaceId=${spaceId}&bookingStatus=pending`
     );
   });
 
@@ -30,7 +30,7 @@ describe("BookingResourceURLBuilder", () => {
       userId,
     });
     expect(result).toEqual(
-      `${builder.baseURL}/bookings?userId=${userId}&status=pending`
+      `${builder.baseURL}/bookings?userId=${userId}&bookingStatus=pending`
     );
   });
 
@@ -40,7 +40,7 @@ describe("BookingResourceURLBuilder", () => {
       spaceId,
     });
     expect(result).toEqual(
-      `${builder.baseURL}/bookings?spaceId=${spaceId}&status=approved`
+      `${builder.baseURL}/bookings?spaceId=${spaceId}&bookingStatus=approved`
     );
   });
 });

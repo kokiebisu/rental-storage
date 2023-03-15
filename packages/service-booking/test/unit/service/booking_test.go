@@ -40,28 +40,28 @@ func TestFindBookingById_Success(t *testing.T) {
 	assert.Equal(t, b.UId, b.UId)
 }
 
-// Find Bookings with status PENDING
+// Find Bookings with status 'pending'
 func TestFindPendingBookings_Success(t *testing.T) {
 	_, err := setupTest(t)
 	expected := []booking.Entity{data.MockBooking.ToEntity()}
-	data.MockBookingRepo.On("FindManyBySpaceId", data.MockBooking.SpaceId, "PENDING").Return(expected, nil)
+	data.MockBookingRepo.On("FindManyBySpaceId", data.MockBooking.SpaceId, "pending").Return(expected, nil)
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
 	assert.Nil(t, err, "should not throw error")
 
-	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, "PENDING")
+	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, "pending")
 	assert.Nil(t, err, "should not throw error")
 	assert.Equal(t, b[0].UId, expected[0].UId)
 }
 
-// Find Bookings with status APPROVED
+// Find Bookings with status 'approved'
 func TestFindApprovedBookings_Success(t *testing.T) {
 	_, err := setupTest(t)
 	expected := []booking.Entity{data.MockBooking.ToEntity()}
-	data.MockBookingRepo.On("FindManyBySpaceId", data.MockBooking.SpaceId, "APPROVED").Return(expected, nil)
+	data.MockBookingRepo.On("FindManyBySpaceId", data.MockBooking.SpaceId, "approved").Return(expected, nil)
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
 	assert.Nil(t, err, "should not throw error")
 
-	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, "APPROVED")
+	b, err := data.BookingService.FindBookingsBySpaceId(data.MockBooking.SpaceId, "approved")
 	assert.Nil(t, err, "should not throw error")
 	assert.Equal(t, b[0].UId, expected[0].UId)
 }

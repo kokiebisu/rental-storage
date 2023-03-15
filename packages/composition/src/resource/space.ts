@@ -24,15 +24,32 @@ export default class {
     return url.toString();
   }
 
-  public findSpaces({ userId }: { userId: string }) {
+  public findSpaces(param: {
+    userId?: string;
+    limit?: number;
+    offset?: number;
+  }) {
     let url = new URL(`${this.baseURL}/spaces`);
-    url = this.attachQueryParams(url, { userId });
+    url = this.attachQueryParams(url, param);
     return url.toString();
   }
 
-  private attachQueryParams(url: URL, { userId }: { userId: string }) {
+  private attachQueryParams(
+    url: URL,
+    {
+      userId,
+      limit,
+      offset,
+    }: { userId?: string; limit?: number; offset?: number }
+  ) {
     if (userId) {
       url.searchParams.set("userId", userId);
+    }
+    if (offset !== undefined) {
+      url.searchParams.set("offset", offset.toString());
+    }
+    if (limit !== undefined) {
+      url.searchParams.set("limit", limit.toString());
     }
     return url;
   }

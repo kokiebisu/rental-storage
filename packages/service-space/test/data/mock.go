@@ -8,30 +8,58 @@ import (
 )
 
 var (
-	MockSpace = space.DTO{
-		UId:         faker.UUIDDigit(),
-		Title:       "A beautiful garage",
-		Description: "BLAH BLAH",
-		LenderId:    faker.UUIDDigit(),
-		Location: location.DTO{
-			Address:      "Blah Blah",
-			City:         "Vancouver",
-			Country:      "Canada",
-			CountryCode:  "CA",
-			Phone:        "123-456-7891",
-			Province:     "British Columbia",
-			ProvinceCode: "BC",
-			Zip:          "V193XA",
-			Coordinate: coordinate.DTO{
-				Latitude:  faker.Latitude(),
-				Longitude: faker.Longitude(),
+	MockSpaces = []space.DTO{
+		{
+			UId:         faker.UUIDDigit(),
+			Title:       "A beautiful garage",
+			Description: "BLAH BLAH",
+			LenderId:    faker.UUIDDigit(),
+			Location: location.DTO{
+				Address:      "Blah Blah",
+				City:         "Vancouver",
+				Country:      "Canada",
+				CountryCode:  "CA",
+				Phone:        "123-456-7891",
+				Province:     "British Columbia",
+				ProvinceCode: "BC",
+				Zip:          "V193XA",
+				Coordinate: coordinate.DTO{
+					Latitude:  faker.Latitude(),
+					Longitude: faker.Longitude(),
+				},
 			},
+			ImageUrls: []string{
+				faker.URL(),
+				faker.URL(),
+			},
+			CreatedAt: faker.Date(),
+			UpdatedAt: faker.Date(),
 		},
-		ImageUrls: []string{
-			faker.URL(),
-			faker.URL(),
+		{
+			UId:         faker.UUIDDigit(),
+			Title:       "A beautiful garage",
+			Description: "BLAH BLAH",
+			LenderId:    faker.UUIDDigit(),
+			Location: location.DTO{
+				Address:      "Blah Blah",
+				City:         "Vancouver",
+				Country:      "Canada",
+				CountryCode:  "CA",
+				Phone:        "123-456-7891",
+				Province:     "British Columbia",
+				ProvinceCode: "BC",
+				Zip:          "V193XA",
+				Coordinate: coordinate.DTO{
+					Latitude:  faker.Latitude(),
+					Longitude: faker.Longitude(),
+				},
+			},
+			ImageUrls: []string{
+				faker.URL(),
+				faker.URL(),
+			},
+			CreatedAt: faker.Date(),
+			UpdatedAt: faker.Date(),
 		},
-		CreatedAt: faker.Date(),
-		UpdatedAt: faker.Date(),
 	}
 )

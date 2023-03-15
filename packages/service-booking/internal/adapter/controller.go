@@ -51,7 +51,7 @@ func (a *ApiGatewayAdapter) CreateBooking(event interface{}) (interface{}, *cust
 	if err != nil {
 		return CreateBookingResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to unmarshal body request", err)
 	}
-	bookingId, err := a.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, "PENDING", body.Description, body.StartDate, body.EndDate, "", "")
+	bookingId, err := a.service.CreateBooking(uuid.New().String(), body.UserId, body.SpaceId, body.ImageUrls, "pending", body.Description, body.StartDate, body.EndDate, "", "")
 	payload := CreateBookingResponsePayload{UId: bookingId}
 	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err.(*customerror.CustomError)

@@ -40,6 +40,60 @@ func (_m *SpaceRepository) Delete(uid string) (string, *errors.CustomError) {
 	return r0, r1
 }
 
+// FindById provides a mock function with given fields: uid
+func (_m *SpaceRepository) FindById(uid string) (space.Entity, *errors.CustomError) {
+	ret := _m.Called(uid)
+
+	var r0 space.Entity
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(0).(func(string) (space.Entity, *errors.CustomError)); ok {
+		return rf(uid)
+	}
+	if rf, ok := ret.Get(0).(func(string) space.Entity); ok {
+		r0 = rf(uid)
+	} else {
+		r0 = ret.Get(0).(space.Entity)
+	}
+
+	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
+		r1 = rf(uid)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
+// FindMany provides a mock function with given fields: offset, limit
+func (_m *SpaceRepository) FindMany(offset int, limit int) ([]space.Entity, *errors.CustomError) {
+	ret := _m.Called(offset, limit)
+
+	var r0 []space.Entity
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(0).(func(int, int) ([]space.Entity, *errors.CustomError)); ok {
+		return rf(offset, limit)
+	}
+	if rf, ok := ret.Get(0).(func(int, int) []space.Entity); ok {
+		r0 = rf(offset, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]space.Entity)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(int, int) *errors.CustomError); ok {
+		r1 = rf(offset, limit)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
 // FindManyByUserId provides a mock function with given fields: userId
 func (_m *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *errors.CustomError) {
 	ret := _m.Called(userId)
@@ -59,32 +113,6 @@ func (_m *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *err
 
 	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
 		r1 = rf(userId)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*errors.CustomError)
-		}
-	}
-
-	return r0, r1
-}
-
-// FindById provides a mock function with given fields: uid
-func (_m *SpaceRepository) FindById(uid string) (space.Entity, *errors.CustomError) {
-	ret := _m.Called(uid)
-
-	var r0 space.Entity
-	var r1 *errors.CustomError
-	if rf, ok := ret.Get(0).(func(string) (space.Entity, *errors.CustomError)); ok {
-		return rf(uid)
-	}
-	if rf, ok := ret.Get(0).(func(string) space.Entity); ok {
-		r0 = rf(uid)
-	} else {
-		r0 = ret.Get(0).(space.Entity)
-	}
-
-	if rf, ok := ret.Get(1).(func(string) *errors.CustomError); ok {
-		r1 = rf(uid)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).(*errors.CustomError)

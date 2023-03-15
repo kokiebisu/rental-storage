@@ -93,6 +93,34 @@ func (_m *SpaceService) FindSpaceById(uid string) (space.DTO, *errors.CustomErro
 	return r0, r1
 }
 
+// FindSpaces provides a mock function with given fields: offset, limit
+func (_m *SpaceService) FindSpaces(offset int, limit int) ([]space.DTO, *errors.CustomError) {
+	ret := _m.Called(offset, limit)
+
+	var r0 []space.DTO
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(0).(func(int, int) ([]space.DTO, *errors.CustomError)); ok {
+		return rf(offset, limit)
+	}
+	if rf, ok := ret.Get(0).(func(int, int) []space.DTO); ok {
+		r0 = rf(offset, limit)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]space.DTO)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(int, int) *errors.CustomError); ok {
+		r1 = rf(offset, limit)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
 // FindSpacesByUserId provides a mock function with given fields: userId
 func (_m *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *errors.CustomError) {
 	ret := _m.Called(userId)

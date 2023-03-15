@@ -49,12 +49,18 @@ const images = [
   "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
 ];
 
-const CarouselCard = () => {
+export interface CardProps {
+  title: string;
+  address: string;
+  imageUrls: string[];
+}
+
+const CarouselCard = ({ title, address, imageUrls }: CardProps) => {
   const { classes } = useStyles();
 
-  const slides = images.map((image) => (
+  const slides = imageUrls.map((image) => (
     <Carousel.Slide key={image}>
-      <Image src={image} height={220} />
+      <Image src={image} height={220} alt="image" />
     </Carousel.Slide>
   ));
 
@@ -76,7 +82,7 @@ const CarouselCard = () => {
 
       <Group position="apart" mt="lg">
         <Text fw={500} fz="lg">
-          Forde, Norway
+          {title}
         </Text>
 
         <Group spacing={5}>
@@ -88,9 +94,7 @@ const CarouselCard = () => {
       </Group>
 
       <Text fz="sm" c="dimmed" mt="sm">
-        Relax, rejuvenate and unplug in this unique contemporary Birdbox. Feel
-        close to nature in ultimate comfort. Enjoy the view of the epic mountain
-        range of Blegja and the Førdefjord.
+        {address}
       </Text>
 
       <Group position="apart" mt="md">
