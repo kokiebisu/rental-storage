@@ -2,8 +2,8 @@ package repository
 
 import (
 	"database/sql"
-
 	"log"
+	"strings"
 
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/coordinate"
@@ -153,136 +153,203 @@ func (r *SpaceRepository) Delete(uid string) (string, *customerror.CustomError) 
 func (r *SpaceRepository) FindById(uid string) (space.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
-		SELECT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, i.url, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate FROM spaces AS s
+		SELECT DISTINCT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, string_agg(i.url, ';') AS urls, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate::text 
+		FROM spaces AS s
 		LEFT JOIN images AS i ON s.id = i.space_id
 		LEFT JOIN locations AS l ON s.location_id = l.id
-        WHERE s.uid = $1
+		WHERE s.uid = $1
+		GROUP BY s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate::text;
         `,
 		uid,
 	)
 	if err != nil {
 		return space.Entity{}, customerror.ErrorHandler.FindSpacesRowError(err)
 	}
-	var title string
-	var lenderId string
-	var description string
-	var createdAt string
-	var updatedAt string
-	var imageUrls []string
-	var address string
-	var city string
-	var country string
-	var countryCode string
-	var phoneNumber string
-	var province string
-	var provinceCode string
-	var zip string
-	var point helper.Point
+	var s space.Entity
 
 	for rows.Next() {
 		var uid string
-		var imageUrl string
-		err = rows.Scan(&uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrl, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
+		var title string
+		var lenderId string
+		var description string
+		var createdAt string
+		var updatedAt string
+		var imageUrlsString string
+		var address string
+		var city string
+		var country string
+		var countryCode string
+		var phoneNumber string
+		var province string
+		var provinceCode string
+		var zip string
+		var point helper.Point
+		err = rows.Scan(&uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrlsString, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
 
 		if err != nil {
 			return space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
-		imageUrls = append(imageUrls, imageUrl)
-	}
-	s := space.Raw{
-		UId:      uid,
-		Title:    title,
-		LenderId: lenderId,
-		Location: location.Raw{
-			Address:      address,
-			City:         city,
-			Country:      country,
-			CountryCode:  countryCode,
-			Phone:        phoneNumber,
-			Province:     province,
-			ProvinceCode: provinceCode,
-			Zip:          zip,
-			Coordinate: coordinate.Raw{
-				Latitude:  point.X,
-				Longitude: point.Y,
+		s = space.Raw{
+			UId:      uid,
+			Title:    title,
+			LenderId: lenderId,
+			Location: location.Raw{
+				Address:      address,
+				City:         city,
+				Country:      country,
+				CountryCode:  countryCode,
+				Phone:        phoneNumber,
+				Province:     province,
+				ProvinceCode: provinceCode,
+				Zip:          zip,
+				Coordinate: coordinate.Raw{
+					Latitude:  point.X,
+					Longitude: point.Y,
+				},
 			},
-		},
-		Description: description,
-		ImageUrls:   imageUrls,
-		CreatedAt:   createdAt,
-		UpdatedAt:   updatedAt,
-	}.ToEntity()
+			Description: description,
+			ImageUrls:   strings.Split("imageUrlsString", ";"),
+			CreatedAt:   createdAt,
+			UpdatedAt:   updatedAt,
+		}.ToEntity()
+	}
 	return s, nil
+}
+
+func (r *SpaceRepository) FindMany(offset int, limit int) ([]space.Entity, *customerror.CustomError) {
+	rows, err := r.db.Query(
+		`
+			SELECT DISTINCT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, string_agg(i.url, ';') AS urls, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate::text 
+			FROM spaces AS s
+			LEFT JOIN images AS i ON s.id = i.space_id
+			LEFT JOIN locations AS l ON s.location_id = l.id
+			GROUP BY s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate::text 
+			OFFSET $1 LIMIT $2;
+		`,
+		offset,
+		limit,
+	)
+	if err != nil {
+		return []space.Entity{}, customerror.ErrorHandler.FindSpacesRowError(err)
+	}
+	defer rows.Close()
+	spaces := []space.Entity{}
+	for rows.Next() {
+		var uid string
+		var title string
+		var lenderId string
+		var description string
+		var createdAt string
+		var updatedAt string
+		var imageUrlsString string
+		var address string
+		var city string
+		var country string
+		var countryCode string
+		var phoneNumber string
+		var province string
+		var provinceCode string
+		var zip string
+		var point helper.Point
+
+		err = rows.Scan(&uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrlsString, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
+		if err != nil {
+			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
+		}
+
+		spaceDTO := space.DTO{
+			UId:      uid,
+			Title:    title,
+			LenderId: lenderId,
+			Location: location.DTO{
+				Address:      address,
+				City:         city,
+				Country:      country,
+				CountryCode:  countryCode,
+				Phone:        phoneNumber,
+				Province:     province,
+				ProvinceCode: provinceCode,
+				Zip:          zip,
+				Coordinate: coordinate.DTO{
+					Latitude:  point.X,
+					Longitude: point.Y,
+				},
+			},
+			ImageUrls: strings.Split(imageUrlsString, ";"),
+		}
+		spaces = append(spaces, spaceDTO.ToEntity())
+	}
+
+	return spaces, nil
 }
 
 func (r *SpaceRepository) FindManyByUserId(userId string) ([]space.Entity, *customerror.CustomError) {
 	rows, err := r.db.Query(
 		`
-		SELECT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, i.url, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate FROM spaces AS s
-		LEFT JOIN images AS i ON s.id = i.space_id
-		LEFT JOIN locations AS l ON s.location_id = l.id
-        WHERE s.lender_id = $1
+			SELECT DISTINCT s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, string_agg(i.url, ';') AS urls, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate::text 
+			FROM spaces AS s
+			LEFT JOIN images AS i ON s.id = i.space_id
+			LEFT JOIN locations AS l ON s.location_id = l.id
+			WHERE lender_id = $1
+			GROUP BY s.uid, s.title, s.lender_id, s.description, s.created_at, s.updated_at, l.address, l.city, l.country, l.country_code, l.phone_number, l.province, l.province_code, l.zip, l.coordinate::text;
 		`,
 		userId,
 	)
 	if err != nil {
 		return []space.Entity{}, customerror.ErrorHandler.FindSpacesRowError(err)
 	}
-	spacesMap := map[string]space.Entity{}
-	var title string
-	var lenderId string
-	var description string
-	var createdAt string
-	var updatedAt string
-	var address string
-	var city string
-	var country string
-	var countryCode string
-	var phoneNumber string
-	var province string
-	var provinceCode string
-	var zip string
-	var point helper.Point
+	defer rows.Close()
+	spaces := []space.Entity{}
+
 	for rows.Next() {
 		var uid string
-		var imageUrl string
+		var title string
+		var lenderId string
+		var description string
+		var createdAt string
+		var updatedAt string
+		var imageUrlsString string
+		var address string
+		var city string
+		var country string
+		var countryCode string
+		var phoneNumber string
+		var province string
+		var provinceCode string
+		var zip string
+		var point helper.Point
 
-		err = rows.Scan(&uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrl, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
+		err = rows.Scan(&uid, &title, &lenderId, &description, &createdAt, &updatedAt, &imageUrlsString, &address, &city, &country, &countryCode, &phoneNumber, &province, &provinceCode, &zip, &point)
 		if err != nil {
 			return []space.Entity{}, customerror.ErrorHandler.ScanRowError(err)
 		}
-		if entry, ok := spacesMap[uid]; ok {
-			entry.ImageUrls = append(spacesMap[uid].ImageUrls, space.ImageUrl(imageUrl))
-		} else {
-			l := space.Raw{
-				UId:         uid,
-				Title:       title,
-				LenderId:    lenderId,
-				Description: description,
-				ImageUrls:   append([]string{}, imageUrl),
-				Location: location.Raw{
-					Address:      address,
-					City:         city,
-					Country:      country,
-					CountryCode:  countryCode,
-					Phone:        phoneNumber,
-					Province:     province,
-					ProvinceCode: provinceCode,
-					Zip:          zip,
-					Coordinate: coordinate.Raw{
-						Latitude:  point.X,
-						Longitude: point.Y,
-					},
+
+		spaceDTO := space.DTO{
+			UId:      uid,
+			Title:    title,
+			LenderId: lenderId,
+			Location: location.DTO{
+				Address:      address,
+				City:         city,
+				Country:      country,
+				CountryCode:  countryCode,
+				Phone:        phoneNumber,
+				Province:     province,
+				ProvinceCode: provinceCode,
+				Zip:          zip,
+				Coordinate: coordinate.DTO{
+					Latitude:  point.X,
+					Longitude: point.Y,
 				},
-				CreatedAt: createdAt,
-				UpdatedAt: updatedAt,
-			}.ToEntity()
-			spacesMap[uid] = l
+			},
+			ImageUrls: strings.Split(imageUrlsString, ";"),
 		}
+		spaces = append(spaces, spaceDTO.ToEntity())
 	}
-	spaces := []space.Entity{}
-	for _, value := range spacesMap {
-		spaces = append(spaces, value)
+
+	if err := rows.Err(); err != nil {
+		// Handle error
+		log.Fatal("FATAL: ", err)
 	}
 	return spaces, nil
 }

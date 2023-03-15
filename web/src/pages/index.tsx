@@ -9,9 +9,6 @@ const HomePage = () => {
   const links = [{ label: "Borrow", link: "/borrow" }];
   const { data, loading, error } = useQuery(FIND_SPACES_QUERY, {
     client: apiKeyClient,
-    variables: {
-      userId: "0be09cf7-8988-4333-a8b7-466383489d6a",
-    },
   });
 
   if (loading) {
@@ -42,7 +39,11 @@ const HomePage = () => {
               {data.spaces.map((space: any) => {
                 return (
                   <div key={space.id}>
-                    <Card />
+                    <Card
+                      title={space.title}
+                      address={space.location.address}
+                      imageUrls={space.imageUrls}
+                    />
                   </div>
                 );
               })}

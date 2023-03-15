@@ -2,6 +2,7 @@ package adapter
 
 import (
 	"encoding/json"
+	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/google/uuid"
@@ -11,7 +12,6 @@ import (
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/domain/space/location"
 	"github.com/kokiebisu/rental-storage/service-space/internal/core/port"
-
 	customerror "github.com/kokiebisu/rental-storage/service-space/internal/error"
 )
 
@@ -43,12 +43,6 @@ func NewApiGatewayAdapter(service port.SpaceService) port.Controller {
 
 func (h *ApiGatewayAdapter) FindSpaceById(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	spaceId := event.(events.APIGatewayProxyRequest).PathParameters["spaceId"]
 	if spaceId == "" {
@@ -62,12 +56,6 @@ func (h *ApiGatewayAdapter) FindSpaceById(event interface{}) (interface{}, *cust
 
 func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	userId := event.(events.APIGatewayProxyRequest).QueryStringParameters["userId"]
 	if userId != "" {
@@ -75,6 +63,23 @@ func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *custome
 		payload := FindSpacesResponsePayload{Spaces: ls}
 		logger.Info("Payload", zap.Any("payload", payload))
 		return payload, err
+	}
+	offset, err := strconv.Atoi(event.(events.APIGatewayProxyRequest).QueryStringParameters["offset"])
+	if err != nil {
+		return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("offset", "String", err)
+	}
+	limit, err := strconv.Atoi(event.(events.APIGatewayProxyRequest).QueryStringParameters["limit"])
+	if err != nil {
+		return FindSpacesResponsePayload{}, customerror.ErrorHandler.ConvertError("limit", "String", err)
+	}
+	if offset >= 0 && limit >= 0 {
+		ls, err := h.service.FindSpaces(offset, limit)
+		if err != nil {
+			return FindSpacesResponsePayload{}, err
+		}
+		payload := FindSpacesResponsePayload{Spaces: ls}
+		logger.Info("Payload", zap.Any("payload", payload))
+		return payload, nil
 	}
 	// @deprecated
 	// latitudeString := event.QueryStringParameters["lat"]
@@ -100,18 +105,11 @@ func (h *ApiGatewayAdapter) FindSpaces(event interface{}) (interface{}, *custome
 	// 		Spaces: spaces,
 	// 	}, err.(*customerror.CustomError)
 	// }
-	logger.Error("Error", zap.Error(customerror.ErrorHandler.InvalidParamError(nil)))
-	return FindSpacesResponsePayload{}, customerror.ErrorHandler.InvalidParamError(nil)
+	return FindSpacesResponsePayload{}, customerror.ErrorHandler.OffsetLimitNotProvidedError(nil)
 }
 
 func (h *ApiGatewayAdapter) AddSpace(event interface{}) (interface{}, *customerror.CustomError) {
 	logger, _ := client.GetLoggerClient()
-	defer func() {
-		err := logger.Sync()
-		if err != nil {
-			logger.Error("Error syncing logger", zap.Error(err))
-		}
-	}()
 	logger.Info("Event", zap.Any("event", event))
 	body := struct {
 		LenderId    string       `json:"lenderId"`

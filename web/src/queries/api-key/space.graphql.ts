@@ -4,15 +4,14 @@ import { gql } from "@apollo/client";
  * API KEY Query
  */
 export const FIND_SPACES_QUERY = gql`
-  query MyQuery($userId: ID) {
-    spaces(userId: $userId) {
-      createdAt
-      description
+  query MyQuery($filter: SpaceFilter) {
+    spaces(filter: $filter) {
       id
-      lenderId
-      imageUrls
       title
-      updatedAt
+      imageUrls
+      location {
+        address
+      }
     }
   }
 `;

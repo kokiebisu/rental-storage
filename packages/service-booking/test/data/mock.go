@@ -12,7 +12,7 @@ var (
 	MockPassword     = faker.Password()
 	MockBooking      = booking.DTO{
 		UId:           faker.UUIDDigit(),
-		BookingStatus: "PENDING",
+		BookingStatus: "pending",
 		ImageUrls:     []string{faker.URL(), faker.URL()},
 		UserId:        faker.UUIDDigit(),
 		SpaceId:       faker.UUIDDigit(),

@@ -3,15 +3,15 @@ import { findBookings } from "../../../src/adapter/resolver/query";
 import * as mockEvent from "../event.json";
 
 describe("findBookings()", () => {
-  describe('when the bookingStatus is "PENDING"', () => {
+  describe('when the bookingStatus is "pending"', () => {
     it("should work with valid input", async () => {
       if (!global.data.spaceId) {
         throw new Error("data.spaceId is empty");
       }
-      const event = createEvent({ ...mockEvent }, "PENDING");
+      const event = createEvent({ ...mockEvent }, "pending");
       const result = await findBookings(
         event as AppSyncResolverEvent<
-          { spaceId: string; bookingStatus: "PENDING" | "APPROVED" },
+          { spaceId: string; bookingStatus: "pending" | "approved" },
           unknown
         >
       );
@@ -19,15 +19,15 @@ describe("findBookings()", () => {
     });
   });
 
-  describe('when the bookingStatus is "APPROVED"', () => {
+  describe('when the bookingStatus is "approved"', () => {
     it("should work with valid input", async () => {
       if (!global.data.spaceId) {
         throw new Error("data.spaceId is empty");
       }
-      const event = createEvent({ ...mockEvent }, "APPROVED");
+      const event = createEvent({ ...mockEvent }, "approved");
       const result = await findBookings(
         event as AppSyncResolverEvent<
-          { spaceId: string; bookingStatus: "PENDING" | "APPROVED" },
+          { spaceId: string; bookingStatus: "pending" | "approved" },
           unknown
         >
       );
@@ -38,7 +38,7 @@ describe("findBookings()", () => {
 
 const createEvent = (
   event: AppsyncResolverMockEvent,
-  bookingStatus: "PENDING" | "APPROVED"
+  bookingStatus: "pending" | "approved"
 ) => {
   return {
     ...event,

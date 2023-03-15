@@ -3,12 +3,12 @@ import { BookingResourceURLBuilder } from "../../resource";
 
 interface FindBookingsCommandConstructor {
   spaceId: string;
-  bookingStatus: "PENDING" | "APPROVED";
+  bookingStatus: "pending" | "approved";
 }
 
 export class FindBookingsCommand {
   public readonly spaceId: string;
-  public readonly bookingStatus: "PENDING" | "APPROVED";
+  public readonly bookingStatus: "pending" | "approved";
 
   public constructor({
     spaceId,
@@ -25,11 +25,11 @@ export class FindBookingsUseCase {
     const client = new RestAPIClient();
     const builder = new BookingResourceURLBuilder();
     let response;
-    if (bookingStatus === "PENDING") {
+    if (bookingStatus === "pending") {
       response = await client.get<{
         bookings: (Omit<IBooking, "uid"> & { uid: string })[];
       }>(builder.findPendingBookings({ spaceId }));
-    } else if (bookingStatus === "APPROVED") {
+    } else if (bookingStatus === "approved") {
       response = await client.get<{
         bookings: (Omit<IBooking, "uid"> & { uid: string })[];
       }>(builder.findApprovedBookings({ spaceId }));

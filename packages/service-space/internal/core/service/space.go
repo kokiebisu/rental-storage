@@ -8,17 +8,29 @@ import (
 )
 
 type SpaceService struct {
-	SpaceRepository port.SpaceRepository
+	spaceRepository port.SpaceRepository
 }
 
 func NewSpaceService(spaceRepository port.SpaceRepository) *SpaceService {
 	return &SpaceService{
-		SpaceRepository: spaceRepository,
+		spaceRepository,
 	}
 }
 
+func (s *SpaceService) FindSpaces(offset int, limit int) ([]space.DTO, *customerror.CustomError) {
+	ls, err := s.spaceRepository.FindMany(offset, limit)
+	if err != nil {
+		return []space.DTO{}, err
+	}
+	spaceDTOs := []space.DTO{}
+	for _, l := range ls {
+		spaceDTOs = append(spaceDTOs, l.ToDTO())
+	}
+	return spaceDTOs, nil
+}
+
 func (s *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *customerror.CustomError) {
-	ls, err := s.SpaceRepository.FindManyByUserId(userId)
+	ls, err := s.spaceRepository.FindManyByUserId(userId)
 	if err != nil {
 		return []space.DTO{}, err
 	}
@@ -30,7 +42,7 @@ func (s *SpaceService) FindSpacesByUserId(userId string) ([]space.DTO, *customer
 }
 
 func (s *SpaceService) FindSpaceById(uid string) (space.DTO, *customerror.CustomError) {
-	l, err := s.SpaceRepository.FindById(uid)
+	l, err := s.spaceRepository.FindById(uid)
 	if err != nil {
 		return space.DTO{}, err
 	}
@@ -42,7 +54,7 @@ func (s *SpaceService) CreateSpace(uid string, lenderId string, location locatio
 	if err != nil {
 		return "", err
 	}
-	result, err := s.SpaceRepository.Save(entity)
+	result, err := s.spaceRepository.Save(entity)
 	if err != nil {
 		return "", err
 	}
@@ -50,5 +62,5 @@ func (s *SpaceService) CreateSpace(uid string, lenderId string, location locatio
 }
 
 func (s *SpaceService) DeleteSpaceById(uid string) (string, *customerror.CustomError) {
-	return s.SpaceRepository.Delete(uid)
+	return s.spaceRepository.Delete(uid)
 }

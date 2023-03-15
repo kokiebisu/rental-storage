@@ -30,7 +30,7 @@ export const findBooking = async (
 
 export const findBookings = async (
   event: AppSyncResolverEvent<
-    { spaceId: string; bookingStatus: "PENDING" | "APPROVED" },
+    { spaceId: string; bookingStatus: "pending" | "approved" },
     unknown
   >
 ) => {
@@ -54,13 +54,25 @@ export const findSpace = async (
 };
 
 export const findSpaces = async (
-  event: AppSyncResolverEvent<{ userId: string }, unknown>
+  event: AppSyncResolverEvent<
+    { filter?: { userId?: string; offset?: number; limit?: number } },
+    unknown
+  >
 ) => {
   logger.info(event.arguments, __filename, 59);
   const usecase = new FindSpacesUseCase();
+
   const response = await usecase.execute(
     new FindSpacesCommand({
-      userId: event.arguments.userId,
+      ...(event.arguments.filter?.userId && {
+        userId: event.arguments.filter.userId,
+      }),
+      ...(event.arguments.filter?.offset !== undefined && {
+        offset: event.arguments.filter.offset,
+      }),
+      ...(event.arguments.filter?.limit !== undefined && {
+        limit: event.arguments.filter.limit,
+      }),
     })
   );
   logger.info(response, __filename, 66);
