@@ -1,26 +1,20 @@
 import { createContext, useEffect, useState } from "react";
 
-import { SignUpParams, useAuth } from "@/hooks/useAuth";
+import { SignUpParams } from "@/hooks/useAuth";
 import { User } from "@/hooks/useUser";
 import axios from "axios";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import { awsLambdaClient, getBearerToken } from "@/apollo";
+import { useLazyQuery } from "@apollo/client";
+import { awsLambdaClient } from "@/apollo";
 import { PROFILE_QUERY } from "@/queries";
 
 interface AuthContext {
   user?: User | null;
-  login: (user: any) => Promise<void>;
-  logout: () => void;
   signup: (data: SignUpParams) => Promise<void>;
-  checkIsAuthenticated: () => boolean;
 }
 
 export const AuthContext = createContext<AuthContext>({
   user: null,
-  login: async () => {},
-  logout: () => {},
   signup: async () => {},
-  checkIsAuthenticated: () => false,
 });
 
 export const AuthContextProvider = ({ children }: any) => {
