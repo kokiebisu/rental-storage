@@ -14,7 +14,7 @@ interface HeaderSearchProps {
 
 const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
   const { user } = useContext(AuthContext);
-  console.log("FROM HEADER: ", user);
+
   return (
     <HeaderTemplate
       links={links}
