@@ -1,13 +1,42 @@
-const Avatar = () => (
-  <span className="inline-block h-10 w-10 overflow-hidden rounded-full bg-gray-100">
-    <svg
-      className="h-full w-full text-gray-300"
-      fill="currentColor"
-      viewBox="0 0 24 24"
+import { forwardRef } from "react";
+import { IconChevronRight } from "@tabler/icons-react";
+import { Group, Avatar, Text, UnstyledButton } from "@mantine/core";
+
+interface UserButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+  image: string;
+  name: string;
+  email: string;
+  icon?: React.ReactNode;
+}
+
+const MenuDropdown = forwardRef<HTMLButtonElement, UserButtonProps>(
+  ({ image, name, email, icon, ...others }: UserButtonProps, ref) => (
+    <UnstyledButton
+      ref={ref}
+      sx={(theme) => ({
+        display: "block",
+        width: "100%",
+        padding: theme.spacing.md,
+        color:
+          theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+
+        "&:hover": {
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[8]
+              : theme.colors.gray[0],
+        },
+      })}
+      {...others}
     >
-      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-    </svg>
-  </span>
+      <Group>
+        <Avatar src={image} radius="xl" />
+        {icon || <IconChevronRight size="1rem" />}
+      </Group>
+    </UnstyledButton>
+  )
 );
 
-export default Avatar;
+MenuDropdown.displayName = "MenuDropdown";
+
+export default MenuDropdown;
