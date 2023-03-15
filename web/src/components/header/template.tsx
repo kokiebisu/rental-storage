@@ -1,7 +1,7 @@
 import { Menu, Center, createStyles, rem } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 
-import { Avatar, Button } from "..";
+import { Button, MenuDropdown } from "..";
 
 interface HeaderTemplateProps {
   links: {
@@ -11,6 +11,7 @@ interface HeaderTemplateProps {
   }[];
   onSignInClicked: () => void;
   isAuthenticated: boolean;
+  handleSignout: () => void;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -40,6 +41,7 @@ const HeaderTemplate = ({
   links,
   isAuthenticated,
   onSignInClicked,
+  handleSignout,
 }: HeaderTemplateProps) => {
   const { classes } = useStyles();
   const items = links.map((link) => {
@@ -93,7 +95,7 @@ const HeaderTemplate = ({
             <div className="flex items-center">
               <div className="sm:none flex mx-2 mr-2">{items}</div>
               {isAuthenticated ? (
-                <Avatar />
+                <MenuDropdown handleSignout={handleSignout} />
               ) : (
                 <Button label="Sign In" onClick={onSignInClicked} />
               )}

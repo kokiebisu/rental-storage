@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 import { AuthContext } from "@/context/auth";
 import HeaderTemplate from "./template";
@@ -13,13 +13,14 @@ interface HeaderSearchProps {
 }
 
 const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
-  const { user } = useContext(AuthContext);
+  const { user, signout } = useContext(AuthContext);
 
   return (
     <HeaderTemplate
       links={links}
       onSignInClicked={onSignInClicked}
       isAuthenticated={!!user}
+      handleSignout={signout}
     />
   );
 };
