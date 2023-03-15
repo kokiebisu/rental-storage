@@ -1,7 +1,7 @@
 import { Menu, Center, createStyles, rem } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 
-import { Button } from "..";
+import { Avatar, Button } from "..";
 
 interface HeaderTemplateProps {
   links: {
@@ -93,7 +93,7 @@ const HeaderTemplate = ({
             <div className="flex items-center">
               <div className="sm:none flex mx-2 mr-2">{items}</div>
               {isAuthenticated ? (
-                <div>Logged In</div>
+                <Avatar />
               ) : (
                 <Button label="Sign In" onClick={onSignInClicked} />
               )}
