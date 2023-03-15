@@ -49,7 +49,7 @@ const images = [
   "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
 ];
 
-interface CardProps {
+export interface CardProps {
   title: string;
   address: string;
   imageUrls: string[];
@@ -60,7 +60,7 @@ const CarouselCard = ({ title, address, imageUrls }: CardProps) => {
 
   const slides = imageUrls.map((image) => (
     <Carousel.Slide key={image}>
-      <Image src={image} height={220} />
+      <Image src={image} height={220} alt="image" />
     </Carousel.Slide>
   ));
 
