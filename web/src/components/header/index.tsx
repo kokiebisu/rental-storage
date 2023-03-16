@@ -26,6 +26,7 @@ const Header = ({ onSignInClicked }: HeaderSearchProps) => {
       links={links}
       onSignInClicked={onSignInClicked}
       isAuthenticated={!!user}
+      profilePic={user?.imageUrl}
       handleSignout={signout}
       handleGuestDashboardRedirect={handleGuestDashboardRedirect}
       handleLenderDashboardRedirect={handleLenderDashboardRedirect}

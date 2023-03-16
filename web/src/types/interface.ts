@@ -23,8 +23,8 @@ export interface SignInParams {
 }
 
 export interface User {
-  id: string;
-  name: string;
   email: string;
-  authToken?: string;
+  firstName: string;
+  lastName: string;
+  imageUrl?: string;
 }

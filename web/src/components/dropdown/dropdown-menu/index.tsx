@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { Avatar } from "../..";
 
 interface MenuDropdownProps {
-  profilePic: string;
+  profilePic?: string;
   handleSignout: () => void;
   handleGuestDashboardRedirect: () => void;
   handleLenderDashboardRedirect: () => void;
@@ -35,7 +35,7 @@ const MenuDropdown = ({
 
 interface AvatarClickableProps
   extends React.ComponentPropsWithoutRef<"button"> {
-  profilePic: string;
+  profilePic?: string;
 }
 
 const AvatarClickable = forwardRef<HTMLButtonElement, AvatarClickableProps>(

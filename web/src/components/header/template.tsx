@@ -11,6 +11,7 @@ interface HeaderTemplateProps {
   }[];
   onSignInClicked: () => void;
   isAuthenticated: boolean;
+  profilePic?: string;
   handleSignout: () => void;
   handleGuestDashboardRedirect: () => void;
   handleLenderDashboardRedirect: () => void;
@@ -42,6 +43,7 @@ const useStyles = createStyles((theme) => ({
 const HeaderTemplate = ({
   links,
   isAuthenticated,
+  profilePic,
   onSignInClicked,
   handleSignout,
   handleGuestDashboardRedirect,
@@ -101,6 +103,7 @@ const HeaderTemplate = ({
               {isAuthenticated ? (
                 <MenuDropdown
                   handleSignout={handleSignout}
+                  profilePic={profilePic}
                   handleGuestDashboardRedirect={handleGuestDashboardRedirect}
                   handleLenderDashboardRedirect={handleLenderDashboardRedirect}
                 />

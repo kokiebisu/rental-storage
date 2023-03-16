@@ -1,7 +1,7 @@
 import { Avatar as MantineAvatar } from "@mantine/core";
 
 interface AvatarProps {
-  imageUrl: string;
+  imageUrl?: string;
   radius: "xl";
 }
 
