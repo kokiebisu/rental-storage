@@ -1,27 +1,68 @@
-import { Menu } from "@mantine/core";
+import { Menu, UnstyledButton } from "@mantine/core";
+import { forwardRef } from "react";
 import { Avatar } from "../..";
 
 interface MenuDropdownProps {
+  profilePic: string;
   handleSignout: () => void;
+  handleGuestDashboardRedirect: () => void;
+  handleLenderDashboardRedirect: () => void;
 }
 
-const MenuDropdown = ({ handleSignout }: MenuDropdownProps) => {
+const MenuDropdown = ({
+  profilePic,
+  handleSignout,
+  handleGuestDashboardRedirect,
+  handleLenderDashboardRedirect,
+}: MenuDropdownProps) => {
   return (
     <Menu>
       <Menu.Target>
-        <Avatar
-          image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-          name="Harriette Spoonlicker"
-          email="hspoonlicker@outlook.com"
-        />
+        <AvatarClickable profilePic={profilePic} />
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item>Profile</Menu.Item>
-        <Menu.Item>Settings</Menu.Item>
+        <Menu.Item onClick={handleGuestDashboardRedirect}>
+          Guest Dashboard
+        </Menu.Item>
+        <Menu.Item onClick={handleLenderDashboardRedirect}>
+          Lender Dashboard
+        </Menu.Item>
         <Menu.Item onClick={handleSignout}>Sign out</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
 };
+
+interface AvatarClickableProps
+  extends React.ComponentPropsWithoutRef<"button"> {
+  profilePic: string;
+}
+
+const AvatarClickable = forwardRef<HTMLButtonElement, AvatarClickableProps>(
+  ({ profilePic, ...others }: AvatarClickableProps, ref) => (
+    <UnstyledButton
+      ref={ref}
+      sx={(theme) => ({
+        display: "block",
+        width: "100%",
+        padding: theme.spacing.md,
+        color:
+          theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+
+        "&:hover": {
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[8]
+              : theme.colors.gray[0],
+        },
+      })}
+      {...others}
+    >
+      <Avatar imageUrl={profilePic} radius="xl" />
+    </UnstyledButton>
+  )
+);
+
+AvatarClickable.displayName = "AvatarClickable";
 
 export default MenuDropdown;

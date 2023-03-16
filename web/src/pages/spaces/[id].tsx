@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { apiKeyClient } from "@/clients";
 import { Grid } from "@/components";
 import { DefaultLayout } from "@/layout";
-import { FIND_SPACE_QUERY } from "@/queries";
+import { FIND_SPACE_QUERY } from "@/graphql/queries";
 
 export default function SpaceDetailsPage() {
   const router = useRouter();
