@@ -28,3 +28,11 @@ export interface User {
   lastName: string;
   imageUrl?: string;
 }
+
+export interface Booking {
+  id: string;
+  imageUrls: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+}
