@@ -1,12 +1,12 @@
 import { useQuery } from "@apollo/client";
 
 import { awsLambdaClient } from "@/clients";
-import { MY_BOOKINGS_QUERY } from "@/graphql/queries";
+import { FIND_MY_BOOKINGS_QUERY } from "@/graphql/queries";
 import { DefaultLayout } from "@/layout";
 import { Booking } from "@/types/interface";
 
 export default function Dashboard() {
-  const { data, loading, error } = useQuery(MY_BOOKINGS_QUERY, {
+  const { data, loading, error } = useQuery(FIND_MY_BOOKINGS_QUERY, {
     client: awsLambdaClient,
   });
   if (loading) {
