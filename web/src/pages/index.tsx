@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Card, SignInModal, Header } from "@/components";
 import { useQuery } from "@apollo/client";
@@ -5,17 +6,42 @@ import { FIND_SPACES_QUERY } from "@/queries";
 import { apiKeyClient } from "@/apollo";
 
 const HomePage = () => {
+  const limit = 6;
   const [opened, { open, close }] = useDisclosure(false);
   const links = [{ label: "Borrow", link: "/borrow" }];
-  const { data, loading, error } = useQuery(FIND_SPACES_QUERY, {
+  const { data, loading, error, fetchMore } = useQuery(FIND_SPACES_QUERY, {
     client: apiKeyClient,
     variables: {
       filter: {
         offset: 0,
-        limit: 6,
+        limit,
       },
     },
   });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const scrollHeight = document.documentElement.scrollHeight;
+
+      if (scrollTop + windowHeight >= scrollHeight) {
+        fetchMore({
+          variables: { offset: data.spaces.length, limit },
+          updateQuery: (prev, { fetchMoreResult }) => {
+            if (!fetchMoreResult) return prev;
+            return { spaces: [...prev.spaces, ...fetchMoreResult.spaces] };
+          },
+        });
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [data, fetchMore]);
 
   if (loading) {
     return <div>loading</div>;
