@@ -1,6 +1,6 @@
 extend type Query {
   space(id: ID!): Space @aws_api_key
-  spaces(filter: SpaceFilter): [Space] @aws_api_key
+  spaces(filter: SpaceFilter): [Space] @aws_api_key @aws_lambda
 }
 
 extend type Mutation {
@@ -20,7 +20,7 @@ input SpaceFilter {
   limit: Int
 }
 
-type Space @aws_api_key {
+type Space @aws_api_key @aws_lambda {
   id: String
   title: String
   lenderId: String
@@ -29,4 +29,5 @@ type Space @aws_api_key {
   description: String
   createdAt: String
   updatedAt: String
+  bookings: Bookings @aws_lambda
 }

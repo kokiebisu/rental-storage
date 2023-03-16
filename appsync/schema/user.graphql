@@ -16,8 +16,3 @@ type User @aws_lambda {
   updatedAt: String
   bookings: Bookings
 }
-
-type Bookings @aws_lambda {
-  pending: [Booking]
-  approved: [Booking]
-}

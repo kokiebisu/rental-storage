@@ -23,6 +23,11 @@ type Location @aws_api_key {
   coordinate: Coordinate
 }
 
+type Bookings @aws_lambda {
+  pending: [Booking]
+  approved: [Booking]
+}
+
 type Coordinate @aws_api_key {
   latitude: Float
   longitude: Float

@@ -13,7 +13,7 @@ extend type Mutation {
   ): UId @aws_lambda
 }
 
-type Booking {
+type Booking @aws_lambda {
   id: ID
   status: String
   imageUrls: [String]
