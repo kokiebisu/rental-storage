@@ -1,5 +1,5 @@
 import { Menu } from "@mantine/core";
-import { Avatar } from "..";
+import { Avatar } from "../..";
 
 interface MenuDropdownProps {
   handleSignout: () => void;

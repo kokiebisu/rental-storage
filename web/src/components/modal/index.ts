@@ -1,1 +1,1 @@
-export { default as SignInModal } from "./modal-signin";
+export { default as AuthModal } from "./modal-auth";

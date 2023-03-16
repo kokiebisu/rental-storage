@@ -4,17 +4,19 @@ import { useLazyQuery } from "@apollo/client";
 
 import { awsLambdaClient } from "@/clients";
 import { PROFILE_QUERY } from "@/queries";
-import { User, SignUpParams } from "@/types/interface";
+import { User, SignUpParams, SignInParams } from "@/types/interface";
 
 interface AuthContext {
   user?: User | null;
   signup: (data: SignUpParams) => Promise<void>;
+  signin: (data: SignInParams) => Promise<void>;
   signout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContext>({
   user: null,
   signup: async () => {},
+  signin: async () => {},
   signout: async () => {},
 });
 
@@ -70,6 +72,31 @@ export const AuthContextProvider = ({ children }: any) => {
     fetch();
   };
 
+  const signin = async (params: SignInParams) => {
+    if (!params.emailAddress || !params.password) {
+      throw new Error("input misssing");
+    }
+
+    if (!process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT) {
+      throw new Error("endpoint misssing");
+    }
+
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/auth/signin`,
+      {
+        emailAddress: params.emailAddress,
+        password: params.password,
+      }
+    );
+    if (response.status !== 200) {
+      throw new Error("internal server error");
+    }
+    const { authorizationToken } = response.data;
+
+    localStorage.setItem("bearerToken", authorizationToken);
+    fetch();
+  };
+
   const signout = async () => {
     localStorage.removeItem("bearerToken");
     localStorage.removeItem("user");
@@ -77,7 +104,7 @@ export const AuthContextProvider = ({ children }: any) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signup, signout }}>
+    <AuthContext.Provider value={{ user, signup, signin, signout }}>
       {children}
     </AuthContext.Provider>
   );

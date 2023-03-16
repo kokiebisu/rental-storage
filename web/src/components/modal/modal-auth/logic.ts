@@ -2,10 +2,11 @@ import { useContext, useState } from "react";
 import { useForm } from "@mantine/form";
 
 import { AuthContext } from "@/context/auth";
-import { SignUpParams } from "@/types/interface";
+import { SignInParams, SignUpParams } from "@/types/interface";
 
-const useSignInModal = ({ close }: any) => {
-  const { signup } = useContext(AuthContext);
+const useAuthModal = ({ close }: any) => {
+  const { signup, signin } = useContext(AuthContext);
+  const [isSignInMode, setIsSignInMode] = useState(true);
   const [active, setActive] = useState(0);
 
   const handleSignUp = async (userInfo: SignUpParams) => {
@@ -15,6 +16,19 @@ const useSignInModal = ({ close }: any) => {
     } catch (err) {
       alert(err);
     }
+  };
+
+  const handleSignIn = async (userInfo: SignInParams) => {
+    try {
+      await signin(userInfo);
+      close();
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const handleModeChange = () => {
+    setIsSignInMode((current) => !current);
   };
 
   const form = useForm({
@@ -55,7 +69,7 @@ const useSignInModal = ({ close }: any) => {
     },
   });
 
-  const nextStep = () => {
+  const handleNextStep = () => {
     setActive((current) => {
       if (form.validate().hasErrors) {
         return current;
@@ -64,7 +78,7 @@ const useSignInModal = ({ close }: any) => {
     });
   };
 
-  const prevStep = () => {
+  const handlePrevStep = () => {
     setActive((current) => (current > 0 ? current - 1 : current));
   };
 
@@ -73,11 +87,14 @@ const useSignInModal = ({ close }: any) => {
     lastNameProps: form.getInputProps("lastName"),
     passwordProps: form.getInputProps("password"),
     emailAddressProps: form.getInputProps("emailAddress"),
-    handleSignUp,
+    isSignInMode,
     active,
-    nextStep,
-    prevStep,
+    handleModeChange,
+    handleSignUp,
+    handleSignIn,
+    handleNextStep,
+    handlePrevStep,
   };
 };
 
-export default useSignInModal;
+export default useAuthModal;

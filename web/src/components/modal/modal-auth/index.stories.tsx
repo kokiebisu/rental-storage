@@ -18,7 +18,7 @@ export const SignIn: Story = {
     name: "name",
     email: "email",
     active: 0,
-    nextStep: () => {},
-    prevStep: () => {},
+    handleNextStep: () => {},
+    handlePrevStep: () => {},
   },
 };

@@ -1,14 +1,14 @@
-import SignInModalTemplate from "./template";
+import AuthModalTemplate from "./template";
 import useLogic from "./logic";
 import ModalWrapper from "../wrapper";
 
-const SignInModal = ({ opened, close }: any) => {
+const AuthModal = ({ opened, close }: any) => {
   const logic = useLogic({ close });
   return (
     <ModalWrapper opened={opened} close={close}>
-      <SignInModalTemplate {...logic} />
+      <AuthModalTemplate {...logic} />
     </ModalWrapper>
   );
 };
 
-export default SignInModal;
+export default AuthModal;
