@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLazyQuery } from "@apollo/client";
 
 import { awsLambdaClient } from "@/clients";
-import { PROFILE_QUERY } from "@/queries";
+import { PROFILE_QUERY } from "@/graphql/queries";
 import { User, SignUpParams, SignInParams } from "@/types/interface";
 
 interface AuthContext {

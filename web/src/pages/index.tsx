@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useQuery } from "@apollo/client";
 
 import { Card } from "@/components";
-import { FIND_SPACES_QUERY } from "@/queries";
+import { FIND_SPACES_QUERY } from "@/graphql/queries";
 import { apiKeyClient } from "@/clients";
 import { DefaultLayout } from "@/layout";
 

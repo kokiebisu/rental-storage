@@ -11,7 +11,10 @@ interface HeaderTemplateProps {
   }[];
   onSignInClicked: () => void;
   isAuthenticated: boolean;
+  profilePic?: string;
   handleSignout: () => void;
+  handleGuestDashboardRedirect: () => void;
+  handleLenderDashboardRedirect: () => void;
 }
 
 const useStyles = createStyles((theme) => ({
@@ -40,8 +43,11 @@ const useStyles = createStyles((theme) => ({
 const HeaderTemplate = ({
   links,
   isAuthenticated,
+  profilePic,
   onSignInClicked,
   handleSignout,
+  handleGuestDashboardRedirect,
+  handleLenderDashboardRedirect,
 }: HeaderTemplateProps) => {
   const { classes } = useStyles();
   const items = links.map((link) => {
@@ -95,7 +101,12 @@ const HeaderTemplate = ({
             <div className="flex items-center">
               <div className="sm:none flex mx-2 mr-2">{items}</div>
               {isAuthenticated ? (
-                <MenuDropdown handleSignout={handleSignout} />
+                <MenuDropdown
+                  handleSignout={handleSignout}
+                  profilePic={profilePic}
+                  handleGuestDashboardRedirect={handleGuestDashboardRedirect}
+                  handleLenderDashboardRedirect={handleLenderDashboardRedirect}
+                />
               ) : (
                 <Button label="Sign In" onClick={onSignInClicked} />
               )}
