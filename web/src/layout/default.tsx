@@ -1,6 +1,6 @@
 import { useDisclosure } from "@mantine/hooks";
 
-import { Footer, Header, SignInModal } from "@/components";
+import { Footer, Header, AuthModal } from "@/components";
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     <div>
       <Header onSignInClicked={open} />
       {children}
-      <SignInModal opened={opened} close={close} />
+      <AuthModal opened={opened} close={close} />
       <Footer />
     </div>
   );

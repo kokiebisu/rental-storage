@@ -17,6 +17,11 @@ export interface SignUpParams {
   password: string;
 }
 
+export interface SignInParams {
+  emailAddress: string;
+  password: string;
+}
+
 export interface User {
   id: string;
   name: string;
