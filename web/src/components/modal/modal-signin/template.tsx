@@ -1,15 +1,9 @@
+import { SignUpParams } from "@/types/interface";
 import { Stepper, Group } from "@mantine/core";
 
 import { Button, TextInput, PasswordInput } from "../..";
 
-interface SignUpParams {
-  firstName: string;
-  lastName: string;
-  emailAddress: string;
-  password: string;
-}
-
-export interface SignInModalTemplateProps {
+interface SignInModalTemplateProps {
   firstNameProps: any;
   lastNameProps: any;
   passwordProps: any;

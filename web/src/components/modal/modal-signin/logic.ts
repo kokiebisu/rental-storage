@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useForm } from "@mantine/form";
 
 import { AuthContext } from "@/context/auth";
-import { SignUpParams } from "@/hooks/useAuth";
+import { SignUpParams } from "@/types/interface";
 
 const useSignInModal = ({ close }: any) => {
   const { signup } = useContext(AuthContext);

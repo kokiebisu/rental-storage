@@ -114,17 +114,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface FooterLinksProps {
-  data: {
+const FooterLinks = () => {
+  const links: {
     title: string;
     links: { label: string; link: string }[];
-  }[];
-}
-
-const FooterLinks = ({ data }: FooterLinksProps) => {
+  }[] = [];
   const { classes } = useStyles();
 
-  const groups = data.map((group) => {
+  const groups = links.map((group) => {
     const links = group.links.map((link, index) => (
       <Text<"a">
         key={index}

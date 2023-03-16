@@ -7,14 +7,14 @@ import {
   rem,
 } from "@mantine/core";
 
-const PRIMARY_COL_HEIGHT = rem(300);
+const PRIMARY_COL_HEIGHT = rem(500);
 
 const LeadGrid = () => {
   const theme = useMantineTheme();
   const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - ${theme.spacing.md} / 2)`;
 
   return (
-    <Container my="md">
+    <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
       <SimpleGrid
         cols={2}
         spacing="md"
@@ -45,7 +45,7 @@ const LeadGrid = () => {
           </Grid.Col>
         </Grid>
       </SimpleGrid>
-    </Container>
+    </div>
   );
 };
 

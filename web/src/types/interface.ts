@@ -9,3 +9,17 @@ export interface Space {
   lat: number;
   lng: number;
 }
+
+export interface SignUpParams {
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  password: string;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  authToken?: string;
+}
