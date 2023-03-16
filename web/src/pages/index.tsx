@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { useDisclosure } from "@mantine/hooks";
-import { Card, SignInModal, Header } from "@/components";
+import Link from "next/link";
 import { useQuery } from "@apollo/client";
-import { FIND_SPACES_QUERY } from "@/queries";
-import { apiKeyClient } from "@/apollo";
 
-const HomePage = () => {
+import { Card } from "@/components";
+import { FIND_SPACES_QUERY } from "@/queries";
+import { apiKeyClient } from "@/clients";
+import { DefaultLayout } from "@/layout";
+
+export default function LandingPage() {
   const limit = 6;
-  const [opened, { open, close }] = useDisclosure(false);
-  const links = [{ label: "Borrow", link: "/borrow" }];
   const { data, loading, error, fetchMore } = useQuery(FIND_SPACES_QUERY, {
     client: apiKeyClient,
     variables: {
@@ -51,8 +51,7 @@ const HomePage = () => {
   }
 
   return (
-    <div>
-      <Header links={links} onSignInClicked={open} />
+    <DefaultLayout>
       <main>
         <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
           <section>
@@ -71,25 +70,20 @@ const HomePage = () => {
               {data.spaces.length > 0
                 ? data.spaces.map((space: any) => {
                     return (
-                      <div key={space.id}>
+                      <Link href={`/spaces/${space.id}`} key={space.id}>
                         <Card
                           title={space.title}
                           address={space.location.address}
                           imageUrls={space.imageUrls}
                         />
-                      </div>
+                      </Link>
                     );
                   })
                 : null}
             </div>
           </section>
         </div>
-        <SignInModal opened={opened} close={close} />
       </main>
-    </div>
+    </DefaultLayout>
   );
-};
-
-HomePage.displayName = "HomePage";
-
-export default HomePage;
+}

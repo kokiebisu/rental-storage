@@ -5,10 +5,10 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
 } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 import { AuthOptions, createAuthLink } from "aws-appsync-auth-link";
 import { createSubscriptionHandshakeLink } from "aws-appsync-subscription-link";
 import { appsyncConfig } from "../config";
-import { setContext } from "@apollo/client/link/context";
 
 const url = appsyncConfig.GRAPHQL_ENDPOINT;
 const region = appsyncConfig.REGION;

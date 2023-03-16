@@ -4,15 +4,11 @@ import { AuthContext } from "@/context/auth";
 import HeaderTemplate from "./template";
 
 interface HeaderSearchProps {
-  links: {
-    link: string;
-    label: string;
-    links?: { link: string; label: string }[];
-  }[];
   onSignInClicked: () => void;
 }
 
-const Header = ({ links, onSignInClicked }: HeaderSearchProps) => {
+const Header = ({ onSignInClicked }: HeaderSearchProps) => {
+  const links = [{ label: "Borrow", link: "/borrow" }];
   const { user, signout } = useContext(AuthContext);
 
   return (

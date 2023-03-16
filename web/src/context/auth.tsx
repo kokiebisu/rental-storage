@@ -1,11 +1,10 @@
 import { createContext, useEffect, useState } from "react";
-
-import { SignUpParams } from "@/hooks/useAuth";
-import { User } from "@/hooks/useUser";
 import axios from "axios";
 import { useLazyQuery } from "@apollo/client";
-import { awsLambdaClient } from "@/apollo";
+
+import { awsLambdaClient } from "@/clients";
 import { PROFILE_QUERY } from "@/queries";
+import { User, SignUpParams } from "@/types/interface";
 
 interface AuthContext {
   user?: User | null;
