@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -35,7 +34,6 @@ func getDynamoDBDockerClient() (*dynamodb.Client, *customerror.CustomError) {
 			SigningRegion: "us-east-1",
 		}, nil
 	})
-	fmt.Println("PROFILE: ", os.Getenv("AWS_PROFILE"))
 	cfg, err := config.LoadDefaultConfig(ctx,
 		config.WithSharedConfigProfile("rental-storage"),
 		config.WithEndpointResolverWithOptions(customResolver),

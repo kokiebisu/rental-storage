@@ -11,6 +11,7 @@ extend type Mutation {
     startDate: String!
     endDate: String!
   ): UId @aws_lambda
+  bookingAccept(id: ID!): Booking @aws_lambda
 }
 
 type Booking @aws_lambda {

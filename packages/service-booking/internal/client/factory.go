@@ -1,7 +1,6 @@
 package client
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
@@ -25,7 +24,6 @@ func GetDynamoDBClient() (*dynamodb.Client, *customerror.CustomError) {
 	if env == "" {
 		env = os.Getenv("GO_ENV")
 	}
-	fmt.Println("ENVIRONMENT HERE: ", env)
 	if env == "test" {
 		// Development mode
 		ddc, err = getDynamoDBDockerClient()
