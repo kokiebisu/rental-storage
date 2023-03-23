@@ -1,3 +1,7 @@
+.PHONY: set-profile
+set-profile:
+	export AWS_PROFILE=rental-storage
+	
 .PHONY: build
 build:
 	cd cmd/controller/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../../bin/authorize *.go

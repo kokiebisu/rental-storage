@@ -1,3 +1,7 @@
+.PHONY: set-profile
+set-profile:
+	export AWS_PROFILE=rental-storage
+
 .PHONY: build
 build:
 	cd cmd/controller/create-user && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/create-user && cd ../..
