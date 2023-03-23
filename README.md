@@ -30,6 +30,9 @@
 13 Install latest bash
 `brew install bash`
 
+14 Set up VSCode configuration
+`pnpm run prepare`
+
 14 `cd terraform && terraform init`
 
 15 copy/paste ./.terraform.tfvars
