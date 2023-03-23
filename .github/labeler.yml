@@ -28,3 +28,5 @@ web:
   - web/**
 github-workflows:
   - .github/**
+vscode:
+  - config/settings.json

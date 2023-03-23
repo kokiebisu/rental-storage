@@ -5,6 +5,7 @@
   "description": "# rental-a-locker",
   "main": "index.js",
   "scripts": {
+    "prepare": "bash ./scripts/prepare.sh",
     "deps:install": "bash ./scripts/installation.sh",
     "deploy:local": "bash ./scripts/service-deploy.sh",
     "remove:local": "bash ./scripts/service-remove.sh",

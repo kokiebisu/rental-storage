@@ -1,0 +1,12 @@
+{
+  "python.analysis.extraPaths": [
+    "./packages/service-slack/vendor",
+    "./packages/service-image/app",
+    "./packages/service-image/vendor"
+  ],
+  // this is required for go integration tests to work
+  "go.testEnvVars": {
+    "ENV": "test",
+    "AWS_PROFILE": "rental-storage"
+  }
+}
