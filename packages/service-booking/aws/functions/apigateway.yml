@@ -9,6 +9,17 @@ CreateBooking:
         path: /bookings
         method: post
 
+AcceptBooking:
+  image:
+    name: app
+    command:
+      - bin/accept-booking
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-rest-accept-booking
+  events:
+    - http:
+        path: /bookings/{bookingId}/accept
+        method: post
+
 FindBookingById:
   image:
     name: app

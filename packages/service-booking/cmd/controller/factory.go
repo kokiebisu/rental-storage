@@ -40,3 +40,7 @@ func (c Controller) FindBookingById(event interface{}) (interface{}, *customerro
 func (c Controller) FindBookings(event interface{}) (interface{}, *customerror.CustomError) {
 	return c.adptr.FindBookings(event)
 }
+
+func (c Controller) AcceptBooking(event interface{}) (interface{}, *customerror.CustomError) {
+	return c.adptr.AcceptBooking(event)
+}

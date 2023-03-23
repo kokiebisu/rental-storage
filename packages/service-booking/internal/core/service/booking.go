@@ -40,3 +40,16 @@ func (s *BookingService) FindBookingsBySpaceId(spaceId string, bookingStatus str
 func (s *BookingService) FindBookingsByUserId(userId string, bookingStatus string) ([]booking.Entity, *customerror.CustomError) {
 	return s.bookingRepository.FindManyByUserId(userId, bookingStatus)
 }
+
+func (s *BookingService) AcceptBooking(uid string) (booking.Entity, *customerror.CustomError) {
+	// if the booking status is not pending, return error
+	be, err := s.bookingRepository.FindOneById(uid)
+	// if the booking id cannot be retrieved
+	if err != nil {
+		return booking.Entity{}, err
+	}
+	if be.BookingStatus != "pending" {
+		return booking.Entity{}, customerror.ErrorHandler.InternalServerError("booking status is not pending", nil)
+	}
+	return s.bookingRepository.UpdateBookingStatus(uid, "approved")
+}

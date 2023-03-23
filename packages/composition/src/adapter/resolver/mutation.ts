@@ -7,6 +7,10 @@ import {
 import { DeleteSpaceCommand, DeleteSpaceUseCase } from "../usecase/deleteSpace";
 import { DeleteUserCommand, DeleteUserUseCase } from "../usecase/deleteUser";
 import { LoggerClient } from "../../client";
+import {
+  AcceptBookingCommand,
+  AcceptBookingUseCase,
+} from "../usecase/acceptBooking";
 
 const logger = new LoggerClient();
 
@@ -59,6 +63,22 @@ export const createBooking = async (
   const input = { ...event.arguments, userId: uid };
   const usecase = new CreateBookingUseCase();
   const response = await usecase.execute(new CreateBookingCommand(input));
+  logger.info(response, __filename, 62);
+  return response;
+};
+
+export const acceptBooking = async (
+  event: AppSyncResolverEvent<
+    {
+      id: string;
+    },
+    unknown
+  >
+) => {
+  logger.info(event.arguments, __filename, 74);
+  const input = { ...event.arguments };
+  const usecase = new AcceptBookingUseCase();
+  const response = await usecase.execute(new AcceptBookingCommand(input));
   logger.info(response, __filename, 62);
   return response;
 };

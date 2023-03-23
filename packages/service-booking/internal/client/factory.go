@@ -24,7 +24,6 @@ func GetDynamoDBClient() (*dynamodb.Client, *customerror.CustomError) {
 	if env == "" {
 		env = os.Getenv("GO_ENV")
 	}
-
 	if env == "test" {
 		// Development mode
 		ddc, err = getDynamoDBDockerClient()

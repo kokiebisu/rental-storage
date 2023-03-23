@@ -16,6 +16,11 @@ export default class {
     return url.toString();
   }
 
+  public acceptBooking(id: string) {
+    const url = new URL(`${this.baseURL}/bookings/${id}/accept`);
+    return url.toString();
+  }
+
   public findBooking(id: string) {
     const url = new URL(`${this.baseURL}/bookings/${id}`);
     return url.toString();

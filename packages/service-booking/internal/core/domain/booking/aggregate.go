@@ -32,19 +32,6 @@ type DTO struct {
 	UpdatedAt     string   `json:"updatedAt"`
 }
 
-type Raw struct {
-	Id            string   `json:"id"`
-	BookingStatus string   `json:"bookingStatus"`
-	UserId        string   `json:"user_id"`
-	SpaceId       string   `json:"space_id"`
-	Description   string   `json:"description"`
-	ImageUrls     []string `json:"image_urls"`
-	StartDate     string   `json:"start_date"`
-	EndDate       string   `json:"end_date"`
-	CreatedAt     string   `json:"created_at"`
-	UpdatedAt     string   `json:"updated_at"`
-}
-
 const (
 	PENDING  BookingStatus = "pending"
 	APPROVED BookingStatus = "approved"

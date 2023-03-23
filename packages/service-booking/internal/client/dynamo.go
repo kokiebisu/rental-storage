@@ -35,7 +35,8 @@ func getDynamoDBDockerClient() (*dynamodb.Client, *customerror.CustomError) {
 		}, nil
 	})
 	cfg, err := config.LoadDefaultConfig(ctx,
-		config.WithSharedConfigProfile("rental-storage"), config.WithEndpointResolverWithOptions(customResolver),
+		config.WithSharedConfigProfile("rental-storage"),
+		config.WithEndpointResolverWithOptions(customResolver),
 	)
 
 	if err != nil {
