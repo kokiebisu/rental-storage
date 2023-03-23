@@ -51,12 +51,35 @@ func (c *BookingRepository) Save(booking booking.Entity) *customerror.CustomErro
 	return nil
 }
 
+func (c BookingRepository) UpdateBookingStatus(uid string, status string) (booking.Entity, *customerror.CustomError) {
+	item, err := c.client.UpdateItem(context.TODO(), &dynamodb.UpdateItemInput{
+		TableName: aws.String(c.tableName),
+		Key: map[string]types.AttributeValue{
+			"UId": &types.AttributeValueMemberS{Value: uid},
+		},
+		ReturnValues:     "ALL_NEW",
+		UpdateExpression: aws.String("set BookingStatus = :bookingStatus"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":bookingStatus": &types.AttributeValueMemberS{Value: status},
+		},
+	})
+	if err != nil {
+		return booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot perform UpdateItem operation", err)
+	}
+	target := booking.DTO{}
+	err = attributevalue.UnmarshalMap(item.Attributes, &target)
+	if err != nil {
+		return booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot unmarshal map", err)
+	}
+	return target.ToEntity(), nil
+}
+
 func (c BookingRepository) Delete(uid string) *customerror.CustomError {
 	_, err := c.client.DeleteItem(context.TODO(), &dynamodb.DeleteItemInput{
 		Key: map[string]types.AttributeValue{
 			"UId": &types.AttributeValueMemberS{Value: uid},
 		},
-		TableName: &c.tableName,
+		TableName: aws.String(c.tableName),
 	})
 	if err != nil {
 		return customerror.ErrorHandler.InternalServerError("cannot perform DeleteItem operation", err)
@@ -69,7 +92,7 @@ func (c BookingRepository) FindOneById(uid string) (booking.Entity, *customerror
 		Key: map[string]types.AttributeValue{
 			"UId": &types.AttributeValueMemberS{Value: uid},
 		},
-		TableName: &c.tableName,
+		TableName: aws.String(c.tableName),
 	})
 	if err != nil {
 		return booking.Entity{}, customerror.ErrorHandler.InternalServerError("cannot perform FindById operation", err)

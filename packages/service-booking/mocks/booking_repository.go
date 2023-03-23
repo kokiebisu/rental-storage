@@ -128,6 +128,32 @@ func (_m *BookingRepository) Save(_a0 booking.Entity) *errors.CustomError {
 	return r0
 }
 
+// UpdateBookingStatus provides a mock function with given fields: id, status
+func (_m *BookingRepository) UpdateBookingStatus(id string, status string) (booking.Entity, *errors.CustomError) {
+	ret := _m.Called(id, status)
+
+	var r0 booking.Entity
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(0).(func(string, string) (booking.Entity, *errors.CustomError)); ok {
+		return rf(id, status)
+	}
+	if rf, ok := ret.Get(0).(func(string, string) booking.Entity); ok {
+		r0 = rf(id, status)
+	} else {
+		r0 = ret.Get(0).(booking.Entity)
+	}
+
+	if rf, ok := ret.Get(1).(func(string, string) *errors.CustomError); ok {
+		r1 = rf(id, status)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
 type mockConstructorTestingTNewBookingRepository interface {
 	mock.TestingT
 	Cleanup(func())

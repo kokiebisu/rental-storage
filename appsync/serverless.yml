@@ -50,6 +50,10 @@ appSync:
       type: AWS_LAMBDA
       config:
         functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-create-booking
+    BookingAcceptFn:
+      type: AWS_LAMBDA
+      config:
+        functionArn: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:provider.stage}-${self:custom.namespace}-composition-accept-booking
 
     # Space
     FindSpaceFn:
@@ -93,6 +97,8 @@ appSync:
     # Booking
     BookingCreateFn:
       dataSource: BookingCreateFn
+    BookingAcceptFn:
+      dataSource: BookingAcceptFn
     FindBookingFn:
       dataSource: FindBookingFn
     FindBookingsFn:
@@ -137,6 +143,11 @@ appSync:
       response: ./resolvers/response.vtl
       functions:
         - BookingCreateFn
+    Mutation.bookingAccept:
+      request: ./resolvers/booking/mutation.bookingAccept.vtl
+      response: ./resolvers/response.vtl
+      functions:
+        - BookingAcceptFn
 
     # Space
     Query.space:

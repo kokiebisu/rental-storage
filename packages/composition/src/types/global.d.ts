@@ -27,7 +27,7 @@ interface ISpace {
 
 interface IBooking {
   id: string;
-  status: string;
+  bookingStatus: string;
   imageUrls: string[];
   description: string;
   userId: string;

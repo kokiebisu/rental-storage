@@ -25,3 +25,10 @@ CreateBooking:
     command:
       - dist/adapter/resolver/mutation.createBooking
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-create-booking
+
+AcceptBooking:
+  image:
+    name: app
+    command:
+      - dist/adapter/resolver/mutation.acceptBooking
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-accept-booking
