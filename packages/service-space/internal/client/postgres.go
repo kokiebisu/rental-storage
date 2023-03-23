@@ -48,6 +48,7 @@ func getPostgresClient() (*sql.DB, *customerror.CustomError) {
 }
 
 func getPostgresDockerClient() (*sql.DB, *customerror.CustomError) {
+	fmt.Println("YO")
 	port := "5432"
 	containerPort := port + "/tcp"
 

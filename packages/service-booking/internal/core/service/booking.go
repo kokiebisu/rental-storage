@@ -40,3 +40,7 @@ func (s *BookingService) FindBookingsBySpaceId(spaceId string, bookingStatus str
 func (s *BookingService) FindBookingsByUserId(userId string, bookingStatus string) ([]booking.Entity, *customerror.CustomError) {
 	return s.bookingRepository.FindManyByUserId(userId, bookingStatus)
 }
+
+func (s *BookingService) AcceptBooking(uid string) (booking.Entity, *customerror.CustomError) {
+	return s.bookingRepository.UpdateBookingStatus(uid, "approved")
+}

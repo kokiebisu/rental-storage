@@ -12,6 +12,34 @@ type Controller struct {
 	mock.Mock
 }
 
+// AcceptBooking provides a mock function with given fields: req
+func (_m *Controller) AcceptBooking(req interface{}) (interface{}, *errors.CustomError) {
+	ret := _m.Called(req)
+
+	var r0 interface{}
+	var r1 *errors.CustomError
+	if rf, ok := ret.Get(0).(func(interface{}) (interface{}, *errors.CustomError)); ok {
+		return rf(req)
+	}
+	if rf, ok := ret.Get(0).(func(interface{}) interface{}); ok {
+		r0 = rf(req)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(interface{})
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(interface{}) *errors.CustomError); ok {
+		r1 = rf(req)
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*errors.CustomError)
+		}
+	}
+
+	return r0, r1
+}
+
 // CreateBooking provides a mock function with given fields: req
 func (_m *Controller) CreateBooking(req interface{}) (interface{}, *errors.CustomError) {
 	ret := _m.Called(req)

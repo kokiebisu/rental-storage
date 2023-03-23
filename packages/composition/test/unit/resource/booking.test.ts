@@ -43,4 +43,10 @@ describe("BookingResourceURLBuilder", () => {
       `${builder.baseURL}/bookings?spaceId=${spaceId}&bookingStatus=approved`
     );
   });
+
+  it("acceps a booking by id", () => {
+    const bookingId = "123";
+    const result = builder.acceptBooking(bookingId);
+    expect(result).toEqual(`${builder.baseURL}/bookings/${bookingId}/accept`);
+  });
 });

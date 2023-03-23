@@ -26,6 +26,10 @@ type FindBookingsResponsePayload struct {
 	Bookings []booking.DTO `json:"bookings"`
 }
 
+type AcceptBookingResponsePayload struct {
+	Booking booking.DTO `json:"booking"`
+}
+
 type ApiGatewayAdapter struct {
 	service port.BookingService
 }
@@ -91,6 +95,19 @@ func (a *ApiGatewayAdapter) FindBookings(event interface{}) (interface{}, *custo
 		bds = append(bds, i.ToDTO())
 	}
 	payload := FindBookingsResponsePayload{Bookings: bds}
+	logger.Info("Payload", zap.Any("payload", payload))
+	return payload, err
+}
+
+func (a *ApiGatewayAdapter) AcceptBooking(event interface{}) (interface{}, *customerror.CustomError) {
+	logger, _ := client.GetLoggerClient()
+	logger.Info("Event", zap.Any("event", event))
+	bookingId := event.(events.APIGatewayProxyRequest).PathParameters["bookingId"]
+	if bookingId == "" {
+		return FindBookingByIdResponsePayload{}, customerror.ErrorHandler.InternalServerError("unable to extract bookingId", nil)
+	}
+	booking, err := a.service.AcceptBooking(bookingId)
+	payload := FindBookingByIdResponsePayload{Booking: booking.ToDTO()}
 	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err
 }
