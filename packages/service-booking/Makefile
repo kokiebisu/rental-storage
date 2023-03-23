@@ -19,7 +19,7 @@ test-unit:
 
 .PHONY: test-integration
 test-integration:
-	cd test/integration && go test -count=1 ./... && cd ../..
+	export AWS_PROFILE=rental-storage && export ENV=test && cd test/integration && go test -count=1 ./... && cd ../..
 
 .PHONY: lint
 lint:
