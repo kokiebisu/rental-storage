@@ -3,21 +3,21 @@ import { InternalServerError } from "../../error";
 import { BookingResourceURLBuilder } from "../../resource";
 
 interface AcceptBookingCommandConstructor {
-  bookingId: string;
+  id: string;
 }
 
 export class AcceptBookingCommand {
-  public readonly bookingId: string;
+  public readonly id: string;
 
-  public constructor({ bookingId }: AcceptBookingCommandConstructor) {
-    this.bookingId = bookingId;
+  public constructor({ id }: AcceptBookingCommandConstructor) {
+    this.id = id;
   }
 }
 
 export class AcceptBookingUseCase {
   public async execute(command: AcceptBookingCommand): Promise<IBooking> {
-    const { bookingId } = command;
-    if (!bookingId) {
+    const { id } = command;
+    if (!id) {
       throw new InternalServerError();
     }
     const client = new RestAPIClient();
@@ -28,8 +28,8 @@ export class AcceptBookingUseCase {
           booking: Omit<IBooking, "id"> & { uid: string };
         },
         AcceptBookingCommand
-      >(builder.acceptBooking(bookingId), {
-        bookingId,
+      >(builder.acceptBooking(id), {
+        id,
       });
       return { ...response.data.booking, id: response.data?.booking.uid };
     } catch (error) {

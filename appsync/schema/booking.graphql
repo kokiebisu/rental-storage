@@ -16,7 +16,7 @@ extend type Mutation {
 
 type Booking @aws_lambda {
   id: ID
-  status: String
+  bookingStatus: String
   imageUrls: [String]
   description: String
   userId: String

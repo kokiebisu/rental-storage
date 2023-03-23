@@ -1,11 +1,3 @@
-.PHONY: profile-set
-profile-set:
-	export AWS_PROFILE=rental-storage
-
-.PHONY: test-env-set
-test-env-set:
-	export ENV=test
-
 .PHONY: build
 build:
 	make profile-set
@@ -27,8 +19,6 @@ test-unit:
 
 .PHONY: test-integration
 test-integration:
-	make profile-set
-	make test-env-start
 	cd test/integration && go test -count=1 ./... && cd ../..
 
 .PHONY: lint

@@ -70,7 +70,7 @@ export const createBooking = async (
 export const acceptBooking = async (
   event: AppSyncResolverEvent<
     {
-      bookingId: string;
+      id: string;
     },
     unknown
   >

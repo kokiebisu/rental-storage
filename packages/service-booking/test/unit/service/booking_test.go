@@ -66,10 +66,11 @@ func TestFindApprovedBookings_Success(t *testing.T) {
 	assert.Equal(t, b[0].UId, expected[0].UId)
 }
 
-// Accept Booking
+// Accept Booking with status 'pending'
 func TestAcceptBooking_Success(t *testing.T) {
 	_, err := setupTest(t)
 	expected := []booking.Entity{data.MockBooking.ToEntity()}
+	data.MockBookingRepo.On("FindOneById", data.MockBooking.UId).Return(data.MockBooking.ToEntity(), nil)
 	data.MockBookingRepo.On("UpdateBookingStatus", data.MockBooking.UId, "approved").Return(expected[0], nil)
 	data.BookingService = service.NewBookingService(data.MockBookingRepo)
 	assert.Nil(t, err, "should not throw error")
