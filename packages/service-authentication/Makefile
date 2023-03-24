@@ -15,14 +15,26 @@ clean:
 .PHONY: prepare
 prepare: clean build
 
+.PHONY: test-integration
+test-integration:
+	export ENV=test && cd test/integration && go test ./... -v && cd ../..
+
 .PHONY: test-unit
 test-unit:
-	cd test && go test ./... -v && cd ../..
+	export ENV=test && cd test/unit && go test ./... -v && cd ../..
 
 .PHONY: lint
 lint:
 	golangci-lint run ./... --timeout=5m
 
-.PHONY: generate-mock
-generate-mock:
+.PHONY: mock-generate
+mock-generate:
 	mockery --all --case snake
+
+.PHONY: deps-start
+deps-start:
+	docker-compose up -d --build
+
+.PHONY: deps-end
+deps-stop:
+	docker-compose down --volumes

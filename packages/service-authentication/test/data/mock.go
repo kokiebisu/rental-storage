@@ -16,6 +16,7 @@ var (
 	MockPassword     = faker.Password()
 	MockToken        = faker.Jwt()
 	MockTimeString   = faker.TimeString()
+	MockExpiresAt    = time.Duration(5 * time.Minute)
 	MockClaims       = &domain.Claims{
 		MockUId,
 		jwt.StandardClaims{
