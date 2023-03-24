@@ -157,3 +157,13 @@ func (e *Handler) LoggerConfigurationError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) RedisConnectionError(err error) *CustomError {
+	msg := "Redis connection error"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "REDIS_CONNECTION_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}
