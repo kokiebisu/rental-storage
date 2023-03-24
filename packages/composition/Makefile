@@ -1,3 +1,7 @@
+.PHONY: set-profile
+set-profile:
+	export AWS_PROFILE=rental-storage
+
 .PHONY: lint
 lint: 
 	npx eslint .

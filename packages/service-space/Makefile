@@ -1,3 +1,7 @@
+.PHONY: set-profile
+set-profile:
+	export AWS_PROFILE=rental-storage
+
 .PHONY: clean
 clean:
 	rm -rf node_modules && rm -rf dist && rm -rf .turbo && rm tsconfig.tsbuildinfo

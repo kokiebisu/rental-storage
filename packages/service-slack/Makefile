@@ -1,3 +1,7 @@
+.PHONY: set-profile
+set-profile:
+	export AWS_PROFILE=rental-storage
+
 install-deps-local:
 	make start-venv && pip install -t vendor -r requirements.txt
 

@@ -14,7 +14,7 @@ const createEvent = (event: any) => {
   return {
     ...event,
     arguments: {
-      bookingId: global.data.bookingId,
+      id: global.data.bookingId,
     },
     identity: {
       ...event.identity,

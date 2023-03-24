@@ -1,6 +1,9 @@
+.PHONY: set-profile
+set-profile:
+	export AWS_PROFILE=rental-storage
+
 .PHONY: build
 build:
-	make profile-set
 	cd cmd/controller/accept-booking && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/accept-booking && cd ../..
 	cd cmd/controller/create-booking && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/create-booking && cd ../..
 	cd cmd/controller/find-booking-by-id && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/find-booking-by-id && cd ../..
@@ -39,5 +42,5 @@ deps-stop:
 
 .PHONY: aws-docker-check-items
 aws-docker-check-items: 
-	make profile-set
+	make set-profile
 	aws dynamodb scan --table-name booking --endpoint-url http://localhost:8000
