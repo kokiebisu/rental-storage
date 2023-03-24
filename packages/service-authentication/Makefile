@@ -17,7 +17,7 @@ prepare: clean build
 
 .PHONY: test-unit
 test-unit:
-	cd test && go test ./... -v && cd ../..
+	export ENV=test && cd test/unit && go test ./... -v && cd ../..
 
 .PHONY: lint
 lint:
