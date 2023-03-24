@@ -167,3 +167,13 @@ func (e *Handler) RedisConnectionError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) RedisTokenStoreError(err error) *CustomError {
+	msg := "Redis token store error"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "REDIS_TOKEN_STORE_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}
