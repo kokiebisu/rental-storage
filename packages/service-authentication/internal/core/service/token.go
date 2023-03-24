@@ -17,7 +17,11 @@ func NewTokenService() *TokenService {
 
 var SECRET_KEY = "SECRET"
 
-// GenerateToken returns a unique jwt token based on the provided email string
+// GenerateToken generates a jwt token for the user based on the uid.
+// If it does not match, it returns an error.
+// If the claims are empty, it returns an error.
+// If the claims are expired, it returns an error.
+// If the claims are valid, it returns the claims.
 func (s *TokenService) GenerateToken(uid string) (string, *customerror.CustomError) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
@@ -31,7 +35,11 @@ func (s *TokenService) GenerateToken(uid string) (string, *customerror.CustomErr
 	return tokenString, nil
 }
 
-// verifies the jwt token
+// VerifyToken verifies the token.
+// If it does not match, it returns an error
+// If the claims are empty, it returns an error
+// If the claims are expired, it returns an error
+// If the claims are valid, it returns the claims
 func (s *TokenService) VerifyToken(tokenString string) (*domain.Claims, *customerror.CustomError) {
 	token, err := jwt.ParseWithClaims(tokenString, &domain.Claims{}, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
