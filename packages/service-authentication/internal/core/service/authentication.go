@@ -26,6 +26,9 @@ func NewAuthenticationService(tokenService port.TokenService, cryptoService port
 	}
 }
 
+// SignIn checks if the email address exists in the user db
+// if it does, it checks if the password matches the hashed password
+// if it does, it generates a token and returns it
 func (s *AuthenticationService) SignIn(emailAddress string, password string) (string, *customerror.CustomError) {
 	if os.Getenv("SERVICE_API_ENDPOINT") == "" {
 		return "", customerror.ErrorHandler.UndefinedEndPointError(nil)
@@ -53,6 +56,9 @@ func (s *AuthenticationService) SignIn(emailAddress string, password string) (st
 	return token, err.(*customerror.CustomError)
 }
 
+// SignUp checks if the email address exists in the user db
+// if it does, it returns an error
+// if it doesn't, it creates a new user and returns a token
 func (s *AuthenticationService) SignUp(emailAddress string, firstName string, lastName string, password string) (string, *customerror.CustomError) {
 	// hash password
 	hash, err := s.cryptoService.HashPassword(password)
@@ -105,6 +111,7 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 	return s.tokenService.GenerateToken(response.UId)
 }
 
+// Verify checks if the token is valid
 func (s *AuthenticationService) Verify(authorizationToken string) (*domain.Claims, *customerror.CustomError) {
 	return s.tokenService.VerifyToken(authorizationToken)
 }
