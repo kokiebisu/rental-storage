@@ -34,7 +34,7 @@ func GetLoggerClient() (*zap.Logger, *customerror.CustomError) {
 	}
 }
 
-func GetCacheClient() (*redis.Client, *customerror.CustomError) {
+func GetStoreClient() (*redis.Client, *customerror.CustomError) {
 	var err *customerror.CustomError
 	env := os.Getenv("ENV")
 	if env == "" {
