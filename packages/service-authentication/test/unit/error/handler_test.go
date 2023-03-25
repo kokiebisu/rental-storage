@@ -50,10 +50,10 @@ func TestPasswordHashErrorError(t *testing.T) {
 	assert.Equal(t, payload.Reason, err)
 }
 
-func TestUndefinedEndPointError(t *testing.T) {
-	msg := "user service api endpoint not defined"
+func TestEnvironmentVariable(t *testing.T) {
+	msg := "SERVICE_API_ENDPOINT not defined"
 	err := errors.New(msg)
-	customError := errs.ErrorHandler.UndefinedEndPointError(err)
+	customError := errs.ErrorHandler.EnvironmentVariableError(err, "SERVICE_API_ENDPOINT")
 	payload := customError.GetPayload()
 	assert.Equal(t, customError.StatusCode, uint16(500))
 	assert.Equal(t, payload.Message, msg)
