@@ -2,7 +2,7 @@ NAMESPACE = @server-mock
 
 .PHONY: deps-start
 deps-start:
-	@echo "[ $(NAMESPACE) ] Running mock server..."
+	@echo "[ $(NAMESPACE) ] Running dependencies..."
 	@docker-compose up -d --build
 
 .PHONY: deps-stop
