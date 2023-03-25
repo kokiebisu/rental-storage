@@ -20,5 +20,5 @@ test-unit:
 
 .PHONY: lint
 lint:
-	@echo "[ $(NAMESPACE) ] Linting"
+	@echo "[ $(NAMESPACE) ] Linting..."
 	@flake8 . --exclude ./vendor/**,./node_modules/**

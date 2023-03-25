@@ -7,7 +7,7 @@ set-profile:
 
 .PHONY: lint
 lint:
-	@echo "[ $(NAMESPACE) ] Linting"
+	@echo "[ $(NAMESPACE) ] Linting..."
 	@npx eslint .
 
 .PHONY: test-unit

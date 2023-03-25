@@ -35,7 +35,7 @@ test-integration:
 
 .PHONY: lint
 lint:
-	@echo "[ $(NAMESPACE) ] Linting"
+	@echo "[ $(NAMESPACE) ] Linting..."
 	@golangci-lint run ./... --timeout=5m
 
 .PHONY: mock-generate

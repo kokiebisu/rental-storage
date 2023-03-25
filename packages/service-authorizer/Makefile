@@ -27,5 +27,5 @@ test-unit:
 
 .PHONY: lint
 lint:
-	@echo "[ $(NAMESPACE) ] Linting"
+	@echo "[ $(NAMESPACE) ] Linting..."
 	@golangci-lint run ./... --timeout=5m
