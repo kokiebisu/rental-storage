@@ -52,4 +52,4 @@ deps-start:
 .PHONY: deps-stop
 deps-stop:
 	@echo "[$(NAMESPACE) ] Stopping Dependencies..."
-	@docker-compose down --volumes
+	@docker-compose down --volumes --remove-orphans

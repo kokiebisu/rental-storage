@@ -8,4 +8,4 @@ deps-start:
 .PHONY: deps-stop
 deps-stop:
 	@echo "[ $(NAMESPACE) ] Stopping mock server..."
-	@docker-compose down --volumes
+	@docker-compose down --volumes --remove-orphans
