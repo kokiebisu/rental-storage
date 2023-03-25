@@ -27,6 +27,8 @@ terraform:
 web:
   - web/**
 github-workflows:
-  - .github/**
+  - .github/**/**
+dependabot:
+  - .github/dependabot.yml
 vscode:
   - config/settings.json
