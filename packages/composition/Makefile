@@ -1,3 +1,5 @@
+NAMESPACE = @composition
+
 .PHONY: set-profile
 set-profile:
 	@echo "Setting AWS_PROFILE to rental-storage"
@@ -5,15 +7,15 @@ set-profile:
 
 .PHONY: lint
 lint:
-	@echo "Linting"
+	@echo "[ $(NAMESPACE) ] Linting"
 	@npx eslint .
 
 .PHONY: test-unit
 test-unit: 
-	@echo "Running unit tests"
+	@echo "[ $(NAMESPACE) ] Running unit tests"
 	@npx jest --config test/unit/jest.config.ts --coverage
 
 .PHONY: test-api
 test-api: 
-	@echo "Running API tests"
+	@echo "[ $(NAMESPACE) ] Running API tests"
 	@npx jest --config test/api/jest.config.ts --coverage

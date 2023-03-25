@@ -1,3 +1,5 @@
+NAMESPACE = @service-authentication
+
 .PHONY: set-profile
 set-profile:
 	@echo "Setting AWS_PROFILE to rental-storage"
@@ -5,47 +7,47 @@ set-profile:
 	
 .PHONY: build
 build:
-	@echo "Building..."
+	@echo "[ $(NAMESPACE) ] Building..."
 	@cd cmd/controller/signin && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/signin && cd ../..
 	@cd cmd/controller/signup && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/signup && cd ../..
 	@cd cmd/controller/verify && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/verify && cd ../..
 
 .PHONY: clean
 clean:
-	@echo "Cleaning..."
+	@echo "[ $(NAMESPACE) ] Cleaning..."
 	@rm -rf ./bin Gopkg.lock
 
 .PHONY: prepare
 prepare: 
-	@echo "Preparing..."
+	@echo "[ $(NAMESPACE) ] Preparing..."
 	@clean build
 
 .PHONY: test-integration
 test-integration:
-	@echo "Running integration tests"
+	@echo "[ $(NAMESPACE) ] Running integration tests"
 	@export ENV=test && cd test/integration && go test ./... -v && cd ../..
 
 .PHONY: test-unit
 test-unit:
-	@echo "Running unit tests"
+	@echo "[ $(NAMESPACE) ] Running unit tests"
 	@export ENV=test && cd test/unit && go test ./... -v && cd ../..
 
 .PHONY: lint
 lint:
-	@echo "Linting"
+	@echo "[ $(NAMESPACE) ] Linting"
 	@golangci-lint run ./... --timeout=5m
 
 .PHONY: mock-generate
 mock-generate:
-	@echo "Generating mocks"
+	@echo "[ $(NAMESPACE) ] Generating mocks"
 	@mockery --all --case snake
 
 .PHONY: deps-start
 deps-start:
-	@echo "Running Mock Server..."
+	@echo "[ $(NAMESPACE) ] Running dependencies..."
 	@docker-compose up -d --build
 
 .PHONY: deps-end
 deps-stop:
-	@echo "Stopping Mock Server..."
+	@echo "[ $(NAMESPACE) ] Stopping dependencies..."
 	@docker-compose down --volumes

@@ -1,3 +1,5 @@
+NAMESPACE = @service-authorizer
+
 .PHONY: set-profile
 set-profile:
 	@echo "Setting AWS_PROFILE to rental-storage"
@@ -5,25 +7,25 @@ set-profile:
 	
 .PHONY: build
 build:
-	@echo "Building..."
+	@echo "[ $(NAMESPACE) ] Building..."
 	@cd cmd/controller/authorize && env GOARCH=amd64 GOOS=linux go build -ldflags="-s -w" -o ../../../bin/authorize *.go
 
 .PHONY: clean
 clean:
-	@echo "Cleaning..."
+	@echo "[ $(NAMESPACE) ] Cleaning..."
 	@rm -rf ./bin Gopkg.lock
 
 .PHONY: prepare
 prepare: 
-	@echo "Preparing..."
+	@echo "[ $(NAMESPACE) ] Preparing..."
 	@clean build
 
 .PHONY: test-unit
 test-unit:
-	@echo "Running unit tests"
+	@echo "[ $(NAMESPACE) ] Running unit tests"
 	@cd test && go test ./... && cd ../..
 
 .PHONY: lint
 lint:
-	@echo "Linting"
+	@echo "[ $(NAMESPACE) ] Linting"
 	@golangci-lint run ./... --timeout=5m
