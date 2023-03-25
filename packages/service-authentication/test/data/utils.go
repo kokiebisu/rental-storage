@@ -6,6 +6,9 @@ import (
 )
 
 var (
-	RedisClient *redis.Client
-	TokenStore  port.TokenStore
+	RedisClient           *redis.Client
+	TokenStore            port.TokenStore
+	AuthenticationService port.AuthenticationService
+	TokenService          port.TokenService
+	CryptoService         port.CryptoService
 )

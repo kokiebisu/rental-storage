@@ -1,17 +1,24 @@
+NAMESPACE = @service-slack
+
 .PHONY: set-profile
 set-profile:
-	export AWS_PROFILE=rental-storage
+	@echo "[ $(NAMESPACE) ] Setting AWS_PROFILE to rental-storage..."
+	@export AWS_PROFILE=rental-storage
 
 install-deps-local:
-	make start-venv && pip install -t vendor -r requirements.txt
+	@echo "[ $(NAMESPACE) ] Installing dependencies locally..."
+	@make start-venv && pip install -t vendor -r requirements.txt
 
 start-venv:
-	source venv/bin/activate
+	@echo "[ $(NAMESPACE) ] Starting virtual environment..."
+	@source venv/bin/activate
 
 .PHONY: test-unit
 test-unit:
-	pytest -v test/unit_test
+	@echo "[ $(NAMESPACE) ] Running unit tests..."
+	@pytest -v test/unit_test
 
 .PHONY: lint
 lint:
-	flake8 . --exclude ./vendor/**,./node_modules/**
+	@echo "[ $(NAMESPACE) ] Linting..."
+	@flake8 . --exclude ./vendor/**,./node_modules/**

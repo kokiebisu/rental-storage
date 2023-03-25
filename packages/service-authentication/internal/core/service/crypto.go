@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 
 	"golang.org/x/crypto/bcrypt"
@@ -9,7 +10,7 @@ import (
 type CryptoService struct {
 }
 
-func NewCryptoService() *CryptoService {
+func NewCryptoService() port.CryptoService {
 	return &CryptoService{}
 }
 
