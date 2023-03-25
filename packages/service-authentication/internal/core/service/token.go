@@ -6,12 +6,13 @@ import (
 
 	"github.com/golang-jwt/jwt"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 )
 
 type TokenService struct{}
 
-func NewTokenService() *TokenService {
+func NewTokenService() port.TokenService {
 	return &TokenService{}
 }
 
