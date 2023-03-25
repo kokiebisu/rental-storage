@@ -1,40 +1,53 @@
+NAMESPACE = @service-authentication
+
 .PHONY: set-profile
 set-profile:
-	export AWS_PROFILE=rental-storage
+	@echo "Setting AWS_PROFILE to rental-storage..."
+	@export AWS_PROFILE=rental-storage
 	
 .PHONY: build
 build:
-	cd cmd/controller/signin && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/signin && cd ../..
-	cd cmd/controller/signup && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/signup && cd ../..
-	cd cmd/controller/verify && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/verify && cd ../..
+	@echo "[ $(NAMESPACE) ] Building..."
+	@cd cmd/controller/signin && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/signin && cd ../..
+	@cd cmd/controller/signup && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/signup && cd ../..
+	@cd cmd/controller/verify && env GOARCH=amd64 GOOS=linux GO111MODULE=on go build -ldflags="-s -w" -o ../../../bin/verify && cd ../..
 
 .PHONY: clean
 clean:
-	rm -rf ./bin Gopkg.lock
+	@echo "[ $(NAMESPACE) ] Cleaning..."
+	@rm -rf ./bin Gopkg.lock
 
 .PHONY: prepare
-prepare: clean build
+prepare: 
+	@echo "[ $(NAMESPACE) ] Preparing..."
+	@clean build
 
 .PHONY: test-integration
 test-integration:
-	export ENV=test && cd test/integration && go test ./... -v && cd ../..
+	@echo "[ $(NAMESPACE) ] Running integration tests..."
+	@export ENV=test && cd test/integration && go test ./... -v && cd ../..
 
 .PHONY: test-unit
 test-unit:
-	export ENV=test && cd test/unit && go test ./... -v && cd ../..
+	@echo "[ $(NAMESPACE) ] Running unit tests..."
+	@export ENV=test && cd test/unit && go test ./... -v && cd ../..
 
 .PHONY: lint
 lint:
-	golangci-lint run ./... --timeout=5m
+	@echo "[ $(NAMESPACE) ] Linting..."
+	@golangci-lint run ./... --timeout=5m
 
 .PHONY: mock-generate
 mock-generate:
-	mockery --all --case snake
+	@echo "[ $(NAMESPACE) ] Generating mocks..."
+	@mockery --all --case snake
 
 .PHONY: deps-start
 deps-start:
-	docker-compose up -d --build
+	@echo "[ $(NAMESPACE) ] Running dependencies..."
+	@docker-compose up -d --build
 
 .PHONY: deps-end
 deps-stop:
-	docker-compose down --volumes
+	@echo "[ $(NAMESPACE) ] Stopping dependencies..."
+	@docker-compose down --volumes

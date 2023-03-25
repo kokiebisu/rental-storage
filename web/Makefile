@@ -1,3 +1,6 @@
+NAMESPACE = @web
+
 .PHONY: lint
 lint:
-	npx next lint
+	@echo "[ $(NAMESPACE) ] Linting..."
+	@npx next lint
