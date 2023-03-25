@@ -14,7 +14,9 @@ func TestGenerateToken_Success(t *testing.T) {
 }
 
 func TestVerifyToken_Success(t *testing.T) {
-	claims, err := data.TokenService.VerifyToken(data.MockToken)
+	token, err := data.TokenService.GenerateToken(data.MockUId)
+	assert.Nil(t, err, "should not throw error")
+	claims, err := data.TokenService.VerifyToken(token)
 	assert.Nil(t, err, "should not throw error")
 	assert.NotNil(t, claims, "should not be nil")
 }

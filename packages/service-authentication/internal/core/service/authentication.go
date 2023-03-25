@@ -81,7 +81,10 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 	if err != nil {
 		return "", customerror.ErrorHandler.UnmarshalError("updated user", err)
 	}
-	baseUrl := getUserBaseURL()
+	baseUrl := os.Getenv("SERVICE_API_ENDPOINT")
+	if baseUrl == "" {
+		return "", customerror.ErrorHandler.EnvironmentVariableError(nil, "SERVICE_API_ENDPOINT")
+	}
 	userEndpoint := fmt.Sprintf("%s/users", baseUrl)
 	resp, err := helper.SendPostRequest(userEndpoint, encodedUpdatedUser)
 	if err != nil {
@@ -113,15 +116,4 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 // Verify checks if the token is valid
 func (s *AuthenticationService) Verify(authorizationToken string) (*domain.Claims, *customerror.CustomError) {
 	return s.tokenService.VerifyToken(authorizationToken)
-}
-
-func getUserBaseURL() string {
-	var endpoint string
-	env := os.Getenv("ENV")
-	if env == "test" {
-		endpoint = "http://localhost:1234"
-	} else {
-		endpoint = os.Getenv("SERVICE_API_ENDPOINT")
-	}
-	return endpoint
 }

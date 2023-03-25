@@ -2,6 +2,7 @@ package integration
 
 import (
 	"log"
+	"os"
 	"testing"
 
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/adapter/store"
@@ -18,6 +19,8 @@ func TestMain(m *testing.M) {
 
 func setup() {
 	var err *customerror.CustomError
+
+	os.Setenv("SERVICE_API_ENDPOINT", "http://localhost:1234")
 
 	data.RedisClient, err = client.GetStoreClient()
 	if err != nil {
