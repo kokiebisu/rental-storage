@@ -38,6 +38,7 @@
               "uid": "b79472b3-d771-454a-9721-662faa24f842",
               "firstName": "Random First Name",
               "lastName": "Random Last Name",
+              "password": "$2a$10$6Ci1sE7FWKCU5jZAumHQ2e5306sKwDkrnvHqAozIRfEMBFNjPq4Ce",
               "emailAddress": "test@gmail.com",
               "items": [],
               "createdAt": "0001-01-01 00:00:00",

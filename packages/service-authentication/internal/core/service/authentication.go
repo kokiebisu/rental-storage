@@ -30,10 +30,11 @@ func NewAuthenticationService(tokenService port.TokenService, cryptoService port
 // if it does, it checks if the password matches the hashed password
 // if it does, it generates a token and returns it
 func (s *AuthenticationService) SignIn(emailAddress string, password string) (string, *customerror.CustomError) {
-	if os.Getenv("SERVICE_API_ENDPOINT") == "" {
-		return "", customerror.ErrorHandler.UndefinedEndPointError(nil)
+	endpoint := os.Getenv("SERVICE_API_ENDPOINT")
+	if endpoint == "" {
+		endpoint = "http://localhost:1234"
 	}
-	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", os.Getenv("SERVICE_API_ENDPOINT"), emailAddress)
+	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", endpoint, emailAddress)
 	// check if the email address exists in the user db
 	resp, err := http.Get(userEndpoint)
 	if err != nil {
@@ -80,10 +81,8 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 	if err != nil {
 		return "", customerror.ErrorHandler.UnmarshalError("updated user", err)
 	}
-	if os.Getenv("SERVICE_API_ENDPOINT") == "" {
-		return "", customerror.ErrorHandler.UndefinedEndPointError(nil)
-	}
-	userEndpoint := fmt.Sprintf("%s/users", os.Getenv("SERVICE_API_ENDPOINT"))
+	baseUrl := getUserBaseURL()
+	userEndpoint := fmt.Sprintf("%s/users", baseUrl)
 	resp, err := helper.SendPostRequest(userEndpoint, encodedUpdatedUser)
 	if err != nil {
 		return "", customerror.ErrorHandler.ResponseInvalidError(err)
@@ -114,4 +113,15 @@ func (s *AuthenticationService) SignUp(emailAddress string, firstName string, la
 // Verify checks if the token is valid
 func (s *AuthenticationService) Verify(authorizationToken string) (*domain.Claims, *customerror.CustomError) {
 	return s.tokenService.VerifyToken(authorizationToken)
+}
+
+func getUserBaseURL() string {
+	var endpoint string
+	env := os.Getenv("ENV")
+	if env == "test" {
+		endpoint = "http://localhost:1234"
+	} else {
+		endpoint = os.Getenv("SERVICE_API_ENDPOINT")
+	}
+	return endpoint
 }
