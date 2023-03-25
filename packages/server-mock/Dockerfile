@@ -7,8 +7,7 @@ RUN echo 'set -e' >> /entrypoint.sh
 RUN echo 'export PATH=$PATH:/app' >> /entrypoint.sh
 RUN echo 'pact-stub-server' \
          '-p 8080' \
-         '-d /pact/service-user' \
-         '-d /pact/service-space' \
+         '-d /pact/users' \
          >> /entrypoint.sh 
 RUN chmod +x /entrypoint.sh
 
