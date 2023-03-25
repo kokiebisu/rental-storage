@@ -1,0 +1,77 @@
+{
+  "consumer": {
+    "name": "Any"
+  },
+  "provider": {
+    "name": "UserService"
+  },
+  "interactions": [
+    {
+      "type": "Synchronous/HTTP",
+      "description": "a request for a greeting",
+      "request": {
+        "method": "POST",
+        "path": "/users",
+        "body": {
+          "emailAddress": [""],
+          "firstName": [""],
+          "lastName": [""],
+          "password": [""]
+        },
+        "matchingRules": {
+          "body": {
+            "emailAddress": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\w+"
+                }
+              ]
+            },
+            "firstName": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\w+"
+                }
+              ]
+            },
+            "lastName": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\w+"
+                }
+              ]
+            },
+            "password": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\w+"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "encoded": false,
+          "content": {
+            "uid": "b79472b3-d771-454a-9721-662faa24f842"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "4.0.0"
+    }
+  }
+}

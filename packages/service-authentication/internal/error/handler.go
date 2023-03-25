@@ -58,11 +58,11 @@ func (e *Handler) PasswordHashError(err error) *CustomError {
 	}
 }
 
-func (e *Handler) UndefinedEndPointError(err error) *CustomError {
-	msg := "user service api endpoint not defined"
+func (e *Handler) EnvironmentVariableError(err error, variableName string) *CustomError {
+	msg := variableName + " not defined"
 	return &CustomError{
 		StatusCode: 500,
-		ErrorCode:  "UNDEFINED_ENDPOINT_ERROR",
+		ErrorCode:  "ENVIRONMENT_VARIABLE_ERROR",
 		Message:    msg,
 		Reason:     err,
 	}
