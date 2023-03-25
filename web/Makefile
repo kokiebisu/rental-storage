@@ -1,3 +1,4 @@
 .PHONY: lint
 lint:
-	npx next lint
+	@echo "Linting"
+	@npx next lint

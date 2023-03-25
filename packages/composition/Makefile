@@ -1,15 +1,19 @@
 .PHONY: set-profile
 set-profile:
-	export AWS_PROFILE=rental-storage
+	@echo "Setting AWS_PROFILE to rental-storage"
+	@export AWS_PROFILE=rental-storage
 
 .PHONY: lint
-lint: 
-	npx eslint .
+lint:
+	@echo "Linting"
+	@npx eslint .
 
 .PHONY: test-unit
 test-unit: 
-	npx jest --config test/unit/jest.config.ts --coverage
+	@echo "Running unit tests"
+	@npx jest --config test/unit/jest.config.ts --coverage
 
 .PHONY: test-api
 test-api: 
-	npx jest --config test/api/jest.config.ts --coverage
+	@echo "Running API tests"
+	@npx jest --config test/api/jest.config.ts --coverage
