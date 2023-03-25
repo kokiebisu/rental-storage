@@ -22,7 +22,7 @@ prepare:
 
 .PHONY: test-unit
 test-unit:
-	@echo "[ $(NAMESPACE) ] Running unit tests"
+	@echo "[ $(NAMESPACE) ] Running unit tests..."
 	@cd test && go test ./... && cd ../..
 
 .PHONY: lint

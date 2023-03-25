@@ -2,7 +2,7 @@ NAMESPACE = @service-space
 
 .PHONY: set-profile
 set-profile:
-	@echo "Setting AWS_PROFILE to rental-storage"
+	@echo "Setting AWS_PROFILE to rental-storage..."
 	@export AWS_PROFILE=rental-storage
 
 .PHONY: clean
@@ -20,12 +20,12 @@ build:
 
 .PHONY: test-unit
 test-unit:
-	@echo "[ $(NAMESPACE) ] Running unit tests"
+	@echo "[ $(NAMESPACE) ] Running unit tests..."
 	@cd test/unit && export ENV=test && go test ./... && cd ../..
 
 .PHONY: test-integration
 test-integration:
-	@echo "[ $(NAMESPACE) ] Running integration tests"
+	@echo "[ $(NAMESPACE) ] Running integration tests..."
 	@cd test/integration && export ENV=test && go test ./... && cd ../..
 
 .PHONY: lint
@@ -35,7 +35,7 @@ lint:
 
 .PHONY: mock-generate
 mock-generate:
-	@echo "[ $(NAMESPACE) ] Generating mocks"
+	@echo "[ $(NAMESPACE) ] Generating mocks..."
 	@mockery --all --case snake
 
 .PHONY: deps-start
