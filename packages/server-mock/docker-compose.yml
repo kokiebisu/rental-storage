@@ -2,6 +2,7 @@ version: "3"
 
 services:
   mock-server:
+    container_name: mock-server
     build: .
     ports:
       - "1234:8080"
