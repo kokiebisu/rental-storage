@@ -17,5 +17,5 @@ test-unit:
 
 .PHONY: test-api
 test-api: 
-	@echo "[ $(NAMESPACE) ] Running API tests..."
+	@echo "[ $(NAMESPACE) ] Running api tests..."
 	@npx jest --config test/api/jest.config.ts --coverage
