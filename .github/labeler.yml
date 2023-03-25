@@ -16,17 +16,19 @@ service:slack:
   - packages/service-slack/**
 service:user:
   - packages/service-user/**
+server:mock:
+  - packages/server-mock/**
 scripts:
   - scripts/**
 api:appsync:
   - infrastructure/aws/resources/appsync/**
 terraform:
   - terraform/**
-mobile:
-  - mobile/**
 web:
   - web/**
 github-workflows:
-  - .github/**
+  - .github/**/**
+dependabot:
+  - .github/dependabot.yml
 vscode:
   - config/settings.json
