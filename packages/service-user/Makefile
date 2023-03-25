@@ -25,12 +25,12 @@ prepare:
 
 .PHONY: test-unit
 test-unit:
-	@echo "[ $(NAMESPACE) ] Running Unit Tests..."
+	@echo "[ $(NAMESPACE) ] Running unit tests..."
 	@cd test/unit && export ENV=test && go test ./... && cd ../..
 
 .PHONY: test-integration
 test-integration:
-	@echo "[ $(NAMESPACE) ] Running Integration Tests..."
+	@echo "[ $(NAMESPACE) ] Running integration tests..."
 	@cd test/integration && export ENV=test && go test ./... && cd ../..
 
 .PHONY: lint
@@ -40,16 +40,16 @@ lint:
 
 .PHONY: mock-generate
 mock-generate:
-	@echo "[ $(NAMESPACE) ] Generating Mocks..."
+	@echo "[ $(NAMESPACE) ] Generating mocks..."
 	@mockery --all --case snake
 
 
 .PHONY: deps-start
 deps-start:
-	@echo "[$(NAMESPACE) ] Running Dependencies..."
+	@echo "[ $(NAMESPACE) ] Running dependencies..."
 	@docker-compose up -d --build
 
 .PHONY: deps-stop
 deps-stop:
-	@echo "[$(NAMESPACE) ] Stopping Dependencies..."
-	@docker-compose down --volumes
+	@echo "[ $(NAMESPACE) ] Stopping dependencies..."
+	@docker-compose down --volumes --remove-orphans

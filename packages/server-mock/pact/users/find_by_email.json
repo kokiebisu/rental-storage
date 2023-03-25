@@ -1,0 +1,56 @@
+{
+  "consumer": {
+    "name": "Any"
+  },
+  "provider": {
+    "name": "UserService"
+  },
+  "interactions": [
+    {
+      "type": "Synchronous/HTTP",
+      "description": "a request for a greeting",
+      "request": {
+        "method": "GET",
+        "path": "/users/find-by-email",
+        "query": { "emailAddress": [""] },
+        "matchingRules": {
+          "query": {
+            "emailAddress": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\w+@\\w+\\.\\w+"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "encoded": false,
+          "content": {
+            "user": {
+              "uid": "b79472b3-d771-454a-9721-662faa24f842",
+              "firstName": "Random First Name",
+              "lastName": "Random Last Name",
+              "emailAddress": "test@gmail.com",
+              "items": [],
+              "createdAt": "0001-01-01 00:00:00",
+              "updatedAt": "0001-01-01 00:00:00"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "4.0.0"
+    }
+  }
+}

@@ -51,7 +51,7 @@ deps-start:
 .PHONY: deps-end
 deps-stop:
 	@echo "[ $(NAMESPACE) ] Stopping dependencies..."
-	@docker-compose down --volumes
+	@docker-compose down --volumes --remove-orphans
 
 .PHONY: aws-docker-check-items
 aws-docker-check-items:
