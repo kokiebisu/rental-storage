@@ -6,5 +6,5 @@ import (
 )
 
 type AuthorizerService interface {
-	Authorize(payload []byte) (domain.Claim, *customerror.CustomError)
+	Authorize(token string) (domain.Claim, *customerror.CustomError)
 }

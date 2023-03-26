@@ -18,7 +18,18 @@ func NewAuthorizerService() *AuthorizerService {
 	return &AuthorizerService{}
 }
 
-func (s *AuthorizerService) Authorize(encodedPayload []byte) (domain.Claim, *customerror.CustomError) {
+// Authorize is a function that verifies the jwt token
+// and returns the claim if the token is valid
+func (s *AuthorizerService) Authorize(token string) (domain.Claim, *customerror.CustomError) {
+	body := struct {
+		Token string `json:"authorizationToken"`
+	}{
+		Token: token,
+	}
+	encodedPayload, err := json.Marshal(&body)
+	if err != nil {
+		return domain.Claim{}, customerror.ErrorHandler.LoggerConfigurationError(err)
+	}
 	authenticationEndpoint := fmt.Sprintf("%s/auth/verify", os.Getenv("SERVICE_API_ENDPOINT"))
 	// send REST API to verify jwt
 	resp, err := http.Post(authenticationEndpoint, "application/json", bytes.NewBuffer(encodedPayload))
