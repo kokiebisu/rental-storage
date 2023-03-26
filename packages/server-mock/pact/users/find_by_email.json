@@ -8,7 +8,7 @@
   "interactions": [
     {
       "type": "Synchronous/HTTP",
-      "description": "a request for a greeting",
+      "description": "a request to find a user by email",
       "request": {
         "method": "GET",
         "path": "/users/find-by-email",
