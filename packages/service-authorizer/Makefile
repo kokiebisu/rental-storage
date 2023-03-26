@@ -20,10 +20,20 @@ prepare:
 	@echo "[ $(NAMESPACE) ] Preparing..."
 	@clean build
 
+.PHONY: mock-generate
+mock-generate:
+	@echo "[ $(NAMESPACE) ] Generating mocks..."
+	@mockery --all --case snake
+
 .PHONY: test-unit
 test-unit:
 	@echo "[ $(NAMESPACE) ] Running unit tests..."
-	@cd test && go test ./... && cd ../..
+	@cd test/unit && go test ./... && cd ../..
+
+.PHONY: test-integration
+test-integration:
+	@echo "[ $(NAMESPACE) ] Running integration tests..."
+	@cd test/integration && go test ./... && cd ../..
 
 .PHONY: lint
 lint:
