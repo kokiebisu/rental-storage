@@ -29,6 +29,7 @@ jobs:
       matrix:
         package:
           - authentication
+          - authorizer
           - booking
           - space
           - user
