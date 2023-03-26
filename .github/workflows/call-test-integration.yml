@@ -29,6 +29,7 @@ jobs:
       matrix:
         package:
           - authentication
+          - authorizer
           - booking
           - space
           - user
@@ -76,7 +77,7 @@ jobs:
           cd packages/service-${{ matrix.package }}
           make deps-start
         shell: bash
-        if: steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.package == 'true' && matrix.package != 'authorizer'
 
       - name: Test service
         run: |
@@ -97,4 +98,4 @@ jobs:
           cd packages/service-${{ matrix.package }}
           make deps-stop
         shell: bash
-        if: steps.changes.outputs.package == 'true'
+        if: steps.changes.outputs.package == 'true' && matrix.package != 'authorizer'
