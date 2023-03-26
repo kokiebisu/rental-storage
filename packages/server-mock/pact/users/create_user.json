@@ -8,7 +8,7 @@
   "interactions": [
     {
       "type": "Synchronous/HTTP",
-      "description": "a request for a greeting",
+      "description": "a request to create a user",
       "request": {
         "method": "POST",
         "path": "/users",
