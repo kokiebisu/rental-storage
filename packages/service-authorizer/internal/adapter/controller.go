@@ -1,8 +1,6 @@
 package adapter
 
 import (
-	"encoding/json"
-
 	"github.com/kokiebisu/rental-storage/service-authorizer/internal/client"
 	"github.com/kokiebisu/rental-storage/service-authorizer/internal/core/port"
 	customerror "github.com/kokiebisu/rental-storage/service-authorizer/internal/error"
@@ -25,25 +23,16 @@ type ApiGatewayAdapter struct {
 }
 
 func (a *ApiGatewayAdapter) Authorize(event interface{}) (interface{}, *customerror.CustomError) {
-	var err error
-	logger, cerr := client.GetLoggerClient()
-	if cerr != nil {
-		return AuthorizeResponsePayload{}, customerror.ErrorHandler.LoggerConfigurationError(err)
-	}
-	logger.Info("Event", zap.Any("event", event))
-	jwt := event.(port.Event).AuthorizationToken
-	body := struct {
-		Token string `json:"AuthorizationToken"`
-	}{
-		Token: jwt,
-	}
-	encodedPayload, err := json.Marshal(&body)
+	logger, err := client.GetLoggerClient()
 	if err != nil {
 		return AuthorizeResponsePayload{}, customerror.ErrorHandler.LoggerConfigurationError(err)
 	}
-	claim, cerr := a.service.Authorize(encodedPayload)
-	if cerr != nil {
-		return AuthorizeResponsePayload{}, cerr
+	logger.Info("Event", zap.Any("event", event))
+	token := event.(port.Event).AuthorizationToken
+
+	claim, err := a.service.Authorize(token)
+	if err != nil {
+		return AuthorizeResponsePayload{}, err
 	}
 	payload := AuthorizeResponsePayload{
 		UId: claim.UId,

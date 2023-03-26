@@ -1,0 +1,51 @@
+{
+  "consumer": {
+    "name": "Any"
+  },
+  "provider": {
+    "name": "AuthenticationService"
+  },
+  "interactions": [
+    {
+      "type": "Synchronous/HTTP",
+      "description": "a request to verify the jwt token",
+      "request": {
+        "method": "POST",
+        "path": "/auth/verify",
+        "body": {
+          "authorizationToken": [""]
+        },
+        "matchingRules": {
+          "body": {
+            "authorizationToken": {
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\w+"
+                }
+              ]
+            }
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "encoded": false,
+          "content": {
+            "uid": "b79472b3-d771-454a-9721-662faa24f842",
+            "exp": 1000000000
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "4.0.0"
+    }
+  }
+}
