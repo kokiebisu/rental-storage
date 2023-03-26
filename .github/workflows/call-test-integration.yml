@@ -21,13 +21,14 @@ jobs:
   #           package:
   #             - 'packages/service-${{ matrix.package }}/**'
 
-  unit-test-go:
+  integration-test-go:
     name: Go
     timeout-minutes: 15
     runs-on: ubuntu-latest
     strategy:
       matrix:
         package:
+          - authentication
           - booking
           - space
           - user
@@ -63,7 +64,14 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      - name: Run Docker-Compose
+      - name: Run Docker-Compose (Mock server)
+        run: |
+          cd packages/server-mock
+          make deps-start
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Run Docker-Compose (Service)
         run: |
           cd packages/service-${{ matrix.package }}
           make deps-start
@@ -77,7 +85,14 @@ jobs:
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
-      - name: Cleanup
+      - name: Docker Compose cleanup (mock server)
+        run: |
+          cd packages/server-mock
+          make deps-stop
+        shell: bash
+        if: steps.changes.outputs.package == 'true'
+
+      - name: Docker Compose cleanup (service)
         run: |
           cd packages/service-${{ matrix.package }}
           make deps-stop
