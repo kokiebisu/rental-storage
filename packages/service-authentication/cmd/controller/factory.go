@@ -2,6 +2,8 @@ package controller
 
 import (
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/adapter"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/adapter/store"
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/client"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/service"
 
@@ -13,9 +15,14 @@ type Controller struct {
 }
 
 func New() port.Controller {
+	rc, err := client.GetStoreClient()
+	if err != nil {
+		panic(err)
+	}
+	store := store.NewTokenStore(rc)
 	cs := service.NewCryptoService()
 	ts := service.NewTokenService()
-	as := service.NewAuthenticationService(ts, cs)
+	as := service.NewAuthenticationService(ts, cs, store)
 	adptr := adapter.NewApiGatewayAdapter(as)
 	return Controller{
 		adptr,

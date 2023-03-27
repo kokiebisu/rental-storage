@@ -15,7 +15,7 @@ var (
 	MockLastName       = faker.Name()
 	MockPassword       = "1234"
 	MockHashedPassword = "$2a$10$6Ci1sE7FWKCU5jZAumHQ2e5306sKwDkrnvHqAozIRfEMBFNjPq4Ce" // hashed from '1234'
-	MockToken          = faker.Jwt()
+	MockToken          = domain.Token(faker.Jwt())
 	MockTimeString     = faker.TimeString()
 	MockExpiresAt      = time.Duration(5 * time.Minute)
 	MockClaims         = &domain.Claims{

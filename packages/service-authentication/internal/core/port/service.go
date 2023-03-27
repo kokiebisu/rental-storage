@@ -1,18 +1,21 @@
 package port
 
 import (
+	"time"
+
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
 	customerror "github.com/kokiebisu/rental-storage/service-authentication/internal/error"
 )
 
 type AuthenticationService interface {
-	SignIn(emailAddress string, password string) (string, *customerror.CustomError)
-	SignUp(emailAddress string, firstName string, lastName string, password string) (string, *customerror.CustomError)
+	SignIn(emailAddress string, password string) (map[string]domain.Token, *customerror.CustomError)
+	SignUp(emailAddress string, firstName string, lastName string, password string) (map[string]domain.Token, *customerror.CustomError)
 	Verify(authenticationToken string) (*domain.Claims, *customerror.CustomError)
 }
 
 type TokenService interface {
-	GenerateToken(uid string) (string, *customerror.CustomError)
+	GenerateAccessToken(uid string, expiresAt time.Duration) (domain.Token, *customerror.CustomError)
+	GenerateRefreshToken(uid string, expiresAt time.Duration) (domain.Token, *customerror.CustomError)
 	VerifyToken(tokenString string) (*domain.Claims, *customerror.CustomError)
 }
 
