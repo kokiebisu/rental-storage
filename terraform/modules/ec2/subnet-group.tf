@@ -6,3 +6,13 @@ resource "aws_db_subnet_group" "serverless" {
     Name = "DBSubnetGroupServerless"
   }
 }
+
+resource "aws_elasticache_subnet_group" "serverless" {
+  description       = "Elasticache Subnet Group"
+  name = "elasticache-subnet-group-serverless"
+  subnet_ids = [ aws_subnet.a.id ]
+
+  tags = {
+    Name = "ElasticacheSubnetGroupServerless"
+  }
+}

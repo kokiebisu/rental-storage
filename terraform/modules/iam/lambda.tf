@@ -38,6 +38,16 @@ resource "aws_iam_role_policy_attachment" "enable_kinesis" {
     policy_arn = aws_iam_policy.enable_kinesis.arn
 }
 
+resource "aws_iam_role_policy_attachment" "enable_vpc_access" {
+    role = aws_iam_role.lambda.name
+    policy_arn = aws_iam_policy.enable_vpc_access.arn
+}
+
+resource "aws_iam_role_policy_attachment" "enable_elasticache" {
+    role = aws_iam_role.lambda.name
+    policy_arn = aws_iam_policy.enable_elasticache.arn
+}
+
 resource "aws_iam_role" "lambda" {
     name = "service-lambda-role"
     force_detach_policies = true
