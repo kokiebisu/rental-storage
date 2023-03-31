@@ -17,3 +17,7 @@ output "elasticache_subnet_group_name" {
 output "elasticache_preferred_availability_zone" {
     value = aws_subnet.a.id
 }
+
+output "aws_subnet_a_id" {
+    value = aws_subnet.a.id
+}
