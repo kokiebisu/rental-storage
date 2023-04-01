@@ -30,7 +30,7 @@
     "@mantine/spotlight": "6.0.1",
     "@mantine/styles": "6.0.1",
     "@mantine/tiptap": "6.0.1",
-    "@next/font": "13.1.6",
+    "@next/font": "13.2.4",
     "@next/swc-darwin-arm64": "13.2.3",
     "@tabler/icons-react": "2.9.0",
     "@tiptap/extension-link": "2.0.0-beta.220",
