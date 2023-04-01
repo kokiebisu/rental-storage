@@ -1,4 +1,4 @@
-FROM node:14 AS build-image
+FROM node:18 AS build-image
 
 WORKDIR /app
 
@@ -7,12 +7,12 @@ COPY pnpm-lock.yaml ./
 COPY tsconfig.docker.json ./
 
 RUN npm install -g pnpm typescript
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 COPY ./ ./
 
 RUN pnpm build:docker
 
-FROM amazon/aws-lambda-nodejs:14
+FROM amazon/aws-lambda-nodejs:16
 
 WORKDIR ${LAMBDA_TASK_ROOT}
 

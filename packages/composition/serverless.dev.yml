@@ -7,7 +7,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: go1.x
+  runtime: nodejs18.x
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   lambdaHashingVersion: 20201221
