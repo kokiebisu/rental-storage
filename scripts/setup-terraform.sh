@@ -32,23 +32,33 @@ function setup_terraform_variables() {
     (cp terraform/config/${ENVIRONMENT}/variables.tf terraform/variables.tf);
 }
 
+function initialize() {
+    # Check if terraform is installed or environment is not local
+    if ! command -v terraform &> /dev/null || [ "$1" != "local" ]
+    then
+        if ! command -v terraform &> /dev/null
+        then
+            echo "Terraform could not be found..."
+        fi
+        if [ "$1" != "local" ]
+        then
+            echo "Detected environment is not local..."
+        fi
+        echo "Installing terraform..."
+        (cd terraform && terraform init);
+    fi
+}
+
 function deploy() {
     echo "Deploying..."
-    # Check if terraform is installed or environment is not local
-    if ! command -v terraform &> /dev/null || [ "$1" = "local" ]
-    then
-        echo "Terraform could not be found"
-        # Install terraform
-        echo "Installing terraform..."
-        (cd terraform && terraform init)
-    fi
-    (cd terraform && terraform apply -auto-approve -var-file=terraform.tfvars)
+    (cd terraform && terraform apply -auto-approve -var-file=terraform.tfvars);
 }
 
 setup_terraform_versions $1
 setup_terraform_providers $1
 setup_terraform_variables $1
-deploy $1
+initialize $1
+deploy
 
 if [ "$1" = "local" ]
 then
