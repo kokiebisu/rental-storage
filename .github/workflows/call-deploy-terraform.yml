@@ -50,7 +50,7 @@ jobs:
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
       - name: Set up Terraform configuration
-        run: make setup-terraform ENV=dev
+        run: make setup-terraform-config ENV=dev
         shell: bash
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
