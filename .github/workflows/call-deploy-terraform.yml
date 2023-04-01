@@ -42,16 +42,16 @@ jobs:
           aws-region: us-east-1
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
+      - name: Set up Terraform configuration
+        run: make setup-terraform-config ENV=dev
+        shell: bash
+        if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
+
       - name: Terraform init
         id: init
         run: terraform init
         shell: bash
         working-directory: ./terraform
-        if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
-
-      - name: Set up Terraform configuration
-        run: make setup-terraform-config ENV=dev
-        shell: bash
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
       - name: Terraform Format
