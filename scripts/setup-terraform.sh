@@ -2,6 +2,14 @@
 
 set -e
 
+# Check if environment is local
+# If it is not, exit the script
+if [ "$1" != "local" ]
+then
+    echo "Detected environment is not local..."
+    exit 1
+fi
+
 function setup_terraform_config() {
     local ENVIRONMENT=$1
     echo "Setting up terraform configuration for ${ENVIRONMENT} environment..."
@@ -31,16 +39,7 @@ function deploy() {
     (cd terraform && terraform apply -auto-approve -var-file=terraform.tfvars);
 }
 
-setup_terraform_configuration $1
-initialize $1
+setup_terraform_configuration local
+initialize local
 deploy
 
-if [ "$1" = "local" ]
-then
-    echo "Setting up for local deployment"
-fi
-
-if [ "$1" = "dev" ] || [ "$1" = "production" ]
-then
-    echo "Setting up for dev/production deployment..."
-fi

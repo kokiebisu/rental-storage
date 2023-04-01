@@ -28,7 +28,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Terraform config
-        run: make setup-terraform ENV=dev
+        run: make setup-terraform-config ENV=dev
         shell: bash
         if: steps.changes.outputs.package == 'true'
 

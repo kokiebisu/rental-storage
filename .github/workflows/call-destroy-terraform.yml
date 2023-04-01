@@ -14,9 +14,6 @@ jobs:
         with:
           version: 6.0.2
 
-      - name: Setup Terraform Configuration
-        run: make setup-terraform-config ENV=dev
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
@@ -26,6 +23,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
+      - name: Setup Terraform Configuration
+        run: make setup-terraform-config ENV=dev
 
       - name: Terraform init
         id: init
