@@ -6,15 +6,15 @@ set -e
 
 export AWS_PROFILE=rental-storage
 
-function check_called_path() {
+function check_requirements() {
+    echo "Checking requirements...";
     # check if the script is called from the root directory
     if [ ! -f "scripts/setup.sh" ]; then
         echo "Please run this script from the root directory of the project.";
         exit 1;
     fi
-}
 
-function check_docker_running() {
+    # check if docker is running
     if ! docker ps > /dev/null 2>&1; then
         echo "Docker is not running. Please start docker and try again.";
         exit 1;
@@ -41,8 +41,7 @@ function setup_serverless() {
     (bash ./scripts/setup-service.sh);
 }
 
-check_called_path
-check_docker_running
+check_requirements
 setup_vscode
 setup_deps
 setup_terraform local
