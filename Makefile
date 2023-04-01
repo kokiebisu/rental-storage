@@ -39,4 +39,4 @@ setup-service:
 .PHONY: setup-terraform
 setup-terraform:
 	@echo "[ $(NAMESPACE) ] Setting up terraform..."
-	@./scripts/setup-terraform.sh
+	@./scripts/setup-terraform.sh $(ENV)

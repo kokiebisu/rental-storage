@@ -18,7 +18,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Terraform config
-        run: pnpm run terraform:setup:dev
+        run: make setup-terraform ENV=dev
         shell: bash
 
       - name: Configure AWS credentials
