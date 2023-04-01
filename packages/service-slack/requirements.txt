@@ -20,7 +20,7 @@ pytest==7.2.2
 python-dateutil==2.8.2
 s3transfer==0.6.0
 six==1.16.0
-slack-sdk==3.20.0
+slack-sdk==3.20.2
 slackclient==2.9.4
 tomli==2.0.1
 urllib3==1.26.14
