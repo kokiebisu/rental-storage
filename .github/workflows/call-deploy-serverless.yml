@@ -41,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/${{ matrix.package }}
-          pnpm install --frozen-lockfile
+          pnpm install
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
@@ -96,7 +96,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/service-${{ matrix.package }}
-          pnpm install --frozen-lockfile
+          pnpm install
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy
@@ -146,7 +146,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd ${{ matrix.package }}
-          pnpm install --frozen-lockfile
+          pnpm install
         if: steps.changes.outputs.package == 'true'
 
       - name: Deploy

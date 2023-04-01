@@ -25,7 +25,7 @@ jobs:
         if: steps.changes.outputs.package == 'true'
 
       - name: Install root packages
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/composition
-          pnpm install --frozen-lockfile
+          pnpm install
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
@@ -83,7 +83,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd packages/composition
-          pnpm install --frozen-lockfile
+          pnpm install
         shell: bash
         if: steps.changes.outputs.package == 'true'
 
