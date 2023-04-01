@@ -30,7 +30,7 @@ jobs:
           version: 6.0.2
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Setup Terraform
+      - name: Setup action
         uses: hashicorp/setup-terraform@v2
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
@@ -42,19 +42,19 @@ jobs:
           aws-region: us-east-1
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Set up Terraform configuration
+      - name: Setup configuration
         run: make setup-terraform-config ENV=dev
         shell: bash
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Terraform init
+      - name: Initialize
         id: init
         run: terraform init
         shell: bash
         working-directory: ./terraform
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Terraform Format
+      - name: Format
         id: fmt
         run: terraform fmt
         env:
@@ -74,7 +74,7 @@ jobs:
         working-directory: ./terraform
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Terraform Validate
+      - name: Validate
         id: validate
         run: terraform validate -no-color
         env:
@@ -94,7 +94,7 @@ jobs:
         working-directory: ./terraform
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Terraform Plan
+      - name: Plan
         id: plan
         run: terraform plan -no-color -input=false
         env:
@@ -115,7 +115,7 @@ jobs:
         working-directory: ./terraform
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Update Pull Request
+      - name: Update pull request
         uses: actions/github-script@v6
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
@@ -138,11 +138,11 @@ jobs:
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
-      - name: Terraform Plan Status
+      - name: Plan status
         run: exit 1
         if: steps.plan.outcome == 'failure' && (inputs.manual == 'true' || steps.changes.outputs.package == 'true')
 
-      - name: Terraform Apply
+      - name: Apply
         run: terraform apply -auto-approve -input=false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

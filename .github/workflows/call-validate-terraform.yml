@@ -10,7 +10,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
+      - name: Check files changed
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
@@ -18,16 +19,17 @@ jobs:
               - 'terraform/**'
               - '.github/**'
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
         if: steps.changes.outputs.package == 'true'
 
-      - name: Setup Terraform
+      - name: Setup Terraform actions
         uses: hashicorp/setup-terraform@v2
         if: steps.changes.outputs.package == 'true'
 
-      - name: Terraform config
+      - name: Set up configuration
         run: make setup-terraform-config ENV=dev
         shell: bash
         if: steps.changes.outputs.package == 'true'
@@ -40,14 +42,14 @@ jobs:
           aws-region: us-east-1
         if: steps.changes.outputs.package == 'true'
 
-      - name: Terraform init
+      - name: Initialize
         id: init
         run: terraform init
         shell: bash
         working-directory: ./terraform
         if: steps.changes.outputs.package == 'true'
 
-      - name: Terraform Format
+      - name: Format
         id: fmt
         run: terraform fmt
         env:
@@ -67,7 +69,7 @@ jobs:
         working-directory: ./terraform
         if: steps.changes.outputs.package == 'true'
 
-      - name: Terraform Validate
+      - name: Validate
         id: validate
         run: terraform validate -no-color
         env:
@@ -87,7 +89,7 @@ jobs:
         working-directory: ./terraform
         if: steps.changes.outputs.package == 'true'
 
-      - name: Terraform Plan
+      - name: Plan
         id: plan
         run: terraform plan -no-color -input=false
         env:
@@ -138,6 +140,6 @@ jobs:
             })
         if: github.event_name == 'pull_request' && steps.changes.outputs.package == 'true'
 
-      - name: Terraform Plan Status
+      - name: Plan Status
         run: exit 1
         if: steps.plan.outcome == 'failure' && steps.changes.outputs.package == 'true'

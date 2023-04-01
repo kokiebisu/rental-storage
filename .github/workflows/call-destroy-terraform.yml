@@ -10,11 +10,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Check files changed
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
 
-      - name: Setup Terraform
+      - name: Setup Terraform environment
         uses: hashicorp/setup-terraform@v2
 
       - name: Configure AWS credentials
@@ -24,16 +25,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Setup Terraform Configuration
+      - name: Setup Configuration
         run: make setup-terraform-config ENV=dev
 
-      - name: Terraform init
+      - name: Initialize
         id: init
         run: terraform init
         shell: bash
         working-directory: ./terraform
 
-      - name: Terraform Format
+      - name: Format
         id: fmt
         run: terraform fmt
         env:
@@ -52,7 +53,7 @@ jobs:
         shell: bash
         working-directory: ./terraform
 
-      - name: Terraform Validate
+      - name: Validate
         id: validate
         run: terraform validate -no-color
         env:
@@ -71,7 +72,7 @@ jobs:
         shell: bash
         working-directory: ./terraform
 
-      - name: Terraform Plan
+      - name: Plan
         id: plan
         run: terraform plan -no-color -input=false
         env:
@@ -113,11 +114,11 @@ jobs:
 
             *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
 
-      - name: Terraform Plan Status
+      - name: Plan Status
         run: exit 1
         if: steps.plan.outcome == 'failure'
 
-      - name: Terraform Destroy
+      - name: Destroy
         run: terraform destroy -auto-approve -input=false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

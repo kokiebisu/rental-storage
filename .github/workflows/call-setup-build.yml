@@ -9,11 +9,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Check files changed
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
 
-      - name: Setup
+      - name: Setup Typescript environment
         uses: ./.github/actions/setup-typescript
         with:
           package: composition
@@ -34,11 +35,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Check files changed
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
 
-      - name: Setup
+      - name: Setup Go environment
         uses: ./.github/actions/setup-go
         with:
           package: service-${{ matrix.package }}
