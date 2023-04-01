@@ -34,6 +34,11 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
 
+      - name: Initialize Terraform
+        run: cd terraform && terraform init
+        shell: bash
+        if: inputs.manual == 'true' || steps.changes.outputs.package == 'true'
+
       - name: Terraform config
         run: make setup-terraform ENV=dev
         shell: bash
