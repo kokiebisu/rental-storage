@@ -48,7 +48,7 @@ function deploy() {
 setup_terraform_versions $1
 setup_terraform_providers $1
 setup_terraform_variables $1
-deploy
+deploy $1
 
 if [ "$1" = "local" ]
 then
