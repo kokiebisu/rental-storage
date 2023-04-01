@@ -23,7 +23,7 @@ runs:
     - name: Install node_modules
       run: |
         cd packages/${{ inputs.package }}
-        pnpm install --frozen-lockfile
+        pnpm install
       shell: bash
       if: steps.changes.outputs.package == 'true'
 
