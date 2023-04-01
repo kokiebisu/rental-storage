@@ -12,7 +12,7 @@ COPY ./ ./
 
 RUN pnpm build:docker
 
-FROM amazon/aws-lambda-nodejs:14
+FROM amazon/aws-lambda-nodejs:16
 
 WORKDIR ${LAMBDA_TASK_ROOT}
 

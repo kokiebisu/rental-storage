@@ -14,14 +14,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
+      - name: Check files changed
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
             package:
               - 'packages/composition/**'
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
 
@@ -40,7 +42,7 @@ jobs:
           cd packages/${{ matrix.package }}
           pnpm install
 
-      - name: Remove
+      - name: Remove serverless
         run: |
           cd packages/${{ matrix.package }}
           serverless remove --config serverless.dev.yml --stage dev
@@ -64,14 +66,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
+      - name: Check files changed
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
             package:
               - 'packages/service-${{ matrix.package }}/**'
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
 
@@ -90,7 +94,7 @@ jobs:
           cd packages/service-${{ matrix.package }}
           pnpm install
 
-      - name: Remove
+      - name: Remove serverless
         run: |
           cd packages/service-${{ matrix.package }}
           serverless remove --config serverless.dev.yml --stage dev
@@ -109,14 +113,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: dorny/paths-filter@v2
+      - name: Check file names
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
             package:
               - 'appsync/**'
 
-      - uses: pnpm/action-setup@v2.2.4
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2.2.4
         with:
           version: 6.0.2
 
@@ -135,7 +141,7 @@ jobs:
           cd ${{ matrix.package }}
           pnpm install
 
-      - name: Remove
+      - name: Remove serverless
         run: |
           cd ${{ matrix.package }}
           serverless remove --config serverless.dev.yml --stage dev
