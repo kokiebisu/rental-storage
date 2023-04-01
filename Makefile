@@ -40,3 +40,8 @@ setup-service:
 setup-terraform:
 	@echo "[ $(NAMESPACE) ] Setting up terraform..."
 	@./scripts/setup-terraform.sh $(ENV)
+
+.PHONY: setup-terraform-config
+setup-terraform-config:
+	@echo "[ $(NAMESPACE) ] Setting up terraform config..."
+	@./scripts/setup-terraform-config.sh $(ENV)
