@@ -34,8 +34,8 @@ function setup_terraform_variables() {
 
 function deploy() {
     echo "Deploying..."
-    # Check if terraform is installed
-    if ! command -v terraform &> /dev/null
+    # Check if terraform is installed or environment is not local
+    if ! command -v terraform &> /dev/null || [ "$1" = "local" ]
     then
         echo "Terraform could not be found"
         # Install terraform
