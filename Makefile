@@ -21,6 +21,11 @@ destroy-service:
 	@echo "[ $(NAMESPACE) ] Destroying service..."
 	@./scripts/destroy-service.sh
 
+.PHONY: destroy-terraform
+destroy-terraform:
+	@echo "[ $(NAMESPACE) ] Destroying terraform..."
+	@./scripts/destroy-terraform.sh $(ENV)
+
 .PHONY: setup
 setup:
 	@echo "[ $(NAMESPACE) ] Setting up project..."
@@ -36,11 +41,15 @@ setup-service:
 	@echo "[ $(NAMESPACE) ] Setting up service..."
 	@./scripts/setup-service.sh
 
+# pass the environment as an argument
+# e.g. make setup-terraform ENV=local
 .PHONY: setup-terraform
 setup-terraform:
 	@echo "[ $(NAMESPACE) ] Setting up terraform..."
 	@./scripts/setup-terraform.sh $(ENV)
 
+# pass the environment as an argument
+# e.g. make setup-terraform-config ENV=local
 .PHONY: setup-terraform-config
 setup-terraform-config:
 	@echo "[ $(NAMESPACE) ] Setting up terraform config..."
