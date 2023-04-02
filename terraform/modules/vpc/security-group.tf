@@ -35,7 +35,7 @@ resource "aws_security_group" "lambda" {
   }
   
   tags = {
-    Name = "any"
+    Name = "lambda"
   }
 }
 
