@@ -23,6 +23,12 @@ destroy-service:
 
 .PHONY: destroy-terraform
 destroy-terraform:
+	@echo "Checking for environment..."
+	@if [ -z "$(ENV)" ]; then \
+		echo "Please pass the environment as an argument."; \
+		echo "e.g. make destroy-terraform ENV=local"; \
+		exit 1; \
+	fi
 	@echo "[ $(NAMESPACE) ] Destroying terraform..."
 	@./scripts/destroy-terraform.sh $(ENV)
 
@@ -45,6 +51,12 @@ setup-service:
 # e.g. make setup-terraform ENV=local
 .PHONY: setup-terraform
 setup-terraform:
+	@echo "Checking for environment..."
+	@if [ -z "$(ENV)" ]; then \
+		echo "Please pass the environment as an argument."; \
+		echo "e.g. make setup-terraform ENV=local"; \
+		exit 1; \
+	fi
 	@echo "[ $(NAMESPACE) ] Setting up terraform..."
 	@./scripts/setup-terraform.sh $(ENV)
 
@@ -52,5 +64,11 @@ setup-terraform:
 # e.g. make setup-terraform-config ENV=local
 .PHONY: setup-terraform-config
 setup-terraform-config:
+	@echo "Checking for environment..."
+	@if [ -z "$(ENV)" ]; then \
+		echo "Please pass the environment as an argument."; \
+		echo "e.g. make setup-terraform-config ENV=local"; \
+		exit 1; \
+	fi
 	@echo "[ $(NAMESPACE) ] Setting up terraform config..."
 	@./scripts/setup-terraform-config.sh $(ENV)
