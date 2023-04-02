@@ -15,6 +15,8 @@ module "ec2" {
   source = "./modules/ec2"
 
   namespace = var.namespace
+  security_group_id = module.vpc.ec2_security_group_id
+  primary_public_subnet_id = module.vpc.primary_public_subnet_id
 }
 
 module "elasticache" {
@@ -49,8 +51,8 @@ module "rds" {
 
   namespace                    = var.namespace
   environment                  = var.environment
-  serverless_security_group_id = module.ec2.serverless_security_group_id
-  db_subnet_group_name         = module.ec2.db_subnet_group_name
+  db_security_group_id = module.vpc.rds_postgres_security_group_id
+  db_subnet_group_name         = module.vpc.rds_subnet_group_name
 
   space_db_username = var.space_db_username
   space_db_password = var.space_db_password
@@ -91,3 +93,6 @@ module "sns" {
   user_queue_arn    = module.sqs.user_queue_arn
 }
 
+module "vpc" {
+  source = "./modules/vpc"
+}

@@ -19,35 +19,11 @@
 
 8 Clone the repo
 
-9 `brew install terraform`
-
-10 `brew install golangci-lint`
-
-11 `brew install flake8`
-
-12 `brew install mockery`
-
-13 Install latest bash
-`brew install bash`
-
-14 Set up VSCode configuration
-`pnpm run prepare`
-
-14 `cd terraform && terraform init`
+9 `brew install terraform golangci-lint flake8 mockery bash`
 
 15 copy/paste ./.terraform.tfvars
 
-16 `pnpm run terraform:setup:local` from root
-
-17 `terraform apply`
-
-18 Enter 'local', 'rental-storage'
-
-19 `brew install serverless`
-
-20 `pnpm run deps:install`
-
-21 `pnpm run deploy:local`
+16 `make setup` from root
 
 # Onboarding (Windows)
 
@@ -66,41 +42,25 @@
 
 7 Clone the repo
 
-8 `choco install terraform`
+8 `choco install terraform golangci-lint flake8 serverless`
 
-9 `choco install golangci-lint`
+9 Setting → Privacy & Security → For Developers → Turn on Developer Mode
 
-10 `choco install flake8`
-
-11 Setting → Privacy & Security → For Developers → Turn on Developer Mode
-
-12 Turn on Developer Mode
+10 Turn on Developer Mode
 Search “Windows Features” on the search tab
 
-13 Enable WSL on Windows
+11 Enable WSL on Windows
 Open Turn windows feature on or off → Check Windows Subsystem for Linux → Click OK
 
-14 Install Git Bash (This should be already installed when installing Git)
+12 Install Git Bash (This should be already installed when installing Git)
 
-15 Install Ubuntu From Microsoft Store and setup Ubuntu (username, password)
+13 Install Ubuntu From Microsoft Store and setup Ubuntu (username, password)
 
-16 I recommend to use Git Bash for the following commands
+14 I recommend to use Git Bash for the following commands
 
-17 `cd terraform && terraform init`
+15 copy/paste ./.terraform.tfvars
 
-18 copy/paste ./.terraform.tfvars
-
-19 `pnpm run terraform:setup:local` from root
-
-20 `terraform apply`
-
-21 Enter 'local', 'rental-storage'
-
-22 `choco install serverless`
-
-23 `pnpm run deps:install`
-
-24 `pnpm run deploy:local`
+16 `make setup` from root
 
 ## Enable Git Hooks
 
