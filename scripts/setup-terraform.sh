@@ -2,12 +2,24 @@
 
 set -e
 
-# Check if environment is local
+# Check if environment is provided
 # If it is not, exit the script
+if [ -z "$1" ]
+then
+    echo "Environment is not specified. Specify environment './scripts/setup-terraform.sh <environment>'."
+    exit 1
+fi
+
+# if the environment is not local, prompt the user if they are sure they want to continue
 if [ "$1" != "local" ]
 then
-    echo "Detected environment is not local..."
-    exit 1
+    echo "You specified an environment that is not local. "
+    read -p "Are you sure you want to continue? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        exit 1
+    fi
 fi
 
 function setup_terraform_config() {

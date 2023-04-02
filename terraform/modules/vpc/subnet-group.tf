@@ -1,18 +1,18 @@
 resource "aws_db_subnet_group" "serverless" {
   description = "RDS Subnet Group"
-  subnet_ids = [ aws_subnet.a.id, aws_subnet.b.id, aws_subnet.c.id ]
+  subnet_ids = [ aws_subnet.b.id, aws_subnet.d.id ]
 
   tags = {
-    Name = "DBSubnetGroupServerless"
+    Name = "db-subnet-group"
   }
 }
 
 resource "aws_elasticache_subnet_group" "serverless" {
   description       = "Elasticache Subnet Group"
-  name = "elasticache-subnet-group-serverless"
-  subnet_ids = [ aws_subnet.a.id ]
+  name = "elasticache-subnet-group"
+  subnet_ids = [ aws_subnet.b.id, aws_subnet.d.id ]
 
   tags = {
-    Name = "ElasticacheSubnetGroupServerless"
+    Name = "elasticache-subnet-group"
   }
 }
