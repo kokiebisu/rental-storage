@@ -39,8 +39,8 @@ module "rds" {
 
   namespace                    = var.namespace
   environment                  = var.environment
-  serverless_security_group_id = module.ec2.serverless_security_group_id
-  db_subnet_group_name         = module.ec2.db_subnet_group_name
+  serverless_security_group_id = module.vpc.serverless_security_group_id
+  db_subnet_group_name         = module.vpc.db_subnet_group_name
 
   space_db_username = var.space_db_username
   space_db_password = var.space_db_password
@@ -81,3 +81,6 @@ module "sns" {
   user_queue_arn    = module.sqs.user_queue_arn
 }
 
+module "vpc" {
+  source = "./modules/vpc"
+}
