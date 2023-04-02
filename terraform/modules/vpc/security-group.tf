@@ -1,4 +1,4 @@
-resource "aws_security_group" "any" {
+resource "aws_security_group" "lambda" {
   description = "Security group for Serverless functions"
   vpc_id = aws_vpc.this.id
 
@@ -64,7 +64,7 @@ resource "aws_security_group" "rds_postgres" {
     from_port   = 5432
     to_port     = 5432
     protocol    = "tcp"
-    security_groups = [aws_security_group.any.id] // Allow incoming traffic from aws lambda security group
+    cidr_blocks = ["0.0.0.0/0"] // Allow incoming traffic from any source
   }
 
   ingress {

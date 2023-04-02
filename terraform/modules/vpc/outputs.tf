@@ -3,7 +3,7 @@ output "vpc_id" {
 }
 
 output "serverless_security_group_id" {
-    value = aws_security_group.any.id
+    value = aws_security_group.lambda.id
 }
 
 output "ec2_security_group_id" {
