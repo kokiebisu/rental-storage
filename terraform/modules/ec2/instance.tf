@@ -2,8 +2,8 @@ resource "aws_instance" "ec2" {
   ami           = "ami-007855ac798b5175e"
   instance_type = "t2.micro"
   key_name = aws_key_pair.my_keypair.key_name
-  vpc_security_group_ids = [aws_security_group.ec2.id]
-  subnet_id = aws_subnet.a.id
+  vpc_security_group_ids = [var.security_group_id]
+  subnet_id = var.primary_public_subnet_id
   associate_public_ip_address = true
 
   connection {

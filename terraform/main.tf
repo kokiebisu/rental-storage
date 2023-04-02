@@ -24,9 +24,9 @@ module "elasticache" {
 
   namespace                     = var.namespace
   environment                   = var.environment
-  elasticache_security_group_id = module.ec2.elasticache_security_group_id
-  elasticache_subnet_group_name = module.ec2.elasticache_subnet_group_name
-  elasticache_preferred_availability_zone = module.ec2.elasticache_preferred_availability_zone
+  elasticache_security_group_id = module.vpc.elasticache_security_group_id
+  elasticache_subnet_group_name = module.vpc.elasticache_subnet_group_name
+  elasticache_preferred_availability_zone = module.vpc.elasticache_preferred_availability_zone
 }
 
 module "iam" {
