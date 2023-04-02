@@ -3,10 +3,18 @@ output "vpc_id" {
 }
 
 output "serverless_security_group_id" {
-    value = aws_security_group.any.id
+    value = aws_security_group.lambda.id
 }
 
-output "db_subnet_group_name" {
+output "ec2_security_group_id" {
+    value = aws_security_group.ec2.id
+}
+
+output "rds_postgres_security_group_id" {
+    value = aws_security_group.rds_postgres.id
+}
+
+output "rds_subnet_group_name" {
     value = aws_db_subnet_group.serverless.name
 }
 
@@ -22,6 +30,6 @@ output "elasticache_preferred_availability_zone" {
     value = aws_subnet.a.id
 }
 
-output "primary_subnet_id" {
-  value = aws_subnet.a.id
+output "primary_public_subnet_id" {
+    value = aws_subnet.a.id
 }
