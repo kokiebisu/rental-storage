@@ -39,7 +39,7 @@ function deploy() {
     (cd terraform && terraform apply -auto-approve -var-file=terraform.tfvars);
 }
 
-setup_terraform_configuration local
+setup_terraform_config local
 initialize local
 deploy
 
