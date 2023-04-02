@@ -34,12 +34,12 @@ function initialize() {
     fi
 }
 
-function deploy() {
-    echo "Deploying..."
-    (cd terraform && terraform apply -auto-approve -var-file=terraform.tfvars);
+function destroy() {
+    echo "Destroying..."
+    (cd terraform && terraform destroy -auto-approve -var-file=terraform.tfvars);
 }
 
 setup_terraform_config local
 initialize local
-deploy
+destroy
 
