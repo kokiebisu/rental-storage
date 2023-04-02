@@ -15,6 +15,8 @@ module "ec2" {
   source = "./modules/ec2"
 
   namespace = var.namespace
+  security_group_id = module.vpc.ec2_security_group_id
+  primary_public_subnet_id = module.vpc.primary_public_subnet_id
 }
 
 module "iam" {
