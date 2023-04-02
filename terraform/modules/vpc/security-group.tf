@@ -35,7 +35,7 @@ resource "aws_security_group" "any" {
   }
   
   tags = {
-    Name = "SecurityGroupServerless"
+    Name = "any"
   }
 }
 
@@ -52,12 +52,42 @@ resource "aws_security_group" "elasticache" {
   }
 
   tags = {
-    Name = "SecurityGroupElasticache"
+    Name = "elasticache"
+  }
+}
+
+resource "aws_security_group" "rds_postgres" {
+  description = "Security group for RDS Postgres database"
+  vpc_id = aws_vpc.this.id
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    security_groups = [aws_security_group.any.id] // Allow incoming traffic from aws lambda security group
+  }
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] // Allow incoming traffic from any source
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"] // Allow outgoing traffic to any destination
+  }
+
+  tags = {
+    Name = "rds-postgres"
   }
 }
 
 resource "aws_security_group" "ec2" {
-  description = "Security group for EC2"
+  description = "Security group for EC2 Bastion Host"
   vpc_id = aws_vpc.this.id
 
   ingress {
@@ -77,6 +107,14 @@ resource "aws_security_group" "ec2" {
   }
 
   egress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Replace with your desired CIDR block
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  egress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -90,5 +128,9 @@ resource "aws_security_group" "ec2" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    "Name" = "ec2"
   }
 }

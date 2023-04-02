@@ -6,7 +6,7 @@ variable environment {
     type = string
 }
 
-variable serverless_security_group_id {
+variable db_security_group_id {
     type = string
 }
 

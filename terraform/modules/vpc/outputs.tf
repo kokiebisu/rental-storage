@@ -6,7 +6,11 @@ output "serverless_security_group_id" {
     value = aws_security_group.any.id
 }
 
-output "db_subnet_group_name" {
+output "rds_postgres_security_group_id" {
+    value = aws_security_group.rds_postgres.id
+}
+
+output "rds_subnet_group_name" {
     value = aws_db_subnet_group.serverless.name
 }
 
