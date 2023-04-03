@@ -15,7 +15,7 @@ output "rds_postgres_security_group_id" {
 }
 
 output "rds_subnet_group_name" {
-    value = aws_db_subnet_group.serverless.name
+    value = aws_db_subnet_group.this.name
 }
 
 output "elasticache_security_group_id" {
@@ -23,7 +23,7 @@ output "elasticache_security_group_id" {
 }
 
 output "elasticache_subnet_group_name" {
-    value = aws_elasticache_subnet_group.serverless.name
+    value = aws_elasticache_subnet_group.this.name
 }
 
 output "elasticache_preferred_availability_zone" {

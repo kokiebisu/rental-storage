@@ -9,9 +9,10 @@ provider:
   runtime: go1.x
   vpc:
     subnetIds:
-      - ${ssm:/terraform/ec2/subnet-a-id}
+      - ${ssm:/terraform/vpc/subnet-b-id}
+      - ${ssm:/terraform/vpc/subnet-d-id}
     securityGroupIds:
-      - ${ssm:/terraform/ec2/security-group-id}
+      - ${ssm:/terraform/vpc/lambda-security-group}
   stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
