@@ -19,6 +19,16 @@ module "ec2" {
   primary_public_subnet_id = module.vpc.primary_public_subnet_id
 }
 
+module "elasticache" {
+  source = "./modules/elasticache"
+
+  namespace                     = var.namespace
+  environment                   = var.environment
+  elasticache_security_group_id = module.vpc.elasticache_security_group_id
+  elasticache_subnet_group_name = module.vpc.elasticache_subnet_group_name
+  elasticache_preferred_availability_zone = module.vpc.elasticache_preferred_availability_zone
+}
+
 module "iam" {
   source = "./modules/iam"
 
@@ -56,8 +66,8 @@ module "rds" {
 module "s3" {
   source = "./modules/s3"
 
-  environment                  = var.environment
-  account_id                   = module.identity.account_id
+  environment = var.environment
+  account_id  = module.identity.account_id
 }
 
 module "sqs" {
@@ -67,7 +77,7 @@ module "sqs" {
   environment              = var.environment
   authentication_topic_arn = module.sns.authentication_topic_arn
   booking_topic_arn        = module.sns.booking_topic_arn
-  space_topic_arn        = module.sns.space_topic_arn
+  space_topic_arn          = module.sns.space_topic_arn
   payment_topic_arn        = module.sns.payment_topic_arn
   user_topic_arn           = module.sns.user_topic_arn
 }
@@ -78,7 +88,7 @@ module "sns" {
   namespace         = var.namespace
   environment       = var.environment
   booking_queue_arn = module.sqs.booking_queue_arn
-  space_queue_arn = module.sqs.space_queue_arn
+  space_queue_arn   = module.sqs.space_queue_arn
   payment_queue_arn = module.sqs.payment_queue_arn
   user_queue_arn    = module.sqs.user_queue_arn
 }

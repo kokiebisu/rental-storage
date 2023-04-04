@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 
@@ -31,12 +32,17 @@ func TestSignUp_Success(t *testing.T) {
 
 	mockTokenService := mocks.NewTokenService(t)
 	mockCryptoService := mocks.NewCryptoService(t)
-	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
+	mockTokenStore := mocks.NewTokenStore(t)
+	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService, mockTokenStore)
 
+	mockTokenStore.On("SetAccessToken", data.MockUId, string(data.MockToken), time.Hour*24).Return(nil)
+	mockTokenStore.On("SetRefreshToken", data.MockUId, string(data.MockToken), time.Hour*24*7).Return(nil)
 	mockCryptoService.On("HashPassword", data.MockPassword).Return("Random", nil)
-	mockTokenService.On("GenerateToken", data.MockUId).Return(data.MockToken, nil)
+	mockTokenService.On("GenerateAccessToken", data.MockUId, time.Hour*24).Return(data.MockToken, nil)
+	mockTokenService.On("GenerateRefreshToken", data.MockUId, time.Hour*24*7).Return(data.MockToken, nil)
 	payload, err := authenticationService.SignUp(data.MockEmailAddress, data.MockFirstName, data.MockLastName, data.MockPassword)
-	assert.Greater(t, len(payload), 0, "token should have a length greater than 0")
+	assert.Greater(t, len(payload["access_token"]), 0, "token should have a length greater than 0")
+	assert.Greater(t, len(payload["refresh_token"]), 0, "token should have a length greater than 0")
 	assert.Nil(t, err, "should be no errors")
 }
 
@@ -62,16 +68,20 @@ func TestSignIn_Success(t *testing.T) {
 	defer server.Close()
 	os.Setenv("SERVICE_API_ENDPOINT", server.URL)
 
+	mockTokenStore := mocks.NewTokenStore(t)
 	mockTokenService := mocks.NewTokenService(t)
 	mockCryptoService := mocks.NewCryptoService(t)
 
+	mockTokenStore.On("SetAccessToken", data.MockUId, string(data.MockToken), time.Hour*24).Return(nil)
+	mockTokenStore.On("SetRefreshToken", data.MockUId, string(data.MockToken), time.Hour*24*7).Return(nil)
 	mockCryptoService.On("VerifyPassword", data.MockPassword, data.MockPassword).Return(true, nil)
-	mockTokenService.On("GenerateToken", data.MockUId).Return(data.MockToken, nil)
+	mockTokenService.On("GenerateAccessToken", data.MockUId, time.Hour*24).Return(data.MockToken, nil)
+	mockTokenService.On("GenerateRefreshToken", data.MockUId, time.Hour*24*7).Return(data.MockToken, nil)
 
-	authService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
+	authService := service.NewAuthenticationService(mockTokenService, mockCryptoService, mockTokenStore)
 
 	payload, err := authService.SignIn(data.MockEmailAddress, data.MockPassword)
-	assert.Greater(t, len(payload), 0, "token should have a length greater than 0")
+	assert.Greater(t, len(payload["access_token"]), 0, "token should have a length greater than 0")
 	assert.Nil(t, err, "should be no errors")
 }
 
@@ -96,12 +106,13 @@ func TestSignIn_Failure_InvalidPassword(t *testing.T) {
 	defer server.Close()
 	os.Setenv("SERVICE_API_ENDPOINT", server.URL)
 
+	mockTokenStore := mocks.NewTokenStore(t)
 	mockTokenService := mocks.NewTokenService(t)
 	mockCryptoService := mocks.NewCryptoService(t)
 
 	mockCryptoService.On("VerifyPassword", data.MockPassword, "invalid").Return(false, customerror.ErrorHandler.CompareHashError(nil))
 
-	authService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
+	authService := service.NewAuthenticationService(mockTokenService, mockCryptoService, mockTokenStore)
 
 	payload, err := authService.SignIn(data.MockEmailAddress, "invalid")
 	assert.NotNil(t, err, "should be an error")
@@ -120,14 +131,15 @@ func TestVerify_Success(t *testing.T) {
 	defer server.Close()
 	os.Setenv("SERVICE_API_ENDPOINT", server.URL)
 
+	mockTokenStore := mocks.NewTokenStore(t)
 	mockTokenService := mocks.NewTokenService(t)
 	mockCryptoService := mocks.NewCryptoService(t)
 
-	mockTokenService.On("VerifyToken", data.MockToken).Return(data.MockClaims, nil)
+	mockTokenService.On("VerifyToken", string(data.MockToken)).Return(data.MockClaims, nil)
 
-	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService)
+	authenticationService := service.NewAuthenticationService(mockTokenService, mockCryptoService, mockTokenStore)
 
-	payload, err := authenticationService.Verify(data.MockToken)
+	payload, err := authenticationService.Verify(string(data.MockToken))
 	assert.Greater(t, len(payload.UId), 0, "token should have a length greater than 0")
 	assert.Nil(t, err, "should be no errors")
 }

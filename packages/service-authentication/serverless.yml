@@ -7,6 +7,12 @@ plugins:
 provider:
   name: aws
   runtime: go1.x
+  vpc:
+    subnetIds:
+      - ${ssm:/terraform/vpc/subnet-b-id}
+      - ${ssm:/terraform/vpc/subnet-d-id}
+    securityGroupIds:
+      - ${ssm:/terraform/vpc/lambda-security-group}
   stage: local
   region: us-east-1
   lambdaHashingVersion: 20201221
@@ -27,6 +33,8 @@ provider:
     ENV: local
     SERVICE_API_ENDPOINT: ${self:custom.SERVICE_API_ENDPOINT}
     ACCOUNT_ID: ${aws:accountId}
+    ELASTICACHE_HOST: ${ssm:/terraform/elasticache/elasticache-host}
+    ELASTICACHE_PORT: ${ssm:/terraform/elasticache/elasticache-port}
 
 custom:
   namespace: app

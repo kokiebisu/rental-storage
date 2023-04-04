@@ -15,18 +15,20 @@ type AuthenticationService struct {
 }
 
 // SignIn provides a mock function with given fields: emailAddress, password
-func (_m *AuthenticationService) SignIn(emailAddress string, password string) (string, *customerror.CustomError) {
+func (_m *AuthenticationService) SignIn(emailAddress string, password string) (map[string]domain.Token, *customerror.CustomError) {
 	ret := _m.Called(emailAddress, password)
 
-	var r0 string
+	var r0 map[string]domain.Token
 	var r1 *customerror.CustomError
-	if rf, ok := ret.Get(0).(func(string, string) (string, *customerror.CustomError)); ok {
+	if rf, ok := ret.Get(0).(func(string, string) (map[string]domain.Token, *customerror.CustomError)); ok {
 		return rf(emailAddress, password)
 	}
-	if rf, ok := ret.Get(0).(func(string, string) string); ok {
+	if rf, ok := ret.Get(0).(func(string, string) map[string]domain.Token); ok {
 		r0 = rf(emailAddress, password)
 	} else {
-		r0 = ret.Get(0).(string)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(map[string]domain.Token)
+		}
 	}
 
 	if rf, ok := ret.Get(1).(func(string, string) *customerror.CustomError); ok {
@@ -41,18 +43,20 @@ func (_m *AuthenticationService) SignIn(emailAddress string, password string) (s
 }
 
 // SignUp provides a mock function with given fields: emailAddress, firstName, lastName, password
-func (_m *AuthenticationService) SignUp(emailAddress string, firstName string, lastName string, password string) (string, *customerror.CustomError) {
+func (_m *AuthenticationService) SignUp(emailAddress string, firstName string, lastName string, password string) (map[string]domain.Token, *customerror.CustomError) {
 	ret := _m.Called(emailAddress, firstName, lastName, password)
 
-	var r0 string
+	var r0 map[string]domain.Token
 	var r1 *customerror.CustomError
-	if rf, ok := ret.Get(0).(func(string, string, string, string) (string, *customerror.CustomError)); ok {
+	if rf, ok := ret.Get(0).(func(string, string, string, string) (map[string]domain.Token, *customerror.CustomError)); ok {
 		return rf(emailAddress, firstName, lastName, password)
 	}
-	if rf, ok := ret.Get(0).(func(string, string, string, string) string); ok {
+	if rf, ok := ret.Get(0).(func(string, string, string, string) map[string]domain.Token); ok {
 		r0 = rf(emailAddress, firstName, lastName, password)
 	} else {
-		r0 = ret.Get(0).(string)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(map[string]domain.Token)
+		}
 	}
 
 	if rf, ok := ret.Get(1).(func(string, string, string, string) *customerror.CustomError); ok {

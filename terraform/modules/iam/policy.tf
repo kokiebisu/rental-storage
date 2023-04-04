@@ -128,3 +128,39 @@ resource "aws_iam_policy" "enable_kinesis" {
         ]
     })
 }
+
+resource "aws_iam_policy" "enable_vpc_access" {
+    name = "EnableVPCAccess"
+
+    policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            {
+                Action = [ 
+                    "ec2:CreateNetworkInterface",
+                    "ec2:DescribeNetworkInterfaces",
+                    "ec2:DeleteNetworkInterface",
+                    "ec2:AssignPrivateIpAddresses",
+                    "ec2:UnassignPrivateIpAddresses"
+                ]
+                Effect = "Allow"
+                Resource = "*"
+            }
+        ]
+    })
+}
+
+resource "aws_iam_policy" "enable_elasticache" {
+    name = "EnableElastiCache"
+
+    policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            {
+                Action = ["elasticache:Describe*", "elasticache:List*", "elasticache:Create*", "elasticache:Modify*", "elasticache:Delete*", "elasticache:AuthorizeCacheSecurityGroupIngress"]
+                Effect = "Allow"
+                Resource = "*"
+            }
+        ]
+    })
+}
