@@ -7,11 +7,8 @@ import (
 )
 
 type TokenStore interface {
-	SetAccessToken(userID, token string, expires time.Duration) *customerror.CustomError
-	GetAccessToken(userID string) (string, *customerror.CustomError)
-	DeleteAccessToken(userID string) *customerror.CustomError
-	SetRefreshToken(userID, token string, expires time.Duration) *customerror.CustomError
-	GetRefreshToken(userID string) (string, *customerror.CustomError)
-	DeleteRefreshToken(userID string) *customerror.CustomError
-	VerifyAccessToken(token string, userID string) *customerror.CustomError
+	SetAccessToken(userID string, token string, expires time.Duration) *customerror.CustomError
+	SetRefreshToken(userID string, token string, expires time.Duration) *customerror.CustomError
+	DeleteTokens(userID string) *customerror.CustomError
+	GetTokens(userID string) (map[string]string, *customerror.CustomError)
 }

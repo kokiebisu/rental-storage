@@ -12,7 +12,7 @@ resource "aws_subnet" "a" {
 
 resource "aws_subnet" "b" {
   vpc_id = aws_vpc.this.id
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-1b"
   cidr_block = "10.0.2.0/24"
 
   tags = {

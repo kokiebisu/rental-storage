@@ -30,5 +30,5 @@ func setup() {
 
 	data.CryptoService = service.NewCryptoService()
 	data.TokenService = service.NewTokenService()
-	data.AuthenticationService = service.NewAuthenticationService(data.TokenService, data.CryptoService)
+	data.AuthenticationService = service.NewAuthenticationService(data.TokenService, data.CryptoService, data.TokenStore)
 }

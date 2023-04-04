@@ -9,13 +9,14 @@ import (
 )
 
 func getRedisClient() (*redis.Client, *customerror.CustomError) {
-	addr := os.Getenv("REDIS_ADDR")
-	password := os.Getenv("REDIS_PASSWORD")
+	addr := os.Getenv("ELASTICACHE_HOST")
+	port := os.Getenv("ELASTICACHE_PORT")
+	endpoint := addr + ":" + port
 	db := 0
 
 	client := redis.NewClient(&redis.Options{
-		Addr:     addr,
-		Password: password,
+		Addr:     endpoint,
+		Password: "",
 		DB:       db,
 	})
 
