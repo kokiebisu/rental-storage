@@ -10,6 +10,12 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   lambdaHashingVersion: 20201221
+  vpc:
+    subnetIds:
+      - ${ssm:/terraform/vpc/subnet-b-id}
+      - ${ssm:/terraform/vpc/subnet-d-id}
+    securityGroupIds:
+      - ${ssm:/terraform/vpc/lambda-security-group}
   deploymentBucket:
     name: ${self:provider.stage}-rental-a-locker-app-sls-user
   iam:
