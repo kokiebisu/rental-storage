@@ -9,7 +9,6 @@ provider:
   runtime: go1.x
   stage: local
   region: us-east-1
-  lambdaHashingVersion: 20201221
   deploymentBucket:
     name: ${self:provider.stage}-${aws:accountId}-sls-booking
   iam:

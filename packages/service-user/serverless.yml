@@ -9,7 +9,6 @@ provider:
   runtime: go1.x
   stage: local
   region: us-east-1
-  lambdaHashingVersion: 20201221
   vpc:
     subnetIds:
       - ${ssm:/terraform/vpc/subnet-b-id}

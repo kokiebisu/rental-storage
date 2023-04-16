@@ -9,7 +9,6 @@ provider:
   runtime: python3.8
   stage: ${opt:stage, 'dev'}
   region: us-east-1
-  lambdaHashingVersion: 20201221
   deploymentBucket:
     name: ${self:provider.stage}-rental-a-locker-app-sls-slack
   iam:

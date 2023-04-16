@@ -10,7 +10,6 @@ provider:
   runtime: nodejs18.x
   stage: local
   region: us-east-1
-  lambdaHashingVersion: 20201221
   deploymentBucket:
     name: ${self:provider.stage}-${aws:accountId}-sls-composition
   iam:

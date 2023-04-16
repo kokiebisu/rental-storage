@@ -15,7 +15,6 @@ provider:
       - ${ssm:/terraform/vpc/lambda-security-group}
   stage: local
   region: us-east-1
-  lambdaHashingVersion: 20201221
   deploymentBucket:
     name: ${self:provider.stage}-${aws:accountId}-sls-authentication
   iam:
