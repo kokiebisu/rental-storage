@@ -1,0 +1,34 @@
+service: service-chat
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  deploymentBucket:
+    name: ${self:provider.stage}-rental-a-locker-app-sls-image
+  iam:
+    role: ${ssm:/terraform/iam/lambda-role-arn}
+  apiGateway:
+    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
+    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
+  websocketApiId: ${ssm:/terraform/apigateway/websocket-api-id}
+  ecr:
+    images:
+      app:
+        path: ./
+        file: Dockerfile
+        buildArgs:
+custom:
+  namespace: app
+  service: image
+  export-env:
+    filename: .env
+    overwrite: true
+
+functions:
+  - ${file(./aws/functions/apigateway.yml)}

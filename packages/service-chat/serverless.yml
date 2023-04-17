@@ -1,0 +1,30 @@
+service: service-chat
+frameworkVersion: "3"
+
+plugins:
+  - serverless-deployment-bucket
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: local
+  region: us-east-1
+  deploymentBucket:
+    name: ${self:provider.stage}-${aws:accountId}-sls-image
+  iam:
+    role: ${ssm:/terraform/iam/lambda-role-arn}
+  websocketsApiName: websocket-api
+  ecr:
+    images:
+      app:
+        path: ./
+        file: Dockerfile
+        buildArgs:
+custom:
+  namespace: app
+  service: chat
+  export-env:
+    filename: .env
+    overwrite: true
+functions:
+  - ${file(./aws/functions/apigateway.yml)}

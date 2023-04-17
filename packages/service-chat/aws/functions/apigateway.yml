@@ -1,0 +1,10 @@
+WebSocket:
+  handler: main.handler
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}
+  events:
+    - websocket:
+        route: $connect
+    - websocket:
+        route: $disconnect
+    - websocket:
+        route: $default
