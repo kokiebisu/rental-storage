@@ -164,3 +164,18 @@ resource "aws_iam_policy" "enable_elasticache" {
         ]
     })
 }
+
+resource "aws_iam_policy" "enable_api_gateway" {
+    name = "EnableAPIGateway"
+
+    policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            {
+                Action = ["apigateway:POST"]
+                Effect = "Allow"
+                Resource = "*"
+            }
+        ]
+    })
+}
