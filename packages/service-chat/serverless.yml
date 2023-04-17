@@ -10,7 +10,7 @@ provider:
   stage: local
   region: us-east-1
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-sls-image
+    name: ${self:provider.stage}-${aws:accountId}-sls-chat
   iam:
     role: ${ssm:/terraform/iam/lambda-role-arn}
   websocketsApiName: websocket-api

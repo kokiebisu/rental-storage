@@ -10,13 +10,9 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   deploymentBucket:
-    name: ${self:provider.stage}-rental-a-locker-app-sls-image
+    name: ${self:provider.stage}-rental-a-locker-app-sls-chat
   iam:
-    role: ${ssm:/terraform/iam/lambda-role-arn}
-  apiGateway:
-    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
-    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
-  websocketApiId: ${ssm:/terraform/apigateway/websocket-api-id}
+    role: ${ssm:/terraform/iam/service-chat-lambda-role-arn}
   ecr:
     images:
       app:
@@ -25,7 +21,7 @@ provider:
         buildArgs:
 custom:
   namespace: app
-  service: image
+  service: chat
   export-env:
     filename: .env
     overwrite: true
