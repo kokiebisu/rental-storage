@@ -1,6 +1,9 @@
 WebSocket:
-  handler: main.handler
-  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}
+  image:
+    name: app
+    command:
+      - main
+  name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-websocket-default
   events:
     - websocket:
         route: $connect
