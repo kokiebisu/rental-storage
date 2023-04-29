@@ -10,7 +10,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   iam:
-    role: ${ssm:/terraform/iam/lambda-role-arn}
+    role: ${ssm:/terraform/iam/service-lambda-role-arn}
   deploymentBucket:
     name: ${self:provider.stage}-rental-a-locker-app-sls-booking
   apiGateway:

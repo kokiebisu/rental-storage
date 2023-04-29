@@ -1,8 +1,6 @@
 import json
 import boto3
 
-# dynamodb = boto3.resource('dynamodb')
-# table = dynamodb.Table('ChatMessages')
 
 import os
 
@@ -10,15 +8,17 @@ import os
 def handler(event, context):
 
     print("EVENT: ", event)
-    print("HEADERS: ", event['headers'])
     print("***")
     print("CONTEXT: ", context)
-    domain = event['headers']['Host']
+    domain = event['requestContext']['domainName']
     endpoint_url = f'https://{domain}/local'
+
+    connectionId = event['requestContext']['connectionId']
+
     apigateway = boto3.client('apigatewaymanagementapi',
                               endpoint_url=endpoint_url)
-
-    print("ENDPOINT_URL: ", endpoint_url)
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('service-chat-connection-ids')
 
     request_context = event['requestContext']
     if request_context['routeKey'] == '$connect':
@@ -34,9 +34,9 @@ def handler(event, context):
         }
 
     else:
-        print("ENTERED")
+        print("ELSE!")
         apigateway.post_to_connection(
-            ConnectionId=event['requestContext']['connectionId'],
+            ConnectionId=connectionId,
             Data=json.dumps({
                 'message': 'Hello from the other side',
             }).encode('utf-8')
