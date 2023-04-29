@@ -5,7 +5,7 @@ resource "aws_iam_role_policy_attachment" "enable_service_chat_log" {
 
 resource "aws_iam_role_policy_attachment" "enable_service_chat_api_gateway" {
     role = aws_iam_role.service_chat.name
-    policy_arn = aws_iam_policy.enable_api_gateway.arn
+    policy_arn = aws_iam_policy.enable_api_gateway_invoke.arn
 }
 
 resource "aws_iam_role" "service_chat" {
