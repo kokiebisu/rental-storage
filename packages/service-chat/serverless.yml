@@ -12,7 +12,7 @@ provider:
   deploymentBucket:
     name: ${self:provider.stage}-${aws:accountId}-sls-chat
   iam:
-    role: ${ssm:/terraform/iam/lambda-role-arn}
+    role: ${ssm:/terraform/iam/service-chat-lambda-role-arn}
   websocketsApiName: websocket-api
   ecr:
     images:

@@ -2,7 +2,7 @@ WebSocket:
   image:
     name: app
     command:
-      - main
+      - main.handler
   name: ${self:provider.stage}-${self:custom.namespace}-${self:custom.service}-websocket-default
   events:
     - websocket:
