@@ -24,7 +24,7 @@
     "@faker-js/faker": "7.6.0",
     "@types/aws-lambda": "8.10.114",
     "@types/axios": "0.14.0",
-    "@types/jest": "29.4.0",
+    "@types/jest": "29.5.1",
     "@types/node": "18.15.11",
     "@typescript-eslint/eslint-plugin": "5.54.0",
     "@typescript-eslint/parser": "5.57.0",
