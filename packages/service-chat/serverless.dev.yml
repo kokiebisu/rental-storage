@@ -1,4 +1,4 @@
-service: service-image
+service: service-chat
 frameworkVersion: "3"
 
 plugins:
@@ -7,15 +7,12 @@ plugins:
 provider:
   name: aws
   runtime: python3.9
-  stage: local
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
   deploymentBucket:
-    name: ${self:provider.stage}-${aws:accountId}-sls-image
+    name: ${self:provider.stage}-rental-a-locker-app-sls-chat
   iam:
-    role: ${ssm:/terraform/iam/service-lambda-role-arn}
-  apiGateway:
-    restApiId: ${ssm:/terraform/apigateway/rest-api-id}
-    restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}
+    role: ${ssm:/terraform/iam/service-chat-lambda-role-arn}
   ecr:
     images:
       app:
@@ -24,7 +21,7 @@ provider:
         buildArgs:
 custom:
   namespace: app
-  service: image
+  service: chat
   export-env:
     filename: .env
     overwrite: true

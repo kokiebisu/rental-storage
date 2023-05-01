@@ -9,7 +9,6 @@ provider:
   runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
   region: us-east-1
-  lambdaHashingVersion: 20201221
   vpc:
     subnetIds:
       - ${ssm:/terraform/vpc/subnet-b-id}
@@ -19,7 +18,7 @@ provider:
   deploymentBucket:
     name: ${self:provider.stage}-rental-a-locker-app-sls-space
   iam:
-    role: ${ssm:/terraform/iam/lambda-role-arn}
+    role: ${ssm:/terraform/iam/service-lambda-role-arn}
   apiGateway:
     restApiId: ${ssm:/terraform/apigateway/rest-api-id}
     restApiRootResourceId: ${ssm:/terraform/apigateway/rest-api-root-resource-id}

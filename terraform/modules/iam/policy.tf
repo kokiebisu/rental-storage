@@ -164,3 +164,18 @@ resource "aws_iam_policy" "enable_elasticache" {
         ]
     })
 }
+
+resource "aws_iam_policy" "enable_api_gateway_invoke" {
+    name = "EnableAPIGatewayInvoke"
+
+    policy = jsonencode({
+        Version = "2012-10-17"
+        Statement = [
+            {
+                Action = ["execute-api:Invoke", "execute-api:ManageConnections"]
+                Effect = "Allow"
+                Resource = "arn:aws:execute-api:*:*:*"
+            }
+        ]
+    })
+}
