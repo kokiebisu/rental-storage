@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-lambda-go v1.39.1
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/redis/go-redis/v9 v9.0.2
+	github.com/redis/go-redis/v9 v9.0.3
 	github.com/stretchr/testify v1.8.2
 	go.uber.org/zap v1.24.0
 	golang.org/x/crypto v0.8.0
