@@ -1,6 +1,6 @@
 resource "aws_dynamodb_table" "connections" {
   billing_mode = "PAY_PER_REQUEST"
-  name = "${var.chat_table_name}-${var.environment}-messages"
+  name = "${var.environment}-${var.chat_table_name}-connections"
   hash_key = "UserId"
 
   attribute {
@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "connections" {
 
 resource "aws_dynamodb_table" "messages" {
   billing_mode = "PAY_PER_REQUEST"
-  name = "${var.chat_table_name}-${var.environment}-messages"
+  name = "${var.environment}-${var.chat_table_name}-messages"
   hash_key = "UId"
   stream_enabled = true
   stream_view_type = "NEW_AND_OLD_IMAGES"

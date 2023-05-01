@@ -19,7 +19,7 @@ variable "booking_table_name" {
 }
 
 variable "chat_table_name" {
-  description = "Table of name for booking service db"
+  description = "Table of name for chat service db"
   type        = string
 }
 
