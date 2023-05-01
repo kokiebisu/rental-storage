@@ -8,6 +8,7 @@ module "dynamodb" {
   source = "./modules/dynamodb"
 
   booking_table_name = var.booking_table_name
+  chat_table_name = var.chat_table_name
   environment        = var.environment
 }
 
