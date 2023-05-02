@@ -1,12 +1,7 @@
 resource "aws_dynamodb_table" "connections" {
   billing_mode = "PAY_PER_REQUEST"
   name = "${var.environment}-${var.chat_table_name}-connections"
-  hash_key = "UserId"
-
-  attribute {
-    name = "UserId"
-    type = "S"
-  }
+  hash_key = "ConnectionId"
 
   attribute {
     name = "ConnectionId"
@@ -14,21 +9,19 @@ resource "aws_dynamodb_table" "connections" {
   }
 
   attribute {
-    name = "CreatedAt"
+    name = "DestinationUserId"
+    type = "S"
+  }
+
+  attribute {
+    name = "UserId"
     type = "S"
   }
 
   global_secondary_index {
-    name = "ChatUserIdConnectionIdIndex"
-    hash_key = "UserId"
-    range_key = "ConnectionId"
-    projection_type = "ALL"
-  }
-
-  global_secondary_index {
-    name = "ChatUserIdCreatedAtIndex"
-    hash_key = "UserId"
-    range_key = "CreatedAt"
+    name = "ChatDestinationUserIdUserIdIndex"
+    hash_key = "DestinationUserId"
+    range_key = "UserId"
     projection_type = "ALL"
   }
 }
