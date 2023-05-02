@@ -8,6 +8,11 @@ variable "booking_table_name" {
   type        = string
 }
 
+variable "chat_table_name" {
+  description = "Table of name for chat service db"
+  type        = string
+}
+
 variable "region" {
   description = "AWS region"
   type        = string
