@@ -19,16 +19,9 @@ resource "aws_dynamodb_table" "connections" {
   }
 
   global_secondary_index {
-    name = "ChatUserIdConnectionIdIndex"
+    name = "ChatUserIdDestinationIdIndex"
     hash_key = "UserId"
-    range_key = "ConnectionId"
-    projection_type = "ALL"
-  }
-
-  global_secondary_index {
-    name = "ChatUserIdCreatedAtIndex"
-    hash_key = "UserId"
-    range_key = "CreatedAt"
+    range_key = "DestinationUserId"
     projection_type = "ALL"
   }
 }
