@@ -1,12 +1,7 @@
 resource "aws_dynamodb_table" "connections" {
   billing_mode = "PAY_PER_REQUEST"
   name = "${var.environment}-${var.chat_table_name}-connections"
-  hash_key = "UserId"
-
-  attribute {
-    name = "UserId"
-    type = "S"
-  }
+  hash_key = "ConnectionId"
 
   attribute {
     name = "ConnectionId"
@@ -14,7 +9,12 @@ resource "aws_dynamodb_table" "connections" {
   }
 
   attribute {
-    name = "CreatedAt"
+    name = "UserId"
+    type = "S"
+  }
+
+  attribute {
+    name = "DestinationUserId"
     type = "S"
   }
 
