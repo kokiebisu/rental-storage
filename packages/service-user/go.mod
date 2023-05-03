@@ -6,7 +6,7 @@ require (
 	github.com/aws/aws-lambda-go v1.39.1
 	github.com/aws/aws-sdk-go-v2 v1.18.0
 	github.com/aws/aws-sdk-go-v2/config v1.18.22
-	github.com/aws/aws-sdk-go-v2/service/kinesis v1.17.8
+	github.com/aws/aws-sdk-go-v2/service/kinesis v1.17.11
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.9
