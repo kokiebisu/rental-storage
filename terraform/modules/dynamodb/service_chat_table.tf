@@ -9,19 +9,19 @@ resource "aws_dynamodb_table" "connections" {
   }
 
   attribute {
-    name = "UserId"
+    name = "SenderId"
     type = "S"
   }
 
   attribute {
-    name = "DestinationUserId"
+    name = "RecipientId"
     type = "S"
   }
 
   global_secondary_index {
-    name = "ChatUserIdDestinationIdIndex"
-    hash_key = "UserId"
-    range_key = "DestinationUserId"
+    name = "ChatConnectionsSenderIdRecipientIdIndex"
+    hash_key = "SenderId"
+    range_key = "RecipientId"
     projection_type = "ALL"
   }
 }
@@ -39,26 +39,19 @@ resource "aws_dynamodb_table" "messages" {
   }
 
   attribute {
-    name = "GuestId"
+    name = "SenderId"
     type = "S"
   }
 
   attribute {
-    name = "HostId"
+    name = "RecipientId"
     type = "S"
   }
 
   global_secondary_index {
-    name = "ChatGuestIdHostIdIndex"
-    hash_key = "GuestId"
-    range_key = "HostId"
-    projection_type = "ALL"
-  }
-
-  global_secondary_index {
-    name = "ChatHostIdGuestIdIndex"
-    hash_key = "HostId"
-    range_key = "GuestId"
+    name = "ChatMessagesSenderIdRecipientIdIndex"
+    hash_key = "SenderId"
+    range_key = "RecipientId"
     projection_type = "ALL"
   }
 }
