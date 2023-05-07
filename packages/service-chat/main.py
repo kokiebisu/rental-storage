@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import json
+import time
 import boto3
 import logging
 import uuid
@@ -10,7 +11,6 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event, context):
-    print("EVENT: ", event)
     domain = event['requestContext']['domainName']
     endpoint_url = f'https://{domain}/local'
 
@@ -32,29 +32,33 @@ def handler(event, context):
         register_connection(client=dynamodb, connections_table_name=connections_table_name, sender_id=sender_id,
                             recipient_id=recipient_id, connection_id=connection_id)
 
-        # display message history between the sender and recipient
-        messages = retrieve_message_history(
-            client=dynamodb, messages_table_name=messages_table_name, sender_id=sender_id, recipient_id=recipient_id)
-
-        if len(messages):
-            apigateway.post_to_connection(
-                ConnectionId=connection_id,
-                Data=json.dumps({
-                    'messages': messages
-                }).encode('utf-8')
-            )
-
     elif request_context['routeKey'] == '$disconnect':
         unregister_connection(
             client=dynamodb, connections_table_name=connections_table_name, connection_id=connection_id)
 
     else:
-        message = json.loads(event['body'])['message']
-        send_message(dynamodb_client=dynamodb, apigateway_client=apigateway,
-                     connections_table_name=connections_table_name,
-                     messages_table_name=messages_table_name,
-                     sender_connection_id=connection_id,
-                     message=message)
+        action = json.loads(event['body'])['action']
+        if action == 'getMessageHistory':
+            connection_data = retrieve_by_sender_connection_id(
+                client=dynamodb, connections_table_name=connections_table_name, connection_id=connection_id)
+            # display message history between the sender and recipient
+            messages = retrieve_message_history(
+                client=dynamodb, messages_table_name=messages_table_name, sender_id=connection_data['senderId'], recipient_id=connection_data['recipientId'])
+
+            if len(messages):
+                apigateway.post_to_connection(
+                    ConnectionId=connection_id,
+                    Data=json.dumps({
+                        'messages': messages
+                    }).encode('utf-8')
+                )
+        elif action == 'sendMessage':
+            message = json.loads(event['body'])['message']
+            send_message(dynamodb_client=dynamodb, apigateway_client=apigateway,
+                         connections_table_name=connections_table_name,
+                         messages_table_name=messages_table_name,
+                         sender_connection_id=connection_id,
+                         message=message)
 
     return {
         'statusCode': 200,
@@ -63,7 +67,7 @@ def handler(event, context):
 
 def retrieve_message_history(client, messages_table_name, sender_id, recipient_id):
     logger.info('retrieve_message_history')
-    response = client.query(
+    sender_messages = client.query(
         TableName=messages_table_name,
         IndexName='ChatMessagesSenderIdRecipientIdIndex',
         KeyConditionExpression='RecipientId = :recipient_id AND SenderId = :sender_id',
@@ -72,8 +76,38 @@ def retrieve_message_history(client, messages_table_name, sender_id, recipient_i
             ':recipient_id': {'S': recipient_id}
         }
     )
-    print("RESPONSE: ", response)
-    return response['Items']
+
+    recipient_messages = client.query(
+        TableName=messages_table_name,
+        IndexName='ChatMessagesSenderIdRecipientIdIndex',
+        KeyConditionExpression='RecipientId = :recipient_id AND SenderId = :sender_id',
+        ExpressionAttributeValues={
+            ':sender_id': {'S': recipient_id},
+            ':recipient_id': {'S': sender_id}
+        }
+    )
+
+    message_list = []
+    for message in sender_messages['Items']:
+        message['SenderId'] = message['SenderId']['S']
+        message['RecipientId'] = message['RecipientId']['S']
+        message['Message'] = message['Message']['S']
+        message['Id'] = message['Id']['S']
+        message['CreatedAt'] = message['CreatedAt']['S']
+        message_list.append(message)
+
+    for message in recipient_messages['Items']:
+        message['SenderId'] = message['SenderId']['S']
+        message['RecipientId'] = message['RecipientId']['S']
+        message['Message'] = message['Message']['S']
+        message['Id'] = message['Id']['S']
+        message['CreatedAt'] = message['CreatedAt']['S']
+        message_list.append(message)
+
+    sorted_messages = sorted(
+        message_list, key=lambda k: int(k['CreatedAt']))
+
+    return sorted_messages
 
 
 def retrieve_recipient_connection_id(client, connections_table_name, sender_id, recipient_id):
@@ -97,7 +131,7 @@ def register_connection(client, connections_table_name, sender_id, recipient_id,
         'SenderId': {'S': sender_id},
         'RecipientId': {'S': recipient_id},
         'ConnectionId': {'S': connection_id},
-        'CreatedAt': {'S': str(datetime.utcnow().timestamp())}
+        'CreatedAt': {'S': str(int(time.time()))}
     }
     client.put_item(TableName=connections_table_name, Item=item)
 
@@ -137,11 +171,11 @@ def send_message(dynamodb_client, apigateway_client, connections_table_name, mes
 
     # save the message to db
     dynamodb_client.put_item(TableName=messages_table_name, Item={
-        'UId': {'S': uuid.uuid1()},
+        'Id': {'S': str(uuid.uuid1())},
         'SenderId': {'S': connection_data['senderId']},
         'RecipientId': {'S': connection_data['recipientId']},
         'Message': {'S': message},
-        'CreatedAt': {'S': str(datetime.utcnow().timestamp())}
+        'CreatedAt': {'S': str(int(time.time()))}
     })
 
     # retrieve the recipient connection id for the recipient
