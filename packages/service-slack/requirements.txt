@@ -23,5 +23,5 @@ six==1.16.0
 slack-sdk==3.21.3
 slackclient==2.9.4
 tomli==2.0.1
-urllib3==2.0.1
+urllib3==1.26.12
 yarl==1.8.2
