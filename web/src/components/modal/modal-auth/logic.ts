@@ -42,6 +42,18 @@ const useAuthModal = ({ close }: any) => {
     validate: (values) => {
       if (active === 0) {
         return {
+          password:
+            values.password.length < 6
+              ? "Password must include at least 6 characters"
+              : null,
+          emailAddress: /^\S+@\S+$/.test(values.emailAddress)
+            ? null
+            : "Invalid email",
+        };
+      }
+
+      if (active === 1) {
+        return {
           firstName:
             values.firstName.trim().length < 2
               ? "First name must include at least 2 characters"
@@ -50,18 +62,6 @@ const useAuthModal = ({ close }: any) => {
             values.lastName.trim().length < 2
               ? "Last name must include at least 2 characters"
               : null,
-        };
-      }
-
-      if (active === 1) {
-        return {
-          password:
-            values.password.length < 6
-              ? "Password must include at least 6 characters"
-              : null,
-          emailAddress: /^\S+@\S+$/.test(values.emailAddress)
-            ? null
-            : "Invalid email",
         };
       }
 

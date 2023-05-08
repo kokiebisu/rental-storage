@@ -52,8 +52,8 @@ func (h *ApiGatewayAdapter) SignIn(event interface{}) (interface{}, *customerror
 
 	token, err := h.service.SignIn(bodyRequest.EmailAddress, bodyRequest.Password)
 	payload := SignInResponsePayload{
-		AuthorizationToken: string(token["at"]),
-		RefreshToken:       string(token["rt"]),
+		AuthorizationToken: string(token["access_token"]),
+		RefreshToken:       string(token["refresh_token"]),
 	}
 	logger.Info("Payload", zap.Any("payload", payload))
 	return payload, err.(*customerror.CustomError)
