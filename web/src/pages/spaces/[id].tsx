@@ -8,6 +8,7 @@ import { FIND_SPACE_QUERY } from "@/graphql/queries";
 import { Textarea } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { MAKE_BOOKING_MUTATION } from "@/graphql/mutations/booking.graphql";
+import { Spinner } from "@/components/spinner";
 
 export default function SpaceDetailsPage() {
   const router = useRouter();
@@ -48,7 +49,11 @@ export default function SpaceDetailsPage() {
   };
 
   if (spaceLoading) {
-    return <div>loading</div>;
+    return (
+      <div className="absolute top-1/2 left-1/2">
+        <Spinner />
+      </div>
+    );
   }
 
   if (spaceError) {

@@ -20,7 +20,7 @@ const MenuDropdown = ({
       <Menu.Target>
         <AvatarClickable profilePic={profilePic} />
       </Menu.Target>
-      <Menu.Dropdown>
+      <Menu.Dropdown right={2}>
         <Menu.Item onClick={handleGuestDashboardRedirect}>
           Guest Dashboard
         </Menu.Item>
@@ -45,16 +45,8 @@ const AvatarClickable = forwardRef<HTMLButtonElement, AvatarClickableProps>(
       sx={(theme) => ({
         display: "block",
         width: "100%",
-        padding: theme.spacing.md,
         color:
           theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-
-        "&:hover": {
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[8]
-              : theme.colors.gray[0],
-        },
       })}
       {...others}
     >

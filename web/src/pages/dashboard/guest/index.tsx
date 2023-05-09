@@ -4,24 +4,30 @@ import { awsLambdaClient } from "@/clients";
 import { FIND_MY_BOOKINGS_QUERY } from "@/graphql/queries";
 import { DefaultLayout } from "@/layout";
 import { Booking } from "@/types/interface";
+import { Spinner } from "@/components/spinner";
 
 export default function Dashboard() {
   const { data, loading, error } = useQuery(FIND_MY_BOOKINGS_QUERY, {
     client: awsLambdaClient,
   });
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div className="absolute top-1/2 left-1/2">
+        <Spinner />
+      </div>
+    );
   }
   if (error) {
     return <div>error...</div>;
   }
 
-  console.log("DATA: ", data);
   return (
     <DefaultLayout>
-      <div className="w-full h-full">
-        <div>
-          <div>Pending Bookings</div>
+      <div className="w-full h-full px-6 p-12">
+        <div className="h-[256px]">
+          <div>
+            <h3 className="font-bold text-2xl">Pending Bookings</h3>
+          </div>
           <div>
             {data.profile.bookings.pending.length > 0
               ? data.profile.bookings.pending.map((booking: Booking) => {
@@ -30,8 +36,8 @@ export default function Dashboard() {
               : null}
           </div>
         </div>
-        <div>
-          <div>Approved Bookings</div>
+        <div className="h-[256px]">
+          <div className="font-bold text-2xl">Approved Bookings</div>
           <div>
             {data.profile.bookings.approved.length > 0
               ? data.profile.bookings.approved.map((booking: Booking) => {

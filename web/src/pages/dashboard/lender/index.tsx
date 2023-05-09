@@ -1,5 +1,6 @@
 import { awsLambdaClient } from "@/clients";
 import { Button } from "@/components";
+import { Spinner } from "@/components/spinner";
 import { AuthContext } from "@/context/auth";
 import { FIND_SPACES_BY_LENDER_QUERY } from "@/graphql/queries/aws-lambda/space.graphql";
 import { DefaultLayout } from "@/layout";
@@ -19,7 +20,11 @@ export default function Dashboard() {
     },
   });
   if (loading) {
-    return <div>loading...</div>;
+    return (
+      <div className="absolute top-1/2 left-1/2">
+        <Spinner />
+      </div>
+    );
   }
   if (error) {
     return <div>error...</div>;
@@ -27,7 +32,15 @@ export default function Dashboard() {
 
   return (
     <DefaultLayout>
-      <div>
+      <div className="w-full h-full px-6 p-12">
+        <div className="h-[256px]">
+          <div>
+            <h3 className="font-bold text-2xl">Pending Bookings</h3>
+          </div>
+        </div>
+        <div className="h-[256px]">
+          <div className="font-bold text-2xl">Approved Bookings</div>
+        </div>
         <div className="mx-auto mt-10 flex justify-center">
           <Link href="/dashboard/lender/create">
             <Button onClick={() => {}} label="Add new space" />
@@ -35,8 +48,8 @@ export default function Dashboard() {
         </div>
         <div>
           {data.spaces.length > 0
-            ? data.spaces.map((space: Space) => {
-                return <div key={space.id}>{JSON.stringify(space)}</div>;
+            ? data.spaces.map((space: Space, index: number) => {
+                return <div key={index}>{JSON.stringify(space)}</div>;
               })
             : null}
         </div>
