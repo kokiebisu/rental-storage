@@ -11,7 +11,7 @@ const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
     <div>
       <Header onSignInClicked={open} />
-      {children}
+      <div className="py-6">{children}</div>
       <AuthModal opened={opened} close={close} />
       <Footer />
     </div>
