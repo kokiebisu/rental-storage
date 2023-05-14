@@ -144,7 +144,7 @@ const FooterLinks = () => {
 
   return (
     <footer className={classes.footer}>
-      <Container className={classes.inner}>
+      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
         <div className={classes.logo}>
           <MantineLogo size={30} />
           <Text size="xs" color="dimmed" className={classes.description}>
@@ -152,8 +152,8 @@ const FooterLinks = () => {
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
-      </Container>
-      <Container className={classes.afterFooter}>
+      </div>
+      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
         <Text color="dimmed" size="sm">
           © 2020 mantine.dev. All rights reserved.
         </Text>
@@ -169,7 +169,7 @@ const FooterLinks = () => {
             <IconBrandInstagram size="1.05rem" stroke={1.5} />
           </ActionIcon>
         </Group>
-      </Container>
+      </div>
     </footer>
   );
 };

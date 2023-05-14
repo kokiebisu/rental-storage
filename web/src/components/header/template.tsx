@@ -2,6 +2,7 @@ import { Menu, Center, createStyles, rem } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 
 import { Button, MenuDropdown } from "..";
+import Link from "next/link";
 
 interface HeaderTemplateProps {
   links: {
@@ -93,11 +94,13 @@ const HeaderTemplate = ({
   });
 
   return (
-    <header className="mb-6 border-b-gray-200 border-b md:px-0">
+    <header className="border-b-gray-200 border-b md:px-0">
       <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
         <div>
           <div className="flex justify-between items-center my-3">
-            <div>Rental Storage</div>
+            <div>
+              <Link href="/">Rental Storage</Link>
+            </div>
             <div className="flex items-center">
               <div className="sm:none flex mx-2 mr-2">{items}</div>
               {isAuthenticated ? (

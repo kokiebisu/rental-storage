@@ -44,7 +44,11 @@ export default function LandingPage() {
   }, [data, fetchMore]);
 
   if (loading) {
-    return <div>loading</div>;
+    return (
+      <div className="absolute top-1/2 left-1/2">
+        <Spinner />
+      </div>
+    );
   }
   if (error) {
     return <div>error</div>;
@@ -53,8 +57,8 @@ export default function LandingPage() {
   return (
     <DefaultLayout>
       <main>
-        <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
-          <section>
+        <div className="py-12 max-w-7xl mx-auto px-5 2xl:px-0 w-full">
+          <section className="pb-12">
             <h3 className="text-3xl font-bold">Near your area</h3>
             <div className="mt-4">
               <h5>
@@ -68,9 +72,9 @@ export default function LandingPage() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
               {data.spaces.length > 0
-                ? data.spaces.map((space: any) => {
+                ? data.spaces.map((space, index) => {
                     return (
-                      <Link href={`/spaces/${space.id}`} key={space.id}>
+                      <Link href={`/spaces/${space.id}`} key={index}>
                         <Card
                           title={space.title}
                           address={space.location.address}

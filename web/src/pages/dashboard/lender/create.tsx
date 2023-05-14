@@ -12,7 +12,7 @@ export default function Dashboard() {
   const createNewSpace = (e: any): void => {
     e.preventDefault();
     showSpaceInfo();
-    Router.push("/dashboard/host");
+    Router.push("/dashboard/lender");
   };
 
   // Modal or Message
