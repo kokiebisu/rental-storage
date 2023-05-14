@@ -27,7 +27,7 @@ export default function LandingPage() {
 
       if (scrollTop + windowHeight >= scrollHeight) {
         fetchMore({
-          variables: { offset: data.spaces.length, limit },
+          variables: { filter: { offset: data.spaces.length, limit } },
           updateQuery: (prev, { fetchMoreResult }) => {
             if (!fetchMoreResult) return prev;
             return { spaces: [...prev.spaces, ...fetchMoreResult.spaces] };
