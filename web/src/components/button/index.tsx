@@ -2,12 +2,14 @@ import { Button as MantineButton } from "@mantine/core";
 
 export interface ButtonProps {
   onClick: () => void;
-  label: string;
+  type?: "button" | "reset" | "submit" | undefined;
+  size?: string;
+  children: React.ReactNode;
 }
 
-const Button = ({ onClick, label }: ButtonProps) => (
-  <MantineButton variant="outline" onClick={onClick}>
-    {label}
+const Button = ({ type, size, onClick, children }: ButtonProps) => (
+  <MantineButton size={size} type={type} variant="outline" onClick={onClick}>
+    {children}
   </MantineButton>
 );
 
