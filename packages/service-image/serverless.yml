@@ -22,12 +22,13 @@ provider:
         path: ./
         file: Dockerfile
         buildArgs:
+  environment:
+    STAGE: ${self:provider.stage}
+    ACCOUNT_ID: ${aws:accountId}
+
 custom:
   namespace: app
   service: image
-  export-env:
-    filename: .env
-    overwrite: true
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

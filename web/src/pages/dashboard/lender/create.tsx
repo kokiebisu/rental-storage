@@ -1,8 +1,7 @@
 import { Group, SimpleGrid, TextInput, Textarea, Title } from "@mantine/core";
 import Button from "@/components/button";
 import { useForm } from "@mantine/form";
-import Router from "next/router";
-import { useState } from "react";
+import { ImageUploader } from "@/components";
 
 export default function Dashboard() {
   const form = useForm({
@@ -23,7 +22,7 @@ export default function Dashboard() {
   });
 
   const handleBookRequest = () => {
-    alert("clicked");
+    alert(JSON.stringify(form.values));
   };
 
   return (
@@ -107,13 +106,14 @@ export default function Dashboard() {
               {...form.getInputProps("country")}
             />
           </SimpleGrid>
-          <div>Post the listing image here</div>
-          <Group position="center" mt="xl">
-            <Button type="submit" size="md" onClick={handleBookRequest}>
-              Send Book Request
-            </Button>
-          </Group>
         </form>
+        <ImageUploader />
+        <div>Post the listing image here</div>
+        <Group position="center" mt="xl">
+          <Button type="submit" size="md" onClick={handleBookRequest}>
+            Send Book Request
+          </Button>
+        </Group>
       </div>
     </div>
   );
