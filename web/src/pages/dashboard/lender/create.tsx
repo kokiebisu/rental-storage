@@ -108,7 +108,7 @@ export default function Dashboard() {
           </SimpleGrid>
         </form>
         <ImageUploader />
-        <div>Post the listing image here</div>
+        <div>Post the space image here</div>
         <Group position="center" mt="xl">
           <Button type="submit" size="md" onClick={handleBookRequest}>
             Send Book Request

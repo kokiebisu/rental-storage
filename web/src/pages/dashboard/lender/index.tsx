@@ -43,7 +43,7 @@ export default function Dashboard() {
         </div>
         <div className="mx-auto mt-10 flex justify-center">
           <Link href="/dashboard/lender/create">
-            <Button onClick={() => {}} label="Add new space" />
+            <Button onClick={() => {}}>Add new space</Button>
           </Link>
         </div>
         <div>
