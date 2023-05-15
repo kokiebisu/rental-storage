@@ -18,9 +18,7 @@ export default function ImageUploader() {
           filename: file.name,
         }
       );
-      const url = `${response["data"]["url"]}/${response["data"]["filename"]}`;
-      console.log("PRESIGNED_URL: ", url);
-      setPresignedUrl(url);
+      setPresignedUrl(response["data"]["presignedUrl"]);
     } catch (error) {
       console.error(error);
     }
@@ -36,8 +34,6 @@ export default function ImageUploader() {
       console.error(error);
     }
   };
-
-  console.log("PRESIGNED: ", presignedUrl);
 
   return (
     <div>

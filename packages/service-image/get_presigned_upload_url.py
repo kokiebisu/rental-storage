@@ -8,8 +8,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-def handler(event, context):
-    logging.info("EVENT: " + str(event))
+def handler(event, _):
     print("EVENT: ", event)
     # THIS NEED TO BE CONVERTED TO REST
     response = _get_presigned_upload_url(json.loads(event['body'])['filename'])
@@ -18,7 +17,7 @@ def handler(event, context):
         'statusCode': 200,
         'headers': {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
         },
         'body': json.dumps(response)
     }
@@ -37,7 +36,6 @@ def _get_presigned_upload_url(filename: str):
         fields: Dictionary of form fields and values to submit with the POST
     :return: None if error.
     """
-    print("ENTERED1: ", filename)
     # Generate a presigned S3 POST URL
     stage = os.environ['STAGE']
     account_id = os.environ['ACCOUNT_ID']
@@ -47,17 +45,14 @@ def _get_presigned_upload_url(filename: str):
         put_url = s3_client.generate_presigned_url(
             'put_object',
             Params={
-                'Bucket': f'{stage}-{account_id}-listing-profile',
+                'Bucket': f'{stage}-{account_id}-space-profile',
                 'Key': filename,
                 'ACL': 'public-read'
-            })
+            },
+            ExpiresIn=3600)
         print("Got presigned POST URL: %s", put_url)
     except ClientError:
-        print(
-            "Couldn't get a presigned POST URL for bucket '%s' and object '%s'",
-            "dev-app-listing-profile", put_url)
         raise
     return {
-        'url': put_url,
-        'filename': filename
+        'presignedUrl': put_url,
     }

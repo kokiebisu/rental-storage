@@ -9,4 +9,10 @@ GetPresignedURLRest:
         path: /images
         method: post
         cors:
-          origin: http://localhost:3000
+          origin: "*"
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+          allowCredentials: false
