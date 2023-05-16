@@ -7,12 +7,5 @@ GetPresignedURLRest:
   events:
     - http:
         path: /images
-        method: post
-        cors:
-          origin: "*"
-          headers:
-            - Content-Type
-            - X-Amz-Date
-            - Authorization
-            - X-Api-Key
-          allowCredentials: false
+        method: get
+        cors: true

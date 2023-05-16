@@ -69,8 +69,6 @@ module "s3" {
 
   environment = var.environment
   account_id  = module.identity.account_id
-  aws_iam_user_s3_name = module.iam.aws_iam_user_s3_name
-  aws_iam_user_s3_arn = module.iam.aws_iam_user_s3_arn
 }
 
 module "sqs" {

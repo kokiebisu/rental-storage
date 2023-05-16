@@ -18,6 +18,8 @@ def handler(event, _):
         'headers': {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Credentials': True,
         },
         'body': json.dumps(response)
     }
@@ -41,13 +43,13 @@ def _get_presigned_upload_url(filename: str):
     account_id = os.environ['ACCOUNT_ID']
     s3_client = boto3.client('s3', region_name="us-east-1",
                              config=boto3.session.Config(signature_version='s3v4'))
+    key = f'{stage}/{filename}'
     try:
         put_url = s3_client.generate_presigned_url(
             'put_object',
             Params={
                 'Bucket': f'{stage}-{account_id}-space-profile',
-                'Key': filename,
-                'ACL': 'public-read'
+                'Key': key,
             },
             ExpiresIn=3600)
         print("Got presigned POST URL: %s", put_url)
