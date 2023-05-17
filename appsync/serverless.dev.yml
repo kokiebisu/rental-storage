@@ -20,8 +20,8 @@ appSync:
   name: ${self:custom.namespace}-${self:custom.service}
 
   apiKeys:
-    - name: mobile
-      description: Mobile Client
+    - name: web
+      description: Web Client
       expiresAfter: 365d
 
   authentication:
