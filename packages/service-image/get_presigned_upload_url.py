@@ -9,9 +9,8 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event, _):
-    print("EVENT: ", event)
-    # THIS NEED TO BE CONVERTED TO REST
-    response = _get_presigned_upload_url(json.loads(event['body'])['filename'])
+    response = _get_presigned_upload_url(
+        event['queryStringParameters']['filename'])
     # return response
     return {
         'statusCode': 200,
@@ -38,23 +37,14 @@ def _get_presigned_upload_url(filename: str):
         fields: Dictionary of form fields and values to submit with the POST
     :return: None if error.
     """
-    # Generate a presigned S3 POST URL
     stage = os.environ['STAGE']
     account_id = os.environ['ACCOUNT_ID']
-    s3_client = boto3.client('s3', region_name="us-east-1",
-                             config=boto3.session.Config(signature_version='s3v4'))
-    key = f'{stage}/{filename}'
+    s3_client = boto3.client('s3')
     try:
-        put_url = s3_client.generate_presigned_url(
-            'put_object',
-            Params={
-                'Bucket': f'{stage}-{account_id}-space-profile',
-                'Key': key,
-            },
-            ExpiresIn=3600)
-        print("Got presigned POST URL: %s", put_url)
+        return s3_client.generate_presigned_post(
+            Bucket=f'{stage}-{account_id}-space-profile',
+            Key=filename,
+            ExpiresIn=3600
+        )
     except ClientError:
         raise
-    return {
-        'presignedUrl': put_url,
-    }
