@@ -39,7 +39,10 @@ def _get_presigned_upload_url(filename: str):
     """
     stage = os.environ['STAGE']
     account_id = os.environ['ACCOUNT_ID']
-    s3_client = boto3.client('s3')
+    access_key_id = os.environ['TERRAFORM_USER_ACCESS_KEY_ID']
+    secret_access_key = os.environ['TERRAFORM_USER_SECRET_ACCESS_KEY']
+    s3_client = boto3.client('s3', aws_access_key_id=access_key_id,
+                             aws_secret_access_key=secret_access_key)
     try:
         return s3_client.generate_presigned_post(
             Bucket=f'{stage}-{account_id}-space-profile',

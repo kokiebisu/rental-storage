@@ -13,16 +13,15 @@ export default function ImageUploader() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("file", selectedFile);
     Object.keys(uploadURL.fields).forEach((key) => {
       formData.append(key, uploadURL.fields[key]);
     });
+    formData.append("file", selectedFile);
 
     try {
       await axios.post(uploadURL.url, formData);
       alert("Image uploaded successfully!");
     } catch (error) {
-      console.log(error);
       alert("Error uploading image");
     }
   };
@@ -30,16 +29,13 @@ export default function ImageUploader() {
   const fetchUploadURL = async () => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images`
+        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images?filename=${selectedFile.name}`
       );
       setUploadURL(response.data);
     } catch (error) {
-      console.log(error);
+      alert("Error fetching upload url");
     }
   };
-
-  console.log("UPLOADED URL: ", uploadURL);
-  console.log("SELECTED FILE: ", selectedFile);
 
   return (
     <div>
@@ -47,7 +43,7 @@ export default function ImageUploader() {
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleImageChange} />
         <br />
-        <button disabled={!selectedFile} onClick={fetchUploadURL}>
+        <button type="button" disabled={!selectedFile} onClick={fetchUploadURL}>
           Get Upload URL
         </button>
         <br />
