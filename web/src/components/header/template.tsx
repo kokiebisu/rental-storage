@@ -111,16 +111,17 @@ const HeaderTemplate = ({
                   handleLenderDashboardRedirect={handleLenderDashboardRedirect}
                 />
               ) : (
-                <Button label="Sign In" onClick={onSignInClicked} />
+                <Button onClick={onSignInClicked}>Sign In</Button>
               )}
             </div>
           </div>
-          <div className="flex justify-between items-center my-3">
+          {/* Not adding now */}
+          {/* <div className="flex justify-between items-center my-3">
             <div>Sorting Filters here...</div>
             <div className="flex items-center">
-              <Button label="Map Search" onClick={() => alert()} />
+              <Button onClick={() => alert()}>Map Search</Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>

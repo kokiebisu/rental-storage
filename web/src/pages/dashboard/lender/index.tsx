@@ -32,7 +32,7 @@ export default function Dashboard() {
 
   return (
     <DefaultLayout>
-      <div className="w-full h-full px-6 p-12">
+      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
         <div className="h-[256px]">
           <div>
             <h3 className="font-bold text-2xl">Pending Bookings</h3>
@@ -43,7 +43,7 @@ export default function Dashboard() {
         </div>
         <div className="mx-auto mt-10 flex justify-center">
           <Link href="/dashboard/lender/create">
-            <Button onClick={() => {}} label="Add new space" />
+            <Button onClick={() => {}}>Add new space</Button>
           </Link>
         </div>
         <div>

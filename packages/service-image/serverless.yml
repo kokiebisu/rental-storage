@@ -22,12 +22,15 @@ provider:
         path: ./
         file: Dockerfile
         buildArgs:
+  environment:
+    STAGE: ${self:provider.stage}
+    ACCOUNT_ID: ${aws:accountId}
+    PRESIGNED_URL_ALLOW_ACCESS_KEY_ID: ${ssm:/terraform/iam/service-image-presigned-user-access-key-id}
+    PRESIGNED_URL_ALLOW_SECRET_ACCESS_KEY: ${ssm:/terraform/iam/service-image-presigned-user-secret-access-key}
+
 custom:
   namespace: app
   service: image
-  export-env:
-    filename: .env
-    overwrite: true
 
 functions:
   - ${file(./aws/functions/apigateway.yml)}

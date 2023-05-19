@@ -6,6 +6,7 @@ import { Card } from "@/components";
 import { FIND_SPACES_QUERY } from "@/graphql/queries";
 import { apiKeyClient } from "@/clients";
 import { DefaultLayout } from "@/layout";
+import { Spinner } from "@/components/spinner";
 
 export default function LandingPage() {
   const limit = 6;

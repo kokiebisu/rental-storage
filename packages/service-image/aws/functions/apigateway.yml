@@ -2,9 +2,10 @@ GetPresignedURLRest:
   image:
     name: app
     command:
-      - get_presigned_upload_url
+      - get_presigned_upload_url.handler
   name: ${self:provider.stage}-app-${self:custom.service}-rest-get-presigned-url
   events:
     - http:
         path: /images
-        method: post
+        method: get
+        cors: true

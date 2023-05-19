@@ -49,21 +49,21 @@ const AuthModalTemplate = ({
       </div>
       <Group grow>
         <Group position="left" mt="xl">
-          <Button
-            label={isSignInMode ? "Sign Up" : "Sign In"}
-            onClick={handleModeChange}
-          />
+          <Button onClick={handleModeChange}>
+            {isSignInMode ? "Sign Up" : "Sign In"}
+          </Button>
         </Group>
         <Group position="right" mt="xl">
           <Button
-            label="Sign In"
             onClick={() =>
               handleSignIn({
                 emailAddress: emailAddressProps.value,
                 password: passwordProps.value,
               })
             }
-          />
+          >
+            Sign In
+          </Button>
         </Group>
       </Group>
     </>
@@ -114,16 +114,14 @@ const AuthModalTemplate = ({
       </Stepper>
       <Group grow>
         <Group position="left" mt="xl">
-          <Button
-            label={isSignInMode ? "Sign Up" : "Sign In"}
-            onClick={handleModeChange}
-          />
+          <Button onClick={handleModeChange}>
+            {isSignInMode ? "Sign Up" : "Sign In"}
+          </Button>
         </Group>
         <Group position="right" mt="xl">
-          {active !== 0 && <Button label="Back" onClick={handlePrevStep} />}
+          {active !== 0 && <Button onClick={handlePrevStep}>Back</Button>}
           {active == 1 && (
             <Button
-              label="Sign Up"
               onClick={() =>
                 handleSignUp({
                   firstName: firstNameProps.value,
@@ -132,10 +130,12 @@ const AuthModalTemplate = ({
                   password: passwordProps.value,
                 })
               }
-            />
+            >
+              Sign Up
+            </Button>
           )}
           {active != 1 && active != 2 && (
-            <Button label="Next Step" onClick={handleNextStep} />
+            <Button onClick={handleNextStep}>Next Step</Button>
           )}
         </Group>
       </Group>

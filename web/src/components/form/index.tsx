@@ -68,10 +68,9 @@ const BookingForm = ({
       />
 
       <Group position="right" mt="md">
-        <Button
-          label="Send a Booking Request"
-          onClick={() => alert("should make a booking")}
-        />
+        <Button onClick={() => alert("should make a booking")}>
+          Send a Booking Request
+        </Button>
       </Group>
     </div>
   );
