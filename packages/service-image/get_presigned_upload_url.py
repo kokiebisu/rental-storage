@@ -11,7 +11,6 @@ logger.setLevel(logging.INFO)
 def handler(event, _):
     response = _get_presigned_upload_url(
         event['queryStringParameters']['filename'])
-    # return response
     return {
         'statusCode': 200,
         'headers': {
@@ -39,8 +38,8 @@ def _get_presigned_upload_url(filename: str):
     """
     stage = os.environ['STAGE']
     account_id = os.environ['ACCOUNT_ID']
-    access_key_id = os.environ['TERRAFORM_USER_ACCESS_KEY_ID']
-    secret_access_key = os.environ['TERRAFORM_USER_SECRET_ACCESS_KEY']
+    access_key_id = os.environ['PRESIGNED_URL_ALLOW_ACCESS_KEY_ID']
+    secret_access_key = os.environ['PRESIGNED_URL_ALLOW_SECRET_ACCESS_KEY']
     s3_client = boto3.client('s3', aws_access_key_id=access_key_id,
                              aws_secret_access_key=secret_access_key)
     try:

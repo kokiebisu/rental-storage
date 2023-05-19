@@ -25,8 +25,8 @@ provider:
   environment:
     STAGE: ${self:provider.stage}
     ACCOUNT_ID: ${aws:accountId}
-    TERRAFORM_USER_ACCESS_KEY_ID: ${ssm:/terraform/iam/terraform-user-access-key-id}
-    TERRAFORM_USER_SECRET_ACCESS_KEY: ${ssm:/terraform/iam/terraform-user-secret-access-key}
+    PRESIGNED_URL_ALLOW_ACCESS_KEY_ID: ${ssm:/terraform/iam/service-image-presigned-user-access-key-id}
+    PRESIGNED_URL_ALLOW_SECRET_ACCESS_KEY: ${ssm:/terraform/iam/service-image-presigned-user-secret-access-key}
 
 custom:
   namespace: app
