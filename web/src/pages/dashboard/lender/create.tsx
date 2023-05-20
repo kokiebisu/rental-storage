@@ -10,11 +10,9 @@ import {
   Image,
 } from "@mantine/core";
 
-import Button from "@/components/button";
-import { ImageUploader } from "@/components";
+import { ImageUploader, Button } from "@/components";
 
 export default function Dashboard() {
-  const [uploadURL, setUploadURL] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const form = useForm({
@@ -41,13 +39,31 @@ export default function Dashboard() {
   const handleBookRequest = async (event) => {
     event.preventDefault();
 
+    // check if all the input fields are filled
+    const { title, description, streetAddress, zip, city, province, country } =
+      form.values;
+
+    if (
+      !title ||
+      !description ||
+      !streetAddress ||
+      !zip ||
+      !city ||
+      !province ||
+      !country ||
+      !selectedFile
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
+
     try {
       // get the presigned url
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images?filename=${selectedFile.name}`
       );
-      setUploadURL(response.data);
 
+      const uploadURL = response.data;
       // submitting image
       const formData = new FormData();
       Object.keys(uploadURL.fields).forEach((key) => {
@@ -143,11 +159,9 @@ export default function Dashboard() {
               {...form.getInputProps("country")}
             />
           </SimpleGrid>
-          <ImageUploader
-            uploadURL={uploadURL}
-            handleImageChange={handleImageChange}
-          />
-
+          <div className="mt-6">
+            <ImageUploader handleImageChange={handleImageChange} />
+          </div>
           <SimpleGrid
             cols={4}
             breakpoints={[{ maxWidth: "sm", cols: 1 }]}

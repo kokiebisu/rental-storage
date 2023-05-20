@@ -1,7 +1,13 @@
 import { Text } from "@mantine/core";
-import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from "@mantine/dropzone";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 
-export default function ImageUploader({ uploadURL, handleImageChange }) {
+interface ImageUploaderProps {
+  handleImageChange: (files: File[]) => void;
+}
+
+export default function ImageUploader({
+  handleImageChange,
+}: ImageUploaderProps) {
   return (
     <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange}>
       <Text align="center">Drop images here</Text>
