@@ -11,9 +11,18 @@ import {
 } from "@mantine/core";
 
 import { ImageUploader, Button } from "@/components";
+import { useMutation } from "@apollo/client";
+import { SPACE_CREATE_MUTATION } from "@/graphql/mutations/space.graphql";
+import { awsLambdaClient } from "@/clients";
 
 export default function Dashboard() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [createSpace, { error: spaceError }] = useMutation(
+    SPACE_CREATE_MUTATION,
+    {
+      client: awsLambdaClient,
+    }
+  );
 
   const form = useForm({
     initialValues: {
@@ -72,9 +81,37 @@ export default function Dashboard() {
       formData.append("file", selectedFile);
 
       await axios.post(uploadURL.url, formData);
-      alert("Image uploaded successfully!");
+
+      const input = {
+        title,
+        description,
+        location: {
+          address: streetAddress,
+          city,
+          country,
+          countryCode: "CA",
+          phone: "000-0000-0000",
+          province,
+          provinceCode: "BC",
+          zip,
+          coordinate: {
+            latitude: 50,
+            longitude: 50,
+          },
+        },
+        imageUrls: [`${uploadURL.url}${selectedFile.name}`],
+      };
+      // create the space
+      await createSpace({
+        variables: input,
+      });
+
+      if (spaceError) {
+        throw new Error(spaceError.message);
+      }
+      alert("Space created successfully!");
     } catch (error) {
-      alert("Error uploading image");
+      alert("Error creating space");
     }
   };
 
@@ -176,7 +213,7 @@ export default function Dashboard() {
           </SimpleGrid>
           <Group position="center" mt="xl">
             <Button type="submit" size="md">
-              Send Book Request
+              Post Space
             </Button>
           </Group>
         </div>

@@ -25,12 +25,12 @@ export const createSpace = async (
     unknown
   >
 ) => {
-  logger.info(event.arguments, __filename, 24);
+  logger.info(event.arguments, __filename, 28);
   const uid = (event.identity as AppSyncIdentityLambda).resolverContext.uid;
   const input = { ...event.arguments, lenderId: uid };
   const usecase = new CreateSpaceUseCase();
   const response = await usecase.execute(new CreateSpaceCommand(input));
-  logger.info(response, __filename, 29);
+  logger.info(response, __filename, 33);
   return response;
 };
 
