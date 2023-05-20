@@ -174,7 +174,6 @@ export default function Dashboard() {
               />
             ) : null}
           </SimpleGrid>
-          <div>Post the space image here</div>
           <Group position="center" mt="xl">
             <Button type="submit" size="md">
               Send Book Request
