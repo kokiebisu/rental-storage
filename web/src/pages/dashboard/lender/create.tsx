@@ -1,9 +1,15 @@
-import { Group, SimpleGrid, TextInput, Textarea, Title } from "@mantine/core";
-import Button from "@/components/button";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useForm } from "@mantine/form";
+import { Group, SimpleGrid, TextInput, Textarea, Title } from "@mantine/core";
+
+import Button from "@/components/button";
 import { ImageUploader } from "@/components";
 
 export default function Dashboard() {
+  const [uploadURL, setUploadURL] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const form = useForm({
     initialValues: {
       title: "",
@@ -21,14 +27,49 @@ export default function Dashboard() {
     },
   });
 
-  const handleBookRequest = () => {
-    alert(JSON.stringify(form.values));
+  useEffect(() => {
+    if (selectedFile) {
+      const fetchUploadURL = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images?filename=${selectedFile.name}`
+          );
+          setUploadURL(response.data);
+        } catch (error) {
+          alert("Error fetching upload url");
+        }
+      };
+
+      fetchUploadURL();
+    }
+  }, [selectedFile]);
+
+  const handleImageChange = async (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleBookRequest = async (event) => {
+    event.preventDefault();
+
+    // submitting image
+    const formData = new FormData();
+    Object.keys(uploadURL.fields).forEach((key) => {
+      formData.append(key, uploadURL.fields[key]);
+    });
+    formData.append("file", selectedFile);
+
+    try {
+      await axios.post(uploadURL.url, formData);
+      alert("Image uploaded successfully!");
+    } catch (error) {
+      alert("Error uploading image");
+    }
   };
 
   return (
-    <div className="py-12">
-      <div className="max-w-3xl mx-auto px-5 2xl:px-0 w-full">
-        <form onSubmit={form.onSubmit(() => {})}>
+    <form onSubmit={handleBookRequest}>
+      <div className="py-12">
+        <div className="max-w-3xl mx-auto px-5 2xl:px-0 w-full">
           <Title
             order={2}
             size="h1"
@@ -106,15 +147,18 @@ export default function Dashboard() {
               {...form.getInputProps("country")}
             />
           </SimpleGrid>
-        </form>
-        <ImageUploader />
-        <div>Post the space image here</div>
-        <Group position="center" mt="xl">
-          <Button type="submit" size="md" onClick={handleBookRequest}>
-            Send Book Request
-          </Button>
-        </Group>
+          <ImageUploader
+            uploadURL={uploadURL}
+            handleImageChange={handleImageChange}
+          />
+          <div>Post the space image here</div>
+          <Group position="center" mt="xl">
+            <Button type="submit" size="md">
+              Send Book Request
+            </Button>
+          </Group>
+        </div>
       </div>
-    </div>
+    </form>
   );
 }

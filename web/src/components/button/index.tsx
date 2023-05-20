@@ -1,7 +1,7 @@
 import { Button as MantineButton } from "@mantine/core";
 
 export interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   type?: "button" | "reset" | "submit" | undefined;
   size?: string;
   children: React.ReactNode;
