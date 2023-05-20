@@ -1,7 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useForm } from "@mantine/form";
-import { Group, SimpleGrid, TextInput, Textarea, Title } from "@mantine/core";
+import {
+  Group,
+  SimpleGrid,
+  TextInput,
+  Textarea,
+  Title,
+  Image,
+} from "@mantine/core";
 
 import Button from "@/components/button";
 import { ImageUploader } from "@/components";
@@ -27,38 +34,27 @@ export default function Dashboard() {
     },
   });
 
-  useEffect(() => {
-    if (selectedFile) {
-      const fetchUploadURL = async () => {
-        try {
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images?filename=${selectedFile.name}`
-          );
-          setUploadURL(response.data);
-        } catch (error) {
-          alert("Error fetching upload url");
-        }
-      };
-
-      fetchUploadURL();
-    }
-  }, [selectedFile]);
-
-  const handleImageChange = async (event) => {
-    setSelectedFile(event.target.files[0]);
+  const handleImageChange = async (files) => {
+    setSelectedFile(files[0]);
   };
 
   const handleBookRequest = async (event) => {
     event.preventDefault();
 
-    // submitting image
-    const formData = new FormData();
-    Object.keys(uploadURL.fields).forEach((key) => {
-      formData.append(key, uploadURL.fields[key]);
-    });
-    formData.append("file", selectedFile);
-
     try {
+      // get the presigned url
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images?filename=${selectedFile.name}`
+      );
+      setUploadURL(response.data);
+
+      // submitting image
+      const formData = new FormData();
+      Object.keys(uploadURL.fields).forEach((key) => {
+        formData.append(key, uploadURL.fields[key]);
+      });
+      formData.append("file", selectedFile);
+
       await axios.post(uploadURL.url, formData);
       alert("Image uploaded successfully!");
     } catch (error) {
@@ -151,6 +147,19 @@ export default function Dashboard() {
             uploadURL={uploadURL}
             handleImageChange={handleImageChange}
           />
+
+          <SimpleGrid
+            cols={4}
+            breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+            mt={selectedFile ? "xl" : 0}
+          >
+            {selectedFile ? (
+              <Image
+                alt="uploaded image"
+                src={URL.createObjectURL(selectedFile)}
+              />
+            ) : null}
+          </SimpleGrid>
           <div>Post the space image here</div>
           <Group position="center" mt="xl">
             <Button type="submit" size="md">

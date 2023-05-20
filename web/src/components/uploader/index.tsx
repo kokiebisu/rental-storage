@@ -1,18 +1,10 @@
+import { Text } from "@mantine/core";
+import { Dropzone, IMAGE_MIME_TYPE, FileWithPath } from "@mantine/dropzone";
+
 export default function ImageUploader({ uploadURL, handleImageChange }) {
   return (
-    <div>
-      <h3>Upload Image</h3>
-      <input type="file" onChange={handleImageChange} />
-      <br />
-      <br />
-      <br />
-      {uploadURL && (
-        <div>
-          Upload URL: <a href={uploadURL.url}>{uploadURL.url}</a>
-          <br />
-          <br />
-        </div>
-      )}
-    </div>
+    <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange}>
+      <Text align="center">Drop images here</Text>
+    </Dropzone>
   );
 }
