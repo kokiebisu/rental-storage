@@ -37,6 +37,13 @@ export default function Dashboard() {
           <div>
             <h3 className="font-bold text-2xl">Pending Bookings</h3>
           </div>
+          <div>
+            {data.spaces.length > 0
+              ? data.spaces.map((space: Space, index: number) => {
+                  return <div key={index}>{JSON.stringify(space)}</div>;
+                })
+              : null}
+          </div>
         </div>
         <div className="h-[256px]">
           <div className="font-bold text-2xl">Approved Bookings</div>
@@ -45,13 +52,6 @@ export default function Dashboard() {
           <Link href="/dashboard/lender/create">
             <Button onClick={() => {}}>Add new space</Button>
           </Link>
-        </div>
-        <div>
-          {data.spaces.length > 0
-            ? data.spaces.map((space: Space, index: number) => {
-                return <div key={index}>{JSON.stringify(space)}</div>;
-              })
-            : null}
         </div>
       </div>
     </DefaultLayout>
