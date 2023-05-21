@@ -14,12 +14,12 @@ resource "aws_s3_bucket_cors_configuration" "space_profile" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "example" {
+resource "aws_s3_bucket_public_access_block" "space_profile" {
   bucket = aws_s3_bucket.space_profile.id
 
-  block_public_acls       = true
+  block_public_acls       = false
   block_public_policy     = false
-  ignore_public_acls      = true
+  ignore_public_acls      = false
   restrict_public_buckets = false
 }
 
