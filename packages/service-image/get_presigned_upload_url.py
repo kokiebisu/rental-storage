@@ -9,8 +9,8 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event, _):
-    response = _get_presigned_upload_url(
-        event['queryStringParameters']['filename'])
+    logger.info(event)
+    response = _get_presigned_upload_url()
     return {
         'statusCode': 200,
         'headers': {
@@ -23,7 +23,7 @@ def handler(event, _):
     }
 
 
-def _get_presigned_upload_url(filename: str):
+def _get_presigned_upload_url():
     """Generate a presigned URL S3 POST request to upload a file
 
     :param bucket_name: string
@@ -36,6 +36,14 @@ def _get_presigned_upload_url(filename: str):
         fields: Dictionary of form fields and values to submit with the POST
     :return: None if error.
     """
+    def generate_hash():
+        """Generate a hash to be used as filename"""
+        import hashlib
+        import uuid
+        hash_object = hashlib.sha1(uuid.uuid4().bytes)
+        hex_dig = hash_object.hexdigest()
+        return hex_dig
+    hash = generate_hash()
     stage = os.environ['STAGE']
     account_id = os.environ['ACCOUNT_ID']
     access_key_id = os.environ['PRESIGNED_URL_ALLOW_ACCESS_KEY_ID']
@@ -43,10 +51,14 @@ def _get_presigned_upload_url(filename: str):
     s3_client = boto3.client('s3', aws_access_key_id=access_key_id,
                              aws_secret_access_key=secret_access_key)
     try:
-        return s3_client.generate_presigned_post(
+        presigned_url = s3_client.generate_presigned_post(
             Bucket=f'{stage}-{account_id}-space-profile',
-            Key=filename,
+            Key=hash,
             ExpiresIn=3600
         )
+        return {
+            'presignedUrl': presigned_url,
+            'key': hash
+        }
     except ClientError:
         raise
