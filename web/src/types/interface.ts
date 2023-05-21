@@ -1,13 +1,18 @@
 export interface Space {
-  id: number;
-  imageSrc: string;
-  imageAlt: string;
-  href: string;
-  name: string;
-  color: string;
-  price: string;
-  lat: number;
-  lng: number;
+  id: string;
+  title: string;
+  imageUrls: string[];
+  location: Location;
+}
+
+interface Location {
+  address: string;
+  coordinate: Coordinate;
+}
+
+interface Coordinate {
+  latitude: number;
+  longitude: number;
 }
 
 export interface SignUpParams {
