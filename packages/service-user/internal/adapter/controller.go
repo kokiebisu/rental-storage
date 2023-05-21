@@ -73,11 +73,15 @@ func (h *ApiGatewayAdapter) FindUserByEmail(event interface{}) (interface{}, *cu
 		return FindUserByEmailResponsePayload{}, customerror.ErrorHandler.GetParameterError("emailAddress")
 	}
 	user, err := h.service.FindByEmail(emailAddress)
+	if err != nil {
+		logger.Error(err.Error())
+		return FindUserByEmailResponsePayload{}, err
+	}
 	payload := FindUserByEmailResponsePayload{
 		User: user.ToDTO(),
 	}
 	logger.Info("Payload", zap.Any("payload", payload))
-	return payload, err
+	return payload, nil
 
 }
 

@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/kokiebisu/rental-storage/service-authentication/internal/client"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/domain/user"
 	"github.com/kokiebisu/rental-storage/service-authentication/internal/core/port"
@@ -33,52 +34,71 @@ func NewAuthenticationService(tokenService port.TokenService, cryptoService port
 // if it does, it checks if the password matches the hashed password
 // if it does, it generates a token and returns it
 func (s *AuthenticationService) SignIn(emailAddress string, password string) (map[string]domain.Token, *customerror.CustomError) {
-	var e error
+	logger, _ := client.GetLoggerClient()
 	endpoint := os.Getenv("SERVICE_API_ENDPOINT")
 	if endpoint == "" {
+		logger.Error("SERVICE_API_ENDPOINT is not set")
 		endpoint = "http://localhost:1234"
 	}
 	userEndpoint := fmt.Sprintf("%s/users/find-by-email?emailAddress=%s", endpoint, emailAddress)
 	// check if the email address exists in the user db
-	resp, e := http.Get(userEndpoint)
-	if e != nil {
-		return map[string]domain.Token{}, customerror.ErrorHandler.RequestFailError(e)
+	resp, err := http.Get(userEndpoint)
+	if err != nil {
+		logger.Error(err.Error())
+		return map[string]domain.Token{}, customerror.ErrorHandler.RequestFailError(err)
 	}
 	if resp.StatusCode != 200 {
-		return map[string]domain.Token{}, customerror.ErrorHandler.RequestInternalError(e)
+		errPayload := struct {
+			Message string `json:"message"`
+			Reason  string `json:"reason"`
+		}{}
+		logger.Error(resp.Status)
+		if err = json.NewDecoder(resp.Body).Decode(&errPayload); err != nil {
+			return map[string]domain.Token{}, customerror.ErrorHandler.RequestInternalError(err)
+		}
+		return map[string]domain.Token{}, customerror.ErrorHandler.RequestFailError(fmt.Errorf(errPayload.Message))
 	}
 	payload := struct {
 		User user.DTO `json:"user"`
 	}{}
-	if e = json.NewDecoder(resp.Body).Decode(&payload); e != nil {
-		return map[string]domain.Token{}, customerror.ErrorHandler.DecodeError("user service endpoint to user domain", e)
+	if err = json.NewDecoder(resp.Body).Decode(&payload); err != nil {
+		logger.Error(err.Error())
+		return map[string]domain.Token{}, customerror.ErrorHandler.DecodeError("user service endpoint to user domain", err)
 	}
-	matched, err := s.cryptoService.VerifyPassword(payload.User.Password, password)
+	matched, cerr := s.cryptoService.VerifyPassword(payload.User.Password, password)
 	if !matched {
-		return map[string]domain.Token{}, err
+		logger.Error(cerr.Error())
+		return map[string]domain.Token{}, cerr
 	}
 	dayDuration := time.Hour * 24
 
-	at, err := s.tokenService.GenerateAccessToken(payload.User.UId, dayDuration)
-	if err != nil {
-		return map[string]domain.Token{}, err
+	at, cerr := s.tokenService.GenerateAccessToken(payload.User.UId, dayDuration)
+	if cerr != nil {
+		logger.Error(cerr.Error())
+		return map[string]domain.Token{}, cerr
 	}
 
 	// set the access token in the store
-	err = s.tokenStore.SetAccessToken(payload.User.UId, string(at), dayDuration)
-	if err != nil {
-		return map[string]domain.Token{}, err
+	cerr = s.tokenStore.SetAccessToken(payload.User.UId, string(at), dayDuration)
+	if cerr != nil {
+		logger.Error(cerr.Error())
+		return map[string]domain.Token{}, cerr
 	}
-	rt, err := s.tokenService.GenerateRefreshToken(payload.User.UId, dayDuration*7)
-	if err != nil {
-		return map[string]domain.Token{}, err
+	rt, cerr := s.tokenService.GenerateRefreshToken(payload.User.UId, dayDuration*7)
+	if cerr != nil {
+		logger.Error(cerr.Error())
+		return map[string]domain.Token{}, cerr
 	}
 	// set the refresh token in the store
-	err = s.tokenStore.SetRefreshToken(payload.User.UId, string(rt), dayDuration*7)
+	cerr = s.tokenStore.SetRefreshToken(payload.User.UId, string(rt), dayDuration*7)
+	if cerr != nil {
+		logger.Error(cerr.Error())
+		return map[string]domain.Token{}, cerr
+	}
 	return map[string]domain.Token{
 		"access_token":  at,
 		"refresh_token": rt,
-	}, err
+	}, nil
 }
 
 // SignUp checks if the email address exists in the user db
