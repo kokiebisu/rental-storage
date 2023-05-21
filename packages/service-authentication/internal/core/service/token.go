@@ -54,25 +54,24 @@ func (s *TokenService) generateToken(uid string, expiresAt time.Duration) (domai
 // If the claims are expired, it returns an error
 // If the claims are valid, it returns the claims
 func (s *TokenService) VerifyToken(tokenString string) (*domain.Claims, *customerror.CustomError) {
-	token, err := jwt.ParseWithClaims(tokenString, &domain.Claims{}, func(token *jwt.Token) (interface{}, error) {
+	token, _ := jwt.ParseWithClaims(tokenString, &domain.Claims{}, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return []byte(SECRET_KEY), nil
 	})
-	if err != nil {
-		return nil, customerror.ErrorHandler.ClaimParseError(err)
-	}
 	claims, ok := token.Claims.(*domain.Claims)
 	if !ok {
-		return nil, customerror.ErrorHandler.ClaimCastError(err)
+		return nil, customerror.ErrorHandler.ClaimCastError(fmt.Errorf(""))
 	}
 	if claims.UId == "" {
-		return nil, customerror.ErrorHandler.ClaimUIdEmptyError(err)
+		return nil, customerror.ErrorHandler.ClaimUIdEmptyError(fmt.Errorf(""))
 	}
-	if claims.ExpiresAt < time.Now().UTC().Unix() {
-		return nil, customerror.ErrorHandler.ClaimExpiredError(err)
+	timeNow := time.Now().In(time.UTC)
+	expTime := time.Unix(claims.ExpiresAt, 0).In(time.UTC)
+	if expTime.Before(timeNow) {
+		return nil, customerror.ErrorHandler.ClaimExpiredError(fmt.Errorf(""))
 	}
 	return claims, nil
 }

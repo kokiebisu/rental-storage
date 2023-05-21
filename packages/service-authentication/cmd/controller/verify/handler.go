@@ -9,9 +9,9 @@ import (
 // checks if the authorizationToken in the payload is valid
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	c := controller.New()
-	payload, err := c.Verify(request)
-	if err != nil {
-		return controller.SendFailureResponse(err)
+	payload, cerr := c.Verify(request)
+	if cerr != nil {
+		return controller.SendFailureResponse(cerr)
 	}
 	return controller.SendSuccessResponse(payload)
 }

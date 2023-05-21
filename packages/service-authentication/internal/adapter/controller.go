@@ -76,33 +76,38 @@ func (h *ApiGatewayAdapter) SignUp(event interface{}) (interface{}, *customerror
 	}{}
 	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &bodyRequest)
 	if err != nil {
+		logger.Error(err.Error())
 		return SignUpResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}
-	token, err := h.service.SignUp(bodyRequest.EmailAddress, bodyRequest.FirstName, bodyRequest.LastName, bodyRequest.Password)
+	token, cerr := h.service.SignUp(bodyRequest.EmailAddress, bodyRequest.FirstName, bodyRequest.LastName, bodyRequest.Password)
+	if cerr != nil {
+		return SignUpResponsePayload{}, cerr
+	}
 	payload := SignUpResponsePayload{
 		AuthorizationToken: string(token["access_token"]),
 		RefreshToken:       string(token["refresh_token"]),
 	}
 	logger.Info("Payload", zap.Any("payload", payload))
-	return payload, err.(*customerror.CustomError)
+	return payload, nil
 }
 
 func (h *ApiGatewayAdapter) Verify(event interface{}) (interface{}, *customerror.CustomError) {
+	var token string
 	logger, _ := client.GetLoggerClient()
 	logger.Info("Event", zap.Any("event", event))
-	bodyRequest := struct {
-		AuthorizationToken string `json:"authorizationToken"`
-	}{}
-	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &bodyRequest)
-	if err != nil {
-		return VerifyResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
+	token = event.(events.APIGatewayProxyRequest).QueryStringParameters["authorizationToken"]
+	if token == "" {
+		return VerifyResponsePayload{}, customerror.ErrorHandler.QueryParamEmptyError("authorizationToken")
 	}
-	claims, err := h.service.Verify(bodyRequest.AuthorizationToken)
-
+	claims, cerr := h.service.Verify(token)
+	if cerr != nil {
+		logger.Error(cerr.Error())
+		return VerifyResponsePayload{}, cerr
+	}
 	payload := VerifyResponsePayload{
 		UId: claims.UId,
 		Exp: claims.ExpiresAt,
 	}
 	logger.Info("Payload", zap.Any("payload", payload))
-	return payload, err.(*customerror.CustomError)
+	return payload, nil
 }

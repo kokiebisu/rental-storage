@@ -31,5 +31,5 @@ VerifyRest:
   events:
     - http:
         path: /auth/verify
-        method: post
+        method: get
         cors: true
