@@ -69,18 +69,18 @@ export default function Dashboard() {
     try {
       // get the presigned url
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images?filename=${selectedFile.name}`
+        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images`
       );
 
-      const uploadURL = response.data;
+      const { key, presignedUrl } = response.data;
       // submitting image
       const formData = new FormData();
-      Object.keys(uploadURL.fields).forEach((key) => {
-        formData.append(key, uploadURL.fields[key]);
+      Object.keys(presignedUrl.fields).forEach((key) => {
+        formData.append(key, presignedUrl.fields[key]);
       });
       formData.append("file", selectedFile);
 
-      await axios.post(uploadURL.url, formData);
+      await axios.post(presignedUrl.url, formData);
 
       const input = {
         title,
@@ -99,7 +99,7 @@ export default function Dashboard() {
             longitude: 50,
           },
         },
-        imageUrls: [`${uploadURL.url}${selectedFile.name}`],
+        imageUrls: [`${presignedUrl.url}${key}`],
       };
       // create the space
       await createSpace({
