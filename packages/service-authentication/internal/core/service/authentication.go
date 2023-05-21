@@ -67,32 +67,32 @@ func (s *AuthenticationService) SignIn(emailAddress string, password string) (ma
 	}
 	matched, cerr := s.cryptoService.VerifyPassword(payload.User.Password, password)
 	if !matched {
-		logger.Error(err.Error())
+		logger.Error(cerr.Error())
 		return map[string]domain.Token{}, cerr
 	}
 	dayDuration := time.Hour * 24
 
 	at, cerr := s.tokenService.GenerateAccessToken(payload.User.UId, dayDuration)
-	if err != nil {
-		logger.Error(err.Error())
+	if cerr != nil {
+		logger.Error(cerr.Error())
 		return map[string]domain.Token{}, cerr
 	}
 
 	// set the access token in the store
 	cerr = s.tokenStore.SetAccessToken(payload.User.UId, string(at), dayDuration)
 	if cerr != nil {
-		logger.Error(err.Error())
+		logger.Error(cerr.Error())
 		return map[string]domain.Token{}, cerr
 	}
 	rt, cerr := s.tokenService.GenerateRefreshToken(payload.User.UId, dayDuration*7)
-	if err != nil {
-		logger.Error(err.Error())
+	if cerr != nil {
+		logger.Error(cerr.Error())
 		return map[string]domain.Token{}, cerr
 	}
 	// set the refresh token in the store
 	cerr = s.tokenStore.SetRefreshToken(payload.User.UId, string(rt), dayDuration*7)
 	if cerr != nil {
-		logger.Error(err.Error())
+		logger.Error(cerr.Error())
 		return map[string]domain.Token{}, cerr
 	}
 	return map[string]domain.Token{
