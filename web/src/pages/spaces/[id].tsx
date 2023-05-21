@@ -119,7 +119,7 @@ export default function SpaceDetailsPage() {
   const handleMakeBooking = () => {
     makeBooking({
       variables: {
-        description,
+        description: "hard coded description",
         endDate: "2021-09-01T00:00:00.000Z",
         startDate: "2021-09-01T00:00:00.000Z",
         imageUrls:
@@ -201,10 +201,9 @@ export default function SpaceDetailsPage() {
                 onChange={(e) => setMessage(e.target.value)}
               />
               <Group position="right" mt="md">
-                <Button
-                  onClick={handleMakeBooking}
-                  label="Make Booking Request"
-                />
+                <Button onClick={handleMakeBooking}>
+                  Make Booking Request
+                </Button>
               </Group>
             </div>
           </div>

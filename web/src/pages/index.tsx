@@ -7,6 +7,7 @@ import { FIND_SPACES_QUERY } from "@/graphql/queries";
 import { apiKeyClient } from "@/clients";
 import { DefaultLayout } from "@/layout";
 import { Spinner } from "@/components/spinner";
+import { Space } from "@/types/interface";
 
 export default function LandingPage() {
   const limit = 6;
@@ -73,7 +74,7 @@ export default function LandingPage() {
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
               {data.spaces.length > 0
-                ? data.spaces.map((space, index) => {
+                ? data.spaces.map((space: Space, index: number) => {
                     return (
                       <Link href={`/spaces/${space.id}`} key={index}>
                         <Card

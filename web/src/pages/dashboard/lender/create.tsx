@@ -41,11 +41,11 @@ export default function Dashboard() {
     },
   });
 
-  const handleImageChange = async (files) => {
+  const handleImageChange = async (files: any[]) => {
     setSelectedFile(files[0]);
   };
 
-  const handleBookRequest = async (event) => {
+  const handleBookRequest = async (event: any) => {
     event.preventDefault();
 
     // check if all the input fields are filled
