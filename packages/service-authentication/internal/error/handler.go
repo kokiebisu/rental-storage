@@ -121,7 +121,7 @@ func (e *Handler) ClaimUIdEmptyError(err error) *CustomError {
 func (e *Handler) ClaimExpiredError(err error) *CustomError {
 	msg := "claims should have been expired already"
 	return &CustomError{
-		StatusCode: 500,
+		StatusCode: 401,
 		ErrorCode:  "CLAIM_EXPIRED_ERROR",
 		Message:    msg,
 		Reason:     err,
@@ -131,8 +131,8 @@ func (e *Handler) ClaimExpiredError(err error) *CustomError {
 func (e *Handler) CompareHashError(err error) *CustomError {
 	msg := "failed when comparing hash and password"
 	return &CustomError{
-		StatusCode: 500,
-		ErrorCode:  "COMPARE_HASH_ERROR",
+		StatusCode: 401,
+		ErrorCode:  "PASSWORD_INVALID_ERROR",
 		Message:    msg,
 		Reason:     err,
 	}
@@ -195,5 +195,15 @@ func (e *Handler) TokenGenerationError(err error) *CustomError {
 		ErrorCode:  "TOKEN_GENERATION_ERROR",
 		Message:    msg,
 		Reason:     err,
+	}
+}
+
+func (e *Handler) QueryParamEmptyError(param string) *CustomError {
+	msg := "query param " + param + " is empty"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "QUERY_PARAM_EMPTY_ERROR",
+		Message:    msg,
+		Reason:     nil,
 	}
 }
