@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useLazyQuery } from "@apollo/client";
 
 import { awsLambdaClient } from "@/clients";
@@ -26,6 +26,38 @@ export const AuthContextProvider = ({ children }: any) => {
     client: awsLambdaClient,
     fetchPolicy: "no-cache",
   });
+
+  // check if the bearerToken is still valid
+  useEffect(() => {
+    const checkToken = async () => {
+      const bearerToken = localStorage.getItem("bearerToken");
+      if (bearerToken) {
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/auth/verify?authorizationToken=${bearerToken}`
+          );
+          if (response.status !== 200) {
+            localStorage.removeItem("bearerToken");
+            localStorage.removeItem("user");
+          }
+        } catch (err: unknown) {
+          if (axios.isAxiosError(err)) {
+            console.log(err.response!.status);
+            switch (err.response!.status) {
+              case 401:
+                localStorage.removeItem("bearerToken");
+                localStorage.removeItem("user");
+                fetch();
+                break;
+              default:
+                break;
+            }
+          }
+        }
+      }
+    };
+    checkToken();
+  }, [fetch]);
 
   useEffect(() => {
     const value = localStorage.getItem("user");
