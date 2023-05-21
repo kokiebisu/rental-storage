@@ -47,16 +47,21 @@ func (h *ApiGatewayAdapter) SignIn(event interface{}) (interface{}, *customerror
 
 	err := json.Unmarshal([]byte(event.(events.APIGatewayProxyRequest).Body), &bodyRequest)
 	if err != nil {
+		logger.Error(err.Error())
 		return SignInResponsePayload{}, customerror.ErrorHandler.UnmarshalError("body", err)
 	}
 
-	token, err := h.service.SignIn(bodyRequest.EmailAddress, bodyRequest.Password)
+	token, cerr := h.service.SignIn(bodyRequest.EmailAddress, bodyRequest.Password)
+	if cerr != nil {
+		logger.Error(cerr.Error())
+		return SignInResponsePayload{}, cerr
+	}
 	payload := SignInResponsePayload{
 		AuthorizationToken: string(token["access_token"]),
 		RefreshToken:       string(token["refresh_token"]),
 	}
 	logger.Info("Payload", zap.Any("payload", payload))
-	return payload, err.(*customerror.CustomError)
+	return payload, cerr
 }
 
 func (h *ApiGatewayAdapter) SignUp(event interface{}) (interface{}, *customerror.CustomError) {

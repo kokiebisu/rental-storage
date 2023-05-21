@@ -24,6 +24,7 @@ export const AuthContextProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | null>(null);
   const [fetch, { data, loading, error }] = useLazyQuery(PROFILE_QUERY, {
     client: awsLambdaClient,
+    fetchPolicy: "no-cache",
   });
 
   useEffect(() => {
@@ -35,7 +36,9 @@ export const AuthContextProvider = ({ children }: any) => {
 
   useEffect(() => {
     if (!loading && !error && data) {
-      localStorage.setItem("user", JSON.stringify(data.profile));
+      if (data.profile) {
+        localStorage.setItem("user", JSON.stringify(data.profile));
+      }
       setUser(data.profile);
     }
   }, [data, error, loading]);
@@ -100,7 +103,7 @@ export const AuthContextProvider = ({ children }: any) => {
   const signout = async () => {
     localStorage.removeItem("bearerToken");
     localStorage.removeItem("user");
-    setUser(null);
+    fetch();
   };
 
   return (

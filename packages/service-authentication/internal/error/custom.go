@@ -10,7 +10,7 @@ type CustomError struct {
 type ErrorResponsePayload struct {
 	ErrorCode string `json:"errorCode"`
 	Message   string `json:"message"`
-	Reason    error  `json:"reason"`
+	Reason    string `json:"reason"`
 }
 
 func (e *CustomError) Error() string {
@@ -21,6 +21,6 @@ func (e *CustomError) GetPayload() ErrorResponsePayload {
 	return ErrorResponsePayload{
 		ErrorCode: e.ErrorCode,
 		Message:   e.Message,
-		Reason:    e.Reason,
+		Reason:    e.Reason.Error(),
 	}
 }

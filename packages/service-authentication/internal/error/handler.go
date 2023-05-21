@@ -177,3 +177,23 @@ func (e *Handler) RedisTokenStoreError(err error) *CustomError {
 		Reason:     err,
 	}
 }
+
+func (e *Handler) PasswordNotMatchedError(err error) *CustomError {
+	msg := "password not matched"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "PASSWORD_NOT_MATCHED_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}
+
+func (e *Handler) TokenGenerationError(err error) *CustomError {
+	msg := "unable to generate token"
+	return &CustomError{
+		StatusCode: 500,
+		ErrorCode:  "TOKEN_GENERATION_ERROR",
+		Message:    msg,
+		Reason:     err,
+	}
+}
