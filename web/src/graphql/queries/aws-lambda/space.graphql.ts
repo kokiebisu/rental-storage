@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
  * AWS LAMBDA Query
  */
 export const FIND_SPACES_BY_LENDER_QUERY = gql`
-  query Query($filter: SpaceFilter) {
+  query FindSpacesByLenderQuery($filter: SpaceFilter) {
     spaces(filter: $filter) {
       id
       imageUrls

@@ -18,7 +18,6 @@ export default function LandingPage() {
         limit,
       },
     },
-    fetchPolicy: "cache-and-network",
   });
 
   useEffect(() => {
