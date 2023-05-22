@@ -4,7 +4,7 @@ import { gql } from "@apollo/client";
  * API KEY Query
  */
 export const FIND_SPACES_QUERY = gql`
-  query MyQuery($filter: SpaceFilter) {
+  query Query($filter: SpaceFilter) {
     spaces(filter: $filter) {
       id
       title
@@ -20,7 +20,7 @@ export const FIND_SPACES_QUERY = gql`
  * API KEY
  */
 export const FIND_SPACE_QUERY = gql`
-  query MyQuery($id: ID!) {
+  query Query($id: ID!) {
     space(id: $id) {
       createdAt
       description

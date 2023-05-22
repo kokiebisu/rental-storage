@@ -14,9 +14,11 @@ import { ImageUploader, Button } from "@/components";
 import { useMutation } from "@apollo/client";
 import { SPACE_CREATE_MUTATION } from "@/graphql/mutations/space.graphql";
 import { awsLambdaClient } from "@/clients";
+import { useRouter } from "next/router";
 
 export default function Dashboard() {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const router = useRouter();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [createSpace, { error: spaceError }] = useMutation(
     SPACE_CREATE_MUTATION,
     {
@@ -42,7 +44,7 @@ export default function Dashboard() {
   });
 
   const handleImageChange = async (files: any[]) => {
-    setSelectedFile(files[0]);
+    setSelectedFiles([...selectedFiles, files[0]]);
   };
 
   const handleBookRequest = async (event: any) => {
@@ -60,27 +62,30 @@ export default function Dashboard() {
       !city ||
       !province ||
       !country ||
-      !selectedFile
+      !selectedFiles.length
     ) {
       alert("Please fill all the fields");
       return;
     }
 
     try {
-      // get the presigned url
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images`
-      );
+      const imageUrls: string[] = [];
+      const promises = selectedFiles.map(async (selectedFile) => {
+        // get the presigned url
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_APIGATEWAY_ENDPOINT}/images`
+        );
 
-      const { key, presignedUrl } = response.data;
-      // submitting image
-      const formData = new FormData();
-      Object.keys(presignedUrl.fields).forEach((key) => {
-        formData.append(key, presignedUrl.fields[key]);
+        const { key, presignedUrl } = response.data;
+        await uploadImage(presignedUrl, selectedFile);
+
+        if (spaceError) {
+          throw new Error(spaceError.message);
+        }
+        imageUrls.push(`${presignedUrl.url}${key}`);
       });
-      formData.append("file", selectedFile);
 
-      await axios.post(presignedUrl.url, formData);
+      await Promise.all(promises);
 
       const input = {
         title,
@@ -99,20 +104,27 @@ export default function Dashboard() {
             longitude: 50,
           },
         },
-        imageUrls: [`${presignedUrl.url}${key}`],
+        imageUrls,
       };
-      // create the space
+
       await createSpace({
         variables: input,
       });
-
-      if (spaceError) {
-        throw new Error(spaceError.message);
-      }
-      alert("Space created successfully!");
+      router.push("/");
     } catch (error) {
       alert("Error creating space");
     }
+  };
+
+  // submitting image
+  const uploadImage = async (presignedUrl: any, selectedFile: any) => {
+    const formData = new FormData();
+    Object.keys(presignedUrl.fields).forEach((key) => {
+      formData.append(key, presignedUrl.fields[key]);
+    });
+    formData.append("file", selectedFile);
+
+    await axios.post(presignedUrl.url, formData);
   };
 
   return (
@@ -202,14 +214,17 @@ export default function Dashboard() {
           <SimpleGrid
             cols={4}
             breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            mt={selectedFile ? "xl" : 0}
+            mt={selectedFiles.length > 0 ? "xl" : 0}
           >
-            {selectedFile ? (
-              <Image
-                alt="uploaded image"
-                src={URL.createObjectURL(selectedFile)}
-              />
-            ) : null}
+            {selectedFiles.length
+              ? selectedFiles.map((selectedFile: any, index: number) => (
+                  <Image
+                    key={index}
+                    alt="uploaded image"
+                    src={URL.createObjectURL(selectedFile)}
+                  />
+                ))
+              : null}
           </SimpleGrid>
           <Group position="center" mt="xl">
             <Button type="submit" size="md">

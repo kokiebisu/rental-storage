@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const PROFILE_QUERY = gql`
-  query MyQuery {
+  query Query {
     profile {
       id
     }
@@ -9,7 +9,7 @@ export const PROFILE_QUERY = gql`
 `;
 
 export const FIND_MY_BOOKINGS_QUERY = gql`
-  query MyQuery {
+  query Query {
     profile {
       bookings {
         pending {

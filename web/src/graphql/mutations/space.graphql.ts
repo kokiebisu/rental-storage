@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const SPACE_CREATE_MUTATION = gql`
-  mutation MyMutation(
+  mutation Mutation(
     $title: String
     $location: LocationInput
     $imageUrls: [String]

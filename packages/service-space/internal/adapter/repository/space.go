@@ -208,7 +208,7 @@ func (r *SpaceRepository) FindById(uid string) (space.Entity, *customerror.Custo
 				},
 			},
 			Description: description,
-			ImageUrls:   strings.Split("imageUrlsString", ";"),
+			ImageUrls:   strings.Split("", ";"),
 			CreatedAt:   createdAt,
 			UpdatedAt:   updatedAt,
 		}.ToEntity()

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import Link from "next/link";
-import { useQuery } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client";
 
 import { Card } from "@/components";
 import { FIND_SPACES_QUERY } from "@/graphql/queries";
@@ -19,6 +18,7 @@ export default function LandingPage() {
         limit,
       },
     },
+    fetchPolicy: "cache-and-network",
   });
 
   useEffect(() => {
@@ -76,13 +76,13 @@ export default function LandingPage() {
               {data.spaces.length > 0
                 ? data.spaces.map((space: Space, index: number) => {
                     return (
-                      <Link href={`/spaces/${space.id}`} key={index}>
-                        <Card
-                          title={space.title}
-                          address={space.location.address}
-                          imageUrls={space.imageUrls}
-                        />
-                      </Link>
+                      <Card
+                        key={index}
+                        id={space.id}
+                        title={space.title}
+                        address={space.location.address}
+                        imageUrls={space.imageUrls}
+                      />
                     );
                   })
                 : null}

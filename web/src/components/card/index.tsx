@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { IconStar } from "@tabler/icons-react";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   price: {
@@ -50,12 +51,13 @@ const images = [
 ];
 
 export interface CardProps {
+  id: string;
   title: string;
   address: string;
   imageUrls: string[];
 }
 
-const CarouselCard = ({ title, address, imageUrls }: CardProps) => {
+const CarouselCard = ({ id, title, address, imageUrls }: CardProps) => {
   const { classes } = useStyles();
 
   const slides = imageUrls.map((image) => (
@@ -80,36 +82,37 @@ const CarouselCard = ({ title, address, imageUrls }: CardProps) => {
         </Carousel>
       </Card.Section>
 
-      <Group position="apart" mt="lg">
-        <Text fw={500} fz="lg">
-          {title}
+      <Link href={`/spaces/${id}`}>
+        <Group position="apart" mt="lg">
+          <Text fw={500} fz="lg">
+            {title}
+          </Text>
+          <Group spacing={5}>
+            <IconStar size="1rem" />
+            <Text fz="xs" fw={500}>
+              4.78
+            </Text>
+          </Group>
+        </Group>
+
+        <Text fz="sm" c="dimmed" mt="sm">
+          {address}
         </Text>
 
-        <Group spacing={5}>
-          <IconStar size="1rem" />
-          <Text fz="xs" fw={500}>
-            4.78
-          </Text>
+        <Group position="apart" mt="md">
+          <div>
+            <Text fz="xl" span fw={500} className={classes.price}>
+              397$
+            </Text>
+            <Text span fz="sm" c="dimmed">
+              {" "}
+              / night
+            </Text>
+          </div>
+
+          <Button radius="md">Book now</Button>
         </Group>
-      </Group>
-
-      <Text fz="sm" c="dimmed" mt="sm">
-        {address}
-      </Text>
-
-      <Group position="apart" mt="md">
-        <div>
-          <Text fz="xl" span fw={500} className={classes.price}>
-            397$
-          </Text>
-          <Text span fz="sm" c="dimmed">
-            {" "}
-            / night
-          </Text>
-        </div>
-
-        <Button radius="md">Book now</Button>
-      </Group>
+      </Link>
     </Card>
   );
 };
