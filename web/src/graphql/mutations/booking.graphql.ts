@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const MAKE_BOOKING_MUTATION = gql`
-  mutation Mutation(
+  mutation BookingCreateMutation(
     $description: String = ""
     $endDate: String = ""
     $imageUrls: [String!] = ""

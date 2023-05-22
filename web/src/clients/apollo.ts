@@ -25,6 +25,19 @@ const getAuthOption = (isAuthorized: boolean): AuthOptions => {
     };
   }
 };
+const cache = new InMemoryCache({
+  typePolicies: {
+    Space: {
+      fields: {
+        imageUrls: {
+          merge(existing, incoming) {
+            return existing || incoming;
+          },
+        },
+      },
+    },
+  },
+});
 
 export const getBearerToken = () => {
   const token =
@@ -62,7 +75,7 @@ export const apiKeyClient: ApolloClient<NormalizedCacheObject> =
         new HttpLink({ uri: url })
       ),
     ]),
-    cache: new InMemoryCache(),
+    cache,
     connectToDevTools: true,
   });
 
@@ -85,6 +98,6 @@ export const awsLambdaClient: ApolloClient<NormalizedCacheObject> =
         ),
       ])
     ),
-    cache: new InMemoryCache(),
+    cache,
     connectToDevTools: true,
   });
