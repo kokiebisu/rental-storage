@@ -11,11 +11,56 @@
 
 # ssh -i <path-to-key-file> -N -L localhost:5432:<your-rds-endpoint>:5432 ec2-user@<ec2-instance-public-ip>
 
+# ssh -i ~/.ssh/id_rsa_rental_storage_ec2 -N -L localhost:5432:local-rental-storage-user-db.ch5djrw9kohl.us-east-1.rds.amazonaws.com:5432 ubuntu@52.91.32.57
+
+
 # Replace <path-to-key-file> with the path to your private key file, <your-rds-endpoint> with your RDS instance endpoint, and <ec2-instance-public-ip> with the public IP address of your EC2 instance. This command forwards all traffic on localhost:5432 to your RDS instance’s PostgreSQL port.
 
 # Access the RDS instance via PGAdmin:
 # Now you can launch PGAdmin and connect to your RDS database through the forwarded port using the credentials provided by AWS. Make sure to specify localhost as the server hostname and 5432 as the port number.
 # In summary, configuring RDS to allow access to PGAdmin requires setting up an EC2 instance as a bastion host to forward traffic from your local machine to the RDS instance. This approach adds an additional layer of security by ensuring that only authorized traffic can reach your RDS instance, helping to protect your database from unauthorized access.
+
+resource "aws_spot_instance_request" "bastion_host" {
+    ami           = "ami-007855ac798b5175e"
+    instance_type = "t2.micro"
+    key_name = aws_key_pair.my_keypair.key_name
+    # vpc_security_group_ids = [var.security_group_id]
+    security_groups = [var.security_group_id]
+    subnet_id = var.primary_public_subnet_id
+    associate_public_ip_address = true
+
+    instance_interruption_behavior = "stop"
+    spot_price = "0.005"
+    spot_type = "persistent"
+    
+    wait_for_fulfillment = true
+
+    instance_initiated_shutdown_behavior = "st"
+
+    # # Block until running to retrieve instance details
+    # provisioner "local-exec" {
+    #   command = "echo ${aws_spot_instance_request.bastion_host.public_ip} > bastion_host_public_ip.txt"
+    # }
+}
+
+# generates a json with the rds endpoints
+# this will be used to set up an ssh tunnel via bastion
+# to connect from local
+resource "local_file" "aws_spot_instance_request" {
+  filename = "aws_spot_instance_request.json"
+  content  = jsonencode({
+    endpoint = "${aws_spot_instance_request.bastion_host.public_ip}"
+  })
+}
+
+
+
+
+
+
+
+
+
 
 # use this module to create an ec2 instance for aws resource validation
 # resource "aws_instance" "bastion" {
@@ -38,7 +83,7 @@
 #   }
 # }
 
-# resource "aws_key_pair" "my_keypair" {
-#   key_name   = "my_keypair"
-#   public_key = file("~/.ssh/id_rsa_rental_storage_ec2.pub")
-# }
+resource "aws_key_pair" "my_keypair" {
+  key_name   = "my_keypair"
+  public_key = file("~/.ssh/id_rsa_rental_storage_ec2.pub")
+}
