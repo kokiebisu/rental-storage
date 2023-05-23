@@ -1,9 +1,9 @@
 import { PasswordInput as MantinePasswordInput } from "@mantine/core";
 
-export interface PasswordInputProps {
+export type PasswordInputProps = {
   value: string;
   onChange: () => void;
-}
+};
 
 const PasswordInput = ({ value, onChange }: PasswordInputProps) => {
   return (

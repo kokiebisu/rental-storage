@@ -25,19 +25,7 @@ const getAuthOption = (isAuthorized: boolean): AuthOptions => {
     };
   }
 };
-const cache = new InMemoryCache({
-  typePolicies: {
-    Space: {
-      fields: {
-        imageUrls: {
-          merge(existing, incoming) {
-            return existing || incoming;
-          },
-        },
-      },
-    },
-  },
-});
+const cache = new InMemoryCache();
 
 export const getBearerToken = () => {
   const token =

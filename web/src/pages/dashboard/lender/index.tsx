@@ -32,26 +32,28 @@ export default function Dashboard() {
 
   return (
     <DefaultLayout>
-      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
-        <div className="h-[256px]">
-          <div>
-            <h3 className="font-bold text-2xl">Pending Bookings</h3>
+      <div className="max-w-8xl mx-auto">
+        <div className="px-12 2xl:px-0">
+          <div className="h-[256px]">
+            <div>
+              <h3 className="font-bold text-2xl">Pending Bookings</h3>
+            </div>
+            <div>
+              {data.spaces.length > 0
+                ? data.spaces.map((space: Space, index: number) => {
+                    return <div key={index}>{JSON.stringify(space)}</div>;
+                  })
+                : null}
+            </div>
           </div>
-          <div>
-            {data.spaces.length > 0
-              ? data.spaces.map((space: Space, index: number) => {
-                  return <div key={index}>{JSON.stringify(space)}</div>;
-                })
-              : null}
+          <div className="h-[256px]">
+            <div className="font-bold text-2xl">Approved Bookings</div>
           </div>
-        </div>
-        <div className="h-[256px]">
-          <div className="font-bold text-2xl">Approved Bookings</div>
-        </div>
-        <div className="mx-auto mt-10 flex justify-center">
-          <Link href="/dashboard/lender/create">
-            <Button onClick={() => {}}>Add new space</Button>
-          </Link>
+          <div className="mx-auto mt-10 flex justify-center">
+            <Link href="/dashboard/lender/create">
+              <Button onClick={() => {}}>Add new space</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </DefaultLayout>

@@ -130,107 +130,109 @@ export default function Dashboard() {
   return (
     <form onSubmit={handleBookRequest}>
       <div className="py-12">
-        <div className="max-w-3xl mx-auto px-5 2xl:px-0 w-full">
-          <Title
-            order={2}
-            size="h1"
-            sx={(theme) => ({
-              fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-            })}
-            weight={900}
-            align="center"
-          >
-            Create a Listing
-          </Title>
-          <TextInput
-            mt="md"
-            label="Title"
-            placeholder="Your title"
-            name="title"
-            variant="filled"
-            {...form.getInputProps("title")}
-          />
-          <Textarea
-            mt="md"
-            label="Description"
-            placeholder="Your description"
-            maxRows={10}
-            minRows={5}
-            autosize
-            name="description"
-            variant="filled"
-            {...form.getInputProps("description")}
-          />
-          <SimpleGrid
-            cols={2}
-            mt="md"
-            breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-          >
+        <div className="max-w-3xl mx-auto">
+          <div className="px-12 2xl:px-0">
+            <Title
+              order={2}
+              size="h1"
+              sx={(theme) => ({
+                fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+              })}
+              weight={900}
+              align="center"
+            >
+              Create a Listing
+            </Title>
             <TextInput
-              label="Street Address"
-              placeholder="Your street addresses"
-              name="streetAddress"
+              mt="md"
+              label="Title"
+              placeholder="Your title"
+              name="title"
               variant="filled"
-              {...form.getInputProps("streetAddress")}
+              {...form.getInputProps("title")}
             />
-            <TextInput
-              label="Zip"
-              placeholder="Zip"
-              name="zip"
+            <Textarea
+              mt="md"
+              label="Description"
+              placeholder="Your description"
+              maxRows={10}
+              minRows={5}
+              autosize
+              name="description"
               variant="filled"
-              {...form.getInputProps("zip")}
+              {...form.getInputProps("description")}
             />
-          </SimpleGrid>
-          <SimpleGrid
-            cols={3}
-            mt="md"
-            breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-          >
-            <TextInput
-              label="City"
-              placeholder="City"
-              name="city"
-              variant="filled"
-              {...form.getInputProps("city")}
-            />
-            <TextInput
-              label="Province"
-              placeholder="Province"
-              name="province"
-              variant="filled"
-              {...form.getInputProps("province")}
-            />
-            <TextInput
-              label="Country"
-              placeholder="Country"
-              name="country"
-              variant="filled"
-              {...form.getInputProps("country")}
-            />
-          </SimpleGrid>
-          <div className="mt-6">
-            <ImageUploader handleImageChange={handleImageChange} />
+            <SimpleGrid
+              cols={2}
+              mt="md"
+              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+            >
+              <TextInput
+                label="Street Address"
+                placeholder="Your street addresses"
+                name="streetAddress"
+                variant="filled"
+                {...form.getInputProps("streetAddress")}
+              />
+              <TextInput
+                label="Zip"
+                placeholder="Zip"
+                name="zip"
+                variant="filled"
+                {...form.getInputProps("zip")}
+              />
+            </SimpleGrid>
+            <SimpleGrid
+              cols={3}
+              mt="md"
+              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+            >
+              <TextInput
+                label="City"
+                placeholder="City"
+                name="city"
+                variant="filled"
+                {...form.getInputProps("city")}
+              />
+              <TextInput
+                label="Province"
+                placeholder="Province"
+                name="province"
+                variant="filled"
+                {...form.getInputProps("province")}
+              />
+              <TextInput
+                label="Country"
+                placeholder="Country"
+                name="country"
+                variant="filled"
+                {...form.getInputProps("country")}
+              />
+            </SimpleGrid>
+            <div className="mt-6">
+              <ImageUploader handleImageChange={handleImageChange} />
+            </div>
+            <SimpleGrid
+              cols={4}
+              breakpoints={[{ maxWidth: "sm", cols: 1 }]}
+              mt={selectedFiles.length > 0 ? "xl" : 0}
+            >
+              {selectedFiles.length
+                ? selectedFiles.map((selectedFile: any, index: number) => (
+                    <Image
+                      key={index}
+                      alt="uploaded image"
+                      src={URL.createObjectURL(selectedFile)}
+                    />
+                  ))
+                : null}
+            </SimpleGrid>
+            <Group position="center" mt="xl">
+              <Button type="submit" size="md">
+                Post Space
+              </Button>
+            </Group>
           </div>
-          <SimpleGrid
-            cols={4}
-            breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-            mt={selectedFiles.length > 0 ? "xl" : 0}
-          >
-            {selectedFiles.length
-              ? selectedFiles.map((selectedFile: any, index: number) => (
-                  <Image
-                    key={index}
-                    alt="uploaded image"
-                    src={URL.createObjectURL(selectedFile)}
-                  />
-                ))
-              : null}
-          </SimpleGrid>
-          <Group position="center" mt="xl">
-            <Button type="submit" size="md">
-              Post Space
-            </Button>
-          </Group>
         </div>
       </div>
     </form>

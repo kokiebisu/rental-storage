@@ -1,10 +1,10 @@
 import { Modal as MantineModal, useMantineTheme } from "@mantine/core";
 
-export interface ModalContainerProps {
+export type ModalContainerProps = {
   opened: boolean;
   close: () => void;
   children: React.ReactNode;
-}
+};
 
 const ModalContainer = ({ opened, close, children }: ModalContainerProps) => {
   const theme = useMantineTheme();

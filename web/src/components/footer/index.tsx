@@ -1,11 +1,4 @@
-import {
-  createStyles,
-  Text,
-  Container,
-  ActionIcon,
-  Group,
-  rem,
-} from "@mantine/core";
+import { createStyles, Text, ActionIcon, Group, rem } from "@mantine/core";
 import {
   IconBrandTwitter,
   IconBrandYoutube,
@@ -144,31 +137,35 @@ const FooterLinks = () => {
 
   return (
     <footer className={classes.footer}>
-      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
-        <div className={classes.logo}>
-          <MantineLogo size={30} />
-          <Text size="xs" color="dimmed" className={classes.description}>
-            Build fully functional accessible web applications faster than ever
-          </Text>
+      <div className="max-w-8xl mx-auto">
+        <div className="px-12 2xl:px-0">
+          <div className={classes.logo}>
+            <MantineLogo size={30} />
+            <Text size="xs" color="dimmed" className={classes.description}>
+              Build fully functional accessible web applications faster than
+              ever
+            </Text>
+          </div>
+          <div className={classes.groups}>{groups}</div>
         </div>
-        <div className={classes.groups}>{groups}</div>
       </div>
-      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
-        <Text color="dimmed" size="sm">
-          © 2020 mantine.dev. All rights reserved.
-        </Text>
-
-        <Group spacing={0} className={classes.social} position="right" noWrap>
-          <ActionIcon size="lg">
-            <IconBrandTwitter size="1.05rem" stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon size="lg">
-            <IconBrandYoutube size="1.05rem" stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon size="lg">
-            <IconBrandInstagram size="1.05rem" stroke={1.5} />
-          </ActionIcon>
-        </Group>
+      <div className="max-w-8xl mx-auto">
+        <div className="px-12 2xl:px-0">
+          <Text color="dimmed" size="sm">
+            © 2020 mantine.dev. All rights reserved.
+          </Text>
+          <Group spacing={0} className={classes.social} position="right" noWrap>
+            <ActionIcon size="lg">
+              <IconBrandTwitter size="1.05rem" stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon size="lg">
+              <IconBrandYoutube size="1.05rem" stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon size="lg">
+              <IconBrandInstagram size="1.05rem" stroke={1.5} />
+            </ActionIcon>
+          </Group>
+        </div>
       </div>
     </footer>
   );
