@@ -10,7 +10,7 @@ interface SignUpParams {
   password: string;
 }
 
-export interface AuthModalTemplateProps {
+export type AuthModalTemplateProps = {
   isSignInMode: boolean;
   firstNameProps: any;
   lastNameProps: any;
@@ -22,7 +22,7 @@ export interface AuthModalTemplateProps {
   handleSignIn: (userInfo: SignInParams) => void;
   handleNextStep: () => void;
   handlePrevStep: () => void;
-}
+};
 
 const AuthModalTemplate = ({
   isSignInMode,

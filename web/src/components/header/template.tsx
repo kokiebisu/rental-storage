@@ -95,8 +95,8 @@ const HeaderTemplate = ({
 
   return (
     <header className="border-b-gray-200 border-b md:px-0">
-      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
-        <div>
+      <div className="max-w-8xl mx-auto">
+        <div className="px-12 2xl:px-0">
           <div className="flex justify-between items-center my-3">
             <div>
               <Link href="/">Rental Storage</Link>

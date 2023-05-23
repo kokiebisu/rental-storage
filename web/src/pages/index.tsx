@@ -58,33 +58,35 @@ export default function LandingPage() {
   return (
     <DefaultLayout>
       <main>
-        <div className="py-12 max-w-7xl mx-auto px-5 2xl:px-0 w-full">
-          <section className="pb-12">
-            <h3 className="text-3xl font-bold">Near your area</h3>
-            <div className="mt-4">
-              <h5>
-                Refine your Canada real estate search by price, bedroom, or type
-                (house, townhouse, or condo). View up-to-date MLS® listings in
-                Canada.
-              </h5>
-            </div>
-            <div className="mt-4">
-              <h5>1 storage available in Canada</h5>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-              {data.spaces.length > 0
-                ? data.spaces.map((space: Space, index: number) => {
-                    return (
-                      <Card
-                        key={index}
-                        id={space.id}
-                        title={space.title}
-                        address={space.location.address}
-                        imageUrls={space.imageUrls}
-                      />
-                    );
-                  })
-                : null}
+        <div className="py-12 max-w-8xl mx-auto">
+          <section className="px-12 2xl:px-0">
+            <div className="pb-12">
+              <h3 className="text-3xl font-bold">Near your area</h3>
+              <div className="mt-4">
+                <h5>
+                  Refine your Canada real estate search by price, bedroom, or
+                  type (house, townhouse, or condo). View up-to-date MLS®
+                  listings in Canada.
+                </h5>
+              </div>
+              <div className="mt-4">
+                <h5>1 storage available in Canada</h5>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+                {data.spaces.length > 0
+                  ? data.spaces.map((space: Space, index: number) => {
+                      return (
+                        <Card
+                          key={index}
+                          id={space.id}
+                          title={space.title}
+                          address={space.location.address}
+                          imageUrls={space.imageUrls}
+                        />
+                      );
+                    })
+                  : null}
+              </div>
             </div>
           </section>
         </div>

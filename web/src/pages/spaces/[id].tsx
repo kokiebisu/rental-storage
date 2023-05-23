@@ -141,70 +141,69 @@ export default function SpaceDetailsPage() {
     return <div>error</div>;
   }
 
-  const icons = social.map((Icon, index) => (
-    <ActionIcon
-      key={index}
-      size={28}
-      className={classes.social}
-      variant="transparent"
-    >
-      <Icon size="1.4rem" stroke={1.5} />
-    </ActionIcon>
-  ));
-
   const {} = spaceData;
 
   return (
     <DefaultLayout>
       <div className="mb-12">
-        <Grid />
+        <Grid
+          imageUrls={spaceData.space.imageUrls}
+          title={spaceData.space.title}
+        />
       </div>
-      <div className="max-w-7xl mx-auto px-5 2xl:px-0 w-full">
-        <div className="flex">
-          <div className="flex-1 pr-12">
-            <div className="mb-4">
-              <h2 className="font-bold text-3xl">{spaceData.space.title}</h2>
+      <div className="max-w-8xl mx-auto">
+        <div className="px-12 2xl:px-0">
+          <div className="flex">
+            <div className="flex-1 pr-12">
+              <div className="mb-4">
+                <h2 className="font-bold text-3xl">{spaceData.space.title}</h2>
+              </div>
+              <div className="mb-12">{spaceData.space.description}</div>
+              <div>
+                <Group position="center">
+                  <DatePicker
+                    type="range"
+                    allowSingleDateInRange
+                    value={date}
+                    onChange={setDate}
+                  />
+                </Group>
+              </div>
             </div>
-            <div className="mb-12">{spaceData.space.description}</div>
-            <div>
-              {" "}
-              <Group position="center">
-                <DatePicker
-                  type="range"
-                  allowSingleDateInRange
-                  value={date}
-                  onChange={setDate}
+            <div className="w-[450px]">
+              <div className={classes.form}>
+                <TextInput
+                  label="Email"
+                  placeholder="your@email.com"
+                  required
+                  classNames={{
+                    input: classes.input,
+                    label: classes.inputLabel,
+                  }}
                 />
-              </Group>
-            </div>
-          </div>
-          <div className="w-[450px]">
-            <div className={classes.form}>
-              <TextInput
-                label="Email"
-                placeholder="your@email.com"
-                required
-                classNames={{ input: classes.input, label: classes.inputLabel }}
-              />
-              <TextInput
-                label="Name"
-                placeholder="John Doe"
-                mt="md"
-                classNames={{ input: classes.input, label: classes.inputLabel }}
-              />
-              <Textarea
-                required
-                label="Your message"
-                placeholder="I want to book your place..."
-                minRows={4}
-                mt="md"
-                onChange={(e) => setMessage(e.target.value)}
-              />
-              <Group position="right" mt="md">
-                <Button onClick={handleMakeBooking}>
-                  Make Booking Request
-                </Button>
-              </Group>
+                <TextInput
+                  label="Name"
+                  placeholder="John Doe"
+                  mt="md"
+                  classNames={{
+                    input: classes.input,
+                    label: classes.inputLabel,
+                  }}
+                />
+                <Textarea
+                  required
+                  label="Your message"
+                  placeholder="I want to book your place..."
+                  minRows={4}
+                  mt="md"
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+                <Group position="right" mt="md">
+                  <Button onClick={handleMakeBooking}>
+                    Make Booking Request
+                  </Button>
+                </Group>
+              </div>
             </div>
           </div>
         </div>
