@@ -9,7 +9,6 @@ resource "aws_db_instance" "space" {
     vpc_security_group_ids = [ "${var.db_security_group_id}" ]
     db_subnet_group_name = "${var.db_subnet_group_name}"
     engine = "postgres"
-    # publicly_accessible = true
     delete_automated_backups = true
     deletion_protection = false
     skip_final_snapshot = true
@@ -26,7 +25,6 @@ resource "aws_db_instance" "user" {
     vpc_security_group_ids = [ "${var.db_security_group_id}" ]
     db_subnet_group_name = "${var.db_subnet_group_name}"
     engine = "postgres"
-    # publicly_accessible = true
     delete_automated_backups = true
     deletion_protection = false
     skip_final_snapshot = true
