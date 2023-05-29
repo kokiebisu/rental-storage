@@ -1,7 +1,7 @@
 resource "aws_eip" "this" {
-    vpc = true
+  vpc = true
 
-    tags = {
-        Name = "EIP"
-    }
+  tags = {
+    Name = "EIP"
+  }
 }

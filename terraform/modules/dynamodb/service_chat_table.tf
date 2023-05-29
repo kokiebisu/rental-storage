@@ -1,7 +1,7 @@
 resource "aws_dynamodb_table" "connections" {
   billing_mode = "PAY_PER_REQUEST"
-  name = "${var.environment}-${var.chat_table_name}-connections"
-  hash_key = "ConnectionId"
+  name         = "${var.environment}-${var.chat_table_name}-connections"
+  hash_key     = "ConnectionId"
 
   attribute {
     name = "ConnectionId"
@@ -19,18 +19,18 @@ resource "aws_dynamodb_table" "connections" {
   }
 
   global_secondary_index {
-    name = "ChatConnectionsSenderIdRecipientIdIndex"
-    hash_key = "SenderId"
-    range_key = "RecipientId"
+    name            = "ChatConnectionsSenderIdRecipientIdIndex"
+    hash_key        = "SenderId"
+    range_key       = "RecipientId"
     projection_type = "ALL"
   }
 }
 
 resource "aws_dynamodb_table" "messages" {
-  billing_mode = "PAY_PER_REQUEST"
-  name = "${var.environment}-${var.chat_table_name}-messages"
-  hash_key = "Id"
-  stream_enabled = true
+  billing_mode     = "PAY_PER_REQUEST"
+  name             = "${var.environment}-${var.chat_table_name}-messages"
+  hash_key         = "Id"
+  stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
 
   attribute {
@@ -49,9 +49,9 @@ resource "aws_dynamodb_table" "messages" {
   }
 
   global_secondary_index {
-    name = "ChatMessagesSenderIdRecipientIdIndex"
-    hash_key = "SenderId"
-    range_key = "RecipientId"
+    name            = "ChatMessagesSenderIdRecipientIdIndex"
+    hash_key        = "SenderId"
+    range_key       = "RecipientId"
     projection_type = "ALL"
   }
 }

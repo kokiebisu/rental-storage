@@ -24,20 +24,20 @@ resource "aws_s3_bucket_public_access_block" "space_profile" {
 }
 
 resource "aws_s3_bucket_policy" "space_profile" {
-  depends_on = [ 
+  depends_on = [
     aws_s3_bucket_public_access_block.space_profile
   ]
-  
+
   bucket = aws_s3_bucket.space_profile.id
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
+        Effect    = "Allow"
         Principal = "*"
-        Action = "s3:GetObject"
-        Resource = "${aws_s3_bucket.space_profile.arn}/*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.space_profile.arn}/*"
       }
     ]
   })

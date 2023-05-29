@@ -1,8 +1,8 @@
 resource "aws_dynamodb_table" "booking" {
-  billing_mode = "PAY_PER_REQUEST"
-  name = "${var.environment}-${var.booking_table_name}"
-  hash_key = "UId"
-  stream_enabled = true
+  billing_mode     = "PAY_PER_REQUEST"
+  name             = "${var.environment}-${var.booking_table_name}"
+  hash_key         = "UId"
+  stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
 
   attribute {
@@ -31,30 +31,30 @@ resource "aws_dynamodb_table" "booking" {
   }
 
   global_secondary_index {
-    name = "BookingSpaceIdCreatedAtIndex"
-    hash_key = "SpaceId"
-    range_key = "CreatedAt"
+    name            = "BookingSpaceIdCreatedAtIndex"
+    hash_key        = "SpaceId"
+    range_key       = "CreatedAt"
     projection_type = "ALL"
   }
 
   global_secondary_index {
-    name = "BookingSpaceIdBookingStatusIndex"
-    hash_key = "SpaceId"
-    range_key = "BookingStatus"
+    name            = "BookingSpaceIdBookingStatusIndex"
+    hash_key        = "SpaceId"
+    range_key       = "BookingStatus"
     projection_type = "ALL"
   }
 
   global_secondary_index {
-    name = "BookingUserIdCreatedAtIndex"
-    hash_key = "UserId"
-    range_key = "CreatedAt"
+    name            = "BookingUserIdCreatedAtIndex"
+    hash_key        = "UserId"
+    range_key       = "CreatedAt"
     projection_type = "ALL"
   }
 
   global_secondary_index {
-    name = "BookingUserIdBookingStatusIndex"
-    hash_key = "UserId"
-    range_key = "BookingStatus"
+    name            = "BookingUserIdBookingStatusIndex"
+    hash_key        = "UserId"
+    range_key       = "BookingStatus"
     projection_type = "ALL"
   }
 }

@@ -1,9 +1,9 @@
 resource "aws_api_gateway_rest_api" "rest" {
-    name = "rest-api"
+  name = "rest-api"
 
-    tags = {
-      "Name" = "rest-api"
-    }
+  tags = {
+    "Name" = "rest-api"
+  }
 }
 
 resource "aws_api_gateway_resource" "health" {
@@ -34,11 +34,11 @@ resource "aws_api_gateway_integration" "health" {
 resource "aws_api_gateway_stage" "this" {
   deployment_id = aws_api_gateway_deployment.this.id
   rest_api_id   = aws_api_gateway_rest_api.rest.id
-  stage_name    = "${var.environment}"
+  stage_name    = var.environment
 }
 
 resource "aws_api_gateway_deployment" "this" {
-  depends_on = [aws_api_gateway_resource.health, aws_api_gateway_integration.health, aws_api_gateway_method.health_get]
+  depends_on  = [aws_api_gateway_resource.health, aws_api_gateway_integration.health, aws_api_gateway_method.health_get]
   rest_api_id = aws_api_gateway_rest_api.rest.id
 
   triggers = {
