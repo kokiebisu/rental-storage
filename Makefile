@@ -72,3 +72,9 @@ setup-terraform-config:
 	fi
 	@echo "[ $(NAMESPACE) ] Setting up terraform config..."
 	@bash ./scripts/setup-terraform-config.sh $(ENV)
+
+.PHONY: connect-to-bastion
+connect-to-bastion:
+	@echo "Connecting to a bastion host to setup SSH tunnel..."
+	@bash ./scripts/connect-db.sh
+
