@@ -19,7 +19,7 @@
 
 8 Clone the repo
 
-9 `brew install terraform golangci-lint flake8 mockery bash`
+9 `brew install terraform golangci-lint flake8 mockery bash jq`
 
 15 copy/paste ./.terraform.tfvars
 
