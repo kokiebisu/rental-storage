@@ -12,7 +12,7 @@ require (
 	github.com/aws/smithy-go v1.13.5
 	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/google/uuid v1.3.0
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.4
 	go.uber.org/zap v1.24.0
 )
 
