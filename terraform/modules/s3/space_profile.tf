@@ -26,6 +26,10 @@ resource "aws_s3_bucket_public_access_block" "space_profile" {
 resource "aws_s3_bucket_policy" "space_profile" {
   bucket = aws_s3_bucket.space_profile.id
 
+  depends_on = [ 
+    aws_s3_bucket_public_access_block.space_profile
+   ]
+
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
