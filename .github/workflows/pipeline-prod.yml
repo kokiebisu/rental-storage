@@ -1,0 +1,34 @@
+name: Production Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+jobs:
+  setup-build:
+    name: Setup
+    uses: ./.github/workflows/call-setup-build.yml
+
+  validate-terraform:
+    name: Core Infrastructure
+    uses: ./.github/workflows/call-validate-terraform.yml
+    secrets: inherit
+
+  deploy-serverless:
+    name: Deploy Services
+    needs: [setup-build, validate-terraform]
+    uses: ./.github/workflows/call-deploy-serverless.yml
+    secrets: inherit
+
+  test-api:
+    name: API Test
+    needs: [setup-build, validate-terraform, deploy-serverless]
+    uses: ./.github/workflows/call-test-api.yml
+    secrets: inherit
+
+  publish-release:
+    name: Publish Release
+    needs: [test-api]
+    uses: ./.github/workflows/call-publish-release.yml
+    secrets: inherit
