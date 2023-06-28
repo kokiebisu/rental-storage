@@ -28,13 +28,17 @@
 **/coverage
 
 # terraform
-.terraform
-*.tfvars
-*.tfstate.*
-terraform.tfstate
-terraform.tfstate.backup
-errored.tfstate
-terraform/json/*
+**/.terraform
+**/*.tfvars
+**/*.tfstate.*
+**/terraform.tfstate
+**/terraform.tfstate.backup
+**/errored.tfstate
+**/terraform/json/*
+**/.terraform.lock.hcl
 
 # vscode
 **/.vscode
+
+# java
+**/target
