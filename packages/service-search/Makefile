@@ -1,7 +1,18 @@
-NAMESPACE = @service-search
+# Variables
+JAR_FILE=target/service-search-1.0.0.jar
 
-.PHONY: run-server
-run-server:
-	@echo "[ $(NAMESPACE) ] Running server..."
-	@java -jar target/service-search-1.0.0.jar server
+# Build the project
+build:
+	mvn clean package
 
+# Run the server
+run:
+	java -jar $(JAR_FILE) server config.yml
+
+# Stop the server
+stop:
+	pkill -f $(JAR_FILE)
+
+# Clean build artifacts
+clean:
+	mvn clean

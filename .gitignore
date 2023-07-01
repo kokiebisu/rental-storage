@@ -42,3 +42,4 @@
 
 # java
 **/target
+**/dependency-reduced-pom.xml
