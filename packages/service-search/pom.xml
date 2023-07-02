@@ -7,17 +7,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>rental-storage</groupId>
-    <artifactId>service-search</artifactId>
+    <artifactId>search-service-app</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>service-search</name>
+    <name>service-search-app</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <dropwizard.version>2.0.10</dropwizard.version>
-        <mainClass>rental_storage.SearchServiceApplication</mainClass>
+        <mainClass>rental_storage.SearchApplication</mainClass>
     </properties>
 
     <dependencyManagement>
@@ -48,6 +48,16 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+            <version>7.17.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
 

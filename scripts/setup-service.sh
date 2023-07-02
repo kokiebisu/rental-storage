@@ -2,12 +2,32 @@
 
 set -e
 
-function deploy_services () {
-    local packages=("chat" "image" "space" "booking" "slack" "user" "authentication" "authorizer")
+function deploy_lambda_services () {
+    local packages=(
+        "chat" 
+        "image" 
+        "space" 
+        "booking" 
+        "slack" 
+        "user" 
+        "authentication" 
+        "authorizer"
+    )
     for package in "${packages[@]}"
     do
         echo "Deploying ${package^} service...";
         (cd "packages/service-${package}" && pnpm run deploy);
+    done
+}
+
+function deploy_ecs_services () {
+    local packages=(
+        "search"
+    )
+    for package in "${packages[@]}"
+    do
+        echo "Deploying ${package^} service...";
+        (cd "packages/service-${package}/terraform" && terraform apply);
     done
 }
 
@@ -23,6 +43,7 @@ function deploy_appsync() {
     (cd "${package}" && pnpm run deploy);
 }
 
-deploy_services
+deploy_lambda_services
+# deploy_ecs_services
 deploy_composition
-deploy_appsync
+# deploy_appsync

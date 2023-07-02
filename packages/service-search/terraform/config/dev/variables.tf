@@ -8,11 +8,6 @@ variable "region" {
   type        = string
 }
 
-variable "profile" {
-  description = "AWS profile to be used"
-  type        = string
-}
-
 variable "environment" {
   description = "Either dev/local/production"
   type        = string
