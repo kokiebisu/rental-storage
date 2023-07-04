@@ -16,8 +16,7 @@ function remove_ecs_services() {
     for package in "${packages[@]}"
     do
         echo "Removing ${package^} service...";
-        (cd "packages/service-${package}/terraform" && terraform destroy)
-        (bash ./scripts/clean-ecr-images.sh service-search)
+        (cd "packages/service-${package}/terraform" && terraform destroy -auto-approve -var-file=terraform.tfvars)
     done
 }
 

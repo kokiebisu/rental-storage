@@ -27,7 +27,7 @@ function deploy_ecs_services () {
     for package in "${packages[@]}"
     do
         echo "Deploying ${package^} service...";
-        (cd "packages/service-${package}/terraform" && terraform apply);
+        (cd "packages/service-${package}/terraform" && terraform apply -auto-approve -var-file=terraform.tfvars);
     done
 }
 
@@ -44,6 +44,6 @@ function deploy_appsync() {
 }
 
 deploy_lambda_services
-# deploy_ecs_services
+deploy_ecs_services
 deploy_composition
-# deploy_appsync
+deploy_appsync
