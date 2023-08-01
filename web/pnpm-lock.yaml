@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@apollo/client':
     specifier: 3.7.10
@@ -60,7 +64,7 @@ dependencies:
     version: 6.0.1(@emotion/react@11.10.6)(react-dom@18.2.0)(react@18.2.0)
   '@mantine/tiptap':
     specifier: 6.0.1
-    version: 6.0.1(@mantine/core@6.0.1)(@mantine/hooks@6.0.1)(@tabler/icons-react@2.13.1)(@tiptap/extension-link@2.0.0-beta.220)(@tiptap/react@2.0.1)(react@18.2.0)
+    version: 6.0.1(@mantine/core@6.0.1)(@mantine/hooks@6.0.1)(@tabler/icons-react@2.13.1)(@tiptap/extension-link@2.0.4)(@tiptap/react@2.0.1)(react@18.2.0)
   '@next/font':
     specifier: 13.2.4
     version: 13.2.4
@@ -71,8 +75,8 @@ dependencies:
     specifier: 2.13.1
     version: 2.13.1(react@18.2.0)
   '@tiptap/extension-link':
-    specifier: 2.0.0-beta.220
-    version: 2.0.0-beta.220(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1)
+    specifier: 2.0.4
+    version: 2.0.4(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1)
   '@tiptap/react':
     specifier: 2.0.1
     version: 2.0.1(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1)(react-dom@18.2.0)(react@18.2.0)
@@ -3364,7 +3368,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@mantine/tiptap@6.0.1(@mantine/core@6.0.1)(@mantine/hooks@6.0.1)(@tabler/icons-react@2.13.1)(@tiptap/extension-link@2.0.0-beta.220)(@tiptap/react@2.0.1)(react@18.2.0):
+  /@mantine/tiptap@6.0.1(@mantine/core@6.0.1)(@mantine/hooks@6.0.1)(@tabler/icons-react@2.13.1)(@tiptap/extension-link@2.0.4)(@tiptap/react@2.0.1)(react@18.2.0):
     resolution: {integrity: sha512-GS5+UP5faUkKIDnr/wFbV0CEgF5FROgfptNLxK449BXkB218T/ywCGabh8U/EMP87hgA347ekx/W/3JwJCV/Dg==}
     peerDependencies:
       '@mantine/core': 6.0.1
@@ -3378,7 +3382,7 @@ packages:
       '@mantine/hooks': 6.0.1(react@18.2.0)
       '@mantine/utils': 6.0.1(react@18.2.0)
       '@tabler/icons-react': 2.13.1(react@18.2.0)
-      '@tiptap/extension-link': 2.0.0-beta.220(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1)
+      '@tiptap/extension-link': 2.0.4(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1)
       '@tiptap/react': 2.0.1(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
     dev: false
@@ -5473,11 +5477,11 @@ packages:
       '@tiptap/core': 2.0.0-beta.220(@tiptap/pm@2.0.1)
     dev: false
 
-  /@tiptap/extension-link@2.0.0-beta.220(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1):
-    resolution: {integrity: sha512-vjEA8cE37ZZVVgPHSpttw3kbJoClb+ya/BVukDtJ1h6C7mIR1rqzNxTgpbnXJuA8xww0JOjpa5dpzEgcs294fA==}
+  /@tiptap/extension-link@2.0.4(@tiptap/core@2.0.1)(@tiptap/pm@2.0.1):
+    resolution: {integrity: sha512-CliImI1hmC+J6wHxqgz9P4wMjoNSSgm3fnNHsx5z0Bn6JRA4Evh2E3KZAdMaE8xCTx89rKxMYNbamZf4VLSoqQ==}
     peerDependencies:
-      '@tiptap/core': ^2.0.0-beta.209
-      '@tiptap/pm': ^2.0.0-beta.209
+      '@tiptap/core': ^2.0.0
+      '@tiptap/pm': ^2.0.0
     dependencies:
       '@tiptap/core': 2.0.1(@tiptap/pm@2.0.1)
       '@tiptap/pm': 2.0.1(@tiptap/core@2.0.1)
@@ -9535,7 +9539,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
