@@ -19,6 +19,12 @@ module "ecr" {
   environment = var.environment
 }
 
+module "ecs" {
+  source = "./modules/ecs"
+
+  environment = var.environment
+}
+
 module "ec2" {
   source = "./modules/ec2"
 

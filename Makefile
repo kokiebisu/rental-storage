@@ -16,10 +16,10 @@ destroy:
 	@echo "[ $(NAMESPACE) ] Destroying project..."
 	@bash ./scripts/destroy.sh
 
-.PHONY: destroy-service
-destroy-service:
-	@echo "[ $(NAMESPACE) ] Destroying service..."
-	@bash ./scripts/destroy-service.sh
+.PHONY: destroy-services
+destroy-services:
+	@echo "[ $(NAMESPACE) ] Destroying services..."
+	@bash ./scripts/destroy-services.sh
 
 .PHONY: destroy-terraform
 destroy-terraform:
@@ -42,10 +42,10 @@ setup-deps:
 	@echo "[ $(NAMESPACE) ] Setting up dependencies..."
 	@bash ./scripts/setup-deps.sh
 
-.PHONY: setup-service
-setup-service:
-	@echo "[ $(NAMESPACE) ] Setting up service..."
-	@bash ./scripts/setup-service.sh
+.PHONY: setup-services
+setup-services:
+	@echo "[ $(NAMESPACE) ] Setting up services..."
+	@bash ./scripts/setup-services.sh
 
 # pass the environment as an argument
 # e.g. make setup-terraform ENV=local

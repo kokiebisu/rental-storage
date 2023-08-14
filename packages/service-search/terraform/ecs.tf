@@ -1,10 +1,10 @@
-resource "aws_ecs_cluster" "search" {
-    name = "service-search"
+data "aws_ecs_cluster" "app" {
+  cluster_name = "${var.environment}-app"
 }
 
 resource "aws_ecs_service" "search" {
-  name            = "service"
-  cluster         = aws_ecs_cluster.search.id
+  name            = "service-search"
+  cluster         = data.aws_ecs_cluster.app.id
   task_definition = aws_ecs_task_definition.search.arn
   desired_count   = 1
   launch_type = "FARGATE"
@@ -16,7 +16,7 @@ resource "aws_ecs_service" "search" {
 }
 
 resource "aws_ecs_task_definition" "search" {
-    family = "search"
+    family = "service-search"
     network_mode = "awsvpc"
     requires_compatibilities = ["FARGATE"]
     cpu                      = "256"
@@ -27,15 +27,15 @@ resource "aws_ecs_task_definition" "search" {
     container_definitions = <<EOF
     [
         {
-            "name": "java-container",
+            "name": "service-search",
             "image": "${data.aws_ecr_repository.service_search.repository_url}:latest",
             "cpu": 256,
             "memory": 512,
             "essential": true,
             "portMappings": [
                 {
-                "containerPort": 8080,
-                "hostPort": 8080
+                    "containerPort": 8080,
+                    "hostPort": 8080
                 }
             ]
         }
