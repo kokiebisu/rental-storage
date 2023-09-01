@@ -13,7 +13,7 @@ iniconfig==2.0.0
 jmespath==1.0.1
 multidict==6.0.4
 packaging==23.1
-pluggy==1.0.0
+pluggy==1.3.0
 py==1.11.0
 pyparsing==3.0.9
 pytest==7.3.1
