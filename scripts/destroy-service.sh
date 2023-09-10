@@ -11,14 +11,6 @@ function remove_lambda_services() {
     done
 }
 
-function remove_ecs_services() {
-    local packages=("search")
-    for package in "${packages[@]}"
-    do
-        echo "Removing ${package^} service...";
-        (cd "packages/service-${package}/terraform" && terraform destroy -auto-approve -var-file=terraform.tfvars)
-    done
-}
 
 function remove_composition() {
     local package="composition"
@@ -33,6 +25,5 @@ function remove_appsync() {
 }
 
 remove_lambda_services
-remove_ecs_services
 remove_composition
 remove_appsync

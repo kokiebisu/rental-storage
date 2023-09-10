@@ -6,11 +6,3 @@ resource "aws_internet_gateway" "this" {
   }
 }
 
-resource "aws_nat_gateway" "this" {
-  allocation_id = aws_eip.this.id
-  subnet_id     = aws_subnet.a.id
-
-  tags = {
-    Name = "nat-gateway"
-  }
-}

@@ -2,7 +2,7 @@ resource "aws_instance" "bastion" {
   ami                         = "ami-007855ac798b5175e"
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.my_keypair.key_name
-  vpc_security_group_ids      = [var.ec2_security_group_id]
+  vpc_security_group_ids      = [var.public_ec2_security_group_id]
   subnet_id                   = var.primary_public_subnet_id
   associate_public_ip_address = true
 

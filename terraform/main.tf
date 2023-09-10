@@ -29,10 +29,7 @@ module "ec2" {
   namespace                  = var.namespace
   vpc_id                     = module.vpc.vpc_id
   public_ec2_security_group_id      = module.vpc.public_ec2_security_group_id
-  private_ec2_security_group_id = module.vpc.private_ec2_security_group_id
-  alb_security_group_id      = module.vpc.alb_security_group_id
   primary_public_subnet_id   = module.vpc.primary_public_subnet_id
-  primary_private_subnet_id = module.vpc.primary_private_subnet_id
   secondary_public_subnet_id = module.vpc.secondary_public_subnet_id
 }
 
