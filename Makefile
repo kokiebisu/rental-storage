@@ -78,3 +78,8 @@ connect-to-bastion:
 	@echo "Connecting to a bastion host to setup SSH tunnel..."
 	@bash ./scripts/connect-db.sh
 
+
+.PHONY: format-terraform
+format-terraform:
+	@echo "Formatting terraform..."
+	@terraform fmt --recursive

@@ -36,8 +36,8 @@ function setup_terraform() {
     (bash ./scripts/setup-terraform.sh $1);
 }
 
-function setup_serverless() {
-    echo "Setting up serverless configurations...";
+function setup_services() {
+    echo "Running setup-service.sh script...";
     (bash ./scripts/setup-service.sh);
 }
 
@@ -45,4 +45,4 @@ check_requirements
 setup_vscode
 setup_deps
 setup_terraform local
-setup_serverless
+setup_services
