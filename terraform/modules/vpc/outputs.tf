@@ -6,8 +6,12 @@ output "lambda_security_group_id" {
   value = aws_security_group.lambda.id
 }
 
-output "ec2_security_group_id" {
-  value = aws_security_group.ec2.id
+output "public_ec2_security_group_id" {
+  value = aws_security_group.ec2_public.id
+}
+
+output "private_ec2_security_group_id" {
+  value = aws_security_group.ec2_private.id
 }
 
 output "alb_security_group_id" {
@@ -38,6 +42,10 @@ output "primary_public_subnet_id" {
   value = aws_subnet.a.id
 }
 
-output "secondary_public_subnet_id" {
+output "primary_private_subnet_id" {
   value = aws_subnet.b.id
+}
+
+output "secondary_public_subnet_id" {
+  value = aws_subnet.c.id
 }

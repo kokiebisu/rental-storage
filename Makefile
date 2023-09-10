@@ -74,9 +74,9 @@ setup-terraform-config:
 	@bash ./scripts/setup-terraform-config.sh $(ENV)
 
 .PHONY: connect-to-bastion
-connect-to-bastion:
-	@echo "Connecting to a bastion host to setup SSH tunnel..."
-	@bash ./scripts/connect-db.sh
+setup-ssh-tunnel:
+	@echo "Setting up SSH tunnel..."
+	@bash ./scripts/setup-db-ssh-tunnel.sh
 
 
 .PHONY: format-terraform

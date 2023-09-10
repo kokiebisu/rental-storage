@@ -2,7 +2,8 @@ module "apigateway" {
   source = "./modules/apigateway"
 
   environment = var.environment
-  lb_dns_name = module.ec2.lb_dns_name
+  # lb_dns_name = module.ec2.lb_dns_name
+}
 }
 
 module "dynamodb" {

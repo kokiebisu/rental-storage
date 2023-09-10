@@ -7,28 +7,28 @@ resource "aws_ssm_parameter" "vpc" {
 
 resource "aws_ssm_parameter" "subnet_a_id" {
   name        = "/terraform/vpc/subnet-a-id"
-  description = "Subnet A provided by terraform"
+  description = "Subnet A provided by terraform. Public Subnet."
   type        = "String"
   value       = aws_subnet.a.id
 }
 
 resource "aws_ssm_parameter" "subnet_b_id" {
   name        = "/terraform/vpc/subnet-b-id"
-  description = "Subnet B provided by terraform"
+  description = "Subnet B provided by terraform. Private Subnet."
   type        = "String"
   value       = aws_subnet.b.id
 }
 
 resource "aws_ssm_parameter" "subnet_c_id" {
   name        = "/terraform/vpc/subnet-c-id"
-  description = "Subnet C provided by terraform"
+  description = "Subnet C provided by terraform. Public Subnet."
   type        = "String"
   value       = aws_subnet.c.id
 }
 
 resource "aws_ssm_parameter" "subnet_d_id" {
   name        = "/terraform/vpc/subnet-d-id"
-  description = "Subnet D provided by terraform"
+  description = "Subnet D provided by terraform. Private Subnet."
   type        = "String"
   value       = aws_subnet.d.id
 }
@@ -40,11 +40,18 @@ resource "aws_ssm_parameter" "lambda_security_group" {
   value       = aws_security_group.lambda.id
 }
 
-resource "aws_ssm_parameter" "ec2_security_group" {
-  name        = "/terraform/vpc/ec2-security-group"
-  description = "EC2 Security Group provided by terraform"
+resource "aws_ssm_parameter" "ec2_public_security_group" {
+  name        = "/terraform/vpc/ec2-public-security-group"
+  description = "EC2 Public Security Group provided by terraform"
   type        = "String"
-  value       = aws_security_group.ec2.id
+  value       = aws_security_group.ec2_public.id
+}
+
+resource "aws_ssm_parameter" "ec2_private_security_group" {
+  name        = "/terraform/vpc/ec2-private-security-group"
+  description = "EC2 Private Security Group provided by terraform"
+  type        = "String"
+  value       = aws_security_group.ec2_private.id
 }
 
 resource "aws_ssm_parameter" "alb_security_group" {
