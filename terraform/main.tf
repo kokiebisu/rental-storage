@@ -2,7 +2,11 @@ module "apigateway" {
   source = "./modules/apigateway"
 
   environment = var.environment
-  lb_dns_name = module.ec2.lb_dns_name
+  # lb_dns_name = module.ec2.lb_dns_name
+}
+
+module "cloudwatch_logs" {
+  source = "./modules/cloudwatch_logs"
 }
 
 module "dynamodb" {
@@ -24,9 +28,11 @@ module "ec2" {
 
   namespace                  = var.namespace
   vpc_id                     = module.vpc.vpc_id
-  ec2_security_group_id      = module.vpc.ec2_security_group_id
+  public_ec2_security_group_id      = module.vpc.public_ec2_security_group_id
+  private_ec2_security_group_id = module.vpc.private_ec2_security_group_id
   alb_security_group_id      = module.vpc.alb_security_group_id
   primary_public_subnet_id   = module.vpc.primary_public_subnet_id
+  primary_private_subnet_id = module.vpc.primary_private_subnet_id
   secondary_public_subnet_id = module.vpc.secondary_public_subnet_id
 }
 
@@ -106,4 +112,8 @@ module "sns" {
 
 module "vpc" {
   source = "./modules/vpc"
+
+  region = var.region
+  account_id = module.identity.account_id
+  flow_logs_role = module.iam.flow_logs_role
 }
