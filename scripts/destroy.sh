@@ -6,15 +6,15 @@ set -e
 
 export AWS_PROFILE=rental-storage
 
+function destroy_services() {
+    echo "Running destroy-services.sh script...";
+    (bash ./scripts/destroy-services.sh)
+}
+
 function destroy_terraform() {
     echo "Destroying terraform configurations...";
-    (cd terraform && terraform destroy -auto-approve)
+    (cd terraform && terraform destroy -auto-approve -var-file=terraform.tfvars)
 }
 
-function destroy_serverless() {
-    echo "Destroying serverless configurations...";
-    (bash ./scripts/destroy-service.sh)
-}
-
-destroy_serverless
+destroy_services
 destroy_terraform

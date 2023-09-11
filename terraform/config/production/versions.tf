@@ -2,10 +2,10 @@ terraform {
   required_version = ">= 1.0.0, < 2.0.0"
 
   backend "s3" {
-    bucket = "rental-storage-terraform-production"
-    key = "production/terraform.tfstate"
-    region = "us-east-1"
-    encrypt = true
+    bucket     = "rental-storage-terraform-production"
+    key        = "production/terraform.tfstate"
+    region     = "us-east-1"
+    encrypt    = true
     kms_key_id = "alias/terraform-bucket-key"
   }
 

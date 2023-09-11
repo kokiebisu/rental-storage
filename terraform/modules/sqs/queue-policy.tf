@@ -1,7 +1,7 @@
 resource "aws_sqs_queue_policy" "booking" {
-    queue_url = aws_sqs_queue.booking.id
+  queue_url = aws_sqs_queue.booking.id
 
-    policy = <<POLICY
+  policy = <<POLICY
     {
         "Version": "2012-10-17",
         "Id": "sqspolicy",
@@ -23,12 +23,12 @@ resource "aws_sqs_queue_policy" "booking" {
         ]
     }
     POLICY
-} 
+}
 
 resource "aws_sqs_queue_policy" "space" {
-    queue_url = aws_sqs_queue.space.id
+  queue_url = aws_sqs_queue.space.id
 
-    policy = <<POLICY
+  policy = <<POLICY
     {
         "Version": "2012-10-17",
         "Id": "sqspolicy",
@@ -49,13 +49,13 @@ resource "aws_sqs_queue_policy" "space" {
         ]
     }
     POLICY
-} 
+}
 
 
 resource "aws_sqs_queue_policy" "payment" {
-    queue_url = aws_sqs_queue.payment.id
+  queue_url = aws_sqs_queue.payment.id
 
-    policy = <<POLICY
+  policy = <<POLICY
     {
         "Version": "2012-10-17",
         "Id": "sqspolicy",
@@ -76,7 +76,7 @@ resource "aws_sqs_queue_policy" "payment" {
         ]
     }
     POLICY
-} 
+}
 
 # resource "aws_sqs_queue_policy" "user" {
 #     queue_url = aws_sqs_queue.user.id
