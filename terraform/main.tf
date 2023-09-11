@@ -113,4 +113,5 @@ module "vpc" {
   region = var.region
   account_id = module.identity.account_id
   flow_logs_role = module.iam.flow_logs_role
+  public_ec2_id = module.ec2.public_ec2_id
 }

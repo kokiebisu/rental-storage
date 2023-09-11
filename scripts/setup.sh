@@ -37,8 +37,8 @@ function setup_terraform() {
 }
 
 function setup_services() {
-    echo "Running setup-service.sh script...";
-    (bash ./scripts/setup-service.sh);
+    echo "Running setup-services.sh script...";
+    (bash ./scripts/setup-services.sh);
 }
 
 check_requirements

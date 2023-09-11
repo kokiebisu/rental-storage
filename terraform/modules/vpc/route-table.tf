@@ -26,7 +26,6 @@ resource "aws_route_table_association" "public_c" {
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
 
-
   tags = {
     Name = "route-table-private"
   }
@@ -40,4 +39,9 @@ resource "aws_route_table_association" "private_b" {
 resource "aws_route_table_association" "private_d" {
   route_table_id = aws_route_table.private.id
   subnet_id      = aws_subnet.d.id
+}
+
+resource "aws_vpc_endpoint_route_table_association" "private_s3" {
+  route_table_id  = aws_route_table.private.id
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
 }

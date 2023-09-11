@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# This script sets up SSH tunnels to the RDS databases
+# You can access the databases by connecting using the hosts: localhost:5432 and localhost:5433
+
 cleanup() {
   # Terminate SSH processes
   if [[ -n "$user_db_pid" ]]; then
@@ -21,7 +24,6 @@ USER_DB_ENDPOINT=$(jq -r '.user' terraform/json/rds.json)
 SPACE_DB_ENDPOINT=$(jq -r '.space' terraform/json/rds.json)
 BASTION_IP=$(jq -r '.endpoint' terraform/json/ec2_bastion.json)
 
-
 # Start SSH sessions
 ssh -i ~/.ssh/${SSH_KEY_NAME} -N -L localhost:5432:${USER_DB_ENDPOINT} ubuntu@${BASTION_IP} &
 user_db_pid=$!
@@ -33,4 +35,4 @@ space_db_pid=$!
 wait
 
 # Cleanup after script termination
-cleanup
+# cleanup

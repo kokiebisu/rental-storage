@@ -5,4 +5,3 @@ resource "aws_internet_gateway" "this" {
     Name = "internet-gateway"
   }
 }
-

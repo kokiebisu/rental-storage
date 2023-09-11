@@ -7,8 +7,8 @@ set -e
 export AWS_PROFILE=rental-storage
 
 function destroy_services() {
-    echo "Running destroy-service.sh script...";
-    (bash ./scripts/destroy-service.sh)
+    echo "Running destroy-services.sh script...";
+    (bash ./scripts/destroy-services.sh)
 }
 
 function destroy_terraform() {

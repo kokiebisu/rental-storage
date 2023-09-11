@@ -19,8 +19,8 @@ resource "aws_security_group" "lambda" {
   }
 
   egress {
-    from_port        = 6379
-    to_port          = 6379
+    from_port        = 443
+    to_port          = 443
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
@@ -35,11 +35,18 @@ resource "aws_security_group" "lambda" {
   }
 
   egress {
-    from_port        = 443
-    to_port          = 443
+    from_port        = 6379
+    to_port          = 6379
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    security_groups = [aws_security_group.vpc_endpoint.id]
   }
 
   tags = {
@@ -94,8 +101,8 @@ resource "aws_security_group" "rds_postgres" {
   }
 }
 
-resource "aws_security_group" "ec2" {
-  description = "Security group for EC2 Bastion Host"
+resource "aws_security_group" "ec2_public" {
+  description = "Security group for EC2 Public Bastion Host. Used to access private resources within VPC."
   vpc_id      = aws_vpc.this.id
 
   ingress {
@@ -115,8 +122,8 @@ resource "aws_security_group" "ec2" {
   }
 
   egress {
-    from_port        = 5432
-    to_port          = 5432
+    from_port        = 443
+    to_port          = 443
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
@@ -131,15 +138,15 @@ resource "aws_security_group" "ec2" {
   }
 
   egress {
-    from_port        = 443
-    to_port          = 443
+    from_port        = 5432
+    to_port          = 5432
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
-    "Name" = "ec2"
+    "Name" = "ec2-public"
   }
 }
 
@@ -173,4 +180,29 @@ resource "aws_security_group" "alb" {
   tags = {
     "Name" = "ecs"
   }
+}
+
+resource "aws_security_group" "vpc_endpoint" {
+  description = "Security group for VPC Endpoint"
+  vpc_id      = aws_vpc.this.id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    "Name" = "vpc-endpoint"
+  }
+}
+
+resource "aws_security_group_rule" "ingress_rule" {
+  type        = "ingress"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  security_group_id = aws_security_group.lambda.id
+  source_security_group_id = aws_security_group.vpc_endpoint.id
 }
