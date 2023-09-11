@@ -20,16 +20,16 @@ function deploy_lambda_services () {
     done
 }
 
-function deploy_ecs_services () {
-    local packages=(
-        "search"
-    )
-    for package in "${packages[@]}"
-    do
-        echo "Deploying ${package^} service...";
-        (cd "packages/service-${package}/terraform" && terraform apply -auto-approve -var-file=terraform.tfvars);
-    done
-}
+# function deploy_ecs_services () {
+#     local packages=(
+#         "search"
+#     )
+#     for package in "${packages[@]}"
+#     do
+#         echo "Deploying ${package^} service...";
+#         (cd "packages/service-${package}/terraform" && terraform apply -auto-approve -var-file=terraform.tfvars);
+#     done
+# }
 
 function deploy_composition () {
     local package="composition"
@@ -44,6 +44,6 @@ function deploy_appsync() {
 }
 
 deploy_lambda_services
-deploy_ecs_services
+# deploy_ecs_services
 deploy_composition
 deploy_appsync
