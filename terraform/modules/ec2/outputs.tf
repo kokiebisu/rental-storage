@@ -1,3 +1,3 @@
-output "lb_dns_name" {
-  value = aws_lb.service_search.dns_name
+output "public_ec2_id" {
+  value = aws_instance.bastion.id
 }

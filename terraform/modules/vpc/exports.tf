@@ -47,20 +47,6 @@ resource "aws_ssm_parameter" "ec2_public_security_group" {
   value       = aws_security_group.ec2_public.id
 }
 
-resource "aws_ssm_parameter" "ec2_private_security_group" {
-  name        = "/terraform/vpc/ec2-private-security-group"
-  description = "EC2 Private Security Group provided by terraform"
-  type        = "String"
-  value       = aws_security_group.ec2_private.id
-}
-
-resource "aws_ssm_parameter" "alb_security_group" {
-  name        = "/terraform/vpc/alb-security-group"
-  description = "Application Load Balancer Security Group provided by terraform"
-  type        = "String"
-  value       = aws_security_group.alb.id
-}
-
 resource "aws_ssm_parameter" "rds_security_group" {
   name        = "/terraform/vpc/rds-security-group"
   description = "RDS Security Group provided by terraform"

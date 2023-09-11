@@ -27,16 +27,16 @@ resource "aws_security_group" "lambda" {
   }
 
   egress {
-    from_port        = 6379
-    to_port          = 6379
+    from_port        = 5432
+    to_port          = 5432
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
 
   egress {
-    from_port        = 5432
-    to_port          = 5432
+    from_port        = 6379
+    to_port          = 6379
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
@@ -114,17 +114,8 @@ resource "aws_security_group" "ec2_public" {
   }
 
   egress {
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-
-  egress {
-    from_port        = 80
-    to_port          = 80
+    from_port        = 6379
+    to_port          = 6379
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
@@ -139,8 +130,8 @@ resource "aws_security_group" "ec2_public" {
   }
 
   egress {
-    from_port        = 6379
-    to_port          = 6379
+    from_port        = 80
+    to_port          = 80
     protocol         = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
@@ -156,39 +147,6 @@ resource "aws_security_group" "ec2_public" {
 
   tags = {
     "Name" = "ec2-public"
-  }
-}
-
-resource "aws_security_group" "ec2_private" {
-  description = "Security group for EC2 Private Bastion Host. Used to check connection with outside the VPC."
-  vpc_id      = aws_vpc.this.id
-
-  ingress {
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  egress {
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  egress {
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    "Name" = "ec2-private"
   }
 }
 

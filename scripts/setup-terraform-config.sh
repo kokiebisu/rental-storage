@@ -2,8 +2,6 @@
 
 set -e
 
-SEARCH_SERVICE_PATH="packages/service-search"
-
 # Check if environment is specified
 # If it is not, exit the script
 if [ -z "$1" ]
@@ -20,10 +18,6 @@ function setup_terraform_versions() {
     fi
     echo "Setting up versions.tf for ${ENVIRONMENT} environment at root..."
     (cp terraform/config/${ENVIRONMENT}/versions.tf terraform/versions.tf);
-
-    
-    echo "Setting up versions.tf for ${ENVIRONMENT} environment at service-search..."
-    (cp ${SEARCH_SERVICE_PATH}/terraform/config/${ENVIRONMENT}/versions.tf ${SEARCH_SERVICE_PATH}/terraform/versions.tf);
 }
 
 function setup_terraform_providers() {
@@ -34,9 +28,6 @@ function setup_terraform_providers() {
     fi
     echo "Setting up providers.tf for ${ENVIRONMENT} environment at root..."
     (cp terraform/config/${ENVIRONMENT}/providers.tf terraform/providers.tf);
-
-    echo "Setting up providers.tf for ${ENVIRONMENT} environment at service-search..."
-    (cp ${SEARCH_SERVICE_PATH}/terraform/config/${ENVIRONMENT}/providers.tf ${SEARCH_SERVICE_PATH}/terraform/providers.tf);
 }
 
 function setup_terraform_variables() {
@@ -47,9 +38,6 @@ function setup_terraform_variables() {
     fi
     echo "Setting up variables.tf for ${ENVIRONMENT} environment at root..."
     (cp terraform/config/${ENVIRONMENT}/variables.tf terraform/variables.tf);
-    
-    echo "Setting up variables.tf for ${ENVIRONMENT} environment at service-search..."
-    (cp ${SEARCH_SERVICE_PATH}/terraform/config/${ENVIRONMENT}/variables.tf ${SEARCH_SERVICE_PATH}/terraform/variables.tf);
 }
 
 setup_terraform_versions $1

@@ -10,14 +10,6 @@ output "public_ec2_security_group_id" {
   value = aws_security_group.ec2_public.id
 }
 
-output "private_ec2_security_group_id" {
-  value = aws_security_group.ec2_private.id
-}
-
-output "alb_security_group_id" {
-  value = aws_security_group.alb.id
-}
-
 output "rds_postgres_security_group_id" {
   value = aws_security_group.rds_postgres.id
 }
