@@ -3,13 +3,13 @@ output "booking_queue_arn" {
 }
 
 output "space_queue_arn" {
-    value = aws_sqs_queue.space.arn
+  value = aws_sqs_queue.space.arn
 }
 
 output "payment_queue_arn" {
-    value = aws_sqs_queue.payment.arn
+  value = aws_sqs_queue.payment.arn
 }
 
 output "user_queue_arn" {
-    value = aws_sqs_queue.user.arn
+  value = aws_sqs_queue.user.arn
 }
