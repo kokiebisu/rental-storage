@@ -16,10 +16,10 @@ destroy:
 	@echo "[ $(NAMESPACE) ] Destroying project..."
 	@bash ./scripts/destroy.sh
 
-.PHONY: destroy-service
-destroy-service:
-	@echo "[ $(NAMESPACE) ] Destroying service..."
-	@bash ./scripts/destroy-service.sh
+.PHONY: destroy-services
+destroy-services:
+	@echo "[ $(NAMESPACE) ] Destroying services..."
+	@bash ./scripts/destroy-services.sh
 
 .PHONY: destroy-terraform
 destroy-terraform:
@@ -42,10 +42,10 @@ setup-deps:
 	@echo "[ $(NAMESPACE) ] Setting up dependencies..."
 	@bash ./scripts/setup-deps.sh
 
-.PHONY: setup-service
-setup-service:
-	@echo "[ $(NAMESPACE) ] Setting up service..."
-	@bash ./scripts/setup-service.sh
+.PHONY: setup-services
+setup-services:
+	@echo "[ $(NAMESPACE) ] Setting up services..."
+	@bash ./scripts/setup-services.sh
 
 # pass the environment as an argument
 # e.g. make setup-terraform ENV=local
@@ -74,7 +74,12 @@ setup-terraform-config:
 	@bash ./scripts/setup-terraform-config.sh $(ENV)
 
 .PHONY: connect-to-bastion
-connect-to-bastion:
-	@echo "Connecting to a bastion host to setup SSH tunnel..."
-	@bash ./scripts/connect-db.sh
+setup-ssh-tunnel:
+	@echo "Setting up SSH tunnel..."
+	@bash ./scripts/setup-db-ssh-tunnel.sh
 
+
+.PHONY: format-terraform
+format-terraform:
+	@echo "Formatting terraform..."
+	@terraform fmt --recursive
