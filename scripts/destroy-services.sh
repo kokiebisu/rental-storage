@@ -2,7 +2,7 @@
 
 set -e
 
-function remove_services() {
+function remove_lambda_services() {
     local packages=("chat" "image" "space" "booking" "slack" "user" "authentication" "authorizer")
     for package in "${packages[@]}"
     do
@@ -10,6 +10,7 @@ function remove_services() {
         (cd "packages/service-${package}" && pnpm run remove);
     done
 }
+
 
 function remove_composition() {
     local package="composition"
@@ -23,6 +24,6 @@ function remove_appsync() {
     (cd "${package}" && pnpm run remove);
 }
 
-remove_services
+remove_lambda_services
 remove_composition
 remove_appsync
