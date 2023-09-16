@@ -3,7 +3,7 @@ terraform {
 
   backend "s3" {
     bucket = "rental-storage-terraform"
-    key = "dev/terraform.tfstate"
+    key    = "dev/terraform.tfstate"
     region = "us-east-1"
   }
 
