@@ -33,7 +33,7 @@
     "@next/font": "13.2.4",
     "@next/swc-darwin-arm64": "13.2.3",
     "@tabler/icons-react": "2.13.1",
-    "@tiptap/extension-link": "2.0.0-beta.220",
+    "@tiptap/extension-link": "2.1.7",
     "@tiptap/react": "2.0.1",
     "@tiptap/starter-kit": "2.0.0-beta.220",
     "aws-appsync-auth-link": "3.0.7",
