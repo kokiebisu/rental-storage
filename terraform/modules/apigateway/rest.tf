@@ -49,10 +49,20 @@ resource "aws_api_gateway_deployment" "this" {
   rest_api_id = aws_api_gateway_rest_api.rest.id
 
   triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.rest.body))
+    redeployment = sha1(jsonencode({
+      aws_api_gateway_resource = aws_api_gateway_resource.health.id,
+      aws_api_gateway_integration = aws_api_gateway_integration.health.id,
+      aws_api_gateway_method = aws_api_gateway_method.health_get.id,
+      random_integer = random_integer.trigger.result
+    }))
   }
 
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "random_integer" "trigger" {
+  min = 1
+  max = 10000
 }
