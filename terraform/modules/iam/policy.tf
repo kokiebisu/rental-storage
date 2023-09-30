@@ -1,5 +1,4 @@
 locals {
-  path = "./modules/iam"
   resource_input = {
     region = "${var.region}",
     account_id = "${var.account_id}"

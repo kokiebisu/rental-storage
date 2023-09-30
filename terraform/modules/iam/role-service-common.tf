@@ -5,17 +5,5 @@ resource "aws_iam_role_policy_attachment" "flowlogs_policy_attachment" {
 
 resource "aws_iam_role" "flowlogs_role" {
   name = "flow-logs-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = "sts:AssumeRole",
-        Effect = "Allow",
-        Principal = {
-          Service = "vpc-flow-logs.amazonaws.com"
-        }
-      }
-    ]
-  })
+  assume_role_policy = file("${local.path}/role-flow-logs.tpl")
 }
