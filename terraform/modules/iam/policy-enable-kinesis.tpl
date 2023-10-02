@@ -3,7 +3,7 @@
     "Statement": [
         {
             "Action": [
-                "kinesis:PutRecord", 
+                "kinesis:PutRecord",
                 "kinesis:PutRecords"
             ],
             "Effect": "Allow",
@@ -11,8 +11,8 @@
         },
         {
             "Action": [
-                "kinesis:Get*", 
-                "kinesis:List*", 
+                "kinesis:Get*",
+                "kinesis:List*",
                 "kinesis:Describe*"
             ],
             "Effect": "Allow",
