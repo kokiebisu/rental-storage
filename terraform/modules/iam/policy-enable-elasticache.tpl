@@ -3,11 +3,11 @@
     "Statement": [
         {
             "Action": [
-                "elasticache:Describe*", 
-                "elasticache:List*", 
-                "elasticache:Create*", 
-                "elasticache:Modify*", 
-                "elasticache:Delete*", 
+                "elasticache:Describe*",
+                "elasticache:List*",
+                "elasticache:Create*",
+                "elasticache:Modify*",
+                "elasticache:Delete*",
                 "elasticache:AuthorizeCacheSecurityGroupIngress"
             ],
             "Effect": "Allow",
