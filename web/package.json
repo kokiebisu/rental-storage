@@ -65,7 +65,7 @@
     "@types/google-map-react": "^2.1.7",
     "@types/node": "18.14.6",
     "@types/react": "18.0.27",
-    "@types/react-dom": "18.0.10",
+    "@types/react-dom": "18.2.8",
     "autoprefixer": "10.4.13",
     "babel-loader": "9.1.2",
     "css-loader": "6.7.3",
@@ -75,7 +75,7 @@
     "google-map-react": "^2.2.0",
     "postcss": "8.4.21",
     "postcss-loader": "7.0.2",
-    "style-loader": "3.3.1",
+    "style-loader": "3.3.3",
     "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
     "webpack": "5"
