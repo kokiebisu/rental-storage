@@ -1,11 +1,19 @@
-variable "booking_table_name" {
-  type = string
-}
-
-variable "chat_table_name" {
+variable "namespace" {
   type = string
 }
 
 variable "environment" {
   type = string
+}
+
+variable "booking_db_info" {
+  type = object({
+    table_name = string
+  })
+}
+
+variable "chat_db_info" {
+  type = object({
+    table_name = string
+  })
 }

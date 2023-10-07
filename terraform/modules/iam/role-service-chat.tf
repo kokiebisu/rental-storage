@@ -16,5 +16,5 @@ resource "aws_iam_role_policy_attachment" "enable_service_chat_dynamodb" {
 resource "aws_iam_role" "service_chat" {
   name                  = "service-chat-lambda-role"
   force_detach_policies = true
-  assume_role_policy = file("${local.path}/role-lambda.tpl")
+  assume_role_policy    = file("${local.path}/role-lambda.tpl")
 }

@@ -4,6 +4,6 @@ resource "aws_iam_role_policy_attachment" "flowlogs_policy_attachment" {
 }
 
 resource "aws_iam_role" "flowlogs_role" {
-  name = "flow-logs-role"
+  name               = "flow-logs-role"
   assume_role_policy = file("${local.path}/role-flow-logs.tpl")
 }

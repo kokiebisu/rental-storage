@@ -14,26 +14,18 @@ variable "db_subnet_group_name" {
   type = string
 }
 
-variable "space_db_username" {
-  type = string
+variable "user_db_info" {
+  type = object({
+    username = string
+    password = string
+    db_name  = string
+  })
 }
 
-variable "space_db_password" {
-  type = string
-}
-
-variable "space_db_name" {
-  type = string
-}
-
-variable "user_db_username" {
-  type = string
-}
-
-variable "user_db_password" {
-  type = string
-}
-
-variable "user_db_name" {
-  type = string
+variable "space_db_info" {
+  type = object({
+    username = string
+    password = string
+    db_name  = string
+  })
 }

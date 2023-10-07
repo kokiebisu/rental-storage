@@ -1,6 +1,6 @@
 resource "aws_dynamodb_table" "booking" {
   billing_mode     = "PAY_PER_REQUEST"
-  name             = "${var.environment}-${var.booking_table_name}"
+  name             = "${var.environment}-${var.booking_db_info.table_name}"
   hash_key         = "UId"
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"

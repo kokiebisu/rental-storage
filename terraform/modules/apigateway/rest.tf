@@ -50,10 +50,10 @@ resource "aws_api_gateway_deployment" "this" {
 
   triggers = {
     redeployment = sha1(jsonencode({
-      aws_api_gateway_resource = aws_api_gateway_resource.health.id,
+      aws_api_gateway_resource    = aws_api_gateway_resource.health.id,
       aws_api_gateway_integration = aws_api_gateway_integration.health.id,
-      aws_api_gateway_method = aws_api_gateway_method.health_get.id,
-      random_integer = random_integer.trigger.result
+      aws_api_gateway_method      = aws_api_gateway_method.health_get.id,
+      random_integer              = random_integer.trigger.result
     }))
   }
 

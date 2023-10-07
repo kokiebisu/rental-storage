@@ -1,14 +1,13 @@
 resource "aws_ssm_parameter" "service_image_presigned_user_access_key_id" {
-  name      = "/terraform/iam/service-image-presigned-user-access-key-id"
-  value     = aws_iam_access_key.service_image_presigned.id
-  type      = "SecureString"
-  overwrite = true
+  name  = "/terraform/iam/service-image-presigned-user-access-key-id"
+  value = aws_iam_access_key.service_image_presigned.id
+  type  = "SecureString"
 }
 
 resource "aws_ssm_parameter" "service_image_presigned_user_secret_access_key" {
-  name      = "/terraform/iam/service-image-presigned-user-secret-access-key"
-  value     = aws_iam_access_key.service_image_presigned.secret
-  type      = "SecureString"
+  name  = "/terraform/iam/service-image-presigned-user-secret-access-key"
+  value = aws_iam_access_key.service_image_presigned.secret
+  type  = "SecureString"
 }
 
 resource "aws_ssm_parameter" "service-lambda_role_arn" {

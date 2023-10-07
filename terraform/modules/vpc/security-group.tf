@@ -181,9 +181,9 @@ resource "aws_security_group" "vpc_endpoint" {
   vpc_id      = aws_vpc.this.id
 
   ingress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = -1
+    from_port       = 0
+    to_port         = 0
+    protocol        = -1
     security_groups = [aws_security_group.lambda.id]
   }
 
