@@ -18,7 +18,7 @@
     "pino": "8.11.0",
     "pino-std-serializers": "6.1.0",
     "rimraf": "5.0.0",
-    "winston": "3.8.2"
+    "winston": "3.11.0"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",
