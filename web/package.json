@@ -70,7 +70,7 @@
     "babel-loader": "9.1.2",
     "css-loader": "6.7.3",
     "eslint": "8.37.0",
-    "eslint-config-next": "13.2.3",
+    "eslint-config-next": "14.0.4",
     "eslint-plugin-storybook": "0.6.11",
     "google-map-react": "^2.2.0",
     "postcss": "8.4.21",
