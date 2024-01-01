@@ -8,7 +8,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.18.42
 	github.com/aws/aws-sdk-go-v2/service/kinesis v1.19.0
 	github.com/bxcodec/faker/v3 v3.8.1
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.5.0
 	github.com/lib/pq v1.10.9
 	github.com/stretchr/testify v1.8.4
 	github.com/testcontainers/testcontainers-go v0.23.0
