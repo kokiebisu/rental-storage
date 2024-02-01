@@ -87,8 +87,8 @@ dependencies:
     specifier: 3.0.7
     version: 3.0.7(@apollo/client@3.7.10)
   aws-appsync-react:
-    specifier: 4.0.13
-    version: 4.0.13(aws-appsync@4.1.9)(react-apollo@2.5.8)(react@18.2.0)
+    specifier: 4.0.16
+    version: 4.0.16(aws-appsync@4.1.9)(react-apollo@2.5.8)(react@18.2.0)
   aws-appsync-subscription-link:
     specifier: 3.1.2
     version: 3.1.2(@apollo/client@3.7.10)
@@ -7070,8 +7070,8 @@ packages:
       - supports-color
     dev: false
 
-  /aws-appsync-react@4.0.13(aws-appsync@4.1.9)(react-apollo@2.5.8)(react@18.2.0):
-    resolution: {integrity: sha512-0kMZGsYNv/mBuzX416D/NoB2PQ9l+PcnsTRK8BnE7x0ASLbGeEqNQRqGyoIxfEXeXTlQOny2boX0eNbmtEyiGA==}
+  /aws-appsync-react@4.0.16(aws-appsync@4.1.9)(react-apollo@2.5.8)(react@18.2.0):
+    resolution: {integrity: sha512-GenegqjFAk6ruf5wwByYSXP4CkvCxZZMrYc1xavTvOgazjtgj9VGobSNfxFgll0+x3mPuwf9FXKATqyCLBBBww==}
     peerDependencies:
       aws-appsync: 3.x.x || 4.x.x
       react: 0.14.x || 15.* || ^15.0.0 || ^16.0.0
